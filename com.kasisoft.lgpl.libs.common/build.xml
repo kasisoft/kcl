@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="com.kasisoft.lgpl.libs.common" default="default" basedir=".">
+
+  <import file="../_ext/common.xml"/>
+
+  <target name="default">
+    <echo>Bitte wählen Sie ein Target aus !!!</echo>
+  </target>
+
+  <target name="deploy">
+    <distribution projectname="${ant.project.name}"/>
+  </target>
+
+</project>
