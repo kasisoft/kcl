@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="false" context="newtype_context" deleted="false" description="Newly created files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.newtype" name="newtype">/**
+ * Name........: ${type_name}
+ * Description.: 
+ * Author......: Daniel Kasmeroglu
+ * E-Mail......: daniel.kasmeroglu@kasisoft.net
+ * Company.....: Kasisoft
+ * License.....: LGPL
+ */
+${package_declaration}
+
+${typecomment}
+${type_declaration}</template></templates>
