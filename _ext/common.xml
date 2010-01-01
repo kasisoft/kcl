@@ -22,4 +22,10 @@
   <!-- TARGET DEFINITIONS                                                                     -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   
+  <target name="init">
+    <!-- disable inclusion of svn related content. -->
+    <defaultexcludes add="**/_svn"/>
+    <defaultexcludes add="**/_svn/**"/>
+  </target>
+  
 </project>
