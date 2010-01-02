@@ -10,6 +10,8 @@ package com.kasisoft.lgpl.libs.commont.test.functionality;
 
 import com.kasisoft.lgpl.libs.common.functionality.*;
 
+import com.kasisoft.lgpl.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -23,14 +25,6 @@ public class FilterTest {
 
   private Filter<Integer>   filter;
   
-  private List<Integer> toList( int ... args ) {
-    List<Integer> result = new ArrayList<Integer>();
-    for( int value : args ) {
-      result.add( Integer.valueOf( value ) );
-    }
-    return result;
-  }
-  
   @BeforeSuite
   public void setup() {
     filter = new EvenFilter();
@@ -39,17 +33,17 @@ public class FilterTest {
   @DataProvider(name="filterForOne")
   public Object[][] createForOne() {
     return new Object[][] {
-      { Integer.valueOf(0), toList(7) },
-      { Integer.valueOf(1), toList(8) },
+      { Integer.valueOf(0), Utilities.toList(7) },
+      { Integer.valueOf(1), Utilities.toList(8) },
     };
   }
 
   @DataProvider(name="filterForMultiple")
   public Object[][] createForMultiple() {
     return new Object[][] {
-      { Integer.valueOf(2), toList( 7, 8, 13, 14 ) },
-      { Integer.valueOf(2), toList( 8, 13, 14 ) },
-      { Integer.valueOf(0), toList( 7, 13 ) },
+      { Integer.valueOf(2), Utilities.toList( 7, 8, 13, 14 ) },
+      { Integer.valueOf(2), Utilities.toList( 8, 13, 14 ) },
+      { Integer.valueOf(0), Utilities.toList( 7, 13 ) },
     };
   }
 
