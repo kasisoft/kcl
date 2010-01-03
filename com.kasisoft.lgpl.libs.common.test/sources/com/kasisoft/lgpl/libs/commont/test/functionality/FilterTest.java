@@ -46,7 +46,21 @@ public class FilterTest {
       { Integer.valueOf(0), Utilities.toList( 7, 13 ) },
     };
   }
+  
+  @DataProvider(name="invalidUses")
+  public Object[][] invalidUses() {
+    return new Object[][] {
+      { filter, null },
+      { null,   Utilities.toList( 2, 4 ) },
+      { null, null }
+    };
+  }
 
+  @Test(expectedExceptions={NullPointerException.class,ArrayIndexOutOfBoundsException.class},dataProvider="invalidUses")
+  public void invalidUse( Filter<Integer> filter, List<Integer> list ) {
+    FuFunctions.filter( filter, list );
+  }
+  
   @Test
   public void filterEmpty() {
     List<Integer> result = FuFunctions.filter( filter, new ArrayList<Integer>() );
