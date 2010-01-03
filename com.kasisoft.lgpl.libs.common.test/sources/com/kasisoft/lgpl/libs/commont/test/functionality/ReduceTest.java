@@ -56,6 +56,20 @@ public class ReduceTest {
     };
   }
   
+  @DataProvider(name="invalidUses")
+  public Object[][] invalidUses() {
+    return new Object[][] {
+      { null            , toList( -100 )  , calc( -100 ) },
+      { reducefunction  , null            , calc( -100 ) },
+      { reducefunction  , toList( -100 )  , null         },
+    };
+  }
+  
+  @Test(dataProvider="invalidUses",expectedExceptions={NullPointerException.class})
+  public void invalidUse( Reduce<Byte,Integer> reduce, List<Byte> list, Integer initial ) {
+    FuFunctions.reduce( reduce, list, initial );
+  }
+  
   @Test(dataProvider="createValues")
   public void sumValues( List<Byte> list, Integer expected ) {
     Integer result = FuFunctions.reduce( reducefunction, list, Integer.valueOf(0) );
