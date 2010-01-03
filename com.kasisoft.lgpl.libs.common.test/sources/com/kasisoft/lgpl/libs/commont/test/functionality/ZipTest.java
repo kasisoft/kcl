@@ -55,6 +55,21 @@ public class ZipTest {
     };
   }
   
+  @DataProvider(name="invalidUses")
+  public Object[][] invalidUses() {
+    Object[] firstrecord = createData()[0];
+    return new Object[][] {
+      { null        , firstrecord[0]  , firstrecord[1]  },
+      { zipfunction , null            , firstrecord[1]  },
+      { zipfunction , firstrecord[0]  , null            },
+    };
+  }
+  
+  @Test(dataProvider="invalidUses",expectedExceptions={NullPointerException.class})
+  public void invalidUse( Zip<Color,Font,Map<String,Object>> zipfunction, List<Color> colors, List<Font> fonts ) {
+    FuFunctions.zip( zipfunction, colors, fonts );
+  }
+  
   @Test(dataProvider="createData")
   public void verifyStyles( List<Color> colors, List<Font> fonts ) {
     List<Map<String, Object>> stylemaps = FuFunctions.zip( zipfunction, colors, fonts );
