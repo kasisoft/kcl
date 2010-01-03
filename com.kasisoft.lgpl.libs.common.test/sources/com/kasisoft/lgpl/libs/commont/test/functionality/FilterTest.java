@@ -30,7 +30,7 @@ public class FilterTest {
     filter = new EvenFilter();
   }
 
-  @DataProvider(name="filterForOne")
+  @DataProvider(name="createForOne")
   public Object[][] createForOne() {
     return new Object[][] {
       { Integer.valueOf(0), Utilities.toList(7) },
@@ -38,7 +38,7 @@ public class FilterTest {
     };
   }
 
-  @DataProvider(name="filterForMultiple")
+  @DataProvider(name="createForMultiple")
   public Object[][] createForMultiple() {
     return new Object[][] {
       { Integer.valueOf(2), Utilities.toList( 7, 8, 13, 14 ) },
@@ -54,14 +54,14 @@ public class FilterTest {
     Assert.assertTrue( result.isEmpty() );
   }
   
-  @Test(dataProvider="filterForOne")
+  @Test(dataProvider="createForOne")
   public void filterOne( Integer expectedsize, List<Integer> values ) {
     List<Integer> result = FuFunctions.filter( filter, values );
     Assert.assertNotNull( result );
     Assert.assertEquals( result.size(), expectedsize.intValue() );
   }
   
-  @Test(dataProvider="filterForMultiple")
+  @Test(dataProvider="createForMultiple")
   public void filterMultiple( Integer expectedsize, List<Integer> values ) {
     List<Integer> result = FuFunctions.filter( filter, values );
     Assert.assertNotNull( result );
