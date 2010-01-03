@@ -30,6 +30,19 @@ public class TransformTest {
     wrapper = new Wrapper();
   }
   
+  @DataProvider(name="invalidUses")
+  public Object[][] invalidUses() {
+    return new Object[][] {
+      { null    , Utilities.toList(3) },
+      { wrapper , null                },
+    };
+  }
+  
+  @Test(dataProvider="invalidUses", expectedExceptions={NullPointerException.class})
+  public void invalidUse( Transform<Integer,Integer> transform, List<Integer> list ) {
+    FuFunctions.map( transform, list );
+  }
+  
   @Test
   public void runWrapper() {
     List<List<Integer>> result = FuFunctions.map( wrapper, Utilities.toList( 3 ) );
