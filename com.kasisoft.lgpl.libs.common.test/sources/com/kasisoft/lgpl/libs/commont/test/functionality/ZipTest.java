@@ -15,9 +15,9 @@ import org.testng.annotations.*;
 import org.testng.*;
 
 import java.util.*;
-import java.util.List;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
 /**
  * A test for the interface 'Zip'.
