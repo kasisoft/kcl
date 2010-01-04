@@ -12,22 +12,24 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.util.*;
 
+import java.io.*;
+
 /**
  * Listing of system properties used to be accessed.
  */
 public enum SystemProperty {
 
-  ClassPath             ( "java.class.path"             , "classpath"   , false ),
+  ClassPath             ( "java.class.path"             , "classpath"   , true  ),
   ClassVersion          ( "java.class.version"          , "classver"    , false ),
   EndorsedDirs          ( "java.endorsed.dirs"          , "endorsed"    , true  ),
   ExtDirs               ( "java.ext.dirs"               , "extdirs"     , true  ),
   FileEncoding          ( "file.encoding"               , "encoding"    , false ),
-  FileSeparator         ( "file.separator"              , "filesep"     , false ),
+  FileSeparator         ( "file.separator"              , "filesep"     , true  ),
   JavaHome              ( "java.home"                   , "jre"         , true  ),
   JavaVersion           ( "java.version"                , "javaver"     , false ),
   LineSeparator         ( "line.separator"              , "linesep"     , false ),
   OsName                ( "os.name"                     , "os"          , false ),
-  Path                  ( "java.library.path"           , "path"        , false ),
+  Path                  ( "java.library.path"           , "path"        , true  ),
   RuntimeVersion        ( "java.runtime.version"        , "runtimever"  , false ),
   SpecificationVersion  ( "java.specification.version"  , "specver"     , false ),
   TempDir               ( "java.io.tmpdir"              , "temp"        , true  ),
@@ -36,7 +38,7 @@ public enum SystemProperty {
   
   private String     key;
   private String     shortkey;
-  private boolean    fileseparator;
+  private boolean    filesystem;
   
   /**
    * Sets up this value with the associated property key.
@@ -44,12 +46,12 @@ public enum SystemProperty {
    * @param propertykey     The property key to be used. Neither <code>null</code> nor empty.
    * @param propertyshort   A short key mainly used for substitution purposes.
    *                        Neither <code>null</code> nor empty.
-   * @param filesep         <code>true</code> <=> Expand the value using a file separator.
+   * @param filesys         <code>true</code> <=> The property is related to a filesystem value.
    */
-  SystemProperty( String propertykey, String propertyshort, boolean filesep ) {
-    key           = propertykey;
-    shortkey      = propertyshort;
-    fileseparator = filesep;
+  SystemProperty( String propertykey, String propertyshort, boolean filesys ) {
+    key         = propertykey;
+    shortkey    = propertyshort;
+    filesystem  = filesys;
   }
   
   /**
@@ -106,14 +108,8 @@ public enum SystemProperty {
     if( fallback ) {
       defvalue = System.getProperty( getKey() );
     }
-    String result   = properties.getProperty( getKey(), defvalue );
-    if( (result != null) && fileseparator ) {
-      String filesep = FileSeparator.getValue();
-      if( ! result.endsWith( filesep ) ) {
-        result = String.format( "%s%s", result, filesep );
-      }
-    }
-    return result;
+    String result = properties.getProperty( getKey(), defvalue );
+    return processValue( result );
   }
 
   /**
@@ -145,15 +141,27 @@ public enum SystemProperty {
     if( properties.containsKey( getKey() ) ) {
       result = properties.get( getKey() );
     }
-    if( (result != null) && fileseparator ) {
-      String filesep = FileSeparator.getValue();
-      if( ! result.endsWith( filesep ) ) {
-        result = String.format( "%s%s", result, filesep );
-      }
-    }
-    return result;
+    return processValue( result );
   }
 
+  /**
+   * Processes the supplied value if necessary.
+   * 
+   * @param value   The value which has to be altered. Maybe <code>null</code>.
+   * 
+   * @return   The altered value. Maybe <code>null</code>.
+   */
+  private String processValue( String value ) {
+    if( value != null ) {
+      if( filesystem ) {
+        // just make sure since the properties might come from an external map,
+        // so we should deliver valid pathes
+        value = value.replace( '\\', '/' ).replace( '/', File.separatorChar );
+      }
+    }
+    return value;
+  }
+  
   /**
    * Returns the enumeration value associated with the supplied short key.
    * 
