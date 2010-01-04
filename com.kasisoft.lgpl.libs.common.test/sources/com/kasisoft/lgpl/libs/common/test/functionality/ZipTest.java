@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.commont.test.functionality;
+package com.kasisoft.lgpl.libs.common.test.functionality;
 
 import com.kasisoft.lgpl.libs.common.functionality.*;
 

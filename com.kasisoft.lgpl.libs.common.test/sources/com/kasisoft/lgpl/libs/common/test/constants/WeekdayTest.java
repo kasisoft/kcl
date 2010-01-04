@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.commont.test.constants;
+package com.kasisoft.lgpl.libs.common.test.constants;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
 
