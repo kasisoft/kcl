@@ -115,7 +115,45 @@ public enum SystemProperty {
     }
     return result;
   }
+
+  /**
+   * Returns the value for this property. If the property cannot be found in the supplied map the
+   * system properties will be used.
+   * 
+   * @param properties   The properties used to access the value.
+   * 
+   * @return   The value associated with the property.
+   */
+  public String getValue( Map<String,String> properties ) {
+    return getValue( properties, true );
+  }
   
+  /**
+   * Returns the value for this property.
+   * 
+   * @param properties   The properties used to access the value.
+   * @param fallback     <code>true</code> <=> Use system properties as a fallback solution.
+   * 
+   * @return   The value associated with the property.
+   */
+  public String getValue( Map<String,String> properties, boolean fallback ) {
+    String defvalue = null;
+    if( fallback ) {
+      defvalue = System.getProperty( getKey() );
+    }
+    String result   = defvalue;
+    if( properties.containsKey( getKey() ) ) {
+      result = properties.get( getKey() );
+    }
+    if( (result != null) && fileseparator ) {
+      String filesep = FileSeparator.getValue();
+      if( ! result.endsWith( filesep ) ) {
+        result = String.format( "%s%s", result, filesep );
+      }
+    }
+    return result;
+  }
+
   /**
    * Returns the enumeration value associated with the supplied short key.
    * 
