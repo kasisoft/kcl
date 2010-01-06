@@ -22,20 +22,32 @@ public enum Encoding {
    * @spec [06-Jan-2010:KASI]   http://java.sun.com/j2se/1.3/docs/api/java/lang/package-summary.html#charenc
    */
   
-  ASCII       ( "US-ASCII"    , false ),
-  Cp1252      ( "Cp1252"      , false ),
-  UTF8        ( "UTF-8"       , false ),
-  UTF16       ( "UTF-16"      , true  ),
-  UTF16BE     ( "UTF-16BE"    , false ),
-  UTF16LE     ( "UTF-16LE"    , false ),
-  ISO88591    ( "ISO-8859-1"  , false );
+  ASCII       ( "US-ASCII"    , false , null                  ),
+  Cp1252      ( "Cp1252"      , false , null                  ),
+  UTF8        ( "UTF-8"       , false , ByteOrderMark.UTF8    ),
+  UTF16       ( "UTF-16"      , true  , null                  ),
+  UTF16BE     ( "UTF-16BE"    , false , ByteOrderMark.UTF16BE ),
+  UTF16LE     ( "UTF-16LE"    , false , ByteOrderMark.UTF16LE ),
+  ISO88591    ( "ISO-8859-1"  , false , null                  );
   
-  private String    encoding;
-  private boolean   bom;
+  private String          encoding;
+  private boolean         bom;
+  private ByteOrderMark   byteordermark;
   
-  Encoding( String key, boolean requiresbom ) {
-    encoding  = key;
-    bom       = requiresbom;
+  Encoding( String key, boolean requiresbom, ByteOrderMark mark ) {
+    encoding      = key;
+    bom           = requiresbom;
+    byteordermark = mark;
+  }
+  
+  /**
+   * Returns the Byte Order Mark associated with this character set encoding. The result maybe
+   * <code>null</code> (f.e. byte character sets).
+   * 
+   * @return   The Byte Order Mark associated with this character set encoding. Maybe <code>null</code>.
+   */
+  public ByteOrderMark getByteOrderMark() {
+    return byteordermark;
   }
   
   /**
