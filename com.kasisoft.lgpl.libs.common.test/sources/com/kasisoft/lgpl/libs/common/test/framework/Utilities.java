@@ -8,7 +8,11 @@
  */
 package com.kasisoft.lgpl.libs.common.test.framework;
 
+import org.testng.*;
+
 import java.util.*;
+
+import java.io.*;
 
 /**
  * Collection of utility functions.
@@ -23,5 +27,16 @@ public class Utilities {
     return result;
   }
   
-
+  public static final byte[] join( byte[] ... segments ) {
+    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
+    for( byte[] segment : segments ) {
+      try {
+        byteout.write( segment );
+      } catch( IOException ex ) {
+        Assert.fail( ex.getMessage() );
+      }
+    }
+    return byteout.toByteArray();
+  }
+  
 } /* ENDCLASS */
