@@ -16,8 +16,10 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 public enum ByteOrderMark {
 
   UTF8    ( new byte[] { (byte) 0xef, (byte) 0xbb, (byte) 0xbf } ) ,
-  UTF16BE ( new byte[] { (byte) 0xfe, (byte) 0xff } ) ,
-  UTF16LE ( new byte[] { (byte) 0xff, (byte) 0xfe } ) ;
+  UTF16BE ( new byte[] { (byte) 0xfe, (byte) 0xff } ),
+  UTF16LE ( new byte[] { (byte) 0xff, (byte) 0xfe } ),
+  UTF32BE ( new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff } ),
+  UTF32LE ( new byte[] { (byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00 } );
   
   private byte[]   bomsequence;
   
