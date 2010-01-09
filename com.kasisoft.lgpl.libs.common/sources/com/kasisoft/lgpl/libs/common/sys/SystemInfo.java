@@ -15,30 +15,45 @@ import com.kasisoft.lgpl.libs.common.constants.*;
  */
 public enum SystemInfo {
   
-  Sun           ( "SunOS"         ),
-  Solaris       ( "Solaris"       ),
-  Linux         ( "Linux"         ),
-  Windows95     ( "Windows 95"    ),
-  Windows98     ( "Windows 98"    ),
-  WindowsME     ( "Windows Me"    ),
-  WindowsNT     ( "Windows NT"    ),
-  Windows2000   ( "Windows 2000"  ),
-  WindowsXP     ( "Windows XP"    ),
-  Windows7      ( "Windows 7"     ),
-  Amiga         ( "Amiga OS"      ),
-  Aros          ( "AROS"          ),
-  MacOSX        ( "Mac OS X"      ),
-  Morphos       ( "MorphOS"       );
+  Sun           ( "SunOS"         , true  ),
+  Solaris       ( "Solaris"       , true  ),
+  Linux         ( "Linux"         , true  ),
+  Windows95     ( "Windows 95"    , false ),
+  Windows98     ( "Windows 98"    , false ),
+  WindowsME     ( "Windows Me"    , false ),
+  WindowsNT     ( "Windows NT"    , false ),
+  Windows2000   ( "Windows 2000"  , false ),
+  WindowsXP     ( "Windows XP"    , false ),
+  Windows7      ( "Windows 7"     , false ),
+  Amiga         ( "Amiga OS"      , false ),
+  Aros          ( "AROS"          , false ),
+  MacOSX        ( "Mac OS X"      , false ),
+  Morphos       ( "MorphOS"       , false );
   
   private String    key;
   private boolean   isrunning;
+  private boolean   casesensitive;
   
   /**
    * Prevent instantiation.
    */
-  SystemInfo( String oskey ) {
-    key       = oskey;
-    isrunning = oskey.equals( SystemProperty.OsName.getValue() );
+  SystemInfo( String oskey, boolean filesystem ) {
+    key           = oskey;
+    isrunning     = oskey.equals( SystemProperty.OsName.getValue() );
+    casesensitive = filesystem;
+  }
+  
+  /**
+   * Returns <code>true</code> if the filesystem is case sensitive.
+   * 
+   * @note [09-Jan-2010:KASI]   This information is just a close guess. Case sensitivity of a filesystem
+   *                            might as well depend on the technical specifications of the filesystem
+   *                            itself.
+   * 
+   * @return   <code>true</code> <=> The filesystem is case sensitive.
+   */
+  public boolean isCaseSensitiveFS() {
+    return casesensitive;
   }
 
   /**
