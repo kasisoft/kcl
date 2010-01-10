@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.libs.common.constants;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
  * Collection of time units.
  */
@@ -32,6 +34,17 @@ public enum TimeUnit {
    */
   public long getMilliseconds() {
     return milliseconds;
+  }
+  
+  /**
+   * Returns the amount of milliseconds for a specific number of timeunits.
+   * 
+   * @param number   The number of timeunits to be specified.
+   * 
+   * @return   The amount of milliseconds representing that amount.
+   */
+  public long amount( @KIPositive(name="number") int number ) {
+    return number * milliseconds;
   }
   
   /**
