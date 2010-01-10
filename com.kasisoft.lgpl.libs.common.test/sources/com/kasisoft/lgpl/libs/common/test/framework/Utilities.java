@@ -19,6 +19,14 @@ import java.io.*;
  */
 public class Utilities {
 
+  public static final <T> List<T> toList( T ... args ) {
+    List<T> result = new ArrayList<T>();
+    for( int i = 0; i < args.length; i++ ) {
+      result.add( args[i] );
+    }
+    return result;
+  }
+  
   public static final List<Integer> toList( int ... args ) {
     List<Integer> result = new ArrayList<Integer>();
     for( int value : args ) {
