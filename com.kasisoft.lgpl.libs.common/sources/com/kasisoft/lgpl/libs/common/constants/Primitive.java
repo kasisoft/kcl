@@ -16,14 +16,14 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 @KDiagnostic
 public enum Primitive {
 
-  PBoolean             ( Boolean   . TYPE , Boolean   . class , boolean [] . class , 0                   , 0                   ) ,
-  PByte                ( Byte      . TYPE , Byte      . class , byte    [] . class , Byte    . MIN_VALUE , Byte    . MAX_VALUE ) ,
-  PChar                ( Character . TYPE , Character . class , char    [] . class , 0                   , 0                   ) ,
-  PShort               ( Short     . TYPE , Short     . class , short   [] . class , Short   . MIN_VALUE , Short   . MAX_VALUE ) ,
-  PInt                 ( Integer   . TYPE , Integer   . class , int     [] . class , Integer . MIN_VALUE , Integer . MAX_VALUE ) ,
-  PLong                ( Long      . TYPE , Long      . class , long    [] . class , Long    . MIN_VALUE , Long    . MAX_VALUE ) ,
-  PFloat               ( Float     . TYPE , Float     . class , float   [] . class , 0                   , 0                   ) ,
-  PDouble              ( Double    . TYPE , Double    . class , double  [] . class , 0                   , 0                   ) ;
+  PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , 0                   , 0                   ) ,
+  PByte     ( Byte      . TYPE , Byte      . class , byte    [] . class , Byte    . MIN_VALUE , Byte    . MAX_VALUE ) ,
+  PChar     ( Character . TYPE , Character . class , char    [] . class , 0                   , 0                   ) ,
+  PShort    ( Short     . TYPE , Short     . class , short   [] . class , Short   . MIN_VALUE , Short   . MAX_VALUE ) ,
+  PInt      ( Integer   . TYPE , Integer   . class , int     [] . class , Integer . MIN_VALUE , Integer . MAX_VALUE ) ,
+  PLong     ( Long      . TYPE , Long      . class , long    [] . class , Long    . MIN_VALUE , Long    . MAX_VALUE ) ,
+  PFloat    ( Float     . TYPE , Float     . class , float   [] . class , 0                   , 0                   ) ,
+  PDouble   ( Double    . TYPE , Double    . class , double  [] . class , 0                   , 0                   ) ;
   
   private Class<?>     primitiveclass;
   private Class<?>     arrayclass;
