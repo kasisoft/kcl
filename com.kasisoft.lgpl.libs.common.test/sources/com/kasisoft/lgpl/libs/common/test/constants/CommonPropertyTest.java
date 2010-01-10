@@ -30,11 +30,11 @@ public class CommonPropertyTest {
   public void setup() {
     noproperties  = new Properties();
     properties    = new Properties();
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#DEBUG"      , "true"     );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#IORETRIES"  , "20"       );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#SLEEP"      , "1000"     );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#BUFFERSIZE" , "8192"     );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#TEMPDIR"    , "D:/temp"  );
+    properties.setProperty( "com.kasisoft.lgpl.libs.common#DEBUG"       , "true"     );
+    properties.setProperty( "com.kasisoft.lgpl.libs.common#IORETRIES"   , "20"       );
+    properties.setProperty( "com.kasisoft.lgpl.libs.common#SLEEP"       , "1000"     );
+    properties.setProperty( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , "8192"     );
+    properties.setProperty( "com.kasisoft.lgpl.libs.common#TEMPDIR"     , "D:/temp"  );
   }
   
   @DataProvider(name="createProperties")
@@ -55,7 +55,7 @@ public class CommonPropertyTest {
     Assert.assertEquals( ioretries, Integer.valueOf(5) );
     Integer sleep       = CommonProperty.Sleep.getValue( noproperties, false );
     Assert.assertEquals( sleep, Integer.valueOf(100) );
-    Integer buffersize  = CommonProperty.BufferSize.getValue( noproperties, false );
+    Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties, false );
     Assert.assertEquals( buffersize, Integer.valueOf(4096) );
     String  tempdir     = CommonProperty.TempDir.getValue( noproperties, false );
     Assert.assertEquals( tempdir, SystemProperty.TempDir.getValue() );
@@ -69,7 +69,7 @@ public class CommonPropertyTest {
     Assert.assertEquals( ioretries, Integer.valueOf(20) );
     Integer sleep       = CommonProperty.Sleep.getValue( properties, false );
     Assert.assertEquals( sleep, Integer.valueOf(1000) );
-    Integer buffersize  = CommonProperty.BufferSize.getValue( properties, false );
+    Integer buffersize  = CommonProperty.BufferCount.getValue( properties, false );
     Assert.assertEquals( buffersize, Integer.valueOf(8192) );
     String  tempdir     = CommonProperty.TempDir.getValue( properties, false );
     Assert.assertEquals( tempdir, "D:/temp".replace( '/', File.separatorChar ) );

@@ -26,15 +26,15 @@ import java.io.*;
 public enum CommonProperty {
 
   /** valuetype: Boolean */
-  Debug      ( "com.kasisoft.lgpl.libs.common#DEBUG"      , false , Boolean.FALSE                     , Boolean.class ),
+  Debug       ( "com.kasisoft.lgpl.libs.common#DEBUG"       , false , Boolean.FALSE                     , Boolean.class ),
   /** valuetype: Integer */
-  IoRetries  ( "com.kasisoft.lgpl.libs.common#IORETRIES"  , false , Integer.valueOf(5)                , Integer.class ),
+  IoRetries   ( "com.kasisoft.lgpl.libs.common#IORETRIES"   , false , Integer.valueOf(5)                , Integer.class ),
   /** valuetype: Integer */
-  Sleep      ( "com.kasisoft.lgpl.libs.common#SLEEP"      , false , Integer.valueOf(100)              , Integer.class ),
+  Sleep       ( "com.kasisoft.lgpl.libs.common#SLEEP"       , false , Integer.valueOf(100)              , Integer.class ),
   /** valuetype: Integer */
-  BufferSize ( "com.kasisoft.lgpl.libs.common#BUFFERSIZE" , false , Integer.valueOf(4096)             , Integer.class ),
+  BufferCount ( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , false , Integer.valueOf(4096)             , Integer.class ),
   /** valuetype: String  */
-  TempDir    ( "com.kasisoft.lgpl.libs.common#TEMPDIR"    , true  , SystemProperty.TempDir.getValue() , String.class  );
+  TempDir     ( "com.kasisoft.lgpl.libs.common#TEMPDIR"     , true  , SystemProperty.TempDir.getValue() , String.class  );
   
   private String     key;
   private Object     defvalue;
