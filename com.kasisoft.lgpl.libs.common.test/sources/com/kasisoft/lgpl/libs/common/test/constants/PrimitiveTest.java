@@ -24,7 +24,7 @@ public class PrimitiveTest {
     Primitive[] values = Primitive.values();
     Object[][]  result = new Object[ values.length ][];
     for( int i = 0; i < values.length; i++ ) {
-      result[i] = new Object[] { values[i], Integer.valueOf( -20 ) };
+      result[i] = new Object[] { values[i], Integer.valueOf( 20 ) };
     }
     return result;
   }
