@@ -61,7 +61,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * @return   The suffix if it was correct already or an adjusted pendant. 
    *           Neither <code>null</code> nor empty.
    */
-  private String validateSuffix( 
+  protected String validateSuffix( 
     @KNotEmpty(name="suffix")   String   suffix 
   ) {
     if( suffix.charAt(0) != '.' ) {
@@ -105,11 +105,24 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
     if( ! file.isFile() ) {
       return true;
     }
-    String filename = file.getName();
-    if( ! SystemInfo.getRunningOS().isCaseSensitiveFS() ) {
-      filename = filename.toLowerCase();
-    }
+    String filename = normaliseFilename( file.getName() );
     return filename.endsWith( mainsuffix );
+  }
+
+  /**
+   * Returns a normalised filename allowing to be used depending on the currently running operating
+   * system mainly useful to handle case sensitivity.
+   * 
+   * @param filename   The filename to be altered if necessary. Neither <code>null</code> nor empty.
+   * 
+   * @return   The normalised filename. Neither <code>null</code> nor empty.
+   */
+  protected String normaliseFilename( @KNotEmpty(name="filename") String filename ) {
+    if( SystemInfo.getRunningOS().isCaseSensitiveFS() ) {
+      return filename;
+    } else {
+      return filename.toLowerCase();
+    }
   }
   
   /**
