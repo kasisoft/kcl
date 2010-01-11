@@ -1,5 +1,5 @@
 /**
- * Name........: FailureCodes
+ * Name........: FailureCode
  * Description.: Collection of failure codes.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
@@ -11,7 +11,7 @@ package com.kasisoft.lgpl.libs.common.constants;
 /**
  * Collection of failure codes.
  */
-public enum FailureCodes {
+public enum FailureCode {
 
   /** everythings okay. */
   Success                                             (  0 ),
@@ -45,7 +45,7 @@ public enum FailureCodes {
 
   private int   code;
   
-  FailureCodes( int value ) {
+  FailureCode( int value ) {
     code = value;
   }
   
