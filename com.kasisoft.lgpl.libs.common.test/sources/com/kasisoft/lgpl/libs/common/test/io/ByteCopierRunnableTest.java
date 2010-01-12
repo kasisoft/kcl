@@ -76,7 +76,7 @@ public class ByteCopierRunnableTest {
   }
 
   @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class})
-  public void copyFailingRunnable( final byte[] data, Integer buffersize ) {
+  public void copyFailingRunnable( byte[] data, Integer buffersize ) {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = null;
@@ -103,7 +103,7 @@ public class ByteCopierRunnableTest {
   }
 
   @Test(dataProvider="createDataBlocks")
-  public void copyFailingThread( final byte[] data, Integer buffersize ) throws InterruptedException {
+  public void copyFailingThread( byte[] data, Integer buffersize ) throws InterruptedException {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = null;
