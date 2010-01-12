@@ -18,7 +18,9 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 import java.io.*;
 
 /**
- * A Runnable which is used to copy data from an InputStream to an OutputStream.
+ * A Runnable which is used to copy data from an InputStream to an OutputStream. Be aware that this
+ * is a general purpose implementation, so if you intend to copy files you should use 
+ * the java.io.FileChannel instead in order to make use of system specific copying operations.
  */
 @KDiagnostic
 public class ByteCopierRunnable implements Runnable {
