@@ -1,6 +1,6 @@
 /**
  * Name........: ByteCopierRunnableTest
- * Description.: Test for the class 'ByeCopierRunnable'.
+ * Description.: Test for the class 'ByteCopierRunnable'.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
@@ -17,7 +17,7 @@ import org.testng.*;
 import java.io.*;
 
 /**
- * Test for the class 'ByeCopierRunnable'.
+ * Test for the class 'ByteCopierRunnable'.
  */
 public class ByteCopierRunnableTest {
 
