@@ -31,24 +31,24 @@ public class ByteCopierRunnableTest {
   
   @DataProvider(name="createDataBlocks")
   public Object[][] createDataBlocks() {
-    int[]       sizes       = new int[] { 0/* , 128, 256, 1024, 2000, 7625, 43881, 78991, 130992, 390112, 782674, 1349921 */ };
-    Integer[]   buffersizes = new Integer[] { Integer.valueOf(1), Integer.valueOf(1) /*, Integer.valueOf(1031) */ };
-    Object[][]  result      = new Object[ sizes.length * buffersizes.length ][];
-    for( int i = 0; i < sizes.length; i++ ) {
-      byte[] datablock = createRandomBlock( sizes[i] );
-      for( int j = 0; j < buffersizes.length; j++ ) {
-        result[ i * j ] = new Object[] { datablock, buffersizes[j] };
-      }
+    int[]       sizes       = new int[] { /* 0, */ 128, 256, 1024, 2000, 7625, 43881, 78991, 130992, 390112, 782674, 1349921 };
+    Integer[]   buffersizes = new Integer[] { null, Integer.valueOf(1), Integer.valueOf(1031) };
+    Object[][]  result      = new Object[ sizes.length * buffersizes.length ][2];
+    for( int i = 0; i < result.length; i++ ) {
+      int sizeidx   = i / buffersizes.length;
+      int buffidx   = i % buffersizes.length;
+      result[i][0] = createRandomBlock( sizes[ sizeidx ] );
+      result[i][1] = buffersizes[ buffidx ];
     }
     return result;
   }
   
   @Test(dataProvider="createDataBlocks")
-  public void copyAsRunnable( byte[] data, Integer buffersize ) {
+  public void copyRunnable( byte[] data, Integer buffersize ) {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = null;
-    if( buffersize.intValue() < 0 ) {
+    if( buffersize == null ) {
       runnable = new ByteCopierRunnable( bytein, byteout );
     } else {
       runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() );
@@ -58,21 +58,76 @@ public class ByteCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
-//  @Test(dataProvider="createDataBlocks")
-//  public void copyAsThread( byte[] data, Integer buffersize ) throws InterruptedException {
-//    ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
-//    ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-//    ByteCopierRunnable    runnable  = null;
-//    if( buffersize.intValue() < 0 ) {
-//      runnable = new ByteCopierRunnable( bytein, byteout );
-//    } else {
-//      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() );
-//    }
-//    Thread thread = new Thread( runnable );
-//    thread.start();
-//    thread.join();
-//    byte[] copied = byteout.toByteArray();
-//    Assert.assertEquals( copied, data );
-//  }
+  @Test(dataProvider="createDataBlocks")
+  public void copyThread( byte[] data, Integer buffersize ) throws InterruptedException {
+    ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
+    ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
+    ByteCopierRunnable    runnable  = null;
+    if( buffersize == null ) {
+      runnable = new ByteCopierRunnable( bytein, byteout );
+    } else {
+      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() );
+    }
+    Thread thread = new Thread( runnable );
+    thread.start();
+    thread.join();
+    byte[] copied = byteout.toByteArray();
+    Assert.assertEquals( copied, data );
+  }
+
+  @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class})
+  public void copyFailingRunnable( final byte[] data, Integer buffersize ) {
+    ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
+    ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
+    ByteCopierRunnable    runnable  = null;
+    if( buffersize == null ) {
+      runnable = new ByteCopierRunnable( bytein, byteout ) {
+        protected void onIteration( int done, int written ) {
+          if( done > 10 ) {
+            throw new RuntimeException();
+          }
+        }
+      };
+    } else {
+      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() ) {
+        protected void onIteration( int done, int written ) {
+          if( done > 10 ) {
+            throw new RuntimeException();
+          }
+        }
+      };
+    }
+    runnable.run();
+    // should not be reached as an exception is expected to occure
+    Assert.fail();
+  }
+
+  @Test(dataProvider="createDataBlocks")
+  public void copyFailingThread( final byte[] data, Integer buffersize ) throws InterruptedException {
+    ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
+    ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
+    ByteCopierRunnable    runnable  = null;
+    if( buffersize == null ) {
+      runnable = new ByteCopierRunnable( bytein, byteout ) {
+        protected void onIteration( int done, int written ) {
+          if( done > 10 ) {
+            throw new RuntimeException();
+          }
+        }
+      };
+    } else {
+      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() ) {
+        protected void onIteration( int done, int written ) {
+          if( done > 10 ) {
+            throw new RuntimeException();
+          }
+        }
+      };
+    }
+    Thread thread = new Thread( runnable );
+    thread.start();
+    thread.join();
+    Assert.assertNotSame( byteout.toByteArray(), data );
+  }
 
 } /* ENDCLASS */
