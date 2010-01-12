@@ -31,7 +31,7 @@ public class ByteCopierRunnableTest {
   
   @DataProvider(name="createDataBlocks")
   public Object[][] createDataBlocks() {
-    int[]       sizes       = new int[] { /* 0, */ 128, 256, 1024, 2000, 7625, 43881, 78991, 130992, 390112, 782674, 1349921 };
+    int[]       sizes       = new int[] { 128, 256, 1024, 2000, 7625, 43881, 78991, 130992, 390112, 782674, 1349921 };
     Integer[]   buffersizes = new Integer[] { null, Integer.valueOf(1), Integer.valueOf(1031) };
     Object[][]  result      = new Object[ sizes.length * buffersizes.length ][2];
     for( int i = 0; i < result.length; i++ ) {
