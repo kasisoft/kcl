@@ -16,6 +16,15 @@ public class Tupel<T> {
   private T[]   values;
   
   /**
+   * Changes the current values.
+   * 
+   * @param newvalues   The new values.
+   */
+  public Tupel( T ... newvalues ) {
+    values = newvalues;
+  }
+
+  /**
    * Returns the current value. Generally this is the first value {@link #getFirst()}.
    * 
    * @return   The current value.
