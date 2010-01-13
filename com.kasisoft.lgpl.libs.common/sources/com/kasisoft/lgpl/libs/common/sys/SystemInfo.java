@@ -10,38 +10,56 @@ package com.kasisoft.lgpl.libs.common.sys;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
  * Simple class that provides some system related informations.
  */
 public enum SystemInfo {
   
-  Sun           ( "SunOS"         , true  ),
-  Solaris       ( "Solaris"       , true  ),
-  Linux         ( "Linux"         , true  ),
-  Windows95     ( "Windows 95"    , false ),
-  Windows98     ( "Windows 98"    , false ),
-  WindowsME     ( "Windows Me"    , false ),
-  WindowsNT     ( "Windows NT"    , false ),
-  Windows2000   ( "Windows 2000"  , false ),
-  WindowsXP     ( "Windows XP"    , false ),
-  Windows7      ( "Windows 7"     , false ),
-  Amiga         ( "Amiga OS"      , false ),
-  Aros          ( "AROS"          , false ),
-  MacOSX        ( "Mac OS X"      , false ),
-  Morphos       ( "MorphOS"       , false );
+  Sun           ( "SunOS"         , true  , "$%s", "$(%s)" ),
+  Solaris       ( "Solaris"       , true  , "$%s", "$(%s)" ),
+  Linux         ( "Linux"         , true  , "$%s", "$(%s)" ),
+  Windows95     ( "Windows 95"    , false , "%%%s%%" ),
+  Windows98     ( "Windows 98"    , false , "%%%s%%" ),
+  WindowsME     ( "Windows Me"    , false , "%%%s%%" ),
+  WindowsNT     ( "Windows NT"    , false , "%%%s%%" ),
+  Windows2000   ( "Windows 2000"  , false , "%%%s%%" ),
+  WindowsXP     ( "Windows XP"    , false , "%%%s%%" ),
+  Windows7      ( "Windows 7"     , false , "%%%s%%" ),
+  Amiga         ( "Amiga OS"      , false , "$%s" ),
+  Aros          ( "AROS"          , false , "$%s" ),
+  MacOSX        ( "Mac OS X"      , false , "$%s" ),
+  Morphos       ( "MorphOS"       , false , "$%s" );
   
-  private String    key;
-  private boolean   isrunning;
-  private boolean   casesensitive;
+  private String     key;
+  private boolean    isrunning;
+  private boolean    casesensitive;
+  private String[]   varformats;
   
-  /**
-   * Prevent instantiation.
-   */
-  SystemInfo( String oskey, boolean filesystem ) {
+  SystemInfo( String oskey, boolean filesystem, String ... varkeys ) {
     key           = oskey;
     isrunning     = oskey.equals( SystemProperty.OsName.getValue() );
     casesensitive = filesystem;
+    varformats    = varkeys;
   }
+  
+  /**
+   * Returns a list of variable keys formatted according to the corresponding operating system.
+   * These formatted keys can be used to perform replacements.
+   * 
+   * @param keyname   The name of the key. Neither <code>null</code> nor empty.
+   * 
+   * @return   The variable keys matching the os. Neither <code>null</code> nor empty.
+   */
+  public String[] getVariableKeys( @KNotEmpty(name="keyname") String keyname ) {
+    String[] result = new String[ varformats.length ];
+    for( int i = 0; i < varformats.length; i++ ) {
+      result[i] = String.format( varformats[i], keyname );
+    }
+    return result;
+  }
+  
   
   /**
    * Returns <code>true</code> if the filesystem is case sensitive.
