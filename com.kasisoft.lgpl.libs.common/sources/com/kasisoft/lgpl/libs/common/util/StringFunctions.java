@@ -67,7 +67,23 @@ public class StringFunctions {
   ) {
     return indexOf( 0, input, characters );
   }
-  
+
+  /**
+   * Returns the first index of some character.
+   * 
+   * @param input        The String where the characters have to be looked for.
+   *                     Neither <code>null</code> nor empty.
+   * @param characters   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a character hast been found (leftmost index) otherwise -1.
+   */
+  public static final int indexOf( 
+    @KNotNull(name="input")         StringBuffer   input, 
+    @KNotEmpty(name="characters")   char           ... characters 
+  ) {
+    return indexOf( 0, input, characters );
+  }
+
   /**
    * Returns the first index of some character.
    * 
@@ -97,17 +113,51 @@ public class StringFunctions {
       return result;
     }
   }
-  
+
   /**
-   * Makes sure that the supplied String is either <code>null</code> or not empty.
+   * Returns the first index of some character.
+   * 
+   * @param first        The first position where to start looking from.
+   * @param input        The String where the characters have to be looked for.
+   *                     Neither <code>null</code> nor empty.
+   * @param characters   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a character hast been found (leftmost index) otherwise -1.
+   */
+  public static final int indexOf( 
+    @KIPositive(name="first",zero=true)   int            first, 
+    @KNotNull(name="input")               StringBuffer   input, 
+    @KNotEmpty(name="characters")         char           ... characters 
+  ) {
+    int result = Integer.MAX_VALUE;
+    for( int i = 0; i < characters.length; i++ ) {
+      char ch  = characters[i];
+      int  pos = input.indexOf( String.valueOf( ch ), first );
+      if( pos != -1 ) {
+        result = Math.min( result, pos );
+      }
+    }
+    if( result == Integer.MAX_VALUE ) {
+      return -1;
+    } else {
+      return result;
+    }
+  }
+
+  /**
+   * Makes sure that the supplied String is either <code>null</code> or not empty. The text will be
+   * trimmed so there won't be any whitespace at the beginning or the end.
    * 
    * @param input   The String that has to be altered.
    * 
    * @return   <code>null</code> or a non-empty String.
    */
   public static final String cleanup( String input ) {
-    if( (input != null) && (input.trim().length() == 0) ) {
-      return null;
+    if( input != null ) {
+      input = input.trim();
+      if( input.length() == 0 ) {
+        input = null;
+      }
     }
     return input;
   }
@@ -160,8 +210,9 @@ public class StringFunctions {
   public static final String toString( Object obj ) {
     if( obj == null ) {
       return "null";
+    } else {
+      return String.valueOf( obj );
     }
-    return String.valueOf( obj );
   }
   
   /**
@@ -172,15 +223,19 @@ public class StringFunctions {
    * @return   The textual representation of the supplied list.
    */
   public static final String toString( Object[] args ) {
-    StringBuffer buffer = new StringBuffer();
-    if( (args != null) && (args.length > 0) ) {
-      buffer.append( toString( args[0] ) );
-      for( int i = 1; i < args.length; i++ ) {
-        buffer.append( "," );
-        buffer.append( toString( args[i] ) );
+    if( args == null ) {
+      return "null";
+    } else {
+      StringBuffer buffer = new StringBuffer();
+      if( args.length > 0 ) {
+        buffer.append( toString( args[0] ) );
+        for( int i = 1; i < args.length; i++ ) {
+          buffer.append( "," );
+          buffer.append( toString( args[i] ) );
+        }
       }
+      return buffer.toString();
     }
-    return buffer.toString();
   }
 
   /**
@@ -218,10 +273,10 @@ public class StringFunctions {
     @KNotNull(name="input")          String               input, 
     @KNotNull(name="replacements")   Map<String,String>   replacements
   ) {
-    StringBuffer         buffer = new StringBuffer( input );
-    Set<String>          search = replacements.keySet();
+    StringBuffer  buffer = new StringBuffer( input );
+    Set<String>   search = replacements.keySet();
     Tupel<String> key    = new Tupel<String>();
-    int                  index  = indexOf( buffer, search, key, 0 );
+    int           index  = indexOf( buffer, search, key, 0 );
     while( index != -1 ) {
       String searchstr  = key.getValue();
       String replacestr = replacements.get( searchstr );
@@ -245,6 +300,7 @@ public class StringFunctions {
     StringBuffer input, Set<String> keys, Tupel<String> key, int start 
   ) {
     int result = -1;
+    key.setValues( (String[]) null );
     for( String current : keys ) {
       int pos = input.indexOf( current, start );
       if( pos != -1 ) {
@@ -255,51 +311,6 @@ public class StringFunctions {
       }
     }
     return result;
-  }
-
-  /**
-   * Extension to the {@link String#format(String, Object[])} method which provides to use 
-   * additional formatting codes.
-   * 
-   * @param msg    The message format. Not <code>null</code>.
-   * @param args   A list of arguments.
-   * 
-   * @return  The formatted String.
-   */
-  public static final String format( 
-    @KNotNull(name="msg")   String   msg, 
-                            Object   ... args 
-  ) {
-    if( msg == null ) {
-      return toString( args );
-    }
-    int idx = msg.indexOf( "%k" );
-    if( idx != -1 ) {
-      idx   = msg.indexOf( '%' );
-      int i = 0;
-      while( (idx != -1) && (i < args.length) ) {
-        int nextidx = idx + 1;
-        if( nextidx >= msg.length() ) {
-          // no more content available
-          break;
-        }
-        char next = msg.charAt( nextidx );
-        if( next == 'k' ) {
-          // replace this formatting character with an apropriate string
-          msg = msg.substring( 0, idx ) + "%s" + msg.substring( idx + 2 );
-          if( args[i] instanceof Throwable ) {
-            args[i] = toString( (Throwable) args[i] );
-          } else {
-            throw new IllegalFormatConversionException( 'k', Throwable.class );
-          }
-          i++;
-        } else if( next != '%' ) {
-          i++;
-        }
-        idx = msg.indexOf( '%', nextidx + 1 );
-      }
-    }
-    return String.format( msg, args );
   }
 
   /**
