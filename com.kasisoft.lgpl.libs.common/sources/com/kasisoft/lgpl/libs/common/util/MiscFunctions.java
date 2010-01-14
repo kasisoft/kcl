@@ -320,7 +320,7 @@ public class MiscFunctions {
    * @return   A String with resolved environment variables. Neither <code>null</code> nor empty.
    */
   public static final String expandVariables( 
-    @KNotEmpty(name="input")   String input 
+    @KNotEmpty(name="input")   String   input 
   ) {
     Map<String, String> variables     = new Hashtable<String, String>();
     Enumeration<?>      propertynames = System.getProperties().propertyNames();
