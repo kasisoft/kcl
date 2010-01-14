@@ -28,44 +28,6 @@ public class MiscFunctionsTest {
   private static final String[] DATEPATTERNS = new String[] {
     "dd.MM.yyyy", "dd-MM-yyyy", "dd MMM - yyyy"
   };
-  
-  @SuppressWarnings("deprecation")
-  @DataProvider(name="createDateValues")
-  public Object[][] createDateValues() {
-    Date date = new Date( 110, 3, 13 );
-    return new Object[][] {
-      { "13.04.2010"    , date },  
-      { "13-04-2010"    , date },  
-      { "13 Apr - 2010" , date },
-      { "bla bla"       , null } 
-    };
-  }
-
-  @SuppressWarnings("deprecation")
-  @DataProvider(name="createCalendarValues")
-  public Object[][] createCalendarValues() {
-    Date      date      = new Date( 110, 3, 13 );
-    Calendar  calendar  = Calendar.getInstance();
-    calendar.setTime( date );
-    return new Object[][] {
-      { "13.04.2010"    , calendar  },  
-      { "13-04-2010"    , calendar  },  
-      { "13 Apr - 2010" , calendar  },
-      { "bla bla"       , null      } 
-    };
-  }
-
-  @Test(dataProvider="createDateValues")
-  public void parseDate( String datevalue, Date expected ) {
-    Date currentdate = MiscFunctions.parseDate( datevalue, DATEPATTERNS );
-    Assert.assertEquals( currentdate, expected );
-  }
-
-  @Test(dataProvider="createCalendarValues")
-  public void parseCalendar( String datevalue, Calendar expected ) {
-    Calendar currentdate = MiscFunctions.parseCalendar( datevalue, DATEPATTERNS );
-    Assert.assertEquals( currentdate, expected );
-  }
 
   private char[][] toCharArray( String ... str ) {
     if( str == null ) {
@@ -93,6 +55,32 @@ public class MiscFunctionsTest {
     return result;
   }
 
+  @SuppressWarnings("deprecation")
+  @DataProvider(name="createDateValues")
+  public Object[][] createDateValues() {
+    Date date = new Date( 110, 3, 13 );
+    return new Object[][] {
+      { "13.04.2010"    , date },  
+      { "13-04-2010"    , date },  
+      { "13 Apr - 2010" , date },
+      { "bla bla"       , null } 
+    };
+  }
+
+  @SuppressWarnings("deprecation")
+  @DataProvider(name="createCalendarValues")
+  public Object[][] createCalendarValues() {
+    Date      date      = new Date( 110, 3, 13 );
+    Calendar  calendar  = Calendar.getInstance();
+    calendar.setTime( date );
+    return new Object[][] {
+      { "13.04.2010"    , calendar  },  
+      { "13-04-2010"    , calendar  },  
+      { "13 Apr - 2010" , calendar  },
+      { "bla bla"       , null      } 
+    };
+  }
+
   @DataProvider(name="createCharBuffers")
   public Object[][] createCharBuffers() {
     return new Object[][] {
@@ -109,6 +97,78 @@ public class MiscFunctionsTest {
       { toByteArray( "Hello", null, " ", "World" ), "Hello World" },
       { toByteArray( "Hello", " ", "World" ), "Hello World" },
     };
+  }
+
+  @DataProvider(name="createCharInsertion")
+  public Object[][] createCharInsertion() {
+    return new Object[][] {
+      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(0), "" },  
+      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(5), "" },  
+      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(0), " small Hello World" },  
+      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(5), "Hello small  World" },  
+      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(50), "Hello World" },  
+    };
+  }
+
+  @DataProvider(name="createByteInsertion")
+  public Object[][] createByteInsertion() {
+    return new Object[][] {
+      { "".getBytes(), "Hello World".getBytes(), Integer.valueOf(0), "" },  
+      { "".getBytes(), "Hello World".getBytes(), Integer.valueOf(5), "" },  
+      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(0), " small Hello World" },  
+      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(5), "Hello small  World" },  
+      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(50), "Hello World" },  
+    };
+  }
+  
+  @DataProvider(name="createCharIndexOf")
+  public Object[][] createCharIndexOf() {
+    return new Object[][] {
+      { "Frog finds the dog".toCharArray(), "ind".toCharArray(), Integer.valueOf(0),   Integer.valueOf(6)   },  
+      { "Frog finds the dog".toCharArray(), "xyz".toCharArray(), Integer.valueOf(0),   Integer.valueOf(-1)  },
+      { "Frog finds the dog".toCharArray(), "ro ".toCharArray(), Integer.valueOf(100), Integer.valueOf(-1)  },
+    };
+  }
+
+  @DataProvider(name="createByteIndexOf")
+  public Object[][] createByteIndexOf() {
+    return new Object[][] {
+      { "Frog finds the dog".getBytes(), "ind".getBytes(), Integer.valueOf(0),   Integer.valueOf(6)   },  
+      { "Frog finds the dog".getBytes(), "xyz".getBytes(), Integer.valueOf(0),   Integer.valueOf(-1)  },
+      { "Frog finds the dog".getBytes(), "ro ".getBytes(), Integer.valueOf(100), Integer.valueOf(-1)  },
+    };
+  }
+
+  @DataProvider(name="createCharComparisons")
+  public Object[][] createCharComparisons() {
+    return new Object[][] {
+      { "Frog finds the dog".toCharArray(), "Frog"   . toCharArray(), Integer.valueOf(0), Boolean.TRUE  },  
+      { "Frog finds the dog".toCharArray(), "finds"  . toCharArray(), Integer.valueOf(5), Boolean.TRUE  },  
+      { "Frog finds the dog".toCharArray(), "Fr og"  . toCharArray(), Integer.valueOf(0), Boolean.FALSE },  
+      { "Frog finds the dog".toCharArray(), "fin ds" . toCharArray(), Integer.valueOf(5), Boolean.FALSE },  
+    };
+  }
+
+  @DataProvider(name="createByteComparisons")
+  public Object[][] createByteComparisons() {
+    return new Object[][] {
+      { "Frog finds the dog".getBytes(), "Frog"   . getBytes(), Integer.valueOf(0), Boolean.TRUE  },  
+      { "Frog finds the dog".getBytes(), "finds"  . getBytes(), Integer.valueOf(5), Boolean.TRUE  },  
+      { "Frog finds the dog".getBytes(), "Fr og"  . getBytes(), Integer.valueOf(0), Boolean.FALSE },  
+      { "Frog finds the dog".getBytes(), "fin ds" . getBytes(), Integer.valueOf(5), Boolean.FALSE },  
+    };
+  }
+
+  @Test(dataProvider="createDateValues")
+  public void parseDate( String datevalue, Date expected ) {
+    Date currentdate = MiscFunctions.parseDate( datevalue, DATEPATTERNS );
+    Assert.assertEquals( currentdate, expected );
+  }
+
+  @Test(dataProvider="createCalendarValues")
+  public void parseCalendar( String datevalue, Calendar expected ) {
+    Calendar currentdate = MiscFunctions.parseCalendar( datevalue, DATEPATTERNS );
+    Assert.assertEquals( currentdate, expected );
   }
 
   @Test
@@ -178,22 +238,48 @@ public class MiscFunctionsTest {
     byte[] joined = MiscFunctions.joinBuffers( buffers );
     Assert.assertEquals( new String( joined ), expected );
   }
-  
-  @DataProvider(name="createCharInsertion")
-  public Object[][] createCharInsertion() {
-    return new Object[][] {
-      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(0), "" },  
-      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(5), "" },  
-      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(0), " small Hello World" },  
-      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(5), "Hello small  World" },  
-      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(50), "Hello World" },  
-    };
-  }
-  
+
   @Test(dataProvider="createCharInsertion")
   public void insertChars( char[] dest, char[] insert, int index, String expected ) {
     char[] combined = MiscFunctions.insert( dest, insert, index );
     Assert.assertEquals( new String( combined ), expected );
+  }
+
+  @Test(dataProvider="createByteInsertion")
+  public void insertBytes( byte[] dest, byte[] insert, int index, String expected ) {
+    byte[] combined = MiscFunctions.insert( dest, insert, index );
+    Assert.assertEquals( new String( combined ), expected );
+  }
+  
+  @Test(dataProvider="createCharIndexOf")
+  public void indexOfChars( char[] buffer, char[] characters, int offset, int expectedindex ) {
+    int index = MiscFunctions.indexOf( buffer, characters, offset );
+    Assert.assertEquals( index, expectedindex );
+  }
+
+  @Test(dataProvider="createByteIndexOf")
+  public void indexOfBytes( byte[] buffer, byte[] characters, int offset, int expectedindex ) {
+    int index = MiscFunctions.indexOf( buffer, characters, offset );
+    Assert.assertEquals( index, expectedindex );
+  }
+
+  @Test
+  public void expandVariables() {
+    String template = "The name of the user is: %user.name% !";
+    String result   = MiscFunctions.expandVariables( template );
+    Assert.assertEquals( result, String.format( "The name of the user is: %s !", System.getProperty( "user.name" ) ) );
+  }
+  
+  @Test(dataProvider="createCharComparisons")
+  public void compareChars( char[] buffer, char[] sequence, int offset, boolean expected ) {
+    boolean result = MiscFunctions.compare( buffer, sequence, offset );
+    Assert.assertEquals( result, expected );
+  }
+
+  @Test(dataProvider="createByteComparisons")
+  public void compareBytes( byte[] buffer, byte[] sequence, int offset, boolean expected ) {
+    boolean result = MiscFunctions.compare( buffer, sequence, offset );
+    Assert.assertEquals( result, expected );
   }
 
 } /* ENDCLASS */
