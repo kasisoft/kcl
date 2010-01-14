@@ -19,6 +19,10 @@ import java.io.*;
  */
 public class Utilities {
 
+  public static final String[] toArray( String ... args ) {
+    return Arrays.copyOf( args, args.length );
+  }
+  
   public static final <T> List<T> toList( T ... args ) {
     List<T> result = new ArrayList<T>();
     for( int i = 0; i < args.length; i++ ) {
