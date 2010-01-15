@@ -82,7 +82,7 @@ public class SystemProcess {
    * @param useenvironment   <code>true</code> <=> The current environment will be inherited by
    *                                               the subprocess.
    */
-  public void setInheritEnvironment( boolean useenvironment ) {
+  public synchronized void setInheritEnvironment( boolean useenvironment ) {
     environment = useenvironment;
   }
   
@@ -100,7 +100,7 @@ public class SystemProcess {
    * 
    * @param newworkingdir   The new working directory for the subprocess.
    */
-  public void setWorkingDir( File newworkingdir ) {
+  public synchronized void setWorkingDir( File newworkingdir ) {
     workingdir = newworkingdir;
   }
 
@@ -127,7 +127,7 @@ public class SystemProcess {
    * 
    * @param output   The OutputStream used to delegate the output to.
    */
-  public void setOutputStream( OutputStream output ) {
+  public synchronized void setOutputStream( OutputStream output ) {
     outstream   = output;
   }
 
@@ -145,7 +145,7 @@ public class SystemProcess {
    * 
    * @param output   The error stream used to delegate the output to.
    */
-  public void setErrorStream( OutputStream output ) {
+  public synchronized void setErrorStream( OutputStream output ) {
     errstream   = output;
   }
 
@@ -175,7 +175,7 @@ public class SystemProcess {
    *               
    * @return  The exitcode from the subprocess or a failure code.
    */
-  public FailureCode execute( String ... args ) {
+  public synchronized FailureCode execute( String ... args ) {
 
     FailureCode result    = FailureCode.Success;
     Thread      outcopier = null;
