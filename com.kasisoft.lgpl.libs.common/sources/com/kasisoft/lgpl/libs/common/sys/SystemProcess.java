@@ -33,6 +33,7 @@ public class SystemProcess {
   private File                 workingdir;
   private boolean              environment;
   private Map<String,String>   variables;
+  private int                  returncode;
   
   /**
    * Sets up this convenience class to use the supplied executable for the creation of a system process.
@@ -46,6 +47,7 @@ public class SystemProcess {
     environment = true;
     executable  = exec;
     workingdir  = null;
+    returncode  = 0;
     variables   = new Hashtable<String,String>();
   }
 
@@ -179,7 +181,8 @@ public class SystemProcess {
     Thread      outcopier = null;
     Thread      errcopier = null;
     exception             = null;
-
+    returncode            = 0;
+    
     try {
 
       String[] cmdvector = null;
@@ -222,7 +225,7 @@ public class SystemProcess {
       outcopier.start();
       errcopier.start();
 
-      int returncode = p.waitFor();
+      returncode = p.waitFor();
 
     } catch( IOException ex ) {
       exception = ex;
@@ -236,6 +239,15 @@ public class SystemProcess {
 
     return result;
 
+  }
+  
+  /**
+   * Returns the returncode supplied by the last command execution.
+   * 
+   * @return   The returncode supplied by the last command execution.
+   */
+  public int getReturncode() {
+    return returncode;
   }
   
   /**
