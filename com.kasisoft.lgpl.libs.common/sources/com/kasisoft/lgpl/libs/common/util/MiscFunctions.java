@@ -467,8 +467,8 @@ public class MiscFunctions {
    * Instantiates the supplied class with the supplied arguments. The behaviour of this
    * method can be configured using the supplied flag.
    * 
-   * @param fail        <code>true</code> <=> If the creation of the instance fails an 
-   *                    ExtendedRuntimeException is generation with the constant code
+   * @param fail        <code>true</code> <=> If the creation of the instance fails a 
+   *                    FailureException is generation with the constant code
    *                    {@link CommonLibraryConstants#RTE_REFLECTIONS}. Otherwise this
    *                    method returns normally with the value <code>null</code>.
    * @param classname   The class that shall be instantiated. Neither <code>null</code> nor empty.
@@ -479,8 +479,8 @@ public class MiscFunctions {
    * @return   If <code>fail</code> is <code>true</code> the value is not <code>null</code>.
    *           Otherwise it is <code>null</code> in case of a failure.
    *           
-   * @throws ExtendedRuntimeException   The instantiation failed. Will only be raised if
-   *                                    <code>fail</code> is <code>true</code>.
+   * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> 
+   *                            is set to <code>true</code>.
    */
   @SuppressWarnings("unchecked")
   public static final Object newInstance( 

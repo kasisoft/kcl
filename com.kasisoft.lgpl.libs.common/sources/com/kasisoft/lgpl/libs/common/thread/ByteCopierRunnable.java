@@ -135,7 +135,7 @@ public class ByteCopierRunnable implements Runnable {
   
   /**
    * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing
-   * an ExtendedRuntimeException.
+   * a FailureException.
    * 
    * @param ex   The cause of the failure.
    */
