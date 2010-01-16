@@ -29,7 +29,8 @@ public class CharCopierRunnable implements Runnable {
   private Writer    destination;
   private char[]    buffer;
   private Integer   buffersize;
-  
+  private boolean   completed;
+
   /**
    * A Thread which copies content from a Reader to a Writer.
    * 
@@ -43,6 +44,7 @@ public class CharCopierRunnable implements Runnable {
     source      = from;
     destination = to;
     buffer      = null;
+    completed   = false;
     buffersize  = CommonProperty.BufferCount.getValue();
   }
   
@@ -62,6 +64,7 @@ public class CharCopierRunnable implements Runnable {
     source      = from;
     destination = to;
     buffer      = null;
+    completed   = false;
     buffersize  = Integer.valueOf( size );
   }
 
@@ -81,6 +84,7 @@ public class CharCopierRunnable implements Runnable {
     destination = to;
     buffer      = mem;
     buffersize  = null;
+    completed   = false;
   }
 
   /**
@@ -113,6 +117,7 @@ public class CharCopierRunnable implements Runnable {
         }
         read = source.read( buffer );
       }
+      completed = true;
     } catch( IOException ex ) {
       handleIOFailure( ex );
     } finally {
@@ -121,6 +126,15 @@ public class CharCopierRunnable implements Runnable {
       }
       buffer = null;
     }
+  }
+
+  /**
+   * Returns <code>true</code> if the copying process has been completed.
+   * 
+   * @return   <code>true</code> <=> The copying process has been completed.
+   */
+  public boolean hasCompleted() {
+    return completed;
   }
 
   /**
