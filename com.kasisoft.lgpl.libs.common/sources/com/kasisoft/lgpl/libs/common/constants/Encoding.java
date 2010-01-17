@@ -8,6 +8,7 @@
  */
 package com.kasisoft.lgpl.libs.common.constants;
 
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.io.*;
@@ -38,6 +39,27 @@ public enum Encoding {
     encoding      = key;
     bom           = requiresbom;
     byteordermark = mark;
+  }
+
+  /**
+   * Opens a Reader for a specific file using this encoding.
+   * 
+   * @param file   The file that has to be opened using this encoding. Must be a valid file.
+   *  
+   * @return   The reader if the file could be opened.
+   * 
+   * @throws FailureException if opening the file failed for some reason.
+   */
+  public Reader open( @KFile(name="file") File file ) {
+    try {
+      InputStream instream  = new FileInputStream( file );
+      return new InputStreamReader( instream, encoding );
+    } catch( FileNotFoundException        ex ) {
+      throw new FailureException( FailureCode.IO, ex );
+    } catch( UnsupportedEncodingException ex ) {
+      // won't happen as we only support guarantueed encodings
+      return null;
+    }
   }
   
   /**
