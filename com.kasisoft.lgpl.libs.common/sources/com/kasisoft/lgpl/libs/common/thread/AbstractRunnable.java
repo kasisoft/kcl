@@ -14,13 +14,25 @@ package com.kasisoft.lgpl.libs.common.thread;
 public abstract class AbstractRunnable implements Runnable {
 
   private boolean   stopped;
+  private boolean   completed;
   
   /**
    * {@inheritDoc}
    */
   public final void run() {
-    stopped = false;
+    stopped   = false;
+    completed = false;
     execute();
+    completed = ! isStopped();
+  }
+  
+  /**
+   * Returns <code>true</code> if the copying process has been completed.
+   * 
+   * @return   <code>true</code> <=> The copying process has been completed.
+   */
+  public boolean hasCompleted() {
+    return completed;
   }
 
   /**

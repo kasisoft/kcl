@@ -31,7 +31,6 @@ public class ByteCopierRunnable extends AbstractRunnable {
   private OutputStream   destination;
   private byte[]         buffer;
   private Integer        buffersize;
-  private boolean        completed;
   
   /**
    * A Thread which copies content from one stream to another one.
@@ -46,7 +45,6 @@ public class ByteCopierRunnable extends AbstractRunnable {
     source      = from;
     destination = to;
     buffer      = null;
-    completed   = false;
     buffersize  = CommonProperty.BufferCount.getValue();
   }
   
@@ -65,7 +63,6 @@ public class ByteCopierRunnable extends AbstractRunnable {
     source      = from;
     destination = to;
     buffer      = null;
-    completed   = false;
     buffersize  = Integer.valueOf( size );
   }
 
@@ -85,7 +82,6 @@ public class ByteCopierRunnable extends AbstractRunnable {
     destination = to;
     buffer      = mem;
     buffersize  = null;
-    completed   = false;
   }
 
   /**
@@ -118,7 +114,6 @@ public class ByteCopierRunnable extends AbstractRunnable {
         }
         read = source.read( buffer );
       }
-      completed = ! isStopped();
     } catch( IOException ex ) {
       handleIOFailure( ex );
     } finally {
@@ -129,15 +124,6 @@ public class ByteCopierRunnable extends AbstractRunnable {
     }
   }
   
-  /**
-   * Returns <code>true</code> if the copying process has been completed.
-   * 
-   * @return   <code>true</code> <=> The copying process has been completed.
-   */
-  public boolean hasCompleted() {
-    return completed;
-  }
-
   /**
    * Will be invoked when some data has been written.
    * 
