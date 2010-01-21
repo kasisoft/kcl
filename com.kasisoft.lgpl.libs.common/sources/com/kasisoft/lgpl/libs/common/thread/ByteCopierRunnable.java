@@ -32,6 +32,7 @@ public class ByteCopierRunnable implements Runnable {
   private byte[]         buffer;
   private Integer        buffersize;
   private boolean        completed;
+  private boolean        stopped;
   
   /**
    * A Thread which copies content from one stream to another one.
@@ -47,6 +48,7 @@ public class ByteCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
+    stopped     = false;
     buffersize  = CommonProperty.BufferCount.getValue();
   }
   
@@ -66,6 +68,7 @@ public class ByteCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
+    stopped     = false;
     buffersize  = Integer.valueOf( size );
   }
 
@@ -86,6 +89,7 @@ public class ByteCopierRunnable implements Runnable {
     buffer      = mem;
     buffersize  = null;
     completed   = false;
+    stopped     = false;
   }
 
   /**
@@ -104,13 +108,14 @@ public class ByteCopierRunnable implements Runnable {
    * {@inheritDoc}
    */
   public void run() {
+    stopped = false;
     if( buffersize != null ) {
       buffer = getBuffers().allocate( buffersize );
     }
     try {
       int done = 0;
       int read = source.read( buffer );
-      while( (! Thread.currentThread().isInterrupted()) && (read != -1) ) {
+      while( (! isStopped()) && (read != -1) ) {
         if( read > 0 ) {
           destination.write( buffer, 0, read );
           done += read;
@@ -118,7 +123,7 @@ public class ByteCopierRunnable implements Runnable {
         }
         read = source.read( buffer );
       }
-      completed = true;
+      completed = ! isStopped();
     } catch( IOException ex ) {
       handleIOFailure( ex );
     } finally {
@@ -127,6 +132,22 @@ public class ByteCopierRunnable implements Runnable {
       }
       buffer = null;
     }
+  }
+  
+  /**
+   * Stops the execution of this Runnable instance.
+   */
+  public void stop() {
+    stopped = true;
+  }
+  
+  /**
+   * Returns <code>true</code> if execution of this Runnable has been stopped.
+   * 
+   * @return   <code>true</code> <=> Execution of this Runnable has been stopped.
+   */
+  public boolean isStopped() {
+    return stopped || Thread.currentThread().isInterrupted();
   }
   
   /**

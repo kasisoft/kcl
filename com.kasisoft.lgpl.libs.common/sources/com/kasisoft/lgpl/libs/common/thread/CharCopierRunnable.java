@@ -30,6 +30,7 @@ public class CharCopierRunnable implements Runnable {
   private char[]    buffer;
   private Integer   buffersize;
   private boolean   completed;
+  private boolean   stopped;
 
   /**
    * A Thread which copies content from a Reader to a Writer.
@@ -45,6 +46,7 @@ public class CharCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
+    stopped     = false;
     buffersize  = CommonProperty.BufferCount.getValue();
   }
   
@@ -65,6 +67,7 @@ public class CharCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
+    stopped     = false;
     buffersize  = Integer.valueOf( size );
   }
 
@@ -84,6 +87,7 @@ public class CharCopierRunnable implements Runnable {
     destination = to;
     buffer      = mem;
     buffersize  = null;
+    stopped     = false;
     completed   = false;
   }
 
@@ -103,13 +107,14 @@ public class CharCopierRunnable implements Runnable {
    * {@inheritDoc}
    */
   public void run() {
+    stopped = false;
     if( buffersize != null ) {
       buffer = getBuffers().allocate( buffersize );
     }
     try {
       int done = 0;
       int read = source.read( buffer );
-      while( (! Thread.currentThread().isInterrupted()) && (read != -1) ) {
+      while( (! isStopped()) && (read != -1) ) {
         if( read > 0 ) {
           destination.write( buffer, 0, read );
           done += read;
@@ -117,7 +122,7 @@ public class CharCopierRunnable implements Runnable {
         }
         read = source.read( buffer );
       }
-      completed = true;
+      completed = ! isStopped();
     } catch( IOException ex ) {
       handleIOFailure( ex );
     } finally {
@@ -126,6 +131,22 @@ public class CharCopierRunnable implements Runnable {
       }
       buffer = null;
     }
+  }
+
+  /**
+   * Stops the execution of this Runnable instance.
+   */
+  public void stop() {
+    stopped = true;
+  }
+
+  /**
+   * Returns <code>true</code> if execution of this Runnable has been stopped.
+   * 
+   * @return   <code>true</code> <=> Execution of this Runnable has been stopped.
+   */
+  public boolean isStopped() {
+    return stopped || Thread.currentThread().isInterrupted();
   }
 
   /**
