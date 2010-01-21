@@ -23,7 +23,7 @@ import java.io.*;
  * the java.io.FileChannel instead in order to make use of system specific copying operations.
  */
 @KDiagnostic
-public class ByteCopierRunnable implements Runnable {
+public class ByteCopierRunnable extends AbstractRunnable {
 
   private static Buffers<byte[]> buffers = null;
   
@@ -32,7 +32,6 @@ public class ByteCopierRunnable implements Runnable {
   private byte[]         buffer;
   private Integer        buffersize;
   private boolean        completed;
-  private boolean        stopped;
   
   /**
    * A Thread which copies content from one stream to another one.
@@ -48,7 +47,6 @@ public class ByteCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
-    stopped     = false;
     buffersize  = CommonProperty.BufferCount.getValue();
   }
   
@@ -68,7 +66,6 @@ public class ByteCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
-    stopped     = false;
     buffersize  = Integer.valueOf( size );
   }
 
@@ -89,7 +86,6 @@ public class ByteCopierRunnable implements Runnable {
     buffer      = mem;
     buffersize  = null;
     completed   = false;
-    stopped     = false;
   }
 
   /**
@@ -107,8 +103,7 @@ public class ByteCopierRunnable implements Runnable {
   /**
    * {@inheritDoc}
    */
-  public void run() {
-    stopped = false;
+  public void execute() {
     if( buffersize != null ) {
       buffer = getBuffers().allocate( buffersize );
     }
@@ -132,22 +127,6 @@ public class ByteCopierRunnable implements Runnable {
       }
       buffer = null;
     }
-  }
-  
-  /**
-   * Stops the execution of this Runnable instance.
-   */
-  public void stop() {
-    stopped = true;
-  }
-  
-  /**
-   * Returns <code>true</code> if execution of this Runnable has been stopped.
-   * 
-   * @return   <code>true</code> <=> Execution of this Runnable has been stopped.
-   */
-  public boolean isStopped() {
-    return stopped || Thread.currentThread().isInterrupted();
   }
   
   /**

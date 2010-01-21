@@ -21,7 +21,7 @@ import java.io.*;
  * A Runnable which is used to copy data from a Reader to a Writer.
  */
 @KDiagnostic
-public class CharCopierRunnable implements Runnable {
+public class CharCopierRunnable extends AbstractRunnable {
 
   private static Buffers<char[]> buffers = null;
   
@@ -30,7 +30,6 @@ public class CharCopierRunnable implements Runnable {
   private char[]    buffer;
   private Integer   buffersize;
   private boolean   completed;
-  private boolean   stopped;
 
   /**
    * A Thread which copies content from a Reader to a Writer.
@@ -46,7 +45,6 @@ public class CharCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
-    stopped     = false;
     buffersize  = CommonProperty.BufferCount.getValue();
   }
   
@@ -67,7 +65,6 @@ public class CharCopierRunnable implements Runnable {
     destination = to;
     buffer      = null;
     completed   = false;
-    stopped     = false;
     buffersize  = Integer.valueOf( size );
   }
 
@@ -87,7 +84,6 @@ public class CharCopierRunnable implements Runnable {
     destination = to;
     buffer      = mem;
     buffersize  = null;
-    stopped     = false;
     completed   = false;
   }
 
@@ -106,8 +102,7 @@ public class CharCopierRunnable implements Runnable {
   /**
    * {@inheritDoc}
    */
-  public void run() {
-    stopped = false;
+  public void execute() {
     if( buffersize != null ) {
       buffer = getBuffers().allocate( buffersize );
     }
@@ -131,22 +126,6 @@ public class CharCopierRunnable implements Runnable {
       }
       buffer = null;
     }
-  }
-
-  /**
-   * Stops the execution of this Runnable instance.
-   */
-  public void stop() {
-    stopped = true;
-  }
-
-  /**
-   * Returns <code>true</code> if execution of this Runnable has been stopped.
-   * 
-   * @return   <code>true</code> <=> Execution of this Runnable has been stopped.
-   */
-  public boolean isStopped() {
-    return stopped || Thread.currentThread().isInterrupted();
   }
 
   /**
