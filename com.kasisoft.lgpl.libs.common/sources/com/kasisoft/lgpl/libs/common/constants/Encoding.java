@@ -46,16 +46,28 @@ public enum Encoding {
    * 
    * @param file   The file that has to be opened using this encoding. Must be a valid file.
    *  
-   * @return   The reader if the file could be opened.
+   * @return   The reader if the file could be opened. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
   public Reader openReader( @KFile(name="file") File file ) {
     try {
-      InputStream instream  = new FileInputStream( file );
-      return new InputStreamReader( instream, encoding );
-    } catch( FileNotFoundException        ex ) {
+      return openReader( new FileInputStream( file ) );
+    } catch( FileNotFoundException ex ) {
       throw new FailureException( FailureCode.IO, ex );
+    }
+  }
+
+  /**
+   * Opens a Reader for a specific InputStream using this encoding.
+   * 
+   * @param instream   The InputStream that has to be accessed using this encoding. Must be a valid file.
+   *  
+   * @return   The InputStream if it can be accessed. Not <code>null</code>.
+   */
+  public Reader openReader( @KNotNull(name="instream") InputStream instream ) {
+    try {
+      return new InputStreamReader( instream, encoding );
     } catch( UnsupportedEncodingException ex ) {
       // won't happen as we only support guarantueed encodings
       return null;
@@ -67,16 +79,28 @@ public enum Encoding {
    * 
    * @param file   The file that has to be opened using this encoding. Must be a valid file.
    *  
-   * @return   The writer if the file could be opened.
+   * @return   The writer if the file could be opened. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
   public Writer openWriter( @KFile(name="file") File file ) {
     try {
-      OutputStream outstream  = new FileOutputStream( file );
-      return new OutputStreamWriter( outstream, encoding );
-    } catch( FileNotFoundException        ex ) {
+      return openWriter( new FileOutputStream( file ) );
+    } catch( FileNotFoundException ex ) {
       throw new FailureException( FailureCode.IO, ex );
+    }
+  }
+
+  /**
+   * Opens a Writer for a specific OutputStream using this encoding.
+   * 
+   * @param outstream   The OutputStream that has to be opened using this encoding. Must be a valid file.
+   *  
+   * @return   The writer if the file could be opened. Not <code>null</code>.
+   */
+  public Writer openWriter( @KNotNull(name="outstream") OutputStream outstream ) {
+    try {
+      return new OutputStreamWriter( outstream, encoding );
     } catch( UnsupportedEncodingException ex ) {
       // won't happen as we only support guarantueed encodings
       return null;
@@ -88,16 +112,28 @@ public enum Encoding {
    * 
    * @param file   The file that has to be opened using this encoding. Must be a valid file.
    *  
-   * @return   The PrintStream if the file could be opened.
+   * @return   The PrintStream if the file could be opened. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
   public PrintStream openPrintStream( @KFile(name="file") File file ) {
     try {
-      OutputStream instream  = new FileOutputStream( file );
-      return new PrintStream( instream, true, encoding );
+      return openPrintStream( new FileOutputStream( file ) );
     } catch( FileNotFoundException        ex ) {
       throw new FailureException( FailureCode.IO, ex );
+    }
+  }
+
+  /**
+   * Opens a PrintStream for a specific OutputStream using this encoding.
+   * 
+   * @param outstream   The OutputStream that has to be opened using this encoding. Must be a valid file.
+   *  
+   * @return   The PrintStream if the OutputStream could be accessed. Not <code>null</code>.
+   */
+  public PrintStream openPrintStream( @KNotNull(name="outstream") OutputStream outstream ) {
+    try {
+      return new PrintStream( outstream, true, encoding );
     } catch( UnsupportedEncodingException ex ) {
       // won't happen as we only support guarantueed encodings
       return null;
@@ -185,11 +221,34 @@ public enum Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Reader openReader( File file, Encoding encoding ) {
+  public static final Reader openReader( 
+    @KFile(name="file") File file, Encoding encoding 
+  ) {
     if( encoding == null ) {
       return getDefault().openReader( file );
     } else {
       return encoding.openReader( file );
+    }
+  }
+
+  /**
+   * Opens a Reader for a specific InputStream using this encoding.
+   * 
+   * @param instream   The InputStream that has to be opened using this encoding. Not <code>null</code>.
+   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding
+   *                   {@link #UTF8} is used.
+   *  
+   * @return   The reader if the InputStream could be accessed. Not <code>null</code>.
+   * 
+   * @throws FailureException if accessing the InputStream failed for some reason.
+   */
+  public static final Reader openReader( 
+    @KNotNull(name="instream") InputStream instream, Encoding encoding 
+  ) {
+    if( encoding == null ) {
+      return getDefault().openReader( instream );
+    } else {
+      return encoding.openReader( instream );
     }
   }
 
@@ -204,11 +263,32 @@ public enum Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Writer openWriter( File file, Encoding encoding ) {
+  public static final Writer openWriter( @KNotNull(name="file") File file, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openWriter( file );
     } else {
       return encoding.openWriter( file );
+    }
+  }
+
+  /**
+   * Opens a Writer for a specific OutputStream using this encoding.
+   * 
+   * @param outstream   The OutputStream that has to be opened using this encoding. Not <code>null</code>.
+   * @param encoding    The encoding that has to be used. If <code>null</code> the default encoding
+   *                    {@link #UTF8} is used.
+   *  
+   * @return   The writer if the OutputStream could be accessed. Not <code>null</code>.
+   * 
+   * @throws FailureException if opening the file failed for some reason.
+   */
+  public static final Writer openWriter( 
+    @KNotNull(name="outstream") OutputStream outstream, Encoding encoding 
+  ) {
+    if( encoding == null ) {
+      return getDefault().openWriter( outstream );
+    } else {
+      return encoding.openWriter( outstream );
     }
   }
 
@@ -223,11 +303,34 @@ public enum Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final PrintStream openPrintStream( File file, Encoding encoding ) {
+  public static final PrintStream openPrintStream( 
+    @KNotNull(name="file") File file, Encoding encoding 
+  ) {
     if( encoding == null ) {
       return getDefault().openPrintStream( file );
     } else {
       return encoding.openPrintStream( file );
+    }
+  }
+
+  /**
+   * Opens a PrintStream for a specific OutputStream using this encoding.
+   * 
+   * @param outstream   The OutputStream that has to be accessed using this encoding. Not <code>null</code>.
+   * @param encoding    The encoding that has to be used. If <code>null</code> the default encoding
+   *                    {@link #UTF8} is used.
+   *  
+   * @return   The PrintStream if the OutputStream could be accessed. Not <code>null</code>.
+   * 
+   * @throws FailureException if opening the file failed for some reason.
+   */
+  public static final PrintStream openPrintStream( 
+    @KNotNull(name="outstream") OutputStream outstream, Encoding encoding 
+  ) {
+    if( encoding == null ) {
+      return getDefault().openPrintStream( outstream );
+    } else {
+      return encoding.openPrintStream( outstream );
     }
   }
 
