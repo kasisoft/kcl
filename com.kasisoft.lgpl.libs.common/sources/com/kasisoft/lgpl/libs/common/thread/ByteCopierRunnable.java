@@ -99,7 +99,7 @@ public class ByteCopierRunnable extends AbstractRunnable {
   /**
    * {@inheritDoc}
    */
-  public void execute() {
+  protected void execute() {
     if( buffersize != null ) {
       buffer = getBuffers().allocate( buffersize );
     }

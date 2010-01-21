@@ -38,7 +38,7 @@ public abstract class AbstractRunnable implements Runnable {
   /**
    * @see Runnable#run()
    */
-  public abstract void execute();
+  protected abstract void execute();
 
   /**
    * Stops the execution of this Runnable instance.
