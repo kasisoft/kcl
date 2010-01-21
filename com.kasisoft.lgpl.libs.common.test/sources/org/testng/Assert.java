@@ -466,6 +466,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(Collection actual, Collection expected, String message) {
     if(actual == expected) return;
     
@@ -515,6 +516,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEqualsNoOrder(Object[] actual, Object[] expected, String message) {
     if(actual == expected) return;
     
@@ -591,6 +593,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final byte[] actual, final byte[] expected, final String message) {
     if(expected == actual) {
       return;
@@ -633,6 +636,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final boolean[] actual, final boolean[] expected, final String message) {
     if(expected == actual) {
       return;
@@ -675,6 +679,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final char[] actual, final char[] expected, final String message) {
     if(expected == actual) {
       return;
@@ -717,6 +722,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final short[] actual, final short[] expected, final String message) {
     if(expected == actual) {
       return;
@@ -759,6 +765,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final int[] actual, final int[] expected, final String message) {
     if(expected == actual) {
       return;
@@ -801,6 +808,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final long[] actual, final long[] expected, final String message) {
     if(expected == actual) {
       return;
@@ -843,6 +851,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final float[] actual, final float[] expected, final String message) {
     if(expected == actual) {
       return;
@@ -885,6 +894,7 @@ public class Assert {
    * @param expected the expected value
    * @param message the assertion error message
    */
+  @SuppressWarnings("null")
   static public void assertEquals(final double[] actual, final double[] expected, final String message) {
     if(expected == actual) {
       return;
