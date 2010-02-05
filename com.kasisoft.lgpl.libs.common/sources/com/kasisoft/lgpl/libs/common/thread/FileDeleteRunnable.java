@@ -17,39 +17,49 @@ import java.io.*;
 /**
  * A Runnable implementation used to delete a file.
  */
-public class FileDeleteRunnable extends AbstractRunnable {
+public class FileDeleteRunnable extends FileListRunnable {
 
-  private List<File>   deletables;
-  
   /**
-   * Initialises this Runnable which is used to delete a single file.
+   * Initialises this Runnable which is used to delete a bunch of filesystem resources.
+   */
+  public FileDeleteRunnable() {
+    super();
+  }
+
+  /**
+   * Initialises this Runnable which is used to delete a bunch of filesystem resources.
    * 
    * @param files   The files that has to be deleted. Not <code>null</code> but they files are
    *                not required to be existent.
    */
   public FileDeleteRunnable( File ... files ) {
-    deletables = new ArrayList<File>();
-    for( File file : files ) {
-      deletables.add( file );
-    }
+    super( files );
   }
   
   /**
    * {@inheritDoc}
    */
   protected void execute() {
-    int retries = ((Integer) CommonProperty.IoRetries.getValue()).intValue();
-    retries    *= deletables.size();
-    while( (! isStopped()) && (! deletables.isEmpty()) ) {
-      for( int i = deletables.size() - 1; i >= 0; i-- ) {
-        if( deletables.get(i).exists() ) {
-          if( deletables.get(i).delete() ) {
+    
+    super.execute();
+    
+    List<File>  files       = getFiles();
+    List<File>  directories = getDirectories();
+    int         retries     = ((Integer) CommonProperty.IoRetries.getValue()).intValue();
+    retries                *= (files.size() + directories.size());
+    
+    // 1. delete all files
+    while( (! isStopped()) && (! files.isEmpty()) ) {
+      for( int i = files.size() - 1; i >= 0; i-- ) {
+        File candidate = files.get(i);
+        if( candidate.exists() ) {
+          if( candidate.delete() ) {
             // the resource could be removed without any problem
-            deletables.remove(i);
+            files.remove(i);
           }
         } else {
           // the resource doesn't exist in the first place
-          deletables.remove(i);
+          files.remove(i);
         }
         retries--;
         if( retries == 0 ) {
@@ -57,6 +67,27 @@ public class FileDeleteRunnable extends AbstractRunnable {
         }
       }
     }
+    
+    // 2. delete all directories
+    while( (! isStopped()) && (! directories.isEmpty()) ) {
+      for( int i = directories.size() - 1; i >= 0; i-- ) {
+        File candidate = directories.get(i);
+        if( candidate.exists() ) {
+          if( candidate.delete() ) {
+            // the resource could be removed without any problem
+            directories.remove(i);
+          }
+        } else {
+          // the resource doesn't exist in the first place
+          directories.remove(i);
+        }
+        retries--;
+        if( retries == 0 ) {
+          stop();
+        }
+      }
+    }
+    
   }
 
 } /* ENDCLASS */

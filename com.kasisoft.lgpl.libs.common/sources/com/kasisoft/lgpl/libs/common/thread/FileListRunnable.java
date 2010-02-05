@@ -17,45 +17,78 @@ import java.io.*;
  */
 public class FileListRunnable extends AbstractRunnable {
 
+  private static final File[] EMPTY_LIST = new File[0];
+  
   private boolean       incdirs;
   private boolean       incfiles;
   private FileFilter    filter;
   private List<File>    dirreceiver;
   private List<File>    filereceiver;
   private File[]        roots;
-  
+
   /**
    * Initialises this file lister allowing to collect resources selectively.
-   * 
-   * @param receiver   The list used to collect the file resources. Maybe <code>null</code>.
-   * @param dirs       The list of resources to traverse initially.
    */
-  public FileListRunnable( List<File> receiver, File ... dirs ) {
-    incdirs       = true;
-    incfiles      = true;
-    filter        = null;
-    dirreceiver   = receiver;
-    filereceiver  = receiver;
-    roots         = dirs;
+  public FileListRunnable() {
+    this( (File[]) null );
   }
 
   /**
    * Initialises this file lister allowing to collect resources selectively.
    * 
-   * @param dircollector    The list used to collect directories. Maybe <code>null</code>.
-   * @param filecollector   The list used to collect files. Maybe <code>null</code>.
-   * @param dirs            The list of resources to traverse initially.
+   * @param files   The list of resources to traverse initially.
    */
-  public FileListRunnable( List<File> dircollector, List<File> filecollector, File ... dirs ) {
+  public FileListRunnable( File ... files ) {
     incdirs       = true;
     incfiles      = true;
     filter        = null;
-    dirreceiver   = dircollector;
-    filereceiver  = filecollector;
-    roots         = dirs;
+    dirreceiver   = new ArrayList<File>();
+    filereceiver  = new ArrayList<File>();
+    setResources( files );
+  }
+  
+  /**
+   * Sets the resources which have to be traversed.
+   * 
+   * @param files   The list of resources which have to be traversed.
+   */
+  public void setResources( File ... files ) {
+    roots = files;
+    if( roots == null ) {
+      roots = EMPTY_LIST;
+    }
   }
 
-  
+  /**
+   * Returns a list of all files collected by this runnable.
+   * 
+   * @return   A list of all files collected by this runnable. Not <code>null</code>.
+   */
+  public List<File> getAllFiles() {
+    List<File> result = new ArrayList<File>();
+    result.addAll( dirreceiver  );
+    result.addAll( filereceiver );
+    return result;
+  }
+
+  /**
+   * Returns a list of files collected by this runnable.
+   * 
+   * @return   A list of files collected by this runnable. Not <code>null</code>.
+   */
+  public List<File> getFiles() {
+    return new ArrayList<File>( filereceiver );
+  }
+
+  /**
+   * Returns a list of directories collected by this runnable.
+   * 
+   * @return   A list of directories collected by this runnable. Not <code>null</code>.
+   */
+  public List<File> getDirectories() {
+    return new ArrayList<File>( dirreceiver );
+  }
+
   /**
    * Changes the filter that has to be used.
    * 
@@ -114,6 +147,8 @@ public class FileListRunnable extends AbstractRunnable {
    * {@inheritDoc}
    */
   protected void execute() {
+    filereceiver . clear();
+    dirreceiver  . clear();
     List<File> queue = new ArrayList<File>();
     for( File root : roots ) {
       queue.add( root ); 
