@@ -34,7 +34,7 @@ public enum CommonProperty {
   /** valuetype: Integer */
   BufferCount ( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , false , Integer.valueOf(4096)             , Integer.class ),
   /** valuetype: String  */
-  TempDir     ( "com.kasisoft.lgpl.libs.common#TEMPDIR"     , true  , SystemProperty.TempDir.getValue() , String.class  );
+  TempDir     ( "com.kasisoft.lgpl.libs.common#TEMPDIR"     , true  , SystemProperty.TempDir.getValue() , File.class    );
   
   private String     key;
   private Object     defvalue;
@@ -168,7 +168,9 @@ public enum CommonProperty {
     if( typeclass == Boolean.class ) {
       objvalue = Boolean.valueOf( "yes".equalsIgnoreCase( value ) || "ja".equalsIgnoreCase( value ) || "true".equalsIgnoreCase( value ) );
     } else if( typeclass == Integer.class ) {
-      objvalue = Integer.valueOf( value ); 
+      objvalue = Integer.valueOf( value );
+    } else if( typeclass == File.class ) {
+      objvalue = new File( value );
     } else {
       objvalue = value;
     }

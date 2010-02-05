@@ -57,8 +57,8 @@ public class CommonPropertyTest {
     Assert.assertEquals( sleep, Integer.valueOf(100) );
     Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties, false );
     Assert.assertEquals( buffersize, Integer.valueOf(4096) );
-    String  tempdir     = CommonProperty.TempDir.getValue( noproperties, false );
-    Assert.assertEquals( tempdir, SystemProperty.TempDir.getValue() );
+    File    tempdir     = CommonProperty.TempDir.getValue( noproperties, false );
+    Assert.assertEquals( tempdir, new File( SystemProperty.TempDir.getValue() ) );
   }
 
   @Test
@@ -71,8 +71,8 @@ public class CommonPropertyTest {
     Assert.assertEquals( sleep, Integer.valueOf(1000) );
     Integer buffersize  = CommonProperty.BufferCount.getValue( properties, false );
     Assert.assertEquals( buffersize, Integer.valueOf(8192) );
-    String  tempdir     = CommonProperty.TempDir.getValue( properties, false );
-    Assert.assertEquals( tempdir, "D:/temp".replace( '/', File.separatorChar ) );
+    File    tempdir     = CommonProperty.TempDir.getValue( properties, false );
+    Assert.assertEquals( tempdir, new File( "D:/temp".replace( '/', File.separatorChar ) ) );
   }
 
   @Test(dataProvider="createProperties", expectedExceptions={ClassCastException.class})
