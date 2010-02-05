@@ -27,9 +27,9 @@ public abstract class AbstractRunnable implements Runnable {
   }
   
   /**
-   * Returns <code>true</code> if the copying process has been completed.
+   * Returns <code>true</code> if the process has been completed.
    * 
-   * @return   <code>true</code> <=> The copying process has been completed.
+   * @return   <code>true</code> <=> The process has been completed.
    */
   public boolean hasCompleted() {
     return completed;
