@@ -26,8 +26,6 @@ public class FileDeleteRunnable extends AbstractRunnable {
    * 
    * @param files   The files that has to be deleted. Not <code>null</code> but they files are
    *                not required to be existent.
-   * 
-   * @KFile(name="file", exists=false)
    */
   public FileDeleteRunnable( File ... files ) {
     deletables = new ArrayList<File>();
