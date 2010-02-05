@@ -24,7 +24,8 @@ public class FileDeleteRunnable extends AbstractRunnable {
   /**
    * Initialises this Runnable which is used to delete a single file.
    * 
-   * @param files   The files that has to be deleted. Not <code>null</code> but is not required to exist.
+   * @param files   The files that has to be deleted. Not <code>null</code> but they files are
+   *                not required to be existent.
    * 
    * @KFile(name="file", exists=false)
    */
