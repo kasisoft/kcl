@@ -1,10 +1,8 @@
 package org.testng;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
+import java.io.*;
 
 
 /**
@@ -914,6 +912,56 @@ public class Assert {
             + "expected value is <" + expected[i] +"> but was <"
             + actual[i] + ">. "
             + message);
+      }
+    }
+  }
+  
+  static public void assertEquals(final File actual, final File expected, final String message) {
+    if(expected == actual) {
+      return;
+    }
+    if(expected == null) {
+      fail("expected a null File, but not null found. " + message);
+    }
+    if(actual == null) {
+      fail("expected not null File, but null found. " + message);
+    }
+    File canactual = null;
+    File canexpected = null;
+    try {
+      canactual = actual.getCanonicalFile();
+      canexpected = expected.getCanonicalFile();
+    } catch(IOException ex) {
+      fail(ex.getMessage());
+    }
+    if(canexpected.exists()) {
+      if(!canactual.exists()) {
+        fail("actual File does not exist.");
+      }
+    } else {
+      if(canactual.exists()) {
+        fail("actual File should not exist.");
+      }
+    }
+    if(canexpected.isFile()) {
+      if(!canactual.isFile()) {
+        fail("actual File is supposed to denote a file .");
+      }
+    } else {
+      if(canactual.isFile()) {
+        fail("actual File is not supposed to denote a file .");
+      }
+    }
+    if(canexpected.isDirectory()) {
+      File[] expectedchildren = canexpected.listFiles();
+      File[] actualchildren = canactual.listFiles();
+      if(expectedchildren.length != actualchildren.length) {
+        fail("invalid.1");
+      }
+      Arrays.sort(expectedchildren);
+      Arrays.sort(actualchildren);
+      for(int i = 0; i < expectedchildren.length; i++) {
+        assertEquals(actualchildren[i], expectedchildren[i], message);
       }
     }
   }
