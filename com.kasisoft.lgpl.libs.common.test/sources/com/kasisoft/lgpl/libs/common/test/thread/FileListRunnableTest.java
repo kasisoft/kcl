@@ -26,7 +26,7 @@ import java.io.*;
 public class FileListRunnableTest extends AbstractFileSystemTest {
   
   @Test
-  public void deleteFiles() throws InterruptedException {
+  public void listFiles() throws InterruptedException {
     File                tempdir   = IoFunctions.newTempFile( "temp-", null );
     tempdir.mkdirs();
     List<File>          created   = createFileSystemStructure( tempdir );
