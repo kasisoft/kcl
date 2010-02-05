@@ -124,17 +124,19 @@ public class FileListRunnable extends AbstractRunnable {
     } else {
       filefilter = new AcceptAllFilter();
     }
-    while( isStopped() && (! queue.isEmpty()) ) {
+    while( (! isStopped()) && (! queue.isEmpty()) ) {
       File    current = queue.remove(0);
-      boolean accept = filefilter.accept( current );
+      boolean accept  = filefilter.accept( current );
       if( accept ) {
         if( current.isFile() ) {
           if( incfiles && (filereceiver != null) ) {
+            // collect the file
             filereceiver.add( current );
           }
         } else if( current.isDirectory() ) {
           File[] children = current.listFiles( filefilter );
           if( incdirs && (dirreceiver != null) ) {
+            // collect the directory
             dirreceiver.add( current );
           }
           if( children != null ) {
@@ -143,7 +145,7 @@ public class FileListRunnable extends AbstractRunnable {
             }
           }
         } else {
-          // not handled yet
+          // we're ignoring everything which is neither a file nor a directory
         }
       }
     }
