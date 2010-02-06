@@ -12,6 +12,8 @@ import com.kasisoft.lgpl.libs.common.thread.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import com.kasisoft.lgpl.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -23,7 +25,7 @@ import java.io.*;
 /**
  * Test for the classes 'ZipRunnable' and 'UnzipRunnable'.
  */
-public class ZipAndUnzipRunnableTest extends AbstractFileSystemTest {
+public class ZipAndUnzipRunnableTest {
   
   private File   directory;
   private File   unpackeddir;
@@ -37,7 +39,7 @@ public class ZipAndUnzipRunnableTest extends AbstractFileSystemTest {
     directory.mkdirs();
     unpackeddir   = IoFunctions.newTempFile( "temp-" );
     unpackeddir.mkdirs();
-    createFileSystemStructure( directory );
+    Utilities.createFileSystemStructure( directory );
   }
   
   @Test
@@ -63,7 +65,7 @@ public class ZipAndUnzipRunnableTest extends AbstractFileSystemTest {
   public void deleteFiles() throws InterruptedException {
     File                tempdir   = IoFunctions.newTempFile( "temp-", null );
     tempdir.mkdirs();
-    List<File>          created   = createFileSystemStructure( tempdir );
+    List<File>          created   = Utilities.createFileSystemStructure( tempdir );
     Collections.sort( created );
     FileListRunnable    runnable  = new FileListRunnable( tempdir.listFiles() );
     Thread              thread    = new Thread( runnable );

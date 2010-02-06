@@ -12,6 +12,8 @@ import com.kasisoft.lgpl.libs.common.thread.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import com.kasisoft.lgpl.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -23,13 +25,13 @@ import java.io.*;
 /**
  * Test for the class 'FileListRunnable'.
  */
-public class FileListRunnableTest extends AbstractFileSystemTest {
+public class FileListRunnableTest {
   
   @Test
   public void listFiles() throws InterruptedException {
     File                tempdir   = IoFunctions.newTempFile( "temp-", null );
     tempdir.mkdirs();
-    List<File>          created   = createFileSystemStructure( tempdir );
+    List<File>          created   = Utilities.createFileSystemStructure( tempdir );
     Collections.sort( created );
     FileListRunnable    runnable  = new FileListRunnable( tempdir.listFiles() );
     Thread              thread    = new Thread( runnable );

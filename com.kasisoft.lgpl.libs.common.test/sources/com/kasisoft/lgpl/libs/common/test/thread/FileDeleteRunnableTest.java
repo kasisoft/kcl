@@ -12,6 +12,8 @@ import com.kasisoft.lgpl.libs.common.thread.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import com.kasisoft.lgpl.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -21,13 +23,13 @@ import java.io.*;
 /**
  * Test for the class 'FileDeleteRunnable'.
  */
-public class FileDeleteRunnableTest extends AbstractFileSystemTest {
+public class FileDeleteRunnableTest {
   
   @Test
   public void deleteFiles() throws InterruptedException {
     File                tempdir   = IoFunctions.newTempFile( "temp-", null );
     tempdir.mkdirs();
-    createFileSystemStructure( tempdir );
+    Utilities.createFileSystemStructure( tempdir );
     FileDeleteRunnable  runnable  = new FileDeleteRunnable( tempdir.listFiles() );
     Thread              thread    = new Thread( runnable );
     thread.start();
