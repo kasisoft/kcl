@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.libs.common.test.framework;
 
+import com.kasisoft.lgpl.libs.common.constants.*;
+
 import com.kasisoft.lgpl.libs.common.io.*;
 
 import org.testng.*;
@@ -43,7 +45,7 @@ public class Utilities {
         populate( collector, dir, filenames, depth + 1 );
       } else {
         String filename  = filenames.remove(0);
-        byte[] datablock = createDataBlock();
+        byte[] datablock = createByteBlock();
         File   destfile  = new File( basedir, filename );
         collector.add( destfile );
         IoFunctions.writeBytes( destfile, datablock );
@@ -51,7 +53,7 @@ public class Utilities {
     }
   }
 
-  public static final byte[] createDataBlock() {
+  public static final byte[] createByteBlock() {
     byte[] result = new byte[ (int) (Math.random() * 2048) ];
     for( int i = 0; i < result.length; i++ ) {
       result[i] = (byte) (Math.random() * Byte.MAX_VALUE);
@@ -59,6 +61,31 @@ public class Utilities {
     return result;
   }
 
+  public static final char[] createCharacterBlock() {
+    char[] result = new char[ (int) (Math.random() * 2048) ];
+    for( int i = 0; i < result.length; i++ ) {
+      char character = (char) (Math.random() * Character.MAX_VALUE);
+      if( ! Character.isDefined( character ) ) {
+        character = 'A';
+      }
+      result[i]      = character;
+    }
+    return result;
+  }
+
+  public static final File createRandomBytesFile() {
+    File    result  = IoFunctions.newTempFile();
+    byte[]  data    = createByteBlock();
+    IoFunctions.writeBytes( result, data );
+    return result;
+  }
+
+  public static final File createRandomCharacterFile() {
+    File    result  = IoFunctions.newTempFile();
+    char[]  data    = createCharacterBlock();
+    IoFunctions.writeCharacters( result, data, Encoding.getDefault() );
+    return result;
+  }
 
   public static final String[] toArray( String ... args ) {
     return Arrays.copyOf( args, args.length );
