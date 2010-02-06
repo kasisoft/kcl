@@ -34,19 +34,19 @@ class AbstractFileSystemTest {
     for( int i = 0; i < count; i++ ) {
       filenames.add( String.format( "file%04d", Integer.valueOf(i) ) );
     }
-    populate( result, basedir, filenames );
+    populate( result, basedir, filenames, 1 );
     return result;
   }
   
-  private void populate( List<File> collector, File basedir, List<String> filenames ) {
+  private void populate( List<File> collector, File basedir, List<String> filenames, int depth ) {
     while( ! filenames.isEmpty() ) {
-      boolean godeeper = ((int) (Math.random() * 8192)) % 2 == 0;
+      boolean godeeper = (((int) (Math.random() * 8192)) % 2 == 0) && (depth <= 10);
       if( godeeper ) {
         String dirname = String.format( "dir%04d", Integer.valueOf( filenames.size() ) );
         File   dir     = new File( basedir, dirname );
         dir.mkdirs();
         collector.add( dir );
-        populate( collector, dir, filenames );
+        populate( collector, dir, filenames, depth + 1 );
       } else {
         String filename  = filenames.remove(0);
         byte[] datablock = createDataBlock();
