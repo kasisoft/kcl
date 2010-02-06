@@ -694,8 +694,8 @@ public class Assert {
     for(int i= 0; i < expected.length; i++) {
       if(expected[i] != actual[i]) {
         fail("arrays differ firstly at element [" + i +"]; "
-            + "expected value is <" + expected[i] +"> but was <"
-            + actual[i] + ">. "
+            + "expected value is <" + expected[i] + "[" + (int) expected[i] + "]> but was <"
+            + actual[i] + "[" + (int) actual[i] + "]>. "
             + message);
       }
     }
@@ -947,6 +947,10 @@ public class Assert {
       if(!canactual.isFile()) {
         fail("actual File is supposed to denote a file .");
       }
+      assertEquals(canactual.length(), canexpected.length());
+      byte[] expecteddata = loadFile(canexpected);
+      byte[] actualdata   = loadFile(canactual);
+      assertEquals(actualdata, expecteddata);
     } else {
       if(canactual.isFile()) {
         fail("actual File is not supposed to denote a file .");
@@ -964,6 +968,28 @@ public class Assert {
         assertEquals(actualchildren[i], expectedchildren[i], message);
       }
     }
+  }
+  
+  private static final byte[] loadFile(File file) {
+    byte[] result = new byte[ (int) file.length() ];
+    InputStream instream = null;
+    try {
+      instream = new FileInputStream(file);
+      if(instream.read(result) != result.length) {
+        fail("Couldn't read data from file '" + file + "' !");
+      }
+    } catch( IOException ex ) {
+      fail("File loading fails. Cause: " + ex.getMessage());
+    } finally {
+      if( instream != null ) {
+        try {
+          instream.close();
+        } catch( IOException ex ) {
+          fail("File loading fails. Cause: " + ex.getMessage());
+        }
+      }
+    }
+    return result;
   }
 
 }
