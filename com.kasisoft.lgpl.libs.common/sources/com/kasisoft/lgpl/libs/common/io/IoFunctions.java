@@ -1062,6 +1062,49 @@ public class IoFunctions {
   }
   
   /**
+   * Writes some character content to a file.
+   * 
+   * @param file       The destination where to write the content to. Must be writable destination.
+   * @param content    The content which has to be stored. Not <code>null</code>.
+   * @param encoding   The encoding to be used for the file.
+   * 
+   * @throws FailureException if writing the data failed for some reason.
+   */
+  public static final void writeCharacters( 
+    @KFile(name="file", right=KFile.Right.Write)   File       file, 
+    @KNotNull(name="content")                      char[]     content,
+    @KNotNull(name="encoding")                     Encoding   encoding
+  ) {
+    Writer writer = null;
+    try {
+      writer = encoding.openWriter( file );
+      writeCharacters( writer, content );
+    } finally {
+      close( writer );
+    }
+  }
+
+  /**
+   * Writes some character content to a writer.
+   * 
+   * @param writer    The destination where the content has to be stored to. Not <code>null</code>.
+   * @param content   The content which has to be stored. Not <code>null</code>.
+   * 
+   * @throws FailureException if writing the data failed for some reason.
+   */
+  public static final void writeCharacters( 
+    @KNotNull(name="writer")    Writer   writer, 
+    @KNotNull(name="content")   char[]   content 
+  ) {
+    try {
+      writer.write( content );
+    } catch( IOException ex ) {
+      throw new FailureException( FailureCode.IO, ex );
+    }
+  }
+  
+
+  /**
    * Scans a directory recursively and stores them into a list.
    * 
    * @param dir            The current directory to scan. Not <code>null</code>.
