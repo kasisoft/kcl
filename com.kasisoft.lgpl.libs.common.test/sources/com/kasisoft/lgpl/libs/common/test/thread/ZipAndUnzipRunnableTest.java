@@ -56,7 +56,7 @@ public class ZipAndUnzipRunnableTest extends AbstractFileSystemTest {
     thread.start();
     thread.join();
     Assert.assertTrue( runnable.hasCompleted() );
-    Assert.assertEquals( unpackeddir, directory );
+    Assert.assertEquals( unpackeddir, directory, "Resources aren't equal !" );
   }
   
   @Test
