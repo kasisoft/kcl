@@ -18,6 +18,8 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import java.util.*;
+
 import java.io.*;
 
 /**
@@ -26,6 +28,22 @@ import java.io.*;
  * @todo [06-Feb-2010:KASI]   Tests for the close methods are still missing.
  */
 public class IoFunctionsTest {
+
+  private File   testdata;
+  private File   directory;
+  private File   unpackeddir;
+  private File   destfile;
+  
+  @BeforeSuite
+  public void setup() {
+    testdata      = new File( "testdata" );
+    destfile      = IoFunctions.newTempFile( "file-", ".zip" );
+    directory     = IoFunctions.newTempFile( "temp-" );
+    directory.mkdirs();
+    unpackeddir   = IoFunctions.newTempFile( "temp-" );
+    unpackeddir.mkdirs();
+    Utilities.createFileSystemStructure( directory );
+  }
 
   @Test
   public void newTempFile() {
@@ -172,107 +190,191 @@ public class IoFunctionsTest {
 
   }
 
-//  public static final List<String> readText( 
-//    @KNotNull(name="input")   Reader    input, 
-//                              boolean   trim, 
-//                              boolean   emptylines 
-//
-//  public static final List<String> readText(
-//    @KNotNull(name="input")   Reader   input 
-//  ) {
-//    return readText( input, false, true );
-//  }
-//  
-//  public static final List<String> readText( 
-//    @KFile(name="input")   File       input, 
-//                           boolean    trim, 
-//                           boolean    emptylines,
-//                           Encoding   encoding
-//
-//  public static final List<String> readText( 
-//    @KFile(name="input")   File       input,
-//                           Encoding   encoding
-//
-//  public static final void skip( 
-//    @KNotNull(name="input")                 InputStream   input, 
-//    @KIPositive(name="offset", zero=true)   int           offset 
-//  
-//  public static final void skip( 
-//    @KNotNull(name="input")                 Reader   input, 
-//    @KIPositive(name="offset", zero=true)   int      offset 
-//
-//  public static final byte[] loadFragment( 
-//    @KNotNull(name="input")                 InputStream   input, 
-//    @KIPositive(name="offset", zero=true)   int           offset, 
-//    @KIPositive(name="length")              int           length 
-//  
-//  public static final byte[] loadFragment( 
-//    @KFile(name="file")                     File   file, 
-//    @KIPositive(name="offset", zero=true)   int    offset, 
-//    @KIPositive(name="length")              int    length 
-//  
-//  public static final boolean isGZIP( 
-//    @KNotNull(name="buffer")   byte[]   buffer 
-//
-//  public static final boolean isGZIP( 
-//    @KFile(name="file")   File   file 
-//
-//  public static final long crc32( 
-//    @KNotNull(name="instream")   InputStream   instream, 
-//                                 CRC32         crc, 
-//                                 Integer       buffersize 
-//
-//  public static final long crc32( 
-//    @KNotNull(name="instream")   InputStream   instream 
-//
-//  public static final long crc32( 
-//    @KFile(name="file")   File      file, 
-//                          CRC32     crc, 
-//                          Integer   buffersize 
-//
-//  public static final long crc32( 
-//    @KFile(name="file")   File   file 
-//
-//  public static final boolean delete( @KNotNull(name="files") File ... files ) {
-//  
-//  public static final void writeText( 
-//    @KNotNull(name="output")   OutputStream   output, 
-//    @KNotNull(name="lines")    List<String>   lines, 
-//                               Encoding       encoding 
-//
-//  public static final void writeText( 
-//    @KFile(name="file", right=KFile.Right.Write)   File           file, 
-//    @KNotNull(name="lines")                        List<String>   lines, 
-//                                                   Encoding       encoding 
-//  
-//  public static final void writeText( 
-//    @KNotNull(name="output")   OutputStream   output, 
-//    @KNotNull(name="text")     String         text, 
-//                               Encoding       encoding 
-//  
-//  public static final void writeText( 
-//    @KFile(name="file", right=KFile.Right.Write)   File       file, 
-//    @KNotNull(name="text")                         String     text, 
-//                                                   Encoding   encoding 
-//  
-//  public static final List<File> listRecursive( 
-//    @KDirectory(name="dir")   File         dir, 
-//                              FileFilter   filter, 
-//                              boolean      includefiles, 
-//                              boolean      includedirs 
-//
-//  public static final List<File> listRecursive( 
-//    @KDirectory(name="dir")   File         dir, 
-//    @KNotNull(name="filter")  FileFilter   filter 
-//  
-//  public static final boolean zip( 
-//    @KFile(name="zipfile", right=KFile.Right.Write)   File      zipfile, 
-//    @KDirectory(name="dir")                           File      dir, 
-//                                                      Integer   buffersize 
-//
-//  public static final boolean unzip( 
-//    @KFile(name="zipfile")        File      zipfile, 
-//    @KDirectory(name="destdir")   File      destdir, 
-//                                  Integer   buffersize 
+  @Test
+  public void loadTest() {
+    
+    File          testfile  = new File( testdata, "testfile.txt" );
+  
+    List<String>  text1     = IoFunctions.readText( testfile, false, true, Encoding.UTF8 );
+    Assert.assertNotNull( text1 );
+    Assert.assertEquals( 7, text1.size() );
+    Assert.assertEquals( text1.toArray(), new String[] { "BEGIN BLÖD", "", "LINE 1", "", "   LINE 2   ", "", "BLABLUB" } );
+
+    List<String>  text2     = IoFunctions.readText( testfile, false, false, Encoding.UTF8 );
+    Assert.assertNotNull( text2 );
+    Assert.assertEquals( 4, text2.size() );
+    Assert.assertEquals( text2.toArray(), new String[] { "BEGIN BLÖD", "LINE 1", "   LINE 2   ", "BLABLUB" } );
+
+    List<String>  text3     = IoFunctions.readText( testfile, true, false, Encoding.UTF8 );
+    Assert.assertNotNull( text3 );
+    Assert.assertEquals( 4, text3.size() );
+    Assert.assertEquals( text3.toArray(), new String[] { "BEGIN BLÖD", "LINE 1", "LINE 2", "BLABLUB" } );
+
+    byte[]        textdata  = IoFunctions.loadBytes( testfile, null );
+
+    Reader        reader1   = Encoding.UTF8.openReader( new ByteArrayInputStream( textdata ) );
+    List<String>  text4     = IoFunctions.readText( reader1, false, true );
+    Assert.assertNotNull( text4 );
+    Assert.assertEquals( 7, text4.size() );
+    Assert.assertEquals( text4.toArray(), new String[] { "BEGIN BLÖD", "", "LINE 1", "", "   LINE 2   ", "", "BLABLUB" } );
+
+    Reader        reader2   = Encoding.UTF8.openReader( new ByteArrayInputStream( textdata ) );
+    List<String>  text5     = IoFunctions.readText( reader2, false, false );
+    Assert.assertNotNull( text5 );
+    Assert.assertEquals( 4, text5.size() );
+    Assert.assertEquals( text5.toArray(), new String[] { "BEGIN BLÖD", "LINE 1", "   LINE 2   ", "BLABLUB" } );
+
+    Reader        reader3   = Encoding.UTF8.openReader( new ByteArrayInputStream( textdata ) );
+    List<String>  text6     = IoFunctions.readText( reader3, true, false );
+    Assert.assertNotNull( text6 );
+    Assert.assertEquals( 4, text6.size() );
+    Assert.assertEquals( text6.toArray(), new String[] { "BEGIN BLÖD", "LINE 1", "LINE 2", "BLABLUB" } );
+
+  }
+  
+  @Test
+  public void skip() {
+    
+    String                str     = "BLA BLUB WAS HERE";
+    
+    ByteArrayInputStream  bytein  = new ByteArrayInputStream( Encoding.UTF8.encode( str ) );
+    IoFunctions.skip( bytein, 4 );
+    String                result1 = Encoding.UTF8.decode( IoFunctions.loadBytes( bytein, null ) );
+    Assert.assertEquals( result1, "BLUB WAS HERE" );
+    
+    CharArrayReader       charin  = new CharArrayReader( str.toCharArray() );
+    IoFunctions.skip( charin, 4 );
+    String                result2 = new String( IoFunctions.loadChars( charin, null ) );
+    Assert.assertEquals( result2, "BLUB WAS HERE" );
+    
+  }
+
+  @Test
+  public void loadFragment() {
+    
+    String                str       = "BLA BLUB WAS HERE";
+    
+    ByteArrayInputStream  bytein    = new ByteArrayInputStream( Encoding.UTF8.encode( str ) );
+    String                result1   = Encoding.UTF8.decode( IoFunctions.loadFragment( bytein, 4, 4 ) );
+    Assert.assertEquals( result1, "BLUB" );
+    
+    File                  testfile  = new File( testdata, "testfile.txt" );
+    String                result2   = Encoding.UTF8.decode( IoFunctions.loadFragment( testfile, 15, 6 ) );
+    Assert.assertEquals( result2, "LINE 1" );
+    
+  }
+
+  @Test
+  public void isGZIP() {
+    
+    File  nongzip = new File( testdata, "testfile.txt");
+    File  gzip    = new File( testdata, "testfile.gz");
+    
+    Assert.assertEquals( IoFunctions.isGZIP( nongzip ), false );
+    Assert.assertEquals( IoFunctions.isGZIP( gzip    ), true  );
+    
+    byte[] nongzipdata  = IoFunctions.loadBytes( nongzip  , null );
+    byte[] gzipdata     = IoFunctions.loadBytes( gzip     , null );
+
+    Assert.assertEquals( IoFunctions.isGZIP( nongzipdata ), false );
+    Assert.assertEquals( IoFunctions.isGZIP( gzipdata    ), true  );
+
+  }
+  
+  @Test
+  public void crc32() {
+   
+    File    testfile  = new File( testdata, "testfile.gz" );
+    
+    Assert.assertEquals( IoFunctions.crc32( testfile ), 1699530864 );
+    
+    byte[]  data      = IoFunctions.loadBytes( testfile, null );
+    Assert.assertEquals( IoFunctions.crc32( new ByteArrayInputStream( data ) ), 1699530864 );
+    
+  }
+
+  @Test
+  public void delete() {
+    File        tempdir = IoFunctions.newTempFile();
+    tempdir.mkdirs();
+    List<File>  files   = Utilities.createFileSystemStructure( tempdir );
+    IoFunctions.delete( tempdir );
+    for( File file : files ) {
+      Assert.assertFalse( file.exists() );
+    }
+  }
+  
+  @Test
+  public void writeText() {
+    
+    List<String> lines = new ArrayList<String>();
+    lines.add( "FRED" );
+    lines.add( "FLINTSTONES" );
+    lines.add( "ANIMAL" );
+    lines.add( "IS" );
+    lines.add( "NAMED" );
+    lines.add( "DINO" );
+    
+    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
+    IoFunctions.writeText( byteout, lines, Encoding.UTF8 );
+    
+    byte[]       data1      = byteout.toByteArray();
+    Reader       reader1    = Encoding.UTF8.openReader( new ByteArrayInputStream( data1 ) );
+    List<String> loaded1    = IoFunctions.readText( reader1, false, true );
+    Assert.assertEquals( loaded1, lines );
+    
+    File         tempfile1  = IoFunctions.newTempFile();
+    IoFunctions.writeText( tempfile1, lines, Encoding.UTF8 );
+    List<String> loaded2    = IoFunctions.readText( tempfile1, false, true, Encoding.UTF8 );
+    Assert.assertEquals( loaded2, lines );
+    
+    StringBuffer buffer     = new StringBuffer();
+    for( int i = 0; i < lines.size(); i++ ) {
+      buffer.append( lines.get(i) );
+      buffer.append( "\n" );
+    }
+    
+    File         tempfile2  = IoFunctions.newTempFile();
+    IoFunctions.writeText( tempfile2, buffer.toString(), Encoding.UTF8 );
+    
+    List<String> loaded3    = IoFunctions.readText( tempfile2, false, true, Encoding.UTF8 );
+    Assert.assertEquals( loaded3, lines );
+    
+  }
+  
+  @Test
+  public void listRecursive() {
+    FileFilter filter = new FileFilter() {
+      /**
+       * {@inheritDoc}
+       */
+      public boolean accept( File pathname ) {
+        if( pathname.isDirectory() ) {
+          return ! ".svn".equalsIgnoreCase( pathname.getName() );
+        }
+        return true;
+      }
+    };
+    
+    List<File> list1  = IoFunctions.listRecursive( testdata, filter );
+    Assert.assertEquals( list1.size(), 13 );
+
+    List<File> list2  = IoFunctions.listRecursive( testdata, filter, true, false );
+    Assert.assertEquals( list2.size(), 7 );
+
+    List<File> list3  = IoFunctions.listRecursive( testdata, filter, false, true );
+    Assert.assertEquals( list3.size(), 6 );
+
+  }
+  
+  @Test
+  public void zip() {
+    Assert.assertTrue( IoFunctions.zip( destfile, directory, null ) );
+  }
+  
+  @Test(dependsOnMethods="zip")
+  public void unzip() {
+    Assert.assertTrue( IoFunctions.unzip( destfile, unpackeddir, null ) );
+  }
 
 } /* ENDCLASS */
