@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.testng.eclipse.launchconfig">
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.testng.remote.RemoteTestNG"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="com.kasisoft.lgpl.libs.common.test"/>
+<mapAttribute key="org.testng.eclipse.ALL_CLASS_METHODS">
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.Iso3166Test" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.io.EnhancedFileFilterTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.EncodingTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.TransformTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.FileDeleteRunnableTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.MonthTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.TimeUnitTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.CharCopierRunnableTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.ZipAndUnzipRunnableTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.sys.SystemProcessTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.PrimitiveTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.ByteCopierRunnableTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.TupelTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.ZipTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.CommonPropertyTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.io.BasicFileFilterTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.framework.Utilities" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.PredefinedTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.FileListRunnableTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.io.IoFunctionsTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.WeekdayTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.FilterTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.StringFunctionsTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.ReduceTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.BuffersTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.sys.SystemInfoTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.SystemPropertyTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.MiscFunctionsTest" value=""/>
+</mapAttribute>
+<listAttribute key="org.testng.eclipse.CLASS_TEST_LIST">
+<listEntry value="com.kasisoft.lgpl.libs.common.test.io.BasicFileFilterTest"/>
+</listAttribute>
+<stringAttribute key="org.testng.eclipse.COMPLIANCE_LEVEL" value="JDK"/>
+<listAttribute key="org.testng.eclipse.GROUP_LIST">
+<listEntry value="all"/>
+</listAttribute>
+<listAttribute key="org.testng.eclipse.GROUP_LIST_CLASS">
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.Iso3166Test"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.io.EnhancedFileFilterTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.EncodingTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.TransformTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.MonthTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.thread.FileDeleteRunnableTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.TimeUnitTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.thread.CharCopierRunnableTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.thread.ZipAndUnzipRunnableTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.sys.SystemProcessTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.thread.ByteCopierRunnableTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.PrimitiveTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.TupelTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.ZipTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.CommonPropertyTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.io.BasicFileFilterTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.framework.Utilities"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.PredefinedTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.thread.FileListRunnableTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.io.IoFunctionsTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.WeekdayTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.FilterTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.StringFunctionsTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.ReduceTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.sys.SystemInfoTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.BuffersTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.SystemPropertyTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.MiscFunctionsTest"/>
+</listAttribute>
+<stringAttribute key="org.testng.eclipse.LOG_LEVEL" value="2"/>
+<listAttribute key="org.testng.eclipse.METHOD_TEST_LIST"/>
+<listAttribute key="org.testng.eclipse.PACKAGE_TEST_LIST"/>
+<mapAttribute key="org.testng.eclipse.PARAMETERS"/>
+<intAttribute key="org.testng.eclipse.TYPE" value="2"/>
+</launchConfiguration>
