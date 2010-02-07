@@ -19,6 +19,7 @@ import java.io.*;
 /**
  * Test for the class 'ByteCopierRunnable'.
  */
+@Test(groups="all")
 public class ByteCopierRunnableTest {
 
   private byte[] createRandomBlock( int size ) {

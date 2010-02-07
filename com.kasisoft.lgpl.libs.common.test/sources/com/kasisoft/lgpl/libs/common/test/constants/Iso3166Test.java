@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Test for the constants 'Iso3166'.
  */
+@Test(groups="all")
 public class Iso3166Test {
 
   @DataProvider(name="createValues")

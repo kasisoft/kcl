@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Tests for the class 'Tupel'.
  */
+@Test(groups="all")
 public class TupelTest {
 
   private Tupel<String> newTupel( String ... args ) {

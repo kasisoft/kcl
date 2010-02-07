@@ -19,6 +19,7 @@ import java.util.*;
 /**
  * Tests for the class 'Predefined'.
  */
+@Test(groups="all")
 public class PredefinedTest {
 
   private Filter<Object>   integerfilter;

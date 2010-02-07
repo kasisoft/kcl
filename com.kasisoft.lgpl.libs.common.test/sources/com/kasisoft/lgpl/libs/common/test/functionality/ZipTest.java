@@ -22,6 +22,7 @@ import java.awt.Font;
 /**
  * A test for the interface 'Zip'.
  */
+@Test(groups="all")
 public class ZipTest {
 
   private static final String KEY_RED     = "red";

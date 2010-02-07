@@ -19,6 +19,7 @@ import java.util.*;
 /**
  * A test for the interface 'Reduce'.
  */
+@Test(groups="all")
 public class ReduceTest {
 
   private Sum   reducefunction;

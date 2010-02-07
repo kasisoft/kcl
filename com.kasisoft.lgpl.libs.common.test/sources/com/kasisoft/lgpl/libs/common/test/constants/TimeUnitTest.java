@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Tests for the class 'TimeUnit'.
  */
+@Test(groups="all")
 public class TimeUnitTest {
 
   @Test

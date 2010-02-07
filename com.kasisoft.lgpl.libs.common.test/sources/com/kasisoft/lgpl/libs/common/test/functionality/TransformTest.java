@@ -21,6 +21,7 @@ import java.util.*;
 /**
  * A test for the interface 'Transform'.
  */
+@Test(groups="all")
 public class TransformTest {
 
   private Wrapper   wrapper;

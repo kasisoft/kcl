@@ -12,6 +12,8 @@ import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import org.testng.annotations.*;
+
 import org.testng.*;
 
 import java.util.*;
@@ -21,6 +23,7 @@ import java.io.*;
 /**
  * Collection of utility functions.
  */
+@Test(groups="all")
 public class Utilities {
 
   public static final List<File> createFileSystemStructure( File basedir ) {

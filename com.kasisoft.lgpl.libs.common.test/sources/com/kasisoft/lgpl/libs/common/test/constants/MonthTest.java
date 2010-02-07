@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Tests for the class 'Month'.
  */
+@Test(groups="all")
 public class MonthTest {
 
   @DataProvider(name="checkMonth")

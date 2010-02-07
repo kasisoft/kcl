@@ -25,6 +25,7 @@ import java.io.*;
 /**
  * Test for the class 'FileListRunnable'.
  */
+@Test(groups="all")
 public class FileListRunnableTest {
   
   @Test

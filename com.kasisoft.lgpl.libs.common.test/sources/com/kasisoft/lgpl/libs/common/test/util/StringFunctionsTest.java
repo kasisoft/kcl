@@ -23,6 +23,7 @@ import java.util.*;
 /**
  * Tests for the class 'StringFunctions'.
  */
+@Test(groups="all")
 public class StringFunctionsTest {
 
   @Test

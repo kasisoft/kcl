@@ -21,6 +21,7 @@ import java.io.*;
 /**
  * Tests for the enumeration 'CommonProperty'.
  */
+@Test(groups="all")
 public class CommonPropertyTest {
 
   private Properties   properties;

@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Tests for the constants 'Primitive'.
  */
+@Test(groups="all")
 public class PrimitiveTest {
   
   @DataProvider(name="createData")

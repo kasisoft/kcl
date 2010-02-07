@@ -19,6 +19,7 @@ import java.io.*;
 /**
  * Test for the class 'CharCopierRunnable'.
  */
+@Test(groups="all")
 public class CharCopierRunnableTest {
 
   private char[] createRandomBlock( int size ) {

@@ -21,6 +21,7 @@ import java.io.*;
 /**
  * Tests for the enumeration 'SystemProperty'.
  */
+@Test(groups="all")
 public class SystemPropertyTest {
 
   private Properties   systemproperties;

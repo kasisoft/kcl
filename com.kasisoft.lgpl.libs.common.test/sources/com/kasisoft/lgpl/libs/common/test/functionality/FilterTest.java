@@ -21,6 +21,7 @@ import java.util.*;
 /**
  * A test for the interface 'Filter'.
  */
+@Test(groups="all")
 public class FilterTest {
 
   private Filter<Integer>   filter;

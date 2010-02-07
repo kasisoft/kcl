@@ -21,6 +21,7 @@ import java.io.*;
 /**
  * Test for the class 'SystemProcess'.
  */
+@Test(groups="all")
 public class SystemProcessTest {
 
   private File                    exefile;

@@ -23,6 +23,7 @@ import java.io.*;
 /**
  * Test for the class 'FileDeleteRunnable'.
  */
+@Test(groups="all")
 public class FileDeleteRunnableTest {
   
   @Test

@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Tests for the type 'SystemInfo'.
  */
+@Test(groups="all")
 public class SystemInfoTest {
 
   @Test

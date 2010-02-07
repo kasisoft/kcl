@@ -25,6 +25,7 @@ import java.io.*;
 /**
  * Test for the classes 'ZipRunnable' and 'UnzipRunnable'.
  */
+@Test(groups="all")
 public class ZipAndUnzipRunnableTest {
   
   private File   directory;

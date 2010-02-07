@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Tests for the class 'Weekday'.
  */
+@Test(groups="all")
 public class WeekdayTest {
 
   @DataProvider(name="checkWeekday")

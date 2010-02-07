@@ -23,6 +23,7 @@ import java.util.*;
 /**
  * Test for various functions of the class 'MiscFunctions'.
  */
+@Test(groups="all")
 public class MiscFunctionsTest {
 
   private static final String[] DATEPATTERNS = new String[] {

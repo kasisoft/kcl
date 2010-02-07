@@ -17,6 +17,7 @@ import org.testng.*;
 /**
  * Tests for the constants 'Encoding'.
  */
+@Test(groups="all")
 public class EncodingTest {
 
   @DataProvider(name="createData")
