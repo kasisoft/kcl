@@ -93,9 +93,6 @@ public class NetFunctions {
   public static final void close( ServerSocket socket ) {
     close( false, socket );
   }
-
-  
-  
   
   /**
    * Blocks the current Thread while waiting for a message to be transferred.
