@@ -787,7 +787,7 @@ public class IoFunctions {
   public static final boolean isGZIP( 
     @KNotNull(name="buffer")   byte[]   buffer 
   ) {
-    return ((buffer[1] << 8) | buffer[0]) == GZIPInputStream.GZIP_MAGIC;
+    return (((buffer[1] << 8) | buffer[0]) & 0x0000FFFF ) == GZIPInputStream.GZIP_MAGIC;
   }
 
   /**
