@@ -67,7 +67,7 @@ public enum Encoding {
    */
   public Reader openReader( @KNotNull(name="instream") InputStream instream ) {
     try {
-      return new InputStreamReader( instream, encoding );
+      return new BufferedReader( new InputStreamReader( instream, encoding ) );
     } catch( UnsupportedEncodingException ex ) {
       // won't happen as we only support guarantueed encodings
       return null;
@@ -100,7 +100,7 @@ public enum Encoding {
    */
   public Writer openWriter( @KNotNull(name="outstream") OutputStream outstream ) {
     try {
-      return new OutputStreamWriter( outstream, encoding );
+      return new BufferedWriter( new OutputStreamWriter( outstream, encoding ) );
     } catch( UnsupportedEncodingException ex ) {
       // won't happen as we only support guarantueed encodings
       return null;
