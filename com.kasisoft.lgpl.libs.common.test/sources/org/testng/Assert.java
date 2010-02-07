@@ -694,8 +694,8 @@ public class Assert {
     for(int i= 0; i < expected.length; i++) {
       if(expected[i] != actual[i]) {
         fail("arrays differ firstly at element [" + i +"]; "
-            + "expected value is <" + expected[i] + "[" + (int) expected[i] + "]> but was <"
-            + actual[i] + "[" + (int) actual[i] + "]>. "
+            + "expected value is <" + expected[i] + "[" + (short) expected[i] + "]> but was <"
+            + actual[i] + "[" + (short) actual[i] + "]>. "
             + message);
       }
     }
