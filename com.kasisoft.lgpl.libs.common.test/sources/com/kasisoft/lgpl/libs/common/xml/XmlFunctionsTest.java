@@ -20,6 +20,10 @@ import org.testng.*;
 
 import org.w3c.dom.*;
 
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
+
 import java.io.*;
 
 /**
@@ -29,6 +33,7 @@ import java.io.*;
 public class XmlFunctionsTest {
   
   private File   simplexml;
+  private File   simplexsl;
   private File   testfile;
   private File   tempfile;
   
@@ -36,6 +41,7 @@ public class XmlFunctionsTest {
   public void setup() {
     File testdata = new File( "testdata" );
     simplexml     = new File( testdata, "simple.xml" );
+    simplexsl     = new File( testdata, "simple.xsl" );
     testfile      = new File( testdata, "testfile.gz" );
     tempfile      = IoFunctions.newTempFile( "xmlfunctions", ".xml" );
   }
@@ -77,4 +83,20 @@ public class XmlFunctionsTest {
     Assert.assertEquals( decoded, "<Bla\nBlub\r\n>" );
   }
 
+  @Test(dependsOnMethods="readDocument")
+  public void newTransformer() throws TransformerException {
+    
+    Transformer           transformer = XmlFunctions.newTransformer( simplexsl );
+    Assert.assertNotNull( transformer );
+    
+    Document              document    = XmlFunctions.readDocument( simplexml, true, true );
+    ByteArrayOutputStream byteout     = new ByteArrayOutputStream();
+    StreamResult          streamres   = new StreamResult( byteout );
+    transformer.transform( new DOMSource( document ), streamres );
+    
+    String                str         = Encoding.ISO88591.decode( byteout.toByteArray() );
+    Assert.assertEquals( str, "Blöde Schuhe" );
+    
+  }
+  
 } /* ENDCLASS */

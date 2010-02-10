@@ -266,4 +266,29 @@ public final class XmlFunctions {
     }
   }
   
+  /**
+   * Sets up a new transformer from the supplied stylesheet file. This transformer can be useed to
+   * convert xml documents in various outcomes.
+   * 
+   * @param xsl   The xslt stylesheet. Not <code>null</code> and must be a file.
+   * 
+   * @return The transformer if the stylesheet could be loaded properly. Not <code>null</code>.
+   * 
+   * @throws FailureException if loading the stylesheet failed for some reason.
+   */
+  public static final Transformer newTransformer( @KFile(name="xsl") File xsl ) throws FailureException {
+    TransformerFactory  factory   = TransformerFactory.newInstance();
+    InputStream         instream  = null;
+    try {
+      instream = new FileInputStream( xsl );
+      return factory.newTransformer( new StreamSource( instream ) );
+    } catch( IOException ex ) {
+      throw new FailureException( FailureCode.IO, ex );
+    } catch( TransformerConfigurationException ex ) {
+      throw new FailureException( FailureCode.XmlFailure, ex );
+    } finally {
+      IoFunctions.close( instream );
+    }
+  }
+
 } /* ENDCLASS */
