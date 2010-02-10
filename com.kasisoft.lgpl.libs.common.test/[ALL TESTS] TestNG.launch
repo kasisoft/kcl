@@ -6,20 +6,26 @@
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.Iso3166Test" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.io.EnhancedFileFilterTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.EncodingTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.StringFBufferTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.TransformTest" value=""/>
-<mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.FileDeleteRunnableTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.MonthTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.FileDeleteRunnableTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.TimeUnitTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.net.NetFunctionsTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.ArrayFunctionsTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.CharCopierRunnableTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.ZipAndUnzipRunnableTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.NullableComparatorTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.sys.SystemProcessTest" value=""/>
-<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.PrimitiveTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.ByteCopierRunnableTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.PrimitiveTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.util.TupelTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.ZipTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.CommonPropertyTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.io.BasicFileFilterTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.ExtArrayListTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.framework.Utilities" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.xml.XmlFunctionsTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.PredefinedTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.thread.FileListRunnableTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.io.IoFunctionsTest" value=""/>
@@ -27,8 +33,8 @@
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.FilterTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.util.StringFunctionsTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.functionality.ReduceTest" value=""/>
-<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.BuffersTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.sys.SystemInfoTest" value=""/>
+<mapEntry key="com.kasisoft.lgpl.libs.common.test.util.BuffersTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.constants.SystemPropertyTest" value=""/>
 <mapEntry key="com.kasisoft.lgpl.libs.common.test.util.MiscFunctionsTest" value=""/>
 </mapAttribute>
@@ -43,12 +49,16 @@
 <listEntry value="com.kasisoft.lgpl.libs.common.test.constants.Iso3166Test"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.io.EnhancedFileFilterTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.constants.EncodingTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.StringFBufferTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.TransformTest"/>
-<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.MonthTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.thread.FileDeleteRunnableTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.constants.MonthTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.constants.TimeUnitTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.net.NetFunctionsTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.ArrayFunctionsTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.thread.CharCopierRunnableTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.thread.ZipAndUnzipRunnableTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.NullableComparatorTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.sys.SystemProcessTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.thread.ByteCopierRunnableTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.constants.PrimitiveTest"/>
@@ -56,7 +66,9 @@
 <listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.ZipTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.constants.CommonPropertyTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.io.BasicFileFilterTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.util.ExtArrayListTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.framework.Utilities"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.xml.XmlFunctionsTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.PredefinedTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.thread.FileListRunnableTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.io.IoFunctionsTest"/>
@@ -64,8 +76,8 @@
 <listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.FilterTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.util.StringFunctionsTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.functionality.ReduceTest"/>
-<listEntry value="com.kasisoft.lgpl.libs.common.test.sys.SystemInfoTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.util.BuffersTest"/>
+<listEntry value="com.kasisoft.lgpl.libs.common.test.sys.SystemInfoTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.constants.SystemPropertyTest"/>
 <listEntry value="com.kasisoft.lgpl.libs.common.test.util.MiscFunctionsTest"/>
 </listAttribute>
