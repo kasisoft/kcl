@@ -406,4 +406,32 @@ public class StringFunctions {
     return false;
   }
 
+  /**
+   * Creates a concatenation of the supplied Strings. This function allows elements to be 
+   * <code>null</code> which means that they're just be ignored.
+   * 
+   * @param delimiter   A delimiter which might be used. Maybe <code>null</code>.
+   * @param args        The list of Strings that has to be concatenated. Maybe <code>null</code>.
+   * 
+   * @return   The concatenated String. Not <code>null</code>.
+   */
+  public static final String concatenate( String delimiter, String ... args ) {
+    if( args == null ) {
+      return "";
+    }
+    if( delimiter == null ) {
+      delimiter = "";
+    }
+    StringBuffer buffer = new StringBuffer();
+    for( int i = 0; i < args.length; i++ ) {
+      if( (args[i] != null) && (args[i].length() > 0) ) {
+        if( buffer.length() > 0 ) {
+          buffer.append( delimiter );
+        }
+        buffer.append( args[i] );
+      }
+    }
+    return buffer.toString();
+  }
+
 } /* ENDCLASS */

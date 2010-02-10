@@ -197,4 +197,25 @@ public class StringFunctionsTest {
 
   }
 
+  @Test
+  public void concatenate() {
+
+    // without delimiter
+    Assert.assertEquals( StringFunctions.concatenate( null ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( null, "A" ), "A" );
+    Assert.assertEquals( StringFunctions.concatenate( null, "A", "B" ), "AB" );
+    Assert.assertEquals( StringFunctions.concatenate( null, "A", "B", "C" ), "ABC" );
+    Assert.assertEquals( StringFunctions.concatenate( null, "A", null, "C" ), "AC" );
+    Assert.assertEquals( StringFunctions.concatenate( null, "A", "", "C" ), "AC" );
+
+    // with delimiter
+    Assert.assertEquals( StringFunctions.concatenate( "#" ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", "A" ), "A" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", "A", "B" ), "A#B" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", "A", "B", "C" ), "A#B#C" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", "A", null, "C" ), "A#C" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", "A", "", "C" ), "A#C" );
+
+  }
+  
 } /* ENDCLASS */
