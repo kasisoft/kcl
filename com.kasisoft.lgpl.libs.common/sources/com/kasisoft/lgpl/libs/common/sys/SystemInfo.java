@@ -115,6 +115,54 @@ public enum SystemInfo {
   }
 
   /**
+   * Returns <code>true</code> if the supplied candidate begins with a specific literal. This function
+   * is intended to be used for filesystem resources.
+   * 
+   * @param candidate   The candidated that has to be tested. Neither <code>null</code> nor empty.
+   * @param suffix      The potential begin. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied candidate begins with the specified literal.
+   */
+  public boolean startsWith( 
+    @KNotEmpty(name="candidate")   StringBuffer   candidate, 
+    @KNotEmpty(name="suffix")      String         suffix 
+  ) {
+    if( candidate.length() < suffix.length() ) {
+      return false;
+    }
+    String suffixcandidate = candidate.substring( 0, suffix.length() );
+    if( casesensitive ) {
+      return suffixcandidate.equals( suffix );
+    } else {
+      return suffixcandidate.equalsIgnoreCase( suffix );
+    }
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied candidate ends with a specific literal. This function
+   * is intended to be used for filesystem resources.
+   * 
+   * @param candidate   The candidated that has to be tested. Neither <code>null</code> nor empty.
+   * @param suffix      The potential ending. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied candidate ends with the specified literal.
+   */
+  public boolean endsWith( 
+    @KNotEmpty(name="candidate")   StringBuffer   candidate, 
+    @KNotEmpty(name="suffix")      String         suffix 
+  ) {
+    if( candidate.length() < suffix.length() ) {
+      return false;
+    }
+    String suffixcandidate = candidate.substring( candidate.length() - suffix.length() );
+    if( casesensitive ) {
+      return suffixcandidate.equals( suffix );
+    } else {
+      return suffixcandidate.equalsIgnoreCase( suffix );
+    }
+  }
+
+  /**
    * Returns <code>true</code> if this operating system is currently active.
    * 
    * @return   <code>true</code> <=> This operating system is currently active.
