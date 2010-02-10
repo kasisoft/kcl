@@ -163,6 +163,17 @@ public enum SystemProperty {
   }
   
   /**
+   * {@inheritDoc}
+   */
+  public String toString() {
+    String result = getValue();
+    if( result == null ) {
+      result = String.format( "%s()", name() );
+    }
+    return result;
+  }
+  
+  /**
    * Returns the enumeration value associated with the supplied short key.
    * 
    * @param key   The short key used to refer to a system property.  
