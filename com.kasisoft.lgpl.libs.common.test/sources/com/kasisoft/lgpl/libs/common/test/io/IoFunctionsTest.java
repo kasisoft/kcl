@@ -12,6 +12,7 @@ import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import com.kasisoft.lgpl.libs.common.test.constants.*;
 import com.kasisoft.lgpl.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
@@ -376,6 +377,13 @@ public class IoFunctionsTest {
   @Test(dependsOnMethods="zip")
   public void unzip() {
     Assert.assertTrue( IoFunctions.unzip( destfile, unpackeddir, null ) );
+  }
+  
+  @Test
+  public void locateDirectory() throws IOException {
+    File dir      = IoFunctions.locateDirectory( Iso3166Test.class );
+    File current  = new File( "classes" );;
+    Assert.assertEquals( dir, current.getCanonicalFile() );
   }
 
 } /* ENDCLASS */

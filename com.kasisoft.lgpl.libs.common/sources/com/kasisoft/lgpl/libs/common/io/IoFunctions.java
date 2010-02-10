@@ -14,12 +14,16 @@ import com.kasisoft.lgpl.libs.common.thread.*;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 
+import com.kasisoft.lgpl.libs.common.sys.*;
+
 import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.util.zip.*;
 
 import java.util.*;
+
+import java.net.*;
 
 import java.io.*;
 
@@ -1178,6 +1182,93 @@ public class IoFunctions {
     UnzipRunnable runnable = new UnzipRunnable( zipfile, destdir, buffersize );
     runnable.run();
     return runnable.hasCompleted();
+  }
+
+  /**
+   * Calculates the class directory used for the supplied class instance.
+   * 
+   * @param classobj   The class which is used to locate the application directory.
+   * 
+   * @return   The location of the application directory or <code>null</code> in case of a failure.
+   */
+  public static final File locateDirectory( Class<?> classobj ) {
+    
+    String        classname = String.format( "/%s.class", classobj.getName().replace('.','/') );
+        
+    // find the location. since it is this class, we can assume that the URL is valid
+    URL           location  = classobj.getResource( classname );
+    
+    StringBuffer  url       = new StringBuffer( location.toExternalForm() );
+    int           idx       = url.indexOf( classname );
+    
+    // remove everything starting with the path above
+    url.delete( idx, url.length() );
+    
+    // remove trailing archive separators
+    while( (url.length() > 0) && ( (url.charAt( url.length() - 1 ) == '!') || (url.charAt( url.length() - 1 ) == '!') ) ) {
+      url.deleteCharAt( url.length() -1 );
+    }
+    
+    // remove a leading jar-prefix 
+    if( (url.indexOf( "jar:" ) == 0) || (url.indexOf( "zip:" ) == 0) ) {
+      url.delete( 0, "jar:".length() );
+    }
+    
+    // remove a leading file-prefix 
+    if( url.indexOf( "file:" ) == 0 ) {
+      url.delete( 0, "file:".length() );
+    }
+    
+    // remove a leading double slash
+    if( url.indexOf( "//" ) == 0 ) {
+      url.delete( 0, "//".length() );
+    }
+    
+    SystemInfo sysinfo = SystemInfo.getRunningOS();
+    
+    // remove the root slash which only stays on windows like systems
+    if( sysinfo.isWindowsLike() ) {
+      if( url.charAt(0) == '/' ) {
+        url.deleteCharAt(0);
+      }
+    }
+    
+    // strip a '.jar' or '.zip' suffix in case the application is located within an archive
+    if( 
+      sysinfo.endsWith( url, ".jar" ) ||
+      sysinfo.endsWith( url, ".ear" ) ||
+      sysinfo.endsWith( url, ".war" ) ||
+      sysinfo.endsWith( url, ".zip" )
+    ) {
+      int lidx = url.lastIndexOf( "/" );
+      if( lidx == -1 ) {
+        // wow, top level directory on windows which means the drive
+        if( sysinfo.isWindowsLike() ) {
+          lidx = url.lastIndexOf( ":" );
+          url.delete( lidx + 1, url.length() );
+        } else {
+          // totally unexpected
+          return null;
+        }
+      } else {
+        url.delete( lidx, url.length() );
+      }
+    }
+    
+    // just make sure we're having a directory
+    File result = new File( url.toString() );
+    if( result.isDirectory() ) {
+      try {
+        result = result.getCanonicalFile();
+      } catch( IOException ex ) {
+        result = null;
+      }
+    } else {
+      result = null;
+    }
+    
+    return result;
+    
   }
 
 } /* ENDCLASS */
