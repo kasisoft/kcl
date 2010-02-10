@@ -75,6 +75,46 @@ public enum SystemInfo {
   }
 
   /**
+   * Returns <code>true</code> if the supplied candidate ends with a specific literal. This function
+   * is intended to be used for filesystem resources.
+   * 
+   * @param candidate   The candidated that has to be tested. Neither <code>null</code> nor empty.
+   * @param suffix      The potential ending. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied candidate ends with the specified literal.
+   */
+  public boolean endsWith( 
+    @KNotEmpty(name="candidate")   String   candidate, 
+    @KNotEmpty(name="suffix")      String   suffix 
+  ) {
+    if( casesensitive ) {
+      return candidate.endsWith( suffix );
+    } else {
+      return candidate.toLowerCase().endsWith( suffix.toLowerCase() );
+    }
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied candidate begins with a specific literal. This function
+   * is intended to be used for filesystem resources.
+   * 
+   * @param candidate   The candidated that has to be tested. Neither <code>null</code> nor empty.
+   * @param suffix      The potential begin. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied candidate begins with the specified literal.
+   */
+  public boolean startsWith( 
+    @KNotEmpty(name="candidate")   String   candidate, 
+    @KNotEmpty(name="suffix")      String   suffix 
+  ) {
+    if( casesensitive ) {
+      return candidate.startsWith( suffix );
+    } else {
+      return candidate.toLowerCase().startsWith( suffix.toLowerCase() );
+    }
+  }
+
+  /**
    * Returns <code>true</code> if this operating system is currently active.
    * 
    * @return   <code>true</code> <=> This operating system is currently active.
