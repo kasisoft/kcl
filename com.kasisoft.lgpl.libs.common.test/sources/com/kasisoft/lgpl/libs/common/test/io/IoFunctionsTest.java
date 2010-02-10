@@ -359,10 +359,10 @@ public class IoFunctionsTest {
     };
     
     List<File> list1  = IoFunctions.listRecursive( testdata, filter );
-    Assert.assertEquals( list1.size(), 14 );
+    Assert.assertEquals( list1.size(), 15 );
 
     List<File> list2  = IoFunctions.listRecursive( testdata, filter, true, false );
-    Assert.assertEquals( list2.size(), 8 );
+    Assert.assertEquals( list2.size(), 9 );
 
     List<File> list3  = IoFunctions.listRecursive( testdata, filter, false, true );
     Assert.assertEquals( list3.size(), 6 );
