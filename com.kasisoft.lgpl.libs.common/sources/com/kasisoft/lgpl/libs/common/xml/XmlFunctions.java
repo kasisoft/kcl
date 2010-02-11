@@ -225,7 +225,8 @@ public final class XmlFunctions {
       Transformer transformer = factory.newTransformer();
       transformer.setOutputProperty( OutputKeys.INDENT               , "yes" );
       transformer.setOutputProperty( OutputKeys.ENCODING             , encoding.getEncoding() );
-      // I really do not understand why the encoding property doesn't influence the processing instruction as well
+      // a transformer can generate output in different formats, so it doesn't know
+      // about the target format which means that we have to alter the pi by our own
       transformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION , "yes" );
       String xmldecl = String.format( "<?xml version=\"1.0\" encoding=\"%s\"?>%s", encoding.getEncoding(), SystemProperty.LineSeparator );
       output.write( encoding.encode( xmldecl ) );
