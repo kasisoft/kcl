@@ -20,10 +20,13 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
+
+import javax.xml.transform.dom.*;
+
+import javax.xml.transform.*;
+
+import javax.xml.parsers.*;
 
 import java.util.*;
 
@@ -149,16 +152,20 @@ public final class XmlFunctions {
                               boolean          xincludes 
   ) throws FailureException {
     try {
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      DocumentBuilderFactory factory    = DocumentBuilderFactory.newInstance();
       factory . setNamespaceAware ( xmlnamespaces );
       factory . setValidating     ( validate      );
       factory . setXIncludeAware  ( xincludes     );
-      DocumentBuilder docbuilder = factory.newDocumentBuilder();
+      DocumentBuilder        docbuilder = factory.newDocumentBuilder();
+      SimpleErrorHandler     newhandler = null;
       if( resolver != null ) {
         docbuilder.setEntityResolver( resolver );
       }
       if( handler != null ) {
         docbuilder.setErrorHandler( handler );
+      } else {
+        newhandler  = new SimpleErrorHandler();
+        docbuilder.setErrorHandler( newhandler );
       }
       Document document = null;
       if( baseurl != null ) {
@@ -166,12 +173,18 @@ public final class XmlFunctions {
       } else {
         document = docbuilder.parse( input );
       }
+      if( (newhandler != null) && newhandler.hasErrors() ) {
+        throw new FailureException( FailureCode.XmlFailure, newhandler.getFaultMessage() ); 
+      }
       return document;
     } catch( ParserConfigurationException ex ) {
       throw new FailureException( FailureCode.XmlFailure, ex );
-    } catch( SAXException                 ex ) {
+    } catch( SAXParseException             ex ) {
+      XmlFault fault = new XmlFault( false, ex );
+      throw new FailureException( FailureCode.XmlFailure, fault.getFaultMessage() );
+    } catch( SAXException                  ex ) {
       throw new FailureException( FailureCode.XmlFailure, ex );
-    } catch( IOException                  ex ) {
+    } catch( IOException                   ex ) {
       throw new FailureException( FailureCode.IO, ex );
     }
   }
@@ -290,6 +303,10 @@ public final class XmlFunctions {
     } finally {
       IoFunctions.close( instream );
     }
+  }
+  
+  public static final void main( String[] args ) throws Exception {
+    XmlFunctions.readDocument( new File( "simple.xml" ), true, true );
   }
 
 } /* ENDCLASS */
