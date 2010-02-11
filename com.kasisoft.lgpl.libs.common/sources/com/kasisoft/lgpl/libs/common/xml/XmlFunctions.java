@@ -305,8 +305,4 @@ public final class XmlFunctions {
     }
   }
   
-  public static final void main( String[] args ) throws Exception {
-    XmlFunctions.readDocument( new File( "simple.xml" ), true, true );
-  }
-
 } /* ENDCLASS */
