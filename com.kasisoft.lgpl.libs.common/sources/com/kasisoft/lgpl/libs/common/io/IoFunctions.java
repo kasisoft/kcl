@@ -549,6 +549,34 @@ public class IoFunctions {
   }
 
   /**
+   * Reads the binary content of an URL.
+   * 
+   * @param url          The resource providing the content. Not <code>null</code>.
+   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use
+   *                     the default size.
+   *                       
+   * @return   The binary content. Not <code>null</code>.
+   *
+   * @throws FailureException whenever the reading process fails for some reason.
+   */
+  public static final byte[] loadBytes( 
+    @KNotNull(name="url")   URL       url, 
+                            Integer   buffersize 
+  ) {
+    InputStream           input   = null;
+    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
+    try {
+      input = url.openStream();
+      copy( input, byteout, buffersize );
+    } catch( IOException ex ) {
+      throw new FailureException( FailureCode.IO, ex );
+    } finally {
+      close( true, input );
+    }
+    return byteout.toByteArray();
+  }
+
+  /**
    * Reads the character content of a File.
    * 
    * @param file         The File providing the content. Not <code>null</code>.
