@@ -14,34 +14,37 @@ package com.kasisoft.lgpl.libs.common.constants;
 public enum FailureCode {
 
   /** everythings okay. */
-  Success                                             (  0 ),
+  Success                                             (   0 ),
   
   /** an unknown failure has been launched. */
-  Unknown                                             ( -1 ),
+  Unknown                                             (  -1 ),
   
   /** closing a resource failed. */
-  Close                                               ( -2 ),
+  Close                                               (  -2 ),
   
   /** reading or writing failed. */
-  IO                                                  ( -3 ),
+  IO                                                  (  -3 ),
   
   /** skipping within a resource failed. */
-  Skip                                                ( -4 ),
+  Skip                                                (  -4 ),
   
   /** the encoding that has been used is not supported. */
-  InvalidEncoding                                     ( -5 ),
+  InvalidEncoding                                     (  -5 ),
 
   /** a timeout has been recognized. */
-  Timeout                                             ( -6 ),
+  Timeout                                             (  -6 ),
 
   /** a listener implementation caused a failure. */
-  ListenerFailure                                     ( -7 ),
+  ListenerFailure                                     (  -7 ),
   
   /** a reflections based functionality failed. */
-  Reflections                                         ( -8 ),
+  Reflections                                         (  -8 ),
   
   /** indicates a xml related failure. */
-  XmlFailure                                          ( -9 );
+  XmlFailure                                          (  -9 ),
+  
+  /** a requested resource could not be found. */
+  MissingResource                                     ( -10 );
 
   private int   code;
   
