@@ -53,7 +53,7 @@ public class XmlFunctionsTest {
   
   @Test
   public void readDocument() {
-    Document document = XmlFunctions.readDocument( simplexml, true, true );
+    Document document = XmlFunctions.readDocument( simplexml, false, true );
     Assert.assertNotNull( document );
     Assert.assertNotNull( document.getDocumentElement() );
     Assert.assertEquals( document.getDocumentElement().getTagName(), "bookstore" );
@@ -61,10 +61,10 @@ public class XmlFunctionsTest {
 
   @Test(dependsOnMethods="readDocument")
   public void writeDocument() {
-    Document document = XmlFunctions.readDocument( simplexml, true, true );
+    Document document = XmlFunctions.readDocument( simplexml, false, true );
     XmlFunctions.writeDocument( tempfile, document, Encoding.ISO88591 );
     Assert.assertTrue( tempfile.isFile() );
-    Document reloaded = XmlFunctions.readDocument( tempfile, true, true );
+    Document reloaded = XmlFunctions.readDocument( tempfile, false, true );
     Assert.assertNotNull( reloaded );
     Assert.assertNotNull( reloaded.getDocumentElement() );
     Assert.assertEquals( reloaded.getDocumentElement().getTagName(), "bookstore" );
@@ -89,7 +89,7 @@ public class XmlFunctionsTest {
     Transformer           transformer = XmlFunctions.newTransformer( simplexsl );
     Assert.assertNotNull( transformer );
     
-    Document              document    = XmlFunctions.readDocument( simplexml, true, true );
+    Document              document    = XmlFunctions.readDocument( simplexml, false, true );
     ByteArrayOutputStream byteout     = new ByteArrayOutputStream();
     StreamResult          streamres   = new StreamResult( byteout );
     transformer.transform( new DOMSource( document ), streamres );
