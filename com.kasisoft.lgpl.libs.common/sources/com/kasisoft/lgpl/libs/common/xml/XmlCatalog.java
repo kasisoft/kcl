@@ -50,37 +50,12 @@ public class XmlCatalog {
   }
 
   /**
-   * Unregisters the resource associated with the supplied public id.
-   * 
-   * @param id   The public id used to remove a registered resource. Neither <code>null</code> nor empty.
-   */
-  public synchronized void unregisterPublicID( @KNotEmpty(name="id") String id ) {
-    if( catalogrefs.containsKey( id ) ) {
-      catalogrefs.remove( id );
-      catalogdata.remove( id ); // may not be available yet
-    }
-  }
-  
-  /**
    * Registers a system resource with this catalog.
    * 
-   * @param resource   The resource which has to be registered. Not <code>null</code>.
+   * @param systemid   The resource which has to be registered. Not <code>null</code>.
    */
-  public synchronized void registerSystemResource( @KNotNull(name="resource") URL resource ) {
-    catalogrefs.put( resource.toExternalForm(), resource );
-  }
-  
-  /**
-   * Unregisters the supplied system resource.
-   * 
-   * @param resource   The resource that has to be unregistered. Not <code>null</code>.
-   */
-  public synchronized void unregisterSystemResource( @KNotNull(name="resource") URL resource ) {
-    String key = resource.toExternalForm();
-    if( catalogrefs.containsKey( key ) ) {
-      catalogrefs.remove( key );
-      catalogdata.remove( key ); // may not be available yet
-    }
+  public synchronized void registerSystemID( @KNotNull(name="systemid") URL systemid ) {
+    catalogrefs.put( systemid.toExternalForm(), systemid );
   }
   
   /**
