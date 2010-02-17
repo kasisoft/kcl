@@ -28,6 +28,7 @@ public enum MimeType {
   MicrosoftWord               ( "application/msword"            , "doc", "dot"                        ),  // Microsoft Word
   OctetStream                 ( "application/octet-stream"      , "bin", "exe", "com", "dll", "class" ),  // Executable
   AdobePdf                    ( "application/pdf"               , "pdf"                               ),  // Adobe PDF
+  EncapsulatedPostscript      ( "application/eps"               , "eps"                               ),  // Encapsulated Postscript
   Postscript                  ( "application/postscript"        , "ai", "eps", "ps"                   ),  // Adobe Postscript
   XhtmlXml                    ( "application/xhtml+xml"         , "htm", "html", "shtml", "xhtml"     ),  // XHTML
   ZLib                        ( "application/x-compress"        , "z"                                 ),  // ZLib compressed files 
@@ -39,11 +40,13 @@ public enum MimeType {
   TeX                         ( "application/x-tex"             , "tex"                               ),  // TeX
   Zip                         ( "application/zip"               , "zip"                               ),  // ZIP archives
   Wave                        ( "audio/x-wav"                   , "wav"                               ),  // WAV-Files
+  Bitmap                      ( "image/bmp"                     , "bmp"                               ),  // BMP-Files
   Gif                         ( "image/gif"                     , "gif"                               ),  // GIF-Files
   Jpeg                        ( "image/jpeg"                    , "jpeg", "jpg", "jpe"                ),  // JPEG-Files
   Png                         ( "image/png"                     , "png"                               ),  // PNG-Files
   Tiff                        ( "image/tiff"                    , "tiff", "tif"                       ),  // TIFF-Files
   Icon                        ( "image/x-icon"                  , "ico"                               ),  // Icon-Files
+  Svg                         ( "image/svg+xml"                 , "svg"                               ),  // Scalable vector graphics
   CommaSeparatedValues        ( "text/comma-separated-values"   , "csv"                               ),  // comma separated values
   CascadingStylesheet         ( "text/css"                      , "css"                               ),  // cascading stylesheets
   Html                        ( "text/html"                     , "htm", "html", "shtml"              ),  // HTML files
