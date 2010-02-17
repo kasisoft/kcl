@@ -38,7 +38,7 @@ public class BasicFileFilterTest {
   @DataProvider(name="listingData")
   public Object[][] listingData() {
     return new Object[][] {
-      { "."             , Utilities.toList( "./.svn", "./bin", "./dir01", "./dir02", "./testfile.txt" ) },
+      { "."             , Utilities.toList( "./.svn", "./bin", "./dir01", "./dir02", "./images", "./testfile.txt" ) },
       { "dir01"         , Utilities.toList( "dir01/.svn", "dir01/dir03", "dir01/file04.txt" ) },
       { "dir01/dir03"   , Utilities.toList( "dir01/dir03/.svn", "dir01/dir03/dir04", "dir01/dir03/file01.txt" ) }
     };
