@@ -982,6 +982,29 @@ public class IoFunctions {
   }
 
   /**
+   * Writes the list of text lines to the supplied Writer.
+   *  
+   * @param writer   The Writer receiving the text content. Not <code>null</code>.
+   * @param lines    The text lines that have to be dumped. Not <code>null</code>.
+   * 
+   * @throws FailureException if writing the text failed for some reason.
+   */
+  public static final void writeText( 
+    @KNotNull(name="writer")   Writer         writer, 
+    @KNotNull(name="lines")    List<String>   lines 
+  ) {
+    PrintWriter printer = null;
+    try {
+      printer = new PrintWriter( writer );
+      for( int i = 0; i < lines.size(); i++ ) {
+        printer.println( lines.get(i) );
+      }
+    } finally {
+      close( printer );
+    }
+  }
+
+  /**
    * Writes the list of text lines to the supplied File.
    *  
    * @param file       The File receiving the text content.
