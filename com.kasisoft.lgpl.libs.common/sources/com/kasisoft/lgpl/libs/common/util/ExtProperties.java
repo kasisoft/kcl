@@ -129,6 +129,7 @@ public class ExtProperties {
    * @param del   The delimiter to be used for the key value pairs.
    */
   public ExtProperties( @KNotEmpty(name="del") String del ) {
+    lines         = new ArrayList<String>();
     delimiter     = del;
     commentintro  = "#";
     emptyisnull   = false;
@@ -137,6 +138,24 @@ public class ExtProperties {
     associated    = new Hashtable<String,Map<String,String>>();
     simple        = new HashMap<String,String>();
     keystyle      = KeyStyle.ArrayBraces;
+  }
+  
+  /**
+   * Changes the KeyStyle to be used for the properties.
+   * 
+   * @param newkeystyle   The new KeyStyle to be used. Not <code>null</code>.
+   */
+  public void setKeyStyle( @KNotNull(name="newkeystyle") KeyStyle newkeystyle ) {
+    keystyle = newkeystyle;
+  }
+  
+  /**
+   * Returns the KeyStyle currently used.
+   * 
+   * @return   The KeyStyle currently used. Not <code>null</code>.
+   */
+  public KeyStyle getKeyStyle() {
+    return keystyle;
   }
   
   /**
