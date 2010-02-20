@@ -41,7 +41,7 @@ public class ExtProperties {
    */
   public static enum KeyStyle {
     
-    Braces      ( "^\\s*[\\w\\.]+\\s*(\\s*[\\w\\.]+\\s*)\\s*$"      , "[\\s()]+"     , "%s(%s)%s%s" ) ,
+    Braces      ( "^\\s*[\\w\\.]+\\s*\\(\\s*[\\w\\.]+\\s*\\)\\s*$"  , "[\\s\\(\\)]+" , "%s(%s)%s%s" ) ,
     ArrayBraces ( "^\\s*[\\w\\.]+\\s*\\[\\s*[\\w\\.]+\\s*\\]\\s*$"  , "[\\s\\[\\]]+" , "%s[%s]%s%s" ) ,
     CurlyBraces ( "^\\s*[\\w\\.]+\\s*\\{\\s*[\\w\\.]+\\s*\\}\\s*$"  , "[\\s\\{\\}]+" , "%s{%s}%s%s" ) ;
     
