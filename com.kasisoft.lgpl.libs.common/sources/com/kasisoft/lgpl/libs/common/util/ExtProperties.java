@@ -145,7 +145,7 @@ public class ExtProperties {
    * 
    * @param newkeystyle   The new KeyStyle to be used. Not <code>null</code>.
    */
-  public void setKeyStyle( @KNotNull(name="newkeystyle") KeyStyle newkeystyle ) {
+  public synchronized void setKeyStyle( @KNotNull(name="newkeystyle") KeyStyle newkeystyle ) {
     keystyle = newkeystyle;
   }
   
@@ -154,7 +154,7 @@ public class ExtProperties {
    * 
    * @return   The KeyStyle currently used. Not <code>null</code>.
    */
-  public KeyStyle getKeyStyle() {
+  public synchronized KeyStyle getKeyStyle() {
     return keystyle;
   }
   
@@ -163,7 +163,7 @@ public class ExtProperties {
    * 
    * @param enable   <code>true</code> <=> Enable this treatment.
    */
-  public void setEmptyIsNull( boolean enable ) {
+  public synchronized void setEmptyIsNull( boolean enable ) {
     emptyisnull = enable;
   }
   
@@ -172,7 +172,7 @@ public class ExtProperties {
    * 
    * @return   <code>true</code> <=> Empty values shall be treated as <code>null</code> values.
    */
-  public boolean isEmptyNull() {
+  public synchronized boolean isEmptyNull() {
     return emptyisnull;
   }
 
@@ -181,7 +181,7 @@ public class ExtProperties {
    * 
    * @param del   The new delimiter for the key-value pairs. Neither <code>null</code> nor empty.
    */
-  public void setDelimiter( @KNotEmpty(name="del") String del ) {
+  public synchronized void setDelimiter( @KNotEmpty(name="del") String del ) {
     delimiter = del;
   }
 
@@ -190,7 +190,7 @@ public class ExtProperties {
    * 
    * @return   The current delimiter for the key-value pairs. Neither <code>null</code> nor empty.
    */
-  public String getDelimiter() {
+  public synchronized String getDelimiter() {
     return delimiter;
   }
   
@@ -199,7 +199,7 @@ public class ExtProperties {
    * 
    * @param intro   The new literal that introduces a comment on a line. Neither <code>null</code> nor empty.
    */
-  public void setCommentIntro( @KNotEmpty(name="intro") String intro ) {
+  public synchronized void setCommentIntro( @KNotEmpty(name="intro") String intro ) {
     commentintro = intro;
   }
   
@@ -208,7 +208,7 @@ public class ExtProperties {
    * 
    * @return   The literal that introduces a comment on a line. Neither <code>null</code> nor empty.
    */
-  public String getCommentIntro() {
+  public synchronized String getCommentIntro() {
     return commentintro;
   }
   
@@ -228,13 +228,11 @@ public class ExtProperties {
    * 
    * @param input      The source where to load the properties from. Not <code>null</code>.
    * @param encoding   The encoding to use. Neither <code>null</code> nor empty.
-   * 
-   * @throws IOException   Either the loading process failed or the encoding information was wrong.
    */
   public synchronized void load( 
     @KFile(name="input")         File       input, 
     @KNotNull(name="encoding")   Encoding   encoding 
-  ) throws IOException {
+  ) {
     lines = IoFunctions.readText( input, encoding );
     processProperties();
   }
@@ -244,13 +242,11 @@ public class ExtProperties {
    * 
    * @param input      The source where to load the properties from. Not <code>null</code>.
    * @param encoding   The encoding to use. Neither <code>null</code> nor empty.
-   * 
-   * @throws IOException   Either the loading process failed or the encoding information was wrong.
    */
   public synchronized void load( 
     @KNotNull(name="input")      InputStream   input, 
     @KNotNull(name="encoding")   Encoding      encoding 
-  ) throws IOException {
+  ) {
     lines = IoFunctions.readText( encoding.openReader( input ) );
     processProperties();
   }
@@ -259,12 +255,8 @@ public class ExtProperties {
    * Loas the current properties from a Reader.
    * 
    * @param input   The Reader where to load the properties from. Not <code>null</code>.
-   * 
-   * @throws IOException   Either the saving process failed or the encoding information was wrong.
    */
-  public synchronized void load( 
-    @KNotNull(name="input")   Reader   input 
-  ) throws IOException {
+  public synchronized void load( @KNotNull(name="input") Reader input ) {
     lines = IoFunctions.readText( input );
     processProperties();
   }
@@ -330,7 +322,7 @@ public class ExtProperties {
    * {@link #setIndexedProperty(String, int, String)}, {@link #setAssociatedProperty(String, String, String)}
    * or {@link #setSimpleProperty(String, String)} directly since they are cheaper.
    */
-  public void setProperty( 
+  public synchronized void setProperty( 
     @KNotEmpty(name="key")   String   key, 
                              String   value 
   ) {
@@ -364,7 +356,7 @@ public class ExtProperties {
    * @param index    The index to be used.
    * @param value    The value to be set. Maybe <code>null</code>.
    */
-  public void setIndexedProperty( 
+  public synchronized void setIndexedProperty( 
     @KNotEmpty(name="key")   String   key, 
                              int      index, 
                              String   value 
@@ -385,7 +377,7 @@ public class ExtProperties {
    * @param association   The association for this property.
    * @param value         The value to be set. Maybe <code>null</code>.
    */
-  public void setAssociatedProperty( 
+  public synchronized void setAssociatedProperty( 
     @KNotEmpty(name="key")   String   key, 
                              String   association, 
                              String   value 
@@ -405,7 +397,7 @@ public class ExtProperties {
    * @param key     The property key itself. Neither <code>null</code> nor empty.
    * @param value   The value to be set. Maybe <code>null</code>.
    */
-  public void setSimpleProperty( 
+  public synchronized void setSimpleProperty( 
     @KNotEmpty(name="key")   String   key, 
                              String   value 
   ) {
@@ -420,7 +412,7 @@ public class ExtProperties {
    * 
    * @return   <code>true</code> <=> The supplied key refers to an indexed property.
    */
-  public boolean isIndexedProperty( @KNotEmpty(name="key") String key ) {
+  public synchronized boolean isIndexedProperty( @KNotEmpty(name="key") String key ) {
     return indexed.containsKey( key );
   }
   
@@ -431,7 +423,7 @@ public class ExtProperties {
    * 
    * @return   <code>true</code> <=> The supplied key refers to an associative property.
    */
-  public boolean isAssociatedProperty( @KNotEmpty(name="key") String key ) {
+  public synchronized boolean isAssociatedProperty( @KNotEmpty(name="key") String key ) {
     return associated.containsKey( key );
   }
   
@@ -442,7 +434,7 @@ public class ExtProperties {
    * 
    * @return   <code>true</code> <=> The supplied key refers to a simple property.
    */
-  public boolean isSimpleProperty( @KNotEmpty(name="key") String key ) {
+  public synchronized boolean isSimpleProperty( @KNotEmpty(name="key") String key ) {
     return simple.containsKey( key );
   }
 
@@ -457,7 +449,7 @@ public class ExtProperties {
    * @return   The list of sorted property values. Maybe <code>null</code> if the property doesn't
    *           exist and no default values have been provided.
    */
-  public List<String> getIndexedProperty( 
+  public synchronized List<String> getIndexedProperty( 
     @KNotEmpty(name="key")   String         key, 
                              List<String>   defvalues 
   ) {
@@ -482,7 +474,7 @@ public class ExtProperties {
    * 
    * @return   The indexed value. Maybe <code>null</code> if the value didn't exist.
    */
-  public String getIndexedProperty( 
+  public synchronized String getIndexedProperty( 
     @KNotEmpty(name="key")   String   key, 
                              int      index 
   ) {
@@ -499,7 +491,7 @@ public class ExtProperties {
    * @return   The indexed value. Maybe <code>null</code> if the value didn't exist and no default
    *           value has been supplied.
    */
-  public String getIndexedProperty( 
+  public synchronized String getIndexedProperty( 
     @KNotEmpty(name="key")   String   key, 
                              int      index, 
                              String   defvalue 
@@ -527,7 +519,7 @@ public class ExtProperties {
    * @return   The map providing the associated values. If it's not the default values you're allowed
    *           to do changes to this map without altering this properties. Maybe <code>null</code>.
    */
-  public Map<String,String> getAssociatedProperty( 
+  public synchronized Map<String,String> getAssociatedProperty( 
     @KNotEmpty(name="key")   String               key, 
                              Map<String,String>   defvalues 
   ) {
@@ -547,7 +539,7 @@ public class ExtProperties {
    * 
    * @return   The value stored using the associated property. Maybe <code>null</code> if none exists.
    */
-  public String getAssociatedProperty( String key, String association ) {
+  public synchronized String getAssociatedProperty( String key, String association ) {
     return getAssociatedProperty( key, association, null );
   }
 
@@ -562,7 +554,7 @@ public class ExtProperties {
    * @return   The value stored using the associated property. Maybe <code>null</code> if none exists
    *           and no default value has been supplied.
    */
-  public String getAssociatedProperty( 
+  public synchronized String getAssociatedProperty( 
     @KNotEmpty(name="key")           String   key, 
     @KNotEmpty(name="association")   String   association, 
                                      String   defvalue 
@@ -587,7 +579,7 @@ public class ExtProperties {
    * 
    * @return   The property value or <code>null</code> in case it didn't exist.
    */
-  public String getSimpleProperty( String key ) {
+  public synchronized String getSimpleProperty( String key ) {
     return getSimpleProperty( key, null );
   }
   
@@ -601,7 +593,7 @@ public class ExtProperties {
    * @return   The property value or <code>null</code> in case it didn't exist and no default value
    *           has been supplied.
    */
-  public String getSimpleProperty( 
+  public synchronized String getSimpleProperty( 
     @KNotEmpty(name="key")   String   key, 
                              String   defvalue 
   ) {
@@ -620,7 +612,7 @@ public class ExtProperties {
    * {@link #getIndexedProperty(String, int)}, {@link #getAssociatedProperty(String, String)}
    * or {@link #getSimpleProperty(String)} directly since they are cheaper.
    */
-  public String getProperty( String key ) {
+  public synchronized String getProperty( String key ) {
     return getProperty( key, null );
   }
   
@@ -631,7 +623,7 @@ public class ExtProperties {
    * {@link #getIndexedProperty(String, int, String)}, {@link #getAssociatedProperty(String, String, String)}
    * or {@link #getSimpleProperty(String, String)} directly since they are cheaper.
    */
-  public String getProperty( String key, String defvalue ) {
+  public synchronized String getProperty( String key, String defvalue ) {
     if( keystyle.matches( key ) ) {
       Tupel<String> pair = new Tupel<String>();
       keystyle.select( key, pair );
@@ -651,7 +643,7 @@ public class ExtProperties {
    * @param output      The stream to receive the property data. Not <code>null</code>.
    * @param encoding    The encoding to be used. Not <code>null</code>.
    */
-  public void store( 
+  public synchronized void store( 
     @KNotNull(name="output")     OutputStream   output, 
     @KNotNull(name="encoding")   Encoding       encoding 
   ) {
@@ -665,7 +657,7 @@ public class ExtProperties {
    * @param file        The file to receive the property data. Not <code>null</code>.
    * @param encoding    The encoding to be used. Not <code>null</code>.
    */
-  public void store( 
+  public synchronized void store( 
     @KNotNull(name="file")       File       file, 
     @KNotNull(name="encoding")   Encoding   encoding 
   ) {
@@ -678,7 +670,7 @@ public class ExtProperties {
    * 
    * @param writer   The writer to receive the property data. Not <code>null</code>.
    */
-  public void store( @KNotNull(name="writer") Writer writer ) {
+  public synchronized void store( @KNotNull(name="writer") Writer writer ) {
     storeLines();
     IoFunctions.writeText( writer, lines );
   }
@@ -830,7 +822,7 @@ public class ExtProperties {
   /**
    * @see Properties#propertyNames()
    */
-  public Enumeration<String> propertyNames() {
+  public synchronized Enumeration<String> propertyNames() {
     return ArrayFunctions.enumeration( names.toArray( new String[ names.size()] ) );
   }
 
@@ -842,7 +834,7 @@ public class ExtProperties {
    * 
    * @param key   The key of the property to be removed. Neither <code>null</code> nor empty.
    */
-  public void removeProperty( @KNotEmpty(name="key") String key ) {
+  public synchronized void removeProperty( @KNotEmpty(name="key") String key ) {
     if( keystyle.matches( key ) ) {
       // we've got an indexed/associated property
       Tupel<String> pair = new Tupel<String>();
@@ -866,7 +858,7 @@ public class ExtProperties {
    * 
    * @param key   The key used to select all indexed properties. Neither <code>null</code> nor empty.
    */
-  public void removeIndexedProperty( @KNotEmpty(name="key") String key ) {
+  public synchronized void removeIndexedProperty( @KNotEmpty(name="key") String key ) {
     if( indexed.containsKey( key ) ) {
       indexed.remove( key );
     }
@@ -879,7 +871,7 @@ public class ExtProperties {
    * @param key     The key used for the indexed properties. Neither <code>null</code> nor empty.
    * @param index   The index used to identify the value which will be removed.
    */
-  public void removeIndexedProperty( 
+  public synchronized void removeIndexedProperty( 
     @KNotEmpty(name="key")   String   key, 
                              int      index 
   ) {
@@ -895,7 +887,7 @@ public class ExtProperties {
    * 
    * @param key   The key used to select all associated properties. Neither <code>null</code> nor empty.
    */
-  public void removeAssociatedProperty( @KNotEmpty(name="key") String key ) {
+  public synchronized void removeAssociatedProperty( @KNotEmpty(name="key") String key ) {
     if( associated.containsKey( key ) ) {
       associated.remove( key );
     }
@@ -908,7 +900,7 @@ public class ExtProperties {
    * @param key           The key used for the associated properties. Neither <code>null</code> nor empty.
    * @param association   The index used to identify the value which will be removed. Neither <code>null</code> nor empty.
    */
-  public void removeAssociatedProperty( 
+  public synchronized void removeAssociatedProperty( 
     @KNotEmpty(name="key")           String   key,
     @KNotEmpty(name="association")   String   association 
   ) {
@@ -924,7 +916,7 @@ public class ExtProperties {
    * 
    * @param key   The key used to identify the property. Neither <code>null</code> nor empty.
    */
-  public void removeSimpleProperty( @KNotEmpty(name="key") String key ) {
+  public synchronized void removeSimpleProperty( @KNotEmpty(name="key") String key ) {
     simple.remove( key );
   }
 
