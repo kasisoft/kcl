@@ -22,6 +22,7 @@ import java.io.*;
 /**
  * Collection of net related helper functions.
  */
+@KDiagnostic
 public class NetFunctions {
 
   /**

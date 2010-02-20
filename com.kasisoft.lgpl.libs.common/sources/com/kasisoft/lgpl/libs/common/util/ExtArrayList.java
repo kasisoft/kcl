@@ -8,12 +8,15 @@
  */
 package com.kasisoft.lgpl.libs.common.util;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 import java.util.*;
 
 /**
  * ArrayList variety which can handle negative indices. So an index of -1 points to the last
  * element. An index of -2 to it's predecessor and so on.
  */
+@KDiagnostic
 public class ExtArrayList<T> extends ArrayList<T> {
 
   /**

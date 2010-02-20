@@ -10,6 +10,8 @@ package com.kasisoft.lgpl.libs.common.xml;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 import org.xml.sax.*;
 
 import java.util.*;
@@ -17,6 +19,7 @@ import java.util.*;
 /**
  * Default implementation of an ErrorHandler.
  */
+@KDiagnostic
 public class SimpleErrorHandler implements ErrorHandler {
 
   private int               errorcount;

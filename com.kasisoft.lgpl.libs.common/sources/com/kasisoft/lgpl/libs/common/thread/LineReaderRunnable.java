@@ -20,6 +20,7 @@ import java.io.*;
 /**
  * A Runnable implementation which is used to load text lines from a Reader.
  */
+@KDiagnostic
 public class LineReaderRunnable extends AbstractRunnable {
 
   private BufferedReader   reader;

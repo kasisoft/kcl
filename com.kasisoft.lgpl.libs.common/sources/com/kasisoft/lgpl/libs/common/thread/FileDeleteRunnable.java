@@ -10,6 +10,8 @@ package com.kasisoft.lgpl.libs.common.thread;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 import java.util.*;
 
 import java.io.*;
@@ -17,6 +19,7 @@ import java.io.*;
 /**
  * A Runnable implementation used to delete a file.
  */
+@KDiagnostic
 public class FileDeleteRunnable extends FileListRunnable {
 
   /**

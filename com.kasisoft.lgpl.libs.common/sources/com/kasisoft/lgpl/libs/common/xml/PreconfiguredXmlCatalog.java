@@ -12,6 +12,7 @@ package com.kasisoft.lgpl.libs.common.xml;
 import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.base.*;
+import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.net.*;
 
@@ -20,6 +21,7 @@ import java.net.*;
  * which should be on the classpath. This catalog doesn't care about missing resources as they're
  * supposed to be made available afterwards.
  */
+@KDiagnostic
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 
   private static final String[] PRECONFIGURED = new String[] {

@@ -22,6 +22,7 @@ import java.io.*;
 /**
  * A Runnable that is used to ZIP a directory.
  */
+@KDiagnostic
 public class ZipRunnable extends AbstractRunnable {
 
   private File      zipfile;

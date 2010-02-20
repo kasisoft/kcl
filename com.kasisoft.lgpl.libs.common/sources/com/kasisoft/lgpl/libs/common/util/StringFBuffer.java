@@ -8,9 +8,12 @@
  */
 package com.kasisoft.lgpl.libs.common.util;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
- * F(ormatting)StringBuffer equivalent which supports formatting.
+ * StringF(ormatting)Buffer equivalent which supports formatting.
  */
+@KDiagnostic
 public class StringFBuffer {
 
   private StringBuffer   origin;

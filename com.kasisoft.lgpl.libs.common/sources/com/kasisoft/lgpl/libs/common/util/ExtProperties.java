@@ -29,6 +29,8 @@ import java.io.*;
  *   <li>The delimiter for key-value pairs have to be supplied at instantiation time. The original
  *   implementation accepts various characters but I personally think that a specified character
  *   should be consistently used within a single file, so I made this a requirement.</li>
+ *   <li>This type doesn't support escaping for unicode characters as loading resources expects to
+ *   provide a corresponding encoding.</li>
  * </ul>
  */
 @KDiagnostic
@@ -264,6 +266,13 @@ public class ExtProperties {
     }
   }
   
+  /**
+   * Identifies the property type of the supplied line.
+   * 
+   * @param line   The line containing a property with it's value. Neither <code>null</code> nor empty.
+   * 
+   * @return   The adjusted line (all whitespace stuff is removed there). Neither <code>null</code> nor empty.
+   */
   private String processProperty( String line ) {
     String  key   = null;
     String  value = null;
@@ -275,19 +284,23 @@ public class ExtProperties {
       value = line.substring( idx + delimiter.length() ).trim();
     }
     if( keystyle.matches( key ) ) {
+      // we've got an indexed/associated property
       Tupel<String> pair = new Tupel<String>();
       keystyle.select( key, pair );
       try {
+        // try with an indexed one
         Integer indexval = Integer.valueOf( pair.getLast() );
         setIndexedProperty( pair.getFirst(), indexval.intValue(), value );
         return keystyle.toLine( pair.getFirst(), indexval, delimiter, value );
       } catch( NumberFormatException ex ) {
+        // indexed fails, so it's an associated property
         setAssociatedProperty( pair.getFirst(), pair.getLast(), value );
         return keystyle.toLine( pair.getFirst(), pair.getLast(), delimiter, value );
       }
     } else {
+      // simpliest property
       setSimpleProperty( key, value );
-      return String.format( "%s%s%s", key, delimiter, value );
+      return String.format( "%s%s%s", key, delimiter, value != null ? value : "" );
     }
   }
 
@@ -298,7 +311,10 @@ public class ExtProperties {
    * {@link #setIndexedProperty(String, int, String)}, {@link #setAssociatedProperty(String, String, String)}
    * or {@link #setSimpleProperty(String, String)} directly since they are cheaper.
    */
-  public void setProperty( String key, String value ) {
+  public void setProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             String   value 
+  ) {
     if( emptyisnull ) {
       // empty values will be treated as null values
       if ( (value != null) && value.length() == 0 ) {
@@ -306,19 +322,34 @@ public class ExtProperties {
       }
     }
     if( keystyle.matches( key ) ) {
+      // we've got an indexed/associated property
       Tupel<String> pair = new Tupel<String>();
       keystyle.select( key, pair );
       try {
+        // try with an indexed one
         setIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ), value );
       } catch( NumberFormatException ex ) {
+        // indexed fails, so it's an associated property
         setAssociatedProperty( pair.getFirst(), pair.getLast(), value );
       }
     } else {
+      // simpliest property
       setSimpleProperty( key, value );
     }
   }
-  
-  public void setIndexedProperty( String key, int index, String value ) {
+
+  /**
+   * Sets an indexed property.
+   * 
+   * @param key      The property key itself. Neither <code>null</code> nor empty. 
+   * @param index    The index to be used.
+   * @param value    The value to be set. Maybe <code>null</code>.
+   */
+  public void setIndexedProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             int      index, 
+                             String   value 
+  ) {
     Map<Integer,String> values = indexed.get( key );
     if( values == null ) {
       values = new HashMap<Integer,String>();
@@ -328,7 +359,18 @@ public class ExtProperties {
     names.add( key );
   }
   
-  public void setAssociatedProperty( String key, String association, String value ) {
+  /**
+   * Sets an associated property.
+   * 
+   * @param key           The property key itself. Neither <code>null</code> nor empty. 
+   * @param association   The association for this property.
+   * @param value         The value to be set. Maybe <code>null</code>.
+   */
+  public void setAssociatedProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             String   association, 
+                             String   value 
+  ) {
     Map<String,String> values = associated.get( key );
     if( values == null ) {
       values = new HashMap<String,String>();
@@ -337,25 +379,69 @@ public class ExtProperties {
     values.put( association, value );
     names.add( key );
   }
-  
-  public void setSimpleProperty( String key, String value ) {
+
+  /**
+   * Sets a simple property.
+   * 
+   * @param key     The property key itself. Neither <code>null</code> nor empty.
+   * @param value   The value to be set. Maybe <code>null</code>.
+   */
+  public void setSimpleProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             String   value 
+  ) {
     names.add( key );
     simple.put( key, value );
   }
   
+  /**
+   * Returns <code>true</code> if the supplied key refers to an indexed property.
+   * 
+   * @param key   The key that has to be tested. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied key refers to an indexed property.
+   */
   public boolean isIndexedProperty( @KNotEmpty(name="key") String key ) {
     return indexed.containsKey( key );
   }
   
+  /**
+   * Returns <code>true</code> if the supplied key refers to an associative property.
+   * 
+   * @param key   The key that has to be tested. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied key refers to an associative property.
+   */
   public boolean isAssociatedProperty( @KNotEmpty(name="key") String key ) {
     return associated.containsKey( key );
   }
   
+  /**
+   * Returns <code>true</code> if the supplied key refers to a simple property.
+   * 
+   * @param key   The key that has to be tested. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied key refers to a simple property.
+   */
   public boolean isSimpleProperty( @KNotEmpty(name="key") String key ) {
     return simple.containsKey( key );
   }
 
-  public List<String> getIndexedProperty( String key, List<String> defvalues ) {
+  /**
+   * Returns an ordered list of property values. The list is ordered according to the indices.
+   * Note: The index within the list doesn't necessarily correspond to the index of the property.
+   * 
+   * @param key         The key used to access the indexed properties. Neither <code>null</code> nor empty.
+   * @param defvalues   The default values that will be returned in case the property doesn't exist.
+   *                    Maybe <code>null</code>.
+   *                    
+   * @return   The list of sorted property values. Maybe <code>null</code> if the property doesn't
+   *           exist and no default values have been provided.
+   */
+  public List<String> getIndexedProperty( 
+    @KNotEmpty(name="key")   String         key, 
+                             List<String>   defvalues 
+  ) {
     Map<Integer,String> map = indexed.get( key );
     if( map != null ) {
       // get a list of the entries first
@@ -369,24 +455,63 @@ public class ExtProperties {
     }
   }
   
-  public String getIndexedProperty( String key, int index ) {
+  /**
+   * Returns the value of an indexed property.
+   *  
+   * @param key        The key used to access the property. Neither <code>null</code> nor empty.
+   * @param index      The index used to access the value.
+   * 
+   * @return   The indexed value. Maybe <code>null</code> if the value didn't exist.
+   */
+  public String getIndexedProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             int      index 
+  ) {
     return getIndexedProperty( key, index, null );
   }
   
-  public String getIndexedProperty( String key, int index, String defvalue ) {
+  /**
+   * Returns the value of an indexed property.
+   *  
+   * @param key        The key used to access the property. Neither <code>null</code> nor empty.
+   * @param index      The index used to access the value.
+   * @param defvalue   A default value in case the value doesn't exist. Maybe <code>null</code>.
+   * 
+   * @return   The indexed value. Maybe <code>null</code> if the value didn't exist and no default
+   *           value has been supplied.
+   */
+  public String getIndexedProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             int      index, 
+                             String   defvalue 
+  ) {
     Map<Integer,String> values = indexed.get( key );
     if( values != null ) {
-      if( values.containsKey( Integer.valueOf( index ) ) ) {
-        return values.get( Integer.valueOf( index ) );
-      } else {
+      String result = values.get( Integer.valueOf( index ) );
+      if( result == null ) {
         return defvalue;
+      } else {
+        return result;
       }
     } else {
       return defvalue;
     }
   }
-  
-  public Map<String,String> getAssociatedProperty( String key, Map<String,String> defvalues ) {
+
+  /**
+   * Returns a map of associated values for a specific property.
+   * 
+   * @param key         The name of the property. Neither <code>null</code> nor empty.
+   * @param defvalues   The default values which will be returned in case the property didn't exist.
+   *                    Maybe <code>null</code>.
+   *                    
+   * @return   The map providing the associated values. If it's not the default values you're allowed
+   *           to do changes to this map without altering this properties. Maybe <code>null</code>.
+   */
+  public Map<String,String> getAssociatedProperty( 
+    @KNotEmpty(name="key")   String               key, 
+                             Map<String,String>   defvalues 
+  ) {
     Map<String,String> map = associated.get( key );
     if( map != null ) {
       return new HashMap<String,String>( map );
@@ -395,32 +520,77 @@ public class ExtProperties {
     }
   }
 
+  /**
+   * Returns the value of an associated property.
+   * 
+   * @param key           The key used to access the property. Neither <code>null</code> nor empty.
+   * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
+   * 
+   * @return   The value stored using the associated property. Maybe <code>null</code> if none exists.
+   */
   public String getAssociatedProperty( String key, String association ) {
     return getAssociatedProperty( key, association, null );
   }
-  
-  public String getAssociatedProperty( String key, String association, String defvalue ) {
+
+  /**
+   * Returns the value of an associated property.
+   * 
+   * @param key           The key used to access the property. Neither <code>null</code> nor empty.
+   * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
+   * @param defvalue      The default value which will be returned in case none is available yet.
+   *                      Maybe <code>null</code>.
+   * 
+   * @return   The value stored using the associated property. Maybe <code>null</code> if none exists
+   *           and no default value has been supplied.
+   */
+  public String getAssociatedProperty( 
+    @KNotEmpty(name="key")           String   key, 
+    @KNotEmpty(name="association")   String   association, 
+                                     String   defvalue 
+  ) {
     Map<String,String> values = associated.get( key );
     if( values != null ) {
-      if( values.containsKey( association ) ) {
-        return values.get( association );
-      } else {
+      String result = values.get( association );
+      if( result == null ) {
         return defvalue;
+      } else {
+        return result;
       }
     } else {
       return defvalue;
     }
   }
 
+  /**
+   * Returns the value associated with the supplied simple key.
+   * 
+   * @param key   The key used to access the property. Neither <code>null</code> nor empty.
+   * 
+   * @return   The property value or <code>null</code> in case it didn't exist.
+   */
   public String getSimpleProperty( String key ) {
     return getSimpleProperty( key, null );
   }
   
-  public String getSimpleProperty( String key, String defvalue ) {
-    if( simple.containsKey( key ) ) {
-      return simple.get( key );
-    } else {
+  /**
+   * Returns the value associated with the supplied simple key.
+   * 
+   * @param key        The key used to access the property. Neither <code>null</code> nor empty.
+   * @param defvalue   The default value to be used in case the property doesn't exist. 
+   *                   Maybe <code>null</code>.
+   * 
+   * @return   The property value or <code>null</code> in case it didn't exist and no default value
+   *           has been supplied.
+   */
+  public String getSimpleProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             String   defvalue 
+  ) {
+    String result = simple.get( key );
+    if( result == null ) {
       return defvalue;
+    } else {
+      return result;
     }
   }
 
@@ -436,7 +606,7 @@ public class ExtProperties {
   }
   
   /**
-   * @see Properties#getProperty(String,String)
+   * @see Properties#getProperty(String, String)
    * 
    * If you already know the property type you want to setup, you should use one of the methods
    * {@link #getIndexedProperty(String, int, String)}, {@link #getAssociatedProperty(String, String, String)}
@@ -456,61 +626,116 @@ public class ExtProperties {
     }
   }
   
-  public void store( OutputStream output, Encoding encoding ) {
+  /**
+   * Writes the content of this properties table to the supplied stream.
+   * 
+   * @param output      The stream to receive the property data. Not <code>null</code>.
+   * @param encoding    The encoding to be used. Not <code>null</code>.
+   */
+  public void store( 
+    @KNotNull(name="output")     OutputStream   output, 
+    @KNotNull(name="encoding")   Encoding       encoding 
+  ) {
     storeLines();
     IoFunctions.writeText( output, lines, encoding );
   }
   
-  public void store( File file, Encoding encoding ) {
+  /**
+   * Writes the content of this properties table to the supplied file.
+   * 
+   * @param file        The file to receive the property data. Not <code>null</code>.
+   * @param encoding    The encoding to be used. Not <code>null</code>.
+   */
+  public void store( 
+    @KNotNull(name="file")       File       file, 
+    @KNotNull(name="encoding")   Encoding   encoding 
+  ) {
     storeLines();
     IoFunctions.writeText( file, lines, encoding );
   }
 
-  public void store( Writer writer ) {
+  /**
+   * Writes the content of this properties table to the supplied writer.
+   * 
+   * @param writer   The writer to receive the property data. Not <code>null</code>.
+   */
+  public void store( @KNotNull(name="writer") Writer writer ) {
     storeLines();
     IoFunctions.writeText( writer, lines );
   }
   
+  /**
+   * This function modifies the original content of this property file to conform with the current
+   * state.
+   */
   private void storeLines() {
+    
     List<String> newlines = new ArrayList<String>();
+    
+    // these are the property names currently available
     Set<String>  undone   = new HashSet<String>( names );
     for( int i = 0; i < lines.size(); i++ ) {
+      
       String line = lines.get(i);
       if( (line.length() == 0) || line.startsWith( commentintro ) ) {
+        // empty lines and comments can be directly reused
         newlines.add( line );
-      } else {
-        int     idx   = line.indexOf( delimiter );
-        String  key   = null;
-        if( idx == -1 ) {
-          key = line;
-        } else {
-          key = line.substring( 0, idx );
-        }
-        if( keystyle.matches( key ) ) {
-          Tupel<String> pair = new Tupel<String>();
-          keystyle.select( key, pair );
-          if( undone.contains( pair.getFirst() ) ) {
-            try {
-              Integer.parseInt( pair.getLast() );
-              applyIndexed( newlines, pair.getFirst() );
-              undone.remove( pair.getFirst() );
-            } catch( NumberFormatException ex ) {
-              applyAssociated( newlines, pair.getFirst() );
-              undone.remove( pair.getFirst() );
-            }
-          }
-        } else {
-          if( undone.contains( key ) ) {
-            applySimple( newlines, key );
-            undone.remove( key );
-          }
-        }
+        continue;
       }
+      
+      // get the key from the current line (trimming not needed as it's being reduced while loading)
+      int     idx   = line.indexOf( delimiter );
+      String  key   = null;
+      if( idx == -1 ) {
+        key = line;
+      } else {
+        key = line.substring( 0, idx );
+      }
+      
+      if( keystyle.matches( key ) ) {
+        
+        // it's an indexed/associated key
+        Tupel<String> pair = new Tupel<String>();
+        keystyle.select( key, pair );
+        
+        // only apply it if this property has not been used before
+        if( undone.contains( pair.getFirst() ) ) {
+          
+          // apply all index properties with one go (upcoming key won't be copied as this is
+          // flagged using the set 'undone').
+          try {
+            Integer.parseInt( pair.getLast() );
+            applyIndexed( newlines, pair.getFirst() );
+          } catch( NumberFormatException ex ) {
+            applyAssociated( newlines, pair.getFirst() );
+          }
+          undone.remove( pair.getFirst() );
+          
+        }
+        
+      } else {
+        
+        // just apply the simple property if possible
+        if( undone.contains( key ) ) {
+          applySimple( newlines, key );
+          undone.remove( key );
+        }
+        
+      }
+      
     }
+    
+    // there are still properties that needs to be written, so we're appending them at the end
+    // this happens if some have been added after loading or the map has been setup initially
     if( ! undone.isEmpty() ) {
+      
+      // I like to sort things, this way the result becomes more reproducable
       String[] sorted = undone.toArray( new String[ undone.size() ] );
       Arrays.sort( sorted );
+      
       for( String currentkey : sorted ) {
+        
+        // just apply the properties depending on their type
         if( isSimpleProperty( currentkey ) ) {
           applySimple( newlines, currentkey );
         } else if( isIndexedProperty( currentkey ) ) {
@@ -518,28 +743,64 @@ public class ExtProperties {
         } else if( isAssociatedProperty( currentkey ) ) {
           applyAssociated( newlines, currentkey );
         }
+        
       }
+      
     }
+    
     lines = newlines;
+    
   }
 
+  /**
+   * Applies the indexed property values. We're sorting here, too, to get reproducable results.
+   * 
+   * @param receiver   The new list of lines to be extended. Not <code>null</code>.
+   * @param key        The key which values have to be added. Neither <code>null</code> nor empty.
+   */
   private void applyIndexed( List<String> receiver, String key ) {
-    List<Map.Entry<Integer,String>> list = new ArrayList<Map.Entry<Integer,String>>( indexed.get( key ).entrySet() );
+    Map<Integer,String>             map  = indexed.get( key );
+    if( map == null ) {
+      // nothing to be done here
+      return;
+    }
+    List<Map.Entry<Integer,String>> list = new ArrayList<Map.Entry<Integer,String>>( map.entrySet() );
     Collections.sort( list, new LocalBehaviour<Integer>() );
     for( int i = 0; i < list.size(); i++ ) {
       receiver.add( keystyle.toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
     }
   }
 
+  /**
+   * Applies the associated property values. We're sorting here, too, to get reproducable results.
+   * 
+   * @param receiver   The new list of lines to be extended. Not <code>null</code>.
+   * @param key        The key which values have to be added. Neither <code>null</code> nor empty.
+   */
   private void applyAssociated( List<String> receiver, String key ) {
-    List<Map.Entry<String,String>> list = new ArrayList<Map.Entry<String,String>>( associated.get( key ).entrySet() );
+    Map<String,String>             map  = associated.get( key );
+    if( map == null ) {
+      // nothing to be done here
+      return;
+    }
+    List<Map.Entry<String,String>> list = new ArrayList<Map.Entry<String,String>>( map.entrySet() );
     Collections.sort( list, new LocalBehaviour<String>() );
     for( int i = 0; i < list.size(); i++ ) {
       receiver.add( keystyle.toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
     }
   }
-  
+
+  /**
+   * We're just adding a simple property here.
+   * 
+   * @param receiver   The new list of lines to be extended. Not <code>null</code>.
+   * @param key        The key which value have to be added. Neither <code>null</code> nor empty.
+   */
   private void applySimple( List<String> receiver, String key ) {
+    if( ! simple.containsKey( key ) ) {
+      // nothing to be done here
+      return;
+    }
     String value = simple.get( key );
     if( value == null ) {
       value = "";
@@ -553,14 +814,106 @@ public class ExtProperties {
   public Enumeration<String> propertyNames() {
     return ArrayFunctions.enumeration( names.toArray( new String[ names.size()] ) );
   }
-  
-  public static final void main( String[] args ) throws IOException {
-    File file = new File( "sample.properties" );
-    ExtProperties props = new ExtProperties();
-    props.load( file, Encoding.getDefault() );
+
+  /**
+   * Removes a specific property. If you know the type of property you should consider to use 
+   * {@link #removeAssociatedProperty(String)}, {@link #removeAssociatedProperty(String, String)},
+   * {@link #removeIndexedProperty(String)}, {@link #removeIndexedProperty(String, int)},
+   * {@link #removeSimpleProperty(String)} instead as these operations are cheaper.
+   * 
+   * @param key   The key of the property to be removed. Neither <code>null</code> nor empty.
+   */
+  public void removeProperty( @KNotEmpty(name="key") String key ) {
+    if( keystyle.matches( key ) ) {
+      // we've got an indexed/associated property
+      Tupel<String> pair = new Tupel<String>();
+      keystyle.select( key, pair );
+      try {
+        // try with an indexed one
+        removeIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ) );
+      } catch( NumberFormatException ex ) {
+        // indexed fails, so it's an associated property
+        removeAssociatedProperty( pair.getFirst(), pair.getLast() );
+      }
+    } else {
+      // simpliest property
+      removeSimpleProperty( key );
+    }
   }
 
-  private static final class LocalBehaviour<T extends Comparable> implements Comparator<Map.Entry<T,String>>, Transform<Map.Entry<Integer,String>,String> {
+  /**
+   * Removes all indexed properties for a specific key. If this property doesn't exists, this method
+   * will simply do nothing.
+   * 
+   * @param key   The key used to select all indexed properties. Neither <code>null</code> nor empty.
+   */
+  public void removeIndexedProperty( @KNotEmpty(name="key") String key ) {
+    if( indexed.containsKey( key ) ) {
+      indexed.remove( key );
+    }
+  }
+
+  /**
+   * Removes a specific indexed property value. If the property value doesn't exists, this method
+   * will simply do nothing.
+   * 
+   * @param key     The key used for the indexed properties. Neither <code>null</code> nor empty.
+   * @param index   The index used to identify the value which will be removed.
+   */
+  public void removeIndexedProperty( 
+    @KNotEmpty(name="key")   String   key, 
+                             int      index 
+  ) {
+    Map<Integer,String> map = indexed.get( key );
+    if( map != null ) {
+      map.remove( Integer.valueOf( index ) );
+    }
+  }
+
+  /**
+   * Removes all associated properties for a specific key. If this property doesn't exists, this method
+   * will simply do nothing.
+   * 
+   * @param key   The key used to select all associated properties. Neither <code>null</code> nor empty.
+   */
+  public void removeAssociatedProperty( @KNotEmpty(name="key") String key ) {
+    if( associated.containsKey( key ) ) {
+      associated.remove( key );
+    }
+  }
+  
+  /**
+   * Removes a specific associated property value. If the property value doesn't exist, this method
+   * will simply do nothing.
+   * 
+   * @param key           The key used for the associated properties. Neither <code>null</code> nor empty.
+   * @param association   The index used to identify the value which will be removed. Neither <code>null</code> nor empty.
+   */
+  public void removeAssociatedProperty( 
+    @KNotEmpty(name="key")           String   key,
+    @KNotEmpty(name="association")   String   association 
+  ) {
+    Map<String,String> map = associated.get( key );
+    if( map != null ) {
+      map.remove( association );
+    }
+  }
+  
+  /**
+   * Removes the property values associated with the supplied key. If this property doesn't exist,
+   * this method will simply do nothing.
+   * 
+   * @param key   The key used to identify the property. Neither <code>null</code> nor empty.
+   */
+  public void removeSimpleProperty( @KNotEmpty(name="key") String key ) {
+    simple.remove( key );
+  }
+
+  /**
+   * Implementation of custom behaviour.
+   */
+  private static final class LocalBehaviour<T extends Comparable> implements Comparator<Map.Entry<T,String>>, 
+                                                                             Transform<Map.Entry<Integer,String>,String> {
 
     /**
      * {@inheritDoc}

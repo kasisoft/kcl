@@ -24,6 +24,7 @@ import java.io.*;
 /**
  * A Runnable that is used to perform an unzip process.
  */
+@KDiagnostic
 public class UnzipRunnable extends AbstractRunnable {
 
   private File      zip;

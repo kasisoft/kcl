@@ -8,9 +8,12 @@
  */
 package com.kasisoft.lgpl.libs.common.util;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
  * Simple class used to work as a container (f.e. out-parameters).
  */
+@KDiagnostic
 public class Tupel<T> {
 
   private T[]   values;

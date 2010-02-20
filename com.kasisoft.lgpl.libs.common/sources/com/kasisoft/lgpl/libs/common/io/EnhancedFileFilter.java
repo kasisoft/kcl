@@ -19,6 +19,7 @@ import java.io.*;
  * FileFilter implementation which is capable to be used with the standard
  * File class as well as with the JFileChooser implementation.
  */
+@KDiagnostic
 public class EnhancedFileFilter extends BasicFileFilter {
 
   

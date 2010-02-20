@@ -24,6 +24,7 @@ import java.io.*;
 /**
  * Basic data structure used to store entity ids together with the urls.
  */
+@KDiagnostic
 public class XmlCatalog implements EntityResolver {
 
   private Map<String,byte[]>    catalogdata;

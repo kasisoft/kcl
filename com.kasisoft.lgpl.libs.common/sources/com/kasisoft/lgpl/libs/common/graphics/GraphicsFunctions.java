@@ -24,6 +24,7 @@ import java.awt.image.*;
 /**
  * Several utility functions related to graphical operations.
  */
+@KDiagnostic
 public class GraphicsFunctions {
 
   /**

@@ -8,9 +8,12 @@
  */
 package com.kasisoft.lgpl.libs.common.thread;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
  * Basic implementation for a Runnable.
  */
+@KDiagnostic
 public abstract class AbstractRunnable implements Runnable {
 
   private boolean   stopped;
