@@ -311,7 +311,7 @@ public class ExtProperties {
     } else {
       // simpliest property
       setSimpleProperty( key, value );
-      return String.format( "%s%s%s", key, delimiter, value != null ? value : "" );
+      return String.format( "%s%s%s", key.trim(), delimiter, value != null ? value : "" );
     }
   }
 
@@ -401,6 +401,7 @@ public class ExtProperties {
     @KNotEmpty(name="key")   String   key, 
                              String   value 
   ) {
+    key = key.trim();
     names.add( key );
     simple.put( key, value );
   }
@@ -861,6 +862,7 @@ public class ExtProperties {
   public synchronized void removeIndexedProperty( @KNotEmpty(name="key") String key ) {
     if( indexed.containsKey( key ) ) {
       indexed.remove( key );
+      names.remove( key );
     }
   }
 
@@ -878,6 +880,9 @@ public class ExtProperties {
     Map<Integer,String> map = indexed.get( key );
     if( map != null ) {
       map.remove( Integer.valueOf( index ) );
+      if( map.isEmpty() ) {
+        indexed.remove( key );
+      }
     }
   }
 
@@ -890,6 +895,7 @@ public class ExtProperties {
   public synchronized void removeAssociatedProperty( @KNotEmpty(name="key") String key ) {
     if( associated.containsKey( key ) ) {
       associated.remove( key );
+      names.remove( key );
     }
   }
   
@@ -907,6 +913,9 @@ public class ExtProperties {
     Map<String,String> map = associated.get( key );
     if( map != null ) {
       map.remove( association );
+      if( map.isEmpty() ) {
+        associated.remove( key );
+      }
     }
   }
   
@@ -918,6 +927,7 @@ public class ExtProperties {
    */
   public synchronized void removeSimpleProperty( @KNotEmpty(name="key") String key ) {
     simple.remove( key );
+    names.remove( key );
   }
 
   /**
