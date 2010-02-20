@@ -13,7 +13,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * Basic implementation for a Runnable.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public abstract class AbstractRunnable implements Runnable {
 
   private boolean   stopped;

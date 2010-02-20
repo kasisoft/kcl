@@ -22,7 +22,7 @@ import java.io.*;
  * is a general purpose implementation, so if you intend to copy files you should use 
  * the java.io.FileChannel instead in order to make use of system specific copying operations.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ByteCopierRunnable extends AbstractRunnable {
 
   private static Buffers<byte[]> buffers = null;

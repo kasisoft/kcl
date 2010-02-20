@@ -19,7 +19,7 @@ import java.io.*;
  * FileFilter implementation which is capable to be used with the standard File class as well as 
  * with the JFileChooser implementation.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class BasicFileFilter extends javax.swing.filechooser.FileFilter implements FileFilter {
 
   private String   mainsuffix;

@@ -20,7 +20,7 @@ import java.io.*;
 /**
  * A Runnable which is used to copy data from a Reader to a Writer.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class CharCopierRunnable extends AbstractRunnable {
 
   private static Buffers<char[]> buffers = null;

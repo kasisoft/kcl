@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * Default implementation of an ErrorHandler.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class SimpleErrorHandler implements ErrorHandler {
 
   private int               errorcount;

@@ -26,7 +26,7 @@ import java.lang.reflect.*;
 /**
  * Collection of various functions.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class MiscFunctions {
 
   private static final Map<String,String> REPLACEMENTS = SystemProperty.createReplacementMap( true );

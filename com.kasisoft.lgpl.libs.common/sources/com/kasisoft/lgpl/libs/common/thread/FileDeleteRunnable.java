@@ -19,7 +19,7 @@ import java.io.*;
 /**
  * A Runnable implementation used to delete a file.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FileDeleteRunnable extends FileListRunnable {
 
   /**

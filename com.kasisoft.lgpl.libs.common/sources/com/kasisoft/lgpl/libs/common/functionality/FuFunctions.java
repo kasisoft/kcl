@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Helper functions to perform operations similar to the functional paradigm.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FuFunctions {
 
   /**

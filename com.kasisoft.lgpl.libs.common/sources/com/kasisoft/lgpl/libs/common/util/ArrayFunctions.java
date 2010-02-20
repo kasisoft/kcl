@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Collection of functions useful in conjunction with arrays.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ArrayFunctions {
 
   /**

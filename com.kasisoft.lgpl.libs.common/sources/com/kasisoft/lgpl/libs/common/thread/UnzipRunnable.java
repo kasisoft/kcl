@@ -24,7 +24,7 @@ import java.io.*;
 /**
  * A Runnable that is used to perform an unzip process.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class UnzipRunnable extends AbstractRunnable {
 
   private File      zip;

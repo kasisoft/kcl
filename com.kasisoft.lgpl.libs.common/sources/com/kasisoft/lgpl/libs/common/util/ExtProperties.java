@@ -33,7 +33,7 @@ import java.io.*;
  *   provide a corresponding encoding.</li>
  * </ul>
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ExtProperties {
   
   /**

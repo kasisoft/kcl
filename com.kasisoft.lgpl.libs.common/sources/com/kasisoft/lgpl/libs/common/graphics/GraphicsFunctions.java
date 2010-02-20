@@ -24,7 +24,7 @@ import java.awt.image.*;
 /**
  * Several utility functions related to graphical operations.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class GraphicsFunctions {
 
   /**

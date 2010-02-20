@@ -37,7 +37,7 @@ import java.io.*;
 /**
  * Collection of xml related functions.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public final class XmlFunctions {
 
   private static final Map<String, String> XML2NORMAL = new Hashtable<String, String>();

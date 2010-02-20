@@ -23,7 +23,7 @@ import java.io.*;
 /**
  * Convenience class for the Runtime.exec method.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class SystemProcess {
 
   private OutputStream         outstream;

@@ -22,7 +22,7 @@ import java.io.*;
 /**
  * Collection of net related helper functions.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class NetFunctions {
 
   /**

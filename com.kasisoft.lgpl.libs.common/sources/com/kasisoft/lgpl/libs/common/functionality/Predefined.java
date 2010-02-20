@@ -13,7 +13,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * Collection of predefined types.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class Predefined {
 
   /**

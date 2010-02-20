@@ -21,7 +21,7 @@ import java.net.*;
  * which should be on the classpath. This catalog doesn't care about missing resources as they're
  * supposed to be made available afterwards.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 
   private static final String[] PRECONFIGURED = new String[] {

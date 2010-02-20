@@ -8,11 +8,14 @@
  */
 package com.kasisoft.lgpl.libs.common.util;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 import java.util.*;
 
 /**
  * A Comparator implementation that is capable to handle <code>null</code> values.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class NullableComparator<T extends Comparable> implements Comparator<T> {
 
   private Comparator<T>   delegate;

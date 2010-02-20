@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.libs.common.thread;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 import java.util.*;
 
 import java.io.*;
@@ -15,6 +17,7 @@ import java.io.*;
 /**
  * Implementation allowing to traverse a directory structure.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FileListRunnable extends AbstractRunnable {
 
   private static final File[] EMPTY_LIST = new File[0];

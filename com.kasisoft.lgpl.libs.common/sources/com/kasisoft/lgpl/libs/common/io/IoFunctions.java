@@ -32,13 +32,12 @@ import java.nio.channels.*;
 /**
  * Collection of functions used for IO operations.
  */
-@SuppressWarnings({ "unchecked", "cast" })
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class IoFunctions {
 
   private static final byte[]          NO_DATA     = new byte[0];
 
-  private static final Buffers<byte[]> BYTEBUFFERS = (Buffers<byte[]>) Buffers.newBuffers( Primitive.PByte );
+  private static final Buffers<byte[]> BYTEBUFFERS = Buffers.newBuffers( Primitive.PByte );
 
   /**
    * Prevent instantiation.
@@ -378,7 +377,7 @@ public class IoFunctions {
       outstream  = new FileOutputStream( output );
       inchannel  = instream.getChannel();
       outchannel = outstream.getChannel();
-      inchannel.transferTo( 0, size, (WritableByteChannel) outchannel );
+      inchannel.transferTo( 0, size, outchannel );
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {

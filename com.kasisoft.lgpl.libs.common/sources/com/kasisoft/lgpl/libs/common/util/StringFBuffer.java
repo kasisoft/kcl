@@ -13,7 +13,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * StringF(ormatting)Buffer equivalent which supports formatting.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class StringFBuffer {
 
   private StringBuffer   origin;

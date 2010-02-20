@@ -20,7 +20,7 @@ import java.util.*;
  * would be the use of interval partitioning. Nevertheless this type provides buffers meant to be
  * reused especially in multi-threading environments.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class Buffers<T> {
 
   private List<T>     allocated;

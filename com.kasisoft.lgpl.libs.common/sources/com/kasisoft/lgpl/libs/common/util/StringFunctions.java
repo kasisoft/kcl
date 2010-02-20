@@ -21,7 +21,7 @@ import java.io.*;
 /**
  * Collection of functions used for String processing.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class StringFunctions {
 
   private static final Buffers<char[]> CHARBUFFERS = Buffers.newBuffers( Primitive.PChar );
