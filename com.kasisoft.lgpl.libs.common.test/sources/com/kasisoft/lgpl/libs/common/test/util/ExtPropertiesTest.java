@@ -32,41 +32,41 @@ public class ExtPropertiesTest {
   public Object[][] createConfigs() {
     return new Object[][] {
         
-      { "="   , ExtProperties.KeyStyle.ArrayBraces  , "~"  },
-      { "="   , ExtProperties.KeyStyle.ArrayBraces  , "#"  },
-      { "="   , ExtProperties.KeyStyle.ArrayBraces  , "//" },
+      { "="   , ExtProperties.ArrayStyle.ArrayBrace  , "~"  },
+      { "="   , ExtProperties.ArrayStyle.ArrayBrace  , "#"  },
+      { "="   , ExtProperties.ArrayStyle.ArrayBrace  , "//" },
       
-      { "="   , ExtProperties.KeyStyle.CurlyBraces  , "~"  },
-      { "="   , ExtProperties.KeyStyle.CurlyBraces  , "#"  },
-      { "="   , ExtProperties.KeyStyle.CurlyBraces  , "//" },
+      { "="   , ExtProperties.ArrayStyle.CurlyBrace  , "~"  },
+      { "="   , ExtProperties.ArrayStyle.CurlyBrace  , "#"  },
+      { "="   , ExtProperties.ArrayStyle.CurlyBrace  , "//" },
      
-      { "="   , ExtProperties.KeyStyle.Braces       , "~"  },
-      { "="   , ExtProperties.KeyStyle.Braces       , "#"  },
-      { "="   , ExtProperties.KeyStyle.Braces       , "//" },
+      { "="   , ExtProperties.ArrayStyle.Brace       , "~"  },
+      { "="   , ExtProperties.ArrayStyle.Brace       , "#"  },
+      { "="   , ExtProperties.ArrayStyle.Brace       , "//" },
 
-      { ":"   , ExtProperties.KeyStyle.ArrayBraces  , "~"  },
-      { ":"   , ExtProperties.KeyStyle.ArrayBraces  , "#"  },
-      { ":"   , ExtProperties.KeyStyle.ArrayBraces  , "//" },
+      { ":"   , ExtProperties.ArrayStyle.ArrayBrace  , "~"  },
+      { ":"   , ExtProperties.ArrayStyle.ArrayBrace  , "#"  },
+      { ":"   , ExtProperties.ArrayStyle.ArrayBrace  , "//" },
       
-      { ":"   , ExtProperties.KeyStyle.CurlyBraces  , "~"  },
-      { ":"   , ExtProperties.KeyStyle.CurlyBraces  , "#"  },
-      { ":"   , ExtProperties.KeyStyle.CurlyBraces  , "//" },
+      { ":"   , ExtProperties.ArrayStyle.CurlyBrace  , "~"  },
+      { ":"   , ExtProperties.ArrayStyle.CurlyBrace  , "#"  },
+      { ":"   , ExtProperties.ArrayStyle.CurlyBrace  , "//" },
       
-      { ":"   , ExtProperties.KeyStyle.Braces       , "~"  },
-      { ":"   , ExtProperties.KeyStyle.Braces       , "#"  },
-      { ":"   , ExtProperties.KeyStyle.Braces       , "//" },
+      { ":"   , ExtProperties.ArrayStyle.Brace       , "~"  },
+      { ":"   , ExtProperties.ArrayStyle.Brace       , "#"  },
+      { ":"   , ExtProperties.ArrayStyle.Brace       , "//" },
 
-      { "kr"  , ExtProperties.KeyStyle.ArrayBraces  , "~"  },
-      { "kr"  , ExtProperties.KeyStyle.ArrayBraces  , "#"  },
-      { "kr"  , ExtProperties.KeyStyle.ArrayBraces  , "//" },
+      { "kr"  , ExtProperties.ArrayStyle.ArrayBrace  , "~"  },
+      { "kr"  , ExtProperties.ArrayStyle.ArrayBrace  , "#"  },
+      { "kr"  , ExtProperties.ArrayStyle.ArrayBrace  , "//" },
       
-      { "kr"  , ExtProperties.KeyStyle.CurlyBraces  , "~"  },
-      { "kr"  , ExtProperties.KeyStyle.CurlyBraces  , "#"  },
-      { "kr"  , ExtProperties.KeyStyle.CurlyBraces  , "//" },
+      { "kr"  , ExtProperties.ArrayStyle.CurlyBrace  , "~"  },
+      { "kr"  , ExtProperties.ArrayStyle.CurlyBrace  , "#"  },
+      { "kr"  , ExtProperties.ArrayStyle.CurlyBrace  , "//" },
       
-      { "kr"  , ExtProperties.KeyStyle.Braces       , "~"  },
-      { "kr"  , ExtProperties.KeyStyle.Braces       , "#"  },
-      { "kr"  , ExtProperties.KeyStyle.Braces       , "//" },
+      { "kr"  , ExtProperties.ArrayStyle.Brace       , "~"  },
+      { "kr"  , ExtProperties.ArrayStyle.Brace       , "#"  },
+      { "kr"  , ExtProperties.ArrayStyle.Brace       , "//" },
 
     };
   }
@@ -86,32 +86,31 @@ public class ExtPropertiesTest {
     props = null;
   }
   
-  private void setupContent( String delimiter, ExtProperties.KeyStyle keystyle, String commentintro ) {
+  private void setupContent( String delimiter, ExtProperties.ArrayStyle arraystyle, String commentintro ) {
     List<String> text   = IoFunctions.readText( file, Encoding.UTF8 );
     StringBuffer buffer = new StringBuffer();
     for( int i = 0; i < text.size(); i++ ) {
       String line = text.get(i);
       line        = StringFunctions.replace( line, "~", commentintro );
       line        = StringFunctions.replace( line, "=", delimiter );
-      if( keystyle == ExtProperties.KeyStyle.CurlyBraces ) {
+      if( arraystyle == ExtProperties.ArrayStyle.CurlyBrace ) {
         line = line.replace( '[', '{' );
         line = line.replace( ']', '}' );
-      } else if( keystyle == ExtProperties.KeyStyle.Braces ) {
+      } else if( arraystyle == ExtProperties.ArrayStyle.Brace ) {
         line = line.replace( '[', '(' );
         line = line.replace( ']', ')' );
       }
       buffer.append( line );
       buffer.append( SystemProperty.LineSeparator );
     }
-    props = new ExtProperties( delimiter, commentintro );
-    props.setKeyStyle( keystyle );
+    props = new ExtProperties( delimiter, commentintro, arraystyle );
     props.load( new CharArrayReader( buffer.toString().toCharArray() ) );
   }
   
   @Test(dataProvider="createConfigs")
-  public void basicAccess( String delimiter, ExtProperties.KeyStyle keystyle, String commentintro ) {
+  public void basicAccess( String delimiter, ExtProperties.ArrayStyle arraystyle, String commentintro ) {
     
-    setupContent( delimiter, keystyle, commentintro );
+    setupContent( delimiter, arraystyle, commentintro );
     
     // check basic property access
     Assert.assertEquals( props.getSimpleProperty( "simple_property" ), ""   );
@@ -147,9 +146,9 @@ public class ExtPropertiesTest {
   }
 
   @Test(dataProvider="createConfigs")
-  public void checkSortings( String delimiter, ExtProperties.KeyStyle keystyle, String commentintro ) {
+  public void checkSortings( String delimiter, ExtProperties.ArrayStyle arraystyle, String commentintro ) {
     
-    setupContent( delimiter, keystyle, commentintro );
+    setupContent( delimiter, arraystyle, commentintro );
 
     List<String> list = props.getIndexedProperty( "class", null );
     Assert.assertNotNull( list );
@@ -161,9 +160,9 @@ public class ExtPropertiesTest {
   }
 
   @Test(dataProvider="createConfigs")
-  public void specificRemovals( String delimiter, ExtProperties.KeyStyle keystyle, String commentintro ) {
+  public void specificRemovals( String delimiter, ExtProperties.ArrayStyle arraystyle, String commentintro ) {
 
-    setupContent( delimiter, keystyle, commentintro );
+    setupContent( delimiter, arraystyle, commentintro );
 
     // these aren't working
     props.removeIndexedProperty( "notworking1", 1 );
@@ -208,9 +207,9 @@ public class ExtPropertiesTest {
   }
 
   @Test(dataProvider="createConfigs")
-  public void removeAllIndexed( String delimiter, ExtProperties.KeyStyle keystyle, String commentintro ) {
+  public void removeAllIndexed( String delimiter, ExtProperties.ArrayStyle arraystyle, String commentintro ) {
 
-    setupContent( delimiter, keystyle, commentintro );
+    setupContent( delimiter, arraystyle, commentintro );
 
     props.removeIndexedProperty( "class" );
     
@@ -247,9 +246,9 @@ public class ExtPropertiesTest {
   }
 
   @Test(dataProvider="createConfigs")
-  public void removeAllAssociated( String delimiter, ExtProperties.KeyStyle keystyle, String commentintro ) {
+  public void removeAllAssociated( String delimiter, ExtProperties.ArrayStyle arraystyle, String commentintro ) {
 
-    setupContent( delimiter, keystyle, commentintro );
+    setupContent( delimiter, arraystyle, commentintro );
 
     props.removeAssociatedProperty( "car" );
     

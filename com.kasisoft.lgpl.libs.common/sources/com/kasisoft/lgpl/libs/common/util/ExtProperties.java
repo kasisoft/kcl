@@ -16,8 +16,8 @@ import com.kasisoft.lgpl.libs.common.io.*;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
-import java.util.*;
 import java.util.regex.*;
+import java.util.*;
 
 import java.io.*;
 
@@ -36,69 +36,18 @@ import java.io.*;
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ExtProperties {
   
-  /**
-   * Each value allows to decide how an indexed/associated property will be stored.
-   */
-  public static enum KeyStyle {
+  public static enum ArrayStyle {
     
-    Braces      ( "^\\s*[\\w\\.]+\\s*\\(\\s*[\\w\\.]+\\s*\\)\\s*$"  , "[\\s\\(\\)]+" , "%s(%s)%s%s" ) ,
-    ArrayBraces ( "^\\s*[\\w\\.]+\\s*\\[\\s*[\\w\\.]+\\s*\\]\\s*$"  , "[\\s\\[\\]]+" , "%s[%s]%s%s" ) ,
-    CurlyBraces ( "^\\s*[\\w\\.]+\\s*\\{\\s*[\\w\\.]+\\s*\\}\\s*$"  , "[\\s\\{\\}]+" , "%s{%s}%s%s" ) ;
+    Brace       ( '(', ')' ),
+    CurlyBrace  ( '{', '}' ),
+    ArrayBrace  ( '[', ']' );
     
-    private Pattern   validation;
-    private Pattern   splitter;
-    private String    formatter;
+    private Character   open;
+    private Character   close;
     
-    /**
-     * Configures this enumeration value.
-     * 
-     * @param validationpattern   This pattern is used to match the property key.
-     * @param splitpattern        This is a much simplier pattern which allows to distinguish
-     *                            the basic key and it's index/association.
-     * @param lineformat          A formatting String used to regenerate property lines.
-     */
-    KeyStyle( String validationpattern, String splitpattern, String lineformat ) {
-      validation  = Pattern.compile( validationpattern );
-      splitter    = Pattern.compile( splitpattern );
-      formatter   = lineformat;
-    }
-    
-    /**
-     * Creates a property line according to this style.
-     * 
-     * @param key         The basic key name, that has been used. Not <code>null</code>.
-     * @param index       The index/association to be used. Not <code>null</code>.
-     * @param delimiter   The delimiter used to separate the value. Not <code>null</code>.
-     * @param value       The value associated with the property key. Maybe <code>null</code>.
-     * 
-     * @return   The property line providing the content.
-     */
-    public String toLine( String key, Object index, String delimiter, String value ) {
-      if( value == null ) {
-        value = "";
-      }
-      return String.format( formatter, key, index, delimiter, value );
-    }
-    
-    /**
-     * Returns <code>true</code> if the supplied key is matched by this style.
-     * 
-     * @param fullkey   The full key provided by the properties map.
-     * 
-     * @return   <code>true</code> if the supplied key is matched by this style.
-     */
-    public boolean matches( String fullkey ) {
-      return validation.matcher( fullkey ).matches();
-    }
-    
-    /**
-     * Simply selects the key and the index/association portion of a key.
-     * 
-     * @param fullkey    The full key.
-     * @param receiver   The receiver for the index/association portion of the key.
-     */
-    public void select( String fullkey, Tupel<String> receiver ) {
-      receiver.setValues( splitter.split( fullkey ) );
+    ArrayStyle( char openchar, char closechar ) {
+      open  = Character.valueOf( openchar  );
+      close = Character.valueOf( closechar );
     }
     
   } /* ENDENUM */
@@ -107,9 +56,13 @@ public class ExtProperties {
   private Map<String,Map<Integer,String>>   indexed;
   private Map<String,Map<String,String>>    associated;
   private Map<String,String>                simple;
-  private KeyStyle                          keystyle;
   private boolean                           emptyisnull;
   
+  private Pattern                           validation;
+  private Pattern                           splitter;
+  private String                            formatter;
+  
+  private ArrayStyle                        arraystyle;
   private String                            delimiter;
   private String                            commentintro;
   
@@ -120,7 +73,7 @@ public class ExtProperties {
    * Initialises this Properties implementation.
    */
   public ExtProperties() {
-    this( null, null );
+    this( null, null, null );
   }
   
   /**
@@ -128,43 +81,71 @@ public class ExtProperties {
    * 
    * @param del       The delimiter to be used for the key value pairs. Maybe <code>null</code>.
    * @param comment   The literal which introduces a comment. Maybe <code>null</code>.
+   * @param array     The way indexed/associated keys are represented. Maybe <code>null</code>.
    */
-  public ExtProperties( String del, String comment ) {
-    if( del == null ) {
-      delimiter   = "=";
+  public ExtProperties( String del, String comment, ArrayStyle array ) {
+    if( array == null ) {
+      arraystyle    = ArrayStyle.ArrayBrace;
     } else {
-      delimiter   = del;
+      arraystyle    = array;
+    }
+    if( del == null ) {
+      delimiter     = "=";
+    } else {
+      delimiter     = del;
     }
     if( comment == null ) {
       commentintro  = "#";
     } else {
       commentintro  = comment;
     }
+    validation      = Pattern.compile( String.format( "^\\s*[\\w\\.]+\\s*\\%c\\s*[\\w\\.]+\\s*\\%c\\s*$", arraystyle.open, arraystyle.close ) );
+    splitter        = Pattern.compile( String.format( "[\\s\\%c\\%c]+", arraystyle.open, arraystyle.close ) );
+    formatter       = String.format( "%%s%c%%s%c%%s%%s", arraystyle.open, arraystyle.close );
     lines           = new ArrayList<String>();
     emptyisnull     = false;
     names           = new HashSet<String>();
     indexed         = new Hashtable<String,Map<Integer,String>>();
     associated      = new Hashtable<String,Map<String,String>>();
     simple          = new HashMap<String,String>();
-    keystyle        = KeyStyle.ArrayBraces;
   }
   
   /**
-   * Changes the KeyStyle to be used for the properties.
+   * Creates a property line according to this style.
    * 
-   * @param newkeystyle   The new KeyStyle to be used. Not <code>null</code>.
+   * @param key         The basic key name, that has been used. Not <code>null</code>.
+   * @param index       The index/association to be used. Not <code>null</code>.
+   * @param delimiter   The delimiter used to separate the value. Not <code>null</code>.
+   * @param value       The value associated with the property key. Maybe <code>null</code>.
+   * 
+   * @return   The property line providing the content.
    */
-  public synchronized void setKeyStyle( @KNotNull(name="newkeystyle") KeyStyle newkeystyle ) {
-    keystyle = newkeystyle;
+  private String toLine( String key, Object index, String delimiter, String value ) {
+    if( value == null ) {
+      value = "";
+    }
+    return String.format( formatter, key, index, delimiter, value );
+  }
+
+  /**
+   * Simply selects the key and the index/association portion of a key.
+   * 
+   * @param fullkey    The full key.
+   * @param receiver   The receiver for the index/association portion of the key.
+   */
+  private void select( String fullkey, Tupel<String> receiver ) {
+    receiver.setValues( splitter.split( fullkey ) );
   }
   
   /**
-   * Returns the KeyStyle currently used.
+   * Returns <code>true</code> if the supplied key is matched by this style.
    * 
-   * @return   The KeyStyle currently used. Not <code>null</code>.
+   * @param fullkey   The full key provided by the properties map.
+   * 
+   * @return   <code>true</code> if the supplied key is matched by this style.
    */
-  public synchronized KeyStyle getKeyStyle() {
-    return keystyle;
+  private boolean matches( String fullkey ) {
+    return validation.matcher( fullkey ).matches();
   }
   
   /**
@@ -267,19 +248,19 @@ public class ExtProperties {
       key   = line.substring( 0, idx );
       value = line.substring( idx + delimiter.length() ).trim();
     }
-    if( keystyle.matches( key ) ) {
+    if( matches( key ) ) {
       // we've got an indexed/associated property
       Tupel<String> pair = new Tupel<String>();
-      keystyle.select( key, pair );
+      select( key, pair );
       try {
         // try with an indexed one
         Integer indexval = Integer.valueOf( pair.getLast() );
         setIndexedProperty( pair.getFirst(), indexval.intValue(), value );
-        return keystyle.toLine( pair.getFirst(), indexval, delimiter, value );
+        return toLine( pair.getFirst(), indexval, delimiter, value );
       } catch( NumberFormatException ex ) {
         // indexed fails, so it's an associated property
         setAssociatedProperty( pair.getFirst(), pair.getLast(), value );
-        return keystyle.toLine( pair.getFirst(), pair.getLast(), delimiter, value );
+        return toLine( pair.getFirst(), pair.getLast(), delimiter, value );
       }
     } else {
       // simpliest property
@@ -305,10 +286,10 @@ public class ExtProperties {
         value = null;
       }
     }
-    if( keystyle.matches( key ) ) {
+    if( matches( key ) ) {
       // we've got an indexed/associated property
       Tupel<String> pair = new Tupel<String>();
-      keystyle.select( key, pair );
+      select( key, pair );
       try {
         // try with an indexed one
         setIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ), value );
@@ -598,9 +579,9 @@ public class ExtProperties {
    * or {@link #getSimpleProperty(String, String)} directly since they are cheaper.
    */
   public synchronized String getProperty( String key, String defvalue ) {
-    if( keystyle.matches( key ) ) {
+    if( matches( key ) ) {
       Tupel<String> pair = new Tupel<String>();
-      keystyle.select( key, pair );
+      select( key, pair );
       try {
         return getIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ), defvalue );
       } catch( NumberFormatException ex ) {
@@ -677,11 +658,11 @@ public class ExtProperties {
         key = line.substring( 0, idx );
       }
       
-      if( keystyle.matches( key ) ) {
+      if( matches( key ) ) {
         
         // it's an indexed/associated key
         Tupel<String> pair = new Tupel<String>();
-        keystyle.select( key, pair );
+        select( key, pair );
         
         // only apply it if this property has not been used before
         if( undone.contains( pair.getFirst() ) ) {
@@ -752,7 +733,7 @@ public class ExtProperties {
     List<Map.Entry<Integer,String>> list = new ArrayList<Map.Entry<Integer,String>>( map.entrySet() );
     Collections.sort( list, new LocalBehaviour<Integer>() );
     for( int i = 0; i < list.size(); i++ ) {
-      receiver.add( keystyle.toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
+      receiver.add( toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
     }
   }
 
@@ -771,7 +752,7 @@ public class ExtProperties {
     List<Map.Entry<String,String>> list = new ArrayList<Map.Entry<String,String>>( map.entrySet() );
     Collections.sort( list, new LocalBehaviour<String>() );
     for( int i = 0; i < list.size(); i++ ) {
-      receiver.add( keystyle.toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
+      receiver.add( toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
     }
   }
 
@@ -809,10 +790,10 @@ public class ExtProperties {
    * @param key   The key of the property to be removed. Neither <code>null</code> nor empty.
    */
   public synchronized void removeProperty( @KNotEmpty(name="key") String key ) {
-    if( keystyle.matches( key ) ) {
+    if( matches( key ) ) {
       // we've got an indexed/associated property
       Tupel<String> pair = new Tupel<String>();
-      keystyle.select( key, pair );
+      select( key, pair );
       try {
         // try with an indexed one
         removeIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ) );
