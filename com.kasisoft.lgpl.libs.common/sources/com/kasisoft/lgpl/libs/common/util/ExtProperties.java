@@ -120,24 +120,33 @@ public class ExtProperties {
    * Initialises this Properties implementation.
    */
   public ExtProperties() {
-    this( "=" );
+    this( null, null );
   }
   
   /**
    * Initialises this Properties implementation.
    * 
-   * @param del   The delimiter to be used for the key value pairs.
+   * @param del       The delimiter to be used for the key value pairs. Maybe <code>null</code>.
+   * @param comment   The literal which introduces a comment. Maybe <code>null</code>.
    */
-  public ExtProperties( @KNotEmpty(name="del") String del ) {
-    lines         = new ArrayList<String>();
-    delimiter     = del;
-    commentintro  = "#";
-    emptyisnull   = false;
-    names         = new HashSet<String>();
-    indexed       = new Hashtable<String,Map<Integer,String>>();
-    associated    = new Hashtable<String,Map<String,String>>();
-    simple        = new HashMap<String,String>();
-    keystyle      = KeyStyle.ArrayBraces;
+  public ExtProperties( String del, String comment ) {
+    if( del == null ) {
+      delimiter   = "=";
+    } else {
+      delimiter   = del;
+    }
+    if( comment == null ) {
+      commentintro  = "#";
+    } else {
+      commentintro  = comment;
+    }
+    lines           = new ArrayList<String>();
+    emptyisnull     = false;
+    names           = new HashSet<String>();
+    indexed         = new Hashtable<String,Map<Integer,String>>();
+    associated      = new Hashtable<String,Map<String,String>>();
+    simple          = new HashMap<String,String>();
+    keystyle        = KeyStyle.ArrayBraces;
   }
   
   /**
@@ -176,42 +185,6 @@ public class ExtProperties {
     return emptyisnull;
   }
 
-  /**
-   * Changes the delimiter for the key-value pairs.
-   * 
-   * @param del   The new delimiter for the key-value pairs. Neither <code>null</code> nor empty.
-   */
-  public synchronized void setDelimiter( @KNotEmpty(name="del") String del ) {
-    delimiter = del;
-  }
-
-  /**
-   * Returns the current delimiter for the key-value pairs.
-   * 
-   * @return   The current delimiter for the key-value pairs. Neither <code>null</code> nor empty.
-   */
-  public synchronized String getDelimiter() {
-    return delimiter;
-  }
-  
-  /**
-   * Changes the literal that introduces a comment on a line.
-   * 
-   * @param intro   The new literal that introduces a comment on a line. Neither <code>null</code> nor empty.
-   */
-  public synchronized void setCommentIntro( @KNotEmpty(name="intro") String intro ) {
-    commentintro = intro;
-  }
-  
-  /**
-   * Returns the literal that introduces a comment on a line. Neither <code>null</code> nor empty.
-   * 
-   * @return   The literal that introduces a comment on a line. Neither <code>null</code> nor empty.
-   */
-  public synchronized String getCommentIntro() {
-    return commentintro;
-  }
-  
   /**
    * Clears all currently registered properties.
    */

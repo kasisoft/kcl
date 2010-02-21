@@ -103,10 +103,8 @@ public class ExtPropertiesTest {
       buffer.append( line );
       buffer.append( SystemProperty.LineSeparator );
     }
-    props = new ExtProperties();
-    props.setCommentIntro( commentintro );
+    props = new ExtProperties( delimiter, commentintro );
     props.setKeyStyle( keystyle );
-    props.setDelimiter( delimiter );
     props.load( new CharArrayReader( buffer.toString().toCharArray() ) );
   }
   
