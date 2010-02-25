@@ -54,22 +54,22 @@ public class ExtProperties {
     
   } /* ENDENUM */
   
-  private Set<String>                       names;
-  private Map<String,Map<Integer,String>>   indexed;
-  private Map<String,Map<String,String>>    associated;
-  private Map<String,String>                simple;
-  private boolean                           emptyisnull;
+  private Set<String>                              names;
+  private Map<String,Map<Integer,PropertyValue>>   indexed;
+  private Map<String,Map<String,PropertyValue>>    associated;
+  private Map<String,PropertyValue>                simple;
+  private boolean                                  emptyisnull;
   
-  private Pattern                           validation;
-  private Pattern                           splitter;
-  private String                            formatter;
+  private Pattern                                  validation;
+  private Pattern                                  splitter;
+  private String                                   formatter;
   
-  private ArrayStyle                        arraystyle;
-  private String                            delimiter;
-  private String                            commentintro;
+  private ArrayStyle                               arraystyle;
+  private String                                   delimiter;
+  private String                                   commentintro;
   
   // for temporary use
-  private List<String>                      lines;
+  private List<String>                             lines;
 
   /**
    * Initialises this Properties implementation.
@@ -107,9 +107,9 @@ public class ExtProperties {
     lines           = new ArrayList<String>();
     emptyisnull     = false;
     names           = new HashSet<String>();
-    indexed         = new Hashtable<String,Map<Integer,String>>();
-    associated      = new Hashtable<String,Map<String,String>>();
-    simple          = new HashMap<String,String>();
+    indexed         = new Hashtable<String,Map<Integer,PropertyValue>>();
+    associated      = new Hashtable<String,Map<String,PropertyValue>>();
+    simple          = new HashMap<String,PropertyValue>();
   }
   
   /**
@@ -317,12 +317,16 @@ public class ExtProperties {
                              int      index, 
                              String   value 
   ) {
-    Map<Integer,String> values = indexed.get( key );
+    Map<Integer,PropertyValue> values = indexed.get( key );
     if( values == null ) {
-      values = new HashMap<Integer,String>();
+      values = new HashMap<Integer,PropertyValue>();
       indexed.put( key, values );
     }
-    values.put( Integer.valueOf( index ), value );
+    if( value == null ) {
+      values.put( Integer.valueOf( index ), null );
+    } else {
+      values.put( Integer.valueOf( index ), new StringPropertyValue( value ) );
+    }
     names.add( key );
   }
   
@@ -338,12 +342,16 @@ public class ExtProperties {
                              String   association, 
                              String   value 
   ) {
-    Map<String,String> values = associated.get( key );
+    Map<String,PropertyValue> values = associated.get( key );
     if( values == null ) {
-      values = new HashMap<String,String>();
+      values = new HashMap<String,PropertyValue>();
       associated.put( key, values );
     }
-    values.put( association, value );
+    if( value == null ) {
+      values.put( association, null );
+    } else {
+      values.put( association, new StringPropertyValue( value ) );
+    }
     names.add( key );
   }
 
@@ -359,7 +367,11 @@ public class ExtProperties {
   ) {
     key = key.trim();
     names.add( key );
-    simple.put( key, value );
+    if( value == null ) {
+      simple.put( key, null );
+    } else {
+      simple.put( key, new StringPropertyValue( value ) );
+    }
   }
   
   /**
@@ -410,10 +422,10 @@ public class ExtProperties {
     @KNotEmpty(name="key")   String         key, 
                              List<String>   defvalues 
   ) {
-    Map<Integer,String> map = indexed.get( key );
+    Map<Integer,PropertyValue> map = indexed.get( key );
     if( map != null ) {
       // get a list of the entries first
-      List<Map.Entry<Integer,String>> values = new ArrayList<Map.Entry<Integer,String>>( map.entrySet() );
+      List<Map.Entry<Integer,PropertyValue>> values = new ArrayList<Map.Entry<Integer,PropertyValue>>( map.entrySet() );
       // now sort them according to the indexes
       Collections.sort( values, new LocalBehaviour() );
       // now map them, since we're only interested in the values
@@ -453,13 +465,13 @@ public class ExtProperties {
                              int      index, 
                              String   defvalue 
   ) {
-    Map<Integer,String> values = indexed.get( key );
+    Map<Integer,PropertyValue> values = indexed.get( key );
     if( values != null ) {
-      String result = values.get( Integer.valueOf( index ) );
+      PropertyValue result = values.get( Integer.valueOf( index ) );
       if( result == null ) {
         return defvalue;
       } else {
-        return result;
+        return result.toString();
       }
     } else {
       return defvalue;
@@ -480,9 +492,9 @@ public class ExtProperties {
     @KNotEmpty(name="key")   String               key, 
                              Map<String,String>   defvalues 
   ) {
-    Map<String,String> map = associated.get( key );
+    Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
-      return new HashMap<String,String>( map );
+      return FuFunctions.mapValue( new PropertyValueToString(), map );
     } else {
       return defvalues;
     }
@@ -516,13 +528,13 @@ public class ExtProperties {
     @KNotEmpty(name="association")   String   association, 
                                      String   defvalue 
   ) {
-    Map<String,String> values = associated.get( key );
+    Map<String,PropertyValue> values = associated.get( key );
     if( values != null ) {
-      String result = values.get( association );
+      PropertyValue result = values.get( association );
       if( result == null ) {
         return defvalue;
       } else {
-        return result;
+        return result.toString();
       }
     } else {
       return defvalue;
@@ -554,11 +566,11 @@ public class ExtProperties {
     @KNotEmpty(name="key")   String   key, 
                              String   defvalue 
   ) {
-    String result = simple.get( key );
+    PropertyValue result = simple.get( key );
     if( result == null ) {
       return defvalue;
     } else {
-      return result;
+      return result.toString();
     }
   }
 
@@ -727,15 +739,20 @@ public class ExtProperties {
    * @param key        The key which values have to be added. Neither <code>null</code> nor empty.
    */
   private void applyIndexed( List<String> receiver, String key ) {
-    Map<Integer,String>             map  = indexed.get( key );
+    Map<Integer,PropertyValue> map  = indexed.get( key );
     if( map == null ) {
       // nothing to be done here
       return;
     }
-    List<Map.Entry<Integer,String>> list = new ArrayList<Map.Entry<Integer,String>>( map.entrySet() );
+    List<Map.Entry<Integer,PropertyValue>> list = new ArrayList<Map.Entry<Integer,PropertyValue>>( map.entrySet() );
     Collections.sort( list, new LocalBehaviour<Integer>() );
     for( int i = 0; i < list.size(); i++ ) {
-      receiver.add( toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
+      PropertyValue value = list.get(i).getValue();
+      if( value == null ) {
+        receiver.add( toLine( key, list.get(i).getKey(), delimiter, null ) );
+      } else {
+        receiver.add( toLine( key, list.get(i).getKey(), delimiter, value.toString() ) );
+      }
     }
   }
 
@@ -746,15 +763,20 @@ public class ExtProperties {
    * @param key        The key which values have to be added. Neither <code>null</code> nor empty.
    */
   private void applyAssociated( List<String> receiver, String key ) {
-    Map<String,String>             map  = associated.get( key );
+    Map<String,PropertyValue> map  = associated.get( key );
     if( map == null ) {
       // nothing to be done here
       return;
     }
-    List<Map.Entry<String,String>> list = new ArrayList<Map.Entry<String,String>>( map.entrySet() );
+    List<Map.Entry<String,PropertyValue>> list = new ArrayList<Map.Entry<String,PropertyValue>>( map.entrySet() );
     Collections.sort( list, new LocalBehaviour<String>() );
     for( int i = 0; i < list.size(); i++ ) {
-      receiver.add( toLine( key, list.get(i).getKey(), delimiter, list.get(i).getValue() ) );
+      PropertyValue value = list.get(i).getValue();
+      if( value == null ) {
+        receiver.add( toLine( key, list.get(i).getKey(), delimiter, null ) );
+      } else {
+        receiver.add( toLine( key, list.get(i).getKey(), delimiter, value.toString() ) );
+      }
     }
   }
 
@@ -769,11 +791,12 @@ public class ExtProperties {
       // nothing to be done here
       return;
     }
-    String value = simple.get( key );
+    PropertyValue value = simple.get( key );
     if( value == null ) {
-      value = "";
+      receiver.add( String.format( "%s%s%s", key, delimiter, "" ) );
+    } else {
+      receiver.add( String.format( "%s%s%s", key, delimiter, value.toString() ) );
     }
-    receiver.add( String.format( "%s%s%s", key, delimiter, value ) );
   }
   
   /**
@@ -833,7 +856,7 @@ public class ExtProperties {
     @KNotEmpty(name="key")   String   key, 
                              int      index 
   ) {
-    Map<Integer,String> map = indexed.get( key );
+    Map<Integer,PropertyValue> map = indexed.get( key );
     if( map != null ) {
       map.remove( Integer.valueOf( index ) );
       if( map.isEmpty() ) {
@@ -866,7 +889,7 @@ public class ExtProperties {
     @KNotEmpty(name="key")           String   key,
     @KNotEmpty(name="association")   String   association 
   ) {
-    Map<String,String> map = associated.get( key );
+    Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
       map.remove( association );
       if( map.isEmpty() ) {
@@ -889,23 +912,42 @@ public class ExtProperties {
   /**
    * Implementation of custom behaviour.
    */
-  private static final class LocalBehaviour<T extends Comparable> implements Comparator<Map.Entry<T,String>>, 
-                                                                             Transform<Map.Entry<Integer,String>,String> {
+  private static final class LocalBehaviour<T extends Comparable> implements Comparator<Map.Entry<T,PropertyValue>>, 
+                                                                             Transform<Map.Entry<Integer,PropertyValue>,String> {
 
     /**
      * {@inheritDoc}
      */
-    public int compare( Map.Entry<T,String> entry1, Map.Entry<T,String> entry2 ) {
+    public int compare( Map.Entry<T,PropertyValue> entry1, Map.Entry<T,PropertyValue> entry2 ) {
       return entry1.getKey().compareTo( entry2.getKey() );
     }
 
     /**
      * {@inheritDoc}
      */
-    public String map( Map.Entry<Integer, String> input ) {
-      return input.getValue();
+    public String map( Map.Entry<Integer, PropertyValue> input ) {
+      if( input.getValue() == null ) {
+        return null;
+      } else {
+        return input.getValue().toString();
+      }
     }
 
   } /* ENDCLASS */
     
+  private static final class PropertyValueToString implements Transform<PropertyValue,String> {
+
+    /**
+     * {@inheritDoc}
+     */
+    public String map( PropertyValue input ) {
+      if( input == null ) {
+        return null;
+      } else {
+        return input.toString();
+      }
+    }
+    
+  } /* ENDCLASS */
+  
 } /* ENDCLASS */
