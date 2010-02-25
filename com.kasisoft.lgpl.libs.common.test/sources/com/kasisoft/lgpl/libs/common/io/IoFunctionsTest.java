@@ -10,8 +10,6 @@ package com.kasisoft.lgpl.libs.common.io;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
 
-import com.kasisoft.lgpl.libs.common.io.*;
-
 import com.kasisoft.lgpl.libs.common.test.framework.*;
 
 import org.testng.annotations.*;

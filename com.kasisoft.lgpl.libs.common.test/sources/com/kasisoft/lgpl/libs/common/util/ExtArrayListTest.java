@@ -8,8 +8,6 @@
  */
 package com.kasisoft.lgpl.libs.common.util;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-
 import org.testng.annotations.*;
 
 import org.testng.*;

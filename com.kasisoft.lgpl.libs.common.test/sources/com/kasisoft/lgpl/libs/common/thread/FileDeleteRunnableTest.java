@@ -8,8 +8,6 @@
  */
 package com.kasisoft.lgpl.libs.common.thread;
 
-import com.kasisoft.lgpl.libs.common.thread.*;
-
 import com.kasisoft.lgpl.libs.common.io.*;
 
 import com.kasisoft.lgpl.libs.common.test.framework.*;

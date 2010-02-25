@@ -10,8 +10,6 @@ package com.kasisoft.lgpl.libs.common.graphics;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.libs.common.graphics.*;
-
 import org.testng.annotations.*;
 
 import org.testng.*;
