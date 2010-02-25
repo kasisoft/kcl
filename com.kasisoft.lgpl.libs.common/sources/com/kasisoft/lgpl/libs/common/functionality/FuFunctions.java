@@ -65,6 +65,46 @@ public class FuFunctions {
   }
 
   /**
+   * Maps one map into another while transforming the value part of each record. 
+   * 
+   * @param function   The function used to perform the transformation. Not <code>null</code>.
+   * @param objects    The map which has to be transformed. Not <code>null</code>.
+   * 
+   * @return   The transformed map. Not <code>null</code>.
+   */
+  public static final <K,F,T> Map<K,T> mapValue(
+    @KNotNull(name="function")   Transform<F,T>   function, 
+    @KNotNull(name="objects")    Map<K,F>         objects 
+  ) {
+    Map<K,T> result = new HashMap<K,T>();
+    for( Map.Entry<K,F> entry : objects.entrySet() ) {
+      result.put( entry.getKey(), function.map( entry.getValue() ) );
+    }
+    return result;
+  }
+
+  /**
+   * Maps one map into another while transforming the key part of each record. Note that due to the
+   * nature of a key the function needs to be injective. Otherwise two entries might cause an 
+   * override of a single entry. 
+   * 
+   * @param function   The function used to perform the transformation. Not <code>null</code>.
+   * @param objects    The map which has to be transformed. Not <code>null</code>.
+   * 
+   * @return   The transformed map. Not <code>null</code>.
+   */
+  public static final <V,F,T> Map<T,V> mapKey(
+      @KNotNull(name="function")   Transform<F,T>   function, 
+      @KNotNull(name="objects")    Map<F,V>         objects 
+    ) {
+      Map<T,V> result = new HashMap<T,V>();
+      for( Map.Entry<F,V> entry : objects.entrySet() ) {
+        result.put( function.map( entry.getKey() ), entry.getValue() );
+      }
+      return result;
+    }
+
+  /**
    * Zips two lists while recombining their elements and recreating a new list. It is <b>not</b>
    * allowed to have lists with different lengths. 
    * 
