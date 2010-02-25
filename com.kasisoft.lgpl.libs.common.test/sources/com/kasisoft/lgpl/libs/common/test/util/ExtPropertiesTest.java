@@ -11,6 +11,7 @@ package com.kasisoft.lgpl.libs.common.test.util;
 import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.util.*;
+import com.kasisoft.lgpl.libs.common.util.properties.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
