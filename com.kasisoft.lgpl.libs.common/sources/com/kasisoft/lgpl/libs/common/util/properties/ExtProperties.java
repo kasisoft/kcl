@@ -68,6 +68,8 @@ public class ExtProperties {
   private String                                   delimiter;
   private String                                   commentintro;
   
+  private PropertyValueFactory                     factory;
+  
   // for temporary use
   private List<String>                             lines;
 
@@ -101,6 +103,7 @@ public class ExtProperties {
     } else {
       commentintro  = comment;
     }
+    factory         = new PropertyValueFactory();
     validation      = Pattern.compile( String.format( "^\\s*[\\w\\.]+\\s*\\%c\\s*[\\w\\.]+\\s*\\%c\\s*$", arraystyle.open, arraystyle.close ) );
     splitter        = Pattern.compile( String.format( "[\\s\\%c\\%c]+", arraystyle.open, arraystyle.close ) );
     formatter       = String.format( "%%s%c%%s%c%%s%%s", arraystyle.open, arraystyle.close );
@@ -110,6 +113,24 @@ public class ExtProperties {
     indexed         = new Hashtable<String,Map<Integer,PropertyValue>>();
     associated      = new Hashtable<String,Map<String,PropertyValue>>();
     simple          = new HashMap<String,PropertyValue>();
+  }
+  
+  /**
+   * Changes the currently used PropertyValueFactory.
+   * 
+   * @param newfactory   The new PropertyValueFactory to be used. Not <code>null</code>.
+   */
+  public void setPropertyValueFactory( @KNotNull(name="newfactory") PropertyValueFactory newfactory ) {
+    factory = newfactory;
+  }
+  
+  /**
+   * Returns the currently used PropertyValueFactory.
+   * 
+   * @return   The currently used PropertyValueFactory. Not <code>null</code>.
+   */
+  public PropertyValueFactory getPropertyValueFactory() {
+    return factory;
   }
   
   /**
@@ -322,11 +343,7 @@ public class ExtProperties {
       values = new HashMap<Integer,PropertyValue>();
       indexed.put( key, values );
     }
-    if( value == null ) {
-      values.put( Integer.valueOf( index ), null );
-    } else {
-      values.put( Integer.valueOf( index ), new StringPropertyValue( value ) );
-    }
+    values.put( Integer.valueOf( index ), factory.newPropertyValue( this, value ) );
     names.add( key );
   }
   
@@ -347,11 +364,7 @@ public class ExtProperties {
       values = new HashMap<String,PropertyValue>();
       associated.put( key, values );
     }
-    if( value == null ) {
-      values.put( association, null );
-    } else {
-      values.put( association, new StringPropertyValue( value ) );
-    }
+    values.put( association, factory.newPropertyValue( this, value ) );
     names.add( key );
   }
 
@@ -367,11 +380,7 @@ public class ExtProperties {
   ) {
     key = key.trim();
     names.add( key );
-    if( value == null ) {
-      simple.put( key, null );
-    } else {
-      simple.put( key, new StringPropertyValue( value ) );
-    }
+    simple.put( key, factory.newPropertyValue( this, value ) );
   }
   
   /**
