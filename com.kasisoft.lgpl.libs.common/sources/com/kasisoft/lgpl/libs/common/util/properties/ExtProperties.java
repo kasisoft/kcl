@@ -6,11 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.lgpl.libs.common.util.properties;
 
 import com.kasisoft.lgpl.libs.common.functionality.*;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
+
+import com.kasisoft.lgpl.libs.common.util.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
