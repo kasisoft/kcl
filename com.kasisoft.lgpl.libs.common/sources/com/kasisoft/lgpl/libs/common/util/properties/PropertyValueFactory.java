@@ -19,12 +19,14 @@ public class PropertyValueFactory {
    * Creates a new PropertyValue instance.
    * 
    * @param owner   The properties map causing the creation. Not <code>null</code>.
+   * @param key     The key as it appears within the properties file. Neither <code>null</code> nor empty.
    * @param value   The textual property value itself. Maybe <code>null</code>.
    * 
    * @return   The PropertyValue instance or <code>null</code>.
    */
   public PropertyValue newPropertyValue( 
     @KNotNull(name="owner")   ExtProperties   owner, 
+    @KNotEmpty(name="key")    String          key,
                               String          value 
   ) {
     if( value == null ) {

@@ -151,6 +151,18 @@ public class ExtProperties {
   }
 
   /**
+   * Creates a property line according to this style.
+   * 
+   * @param key         The basic key name, that has been used. Not <code>null</code>.
+   * @param index       The index/association to be used. Not <code>null</code>.
+   * 
+   * @return   The property line providing the content.
+   */
+  private String toKey( String key, Object index ) {
+    return toLine( key, index, "", "" );
+  }
+  
+  /**
    * Simply selects the key and the index/association portion of a key.
    * 
    * @param fullkey    The full key.
@@ -343,7 +355,7 @@ public class ExtProperties {
       values = new HashMap<Integer,PropertyValue>();
       indexed.put( key, values );
     }
-    values.put( Integer.valueOf( index ), factory.newPropertyValue( this, value ) );
+    values.put( Integer.valueOf( index ), factory.newPropertyValue( this, toKey( key, Integer.valueOf( index ) ), value ) );
     names.add( key );
   }
   
@@ -364,7 +376,7 @@ public class ExtProperties {
       values = new HashMap<String,PropertyValue>();
       associated.put( key, values );
     }
-    values.put( association, factory.newPropertyValue( this, value ) );
+    values.put( association, factory.newPropertyValue( this, toKey( key, association ), value ) );
     names.add( key );
   }
 
@@ -380,7 +392,7 @@ public class ExtProperties {
   ) {
     key = key.trim();
     names.add( key );
-    simple.put( key, factory.newPropertyValue( this, value ) );
+    simple.put( key, factory.newPropertyValue( this, key, value ) );
   }
   
   /**

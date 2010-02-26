@@ -13,8 +13,8 @@ import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 
-import java.util.*;
 import java.util.regex.*;
+import java.util.*;
 
 import java.io.*;
 
@@ -33,7 +33,6 @@ public class EvaluatingProperties extends ExtProperties {
     private Pattern   selector;
     private String    varhead;
     private String    vartail;
-    private String    split;
     
     EvalType( String fmt, String indicator, String pattern, String head, String tail, String sep ) {
       formatter = fmt;
@@ -41,7 +40,10 @@ public class EvaluatingProperties extends ExtProperties {
       selector  = Pattern.compile( pattern );
       varhead   = head;
       vartail   = tail;
-      split     = sep;
+    }
+    
+    public boolean isVariableValue( String val ) {
+      return (val != null) && (val.indexOf( trigger ) != -1);
     }
     
   } /* ENDENUM */
@@ -70,6 +72,7 @@ public class EvaluatingProperties extends ExtProperties {
   }
   
   private void setupValues( EvalType evaluationtype ) {
+    setPropertyValueFactory( new EvalPropertyValueFactory( evaluationtype ) );
     evaltype                        = evaluationtype;
     values                          = new Hashtable<String,String>();
     Map<String,String> environment  = System.getenv();
@@ -86,40 +89,37 @@ public class EvaluatingProperties extends ExtProperties {
     }
   }
   
-  private Map<String,String>   propertyvalues = new Hashtable<String,String>();
-
-  /**
-   * 
-   * @param value
-   * @return
-   */
-  private String evaluate( String key, String value ) {
-    propertyvalues.put( String.format( evaltype.formatter, "", key ), String.format( evaltype.formatter, "", key ) ); 
-    if( value != null ) {
-      int idx = value.indexOf( evaltype.trigger );
-      if( idx != -1 ) {
-        value = StringFunctions.replace( value, values );
-        idx   = value.indexOf( evaltype.trigger );
-        if( idx != -1 ) {
-          value = replace( value );
-        }
+  private Map<String,String> propertyvalues = null;
+  
+  String evaluate( String key, String value ) {
+    value   = StringFunctions.replace( value, values );
+    int idx = value.indexOf( evaltype.trigger );
+    if( idx != -1 ) {
+      boolean delete = propertyvalues == null;
+      if( delete ) {
+        propertyvalues = new HashMap<String,String>();
+      }
+      propertyvalues.put( String.format( evaltype.formatter, "", key ), String.format( evaltype.formatter, "", key ) );
+      value = evaluate( value );
+      propertyvalues.put( String.format( evaltype.formatter, "", key ), value );
+      if( delete ) {
+        propertyvalues = null;
       }
     }
-    propertyvalues.put( String.format( evaltype.formatter, "", key ), value ); 
     return value;
   }
   
-  private String replace( String current ) {
+  private String evaluate( String value ) {
     StringBuffer  buffer    = new StringBuffer();
-    Matcher       matcher   = evaltype.selector.matcher( current );
+    Matcher       matcher   = evaltype.selector.matcher( value );
     int           laststart = 0;
     while( matcher.find() ) {
       int start = matcher.start();
       int end   = matcher.end();
       if( start > laststart ) {
-        buffer.append( current.substring( laststart, start ) );
+        buffer.append( value.substring( laststart, start ) );
       }
-      String key = current.substring( start, end );
+      String key = value.substring( start, end );
       if( propertyvalues.containsKey( key ) ) {
         buffer.append( propertyvalues.get( key ) );
       } else {
@@ -128,78 +128,12 @@ public class EvaluatingProperties extends ExtProperties {
       }
       laststart  = end;
     }
-    if( laststart < current.length() ) {
-      buffer.append( current.substring( laststart ) );
+    if( laststart < value.length() ) {
+      buffer.append( value.substring( laststart ) );
     }
     return buffer.toString();
   }
   
-  /**
-   * {@inheritDoc}
-   */
-  public synchronized Map<String, String> getAssociatedProperty( String key, Map<String, String> defvalues ) {
-    Map<String,String> result = super.getAssociatedProperty( key, defvalues );
-    if( result != null ) {
-      for( String association : result.keySet() ) {
-        result.put( association, evaluate( getAssociatedPropertyKey( key, association ), result.get( association ) ) );
-      }
-    }
-    return result;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public synchronized String getAssociatedProperty( String key, String association, String defvalue ) {
-    String result = super.getAssociatedProperty( key, association, defvalue ); 
-    return evaluate( getAssociatedPropertyKey( key, association ), result );
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public synchronized String getIndexedProperty( String key, int index, String defvalue ) {
-    String result = super.getIndexedProperty( key, index, defvalue );
-    return evaluate( getIndexedPropertyKey( key, index ), result );
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public synchronized Map<Integer,String> getIndexedProperty( String key, Map<Integer,String> defvalues ) {
-    Map<Integer,String> map = super.getIndexedPropertyMap( key, defvalues );
-    if( map != null ) {
-      Integer[] keys = map.keySet().toArray( new Integer[ map.size() ] );
-      for( Integer index : keys ) {
-        String indexedkey = getIndexedPropertyKey( key, index.intValue() );
-        map.put( index, evaluate( indexedkey, map.get( key ) ) );
-      }
-    }
-    return map;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public synchronized List<String> getIndexedProperty( String key, List<String> defvalues ) {
-    Map<Integer,String> map = super.getIndexedPropertyMap( key, (Map<Integer,String>) null );
-    if( map != null ) {
-      Integer[] keys = map.keySet().toArray( new Integer[ map.size() ] );
-      for( Integer index : keys ) {
-        String indexedkey = getIndexedPropertyKey( key, index.intValue() );
-        map.put( index, evaluate( indexedkey, map.get( key ) ) );
-      }
-      Arrays.sort( keys );
-      List<String> resultlist = new ArrayList<String>();
-      for( Integer index : keys ) {
-        resultlist.add( map.get( index ) );
-      }
-      return resultlist;
-    } else {
-      return defvalues;
-    }
-  }
-
   /**
    * {@inheritDoc}
    */
@@ -211,11 +145,13 @@ public class EvaluatingProperties extends ExtProperties {
   public static final void main( String[] args ) {
     EvaluatingProperties props = new EvaluatingProperties( EvalType.Standard );
     props.load( new File( "simple.properties" ), Encoding.UTF8 );
-    props.store( System.out, Encoding.getDefault() );
+//    props.store( System.out, Encoding.getDefault() );
     System.err.println( "=> 'simple.3' - '" + props.getProperty( "simple.3" ) + "'" );
     System.err.println( "=> 'simple.4' - '" + props.getProperty( "simple.4" ) + "'" );
     System.err.println( "=> 'simple.5' - '" + props.getProperty( "simple.5" ) + "'" );
     System.err.println( "=> 'simple.6' - '" + props.getProperty( "simple.6" ) + "'" );
+    System.err.println( "=> 'simple.7' - '" + props.getProperty( "simple.7" ) + "'" );
+    System.err.println( "=> 'simple.8' - '" + props.getProperty( "simple.8" ) + "'" );
   }
   
 } /* ENDCLASS */
