@@ -18,6 +18,7 @@ import com.kasisoft.lgpl.libs.common.io.*;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
+import java.util.*;
 import java.util.regex.*;
 import java.util.*;
 
@@ -38,6 +39,31 @@ import java.io.*;
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ExtProperties {
   
+  public static enum EvalType {
+    
+    Standard  ( "${%s%s}"   , "${" , "\\$\\{[\\w\\.\\[\\]]+\\}" , "${" , "}", "\\$\\{\\}" ),
+    Windows   ( "%%%s%s%%"  , "%%" , "%[\\w\\.\\[\\]]+%"        , "%"  , "%", "%" );
+    
+    private String    formatter;
+    private String    trigger;
+    private Pattern   selector;
+    private String    varhead;
+    private String    vartail;
+    
+    EvalType( String fmt, String indicator, String pattern, String head, String tail, String sep ) {
+      formatter = fmt;
+      trigger   = indicator;
+      selector  = Pattern.compile( pattern );
+      varhead   = head;
+      vartail   = tail;
+    }
+    
+    public boolean isVariableValue( String val ) {
+      return (val != null) && (val.indexOf( trigger ) != -1);
+    }
+    
+  } /* ENDENUM */
+
   public static enum ArrayStyle {
     
     Brace       ( '(', ')' ),
@@ -68,6 +94,10 @@ public class ExtProperties {
   private String                                   delimiter;
   private String                                   commentintro;
   
+  private Map<String,String>                       values;
+  private EvalType                                 evaltype;
+  
+
   private PropertyValueFactory                     factory;
   
   // for temporary use
@@ -77,7 +107,7 @@ public class ExtProperties {
    * Initialises this Properties implementation.
    */
   public ExtProperties() {
-    this( null, null, null );
+    this( EvalType.Standard, null, null, null );
   }
   
   /**
@@ -87,7 +117,7 @@ public class ExtProperties {
    * @param comment   The literal which introduces a comment. Maybe <code>null</code>.
    * @param array     The way indexed/associated keys are represented. Maybe <code>null</code>.
    */
-  public ExtProperties( String del, String comment, ArrayStyle array ) {
+  public ExtProperties( EvalType eval, String del, String comment, ArrayStyle array ) {
     if( array == null ) {
       arraystyle    = ArrayStyle.ArrayBrace;
     } else {
@@ -113,8 +143,76 @@ public class ExtProperties {
     indexed         = new Hashtable<String,Map<Integer,PropertyValue>>();
     associated      = new Hashtable<String,Map<String,PropertyValue>>();
     simple          = new HashMap<String,PropertyValue>();
+    setupValues( eval );
   }
   
+  private void setupValues( EvalType evaluationtype ) {
+    evaltype                        = evaluationtype;
+    values                          = new Hashtable<String,String>();
+    Map<String,String> environment  = System.getenv();
+    for( Map.Entry<String,String> env : environment.entrySet() ) {
+      System.out.printf( "'%s' - '%s'\n", String.format( evaluationtype.formatter, "env:", env.getKey() ), env.getValue() );
+      values.put( String.format( evaluationtype.formatter, "env:", env.getKey() ), env.getValue() );
+    }
+    Properties          sysprops    = System.getProperties();
+    Enumeration<String> names       = (Enumeration<String>) sysprops.propertyNames();
+    while( names.hasMoreElements() ) {
+      String name   = names.nextElement();
+      String value  = sysprops.getProperty( name );
+      values.put( String.format( evaluationtype.formatter, "", name ), value );
+    }
+  }
+
+  private Map<String,String> propertyvalues = null;
+  
+  String evaluate( String key, String value ) {
+    value   = StringFunctions.replace( value, values );
+    int idx = value.indexOf( evaltype.trigger );
+    if( idx != -1 ) {
+      boolean delete = propertyvalues == null;
+      if( delete ) {
+        propertyvalues = new HashMap<String,String>();
+      }
+      propertyvalues.put( String.format( evaltype.formatter, "", key ), String.format( evaltype.formatter, "", key ) );
+      System.err.println( "[[[evaluate[" + key + "]]]] -> '" + String.format( evaltype.formatter, "", key ) + "'" );
+      value = evaluate( value );
+      propertyvalues.put( String.format( evaltype.formatter, "", key ), value );
+      if( delete ) {
+        propertyvalues = null;
+      }
+    }
+    return value;
+  }
+  
+  private String evaluate( String value ) {
+    StringBuffer  buffer    = new StringBuffer();
+    Matcher       matcher   = evaltype.selector.matcher( value );
+    int           laststart = 0;
+    System.err.println( "# value ( '" + value + "' ) -> '" + evaltype.selector.pattern() + "'" );
+    while( matcher.find() ) {
+      System.err.println( "# find" );
+      int start = matcher.start();
+      int end   = matcher.end();
+      if( start > laststart ) {
+        buffer.append( value.substring( laststart, start ) );
+      }
+      String key = value.substring( start, end );
+      if( propertyvalues.containsKey( key ) ) {
+        System.err.println( "###> match '" + key + "'" );
+        buffer.append( propertyvalues.get( key ) );
+      } else {
+        key        = key.substring( evaltype.varhead.length(), key.length() - evaltype.vartail.length() );
+        System.err.println( "###> getProperty '" + key + "'" );
+        buffer.append( getProperty( key ) );
+      }
+      laststart  = end;
+    }
+    if( laststart < value.length() ) {
+      buffer.append( value.substring( laststart ) );
+    }
+    return buffer.toString();
+  }
+
   /**
    * Changes the currently used PropertyValueFactory.
    * 
@@ -971,4 +1069,18 @@ public class ExtProperties {
     
   } /* ENDCLASS */
   
+  public static final void main( String[] args ) {
+    ExtProperties props = new ExtProperties();
+    props.load( new File( "simple.properties" ), Encoding.UTF8 );
+//    props.store( System.out, Encoding.getDefault() );
+    System.err.println( "=> 'simple.3' - '" + props.getProperty( "simple.3" ) + "'" );
+    System.err.println( "=> 'simple.4' - '" + props.getProperty( "simple.4" ) + "'" );
+    System.err.println( "=> 'simple.5' - '" + props.getProperty( "simple.5" ) + "'" );
+    System.err.println( "=> 'simple.6' - '" + props.getProperty( "simple.6" ) + "'" );
+    System.err.println( "=> 'simple.7' - '" + props.getProperty( "simple.7" ) + "'" );
+    System.err.println( "=> 'simple.8' - '" + props.getProperty( "simple.8" ) + "'" );
+    System.err.println( "=> 'simple[a] - '" + props.getProperty( "simple[a]" ) + "'" );
+    System.err.println( "=> 'simple[b] - '" + props.getProperty( "simple[b]" ) + "'" );
+  }
+
 } /* ENDCLASS */

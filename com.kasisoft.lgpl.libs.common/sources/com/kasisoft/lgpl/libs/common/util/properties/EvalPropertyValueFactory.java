@@ -13,11 +13,11 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * PropertyValueFactory implementation for evaluating properties.
  */
-public class EvalPropertyValueFactory extends PropertyValueFactory {
+public class EvalPropertyValueFactory {
 
-  private EvaluatingProperties.EvalType   evaltype;
+  private ExtProperties.EvalType   evaltype;
   
-  public EvalPropertyValueFactory( EvaluatingProperties.EvalType type ) {
+  public EvalPropertyValueFactory( ExtProperties.EvalType type ) {
     evaltype = type;
   }
     
@@ -33,8 +33,10 @@ public class EvalPropertyValueFactory extends PropertyValueFactory {
       return null;
     } else {
       if( evaltype.isVariableValue( value ) ) {
+        System.err.println( "@@@: '" + key + "'" );
         return new EvalPropertyValue( owner, key, value );
       } else {
+        System.err.println( "+++: '" + key + "'" );
         return new StringPropertyValue( value );
       }
     }
