@@ -36,46 +36,7 @@ import java.io.*;
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ExtProperties {
   
-  public static enum EvalType {
-    
-    Standard  ( "${%s%s}"   , "${" , "\\$\\{[\\w\\.\\[\\]]+\\}" , "${" , "}", "\\$\\{\\}" ),
-    Windows   ( "%%%s%s%%"  , "%%" , "%[\\w\\.\\[\\]]+%"        , "%"  , "%", "%" );
-    
-    private String    formatter;
-    private String    trigger;
-    private Pattern   selector;
-    private String    varhead;
-    private String    vartail;
-    
-    EvalType( String fmt, String indicator, String pattern, String head, String tail, String sep ) {
-      formatter = fmt;
-      trigger   = indicator;
-      selector  = Pattern.compile( pattern );
-      varhead   = head;
-      vartail   = tail;
-    }
-    
-    public boolean isVariableValue( String val ) {
-      return (val != null) && (val.indexOf( trigger ) != -1);
-    }
-    
-  } /* ENDENUM */
-
-  public static enum ArrayStyle {
-    
-    Brace       ( '(', ')' ),
-    CurlyBrace  ( '{', '}' ),
-    ArrayBrace  ( '[', ']' );
-    
-    private Character   open;
-    private Character   close;
-    
-    ArrayStyle( char openchar, char closechar ) {
-      open  = Character.valueOf( openchar  );
-      close = Character.valueOf( closechar );
-    }
-    
-  } /* ENDENUM */
+  private Pattern                                  varselector;
   
   private Set<String>                              names;
   private Map<String,Map<Integer,PropertyValue>>   indexed;
@@ -86,22 +47,22 @@ public class ExtProperties {
   private Pattern                                  validation;
   private Pattern                                  splitter;
   private String                                   formatter;
-  
-  private ArrayStyle                               arraystyle;
+  private String                                   varformatter;
+
   private String                                   delimiter;
   private String                                   commentintro;
   
   private Map<String,String>                       values;
-  private EvalType                                 evaltype;
   
   // for temporary use
   private List<String>                             lines;
+  private Map<String,String>                       propertyvalues;
 
   /**
    * Initialises this Properties implementation.
    */
   public ExtProperties() {
-    this( EvalType.Standard, null, null, null );
+    this( null, null );
   }
   
   /**
@@ -111,12 +72,7 @@ public class ExtProperties {
    * @param comment   The literal which introduces a comment. Maybe <code>null</code>.
    * @param array     The way indexed/associated keys are represented. Maybe <code>null</code>.
    */
-  public ExtProperties( EvalType eval, String del, String comment, ArrayStyle array ) {
-    if( array == null ) {
-      arraystyle    = ArrayStyle.ArrayBrace;
-    } else {
-      arraystyle    = array;
-    }
+  public ExtProperties( String del, String comment ) {
     if( del == null ) {
       delimiter     = "=";
     } else {
@@ -127,83 +83,33 @@ public class ExtProperties {
     } else {
       commentintro  = comment;
     }
-    validation      = Pattern.compile( String.format( "^\\s*[\\w\\.]+\\s*\\%c\\s*[\\w\\.]+\\s*\\%c\\s*$", arraystyle.open, arraystyle.close ) );
-    splitter        = Pattern.compile( String.format( "[\\s\\%c\\%c]+", arraystyle.open, arraystyle.close ) );
-    formatter       = String.format( "%%s%c%%s%c%%s%%s", arraystyle.open, arraystyle.close );
+    varselector     = Pattern.compile( "\\$\\{[\\w\\.\\[\\]]+\\}" );
+    validation      = Pattern.compile( "^\\s*[\\w\\.]+\\s*\\[\\s*[\\w\\.]+\\s*\\]\\s*$" );
+    splitter        = Pattern.compile( "[\\s\\[\\]]+" );
+    formatter       = "%s[%s]%s%s";
+    varformatter    = "${%s%s}";
     lines           = new ArrayList<String>();
     emptyisnull     = false;
     names           = new HashSet<String>();
     indexed         = new Hashtable<String,Map<Integer,PropertyValue>>();
     associated      = new Hashtable<String,Map<String,PropertyValue>>();
     simple          = new HashMap<String,PropertyValue>();
-    setupValues( eval );
+    setupValues();
   }
   
-  private void setupValues( EvalType evaluationtype ) {
-    evaltype                        = evaluationtype;
+  private void setupValues() {
     values                          = new Hashtable<String,String>();
     Map<String,String> environment  = System.getenv();
     for( Map.Entry<String,String> env : environment.entrySet() ) {
-      System.out.printf( "'%s' - '%s'\n", String.format( evaluationtype.formatter, "env:", env.getKey() ), env.getValue() );
-      values.put( String.format( evaluationtype.formatter, "env:", env.getKey() ), env.getValue() );
+      values.put( String.format( varformatter, "env:", env.getKey() ), env.getValue() );
     }
     Properties          sysprops    = System.getProperties();
     Enumeration<String> names       = (Enumeration<String>) sysprops.propertyNames();
     while( names.hasMoreElements() ) {
       String name   = names.nextElement();
       String value  = sysprops.getProperty( name );
-      values.put( String.format( evaluationtype.formatter, "", name ), value );
+      values.put( String.format( varformatter, "", name ), value );
     }
-  }
-
-  private Map<String,String> propertyvalues = null;
-  
-  private String evaluate( String key, String value ) {
-    value   = StringFunctions.replace( value, values );
-    int idx = value.indexOf( evaltype.trigger );
-    if( idx != -1 ) {
-      boolean delete = propertyvalues == null;
-      if( delete ) {
-        propertyvalues = new HashMap<String,String>();
-      }
-      propertyvalues.put( String.format( evaltype.formatter, "", key ), String.format( evaltype.formatter, "", key ) );
-      System.err.println( "[[[evaluate[" + key + "]]]] -> '" + String.format( evaltype.formatter, "", key ) + "'" );
-      value = evaluate( value );
-      propertyvalues.put( String.format( evaltype.formatter, "", key ), value );
-      if( delete ) {
-        propertyvalues = null;
-      }
-    }
-    return value;
-  }
-  
-  private String evaluate( String value ) {
-    StringBuffer  buffer    = new StringBuffer();
-    Matcher       matcher   = evaltype.selector.matcher( value );
-    int           laststart = 0;
-    System.err.println( "# value ( '" + value + "' ) -> '" + evaltype.selector.pattern() + "'" );
-    while( matcher.find() ) {
-      System.err.println( "# find" );
-      int start = matcher.start();
-      int end   = matcher.end();
-      if( start > laststart ) {
-        buffer.append( value.substring( laststart, start ) );
-      }
-      String key = value.substring( start, end );
-      if( propertyvalues.containsKey( key ) ) {
-        System.err.println( "###> match '" + key + "'" );
-        buffer.append( propertyvalues.get( key ) );
-      } else {
-        key        = key.substring( evaltype.varhead.length(), key.length() - evaltype.vartail.length() );
-        System.err.println( "###> getProperty '" + key + "'" );
-        buffer.append( getProperty( key ) );
-      }
-      laststart  = end;
-    }
-    if( laststart < value.length() ) {
-      buffer.append( value.substring( laststart ) );
-    }
-    return buffer.toString();
   }
 
   /**
@@ -1006,7 +912,7 @@ public class ExtProperties {
   /**
    * {@inheritDoc}
    */
-  public PropertyValue newPropertyValue( 
+  private PropertyValue newPropertyValue( 
     @KNotNull(name="owner")   ExtProperties   owner,
     @KNotEmpty(name="key")    String          key,
                               String          value 
@@ -1014,13 +920,13 @@ public class ExtProperties {
     if( value == null ) {
       return null;
     } else {
-      if( evaltype.isVariableValue( value ) ) {
-        System.err.println( "@@@: '" + key + "'" );
-        return new EvalPropertyValue( owner, key, value );
-      } else {
-        System.err.println( "+++: '" + key + "'" );
-        return new StringPropertyValue( value );
+      if( value.indexOf( "${" ) != -1 ) {
+        value = StringFunctions.replace( value, values );
+        if( value.indexOf( "${" ) != -1 ) {
+          return new EvalPropertyValue( owner, key, value );
+        }
       }
+      return new StringPropertyValue( value );
     }
   }
 
@@ -1070,6 +976,8 @@ public class ExtProperties {
     private ExtProperties   pthis;
     private String          propkey;
     private String          content;
+    private String          varname;
+    private Matcher         matcher;
     
     /**
      * Initialises this value using the supplied value.
@@ -1080,13 +988,57 @@ public class ExtProperties {
       content = val;
       propkey = key;
       pthis   = fac;
+      varname = String.format( pthis.varformatter, "", key );
     }
     
+    private String evaluate() {
+      String value   = StringFunctions.replace( content, pthis.values );
+      int idx = value.indexOf( "${" );
+      if( idx != -1 ) {
+        boolean delete = pthis.propertyvalues == null;
+        if( delete ) {
+          pthis.propertyvalues = new HashMap<String,String>();
+        }
+        pthis.propertyvalues.put( varname, varname );
+        value = evaluate( value );
+        pthis.propertyvalues.put( varname, value );
+        if( delete ) {
+          pthis. propertyvalues = null;
+        }
+      }
+      return value;
+    }
+    
+    private String evaluate( String value ) {
+      StringBuffer  buffer    = new StringBuffer();
+      Matcher       matcher   = pthis.varselector.matcher( value );
+      int           laststart = 0;
+      while( matcher.find() ) {
+        int start = matcher.start();
+        int end   = matcher.end();
+        if( start > laststart ) {
+          buffer.append( value.substring( laststart, start ) );
+        }
+        String key = value.substring( start, end );
+        if( pthis.propertyvalues.containsKey( key ) ) {
+          buffer.append( pthis.propertyvalues.get( key ) );
+        } else {
+          key        = key.substring( "${".length(), key.length() - "}".length() );
+          buffer.append( pthis.getProperty( key ) );
+        }
+        laststart  = end;
+      }
+      if( laststart < value.length() ) {
+        buffer.append( value.substring( laststart ) );
+      }
+      return buffer.toString();
+    }
+
     /**
      * {@inheritDoc}
      */
     public String toString() {
-      return pthis.evaluate( propkey, content );
+      return evaluate();
     }
 
   } /* ENDCLASS */
