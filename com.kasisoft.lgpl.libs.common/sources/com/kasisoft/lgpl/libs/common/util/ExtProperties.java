@@ -158,7 +158,7 @@ public class ExtProperties {
 
   private Map<String,String> propertyvalues = null;
   
-  String evaluate( String key, String value ) {
+  private String evaluate( String key, String value ) {
     value   = StringFunctions.replace( value, values );
     int idx = value.indexOf( evaltype.trigger );
     if( idx != -1 ) {
@@ -1067,7 +1067,7 @@ public class ExtProperties {
   
   private static final class EvalPropertyValue implements PropertyValue {
 
-    private ExtProperties   properties;
+    private ExtProperties   pthis;
     private String          propkey;
     private String          content;
     
@@ -1077,23 +1077,16 @@ public class ExtProperties {
      * @param val   The string value used to be stored within this type. Neither <code>null</code> nor empty.
      */
     public EvalPropertyValue( @KNotNull(name="fac") ExtProperties fac, @KNotEmpty(name="key") String key, @KNotEmpty(name="val") String val ) {
-      content     = val;
-      propkey     = key;
-      properties  = fac;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public int hashCode() {
-      return content.hashCode();
+      content = val;
+      propkey = key;
+      pthis   = fac;
     }
     
     /**
      * {@inheritDoc}
      */
     public String toString() {
-      return properties.evaluate( propkey, content );
+      return pthis.evaluate( propkey, content );
     }
 
   } /* ENDCLASS */
@@ -1112,13 +1105,6 @@ public class ExtProperties {
      */
     public StringPropertyValue( @KNotEmpty(name="val") String val ) {
       content = val;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public int hashCode() {
-      return content.hashCode();
     }
     
     /**
