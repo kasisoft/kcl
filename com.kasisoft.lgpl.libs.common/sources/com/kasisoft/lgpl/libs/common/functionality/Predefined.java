@@ -64,6 +64,21 @@ public class Predefined {
   ) {
     return new Not<T>( inner );
   }
+  
+  /**
+   * Returns a Transform instance allowing to transform any kind of type into a String.
+   * <code>null</code> values remain <code>null</code> values.
+   * 
+   * @param clazz   The type which has to be transformed. Not <code>null</code>.
+   * 
+   * @return   The Transform instance allowing to transform any kind of type into a String.
+   *           Not <code>null</code>.
+   */
+  public static final <T> Transform<T,String> toStringTransform( 
+    @KNotNull(name="clazz")   Class<T>   clazz 
+  ) {
+    return new ToString<T>();
+  }
 
   /** 
    * Implementation of a NOT operation.
@@ -129,4 +144,22 @@ public class Predefined {
     
   } /* ENDCLASS */
 
+  /**
+   * Transforms a type into a String.
+   */
+  private static class ToString<T> implements Transform<T,String> {
+
+    /**
+     * {@inheritDoc}
+     */
+    public String map( T input ) {
+      if( input == null ) {
+        return null;
+      } else {
+        return input.toString();
+      }
+    }
+    
+  } /* ENDCLASS */
+  
 } /* ENDCLASS */
