@@ -494,7 +494,7 @@ public class ExtProperties {
   ) {
     Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
-      return FuFunctions.mapValue( new PropertyValueToString(), map );
+      return FuFunctions.mapValue( Predefined.toStringTransform( PropertyValue.class ), map );
     } else {
       return defvalues;
     }
@@ -956,28 +956,13 @@ public class ExtProperties {
 
   } /* ENDCLASS */
     
-  private static final class PropertyValueToString implements Transform<PropertyValue,String> {
-
-    /**
-     * {@inheritDoc}
-     */
-    public String map( PropertyValue input ) {
-      if( input == null ) {
-        return null;
-      } else {
-        return input.toString();
-      }
-    }
-    
-  } /* ENDCLASS */
-  
   private static final class EvalPropertyValue implements PropertyValue {
 
     private ExtProperties   pthis;
-    private String          propkey;
     private String          content;
     private String          varname;
     private Matcher         matcher;
+    private StringBuffer    buffer;
     
     /**
      * Initialises this value using the supplied value.
@@ -986,33 +971,30 @@ public class ExtProperties {
      */
     public EvalPropertyValue( @KNotNull(name="fac") ExtProperties fac, @KNotEmpty(name="key") String key, @KNotEmpty(name="val") String val ) {
       content = val;
-      propkey = key;
       pthis   = fac;
       varname = String.format( pthis.varformatter, "", key );
+      matcher = pthis.varselector.matcher( content );
+      buffer  = new StringBuffer();
     }
     
     private String evaluate() {
-      String value   = StringFunctions.replace( content, pthis.values );
-      int idx = value.indexOf( "${" );
-      if( idx != -1 ) {
-        boolean delete = pthis.propertyvalues == null;
-        if( delete ) {
-          pthis.propertyvalues = new HashMap<String,String>();
-        }
-        pthis.propertyvalues.put( varname, varname );
-        value = evaluate( value );
-        pthis.propertyvalues.put( varname, value );
-        if( delete ) {
-          pthis. propertyvalues = null;
-        }
+      boolean delete = pthis.propertyvalues == null;
+      if( delete ) {
+        pthis.propertyvalues = new HashMap<String,String>();
+      }
+      pthis.propertyvalues.put( varname, varname );
+      String value = evaluate( content );
+      pthis.propertyvalues.put( varname, value );
+      if( delete ) {
+        pthis. propertyvalues = null;
       }
       return value;
     }
     
     private String evaluate( String value ) {
-      StringBuffer  buffer    = new StringBuffer();
-      Matcher       matcher   = pthis.varselector.matcher( value );
-      int           laststart = 0;
+      buffer.setLength(0);
+      matcher.reset();
+      int laststart = 0;
       while( matcher.find() ) {
         int start = matcher.start();
         int end   = matcher.end();
@@ -1023,7 +1005,7 @@ public class ExtProperties {
         if( pthis.propertyvalues.containsKey( key ) ) {
           buffer.append( pthis.propertyvalues.get( key ) );
         } else {
-          key        = key.substring( "${".length(), key.length() - "}".length() );
+          key = key.substring( "${".length(), key.length() - "}".length() );
           buffer.append( pthis.getProperty( key ) );
         }
         laststart  = end;
@@ -1073,19 +1055,5 @@ public class ExtProperties {
    */
   private static interface PropertyValue {
   } /* ENDINTERFACE */
-
-  public static final void main( String[] args ) {
-    ExtProperties props = new ExtProperties();
-    props.load( new File( "simple.properties" ), Encoding.UTF8 );
-//    props.store( System.out, Encoding.getDefault() );
-    System.err.println( "=> 'simple.3' - '" + props.getProperty( "simple.3" ) + "'" );
-    System.err.println( "=> 'simple.4' - '" + props.getProperty( "simple.4" ) + "'" );
-    System.err.println( "=> 'simple.5' - '" + props.getProperty( "simple.5" ) + "'" );
-    System.err.println( "=> 'simple.6' - '" + props.getProperty( "simple.6" ) + "'" );
-    System.err.println( "=> 'simple.7' - '" + props.getProperty( "simple.7" ) + "'" );
-    System.err.println( "=> 'simple.8' - '" + props.getProperty( "simple.8" ) + "'" );
-    System.err.println( "=> 'simple[a] - '" + props.getProperty( "simple[a]" ) + "'" );
-    System.err.println( "=> 'simple[b] - '" + props.getProperty( "simple[b]" ) + "'" );
-  }
 
 } /* ENDCLASS */
