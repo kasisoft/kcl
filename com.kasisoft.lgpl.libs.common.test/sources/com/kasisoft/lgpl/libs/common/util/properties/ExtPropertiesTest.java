@@ -11,6 +11,7 @@ package com.kasisoft.lgpl.libs.common.util.properties;
 import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.util.*;
+
 import com.kasisoft.lgpl.libs.common.io.*;
 
 import org.testng.annotations.*;
@@ -102,7 +103,7 @@ public class ExtPropertiesTest {
       buffer.append( line );
       buffer.append( SystemProperty.LineSeparator );
     }
-    props = new ExtProperties( delimiter, commentintro, arraystyle );
+    props = new ExtProperties( ExtProperties.EvalType.Standard, delimiter, commentintro, arraystyle );
     props.load( new CharArrayReader( buffer.toString().toCharArray() ) );
   }
   
