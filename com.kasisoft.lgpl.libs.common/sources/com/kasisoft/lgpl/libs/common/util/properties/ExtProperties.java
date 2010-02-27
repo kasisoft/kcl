@@ -18,7 +18,6 @@ import com.kasisoft.lgpl.libs.common.io.*;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
-import java.util.*;
 import java.util.regex.*;
 import java.util.*;
 
@@ -97,9 +96,6 @@ public class ExtProperties {
   private Map<String,String>                       values;
   private EvalType                                 evaltype;
   
-
-  private PropertyValueFactory                     factory;
-  
   // for temporary use
   private List<String>                             lines;
 
@@ -133,7 +129,6 @@ public class ExtProperties {
     } else {
       commentintro  = comment;
     }
-    factory         = new PropertyValueFactory();
     validation      = Pattern.compile( String.format( "^\\s*[\\w\\.]+\\s*\\%c\\s*[\\w\\.]+\\s*\\%c\\s*$", arraystyle.open, arraystyle.close ) );
     splitter        = Pattern.compile( String.format( "[\\s\\%c\\%c]+", arraystyle.open, arraystyle.close ) );
     formatter       = String.format( "%%s%c%%s%c%%s%%s", arraystyle.open, arraystyle.close );
@@ -213,24 +208,6 @@ public class ExtProperties {
     return buffer.toString();
   }
 
-  /**
-   * Changes the currently used PropertyValueFactory.
-   * 
-   * @param newfactory   The new PropertyValueFactory to be used. Not <code>null</code>.
-   */
-  public void setPropertyValueFactory( @KNotNull(name="newfactory") PropertyValueFactory newfactory ) {
-    factory = newfactory;
-  }
-  
-  /**
-   * Returns the currently used PropertyValueFactory.
-   * 
-   * @return   The currently used PropertyValueFactory. Not <code>null</code>.
-   */
-  public PropertyValueFactory getPropertyValueFactory() {
-    return factory;
-  }
-  
   /**
    * Creates a property line according to this style.
    * 
@@ -453,7 +430,7 @@ public class ExtProperties {
       values = new HashMap<Integer,PropertyValue>();
       indexed.put( key, values );
     }
-    values.put( Integer.valueOf( index ), factory.newPropertyValue( this, toKey( key, Integer.valueOf( index ) ), value ) );
+    values.put( Integer.valueOf( index ), newPropertyValue( this, toKey( key, Integer.valueOf( index ) ), value ) );
     names.add( key );
   }
   
@@ -474,7 +451,7 @@ public class ExtProperties {
       values = new HashMap<String,PropertyValue>();
       associated.put( key, values );
     }
-    values.put( association, factory.newPropertyValue( this, toKey( key, association ), value ) );
+    values.put( association, newPropertyValue( this, toKey( key, association ), value ) );
     names.add( key );
   }
 
@@ -490,7 +467,7 @@ public class ExtProperties {
   ) {
     key = key.trim();
     names.add( key );
-    simple.put( key, factory.newPropertyValue( this, key, value ) );
+    simple.put( key, newPropertyValue( this, key, value ) );
   }
   
   /**
@@ -1029,6 +1006,27 @@ public class ExtProperties {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  public PropertyValue newPropertyValue( 
+    @KNotNull(name="owner")   ExtProperties   owner,
+    @KNotEmpty(name="key")    String          key,
+                              String          value 
+  ) {
+    if( value == null ) {
+      return null;
+    } else {
+      if( evaltype.isVariableValue( value ) ) {
+        System.err.println( "@@@: '" + key + "'" );
+        return new EvalPropertyValue( owner, key, value );
+      } else {
+        System.err.println( "+++: '" + key + "'" );
+        return new StringPropertyValue( value );
+      }
+    }
+  }
+
+  /**
    * Implementation of custom behaviour.
    */
   private static final class LocalBehaviour<T extends Comparable> implements Comparator<Map.Entry<T,PropertyValue>>, 
@@ -1069,6 +1067,77 @@ public class ExtProperties {
     
   } /* ENDCLASS */
   
+  private static final class EvalPropertyValue implements PropertyValue {
+
+    private ExtProperties   properties;
+    private String          propkey;
+    private String          content;
+    
+    /**
+     * Initialises this value using the supplied value.
+     * 
+     * @param val   The string value used to be stored within this type. Neither <code>null</code> nor empty.
+     */
+    public EvalPropertyValue( @KNotNull(name="fac") ExtProperties fac, @KNotEmpty(name="key") String key, @KNotEmpty(name="val") String val ) {
+      content     = val;
+      propkey     = key;
+      properties  = fac;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+      return content.hashCode();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+      return properties.evaluate( propkey, content );
+    }
+
+  } /* ENDCLASS */
+
+  /**
+   * PropertyValue implementation just representing a simple String.
+   */
+  private static final class StringPropertyValue implements PropertyValue {
+
+    private String   content;
+    
+    /**
+     * Initialises this value using the supplied value.
+     * 
+     * @param val   The string value used to be stored within this type. Neither <code>null</code> nor empty.
+     */
+    public StringPropertyValue( @KNotEmpty(name="val") String val ) {
+      content = val;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+      return content.hashCode();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+      return content;
+    }
+    
+  } /* ENDCLASS */
+  
+  /**
+   * Simple API used for property values.
+   */
+  private static interface PropertyValue {
+  } /* ENDINTERFACE */
+
   public static final void main( String[] args ) {
     ExtProperties props = new ExtProperties();
     props.load( new File( "simple.properties" ), Encoding.UTF8 );
