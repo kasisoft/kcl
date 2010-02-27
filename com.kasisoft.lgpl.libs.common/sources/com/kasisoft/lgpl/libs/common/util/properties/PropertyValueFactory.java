@@ -13,11 +13,11 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * PropertyValueFactory implementation for evaluating properties.
  */
-public class EvalPropertyValueFactory {
+public class PropertyValueFactory {
 
   private ExtProperties.EvalType   evaltype;
   
-  public EvalPropertyValueFactory( ExtProperties.EvalType type ) {
+  public PropertyValueFactory( ExtProperties.EvalType type ) {
     evaltype = type;
   }
     
