@@ -522,4 +522,39 @@ public class MiscFunctions {
     }
   }
   
+  /**
+   * Returns a new Comparator which can be used to sort Map.Entry records according to it's keys.
+   * 
+   * @param type   The type of the key. Not <code>null</code>.
+   */
+  public static final <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( 
+    @KNotNull(name="type")   Class<T>   type 
+  ) {
+    return new KeyComparator<T>();
+  }
+  
+  /**
+   * Implementation of a Comparator used for the key part of a Map.Entry.
+   */
+  private static final class KeyComparator<T extends Comparable> implements Comparator<Map.Entry<T,?>> {
+    
+    /**
+     * {@inheritDoc}
+     */
+    public int compare( Map.Entry<T, ?> o1, Map.Entry<T, ?> o2 ) {
+      if( (o1 == null) && (o2 == null) ) {
+        return 0;
+      }
+      if( (o1 != null) && (o2 != null) ) {
+        return o1.getKey().compareTo( o2.getKey() );
+      }
+      if( o1 != null ) {
+        return 1;
+      } else /* if( o2 != null ) */ {
+        return -1;
+      }
+    }
+
+  } /* ENDCLASS */
+  
 } /* ENDCLASS */
