@@ -17,7 +17,6 @@ import org.testng.annotations.*;
 import org.testng.*;
 
 import java.util.*;
-import java.util.regex.*;
 
 import java.io.*;
 
@@ -57,7 +56,6 @@ public class ExtPropertiesTest {
   private ExtProperties setupContent( File file, String delimiter, String commentintro ) {
     List<String> text     = IoFunctions.readText( file, Encoding.UTF8 );
     StringBuffer buffer   = new StringBuffer();
-    Pattern      pattern  = Pattern.compile( "\\$\\{[\\w\\.\\[\\]]+\\}" );
     for( int i = 0; i < text.size(); i++ ) {
       String line = text.get(i);
       line        = StringFunctions.replace( line, "~", commentintro );
