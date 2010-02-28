@@ -73,7 +73,7 @@ public enum CommonProperty {
    * @throws ClassCastException in case the properties value type is not meant to be used for the value type.
    */
   public <T> T getValue() {
-    return getValue( System.getProperties(), false );
+    return (T) getValue( System.getProperties(), false );
   }
   
   /**
@@ -87,7 +87,7 @@ public enum CommonProperty {
    * @throws ClassCastException in case the properties value type is not meant to be used for the value type.
    */
   public <T> T getValue( Properties properties ) {
-    return getValue( properties, true );
+    return (T) getValue( properties, true );
   }
   
   /**
@@ -106,7 +106,7 @@ public enum CommonProperty {
       defvalue = System.getProperty( getKey() );
     }
     String result = properties.getProperty( getKey(), defvalue );
-    return processValue( result );
+    return (T) processValue( result );
   }
 
   /**
@@ -120,7 +120,7 @@ public enum CommonProperty {
    * @throws ClassCastException in case the properties value type is not meant to be used for the value type.
    */
   public <T> T getValue( Map<String,String> properties ) {
-    return getValue( properties, true );
+    return (T) getValue( properties, true );
   }
   
   /**
@@ -142,7 +142,7 @@ public enum CommonProperty {
     if( properties.containsKey( getKey() ) ) {
       result = properties.get( getKey() );
     }
-    return processValue( result );
+    return (T) processValue( result );
   }
 
   /**
