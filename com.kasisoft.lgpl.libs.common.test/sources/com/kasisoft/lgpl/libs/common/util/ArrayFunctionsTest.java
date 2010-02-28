@@ -20,6 +20,7 @@ import java.util.*;
 @Test(groups="all")
 public class ArrayFunctionsTest {
 
+  @SuppressWarnings({ "boxing", "cast" })
   @Test
   public void max() {
     
@@ -41,6 +42,7 @@ public class ArrayFunctionsTest {
 
   }
 
+  @SuppressWarnings({ "boxing", "cast" })
   @Test
   public void min() {
     
