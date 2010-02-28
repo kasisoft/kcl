@@ -44,14 +44,12 @@
     </for>
     
     <get-classpath classpathid="classpathid" projectname="${ant.project.name}"/>
-    <dirname file="${dir.temp}" property="testbasedir"/>
     <testng
       classpathref="classpathid"
       outputdir="${basedir}/testreport"
       useDefaultListeners="false"
       listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter"
     >
-      <jvmarg value="-Dtest.basedir=${testbasedir}"/>
       <classfileset dir="${basedir}/classes" includes="**/*Test.class" excludes="**/SystemProcessTest.class"/>
       <sysproperty key="org.uncommons.reportng.title" value="Testreport: ${ant.project.name}"/>
     </testng>

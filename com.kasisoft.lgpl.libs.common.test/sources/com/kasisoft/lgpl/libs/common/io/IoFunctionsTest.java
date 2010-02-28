@@ -379,8 +379,7 @@ public class IoFunctionsTest {
   @Test
   public void locateDirectory() throws IOException {
     File dir      = IoFunctions.locateDirectory( Iso3166Test.class );
-    File base     = new File( System.getProperty( "test.basedir" ) );
-    File current  = new File( base, "classes" );;
+    File current  = new File( "classes" );;
     Assert.assertEquals( dir, current.getCanonicalFile() );
   }
 
