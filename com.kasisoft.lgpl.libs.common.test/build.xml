@@ -1,10 +1,63 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<project name="com.kasisoft.lgpl.libs.common.test" default="default" basedir=".">
+<project name="com.kasisoft.lgpl.libs.common.test" basedir=".">
 
-  <import file="../_ext/common.xml"/>
+  <import file="${basedir}/../_ext/common.xml"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- PROPERTY DEFINITIONS                                                                    -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-  <target name="default">
-    <echo>Bitte wählen Sie ein Target aus !!!</echo>
+  <property name="project.deployment"   value="com.kasisoft.lgpl.libs.common.deployment"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- PATH DEFINITIONS                                                                        -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <path id="path.saxon">
+    <fileset dir="${HOME_SAXON}" includes="*.jar"/>
+  </path>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- TARGET DEFINITIONS                                                                      -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <target name="init">
+    <defaultexcludes add="**/_svn"/>
+    <defaultexcludes add="**/_svn/**"/>
   </target>
 
+  <target name="clean" depends="init">
+    <delete-dir dir="${basedir}/testreport" recreate="true"/>
+  </target>
+  
+  <target name="test" depends="clean">
+    
+    <temp-project-dir projectname="${ant.project.name}" property="dir.temp"/>
+    
+    <ant dir="${dir.workspace}/${project.deployment}" antfile="${dir.workspace}/${project.deployment}/build.xml" target="deploy"/>
+    <for param="zipfile">
+      <fileset dir="${dir.workspace}/${project.deployment}" includes="kasisoft-common-*.zip"/>
+      <sequential>
+        <!-- there's definitely only one file -->
+        <unzip src="@{zipfile}" dest="${dir.temp}"/>
+      </sequential>
+    </for>
+    
+    <get-classpath classpathid="classpathid" projectname="${ant.project.name}"/>
+    <dirname file="${dir.temp}" property="testbasedir"/>
+    <testng
+      classpathref="classpathid"
+      outputdir="${basedir}/testreport"
+      useDefaultListeners="false"
+      listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter"
+    >
+      <jvmarg value="-Dtest.basedir=${testbasedir}"/>
+      <classfileset dir="${basedir}/classes" includes="**/*Test.class"/>
+      <sysproperty key="org.uncommons.reportng.title" value="Testreport: ${ant.project.name}"/>
+    </testng>
+    
+    <delete-dir dir="${dir.temp}"/>
+    
+  </target>
+  
 </project>
