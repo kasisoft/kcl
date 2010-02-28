@@ -10,6 +10,8 @@ package com.kasisoft.lgpl.libs.common.util;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
 
+import com.kasisoft.lgpl.libs.common.sys.*;
+
 import com.kasisoft.lgpl.libs.common.base.*;
 
 import org.testng.annotations.*;
@@ -264,7 +266,12 @@ public class MiscFunctionsTest {
 
   @Test
   public void expandVariables() {
-    String template = "The name of the user is: %user.name% !";
+    String template = null;
+    if( SystemInfo.getRunningOS().isUnixLike() ) {
+      template = "The name of the user is: $user.name !";;
+    } else {
+      template = "The name of the user is: %user.name% !";
+    }
     String result   = MiscFunctions.expandVariables( template );
     Assert.assertEquals( result, String.format( "The name of the user is: %s !", System.getProperty( "user.name" ) ) );
   }
