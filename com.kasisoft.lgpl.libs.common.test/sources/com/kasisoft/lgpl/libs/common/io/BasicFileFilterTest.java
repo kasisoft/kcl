@@ -48,9 +48,17 @@ public class BasicFileFilterTest {
     File[]  files = file.listFiles( filter );
     Assert.assertNotNull( files );
     Assert.assertEquals( files.length, childdirs.size() );
+    List<String> expected = new ArrayList<String>();
+    List<String> actual   = new ArrayList<String>();
     for( int i = 0; i < files.length; i++ ) {
       File childdir = new File( testdata, childdirs.get(i).replace( '/', File.separatorChar ) );
-      Assert.assertEquals( files[i], childdir );
+      actual   . add( files[i].getAbsolutePath() );
+      expected . add( childdir.getAbsolutePath() );
+    }
+    Collections.sort( actual   );
+    Collections.sort( expected );
+    for( int i = 0; i < actual.size(); i++ ) {
+      Assert.assertEquals( actual.get(i), expected.get(i) );
     }
   }
   
