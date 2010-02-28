@@ -250,25 +250,96 @@ public class ExtPropertiesTest {
 
     ExtProperties props = setupContent( evaluationfile, delimiter, commentintro );
     
-//    Assert.assertEquals( props.getProperty( "simple.1" ), "A" );
-//    Assert.assertEquals( props.getProperty( "simple.2" ), "A${}B" );
-//
-//    String tempval      = SystemProperty.TempDir.getValue();
-//    String expected3    = String.format( "A%sB", tempval.substring( 0, tempval.length() - 1 ) );
-//    Assert.assertEquals( props.getProperty( "simple.3" ), expected3 );
-//
-//    String expected4    = String.format( "refers to: %s oh no", expected3 );
-//    Assert.assertEquals( props.getProperty( "simple.4" ), expected4 );
-//
-//    Assert.assertEquals( props.getProperty( "simple.5" ), "A;C;${simple.5};D;B" );
-//    Assert.assertEquals( props.getProperty( "simple.6" ), "C;A;${simple.6};B;D" );
-//    String expected7    = String.format( "bla-%s-blub", expected4 );
-//    Assert.assertEquals( props.getProperty( "simple.7" ), expected7 );
-//    Assert.assertEquals( props.getProperty( "simple.8" ), String.format( "flup:%s.", expected7 ) );
+    Assert.assertEquals( props.getProperty( "simple.1" ), "A" );
+    Assert.assertEquals( props.getProperty( "simple.2" ), "A${}B" );
+
+    String tempval      = SystemProperty.TempDir.getValue();
+    String expected3    = String.format( "A%sB", tempval.substring( 0, tempval.length() - 1 ) );
+    Assert.assertEquals( props.getProperty( "simple.3" ), expected3 );
+
+    String expected4    = String.format( "refers to: %s oh no", expected3 );
+    Assert.assertEquals( props.getProperty( "simple.4" ), expected4 );
+
+    Assert.assertEquals( props.getProperty( "simple.5" ), "A;C;${simple.5};D;B" );
+    Assert.assertEquals( props.getProperty( "simple.6" ), "C;A;${simple.6};B;D" );
+    String expected7    = String.format( "bla-%s-blub", expected4 );
+    Assert.assertEquals( props.getProperty( "simple.7" ), expected7 );
+    Assert.assertEquals( props.getProperty( "simple.8" ), String.format( "flup:%s.", expected7 ) );
 
     Assert.assertEquals( props.getAssociatedProperty( "simple", "a" ), "hondo" );
     Assert.assertEquals( props.getAssociatedProperty( "simple", "b" ), "bla-hondo-blub" );
     
+  }
+  
+  @Test(dataProvider="createConfigs")
+  public void checkNameTraversal( String delimiter, String commentintro ) {
+    
+    ExtProperties       simpleprops = setupContent( simplefile, delimiter, commentintro );
+    Enumeration<String> names       = simpleprops.propertyNames();
+    Set<String>         set         = new HashSet<String>();
+    while( names.hasMoreElements() ) {
+      set.add( names.nextElement() );
+    }
+    
+    Assert.assertEquals( set.size(), 6 );
+    Assert.assertTrue( set.contains( "simple.property" ) );
+    Assert.assertTrue( set.contains( "simple_property" ) );
+    Assert.assertTrue( set.contains( "simple.property_with_value" ) );
+    Assert.assertTrue( set.contains( "simple_property_with_value" ) );
+    Assert.assertTrue( set.contains( "class" ) );
+    Assert.assertTrue( set.contains( "car" ) );
+
+    ExtProperties       evaluationprops = setupContent( evaluationfile, delimiter, commentintro );
+    names                               = evaluationprops.propertyNames();
+    set.clear();
+    while( names.hasMoreElements() ) {
+      set.add( names.nextElement() );
+    }
+    
+    Assert.assertEquals( set.size(), 9 );
+    Assert.assertTrue( set.contains( "simple.1" ) );
+    Assert.assertTrue( set.contains( "simple.2" ) );
+    Assert.assertTrue( set.contains( "simple.3" ) );
+    Assert.assertTrue( set.contains( "simple.4" ) );
+    Assert.assertTrue( set.contains( "simple.5" ) );
+    Assert.assertTrue( set.contains( "simple.6" ) );
+    Assert.assertTrue( set.contains( "simple.7" ) );
+    Assert.assertTrue( set.contains( "simple.8" ) );
+    Assert.assertTrue( set.contains( "simple"   ) );
+
+  }
+
+  @Test(dataProvider="createConfigs")
+  public void loadAndStore( String delimiter, String commentintro ) {
+    
+    // load/reload with simple.properties
+    ExtProperties   simpleprops     = setupContent( simplefile, delimiter, commentintro );
+    CharArrayWriter writer1         = new CharArrayWriter();
+    simpleprops.store( writer1 );
+    
+    ExtProperties   simplereloaded  = new ExtProperties( delimiter, commentintro );
+    simplereloaded.load( new CharArrayReader( writer1.toCharArray() ) );
+    CharArrayWriter writer2         = new CharArrayWriter();
+    simplereloaded.store( writer2 );
+    
+    char[]          charray1        = writer1.toCharArray();
+    char[]          charray2        = writer2.toCharArray();
+    Assert.assertEquals( charray2, charray1 );
+
+    // load/reload with evaluation.properties
+    ExtProperties   evaluationprops = setupContent( evaluationfile, delimiter, commentintro );
+    CharArrayWriter writer3         = new CharArrayWriter();
+    evaluationprops.store( writer3 );
+    
+    ExtProperties   evalreloaded    = new ExtProperties( delimiter, commentintro );
+    evalreloaded.load( new CharArrayReader( writer3.toCharArray() ) );
+    CharArrayWriter writer4     = new CharArrayWriter();
+    evalreloaded.store( writer4 );
+    
+    char[]          charray3    = writer3.toCharArray();
+    char[]          charray4    = writer4.toCharArray();
+    Assert.assertEquals( charray4, charray3 );
+
   }
 
 } /* ENDCLASS */
