@@ -10,6 +10,8 @@ package com.kasisoft.lgpl.libs.common.functionality;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
+import java.util.*;
+
 /**
  * Collection of predefined types.
  */
@@ -78,6 +80,40 @@ public class Predefined {
     @KNotNull(name="clazz")   Class<T>   clazz 
   ) {
     return new ToString<T>();
+  }
+
+  /**
+   * Returns a Transform instance allowing to transform any kind of key from a Map.Entry record 
+   * into a String. <code>null</code> values remain <code>null</code> values.
+   * 
+   * @param keyclass     The type of the key. Not <code>null</code>.
+   * @param valueclass   The type of the value. Not <code>null</code>.
+   * 
+   * @return   The Transform instance allowing to transform any kind of type into a String.
+   *           Not <code>null</code>.
+   */
+  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( 
+    @KNotNull(name="keyclass")     Class<K>   keyclass, 
+    @KNotNull(name="valueclass")   Class<V>   valueclass 
+  ) {
+    return new KeyToString<K,V>();
+  }
+
+  /**
+   * Returns a Transform instance allowing to transform any kind of value from a Map.Entry record 
+   * into a String. <code>null</code> values remain <code>null</code> values.
+   * 
+   * @param keyclass     The type of the key. Not <code>null</code>.
+   * @param valueclass   The type of the value. Not <code>null</code>.
+   * 
+   * @return   The Transform instance allowing to transform any kind of type into a String.
+   *           Not <code>null</code>.
+   */
+  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform( 
+    @KNotNull(name="keyclass")     Class<K>   keyclass, 
+    @KNotNull(name="valueclass")   Class<V>   valueclass 
+  ) {
+    return new ValueToString<K,V>();
   }
 
   /** 
@@ -161,5 +197,49 @@ public class Predefined {
     }
     
   } /* ENDCLASS */
-  
+
+  /**
+   * Transforms the key of a Map.Entry record into a String.
+   */
+  private static class KeyToString<K,V> implements Transform<Map.Entry<K,V>,String> {
+
+    /**
+     * {@inheritDoc}
+     */
+    public String map( Map.Entry<K,V> input ) {
+      if( input == null ) {
+        return null;
+      } else {
+        if( input.getKey() == null ) {
+          return null;
+        } else {
+          return input.getKey().toString();
+        }
+      }
+    }
+    
+  } /* ENDCLASS */
+
+  /**
+   * Transforms the value of a Map.Entry record into a String.
+   */
+  private static class ValueToString<K,V> implements Transform<Map.Entry<K,V>,String> {
+
+    /**
+     * {@inheritDoc}
+     */
+    public String map( Map.Entry<K,V> input ) {
+      if( input == null ) {
+        return null;
+      } else {
+        if( input.getValue() == null ) {
+          return null;
+        } else {
+          return input.getValue().toString();
+        }
+      }
+    }
+    
+  } /* ENDCLASS */
+
 } /* ENDCLASS */
