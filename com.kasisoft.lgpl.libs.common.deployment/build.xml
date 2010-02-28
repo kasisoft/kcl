@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="com.kasisoft.lgpl.libs.common.deployment" basedir=".">
+
+  <import file="${basedir}/../_ext/common.xml"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- PROPERTY DEFINITIONS                                                                    -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <property file="${basedir}/deployment.properties"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- TARGET DEFINITIONS                                                                      -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  
+  <target name="clean" depends="init">
+    <delete>
+      <fileset dir="${basedir}">
+        <include name="kasisoft-common.zip"/>
+        <include name="kasisoft-common-*.zip"/>
+      </fileset>
+    </delete>
+  </target>
+  
+  <target name="deploy" depends="clean">
+
+    <var name="project.common" value="com.kasisoft.lgpl.libs.common"/>
+
+    <echo>Cleaning up all '${project.common}' resources ...</echo>
+    <clean-for-all projectname="${project.common}.test"/>
+
+    <echo>Compiling each project referred by '${project.common}.test' ...</echo>
+    <distribution-for-all projectname="${project.common}.test"/>
+
+    <!-- get the location of the generated distribution jar file. -->
+    <temp-project-jar projectname="${project.common}" property="file.jarcontent"/>
+
+    <!-- create a directory for temporary use. -->
+    <temp-project-dir projectname="${ant.project.name}" property="dir.deploy"/>
+
+    <!-- simple release version. -->
+    <copy file="${file.jarcontent}" tofile="${dir.deploy}/kasisoft-common.jar"/>
+
+    <mkdir dir="${dir.deploy}/libs/com.kasisoft.lgpl.tools.diagnostic"/>
+    <copy todir="${dir.deploy}/libs/com.kasisoft.lgpl.tools.diagnostic">
+      <fileset dir="${HOME_DIAGNOSTIC}" includes="**/*"/>
+    </copy>
+
+    <mkdir dir="${dir.deploy}/apidocs"/>
+
+    <!-- generate api documentation. -->
+    <api-doc projectname="${project.common}" destdir="${dir.deploy}/apidocs"/>
+
+    <zip destfile="${dir.deploy}/apidocs.zip">
+      <fileset dir="${dir.deploy}/apidocs" includes="**/*"/>
+    </zip>
+    
+    <delete-dir dir="${dir.deploy}/apidocs"/>
+
+    <!--
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=49&amp;filename=diagnostic.de.pdf" dest="${dir.deploy}/user/diagnostic.de.pdf"/>
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=56&amp;filename=diagnostic.en.pdf" dest="${dir.deploy}/user/diagnostic.en.pdf"/>
+    -->
+
+    <echo file="${dir.deploy}/version.txt">${build.version}</echo>
+    <copy file="${dir.ext}/licenses/lgpl/3.txt" tofile="${dir.deploy}/license.txt"/>
+
+    <set-default property="env.SVN_REVISION" value="local"/>
+    <var name="revision" value="${env.SVN_REVISION}"/>
+
+    <zip destfile="${basedir}/kasisoft-common-${revision}.zip">
+      <fileset dir="${dir.deploy}" includes="**/*"/>
+    </zip>
+
+    <delete-dir dir="${dir.deploy}"/>
+      
+  </target>
+  
+</project>
