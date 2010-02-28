@@ -16,8 +16,8 @@ import com.kasisoft.lgpl.libs.common.io.*;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
-import java.util.regex.*;
 import java.util.*;
+import java.util.regex.*;
 
 import java.io.*;
 
@@ -32,31 +32,55 @@ import java.io.*;
  *   <li>This type doesn't support escaping for unicode characters as loading resources expects to
  *   provide a corresponding encoding.</li>
  * </ul>
+ * 
+ * You can also refer to the environment or the System.Properties using the following schemes:
+ * 
+ * <ul>
+ *   <li><code>${env:PATH}</code> delivers the full path.</li>
+ *   <li><code>${sys:line.separator}</code> delivers the line separator.</li>
+ * </ul>
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ExtProperties {
   
+  private static final String PREFIX_ENV    = "env:";
+  private static final String PREFIX_SYS    = "sys:";  
+
+  // formatting string used to create full variable expressions. f.e. ${bla.blub}
+  private String                                   varformatter;
+
+  // formatting string used to produce a complete property line (or property reference).
+  // f.e. bla.blub[hello] = 12 or bla.blub[hello]
+  private String                                   formatter;
+  
+  // regex pattern used for variable resolving
   private Pattern                                  varselector;
   
+  // regex pattern used to resolve property keys
+  private Pattern                                  propkeyselector;
+  
+  // this pattern is used to split the parts of a property key name. it's only allowed to be
+  // used after the key has been "validated" using propkeyselector. 
+  private Pattern                                  splitter;
+
+  // some general settings for the properties file
+  private String                                   delimiter;
+  private String                                   commentintro;
+  private boolean                                  emptyisnull;
+
+  // data structures used to collect the property values
   private Set<String>                              names;
   private Map<String,Map<Integer,PropertyValue>>   indexed;
   private Map<String,Map<String,PropertyValue>>    associated;
   private Map<String,PropertyValue>                simple;
-  private boolean                                  emptyisnull;
-  
-  private Pattern                                  validation;
-  private Pattern                                  splitter;
-  private String                                   formatter;
-  private String                                   varformatter;
 
-  private String                                   delimiter;
-  private String                                   commentintro;
-  
-  private Map<String,String>                       values;
+  // a map used for general replacements
+  private Map<String,String>                       generalreplacements;
   
   // for temporary use
   private List<String>                             lines;
   private Map<String,String>                       propertyvalues;
+  private Tupel<String>                            pair;
 
   /**
    * Initialises this Properties implementation.
@@ -68,100 +92,60 @@ public class ExtProperties {
   /**
    * Initialises this Properties implementation.
    * 
-   * @param del       The delimiter to be used for the key value pairs. Maybe <code>null</code>.
-   * @param comment   The literal which introduces a comment. Maybe <code>null</code>.
-   * @param array     The way indexed/associated keys are represented. Maybe <code>null</code>.
+   * @param del       The delimiter to be used for the key value pairs.   
+   *                  If not <code>null</code> it must be not empty.
+   * @param comment   The literal which introduces a comment. 
+   *                  If not <code>null</code> it must be not empty.
    */
-  public ExtProperties( String del, String comment ) {
-    if( del == null ) {
-      delimiter     = "=";
-    } else {
-      delimiter     = del;
-    }
-    if( comment == null ) {
-      commentintro  = "#";
-    } else {
-      commentintro  = comment;
-    }
-    varselector     = Pattern.compile( "\\$\\{[\\w\\.\\[\\]]+\\}" );
-    validation      = Pattern.compile( "^\\s*[\\w\\.]+\\s*\\[\\s*[\\w\\.]+\\s*\\]\\s*$" );
-    splitter        = Pattern.compile( "[\\s\\[\\]]+" );
-    formatter       = "%s[%s]%s%s";
-    varformatter    = "${%s%s}";
-    lines           = new ArrayList<String>();
-    emptyisnull     = false;
-    names           = new HashSet<String>();
-    indexed         = new Hashtable<String,Map<Integer,PropertyValue>>();
-    associated      = new Hashtable<String,Map<String,PropertyValue>>();
-    simple          = new HashMap<String,PropertyValue>();
-    setupValues();
+  public ExtProperties( 
+    @KNotEmpty(name="del",nullable=true)      String   del, 
+    @KNotEmpty(name="coment",nullable=true)   String   comment 
+  ) {
+    delimiter           = del != null ? del : "=";
+    commentintro        = comment != null ? comment : "#";
+    varformatter        = "${%s%s}";
+    formatter           = "%s[%s]%s%s";
+    varselector         = Pattern.compile( "\\$\\{[\\w\\.\\[\\]]+\\}" );
+    propkeyselector     = Pattern.compile( "^\\s*[\\w\\.]+\\s*\\[\\s*[\\w\\.]+\\s*\\]\\s*$" );
+    splitter            = Pattern.compile( "[\\s\\[\\]]+" );
+    emptyisnull         = false;
+    names               = new HashSet<String>();
+    indexed             = new Hashtable<String,Map<Integer,PropertyValue>>();
+    associated          = new Hashtable<String,Map<String,PropertyValue>>();
+    simple              = new HashMap<String,PropertyValue>();
+    generalreplacements = setupGeneralReplacements();
+    lines               = new ArrayList<String>();
+    pair                = new Tupel<String>();
   }
   
-  private void setupValues() {
-    values                          = new Hashtable<String,String>();
+  /**
+   * Creates a map with variable settings from the current system environment.
+   * 
+   * @return   A map with variable settings from the current system environment. Not <code>null</code>.
+   */
+  private Map<String,String> setupGeneralReplacements() {
+    
+    Map<String,String> result       = new Hashtable<String,String>();
+    
+    // record the env entries
     Map<String,String> environment  = System.getenv();
     for( Map.Entry<String,String> env : environment.entrySet() ) {
-      values.put( String.format( varformatter, "env:", env.getKey() ), env.getValue() );
+      result.put( String.format( varformatter, PREFIX_ENV, env.getKey() ), env.getValue() );
     }
-    Properties          sysprops    = System.getProperties();
-    Enumeration<String> names       = (Enumeration<String>) sysprops.propertyNames();
+    
+    // record the system properties
+    Properties          sysprops  = System.getProperties();
+    Enumeration<String> names     = (Enumeration<String>) sysprops.propertyNames();
     while( names.hasMoreElements() ) {
-      String name   = names.nextElement();
-      String value  = sysprops.getProperty( name );
-      values.put( String.format( varformatter, "", name ), value );
+      String key    = names.nextElement();
+      String value  = sysprops.getProperty( key );
+      result.put( String.format( varformatter, PREFIX_SYS, key ), value );
     }
+    
+    return result;
+    
   }
 
-  /**
-   * Creates a property line according to this style.
-   * 
-   * @param key         The basic key name, that has been used. Not <code>null</code>.
-   * @param index       The index/association to be used. Not <code>null</code>.
-   * @param delimiter   The delimiter used to separate the value. Not <code>null</code>.
-   * @param value       The value associated with the property key. Maybe <code>null</code>.
-   * 
-   * @return   The property line providing the content.
-   */
-  private String toLine( String key, Object index, String delimiter, String value ) {
-    if( value == null ) {
-      value = "";
-    }
-    return String.format( formatter, key, index, delimiter, value );
-  }
-
-  /**
-   * Creates a property line according to this style.
-   * 
-   * @param key         The basic key name, that has been used. Not <code>null</code>.
-   * @param index       The index/association to be used. Not <code>null</code>.
-   * 
-   * @return   The property line providing the content.
-   */
-  private String toKey( String key, Object index ) {
-    return toLine( key, index, "", "" );
-  }
-  
-  /**
-   * Simply selects the key and the index/association portion of a key.
-   * 
-   * @param fullkey    The full key.
-   * @param receiver   The receiver for the index/association portion of the key.
-   */
-  private void select( String fullkey, Tupel<String> receiver ) {
-    receiver.setValues( splitter.split( fullkey ) );
-  }
-  
-  /**
-   * Returns <code>true</code> if the supplied key is matched by this style.
-   * 
-   * @param fullkey   The full key provided by the properties map.
-   * 
-   * @return   <code>true</code> if the supplied key is matched by this style.
-   */
-  private boolean matches( String fullkey ) {
-    return validation.matcher( fullkey ).matches();
-  }
-  
   /**
    * Returns <code>true</code> if empty values shall be treated as <code>null</code> values.
    * 
@@ -262,20 +246,25 @@ public class ExtProperties {
       key   = line.substring( 0, idx );
       value = line.substring( idx + delimiter.length() ).trim();
     }
-    if( matches( key ) ) {
+    if( propkeyselector.matcher( key ).matches() ) {
+      
       // we've got an indexed/associated property
-      Tupel<String> pair = new Tupel<String>();
-      select( key, pair );
+      pair.setValues( splitter.split( key ) );
       try {
+        
         // try with an indexed one
         Integer indexval = Integer.valueOf( pair.getLast() );
         setIndexedProperty( pair.getFirst(), indexval.intValue(), value );
-        return toLine( pair.getFirst(), indexval, delimiter, value );
+        return String.format( formatter, pair.getFirst(), indexval, delimiter, value != null ? value : "" );
+        
       } catch( NumberFormatException ex ) {
+        
         // indexed fails, so it's an associated property
         setAssociatedProperty( pair.getFirst(), pair.getLast(), value );
-        return toLine( pair.getFirst(), pair.getLast(), delimiter, value );
+        return String.format( formatter, pair.getFirst(), pair.getLast(), delimiter, value != null ? value : "" );
+      
       }
+      
     } else {
       // simpliest property
       setSimpleProperty( key, value );
@@ -300,10 +289,9 @@ public class ExtProperties {
         value = null;
       }
     }
-    if( matches( key ) ) {
+    if( propkeyselector.matcher( key ).matches() ) {
       // we've got an indexed/associated property
-      Tupel<String> pair = new Tupel<String>();
-      select( key, pair );
+      pair.setValues( splitter.split( key ) );
       try {
         // try with an indexed one
         setIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ), value );
@@ -334,7 +322,9 @@ public class ExtProperties {
       values = new HashMap<Integer,PropertyValue>();
       indexed.put( key, values );
     }
-    values.put( Integer.valueOf( index ), newPropertyValue( this, toKey( key, Integer.valueOf( index ) ), value ) );
+    Integer indexobj = Integer.valueOf( index );
+    String  keyname  = String.format( formatter, key, indexobj, "", "" );
+    values.put( indexobj, newPropertyValue( this, keyname, value ) );
     names.add( key );
   }
   
@@ -355,7 +345,8 @@ public class ExtProperties {
       values = new HashMap<String,PropertyValue>();
       associated.put( key, values );
     }
-    values.put( association, newPropertyValue( this, toKey( key, association ), value ) );
+    String keyname = String.format( formatter, key, association, "", "" );
+    values.put( association, newPropertyValue( this, keyname, value ) );
     names.add( key );
   }
 
@@ -427,9 +418,9 @@ public class ExtProperties {
       // get a list of the entries first
       List<Map.Entry<Integer,PropertyValue>> values = new ArrayList<Map.Entry<Integer,PropertyValue>>( map.entrySet() );
       // now sort them according to the indexes
-      Collections.sort( values, new LocalBehaviour() );
+      Collections.sort( values, MiscFunctions.newKeyComparator( Integer.class ) );
       // now map them, since we're only interested in the values
-      return FuFunctions.map( new LocalBehaviour(), values );
+      return FuFunctions.map( Predefined.toStringValueTransform( Integer.class, PropertyValue.class ), values );
     } else {
       return defvalues;
     }
@@ -465,19 +456,51 @@ public class ExtProperties {
                              int      index, 
                              String   defvalue 
   ) {
-    Map<Integer,PropertyValue> values = indexed.get( key );
-    if( values != null ) {
-      PropertyValue result = values.get( Integer.valueOf( index ) );
-      if( result == null ) {
-        return defvalue;
-      } else {
-        return result.toString();
-      }
+    return getIndexedOrAssociatedProperty( key, Integer.valueOf( index ), indexed, defvalue );
+  }
+
+  /**
+   * Returns the value of an associated property.
+   * 
+   * @param key           The key used to access the property. Neither <code>null</code> nor empty.
+   * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
+   * @param defvalue      The default value which will be returned in case none is available yet.
+   *                      Maybe <code>null</code>.
+   * 
+   * @return   The value stored using the associated property. Maybe <code>null</code> if none exists
+   *           and no default value has been supplied.
+   */
+  public synchronized String getAssociatedProperty( 
+    @KNotEmpty(name="key")           String   key, 
+    @KNotEmpty(name="association")   String   association, 
+                                     String   defvalue 
+  ) {
+    return getIndexedOrAssociatedProperty( key, association, associated, defvalue );
+  }
+
+  /**
+   * Returns the value of an indexed/associated property.
+   * 
+   * @param key           The key used to access the property. Neither <code>null</code> nor empty.
+   * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
+   * @param source        The map providing the value maps. Not <code>null</code>.
+   * @param defvalue      The default value which will be returned in case none is available yet.
+   *                      Maybe <code>null</code>.
+   * 
+   * @return   The value stored using the associated property. Maybe <code>null</code> if none exists
+   *           and no default value has been supplied.
+   */
+  private <T> String getIndexedOrAssociatedProperty( 
+    String key, T association, Map<String,Map<T,PropertyValue>> source, String defvalue 
+  ) {
+    Map<T,PropertyValue> map = source.get( key );
+    if( map != null ) {
+      return getPropertyValue( map.get( association ), defvalue  );
     } else {
       return defvalue;
     }
   }
-
+  
   /**
    * Returns a map of associated values for a specific property.
    * 
@@ -513,35 +536,6 @@ public class ExtProperties {
   }
 
   /**
-   * Returns the value of an associated property.
-   * 
-   * @param key           The key used to access the property. Neither <code>null</code> nor empty.
-   * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
-   * @param defvalue      The default value which will be returned in case none is available yet.
-   *                      Maybe <code>null</code>.
-   * 
-   * @return   The value stored using the associated property. Maybe <code>null</code> if none exists
-   *           and no default value has been supplied.
-   */
-  public synchronized String getAssociatedProperty( 
-    @KNotEmpty(name="key")           String   key, 
-    @KNotEmpty(name="association")   String   association, 
-                                     String   defvalue 
-  ) {
-    Map<String,PropertyValue> values = associated.get( key );
-    if( values != null ) {
-      PropertyValue result = values.get( association );
-      if( result == null ) {
-        return defvalue;
-      } else {
-        return result.toString();
-      }
-    } else {
-      return defvalue;
-    }
-  }
-
-  /**
    * Returns the value associated with the supplied simple key.
    * 
    * @param key   The key used to access the property. Neither <code>null</code> nor empty.
@@ -566,11 +560,25 @@ public class ExtProperties {
     @KNotEmpty(name="key")   String   key, 
                              String   defvalue 
   ) {
-    PropertyValue result = simple.get( key );
-    if( result == null ) {
+    return getPropertyValue( simple.get( key ), defvalue );
+  }
+  
+  /**
+   * Just a convenience method which allows to return a PropertyValue while doing a <code>null</code>
+   * check.
+   * 
+   * @param value      The PropertyValue which content has to be returned. Maybe <code>null</code>.
+   * @param defvalue   The default value to be used in case no PropertyValue has been given.
+   *                   Maybe <code>null</code>.
+   *                   
+   * @return   Maybe <code>null</code> if neither a PropertyValue nor a non-<code>null</code>
+   *           default value has been provided.
+   */
+  private String getPropertyValue( PropertyValue value, String defvalue ) {
+    if( value == null ) {
       return defvalue;
     } else {
-      return result.toString();
+      return value.toString();
     }
   }
 
@@ -593,9 +601,8 @@ public class ExtProperties {
    * or {@link #getSimpleProperty(String, String)} directly since they are cheaper.
    */
   public synchronized String getProperty( String key, String defvalue ) {
-    if( matches( key ) ) {
-      Tupel<String> pair = new Tupel<String>();
-      select( key, pair );
+    if( propkeyselector.matcher( key ).matches() ) {
+      pair.setValues( splitter.split( key ) );
       try {
         return getIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ), defvalue );
       } catch( NumberFormatException ex ) {
@@ -672,11 +679,10 @@ public class ExtProperties {
         key = line.substring( 0, idx );
       }
       
-      if( matches( key ) ) {
+      if( propkeyselector.matcher( key ).matches() ) {
         
         // it's an indexed/associated key
-        Tupel<String> pair = new Tupel<String>();
-        select( key, pair );
+        pair.setValues( splitter.split( key ) );
         
         // only apply it if this property has not been used before
         if( undone.contains( pair.getFirst() ) ) {
@@ -685,9 +691,9 @@ public class ExtProperties {
           // flagged using the set 'undone').
           try {
             Integer.parseInt( pair.getLast() );
-            applyIndexed( newlines, pair.getFirst() );
+            applyProperties( newlines, pair.getFirst(), indexed, Integer.class );
           } catch( NumberFormatException ex ) {
-            applyAssociated( newlines, pair.getFirst() );
+            applyProperties( newlines, pair.getFirst(), associated, String.class );
           }
           undone.remove( pair.getFirst() );
           
@@ -719,9 +725,9 @@ public class ExtProperties {
         if( isSimpleProperty( currentkey ) ) {
           applySimple( newlines, currentkey );
         } else if( isIndexedProperty( currentkey ) ) {
-          applyIndexed( newlines, currentkey );
+          applyProperties( newlines, currentkey, indexed, Integer.class );
         } else if( isAssociatedProperty( currentkey ) ) {
-          applyAssociated( newlines, currentkey );
+          applyProperties( newlines, currentkey, associated, String.class );
         }
         
       }
@@ -737,49 +743,23 @@ public class ExtProperties {
    * 
    * @param receiver   The new list of lines to be extended. Not <code>null</code>.
    * @param key        The key which values have to be added. Neither <code>null</code> nor empty.
+   * @param values     The values providing the map which has to ba applied. Not <code>null</code>.
+   * @param type       The type of the keys. Not <code>null</code>.
    */
-  private void applyIndexed( List<String> receiver, String key ) {
-    Map<Integer,PropertyValue> map  = indexed.get( key );
+  private <T extends Comparable> void applyProperties( List<String> receiver, String key, Map<String,Map<T,PropertyValue>> values, Class<T> type ) {
+    Map<T,PropertyValue> map = values.get( key );
     if( map == null ) {
       // nothing to be done here
       return;
     }
-    List<Map.Entry<Integer,PropertyValue>> list = new ArrayList<Map.Entry<Integer,PropertyValue>>( map.entrySet() );
-    Collections.sort( list, new LocalBehaviour<Integer>() );
+    List<Map.Entry<T,PropertyValue>> list = new ArrayList<Map.Entry<T,PropertyValue>>( map.entrySet() );
+    Collections.sort( list, MiscFunctions.newKeyComparator( type ) );
     for( int i = 0; i < list.size(); i++ ) {
       PropertyValue value = list.get(i).getValue();
-      if( value == null ) {
-        receiver.add( toLine( key, list.get(i).getKey(), delimiter, null ) );
-      } else {
-        receiver.add( toLine( key, list.get(i).getKey(), delimiter, value.toString() ) );
-      }
+      receiver.add( String.format( formatter, key, list.get(i).getKey(), delimiter, getPropertyValue( value, "" ) ) );
     }
   }
-
-  /**
-   * Applies the associated property values. We're sorting here, too, to get reproducable results.
-   * 
-   * @param receiver   The new list of lines to be extended. Not <code>null</code>.
-   * @param key        The key which values have to be added. Neither <code>null</code> nor empty.
-   */
-  private void applyAssociated( List<String> receiver, String key ) {
-    Map<String,PropertyValue> map  = associated.get( key );
-    if( map == null ) {
-      // nothing to be done here
-      return;
-    }
-    List<Map.Entry<String,PropertyValue>> list = new ArrayList<Map.Entry<String,PropertyValue>>( map.entrySet() );
-    Collections.sort( list, new LocalBehaviour<String>() );
-    for( int i = 0; i < list.size(); i++ ) {
-      PropertyValue value = list.get(i).getValue();
-      if( value == null ) {
-        receiver.add( toLine( key, list.get(i).getKey(), delimiter, null ) );
-      } else {
-        receiver.add( toLine( key, list.get(i).getKey(), delimiter, value.toString() ) );
-      }
-    }
-  }
-
+  
   /**
    * We're just adding a simple property here.
    * 
@@ -792,11 +772,7 @@ public class ExtProperties {
       return;
     }
     PropertyValue value = simple.get( key );
-    if( value == null ) {
-      receiver.add( String.format( "%s%s%s", key, delimiter, "" ) );
-    } else {
-      receiver.add( String.format( "%s%s%s", key, delimiter, value.toString() ) );
-    }
+    receiver.add( String.format( "%s%s%s", key, delimiter, getPropertyValue( value, "" ) ) );
   }
   
   /**
@@ -815,10 +791,9 @@ public class ExtProperties {
    * @param key   The key of the property to be removed. Neither <code>null</code> nor empty.
    */
   public synchronized void removeProperty( @KNotEmpty(name="key") String key ) {
-    if( matches( key ) ) {
+    if( propkeyselector.matcher( key ).matches() ) {
       // we've got an indexed/associated property
-      Tupel<String> pair = new Tupel<String>();
-      select( key, pair );
+      pair.setValues( splitter.split( key ) );
       try {
         // try with an indexed one
         removeIndexedProperty( pair.getFirst(), Integer.parseInt( pair.getLast() ) );
@@ -846,6 +821,19 @@ public class ExtProperties {
   }
 
   /**
+   * Removes all associated properties for a specific key. If this property doesn't exists, this method
+   * will simply do nothing.
+   * 
+   * @param key   The key used to select all associated properties. Neither <code>null</code> nor empty.
+   */
+  public synchronized void removeAssociatedProperty( @KNotEmpty(name="key") String key ) {
+    if( associated.containsKey( key ) ) {
+      associated.remove( key );
+      names.remove( key );
+    }
+  }
+  
+  /**
    * Removes a specific indexed property value. If the property value doesn't exists, this method
    * will simply do nothing.
    * 
@@ -861,23 +849,11 @@ public class ExtProperties {
       map.remove( Integer.valueOf( index ) );
       if( map.isEmpty() ) {
         indexed.remove( key );
+        names.remove( key );
       }
     }
   }
 
-  /**
-   * Removes all associated properties for a specific key. If this property doesn't exists, this method
-   * will simply do nothing.
-   * 
-   * @param key   The key used to select all associated properties. Neither <code>null</code> nor empty.
-   */
-  public synchronized void removeAssociatedProperty( @KNotEmpty(name="key") String key ) {
-    if( associated.containsKey( key ) ) {
-      associated.remove( key );
-      names.remove( key );
-    }
-  }
-  
   /**
    * Removes a specific associated property value. If the property value doesn't exist, this method
    * will simply do nothing.
@@ -894,6 +870,7 @@ public class ExtProperties {
       map.remove( association );
       if( map.isEmpty() ) {
         associated.remove( key );
+        names.remove( key );
       }
     }
   }
@@ -918,48 +895,28 @@ public class ExtProperties {
                               String          value 
   ) {
     if( value == null ) {
+      // we don't need to create an instance for this
       return null;
     } else {
       if( value.indexOf( "${" ) != -1 ) {
-        value = StringFunctions.replace( value, values );
+        // it contains variables, so try to replace at least the general ones
+        value = StringFunctions.replace( value, generalreplacements );
         if( value.indexOf( "${" ) != -1 ) {
+          // still variables left over which will be evaluated when being requested
           return new EvalPropertyValue( owner, key, value );
         }
       }
-      return new StringPropertyValue( value );
+      // simple constant value
+      return new PropertyValue( value );
     }
   }
 
   /**
-   * Implementation of custom behaviour.
+   * This PropertyValue implementation is used for values that require to be resolved.
    */
-  private static final class LocalBehaviour<T extends Comparable> implements Comparator<Map.Entry<T,PropertyValue>>, 
-                                                                             Transform<Map.Entry<Integer,PropertyValue>,String> {
-
-    /**
-     * {@inheritDoc}
-     */
-    public int compare( Map.Entry<T,PropertyValue> entry1, Map.Entry<T,PropertyValue> entry2 ) {
-      return entry1.getKey().compareTo( entry2.getKey() );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String map( Map.Entry<Integer, PropertyValue> input ) {
-      if( input.getValue() == null ) {
-        return null;
-      } else {
-        return input.getValue().toString();
-      }
-    }
-
-  } /* ENDCLASS */
-    
-  private static final class EvalPropertyValue implements PropertyValue {
+  private static final class EvalPropertyValue extends PropertyValue {
 
     private ExtProperties   pthis;
-    private String          content;
     private String          varname;
     private Matcher         matcher;
     private StringBuffer    buffer;
@@ -970,50 +927,83 @@ public class ExtProperties {
      * @param val   The string value used to be stored within this type. Neither <code>null</code> nor empty.
      */
     public EvalPropertyValue( @KNotNull(name="fac") ExtProperties fac, @KNotEmpty(name="key") String key, @KNotEmpty(name="val") String val ) {
-      content = val;
+      super( val );
       pthis   = fac;
       varname = String.format( pthis.varformatter, "", key );
-      matcher = pthis.varselector.matcher( content );
+      matcher = pthis.varselector.matcher( super.content );
       buffer  = new StringBuffer();
     }
     
+    /**
+     * Evaluates this PropertyValue instance.
+     * 
+     * @return   The evaluated value. Not <code>null</code>.
+     */
     private String evaluate() {
       boolean delete = pthis.propertyvalues == null;
       if( delete ) {
+        // each resolved property value goes into this map. the first resolving starts the
+        // process. this is necessary to prevent endless loop due to cyclic references
         pthis.propertyvalues = new HashMap<String,String>();
       }
+      // originally set the identity value so '${bla}' would be substituted by '${bla}' in each
+      // triggered call.
       pthis.propertyvalues.put( varname, varname );
-      String value = evaluate( content );
+      String value = evaluate( super.content );
       pthis.propertyvalues.put( varname, value );
       if( delete ) {
+        // the first call has been done, so cleanup the table.
         pthis. propertyvalues = null;
       }
       return value;
     }
     
+    /**
+     * Evaluates the supplied value by resolving the contained variable references.
+     * 
+     * @param value   The current value to be resolved. Not <code>null</code>.
+     * 
+     * @return   The completely resolved value.
+     */
     private String evaluate( String value ) {
+      
       buffer.setLength(0);
       matcher.reset();
+      
+      // run through each occurences
       int laststart = 0;
       while( matcher.find() ) {
+        
         int start = matcher.start();
         int end   = matcher.end();
         if( start > laststart ) {
+          // there's some normal text that needs to be copied
           buffer.append( value.substring( laststart, start ) );
         }
+        
+        // extract the key expression (something like ${bla}).
         String key = value.substring( start, end );
         if( pthis.propertyvalues.containsKey( key ) ) {
+          // this has already been resolved, so we can reuse the value here
           buffer.append( pthis.propertyvalues.get( key ) );
         } else {
+          // we need to get the variable refernece itself in order to resolve it
           key = key.substring( "${".length(), key.length() - "}".length() );
+          // append the referred variable value
           buffer.append( pthis.getProperty( key ) );
         }
+        
         laststart  = end;
+        
       }
+      
       if( laststart < value.length() ) {
+        // there's still some content left, so add it
         buffer.append( value.substring( laststart ) );
       }
+      
       return buffer.toString();
+      
     }
 
     /**
@@ -1028,7 +1018,7 @@ public class ExtProperties {
   /**
    * PropertyValue implementation just representing a simple String.
    */
-  private static final class StringPropertyValue implements PropertyValue {
+  private static class PropertyValue {
 
     private String   content;
     
@@ -1037,7 +1027,7 @@ public class ExtProperties {
      * 
      * @param val   The string value used to be stored within this type. Neither <code>null</code> nor empty.
      */
-    public StringPropertyValue( @KNotEmpty(name="val") String val ) {
+    public PropertyValue( @KNotEmpty(name="val") String val ) {
       content = val;
     }
     
@@ -1050,10 +1040,4 @@ public class ExtProperties {
     
   } /* ENDCLASS */
   
-  /**
-   * Simple API used for property values.
-   */
-  private static interface PropertyValue {
-  } /* ENDINTERFACE */
-
 } /* ENDCLASS */
