@@ -53,7 +53,7 @@
       useDefaultListeners="false"
       listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter"
     >
-      <jvmarg line="-DTMP=${env.TMP}"/>
+      <env key="TMP" value="${env.TMP}"/>
       <classfileset dir="${basedir}/classes" includes="**/*Test.class"/>
       <sysproperty key="org.uncommons.reportng.title" value="Testreport: ${ant.project.name}"/>
     </testng>
