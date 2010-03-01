@@ -9,6 +9,8 @@
 
   <property name="project.deployment"   value="com.kasisoft.lgpl.libs.common.deployment"/>
   
+  <property environment="env"/>
+  
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- PATH DEFINITIONS                                                                        -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -51,6 +53,7 @@
       useDefaultListeners="false"
       listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter"
     >
+      <jvmarg line="-DTMP=${env.TMP}"/>
       <classfileset dir="${basedir}/classes" includes="**/*Test.class"/>
       <sysproperty key="org.uncommons.reportng.title" value="Testreport: ${ant.project.name}"/>
     </testng>
