@@ -44,6 +44,7 @@
     </for>
     
     <get-classpath classpathid="classpathid" projectname="${ant.project.name}"/>
+    <chmod perm="+x" file="${basedir}/testdata/bin/testprocess.unix.exe"/>
     <testng
       classpathref="classpathid"
       outputdir="${basedir}/testreport"
