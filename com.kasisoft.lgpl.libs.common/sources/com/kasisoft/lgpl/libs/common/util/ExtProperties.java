@@ -130,7 +130,6 @@ public class ExtProperties {
     // record the env entries
     Map<String,String> environment  = System.getenv();
     for( Map.Entry<String,String> env : environment.entrySet() ) {
-      System.out.printf( "assigning: '%s' - '%s'\n", String.format( varformatter, PREFIX_ENV, env.getKey() ), env.getValue() );
       result.put( String.format( varformatter, PREFIX_ENV, env.getKey() ), env.getValue() );
     }
     
