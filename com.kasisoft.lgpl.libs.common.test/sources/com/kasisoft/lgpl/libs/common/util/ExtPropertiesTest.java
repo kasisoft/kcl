@@ -254,7 +254,10 @@ public class ExtPropertiesTest {
     Assert.assertEquals( props.getProperty( "simple.2" ), "A${}B" );
 
     String tempval      = SystemProperty.TempDir.getValue();
-    String expected3    = String.format( "A%sB", tempval.substring( 0, tempval.length() - 1 ) );
+    if( tempval.endsWith( File.separator ) ) {
+      tempval = tempval.substring( 0, tempval.length() - File.separator.length() );
+    }
+    String expected3    = String.format( "A%sB", tempval );
     Assert.assertEquals( props.getProperty( "simple.3" ), expected3 );
 
     String expected4    = String.format( "refers to: %s oh no", expected3 );

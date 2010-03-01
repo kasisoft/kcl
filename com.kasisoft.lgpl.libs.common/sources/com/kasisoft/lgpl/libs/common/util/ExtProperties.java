@@ -113,9 +113,9 @@ public class ExtProperties {
     indexed             = new Hashtable<String,Map<Integer,PropertyValue>>();
     associated          = new Hashtable<String,Map<String,PropertyValue>>();
     simple              = new HashMap<String,PropertyValue>();
-    generalreplacements = setupGeneralReplacements();
     lines               = new ArrayList<String>();
     pair                = new Tupel<String>();
+    generalreplacements = setupGeneralReplacements();
   }
   
   /**
