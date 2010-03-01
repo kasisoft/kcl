@@ -356,6 +356,9 @@ public class IoFunctionsTest {
     };
     
     List<File> list1  = IoFunctions.listRecursive( testdata, filter );
+    for( int i = 0; i < list1.size(); i++ ) {
+      System.out.println( "### [" + i + "] := " + list1.get(i).getAbsolutePath() );
+    }
     Assert.assertEquals( list1.size(), 26 );
 
     List<File> list2  = IoFunctions.listRecursive( testdata, filter, true, false );
