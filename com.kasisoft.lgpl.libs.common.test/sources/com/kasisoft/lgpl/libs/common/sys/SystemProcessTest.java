@@ -29,7 +29,12 @@ public class SystemProcessTest {
   
   @BeforeSuite
   public void setup() {
-    exefile       = new File( "testdata/bin/testprocess.win32.exe" );
+    exefile       = null;
+    if( SystemInfo.getRunningOS().isUnixLike() ) {
+      exefile = new File( "testdata/bin/testprocess.unix.exe" );
+    } else {
+      exefile = new File( "testdata/bin/testprocess.win32.exe" );
+    }
     Assert.assertTrue( exefile.canExecute() );
     byteout       = new ByteArrayOutputStream();
     byteerr       = new ByteArrayOutputStream();

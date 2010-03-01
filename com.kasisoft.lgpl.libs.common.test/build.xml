@@ -50,7 +50,7 @@
       useDefaultListeners="false"
       listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter"
     >
-      <classfileset dir="${basedir}/classes" includes="**/*Test.class" excludes="**/SystemProcessTest.class"/>
+      <classfileset dir="${basedir}/classes" includes="**/*Test.class"/>
       <sysproperty key="org.uncommons.reportng.title" value="Testreport: ${ant.project.name}"/>
     </testng>
     
