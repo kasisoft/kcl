@@ -12,11 +12,6 @@
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- PATH DEFINITIONS                                                                        -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
-  <path id="path.saxon">
-    <fileset dir="${HOME_SAXON}" includes="*.jar"/>
-  </path>
-
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- TARGET DEFINITIONS                                                                      -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -32,7 +27,7 @@
   
   <target name="test" depends="clean">
     
-    <temp-project-dir projectname="${ant.project.name}" property="dir.temp"/>
+    <mapped-project-dir projectname="${ant.project.name}" property="dir.temp"/>
     
     <ant dir="${dir.workspace}/${project.deployment}" antfile="${dir.workspace}/${project.deployment}/build.xml" target="deploy"/>
     <for param="zipfile">
