@@ -30,13 +30,13 @@
     <clean-for-all projectname="${project.common}.test"/>
 
     <echo>Compiling each project referred by '${project.common}.test' ...</echo>
-    <distribution-for-all projectname="${project.common}.test"/>
+    <distribution-for-all projectname="${project.common}.test" mapped="true"/>
 
     <!-- get the location of the generated distribution jar file. -->
-    <temp-project-jar projectname="${project.common}" property="file.jarcontent"/>
+    <mapped-project-jar projectname="${project.common}" property="file.jarcontent"/>
 
     <!-- create a directory for temporary use. -->
-    <temp-project-dir projectname="${ant.project.name}" property="dir.deploy"/>
+    <mapped-project-dir projectname="${ant.project.name}" property="dir.deploy"/>
 
     <!-- simple release version. -->
     <copy file="${file.jarcontent}" tofile="${dir.deploy}/kasisoft-common.jar"/>
