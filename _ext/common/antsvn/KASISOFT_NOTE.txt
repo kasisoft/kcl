@@ -1,0 +1,9 @@
+[11-Mar-2010:KASI]
+
+This release is based upon antsvn 1.2.1 . Nevertheless this is an unofficial patched version which
+includes some changes made by myself. This patch has been added to the issue tracker under:
+
+   http://subclipse.tigris.org/issues/show_bug.cgi?id=906
+   
+It only adds some simple convenience functions. Unfortunately there seems to be not much progress
+within the antsvn code so I'm still using this unoffical patched version.

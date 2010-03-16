@@ -1,21 +1,24 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="workspace" basedir="." default="generate-configurations">
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Property definitions                                                                    -->
+  <!-- PROPERTY DEFINITIONS                                                                    -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
+  <dirname file="${ant.file.workspace}"   property="dir.common"/>
+  <dirname file="${dir.common}"           property="dir.ext"/>
+  <dirname file="${dir.ext}"              property="dir.workspace"/>
+  
   <property environment="env"/>
   
-  <dirname  property="dir.workspace"     file="../../dummy"            />
-  <property name="dir.ext"               value="${dir.workspace}/_ext" />
-
+  <!-- used for the generation of the eclipse configuration file. -->
   <property name="varprefix"    value="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.classpathVariable"/>
 
-  <property file="${basedir}/workspace.properties"/>
+  <!-- use the current settings. -->
+  <property file="${dir.common}/workspace.properties"/>
   
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Path definitions                                                                        -->
+  <!-- PATH DEFINITIONS                                                                        -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
   <path id="path.antextensions">
@@ -26,53 +29,272 @@
   </path>
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Task definitions                                                                        -->
+  <!-- TASK DEFINITIONS                                                                        -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
   <taskdef classpathref="path.antextensions" resource="net/sf/antcontrib/antlib.xml"/>
   <taskdef classpathref="path.antextensions" resource="org/tigris/subversion/svnant/svnantlib.xml"/>
   
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Macro definitions                                                                       -->
+  <!-- MACRO DEFINITIONS                                                                       -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   
   <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Allows to handle key-value pairs located within a properties file. A prefixing key is   -->
-  <!-- used to select these pairs while the key itself is being removed.                       --> 
+  <!-- Allows to traverse a file containing properties.                                        -->
   <!--                                                                                         -->
-  <!-- @param declaration        A property file containing the values to be loaded.           -->
-  <!-- @param key                The key used for the prefixed key-value pairs.                -->
-  <!--                                                                                         -->
-  <!-- @param property-handler   An inlined element that will receive the key-value pair       -->
-  <!--                           within the property 'property.name' and 'property.value'.     -->
+  <!-- @param file             The file that has to be traversed.                              -->
+  <!-- @param prefix           The prefix to be used for the properties. (Default: 'prop.')    -->
+  <!-- @param handleproperty   The sequence that will be invoked with the properties.          -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <macrodef name="process-pairs">
-    <attribute name="declaration"/>
-    <attribute name="key"/>
-    <element name="property-handler" optional="false" description="Handler to process a key-value pair."/>
+  <macrodef name="iterate-properties">
+    <attribute name="propfile"/>
+    <attribute name="prefix"  default="prop."/>
+    <element name="handleproperty"/>
     <sequential>
-      <!-- load all lines referencing the specified key. -->
-      <loadfile srcfile="@{declaration}" property="process-pairs_content">
-        <filterchain>
-          <linecontainsregexp>
-            <regexp pattern="^(@{key}\.)(.+)"/>
-          </linecontainsregexp>
-        </filterchain>
-      </loadfile>
-      <set-default property="process-pairs_content" value=""/>
-      <for param="singleline" list="${process-pairs_content}" delimiter="&#10;" trim="yes">
+      <if>
+        <available file="@{propfile}"/>
+        <then>
+          <!-- load only the key-value pairs and assure lf characters as the delimiter. --> 
+          <loadfile srcfile="@{propfile}" property="ip_content">
+            <filterchain>
+              <striplinecomments>
+                <comment value="#"/>
+              </striplinecomments>
+              <linecontains>
+                <contains value="="/>
+              </linecontains>
+              <fixcrlf eol="lf"/>
+              <deletecharacters chars="\t "/>
+            </filterchain>
+          </loadfile>
+        </then>
+        <else>
+          <!-- no file, so there's no content. -->
+          <var name="ip_content" value=""/>
+        </else>
+      </if>
+      <!-- run through each key-value pair. -->
+      <sortlist property="ip_sorted" value="${ip_content}" delimiter="&#10;" />
+      <for param="singleline" list="${ip_sorted}" trim="yes" delimiter="&#10;">
         <sequential>
-          <propertyregex property="property.name"  input="@{singleline}" regexp="^(@{key}\.)(.*)(=)(.+)" select="\2"/>
-          <propertyregex property="property.value" input="@{singleline}" regexp="^(@{key}\.)(.*)(=)(.+)" select="\4"/>
-          <property-handler/>
-          <var unset="true" name="property.name"/>
-          <var unset="true" name="property.value"/>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{singleline}" property="@{prefix}key"    select="\1"/>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{singleline}" property="@{prefix}value"  select="\2"/>
+          <handleproperty/>
+          <var unset="true" name="@{prefix}key"/>
+          <var unset="true" name="@{prefix}value"/>
         </sequential>
       </for>
-      <var unset="true" name="process-pairs_content"/>
+      <var unset="true" name="ip_sorted"/>
+      <var unset="true" name="ip_content"/>
     </sequential>
   </macrodef>
 
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Executes a block depending on the availability of a value within a list.                -->
+  <!--                                                                                         -->
+  <!-- @param value          The value to be tested.                                           -->
+  <!-- @param list           The list to test against.                                         -->
+  <!-- @param delimiter      The list delimiter. (Default: ',')                                -->
+  <!-- @param contained      The block which is being executed when the value is contained.    -->
+  <!-- @param notcontained   The block which is being executed when the value isn't contained. --> 
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="inlist">
+    <attribute name="value"/>
+    <attribute name="list"/>
+    <attribute name="delimiter"   default=","/>
+    <element name="contained"     optional=""/>
+    <element name="notcontained"  optional=""/>
+    <sequential>
+      <!-- check whether the value is contained or not. -->
+      <var name="i_contained" value="false"/>
+      <for param="singleelement" list="@{list}" delimiter="@{delimiter}">
+        <sequential>
+          <if>
+            <equals arg1="@{singleelement}" arg2="@{value}"/>
+            <then>
+              <var name="i_contained" value="true"/>
+            </then>
+          </if>
+        </sequential>
+      </for>
+      <!-- execute the block depending on the result. -->
+      <if>
+        <istrue value="${i_contained}"/>
+        <then>
+          <contained/>
+        </then>
+        <else>
+          <notcontained/>
+        </else>
+      </if>
+      <var unset="true" name="i_contained"/>
+    </sequential>
+  </macrodef>
+  
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Removes a value from the list.                                                          -->
+  <!--                                                                                         -->
+  <!-- @param property    The property containing the list. This property will be changed if   -->
+  <!--                    necessary.                                                           -->
+  <!-- @param value       The value which has to be removed.                                   -->
+  <!-- @param delimiter   The list delimiter. (Default: ',')                                   -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="remove">
+    <attribute name="property"/>
+    <attribute name="value"/>
+    <attribute name="delimiter" default=","/>
+    <sequential>
+      <var name="r_result" value=""/>
+      <for param="element" list="${@{property}}" delimiter="@{delimiter}">
+        <sequential>
+          <if>
+            <not><equals arg1="@{element}" arg2="@{value}"/></not>
+            <then>
+              <append property="r_result" value="@{element}" delimiter="@{delimiter}"/>
+            </then>
+          </if>
+        </sequential>
+      </for>
+      <var name="@{property}" value="${r_result}"/>
+      <var unset="true" name="r_result"/>
+    </sequential>
+  </macrodef>
+  
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Removes a key-value pair from the list using the key.                                   -->
+  <!--                                                                                         -->
+  <!-- @param property    The property containing the list. This property will be changed if   -->
+  <!--                    necessary.                                                           -->
+  <!-- @param value       The key used to identify the removable key-value pair.               -->
+  <!-- @param delimiter   The list delimiter. (Default: ',')                                   -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="remove-by-key">
+    <attribute name="property"/>
+    <attribute name="value"/>
+    <attribute name="delimiter" default=","/>
+    <sequential>
+      <var name="rbk_result" value=""/>
+      <for param="element" list="${@{property}}" delimiter="@{delimiter}">
+        <sequential>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{element}" property="rbk_key" select="\1"/>
+          <if>
+            <not><equals arg1="${rbk_key}" arg2="@{value}"/></not>
+            <then>
+              <append property="rbk_result" value="@{element}" delimiter="@{delimiter}"/>
+            </then>
+          </if>
+          <var unset="true" name="rbk_key"/>
+        </sequential>
+      </for>
+      <var name="@{property}" value="${rbk_result}"/>
+      <var unset="true" name="rbk_result"/>
+    </sequential>
+  </macrodef>
+  
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Calculates the differences between two property files and invokes sequences according   -->
+  <!-- to the differences.                                                                     -->
+  <!--                                                                                         -->
+  <!-- @param oldfile     The old properties file.                                             -->
+  <!-- @param newfile     The new properties file.                                             -->
+  <!-- @param prefix      The prefix used for the key-value pairs.                             -->
+  <!-- @param added       This element is called for added key-value pairs.                    -->
+  <!-- @param removed     This element is called for removed key-value pairs.                  -->
+  <!-- @param changed     This element is called for changed key-value pairs.                  -->
+  <!-- @param unchanegd   This element is called for unchanged key-value pairs.                -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="diff-properties">
+    <attribute name="oldfile"/>
+    <attribute name="newfile"/>
+    <attribute name="prefix"  default="prop."/>
+    <element name="added"       optional="true"/>
+    <element name="removed"     optional="true"/>
+    <element name="changed"     optional="true"/>
+    <sequential>
+      
+      <var name="dp_changed"    value=""/>
+      <var name="dp_added"      value=""/>
+      <var name="dp_removed"    value=""/>
+      <var name="dp_oldkeys"    value=""/>
+      <var name="dp_oldpairs"   value=""/>
+
+      <!-- load the old values. -->
+      <iterate-properties propfile="@{oldfile}">
+        <handleproperty>
+          <append property="dp_oldkeys"  value="${prop.key}"                delimiter=","/>
+          <append property="dp_oldpairs" value="${prop.key}=${prop.value}"  delimiter=","/>
+        </handleproperty>
+      </iterate-properties>
+      
+      <!-- load the new values and check agains the old ones. -->
+      <iterate-properties propfile="@{newfile}">
+        <handleproperty>
+          <inlist value="${prop.key}" list="${dp_oldkeys}">
+            <contained>
+              <!-- the key was part of the old configuration -->
+              <inlist value="${prop.key}=${prop.value}" list="${dp_oldpairs}">
+                <contained>
+                  <!-- the key+value were part of the old configuration. this means there has been no change for this entry. -->
+                  <remove property="dp_oldpairs" value="${prop.key}=${prop.value}" delimiter=","/>
+                </contained>
+                <notcontained>
+                  <!-- the value (=version) has changed for this entry. -->
+                  <remove-by-key property="dp_oldpairs" value="${prop.key}" delimiter=","/>
+                  <append property="dp_changed" value="${prop.key}=${prop.value}" delimiter=","/>
+                </notcontained>
+              </inlist>
+            </contained>
+            <notcontained>
+              <!-- the key is new, so this is an added record. -->
+              <append property="dp_added" value="${prop.key}=${prop.value}" delimiter=","/>
+            </notcontained>
+          </inlist>
+        </handleproperty>
+      </iterate-properties>
+
+      <!-- the left overs are the records that have been removed. -->
+      <var name="dp_removed" value="${dp_oldpairs}"/>
+      
+      <!-- now invoke all elements. -->
+      <for param="pair" list="${dp_removed}">
+        <sequential>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{pair}" property="@{prefix}key"    select="\1"/>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{pair}" property="@{prefix}value"  select="\2"/>
+          <removed/>
+          <var unset="true" name="@{prefix}key"/>
+          <var unset="true" name="@{prefix}value"/>
+        </sequential>
+      </for>
+
+      <for param="pair" list="${dp_changed}">
+        <sequential>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{pair}" property="@{prefix}key"    select="\1"/>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{pair}" property="@{prefix}value"  select="\2"/>
+          <changed/>
+          <var unset="true" name="@{prefix}key"/>
+          <var unset="true" name="@{prefix}value"/>
+        </sequential>
+      </for>
+
+      <for param="pair" list="${dp_added}">
+        <sequential>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{pair}" property="@{prefix}key"    select="\1"/>
+          <propertyregex regexp="^([^=]+)=(.+)$" input="@{pair}" property="@{prefix}value"  select="\2"/>
+          <added/>
+          <var unset="true" name="@{prefix}key"/>
+          <var unset="true" name="@{prefix}value"/>
+        </sequential>
+      </for>
+      
+      <var unset="true" name="dp_changed"   />
+      <var unset="true" name="dp_added"     />
+      <var unset="true" name="dp_removed"   />
+      <var unset="true" name="dp_oldkeys"   />
+      <var unset="true" name="dp_oldpairs"  />
+
+    </sequential>
+  </macrodef>
+  
   <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- Allows to handle key-value established by 'var.txt' files and their directory           -->
   <!-- locations.                                                                              -->
@@ -111,75 +333,24 @@
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <macrodef name="create-import-list">
     <sequential>
+      <echo level="verbose"># generating ant macro imports</echo>
       <echo file="${dir.ext}/macros/imports.xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#10;</echo>
       <echo file="${dir.ext}/macros/imports.xml" append="true">&lt;project name="imports" basedir="."&gt;&#10;</echo>
-      <echo file="${dir.ext}/macros/imports.xml" append="true">  &lt;dirname  property="dir.workspace" file="../../dummy"/&gt;&#10;</echo>
-      <echo file="${dir.ext}/macros/imports.xml" append="true">  &lt;property name="dir.ext"           value="$${dir.workspace}/_ext"/&gt;&#10;</echo>
+      <echo file="${dir.ext}/macros/imports.xml" append="true">  &lt;dirname file="$${ant.file.imports}"  property="dir.macros"/&gt;&#10;</echo>
+      <echo file="${dir.ext}/macros/imports.xml" append="true">  &lt;dirname file="$${dir.macros}"        property="dir.ext"/&gt;&#10;</echo>
+      <echo file="${dir.ext}/macros/imports.xml" append="true">  &lt;dirname file="$${dir.ext}"           property="dir.workspace"/&gt;&#10;</echo>
       <for param="macroset">
         <fileset dir="${dir.ext}/macros" includes="*.xml" excludes="imports.xml"/>
         <sequential>
-          <basename file="@{macroset}" property="create-import-list_basename"/>
-          <echo file="${dir.ext}/macros/imports.xml" append="true">  &lt;import file=&quot;$${dir.ext}/macros/${create-import-list_basename}&quot;/&gt;&#10;</echo>
-          <var unset="true" name="create-import-list_basename"/>
+          <basename file="@{macroset}" property="cil_basename"/>
+          <echo file="${dir.ext}/macros/imports.xml" append="true">  &lt;import file=&quot;$${dir.ext}/macros/${cil_basename}&quot;/&gt;&#10;</echo>
+          <var unset="true" name="cil_basename"/>
         </sequential>
       </for>
       <echo file="${dir.ext}/macros/imports.xml" append="true">&lt;/project&gt;&#10;</echo>
     </sequential>
   </macrodef>
   
-  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Loads a build extension from the repository.                                            -->
-  <!--                                                                                         -->
-  <!-- @param name        The name of the extension file.                                      -->
-  <!-- @param extension   The kind of extension that has to be loaded (macros, stylesheets,    -->
-  <!--                    etc.)                                                                -->
-  <!-- @param dir         The directory where the extension shall be stored to.                -->
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <macrodef name="retrieve-build-extension">
-    <attribute name="name"/>
-    <attribute name="extension"/>
-    <attribute name="dir"/>
-    <sequential>
-      <if>
-        <not><available file="@{dir}/@{name}"/></not>
-        <then>
-          <echo>Loading @{extension} '@{name}'</echo>
-          <svn svnkit="true" username="${svn.username}" password="${svn.password}">
-            <export srcurl="${svn.repositories}/build-extensions/@{extension}/@{name}" destpath="@{dir}/@{name}"/>
-          </svn>
-        </then>
-      </if>
-    </sequential>
-  </macrodef>
-
-  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Loads a license file from the repository.                                               -->
-  <!--                                                                                         -->
-  <!-- @param license   The name of the license file.                                          -->
-  <!-- @param version   The version of the license that has to be loaded.                      -->
-  <!-- @param dir       The directory where the extension shall be stored to.                  -->
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <macrodef name="retrieve-license">
-    <attribute name="license"/>
-    <attribute name="version"/>
-    <attribute name="dir"/>
-    <sequential>
-      <if>
-        <not><available file="@{dir}/@{license}/@{version}.txt"/></not>
-        <then>
-          <mkdir dir="@{dir}/@{license}"/>
-          <echo>Loading license '@{license}' - @{version}</echo>
-          <svn svnkit="true" username="${svn.username}" password="${svn.password}">
-            <export 
-              srcurl="${svn.repositories}/licenses/@{license}/@{version}.txt" 
-              destpath="@{dir}/@{license}/@{version}.txt"
-            />
-          </svn>
-        </then>
-      </if>
-    </sequential>
-  </macrodef>
-
   <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- Appends a value to a list.                                                              -->
   <!--                                                                                         -->
@@ -205,99 +376,6 @@
   </macrodef>
   
   <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Checks whether a version is unequal or not. A version is considered unequal if the      -->
-  <!-- version file does not exist or does contain another value than the specified one.       -->
-  <!--                                                                                         -->
-  <!-- @param versionfile   The location of the version file.                                  -->
-  <!-- @param version       The version of the library.                                        -->
-  <!-- @param property      The property which will receive the result.                        -->
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <macrodef name="is-version-unequal">
-    <attribute name="versionfile"/>
-    <attribute name="version"/>
-    <attribute name="property"/>
-    <sequential>
-      <var name="@{property}" value="true"/>
-      <if>
-        <available file="@{versionfile}" type="file"/>
-        <then>
-          <loadfile srcfile="@{versionfile}" property="is-version-unequal_current">
-            <filterchain>
-              <striplinebreaks/>
-            </filterchain>
-          </loadfile>
-          <if>
-            <equals arg1="@{version}" arg2="${is-version-unequal_current}"/>
-            <then>
-              <var name="@{property}" value="false"/>
-            </then>
-          </if>
-          <var unset="true" name="is-version-unequal_current"/>
-        </then>
-      </if>
-    </sequential>
-  </macrodef>
-
-  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <!-- Loads a specific library from the repository.                                           -->
-  <!--                                                                                         -->
-  <!-- @param dir               The base directory for the libraries.                          -->
-  <!-- @param name              The name of the library.                                       -->
-  <!-- @param version           The version of the library.                                    -->
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  <macrodef name="retrieve-library">
-    <attribute name="dir"/>
-    <attribute name="name"/>
-    <attribute name="version"/>
-    <sequential>
-      <echo>Checking '@{name}' version '@{version}'...</echo>
-      <var name="retrieve-library_dir"       value="@{dir}/@{name}"/>
-      <var name="retrieve-library_retrieve"  value="false"/>
-      <mkdir dir="@{dir}"/>
-      <!-- check whether we need to run an update. -->
-      <is-version-unequal 
-        versionfile="${retrieve-library_dir}/version.txt" 
-        property="retrieve-library_retrieve" 
-        version="@{version}"
-      />
-      <if>
-        <istrue value="${retrieve-library_retrieve}"/>
-        <then>
-          <!-- remove potentially existing files first. -->
-          <if>
-            <available file="${retrieve-library_dir}"/>
-            <then>
-              <delete includeemptydirs="true">
-                <fileset dir="@{dir}" includes="@{name}"/>
-                <fileset dir="@{dir}" includes="@{name}/**"/>
-              </delete>
-            </then>
-          </if>
-          <!-- now load the content -->
-          <svn svnkit="true" username="${svn.username}" password="${svn.password}">
-            <export srcurl="${svn.repositories}/@{name}/@{version}" destpath="${retrieve-library_dir}"/>
-          </svn>
-          <!-- do some checks. they're cheap and the user get's understandable information. -->
-          <if>
-            <not><available file="${retrieve-library_dir}/var.txt" type="file"/></not>
-            <then>
-              <fail message="repository inconsistent: missing file '${retrieve-library_dir}/var.txt'."/>
-            </then>
-          </if>
-          <if>
-            <not><available file="${retrieve-library_dir}/version.txt" type="file"/></not>
-            <then>
-              <fail message="repository inconsistent: missing file '${retrieve-library_dir}/var.txt'."/>
-            </then>
-          </if>
-        </then>
-      </if>
-      <var unset="true" name="retrieve-library_retrieve"/>
-      <var unset="true" name="retrieve-library_dir"/>
-    </sequential>
-  </macrodef>
-
-  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- Gets the normalized directory name from a file. The path uses slashes as separators.    -->
   <!--                                                                                         -->
   <!-- @param file                The file which directory is desired.                         -->
@@ -307,10 +385,10 @@
     <attribute name="file"/>
     <attribute name="property"/>
     <sequential>
-      <dirname file="@{file}" property="get-directory_dir"/>
-      <propertyregex property="get-directory_dir" input="${get-directory_dir}" regexp="\\" replace="/" override="true" global="true"/>
-      <var name="@{property}" value="${get-directory_dir}"/>
-      <var unset="true" name="get-directory_dir"/>
+      <dirname file="@{file}" property="gd_dir"/>
+      <propertyregex property="gd_dir" input="${gd_dir}" regexp="\\" replace="/" override="true" global="true"/>
+      <var name="@{property}" value="${gd_dir}"/>
+      <var unset="true" name="gd_dir"/>
     </sequential>
   </macrodef>
   
@@ -325,61 +403,84 @@
     <attribute name="dir"/>
     <attribute name="destination"/>
     <sequential>
+      
+      <echo level="verbose"># generating eclipse preferences file</echo>
+
+      <echo file="@{destination}">file_export_version=3.0&#10;</echo>
+      
+      <!-- create classpath variables. -->
       <process-vars dir="@{dir}">
-        <begin>
-          <echo file="@{destination}">file_export_version=3.0&#10;</echo>
-        </begin>
         <handle-var>
           <propertyregex property="var.directory" input="${var.directory}" regexp=":" replace="\\\\:" override="true" global="true"/>
           <echo append="true" file="@{destination}">${varprefix}.${var.name}=${var.directory}&#10;</echo>
         </handle-var>
       </process-vars>
+      
+      <!-- create a dataset for code templates if available. -->
+      <if>
+        <available file="${dir.ext}/${file.codetemplates}" type="file"/>
+        <then>
+          <loadfile srcfile="${dir.ext}/${file.codetemplates}" property="cec_codetemplates">
+            <filterchain>
+              <deletecharacters chars="\r\n"/>
+            </filterchain>
+          </loadfile>
+          <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.text.custom_templates=${cec_codetemplates}&#10;</echo>
+          <var unset="true" name="cec_codetemplates"/>
+        </then>
+      </if>
+      
+      <!-- setup configuration information for the source and output dirs and the platform encoding. -->
       <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.wizards.srcBinFoldersBinName=${dir.classes}&#10;</echo>
       <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.wizards.srcBinFoldersSrcName=${dir.sources}&#10;</echo>
       <echo file="@{destination}" append="true">/instance/org.eclipse.core.resources/encoding=${workspace.encoding}&#10;</echo>
+      
       <!-- add the import order to the configuration if there's such a file. -->
       <if>
         <available file="${dir.ext}/${file.importorder}" type="file"/>
         <then>
-          <load-importorder file="${dir.ext}/${file.importorder}" property="create-eclipse-config_importorder"/>
-          <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.importorder=${create-eclipse-config_importorder}&#10;</echo>
-          <var unset="true" name="create-eclipse-config_importorder"/>
+          <load-importorder file="${dir.ext}/${file.importorder}" property="cec_importorder"/>
+          <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.importorder=${cec_importorder}&#10;</echo>
+          <var unset="true" name="cec_importorder"/>
         </then>
       </if>
+      
       <!-- add the codestyle configuration if it's there. -->
       <if>
         <available file="${dir.ext}/${file.codestyle}" type="file"/>
         <then>
-          <loadfile property="create-eclipse-config_codestyle" srcfile="${dir.ext}/${file.codestyle}" encoding="UTF-8"/>
+          <loadfile property="cec_codestyle" srcfile="${dir.ext}/${file.codestyle}" encoding="UTF-8"/>
           <!-- replace line feeds with a \n literal. -->
-          <propertyregex property="create-eclipse-config_codestyle"     input="${create-eclipse-config_codestyle}" regexp="&#13;&#10;" replace="\\\\n" override="true" global="true"/>
-          <propertyregex property="create-eclipse-config_codestyle"     input="${create-eclipse-config_codestyle}" regexp="&#10;"      replace="\\\\n" override="true" global="true"/>
+          <propertyregex property="cec_codestyle" input="${cec_codestyle}" regexp="&#13;&#10;" replace="\\\\n" override="true" global="true"/>
+          <propertyregex property="cec_codestyle" input="${cec_codestyle}" regexp="&#10;"      replace="\\\\n" override="true" global="true"/>
           <!-- extract the name of the codestyle. -->
-          <propertyregex property="create-eclipse-config_codestylename" input="${create-eclipse-config_codestyle}" regexp="name=&quot;([^&quot;]+)&quot;" select="\1"/>
+          <propertyregex property="cec__codestylename" input="${cec_codestyle}" regexp="name=&quot;([^&quot;]+)&quot;" select="\1"/>
           <!-- setup the configuration parameters. -->
-          <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.formatterprofiles=${create-eclipse-config_codestyle}&#10;</echo>
-          <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/formatter_profile=_${create-eclipse-config_codestylename}&#10;</echo>
-          <var unset="true" name="create-eclipse-config_codestyle"/>
-          <var unset="true" name="create-eclipse-config_codestylename"/>
+          <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.formatterprofiles=${cec_codestyle}&#10;</echo>
+          <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.ui/formatter_profile=_${cec__codestylename}&#10;</echo>
+          <var unset="true" name="cec_codestyle"/>
+          <var unset="true" name="cec__codestylename"/>
         </then>
       </if>
+      
       <!-- add compiler settings if there are some. -->
       <if>
         <available file="${dir.ext}/${file.compiler}" type="file"/>
         <then>
-          <loadfile property="create-eclipse-config_compiler" srcfile="${dir.ext}/${file.compiler}">
+          <loadfile property="cec_compiler" srcfile="${dir.ext}/${file.compiler}">
             <filterchain>
               <striplinecomments/>
             </filterchain>
           </loadfile>
-          <for param="singleline" list="${create-eclipse-config_compiler}" delimiter="&#10;" trim="yes">
+          <for param="singleline" list="${cec_compiler}" delimiter="&#10;" trim="yes">
             <sequential>
               <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.@{singleline}&#10;</echo>
             </sequential>
           </for>
-          <var unset="true" name="create-eclipse-config_compiler"/>
+          <var unset="true" name="cec_compiler"/>
         </then>
       </if>
+      
     </sequential>
   </macrodef>
 
@@ -397,34 +498,34 @@
     <sequential>
       <!-- we want to sort lexicographically so we need to make sure that the numerical -->
       <!-- values are filled up with zeros.                                             -->
-      <prefix-by-regexp file="@{file}" property="load-importorder_list1" regexp="^([0-9])="           prefix="00"/>
-      <prefix-by-regexp file="@{file}" property="load-importorder_list2" regexp="^([0-9][0-9])="      prefix="0"/>
-      <prefix-by-regexp file="@{file}" property="load-importorder_list3" regexp="^([0-9][0-9][0-9])=" prefix=""/>
-      <set-default property="load-importorder_list1" value=""/>
-      <set-default property="load-importorder_list2" value=""/>
-      <set-default property="load-importorder_list3" value=""/>
+      <prefix-by-regexp file="@{file}" property="li_list1" regexp="^([0-9])="           prefix="00"/>
+      <prefix-by-regexp file="@{file}" property="li_list2" regexp="^([0-9][0-9])="      prefix="0"/>
+      <prefix-by-regexp file="@{file}" property="li_list3" regexp="^([0-9][0-9][0-9])=" prefix=""/>
+      <set-default property="li_list1" value=""/>
+      <set-default property="li_list2" value=""/>
+      <set-default property="li_list3" value=""/>
       <!-- now run the actual sorting. -->
       <sortlist 
-        property="load-importorder_sorted" 
-        value="${load-importorder_list1}&#10;${load-importorder_list2}&#10;${load-importorder_list3}" 
+        property="li_sorted" 
+        value="${li_list1}&#10;${li_list2}&#10;${li_list3}" 
         delimiter="&#10;"
       />
       <!-- create a list from the imports (the sorted one). -->
-      <var name="load-importorder_result" value=""/>
-      <for param="singleline" list="${load-importorder_sorted}" delimiter="&#10;" trim="yes">
+      <var name="li_result" value=""/>
+      <for param="singleline" list="${li_sorted}" delimiter="&#10;" trim="yes">
         <sequential>
           <!-- don't forget to only use the value. -->
-          <propertyregex property="load-importorder_value" input="@{singleline}" regexp="^(.+)=(.+)" replace="\2"/>
-          <append property="load-importorder_result" value="${load-importorder_value}" delimiter=";"/>
-          <var unset="true" name="load-importorder_value"/>
+          <propertyregex property="li_value" input="@{singleline}" regexp="^(.+)=(.+)" replace="\2"/>
+          <append property="li_result" value="${li_value}" delimiter=";"/>
+          <var unset="true" name="li_value"/>
         </sequential>
       </for>
-      <var name="@{property}" value="${load-importorder_result}"/>
-      <var unset="true" name="load-importorder_list1"/>
-      <var unset="true" name="load-importorder_list2"/>
-      <var unset="true" name="load-importorder_list3"/>
-      <var unset="true" name="load-importorder_sorted"/>
-      <var unset="true" name="load-importorder_result"/>
+      <var name="@{property}" value="${li_result}"/>
+      <var unset="true" name="li_list1"/>
+      <var unset="true" name="li_list2"/>
+      <var unset="true" name="li_list3"/>
+      <var unset="true" name="li_sorted"/>
+      <var unset="true" name="li_result"/>
     </sequential>
   </macrodef>
   
@@ -443,24 +544,24 @@
     <attribute name="property"/>
     <sequential>
       <!-- fetch the lines. -->
-      <loadfile property="prefix-by-regexp_content" srcfile="@{file}">
+      <loadfile property="pbr_content" srcfile="@{file}">
         <filterchain>
           <linecontainsregexp>
             <regexp pattern="@{regexp}"/>
           </linecontainsregexp>
         </filterchain>
       </loadfile>
-      <set-default property="prefix-by-regexp_content" value=""/>
+      <set-default property="pbr_content" value=""/>
       <!-- now prefix each line. -->
-      <var name="prefix-by-regexp_result" value=""/>
-      <for param="singleline" list="${prefix-by-regexp_content}" delimiter="&#10;">
+      <var name="pbr_result" value=""/>
+      <for param="singleline" list="${pbr_content}" delimiter="&#10;">
         <sequential>
-          <append property="prefix-by-regexp_result" value="@{prefix}@{singleline}"/>
+          <append property="pbr_result" value="@{prefix}@{singleline}"/>
         </sequential>
       </for>
-      <var name="@{property}" value="${prefix-by-regexp_result}"/>
-      <var unset="true" name="prefix-by-regexp_content"/>
-      <var unset="true" name="prefix-by-regexp_result"/>
+      <var name="@{property}" value="${pbr_result}"/>
+      <var unset="true" name="pbr_content"/>
+      <var unset="true" name="pbr_result"/>
     </sequential>
   </macrodef>
 
@@ -475,6 +576,7 @@
     <attribute name="dir"/>
     <attribute name="destination"/>
     <sequential>
+      <echo level="verbose"># generating ant configuration</echo>
       <process-vars dir="@{dir}">
         <begin>
           <echo file="@{destination}"># Properties&#10;</echo>
@@ -509,50 +611,274 @@
     </sequential>
   </macrodef>
   
-  <target name="generate-configurations">
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Causes a failure in case of a timeout.                                                  -->
+  <!--                                                                                         -->
+  <!-- @param gottimeout   The timeout value which has been set if connection failed for some  -->
+  <!--                     reason.                                                             -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="no-connection-available">
+    <attribute name="gottimeout"/>
+    <sequential>
+      <if>
+        <!-- this is right: the property 'gottimeout' is just being set. the doc doesn't specify the value. -->
+        <not><isfalse value="@{gottimeout}"/></not>
+        <then>
+          <fail message="failed to access the repository."/>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
+  
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Calculates the destination path for a specific component.                               -->
+  <!--                                                                                         -->
+  <!-- @param property    The property which will be set to the destination path.              -->
+  <!-- @param prefix      The prefix used for this component.                                  -->
+  <!-- @param component   The component which destination path shall be calculated.            -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="calc-dest">
+    <attribute name="property"/>
+    <attribute name="prefix"/>
+    <attribute name="component"/>
+    <sequential>
+      <if>
+        <or>
+          <equals arg1="@{prefix}" arg2="libs"/>
+          <equals arg1="@{prefix}" arg2="tools"/>
+        </or>
+        <then>
+          <var name="@{property}" value="${dir.ext}/@{prefix}/@{component}"/>
+        </then>
+      </if>
+      <if>
+        <equals arg1="@{prefix}" arg2="macros"/>
+        <then>
+          <var name="@{property}" value="${dir.ext}/@{prefix}/@{component}.xml"/>
+        </then>
+      </if>
+      <if>
+        <equals arg1="@{prefix}" arg2="stylesheets"/>
+        <then>
+          <var name="@{property}" value="${dir.ext}/@{prefix}/@{component}.xsl"/>
+        </then>
+      </if>
+      <if>
+        <equals arg1="@{prefix}" arg2="licenses"/>
+        <then>
+          <var name="@{property}" value="${dir.ext}/@{prefix}/@{component}.txt"/>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
 
-    <set-default property="file.declaration"    value="externals.properties"/>
-    <set-default property="file.importorder"    value="default.importorder"/>
-    <set-default property="file.codestyle"      value="default.codestyle"/>
-    <set-default property="file.compiler"       value="default.compiler"/>
-    <set-default property="dir.sources"         value="sources"/>
-    <set-default property="dir.classes"         value="classes"/>
-    <set-default property="workspace.encoding"  value="UTF-8"/>
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Calculates the source path for a specific component.                                    -->
+  <!--                                                                                         -->
+  <!-- @param property    The property which will be set to the destination path.              -->
+  <!-- @param prefix      The prefix used for this component.                                  -->
+  <!-- @param component   The component which destination path shall be calculated.            -->
+  <!-- @param version     The version of the desired component.                                -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="calc-source">
+    <attribute name="property"/>
+    <attribute name="prefix"/>
+    <attribute name="component"/>
+    <attribute name="version"/>
+    <sequential>
+      <if>
+        <or>
+          <equals arg1="@{prefix}" arg2="libs"/>
+          <equals arg1="@{prefix}" arg2="tools"/>
+        </or>
+        <then>
+          <var name="@{property}" value="${svn.repositories}/@{component}/@{version}"/>
+        </then>
+      </if>
+      <if>
+        <equals arg1="@{prefix}" arg2="macros"/>
+        <then>
+          <var name="@{property}" value="${svn.repositories}/_build-extensions/@{prefix}/@{component}/@{version}/@{component}.xml"/>
+        </then>
+      </if>
+      <if>
+        <equals arg1="@{prefix}" arg2="stylesheets"/>
+        <then>
+          <var name="@{property}" value="${svn.repositories}/_build-extensions/@{prefix}/@{component}/@{version}/@{component}.xsl"/>
+        </then>
+      </if>
+      <if>
+        <equals arg1="@{prefix}" arg2="licenses"/>
+        <then>
+          <var name="@{property}" value="${svn.repositories}/_build-extensions/@{prefix}/@{component}/@{version}.txt"/>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
+
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Deletes a resource if it exists.                                                        -->
+  <!--                                                                                         -->
+  <!-- @param resout   The resource which has to be deleted.                                   -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="delete-resource">
+    <attribute name="resource"/>
+    <sequential>
+      <if>
+        <available file="@{resource}" type="dir"/>
+        <then>
+          <basename file="@{resource}" property="dr_name"/>
+          <dirname  file="@{resource}" property="dr_dir"/>
+          <delete includeemptydirs="true" failonerror="true" followsymlinks="true">
+            <fileset dir="${dr_dir}">
+              <include name="${dr_name}/**/*"/>
+              <include name="${dr_name}"/>
+            </fileset>
+          </delete>
+          <var unset="true" name="dr_name"/>
+          <var unset="true" name="dr_dir"/>
+        </then>
+        <else>
+          <delete file="@{resource}" failonerror="true" followsymlinks="true"/>
+        </else>
+      </if>
+    </sequential>
+  </macrodef>
+  
+  <!-- ~~~ PRIVATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Updates a component within the system.                                                  -->
+  <!--                                                                                         -->
+  <!-- @param prefix      The prefix of the component.                                         -->
+  <!-- @param component   The name of the component.                                           -->
+  <!-- @param version     The version of the component.                                        -->
+  <!-- @param remove      true <=> The component shall be removed.                             -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <macrodef name="update-component">
+    <attribute name="prefix"/>
+    <attribute name="component"/>
+    <attribute name="version"/>
+    <attribute name="remove"/>
+    <sequential>
+      
+      <!-- calculate the destination and delete possibly existing content. -->
+      <calc-dest property="uc_dest" prefix="@{prefix}" component="@{component}"/>
+      <delete-resource resource="${uc_dest}"/>
+      
+      <if>
+        <isfalse value="@{remove}"/>
+        <then>
+
+          <echo level="info"># updating component '@{component}'</echo>
+
+          <!-- determine the source location within the repository. -->
+          <calc-source property="uc_source" prefix="@{prefix}" component="@{component}" version="@{version}"/>
+          
+          <!-- now load the content -->
+          <svn svnkit="true" username="${svn.username}" password="${svn.password}">
+            <export srcurl="${uc_source}" destpath="${uc_dest}"/>
+          </svn>
+          
+          <!-- do some checks. they're cheap and the user get's understandable information. -->
+          <if>
+            <and>
+              <available file="${uc_dest}" type="dir"/>
+              <not><available file="${uc_dest}/var.txt" type="file"/></not>
+            </and>
+            <then>
+              <fail message="repository inconsistent: missing file '${uc_dest}/var.txt'."/>
+            </then>
+          </if>
+          
+        </then>
+        <else>
+          <echo level="info"># removed component '@{component}'</echo>
+        </else>
+      </if>
+      
+      <var unset="true" name="uc_source"/>
+      <var unset="true" name="uc_dest"/>
+    </sequential>
+  </macrodef>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- TARGET DEFINITIONS                                                                      -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <target name="init">
+    <!-- disable inclusion of svn related content. -->
+    <defaultexcludes add="**/_svn"/>
+    <defaultexcludes add="**/_svn/**"/>
+  </target>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- This target is used to setup default values.                                            -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <target name="setup-defaults" depends="init">
+    <set-default property="file.declaration"      value="externals.properties"/>
+    <set-default property="file.importorder"      value="default.importorder"/>
+    <set-default property="file.codestyle"        value="default.codestyle"/>
+    <set-default property="file.compiler"         value="default.compiler"/>
+    <set-default property="file.codetemplates"    value="default.codetemplates"/>
+    <set-default property="dir.sources"           value="sources"/>
+    <set-default property="dir.classes"           value="classes"/>
+    <set-default property="workspace.encoding"    value="UTF-8"/>
+  </target>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- This target executes the generation process itself.                                     -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <target name="generate-configurations" depends="setup-defaults">
+
+    <!-- check whether we've got a connection or not. -->
+    <echo level="verbose"># checking whether the repository is available or not</echo>
+    <if>
+      <svnAvailable svnkit="true" username="${svn.username}" password="${svn.password}" target="${svn.repositories}"/>
+      <then>
+        <var name="unavailable" value="false"/>
+      </then>
+      <else>
+        <var name="unavailable" value="true"/>
+      </else>
+    </if>
+
+    <!-- now check for the differences. -->
+    <echo level="verbose"># calculating necessary updates</echo>
+    <diff-properties oldfile="${dir.common}/oldstate.properties" newfile="${dir.ext}/${file.declaration}">
+      
+      <added>
+        <no-connection-available gottimeout="${unavailable}"/>
+        <propertyregex regexp="^([^\.]+)\.(.+)$" input="${prop.key}" property="prefix"    select="\1"/>
+        <propertyregex regexp="^([^\.]+)\.(.+)$" input="${prop.key}" property="component" select="\2"/>
+        <echo level="verbose"># adding component '${component}'</echo>
+        <update-component prefix="${prefix}" component="${component}" version="${prop.value}" remove="false"/>
+        <var unset="true" name="prefix"/>
+        <var unset="true" name="component"/>
+      </added>
+      
+      <removed>
+        <no-connection-available gottimeout="${unavailable}"/>
+        <propertyregex regexp="^([^\.]+)\.(.+)$" input="${prop.key}" property="prefix"    select="\1"/>
+        <propertyregex regexp="^([^\.]+)\.(.+)$" input="${prop.key}" property="component" select="\2"/>
+        <echo level="verbose"># removing component '${component}'</echo>
+        <update-component prefix="${prefix}" component="${component}" version="${prop.value}" remove="true"/>
+        <var unset="true" name="prefix"/>
+        <var unset="true" name="component"/>
+      </removed>
+      
+      <changed>
+        <no-connection-available gottimeout="${unavailable}"/>
+        <propertyregex regexp="^([^\.]+)\.(.+)$" input="${prop.key}" property="prefix"    select="\1"/>
+        <propertyregex regexp="^([^\.]+)\.(.+)$" input="${prop.key}" property="component" select="\2"/>
+        <echo level="verbose"># changing component '${component}'</echo>
+        <update-component prefix="${prefix}" component="${component}" version="${prop.value}" remove="false"/>
+        <var unset="true" name="prefix"/>
+        <var unset="true" name="component"/>
+      </changed>
+      
+    </diff-properties>
     
-    <!-- load libraries needed by the production code. -->
-    <process-pairs declaration="${dir.ext}/${file.declaration}" key="libs">
-      <property-handler>
-        <retrieve-library dir="${dir.ext}/libs" name="${property.name}" version="${property.value}"/>
-      </property-handler>
-    </process-pairs>
-
-    <!-- load libraries needed for the build and quality processes. -->
-    <process-pairs declaration="${dir.ext}/${file.declaration}" key="tools">
-      <property-handler>
-        <retrieve-library dir="${dir.ext}/tools" name="${property.name}" version="${property.value}"/>
-      </property-handler>
-    </process-pairs>
-
-    <!-- load ant macros. -->
-    <process-pairs declaration="${dir.ext}/${file.declaration}" key="macros">
-      <property-handler>
-        <retrieve-build-extension name="${property.value}.xml" extension="macros" dir="${dir.ext}/macros"/>
-      </property-handler>
-    </process-pairs>
-
-    <!-- load stylesheets. -->
-    <process-pairs declaration="${dir.ext}/${file.declaration}" key="stylesheets">
-      <property-handler>
-        <retrieve-build-extension name="${property.value}.xsl" extension="stylesheets" dir="${dir.ext}/stylesheets"/>
-      </property-handler>
-    </process-pairs>
-
-    <!-- load license files. -->
-    <process-pairs declaration="${dir.ext}/${file.declaration}" key="license">
-      <property-handler>
-        <retrieve-license license="${property.name}" version="${property.value}" dir="${dir.ext}/licenses"/>
-      </property-handler>
-    </process-pairs>
+    <!-- update the state information. -->
+    <copy tofile="${dir.common}/oldstate.properties" file="${dir.ext}/${file.declaration}" overwrite="true"/>
 
     <!-- create the ant macro importlist. -->
     <create-import-list/>
