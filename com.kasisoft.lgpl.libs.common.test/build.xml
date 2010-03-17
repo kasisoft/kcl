@@ -26,33 +26,54 @@
   </target>
   
   <target name="test" depends="clean">
+
+    <echo>Cleaning up all '${ant.project.name}' resources ...</echo>
+    <clean-for-all projectname="${ant.project.name}"/>
+
+    <echo>Compiling each project referred by '${ant.project.name}' ...</echo>
+    <cobertura-distribution-for-all
+      datafile="${basedir}/cobertura.dat"
+      projectname="${ant.project.name}" 
+      mapped="true"
+    />
+
+    <chmod perm="+x" file="${basedir}/testdata/bin/testprocess.unix.exe"/>
+    
+    <cobertura-testng 
+      projectname="${ant.project.name}" 
+      datafile="${basedir}/cobertura.dat"
+      destdir="${basedir}/test-output"
+      testcasedir="${basedir}"
+      mapped="true"
+    />
     
     <mapped-project-dir projectname="${ant.project.name}" property="dir.temp"/>
     
-    <ant dir="${dir.workspace}/${project.deployment}" antfile="${dir.workspace}/${project.deployment}/build.xml" target="deploy"/>
-    <for param="zipfile">
-      <fileset dir="${dir.workspace}/${project.deployment}" includes="kasisoft-common-*.zip"/>
+    <for param="project" list="com.kasisoft.lgpl.libs.common,com.kasisoft.lgpl.libs.common.test">
       <sequential>
-        <!-- there's definitely only one file -->
-        <unzip src="@{zipfile}" dest="${dir.temp}"/>
+        <get-sourcepath projectname="@{project}" property="sourcepathes" multiple="true"/>
+        <for param="sourcepath" list="${sourcepathes}" delimiter="${path.separator}">
+          <sequential>
+            <copy todir="${dir.temp}">
+              <fileset dir="@{sourcepath}" includes="**/*.java"/>
+            </copy>
+          </sequential>
+        </for>
+        <var unset="true" name="sourcepathes"/>
       </sequential>
     </for>
-    
-    <get-classpath classpathid="classpathid" projectname="${ant.project.name}"/>
-    <chmod perm="+x" file="${basedir}/testdata/bin/testprocess.unix.exe"/>
-    <testng
-      classpathref="classpathid"
-      outputdir="${basedir}/testreport"
-      useDefaultListeners="false"
-      listeners="org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter"
-    >
-      <env key="TMP" value="/tmp"/>
-      <classfileset dir="${basedir}/classes" includes="**/*Test.class"/>
-      <sysproperty key="org.uncommons.reportng.title" value="Testreport: ${ant.project.name}"/>
-    </testng>
-    
+
+    <delete-dir dir="${basedir}/test-output/xml" recreate="true"/>
+
+    <cobertura-reporting 
+      datafile="${basedir}/cobertura.dat" 
+      sourcesdir="${dir.temp}"
+      xmldir="${basedir}/test-output/xml"
+    />
+      
     <delete-dir dir="${dir.temp}"/>
-    
+    <var unset="true" name="dir.temp"/>
+      
   </target>
   
 </project>
