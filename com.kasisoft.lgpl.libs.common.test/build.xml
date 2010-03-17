@@ -39,6 +39,8 @@
 
     <chmod perm="+x" file="${basedir}/testdata/bin/testprocess.unix.exe"/>
     
+    <delete-dir dir="${basedir}/test-output" recreate="true"/>
+
     <cobertura-testng 
       projectname="${ant.project.name}" 
       datafile="${basedir}/cobertura.dat"
@@ -63,12 +65,12 @@
       </sequential>
     </for>
 
-    <delete-dir dir="${basedir}/test-output/xml" recreate="true"/>
+    <mkdir dir="${basedir}/test-output/cobertura"/>
 
     <cobertura-reporting 
       datafile="${basedir}/cobertura.dat" 
       sourcesdir="${dir.temp}"
-      xmldir="${basedir}/test-output/xml"
+      xmldir="${basedir}/test-output/cobertura"
     />
       
     <delete-dir dir="${dir.temp}"/>
