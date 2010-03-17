@@ -63,7 +63,7 @@
     -->
 
     <echo file="${dir.deploy}/version.txt">${build.version}</echo>
-    <copy file="${dir.ext}/licenses/lgpl/3.txt" tofile="${dir.deploy}/license.txt"/>
+    <copy file="${dir.ext}/licenses/lgpl.txt" tofile="${dir.deploy}/license.txt"/>
 
     <set-default property="env.SVN_REVISION" value="local"/>
     <var name="revision" value="${env.SVN_REVISION}"/>
