@@ -1,0 +1,50 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="com.kasisoft.lgpl.libs.common.test by groups" parallel="false">
+  <test verbose="2" name="GRP-all" annotations="JDK">
+    <groups>
+      <run>
+        <include name="all"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.kasisoft.lgpl.libs.common.constants.MonthTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.io.BasicFileFilterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.CommonPropertyTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.TimeUnitTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.ExtArrayListTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.functionality.ZipTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.MiscFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.net.NetFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.io.EnhancedFileFilterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.NullableComparatorTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.io.IoFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.MimeTypeTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.WeekdayTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.functionality.PredefinedTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.EncodingTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.thread.FileDeleteRunnableTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.XmlCatalogTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.Iso3166Test"/>
+      <class name="com.kasisoft.lgpl.libs.common.thread.CharCopierRunnableTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.functionality.TransformTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.test.framework.Utilities"/>
+      <class name="com.kasisoft.lgpl.libs.common.functionality.FilterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.ArrayFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.graphics.GraphicsFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.functionality.ReduceTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.SystemPropertyTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.XmlFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.TupelTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.sys.SystemProcessTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.sys.SystemInfoTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.constants.PrimitiveTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.thread.FileListRunnableTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.StringFBufferTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.BuffersTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.thread.ByteCopierRunnableTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.StringFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.thread.ZipAndUnzipRunnableTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.ExtPropertiesTest"/>
+    </classes>
+  </test>
+</suite>
