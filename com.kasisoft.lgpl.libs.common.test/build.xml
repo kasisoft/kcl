@@ -22,7 +22,7 @@
   </target>
 
   <target name="clean" depends="init">
-    <delete-dir dir="${basedir}/testreport" recreate="true"/>
+    <delete-dir dir="${basedir}/test-output" recreate="true"/>
   </target>
   
   <target name="test" depends="clean">
