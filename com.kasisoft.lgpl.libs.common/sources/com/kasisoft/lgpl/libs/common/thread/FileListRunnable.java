@@ -18,16 +18,18 @@ import java.io.*;
  * Implementation allowing to traverse a directory structure.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class FileListRunnable extends AbstractRunnable {
+public class FileListRunnable extends AbstractRunnable<FileProgress> {
 
   private static final File[] EMPTY_LIST = new File[0];
   
-  private boolean       incdirs;
-  private boolean       incfiles;
-  private FileFilter    filter;
-  private List<File>    dirreceiver;
-  private List<File>    filereceiver;
-  private File[]        roots;
+  private boolean         incdirs;
+  private boolean         incfiles;
+  private FileFilter      filter;
+  private List<File>      dirreceiver;
+  private List<File>      filereceiver;
+  private File[]          roots;
+  private FileProgress    progress;
+  private boolean         configured;
 
   /**
    * Initialises this file lister allowing to collect resources selectively.
@@ -45,9 +47,25 @@ public class FileListRunnable extends AbstractRunnable {
     incdirs       = true;
     incfiles      = true;
     filter        = null;
+    progress      = new FileProgress();
     dirreceiver   = new ArrayList<File>();
     filereceiver  = new ArrayList<File>();
-    setResources( files );
+    reset();
+    configure( files );
+  }
+  
+  /**
+   * Initialises the object state. This only affects the parameters which can be set using
+   * #configure() .
+   */
+  private void reset() {
+    dirreceiver   . clear();
+    filereceiver  . clear();
+    progress.setCurrent(0);
+    progress.setTotal(0);
+    progress.setFile( null );
+    roots       = null;
+    configured  = false;
   }
   
   /**
@@ -55,11 +73,12 @@ public class FileListRunnable extends AbstractRunnable {
    * 
    * @param files   The list of resources which have to be traversed.
    */
-  public void setResources( File ... files ) {
-    roots = files;
+  public void configure( File ... files ) {
+    roots       = files;
     if( roots == null ) {
       roots = EMPTY_LIST;
     }
+    configured  = true;
   }
 
   /**
@@ -150,42 +169,65 @@ public class FileListRunnable extends AbstractRunnable {
    * {@inheritDoc}
    */
   protected void execute() {
-    filereceiver . clear();
-    dirreceiver  . clear();
-    List<File> queue = new ArrayList<File>();
-    for( File root : roots ) {
-      queue.add( root ); 
-    }
-    FileFilter filefilter = null;
-    if( filter != null ) {
-      filefilter = filter;
-    } else {
-      filefilter = new AcceptAllFilter();
-    }
-    while( (! isStopped()) && (! queue.isEmpty()) ) {
-      File    current = queue.remove(0);
-      boolean accept  = filefilter.accept( current );
-      if( accept ) {
-        if( current.isFile() ) {
-          if( incfiles && (filereceiver != null) ) {
-            // collect the file
-            filereceiver.add( current );
-          }
-        } else if( current.isDirectory() ) {
-          File[] children = current.listFiles( filefilter );
-          if( incdirs && (dirreceiver != null) ) {
-            // collect the directory
-            dirreceiver.add( current );
-          }
-          if( children != null ) {
-            for( File child : children ) {
-              queue.add( child );
-            }
-          }
-        } else {
-          // we're ignoring everything which is neither a file nor a directory
+    if( configured ) {
+      try {
+        
+        List<File> queue = new ArrayList<File>();
+        for( File root : roots ) {
+          queue.add( root ); 
         }
+        
+        FileFilter filefilter = null;
+        if( filter != null ) {
+          filefilter = filter;
+        } else {
+          filefilter = new AcceptAllFilter();
+        }
+        
+        progress.setTotal(-1);
+        progress( progress );
+        
+        while( (! isStopped()) && (! queue.isEmpty()) ) {
+          File    current = queue.remove(0);
+          boolean accept  = filefilter.accept( current );
+          if( accept ) {
+            
+            if( current.isFile() ) {
+              
+              if( incfiles && (filereceiver != null) ) {
+                // collect the file
+                filereceiver.add( current );
+              }
+              
+            } else if( current.isDirectory() ) {
+              
+              File[] children = current.listFiles( filefilter );
+              if( incdirs && (dirreceiver != null) ) {
+                // collect the directory
+                dirreceiver.add( current );
+              }
+              if( children != null ) {
+                // add children to the queue for further processing
+                for( File child : children ) {
+                  queue.add( child );
+                }
+              }
+              
+            } else {
+              // we're ignoring everything which is neither a file nor a directory
+            }
+            
+            progress.setFile( current );
+            progress.setCurrent( progress.getCurrent() + 1 );
+            progress( progress );
+            
+          }
+        }
+        
+      } finally {
+        reset();
       }
+      
     }
   }
   
