@@ -30,11 +30,13 @@
     <echo>Cleaning up all '${ant.project.name}' resources ...</echo>
     <clean-for-all projectname="${ant.project.name}"/>
 
+    <set-default property="eclipse.running" value="true"/>
+    
     <echo>Compiling each project referred by '${ant.project.name}' ...</echo>
     <cobertura-distribution-for-all
       datafile="${basedir}/cobertura.dat"
       projectname="${ant.project.name}" 
-      mapped="true"
+      mapped="${eclipse.running}"
     />
 
     <chmod perm="+x" file="${basedir}/testdata/bin/testprocess.unix.exe"/>
@@ -46,7 +48,7 @@
       datafile="${basedir}/cobertura.dat"
       destdir="${basedir}/test-output"
       testcasedir="${basedir}"
-      mapped="true"
+      mapped="${eclipse.running}"
     />
     
     <mapped-project-dir projectname="${ant.project.name}" property="dir.temp"/>
