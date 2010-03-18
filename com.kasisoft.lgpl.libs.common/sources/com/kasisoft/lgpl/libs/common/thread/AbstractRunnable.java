@@ -25,8 +25,11 @@ public abstract class AbstractRunnable implements Runnable {
   public final void run() {
     stopped   = false;
     completed = false;
-    execute();
-    completed = ! isStopped();
+    try {
+      execute();
+    } finally {
+      completed = ! isStopped();
+    }
   }
   
   /**
