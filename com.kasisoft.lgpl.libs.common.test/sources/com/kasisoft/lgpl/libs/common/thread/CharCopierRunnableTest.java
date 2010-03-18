@@ -89,8 +89,8 @@ public class CharCopierRunnableTest {
     CharCopierRunnable runnable = null;
     if( buffersize == null ) {
       runnable = new CharCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }
@@ -98,8 +98,8 @@ public class CharCopierRunnableTest {
       runnable.configure( charin, charout );
     } else {
       runnable = new CharCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }
@@ -118,8 +118,8 @@ public class CharCopierRunnableTest {
     CharCopierRunnable runnable = null;
     if( buffersize == null ) {
       runnable = new CharCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }
@@ -127,8 +127,8 @@ public class CharCopierRunnableTest {
       runnable.configure( charin, charout );
     } else {
       runnable = new CharCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }

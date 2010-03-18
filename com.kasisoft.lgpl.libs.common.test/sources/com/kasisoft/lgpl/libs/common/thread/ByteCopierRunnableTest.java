@@ -85,8 +85,8 @@ public class ByteCopierRunnableTest {
     ByteCopierRunnable    runnable  = null;
     if( buffersize == null ) {
       runnable = new ByteCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }
@@ -94,8 +94,8 @@ public class ByteCopierRunnableTest {
       runnable.configure( bytein, byteout );
     } else {
       runnable = new ByteCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }
@@ -114,8 +114,8 @@ public class ByteCopierRunnableTest {
     ByteCopierRunnable    runnable  = null;
     if( buffersize == null ) {
       runnable = new ByteCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }
@@ -123,8 +123,8 @@ public class ByteCopierRunnableTest {
       runnable.configure( bytein, byteout );
     } else {
       runnable = new ByteCopierRunnable() {
-        protected void onIteration( int done, int written ) {
-          if( done > 10 ) {
+        protected void progress( CopyingProgress progress ) {
+          if( progress.getCurrent() > 10 ) {
             throw new RuntimeException();
           }
         }
