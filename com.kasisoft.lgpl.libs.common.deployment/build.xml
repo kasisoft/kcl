@@ -37,7 +37,13 @@
 
     <!-- create a directory for temporary use. -->
     <mapped-project-dir projectname="${ant.project.name}" property="dir.deploy"/>
-
+    
+    <!-- prepare the source. -->
+    <get-sourcepath projectname="${project.common}" property="sourcepath"/>
+    <zip destfile="${dir.deploy}/sources.zip">
+      <fileset dir="${sourcepath}" includes="**/*"/>
+    </zip>
+    
     <!-- simple release version. -->
     <copy file="${file.jarcontent}" tofile="${dir.deploy}/kasisoft-common.jar"/>
 
@@ -51,16 +57,8 @@
     <!-- generate api documentation. -->
     <api-doc projectname="${project.common}" destdir="${dir.deploy}/apidocs"/>
 
-    <zip destfile="${dir.deploy}/apidocs.zip">
-      <fileset dir="${dir.deploy}/apidocs" includes="**/*"/>
-    </zip>
-    
-    <delete-dir dir="${dir.deploy}/apidocs"/>
-
-    <!--
-    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=49&amp;filename=diagnostic.de.pdf" dest="${dir.deploy}/user/diagnostic.de.pdf"/>
-    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=56&amp;filename=diagnostic.en.pdf" dest="${dir.deploy}/user/diagnostic.en.pdf"/>
-    -->
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=64&amp;filename=kasisoft-common.de.pdf" dest="${dir.deploy}/kasisoft-common.de.pdf"/>
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=63&amp;filename=kasisoft-common.en.pdf" dest="${dir.deploy}/kasisoft-common.en.pdf"/>
 
     <echo file="${dir.deploy}/version.txt">${build.version}</echo>
     <copy file="${dir.ext}/licenses/lgpl.txt" tofile="${dir.deploy}/license.txt"/>
