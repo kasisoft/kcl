@@ -21,20 +21,22 @@ import java.io.*;
  * A Runnable which is used to copy data from a Reader to a Writer.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class CharCopierRunnable extends AbstractRunnable {
+public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
 
   private static Buffers<char[]> buffers = null;
   
-  private boolean   configured;
-  private Reader    source;
-  private Writer    destination;
-  private char[]    buffer;
-  private Integer   buffersize;
+  private boolean           configured;
+  private Reader            source;
+  private Writer            destination;
+  private char[]            buffer;
+  private Integer           buffersize;
+  private CopyingProgress   progress;
 
   /**
    * Initialises this Runnable implementation.
    */
   public CharCopierRunnable() {
+    progress  = new CopyingProgress();
     reset();
   }
   
@@ -47,6 +49,9 @@ public class CharCopierRunnable extends AbstractRunnable {
     destination = null;
     buffer      = null;
     buffersize  = null;
+    progress.setDatatype( Primitive.PChar );
+    progress.setTotal(0);
+    progress.setCurrent(0);
   }
   
   /**
@@ -126,13 +131,20 @@ public class CharCopierRunnable extends AbstractRunnable {
         buffer = getBuffers().allocate( buffersize );
       }
       try {
-        int done = 0;
+        
+        progress.setTotal(-1);
+        progress( progress );
+
         int read = source.read( buffer );
         while( (! isStopped()) && (read != -1) ) {
           if( read > 0 ) {
+            
             destination.write( buffer, 0, read );
-            done += read;
-            onIteration( done, read );
+            
+            // update the written amount
+            progress.setCurrent( progress.getCurrent() + read );
+            progress( progress );
+            
           }
           read = source.read( buffer );
         }
@@ -147,15 +159,6 @@ public class CharCopierRunnable extends AbstractRunnable {
     }
   }
 
-  /**
-   * Will be invoked when some data has been written.
-   * 
-   * @param done      The complete number of chars that have been written.
-   * @param written   The number of chars that have been written in this iteration.
-   */
-  protected void onIteration( int done, int written ) {
-  }
-  
   /**
    * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing
    * a FailureException.

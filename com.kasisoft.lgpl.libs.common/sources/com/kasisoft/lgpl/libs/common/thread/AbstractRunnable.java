@@ -14,7 +14,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
  * Basic implementation for a Runnable.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public abstract class AbstractRunnable implements Runnable {
+public abstract class AbstractRunnable<T> implements Runnable {
 
   private boolean   stopped;
   private boolean   completed;
@@ -30,6 +30,16 @@ public abstract class AbstractRunnable implements Runnable {
     } finally {
       completed = ! isStopped();
     }
+  }
+
+  /**
+   * Maybe used in order to provide progress information. A listener concept would also be a
+   * possibility but I suspect that the information will often be ignored, so this mechanism
+   * is the cheaper one.
+   * 
+   * @param progressinfo   The current progress information.
+   */
+  protected void progress( T progressinfo ) {
   }
   
   /**

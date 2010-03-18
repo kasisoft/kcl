@@ -23,20 +23,22 @@ import java.io.*;
  * the java.io.FileChannel instead in order to make use of system specific copying operations.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class ByteCopierRunnable extends AbstractRunnable {
+public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
 
   private static Buffers<byte[]> buffers = null;
   
-  private InputStream    source;
-  private OutputStream   destination;
-  private byte[]         buffer;
-  private Integer        buffersize;
-  private boolean        configured;
+  private InputStream       source;
+  private OutputStream      destination;
+  private byte[]            buffer;
+  private Integer           buffersize;
+  private boolean           configured;
+  private CopyingProgress   progress;
   
   /**
    * Initialises this Runnable implementation.
    */
   public ByteCopierRunnable() {
+    progress = new CopyingProgress();
     reset();
   }
   
@@ -49,6 +51,9 @@ public class ByteCopierRunnable extends AbstractRunnable {
     destination = null;
     buffer      = null;
     buffersize  = null;
+    progress.setDatatype( Primitive.PByte );
+    progress.setTotal(0);
+    progress.setCurrent(0);
   }
   
   /**
@@ -127,13 +132,20 @@ public class ByteCopierRunnable extends AbstractRunnable {
         buffer = getBuffers().allocate( buffersize );
       }
       try {
-        int done = 0;
+        
+        progress.setTotal(-1);
+        progress( progress );
+        
         int read = source.read( buffer );
         while( (! isStopped()) && (read != -1) ) {
           if( read > 0 ) {
+            
             destination.write( buffer, 0, read );
-            done += read;
-            onIteration( done, read );
+           
+            // update the written amount
+            progress.setCurrent( progress.getCurrent() + read );
+            progress( progress );
+
           }
           read = source.read( buffer );
         }
@@ -146,15 +158,6 @@ public class ByteCopierRunnable extends AbstractRunnable {
         reset();
       }
     }
-  }
-  
-  /**
-   * Will be invoked when some data has been written.
-   * 
-   * @param done      The complete number of bytes that have been written.
-   * @param written   The number of bytes that have been written in this iteration.
-   */
-  protected void onIteration( int done, int written ) {
   }
   
   /**
