@@ -31,14 +31,33 @@ public class ByteCopierRunnable extends AbstractRunnable {
   private OutputStream   destination;
   private byte[]         buffer;
   private Integer        buffersize;
+  private boolean        configured;
   
   /**
-   * A Thread which copies content from one stream to another one.
+   * Initialises this Runnable implementation.
+   */
+  public ByteCopierRunnable() {
+    reset();
+  }
+  
+  /**
+   * Initialises the current object state.
+   */
+  private void reset() {
+    configured  = false;
+    source      = null;
+    destination = null;
+    buffer      = null;
+    buffersize  = null;
+  }
+  
+  /**
+   * Configures this Runnable to copy some bytes.
    * 
    * @param from   The InputStream providing the content. Not <code>null</code>.
    * @param to     The OutputStream receiving this content. Not <code>null</code>. 
    */
-  public ByteCopierRunnable( 
+  public void configure( 
     @KNotNull(name="from")   InputStream    from, 
     @KNotNull(name="to")     OutputStream   to 
   ) {
@@ -46,16 +65,17 @@ public class ByteCopierRunnable extends AbstractRunnable {
     destination = to;
     buffer      = null;
     buffersize  = CommonProperty.BufferCount.getValue();
+    configured  = true;
   }
   
   /**
-   * A Thread which copies content from one stream to another one.
+   * Configures this Runnable to copy some bytes.
    * 
    * @param from   The InputStream providing the content. Not <code>null</code>.
    * @param to     The OutputStream receiving this content. Not <code>null</code>. 
    * @param size   The size of the buffer. Not <code>null</code>.
    */
-  public ByteCopierRunnable( 
+  public void configure( 
     @KNotNull(name="from")     InputStream    from, 
     @KNotNull(name="to")       OutputStream   to,
     @KIPositive(name="size")   int            size 
@@ -64,16 +84,17 @@ public class ByteCopierRunnable extends AbstractRunnable {
     destination = to;
     buffer      = null;
     buffersize  = Integer.valueOf( size );
+    configured  = true;
   }
 
   /**
-   * A Thread which copies content from one stream to another one.
+   * Configures this Runnable to copy some bytes.
    * 
    * @param from   The InputStream providing the content. Not <code>null</code>.
    * @param to     The OutputStream receiving this content. Not <code>null</code>.
    * @param mem    The buffer to be used for the copying process. Not <code>null</code>.
    */
-  public ByteCopierRunnable( 
+  public void configure( 
     @KNotNull(name="from")   InputStream    from, 
     @KNotNull(name="to")     OutputStream   to, 
     @KNotNull(name="mem")    byte[]         mem 
@@ -82,6 +103,7 @@ public class ByteCopierRunnable extends AbstractRunnable {
     destination = to;
     buffer      = mem;
     buffersize  = null;
+    configured  = true;
   }
 
   /**
@@ -100,27 +122,29 @@ public class ByteCopierRunnable extends AbstractRunnable {
    * {@inheritDoc}
    */
   protected void execute() {
-    if( buffersize != null ) {
-      buffer = getBuffers().allocate( buffersize );
-    }
-    try {
-      int done = 0;
-      int read = source.read( buffer );
-      while( (! isStopped()) && (read != -1) ) {
-        if( read > 0 ) {
-          destination.write( buffer, 0, read );
-          done += read;
-          onIteration( done, read );
-        }
-        read = source.read( buffer );
-      }
-    } catch( IOException ex ) {
-      handleIOFailure( ex );
-    } finally {
+    if( configured ) {
       if( buffersize != null ) {
-        getBuffers().release( buffer );
+        buffer = getBuffers().allocate( buffersize );
       }
-      buffer = null;
+      try {
+        int done = 0;
+        int read = source.read( buffer );
+        while( (! isStopped()) && (read != -1) ) {
+          if( read > 0 ) {
+            destination.write( buffer, 0, read );
+            done += read;
+            onIteration( done, read );
+          }
+          read = source.read( buffer );
+        }
+      } catch( IOException ex ) {
+        handleIOFailure( ex );
+      } finally {
+        if( buffersize != null ) {
+          getBuffers().release( buffer );
+        }
+        reset();
+      }
     }
   }
   

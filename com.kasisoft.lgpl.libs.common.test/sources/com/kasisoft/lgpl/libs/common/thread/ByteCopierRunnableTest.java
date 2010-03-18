@@ -48,9 +48,11 @@ public class ByteCopierRunnableTest {
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = null;
     if( buffersize == null ) {
-      runnable = new ByteCopierRunnable( bytein, byteout );
+      runnable = new ByteCopierRunnable();
+      runnable.configure( bytein, byteout );
     } else {
-      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() );
+      runnable = new ByteCopierRunnable();
+      runnable.configure( bytein, byteout, buffersize.intValue() );
     }
     runnable.run();
     byte[] copied = byteout.toByteArray();
@@ -63,9 +65,11 @@ public class ByteCopierRunnableTest {
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = null;
     if( buffersize == null ) {
-      runnable = new ByteCopierRunnable( bytein, byteout );
+      runnable = new ByteCopierRunnable();
+      runnable.configure( bytein, byteout );
     } else {
-      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() );
+      runnable = new ByteCopierRunnable();
+      runnable.configure( bytein, byteout, buffersize.intValue() );
     }
     Thread thread = new Thread( runnable );
     thread.start();
@@ -80,21 +84,23 @@ public class ByteCopierRunnableTest {
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = null;
     if( buffersize == null ) {
-      runnable = new ByteCopierRunnable( bytein, byteout ) {
+      runnable = new ByteCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( bytein, byteout );
     } else {
-      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() ) {
+      runnable = new ByteCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( bytein, byteout, buffersize.intValue() );
     }
     runnable.run();
     // should not be reached as an exception is expected to occure
@@ -107,21 +113,23 @@ public class ByteCopierRunnableTest {
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = null;
     if( buffersize == null ) {
-      runnable = new ByteCopierRunnable( bytein, byteout ) {
+      runnable = new ByteCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( bytein, byteout );
     } else {
-      runnable = new ByteCopierRunnable( bytein, byteout, buffersize.intValue() ) {
+      runnable = new ByteCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( bytein, byteout, buffersize.intValue() );
     }
     Thread thread = new Thread( runnable );
     thread.start();

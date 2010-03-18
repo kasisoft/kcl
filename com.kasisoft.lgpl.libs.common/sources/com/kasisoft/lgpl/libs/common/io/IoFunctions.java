@@ -284,7 +284,8 @@ public class IoFunctions {
       buffer    = allocated;
     }
     try {
-      ByteCopierRunnable runnable = new ByteCopierRunnable( input, output, buffer );
+      ByteCopierRunnable runnable = new ByteCopierRunnable();
+      runnable.configure( input, output, buffer );
       runnable.run();
       if( ! runnable.hasCompleted() ) {
         throw new FailureException( FailureCode.IO );
@@ -328,7 +329,8 @@ public class IoFunctions {
   ) {
     byte[] allocated = allocateBytes( buffersize );
     try {
-      ByteCopierRunnable runnable = new ByteCopierRunnable( input, output, allocated );
+      ByteCopierRunnable runnable = new ByteCopierRunnable();
+      runnable.configure( input, output, allocated );
       runnable.run();
       if( ! runnable.hasCompleted() ) {
         throw new FailureException( FailureCode.IO );

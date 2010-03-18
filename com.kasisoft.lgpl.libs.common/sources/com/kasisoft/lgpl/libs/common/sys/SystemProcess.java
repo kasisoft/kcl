@@ -219,8 +219,13 @@ public class SystemProcess {
         err = System.err;
       }
       
-      outcopier  = new Thread( new ByteCopierRunnable( p.getInputStream(), out ) );
-      errcopier  = new Thread( new ByteCopierRunnable( p.getErrorStream(), err ) );
+      ByteCopierRunnable outrunnable = new ByteCopierRunnable(); 
+      ByteCopierRunnable errrunnable = new ByteCopierRunnable(); 
+      outrunnable.configure( p.getInputStream(), out );
+      errrunnable.configure( p.getErrorStream(), err );
+      
+      outcopier  = new Thread( outrunnable );
+      errcopier  = new Thread( errrunnable );
 
       outcopier.start();
       errcopier.start();
