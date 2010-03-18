@@ -410,7 +410,8 @@ public class IoFunctions {
       buffer    = allocated;
     }
     try {
-      CharCopierRunnable runnable = new CharCopierRunnable( input, output, buffer );
+      CharCopierRunnable runnable = new CharCopierRunnable();
+      runnable.configure( input, output, buffer );
       runnable.run();
       if( ! runnable.hasCompleted() ) {
         throw new FailureException( FailureCode.IO );
@@ -454,7 +455,8 @@ public class IoFunctions {
   ) {
     char[] allocated = StringFunctions.allocateChars( buffersize );
     try {
-      CharCopierRunnable runnable = new CharCopierRunnable( input, output, allocated );
+      CharCopierRunnable runnable = new CharCopierRunnable();
+      runnable.configure( input, output, allocated );
       runnable.run();
       if( ! runnable.hasCompleted() ) {
         throw new FailureException( FailureCode.IO );

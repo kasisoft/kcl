@@ -25,18 +25,37 @@ public class CharCopierRunnable extends AbstractRunnable {
 
   private static Buffers<char[]> buffers = null;
   
+  private boolean   configured;
   private Reader    source;
   private Writer    destination;
   private char[]    buffer;
   private Integer   buffersize;
 
   /**
-   * A Thread which copies content from a Reader to a Writer.
-   * 
-   * @param from   The InputStream providing the content. Not <code>null</code>.
-   * @param to     The OutputStream receiving this content. Not <code>null</code>.
+   * Initialises this Runnable implementation.
    */
-  public CharCopierRunnable( 
+  public CharCopierRunnable() {
+    reset();
+  }
+  
+  /**
+   * Initialises the current object state.
+   */
+  private void reset() {
+    configured  = false;
+    source      = null;
+    destination = null;
+    buffer      = null;
+    buffersize  = null;
+  }
+  
+  /**
+   * Configures this Runnable to copy some characters.
+   * 
+   * @param from   The Reader providing the content. Not <code>null</code>.
+   * @param to     The Writer receiving this content. Not <code>null</code>.
+   */
+  public void configure( 
     @KNotNull(name="from")   Reader   from, 
     @KNotNull(name="to")     Writer   to 
   ) {
@@ -44,17 +63,18 @@ public class CharCopierRunnable extends AbstractRunnable {
     destination = to;
     buffer      = null;
     buffersize  = CommonProperty.BufferCount.getValue();
+    configured  = true;
   }
   
   /**
-   * A Thread which copies content from a Reader to a Writer.
+   * Configures this Runnable to copy some characters.
    * 
-   * @param from   The InputStream providing the content. Not <code>null</code>.
-   * @param to     The OutputStream receiving this content. Not <code>null</code>.
+   * @param from   The Reader providing the content. Not <code>null</code>.
+   * @param to     The Writer receiving this content. Not <code>null</code>.
    * @param size   The size of the buffer. A value of <code>null</code> indicates to use the
    *               default size.
    */
-  public CharCopierRunnable( 
+  public void configure( 
     @KNotNull(name="from")     Reader   from, 
     @KNotNull(name="to")       Writer   to, 
     @KIPositive(name="size")   int      size 
@@ -63,16 +83,17 @@ public class CharCopierRunnable extends AbstractRunnable {
     destination = to;
     buffer      = null;
     buffersize  = Integer.valueOf( size );
+    configured  = true;
   }
 
   /**
-   * A Thread which copies content from a Reader to a Writer.
+   * Configures this Runnable to copy some characters.
    * 
-   * @param from   The InputStream providing the content. Not <code>null</code>.
-   * @param to     The OutputStream receiving this content. Not <code>null</code>. 
+   * @param from   The Reader providing the content. Not <code>null</code>.
+   * @param to     The Writer receiving this content. Not <code>null</code>.
    * @param mem    The buffer to be used for the copying process. Not <code>null</code>.
    */
-  public CharCopierRunnable( 
+  public void configure( 
     @KNotNull(name="from")   Reader   from, 
     @KNotNull(name="to")     Writer   to, 
     @KNotNull(name="mem")    char[]   mem 
@@ -81,6 +102,7 @@ public class CharCopierRunnable extends AbstractRunnable {
     destination = to;
     buffer      = mem;
     buffersize  = null;
+    configured  = true;
   }
 
   /**
@@ -99,27 +121,29 @@ public class CharCopierRunnable extends AbstractRunnable {
    * {@inheritDoc}
    */
   protected void execute() {
-    if( buffersize != null ) {
-      buffer = getBuffers().allocate( buffersize );
-    }
-    try {
-      int done = 0;
-      int read = source.read( buffer );
-      while( (! isStopped()) && (read != -1) ) {
-        if( read > 0 ) {
-          destination.write( buffer, 0, read );
-          done += read;
-          onIteration( done, read );
-        }
-        read = source.read( buffer );
-      }
-    } catch( IOException ex ) {
-      handleIOFailure( ex );
-    } finally {
+    if( configured ) {
       if( buffersize != null ) {
-        getBuffers().release( buffer );
+        buffer = getBuffers().allocate( buffersize );
       }
-      buffer = null;
+      try {
+        int done = 0;
+        int read = source.read( buffer );
+        while( (! isStopped()) && (read != -1) ) {
+          if( read > 0 ) {
+            destination.write( buffer, 0, read );
+            done += read;
+            onIteration( done, read );
+          }
+          read = source.read( buffer );
+        }
+      } catch( IOException ex ) {
+        handleIOFailure( ex );
+      } finally {
+        if( buffersize != null ) {
+          getBuffers().release( buffer );
+        }
+        reset();
+      }
     }
   }
 

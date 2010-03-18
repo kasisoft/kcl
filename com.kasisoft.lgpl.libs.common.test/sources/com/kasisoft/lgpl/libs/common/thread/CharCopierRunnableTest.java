@@ -52,9 +52,11 @@ public class CharCopierRunnableTest {
     CharArrayWriter    charout  = new CharArrayWriter();
     CharCopierRunnable runnable = null;
     if( buffersize == null ) {
-      runnable = new CharCopierRunnable( charin, charout );
+      runnable = new CharCopierRunnable();
+      runnable.configure( charin, charout );
     } else {
-      runnable = new CharCopierRunnable( charin, charout, buffersize.intValue() );
+      runnable = new CharCopierRunnable();
+      runnable.configure( charin, charout, buffersize.intValue() );
     }
     runnable.run();
     char[] copied = charout.toCharArray();
@@ -67,9 +69,11 @@ public class CharCopierRunnableTest {
     CharArrayWriter    charout  = new CharArrayWriter();
     CharCopierRunnable runnable = null;
     if( buffersize == null ) {
-      runnable = new CharCopierRunnable( charin, charout );
+      runnable = new CharCopierRunnable();
+      runnable.configure( charin, charout );
     } else {
-      runnable = new CharCopierRunnable( charin, charout, buffersize.intValue() );
+      runnable = new CharCopierRunnable();
+      runnable.configure( charin, charout, buffersize.intValue() );
     }
     Thread thread = new Thread( runnable );
     thread.start();
@@ -84,21 +88,23 @@ public class CharCopierRunnableTest {
     CharArrayWriter    charout  = new CharArrayWriter();
     CharCopierRunnable runnable = null;
     if( buffersize == null ) {
-      runnable = new CharCopierRunnable( charin, charout ) {
+      runnable = new CharCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( charin, charout );
     } else {
-      runnable = new CharCopierRunnable( charin, charout, buffersize.intValue() ) {
+      runnable = new CharCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( charin, charout, buffersize.intValue() );
     }
     runnable.run();
     // should not be reached as an exception is expected to occure
@@ -111,21 +117,23 @@ public class CharCopierRunnableTest {
     CharArrayWriter    charout  = new CharArrayWriter();
     CharCopierRunnable runnable = null;
     if( buffersize == null ) {
-      runnable = new CharCopierRunnable( charin, charout ) {
+      runnable = new CharCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( charin, charout );
     } else {
-      runnable = new CharCopierRunnable( charin, charout, buffersize.intValue() ) {
+      runnable = new CharCopierRunnable() {
         protected void onIteration( int done, int written ) {
           if( done > 10 ) {
             throw new RuntimeException();
           }
         }
       };
+      runnable.configure( charin, charout, buffersize.intValue() );
     }
     Thread thread = new Thread( runnable );
     thread.start();
