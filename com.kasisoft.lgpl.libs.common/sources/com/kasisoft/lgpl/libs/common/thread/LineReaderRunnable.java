@@ -21,30 +21,69 @@ import java.io.*;
  * A Runnable implementation which is used to load text lines from a Reader.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class LineReaderRunnable extends AbstractRunnable {
+public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
 
-  private BufferedReader   reader;
-  private List<String>     destination;
+  private BufferedReader       reader;
+  private List<String>         destination;
+  private LineReaderProgress   progress;
+  private boolean              configured;
   
-  private boolean          trim;
-  private boolean          emptylines;
+  private boolean              trim;
+  private boolean              emptylines;
   
+  /**
+   * Initialises this Runnable aimed to copy the content from a Reader into a list.
+   */
+  public LineReaderRunnable() {
+    progress    = new LineReaderProgress();
+    trim        = false;
+    emptylines  = true;
+    reset();
+  }
+
   /**
    * Initialises this Runnable aimed to copy the content from a Reader into a list.
    * 
    * @param input      The Reader instance providing the text. Not <code>null</code>.
    * @param receiver   The list used to receive the content. Be aware that the interface does not
    *                   require the method {@link List#add(Object)} to be implemented, so you need
-   *                   to pass an apropriate implementation type. sNot <code>null</code>.
+   *                   to pass an apropriate implementation type. Not <code>null</code>.
    */
   public LineReaderRunnable( 
     @KNotNull(name="input")      Reader         input, 
     @KNotNull(name="receiver")   List<String>   receiver 
   ) {
-    reader      = new BufferedReader( input );
-    destination = receiver;
-    trim        = false;
-    emptylines  = true;
+    this();
+    configure( input, receiver );
+  }
+  
+  /**
+   * Initialises the object state. This only affects the parameters which can be set using
+   * #configure() .
+   */
+  private void reset() {
+    progress.setTotal(0);
+    progress.setCurrent(0);
+    reader      = null;
+    destination = null;
+    configured  = false;
+  }
+  
+  /**
+   * Configures this Runnable if this has not been done yet.
+   * 
+   * @param input      The Reader instance providing the text. Not <code>null</code>.
+   * @param receiver   The list used to receive the content. Be aware that the interface does not
+   *                   require the method {@link List#add(Object)} to be implemented, so you need
+   *                   to pass an apropriate implementation type. Not <code>null</code>.
+   */
+  public void configure(
+    @KNotNull(name="input")      Reader         input, 
+    @KNotNull(name="receiver")   List<String>   receiver 
+  ) {
+    reader        = new BufferedReader( input );
+    destination   = receiver;
+    configured    = true;
   }
   
   /**
@@ -87,31 +126,34 @@ public class LineReaderRunnable extends AbstractRunnable {
    * {@inheritDoc}
    */
   public void execute() {
-    try {
-      int    complete = 0;
-      String line     = reader.readLine();
-      while( line != null ) {
-        if( trim ) {
-          line = line.trim();
+    if( configured ) {
+      try {
+        
+        progress.setTotal(-1);
+        progress( progress );
+        
+        String line     = reader.readLine();
+        while( line != null ) {
+          
+          if( trim ) {
+            line = line.trim();
+          }
+          
+          if( (line.length() > 0) || emptylines ) {
+            destination.add( line );
+          }
+          
+          progress.setCurrent( progress.getCurrent() + 1 );
+          progress( progress );
+          
+          line = reader.readLine();
         }
-        if( (line.length() > 0) || emptylines ) {
-          destination.add( line );
-        }
-        complete++;
-        onIteration( complete );
-        line = reader.readLine();
+      } catch( IOException ex ) {
+        handleIOFailure( ex );
+      } finally {
+        reset();
       }
-    } catch( IOException ex ) {
-      handleIOFailure( ex );
     }
-  }
-
-  /**
-   * Will be invoked when some data has been transferred.
-   * 
-   * @param complete   The current number of lines that have been processed.
-   */
-  protected void onIteration( int completes ) {
   }
 
   /**
