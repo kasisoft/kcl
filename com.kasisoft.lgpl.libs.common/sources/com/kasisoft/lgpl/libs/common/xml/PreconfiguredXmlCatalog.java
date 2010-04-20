@@ -37,6 +37,10 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
     "-//W3C//DTD HTML 4.01//EN"               , "/dtds/strict.dtd"                    ,
     "-//W3C//DTD HTML 4.01 Transitional//EN"  , "/dtds/loose.dtd"                     ,
     "-//W3C//DTD HTML 4.01 Frameset//EN"      , "/dtds/frameset.dtd"                  ,
+    "datatypes"                               , "/dtds/datatypes.dtd"                 ,
+    null                                      , "/dtds/HTMLlat1.ent"                  ,
+    null                                      , "/dtds/HTMLspecial.ent"               ,
+    null                                      , "/dtds/HTMLsymbol.ent"                ,
     null                                      , "/xsd/xml.xsd"                        ,
     null                                      , "/xsd/wsdl-mime.xsd"                  ,
     null                                      , "/xsd/wsdl.xsd"                       ,
@@ -49,7 +53,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * Initialises this catalog.
    */
   public PreconfiguredXmlCatalog() {
-    this( false );
+    this( false, false );
   }
 
   /**
@@ -57,10 +61,14 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * 
    * @param failifmissing   <code>true</code> <=> In case a resource could not be found a 
    *                        FailureException is raised.
+   * @param lsaware         <code>true</code> <=> Support the LSResourceResolver interface, too. If 
+   *                        no appropriate DOM implementation can be found this could cause a 
+   *                        FailureException.
    *                        
    * @throws FailureException if a resource is missing and causing a failure has been enabled.
    */
-  public PreconfiguredXmlCatalog( boolean failifmissing ) throws FailureException {
+  public PreconfiguredXmlCatalog( boolean failifmissing, boolean lsaware ) throws FailureException {
+    super( lsaware );
     for( int i = 0; i < PRECONFIGURED.length; i += 2 ) {
       String publicid = PRECONFIGURED[ i + 0 ];
       String resource = PRECONFIGURED[ i + 1 ];

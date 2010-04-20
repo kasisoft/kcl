@@ -8,12 +8,17 @@
  */
 package com.kasisoft.lgpl.libs.common.xml;
 
+import com.kasisoft.lgpl.libs.common.constants.*;
+
 import com.kasisoft.lgpl.libs.common.io.*;
 
 import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
+import org.w3c.dom.ls.*;
 import org.xml.sax.*;
+
+import javax.xml.parsers.*;
 
 import java.util.*;
 
@@ -25,17 +30,48 @@ import java.io.*;
  * Basic data structure used to store entity ids together with the urls.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class XmlCatalog implements EntityResolver {
+public class XmlCatalog implements EntityResolver, LSResourceResolver {
 
   private Map<String,byte[]>    catalogdata;
   private Set<URL>              failures;
+  private DOMImplementationLS   domimpl;
   
   /**
    * Initialises this catalog.
    */
   public XmlCatalog() {
+    this( false );
+  }
+  
+  /**
+   * Initialises this catalog.
+   * 
+   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no 
+   *                  appropriate DOM implementation can be found this could cause a 
+   *                  FailureException.
+   *                                
+   * @throws FailureException if <code>lsaware = true</code> and no DOMImplementationLS could be found.
+   */
+  public XmlCatalog( boolean lsaware ) {
+    
     catalogdata = new Hashtable<String,byte[]>();
     failures    = new HashSet<URL>();
+    domimpl     = null;
+    
+    if( lsaware ) {
+      try {
+        DocumentBuilderFactory  factory    = DocumentBuilderFactory.newInstance();
+        DocumentBuilder         docbuilder = factory.newDocumentBuilder();
+        if( docbuilder.getDOMImplementation() instanceof DOMImplementationLS ) {
+          domimpl = (DOMImplementationLS) docbuilder.getDOMImplementation();
+        } else {
+          throw new FailureException( FailureCode.XmlFailure );
+        }
+      } catch( ParserConfigurationException ex ) {
+        throw new FailureException( FailureCode.XmlFailure, ex );
+      }
+    }
+    
   }
   
   /**
@@ -121,9 +157,15 @@ public class XmlCatalog implements EntityResolver {
   }
 
   /**
-   * {@inheritDoc}
+   * Loads the data associated with either the supplied public id or the system id
+   * if it could be found.
+   * 
+   * @param publicid   The public id used for the resolving. Maybe <code>null</code>.
+   * @param systemid   The system id used for the resolving. Maybe <code>null</code>.
+   * 
+   * @return   The loaded data or <code>null</code>.
    */
-  public InputSource resolveEntity( String publicid, String systemid ) throws SAXException, IOException {
+  private byte[] loadData( String publicid, String systemid ) {
     byte[] result = null;
     URL    url    = toURL( systemid );
     if( publicid != null ) {
@@ -143,6 +185,14 @@ public class XmlCatalog implements EntityResolver {
       registerSystemID( url );
       result = loadResource( url );
     }
+    return result;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public InputSource resolveEntity( String publicid, String systemid ) throws SAXException, IOException {
+    byte[] result = loadData( publicid, systemid );
     if( result != null ) {
       InputSource inputsource = new InputSource( new ByteArrayInputStream( result ) );
       inputsource.setSystemId( systemid );
@@ -151,6 +201,30 @@ public class XmlCatalog implements EntityResolver {
     } else {
       return null;
     }
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public LSInput resolveResource( 
+    String type, String namespaceuri, String publicid, String systemid, String baseuri 
+  ) {
+    if( domimpl != null ) {
+      if( (publicid != null) || (systemid != null) ) {
+        byte[] result = loadData( publicid, systemid );
+        if( result != null ) {
+          LSInput lsinput = domimpl.createLSInput();
+          lsinput.setBaseURI( baseuri );
+          lsinput.setByteStream( new ByteArrayInputStream( result ) );
+          lsinput.setPublicId( publicid );
+          lsinput.setSystemId( systemid );
+          return lsinput;
+        } else {
+          return null;
+        }
+      }
+    }
+    return null;
   }
   
   /**
@@ -177,5 +251,5 @@ public class XmlCatalog implements EntityResolver {
     }
     return null;
   }
-  
+
 } /* ENDCLASS */
