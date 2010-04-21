@@ -497,19 +497,55 @@ public class MiscFunctions {
         for( int i = 0; i < params.length; i++ ) {
           params[i] = args[i].getClass();
         }
-        return clazz.getConstructor( params ).newInstance( args );
+        try {
+          return clazz.getConstructor( params ).newInstance( args );
+        } catch( NoSuchMethodException ex ) {
+          Constructor[] constructors = clazz.getDeclaredConstructors();
+          Constructor   constructor  = findMatchingConstructor( constructors, params );
+          if( constructor != null ) {
+            return constructor.newInstance( args );
+          }
+        }
       }
     } catch( ClassNotFoundException      ex ) { reflectionFailure( fail, ex );
     } catch( InstantiationException      ex ) { reflectionFailure( fail, ex );
     } catch( IllegalAccessException      ex ) { reflectionFailure( fail, ex );
     } catch( SecurityException           ex ) { reflectionFailure( fail, ex );
-    } catch( NoSuchMethodException       ex ) { reflectionFailure( fail, ex );
     } catch( IllegalArgumentException    ex ) { reflectionFailure( fail, ex );
     } catch( InvocationTargetException   ex ) { reflectionFailure( fail, ex );
     }
     return null;
   }
 
+  /**
+   * Identifies a constructor by it's signature. This might be necessary if the appropriate 
+   * Constructor uses an interface, so using a concrete type might fail to locate the right
+   * Constructor.
+   *  
+   * @param candidates   The possible candidates of Constructors. Not <code>null</code>.
+   * @param params       The current signature used to locate the Constructor. Not <code>null</code>.
+   * 
+   * @return   The Constructor if it could be found. Maybe <code>null</code>.
+   */
+  private static final Constructor findMatchingConstructor( Constructor[] candidates, Class<?>[] params ) {
+    for( Constructor constructor : candidates ) {
+      Class[] expectedparams = constructor.getParameterTypes();
+      if( (expectedparams != null) && (expectedparams.length == params.length) ) {
+        boolean matches = true;
+        for( int i = 0; i < expectedparams.length; i++ ) {
+          if( ! expectedparams[i].isAssignableFrom( params[i] ) ) {
+            matches = false;
+            break;
+          }
+        }
+        if( matches ) {
+          return constructor;
+        }
+      }
+    }
+    return null;
+  }
+  
   /**
    * Causes an exception if desired.
    * 
