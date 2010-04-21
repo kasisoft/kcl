@@ -504,6 +504,8 @@ public class MiscFunctions {
           Constructor   constructor  = findMatchingConstructor( constructors, params );
           if( constructor != null ) {
             return constructor.newInstance( args );
+          } else {
+            reflectionFailure( fail, ex );
           }
         }
       }
