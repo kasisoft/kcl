@@ -281,7 +281,7 @@ public final class XmlFunctions {
   }
   
   /**
-   * Sets up a new transformer from the supplied stylesheet file. This transformer can be useed to
+   * Sets up a new transformer from the supplied stylesheet file. This transformer can be used to
    * convert xml documents in various outcomes.
    * 
    * @param xsl   The xslt stylesheet. Not <code>null</code> and must be a file.
@@ -291,18 +291,56 @@ public final class XmlFunctions {
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
   public static final Transformer newTransformer( @KFile(name="xsl") File xsl ) throws FailureException {
-    TransformerFactory  factory   = TransformerFactory.newInstance();
     InputStream         instream  = null;
     try {
       instream = new FileInputStream( xsl );
-      return factory.newTransformer( new StreamSource( instream ) );
+      return newTransformer( instream );
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
-    } catch( TransformerConfigurationException ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
     } finally {
       IoFunctions.close( instream );
     }
   }
-  
+
+  /**
+   * Sets up a new transformer from the supplied stylesheet resource. This transformer can be used to
+   * convert xml documents in various outcomes.
+   * 
+   * @param resource   The xslt stylesheet resource. Not <code>null</code>.
+   * 
+   * @return The transformer if the stylesheet could be loaded properly. Not <code>null</code>.
+   * 
+   * @throws FailureException if loading the stylesheet failed for some reason.
+   */
+  public static final Transformer newTransformer( @KNotNull(name="resource") URL resource ) throws FailureException {
+    InputStream instream  = null;
+    try {
+      instream = resource.openStream();
+      return newTransformer( instream );
+    } catch( IOException ex ) {
+      throw new FailureException( FailureCode.IO, ex );
+    } finally {
+      IoFunctions.close( instream );
+    }
+  }
+
+  /**
+   * Sets up a new transformer from the supplied stylesheet InputStream. This transformer can be 
+   * used to convert xml documents in various outcomes.
+   * 
+   * @param xslinstream   The xslt stylesheet provided by an InputStream. Not <code>null</code>.
+   * 
+   * @return The transformer if the stylesheet could be loaded properly. Not <code>null</code>.
+   * 
+   * @throws FailureException if loading the stylesheet failed for some reason.
+   */
+  public static final Transformer newTransformer( @KNotNull(name="xslinstream") InputStream xslinstream ) throws FailureException {
+    TransformerFactory  factory   = TransformerFactory.newInstance();
+    try {
+      return factory.newTransformer( new StreamSource( xslinstream ) );
+    } catch( TransformerConfigurationException ex ) {
+      throw new FailureException( FailureCode.XmlFailure, ex );
+    }
+  }
+
 } /* ENDCLASS */
