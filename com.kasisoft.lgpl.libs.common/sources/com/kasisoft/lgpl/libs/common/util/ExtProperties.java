@@ -14,9 +14,13 @@ import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.util.*;
+
+import java.net.*;
+
 import java.util.regex.*;
 
 import java.io.*;
@@ -188,7 +192,28 @@ public class ExtProperties {
     lines = IoFunctions.readText( input, encoding );
     processProperties();
   }
-  
+
+  /**
+   * Loads the current properties from a specific File location.
+   * 
+   * @param input      The source where to load the properties from. Not <code>null</code>.
+   * @param encoding   The encoding to use. Neither <code>null</code> nor empty.
+   */
+  public synchronized void load( 
+    @KNotNull(name="input")      URL        input, 
+    @KNotNull(name="encoding")   Encoding   encoding 
+  ) {
+    InputStream instream = null;
+    try {
+      instream = input.openStream();
+      load( instream, encoding );
+    } catch( IOException ex ) {
+      throw new FailureException( FailureCode.IO, ex );
+    } finally {
+      IoFunctions.close( instream );
+    }
+  }
+
   /**
    * Loads the current properties from an InputStream.
    * 
