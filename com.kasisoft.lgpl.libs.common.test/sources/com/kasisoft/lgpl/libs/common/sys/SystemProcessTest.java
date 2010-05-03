@@ -29,11 +29,22 @@ public class SystemProcessTest {
   
   @BeforeSuite
   public void setup() {
-    exefile       = null;
+    exefile        = null;
+    File   dir     = null;
+    String basedir = System.getProperty( "test.basedir" );
+    if( (basedir != null) && (basedir.length() > 0) ) {
+      dir = new File( basedir );
+    }
+    String path    = null;
     if( SystemInfo.getRunningOS().isUnixLike() ) {
-      exefile = new File( "testdata/bin/testprocess.unix.exe" );
+      path = "testdata/bin/testprocess.unix.exe";
     } else {
-      exefile = new File( "testdata/bin/testprocess.win32.exe" );
+      path = "testdata/bin/testprocess.win32.exe";
+    }
+    if( dir != null ) {
+      exefile       = new File( dir, path );
+    } else {
+      exefile       = new File( path );
     }
     Assert.assertTrue( exefile.canExecute() );
     byteout       = new ByteArrayOutputStream();
