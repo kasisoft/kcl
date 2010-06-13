@@ -21,13 +21,87 @@
       </fileset>
     </delete>
   </target>
+
+  <target name="deploy-new" depends="clean">
+  
+    <var name="projectname" value="com.kasisoft.lgpl.libs.common"/>
+    
+    <temp-project-dir projectname="${ant.project.name}" property="tempdir"/>
+    
+    <buildJdtProject workspaceDirectory="${dir.workspace}" projectName="${projectname}">
+      
+      <initialize>
+        
+        <echo>Full build on project '${projectname}' ...</echo>
+        <mkdir dir="${tempdir}/user/libs"/>
+        <mkdir dir="${tempdir}/sources"/>
+        
+      </initialize>
+      
+      <pre-compile>
+        <echo>Building project '${buildJdtProject.project.name}' ...</echo>
+      </pre-compile>
+    
+      <post-compile>
+        <echo>   ... done for '${buildJdtProject.project.name}'</echo>
+      </post-compile>
+
+      <finish>
+        
+        <!-- create the jars with the code. -->
+        <zip destfile="${tempdir}/user/kasisoft-common.jar">
+          <jdtProjectFileSet workspaceDirectory="${dir.workspace}" projectName="${projectname}"/>
+        </zip>
+
+        <!-- copy the jars we're using. -->
+        <mkdir dir="${tempdir}/user/libs/com.kasisoft.lgpl.tools.diagnostic"/>
+        <copy todir="${tempdir}/user/libs/com.kasisoft.lgpl.tools.diagnostic">
+          <fileset dir="${HOME_DIAGNOSTIC}" includes="**/*"/>
+        </copy>
+        
+        <for param="sourcedir" list="${buildJdtProject.source.directories}" delimiter="${path.separator}">
+          <sequential>
+            <copy todir="${tempdir}/sources">
+              <fileset dir="@{sourcedir}" includes="**/*.java"/>
+            </copy>
+          </sequential>
+        </for>
+        
+        <zip destfile="${tempdir}/user/sources.zip">
+          <fileset dir="${tempdir}/sources" includes="**/*"/>
+        </zip>
+        
+        <!-- copy the license information. -->
+        <copy file="${dir.ext}/licenses/lgpl.txt"    tofile="${tempdir}/user/license.txt"/>
+
+        <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=64&amp;filename=kasisoft-common.de.pdf" dest="${tempdir}/user/kasisoft-common.de.pdf"/>
+        <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=63&amp;filename=kasisoft-common.en.pdf" dest="${tempdir}/user/kasisoft-common.en.pdf"/>
+
+        <api-doc projectname="${projectname}" destdir="${tempdir}/user/apidocs"/>
+        <echo file="${tempdir}/user/version.txt">${build.version}</echo>
+
+        <set-default property="env.SVN_REVISION" value="local"/>
+        <var name="revision" value="${env.SVN_REVISION}"/>
+        
+        <zip destfile="${basedir}/kasisoft-common-${revision}.zip">
+          <fileset dir="${tempdir}/user" includes="**/*"/>
+        </zip>
+
+        <delete-dir dir="${tempdir}"/>
+        
+      </finish>
+      
+    </buildJdtProject>
+      
+    <var unset="true" name="tempdir"/>
+  
+  </target>
   
   <target name="deploy" depends="clean">
-
-    <var name="project.common" value="com.kasisoft.lgpl.libs.common"/>
-
-    <echo>Cleaning up all '${project.common}' resources ...</echo>
-    <clean-for-all projectname="${project.common}.test"/>
+    
+    <var name="projectname" value="com.kasisoft.lgpl.tools.diagnostic"/>
+    
+    <temp-project-dir projectname="${ant.project.name}" property="tempdir"/>
 
     <echo>Compiling each project referred by '${project.common}.test' ...</echo>
     <distribution-for-all projectname="${project.common}.test" mapped="true"/>
@@ -56,12 +130,13 @@
 
     <!-- generate api documentation. -->
     <api-doc projectname="${project.common}" destdir="${dir.deploy}/apidocs"/>
+        <!-- copy the license information. -->
+    <copy file="${dir.ext}/licenses/lgpl.txt" tofile="${dir.deploy}/license.txt"/>
 
     <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=64&amp;filename=kasisoft-common.de.pdf" dest="${dir.deploy}/kasisoft-common.de.pdf"/>
     <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=63&amp;filename=kasisoft-common.en.pdf" dest="${dir.deploy}/kasisoft-common.en.pdf"/>
 
     <echo file="${dir.deploy}/version.txt">${build.version}</echo>
-    <copy file="${dir.ext}/licenses/lgpl.txt" tofile="${dir.deploy}/license.txt"/>
 
     <set-default property="env.SVN_REVISION" value="local"/>
     <var name="revision" value="${env.SVN_REVISION}"/>
