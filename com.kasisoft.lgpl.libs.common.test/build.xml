@@ -26,14 +26,14 @@
     <delete-dir dir="${basedir}/testreport" recreate="true"/>
   </target>
   
-  <target name="test-windows">
+  <target name="prepare-windows">
   </target>
   
-  <target name="test-unix">
+  <target name="prepare-unix">
     <chmod perm="+x" file="${basedir}/testdata/bin/testprocess.unix.exe"/>
   </target>
   
-  <target name="test-new" depends="clean,test-windows">
+  <target name="test" depends="clean">
     
     <property name="project.deployment" value="com.kasisoft.lgpl.libs.common.deployment"/>
     
@@ -69,5 +69,8 @@
     <var unset="true" name="tempdir"/>
     
   </target>
-  
+
+  <target name="test-windows" depends="clean,prepare-windows,test"/>
+  <target name="test-unix" depends="clean,prepare-unix,test"/>
+
 </project>
