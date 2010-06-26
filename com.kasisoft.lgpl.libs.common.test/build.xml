@@ -12,6 +12,7 @@
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- PATH DEFINITIONS                                                                        -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- TARGET DEFINITIONS                                                                      -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -22,62 +23,51 @@
   </target>
 
   <target name="clean" depends="init">
-    <delete-dir dir="${basedir}/test-output" recreate="true"/>
+    <delete-dir dir="${basedir}/testreport" recreate="true"/>
   </target>
   
-  <target name="test" depends="clean">
-
-    <echo>Cleaning up all '${ant.project.name}' resources ...</echo>
-    <clean-for-all projectname="${ant.project.name}"/>
-
-    <set-default property="eclipse.running" value="true"/>
-    
-    <echo>Compiling each project referred by '${ant.project.name}' ...</echo>
-    <cobertura-distribution-for-all
-      datafile="${basedir}/cobertura.dat"
-      projectname="${ant.project.name}" 
-      mapped="${eclipse.running}"
-    />
-
+  <target name="test-windows">
+  </target>
+  
+  <target name="test-unix">
     <chmod perm="+x" file="${basedir}/testdata/bin/testprocess.unix.exe"/>
+  </target>
+  
+  <target name="test-new" depends="clean,test-windows">
     
-    <delete-dir dir="${basedir}/test-output" recreate="true"/>
+    <property name="project.deployment" value="com.kasisoft.lgpl.libs.common.deployment"/>
+    
+    <property name="file.cobertura" value="${basedir}/cobertura.dat"/>
+    
+    <temp-project-dir projectname="${ant.project.name}" property="tempdir"/>
+    <mkdir dir="${tempdir}/distribution"/>
+    <mkdir dir="${tempdir}/sources"/>
+    
+    <a4e-distribution projectname="com.kasisoft.lgpl.libs.common"/>
+    <a4e-distribution projectname="${ant.project.name}"/>
 
-    <cobertura-testng 
-      projectname="${ant.project.name}" 
-      datafile="${basedir}/cobertura.dat"
-      destdir="${basedir}/test-output"
-      testcasedir="${basedir}"
-      mapped="${eclipse.running}"
+    <cobertura-instrumentation projectname="com.kasisoft.lgpl.libs.common" datafile="${file.cobertura}"/>
+
+    <a4e-testng 
+      projectname="${ant.project.name}"
+      reportdir="${basedir}/testreport"
+      jvmopts="-Dnet.sourceforge.cobertura.datafile=${file.cobertura} -Xms256m -Xmx512m"
+      classpathext="path.cobertura"
     />
-    
-    <mapped-project-dir projectname="${ant.project.name}" property="dir.temp"/>
-    
-    <for param="project" list="com.kasisoft.lgpl.libs.common,com.kasisoft.lgpl.libs.common.test">
-      <sequential>
-        <get-sourcepath projectname="@{project}" property="sourcepathes" multiple="true"/>
-        <for param="sourcepath" list="${sourcepathes}" delimiter="${path.separator}">
-          <sequential>
-            <copy todir="${dir.temp}">
-              <fileset dir="@{sourcepath}" includes="**/*.java"/>
-            </copy>
-          </sequential>
-        </for>
-        <var unset="true" name="sourcepathes"/>
-      </sequential>
-    </for>
 
-    <mkdir dir="${basedir}/test-output/cobertura"/>
-
-    <cobertura-reporting 
-      datafile="${basedir}/cobertura.dat" 
-      sourcesdir="${dir.temp}"
-      xmldir="${basedir}/test-output/cobertura"
-    />
-      
-    <delete-dir dir="${dir.temp}"/>
-    <var unset="true" name="dir.temp"/>
-      
+    <a4e-for-each-source-dir projectname="com.kasisoft.lgpl.libs.common" property="dir">
+      <do>
+        <copy todir="${tempdir}/sources">
+          <fileset dir="${dir}" includes="**/*.java"/>
+        </copy>
+      </do>
+    </a4e-for-each-source-dir>
+    
+    <cobertura-reporting sourcesdir="${tempdir}/sources" datafile="${file.cobertura}" htmldir="${basedir}/testoutput"/>
+    
+    <!-- <delete-dir dir="${tempdir}"/> -->
+    <var unset="true" name="tempdir"/>
+    
   </target>
   
 </project>
