@@ -51,6 +51,7 @@ public class ExtPropertiesTest {
     evaluationfile  = new File( "testdata/props/evaluation.properties" );
     Assert.assertTrue( simplefile     . isFile() );
     Assert.assertTrue( evaluationfile . isFile() );
+    System.getProperties().list( System.out );
   }
   
   private ExtProperties setupContent( File file, String delimiter, String commentintro ) {
