@@ -51,7 +51,7 @@
     <a4e-testng 
       projectname="${ant.project.name}"
       reportdir="${basedir}/testreport"
-      jvmopts="-Dnet.sourceforge.cobertura.datafile=${file.cobertura} -Xms256m -Xmx512m"
+      jvmopts="-Dnet.sourceforge.cobertura.datafile=${file.cobertura} -DTMP=${java.io.tmpdir} -Xms256m -Xmx512m"
       classpathext="path.cobertura"
     />
 
