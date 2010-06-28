@@ -51,9 +51,6 @@ public class ExtPropertiesTest {
     evaluationfile  = new File( "testdata/props/evaluation.properties" );
     Assert.assertTrue( simplefile     . isFile() );
     Assert.assertTrue( evaluationfile . isFile() );
-    for( Map.Entry<String,String> pair : System.getenv().entrySet() ) {
-      System.err.printf( "'%s' - '%s'\n", pair.getKey(), pair.getValue() );
-    }
   }
   
   private ExtProperties setupContent( File file, String delimiter, String commentintro ) {
