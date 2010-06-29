@@ -53,6 +53,20 @@ public class ExtPropertiesTest {
     Assert.assertTrue( evaluationfile . isFile() );
   }
   
+  /**
+   * This function creates an ExtProperties instance configured with the supplied settings. The
+   * underlying properties file is altered in order to verify that it can be loaded correctly by
+   * the instance.
+   * 
+   * @param file            The location of the properties file to be read. 
+   *                        Not <code>null</code> and must be a valid file.
+   * @param delimiter       The delimiter to be used between a key and a value.
+   *                        Neither <code>null</code> nor empty.
+   * @param commentintro    The literal that introduces a comment. 
+   *                        Neither <code>null</code> nor empty.
+   * 
+   * @return   The new instance of the allowing to access the properties. Not <code>null</code>.
+   */
   private ExtProperties setupContent( File file, String delimiter, String commentintro ) {
     List<String> text     = IoFunctions.readText( file, Encoding.UTF8 );
     StringBuffer buffer   = new StringBuffer();
