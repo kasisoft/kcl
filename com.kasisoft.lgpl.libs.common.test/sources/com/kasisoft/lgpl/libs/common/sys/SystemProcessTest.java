@@ -107,7 +107,7 @@ public class SystemProcessTest {
   @Test
   public void toStderr() {
     FailureCode failurecode = systemprocess.execute( "-stderr" );
-    checkResult( failurecode, 0, "", "Hello World !" );
+    checkResult( failurecode, 0, "Hello World !", "" );
   }
 
   /**
