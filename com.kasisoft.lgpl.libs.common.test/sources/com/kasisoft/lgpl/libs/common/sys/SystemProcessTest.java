@@ -71,32 +71,43 @@ public class SystemProcessTest {
     String str = new String( byteerr.toByteArray() );
     return str.trim();
   }
+  
+  private void checkResult( FailureCode code, int returncode, String err, String out ) {
+    String  errstr = getStderr();
+    String  outstr = getStdout();
+    boolean goterr = ( code != FailureCode.Success ) ||
+                     ( systemprocess.getReturncode() != returncode ) ||
+                     ( ! err.equals( errstr ) ) ||
+                     ( ! out.equals( outstr ) );
+    if( goterr ) {
+      System.out.printf( "FailureCode = %s\n", code );
+      System.out.printf( "ReturnCode  = %d (expected = %d)\n", Integer.valueOf( systemprocess.getReturncode() ), Integer.valueOf( returncode ) );
+      System.out.printf( "StdErr      = %s\n", errstr );
+      System.out.printf( "StdOut      = %s\n", outstr );
+      if( systemprocess.getException() != null ) {
+        Assert.fail( systemprocess.getException().getMessage(), systemprocess.getException() );
+      } else {
+        Assert.fail();
+      }
+    }
+  }
 
   @Test
   public void causeReturncode() {
     FailureCode failurecode = systemprocess.execute( "-rc", "17" );
-    Assert.assertEquals( failurecode, FailureCode.Success );
-    Assert.assertEquals( systemprocess.getReturncode(), 17 );
-    Assert.assertEquals( new String( byteerr.toByteArray() ), "" );
-    Assert.assertEquals( new String( byteout.toByteArray() ), "" );
+    checkResult( failurecode, 17, "", "" );
   }
 
   @Test
   public void toStdout() {
     FailureCode failurecode = systemprocess.execute();
-    Assert.assertEquals( failurecode, FailureCode.Success );
-    Assert.assertEquals( systemprocess.getReturncode(), 0 );
-    Assert.assertEquals( getStderr(), "" );
-    Assert.assertEquals( getStdout(), "Hello World !" );
+    checkResult( failurecode, 0, "", "Hello World !" );
   }
 
   @Test
   public void toStderr() {
     FailureCode failurecode = systemprocess.execute( "-stderr" );
-    Assert.assertEquals( failurecode, FailureCode.Success );
-    Assert.assertEquals( systemprocess.getReturncode(), 0 );
-    Assert.assertEquals( getStdout(), "" );
-    Assert.assertEquals( getStderr(), "Hello World !" );
+    checkResult( failurecode, 0, "", "Hello World !" );
   }
 
   /**
