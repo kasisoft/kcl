@@ -63,7 +63,12 @@
       </do>
     </a4e-for-each-source-dir>
     
-    <cobertura-reporting sourcesdir="${tempdir}/sources" datafile="${file.cobertura}" htmldir="${basedir}/testoutput"/>
+    <cobertura-reporting 
+      sourcesdir="${tempdir}/sources" 
+      datafile="${file.cobertura}" 
+      htmldir="${basedir}/testoutput"
+      xmldir="${basedir}/testoutput"
+    />
     
     <!-- <delete-dir dir="${tempdir}"/> -->
     <var unset="true" name="tempdir"/>
