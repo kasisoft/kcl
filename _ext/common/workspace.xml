@@ -469,12 +469,19 @@
         <then>
           <loadfile property="cec_compiler" srcfile="${dir.ext}/${file.compiler}">
             <filterchain>
-              <striplinecomments/>
+              <striplinecomments>
+                <comment value="#"/>
+              </striplinecomments>
             </filterchain>
           </loadfile>
           <for param="singleline" list="${cec_compiler}" delimiter="&#10;" trim="yes">
             <sequential>
-              <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.@{singleline}&#10;</echo>
+              <if>
+                <not><equals arg1="@{singleline}" arg2=""/></not>
+                <then>
+                  <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.@{singleline}&#10;</echo>
+                </then>
+              </if>
             </sequential>
           </for>
           <var unset="true" name="cec_compiler"/>
