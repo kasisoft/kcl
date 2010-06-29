@@ -66,8 +66,8 @@
     <cobertura-reporting 
       sourcesdir="${tempdir}/sources" 
       datafile="${file.cobertura}" 
-      htmldir="${basedir}/testoutput"
-      xmldir="${basedir}/testoutput"
+      htmldir="${basedir}/testoutput/html"
+      xmldir="${basedir}/testoutput/xml"
     />
     
     <!-- <delete-dir dir="${tempdir}"/> -->
