@@ -45,6 +45,7 @@
       <class name="com.kasisoft.lgpl.libs.common.util.StringFunctionsTest"/>
       <class name="com.kasisoft.lgpl.libs.common.thread.ZipAndUnzipRunnableTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.ExtPropertiesTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.KDateTest"/>
     </classes>
   </test>
 </suite>
