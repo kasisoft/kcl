@@ -73,10 +73,10 @@ public class KTimeTest {
   }
   
   @Test
-  public void setDate() {
-    KTime date = newRefTime();
-    Assert.assertEquals( date.toString(), "12:37:34 045" );
-    Assert.assertEquals( date.toString( "HH  mm  ss  SSS" ), "12  37  34  045" );
+  public void setTime() {
+    KTime time = newRefTime();
+    Assert.assertEquals( time.toString(), "12:37:34 045" );
+    Assert.assertEquals( time.toString( "HH  mm  ss  SSS" ), "12  37  34  045" );
   }
 
   @Test(dataProvider="createIncrement")

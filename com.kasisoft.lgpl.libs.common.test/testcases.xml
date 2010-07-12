@@ -47,6 +47,7 @@
       <class name="com.kasisoft.lgpl.libs.common.util.ExtPropertiesTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.KDateTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.KTimeTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.KDateTimeTest"/>
     </classes>
   </test>
 </suite>
