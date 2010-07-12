@@ -56,7 +56,7 @@ public class KDate {
   /**
    * Changes the day within the month.
    * 
-   * @param day    The day within the month. [ 1 .. 31 ]
+   * @param day   The day within the month. [ 1 .. 31 ]
    */
   public void setDay( 
     @KIRange(name="day", min=1, max=31)   int   day 
@@ -73,16 +73,6 @@ public class KDate {
     return Weekday.valueOf( calendar.get( Calendar.DAY_OF_WEEK ) );
   }
 
-  /**
-   * Changes the hour of the day.
-   * 
-   * @param hours   The hour of the day. [ 0 .. 23 ]
-   */
-  public void setHours( 
-    @KIRange(name="hours", min=0, max=23)   int   hours 
-  ) {
-    calendar.set( Calendar.HOUR_OF_DAY, hours );
-  }
 
   /**
    * Returns the month of this date instance.
@@ -148,7 +138,7 @@ public class KDate {
   public Calendar toCalendar() {
     Calendar result = Calendar.getInstance();
     result.setTime( calendar.getTime() );
-    return( result );
+    return result;
   }
 
   /**
@@ -168,7 +158,7 @@ public class KDate {
   public boolean isLeapYear() {
     return calendar.isLeapYear( getYear() );
   }
-
+  
   /**
    * Increases the year.
    */
@@ -235,7 +225,7 @@ public class KDate {
   public int getDayCount() {
     return getMonth().getDayCount( getYear() );
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -245,7 +235,7 @@ public class KDate {
       StringFunctions.decFormat2( getMonth().getNumber() ) + "." +
       StringFunctions.decFormat4( getYear() );
   }
-  
+
   /**
    * Like {@link #toString()} but this function also accepts a formatting String.
    * 
@@ -258,7 +248,7 @@ public class KDate {
     SimpleDateFormat formatter = new SimpleDateFormat( format );
     return formatter.format( toDate() );
   }
-  
+
   /**
    * {@inheritDoc}
    */
