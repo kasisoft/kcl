@@ -40,7 +40,7 @@ public enum Encoding {
     bom           = requiresbom;
     byteordermark = mark;
   }
-
+  
   /**
    * Opens a Reader for a specific file using this encoding.
    * 
@@ -332,6 +332,25 @@ public enum Encoding {
     } else {
       return encoding.openPrintStream( outstream );
     }
+  }
+
+  /**
+   * This helper function identifies the encoding value which corresponds to the supplied name. Be
+   * aware that this enumeration only supports the <b>required</b> encodings.
+   * 
+   * @param name   The name of the encoding which has to be identified. Case sensitivity doesn't
+   *               matter here.
+   *               Neither <code>null</code> nor empty.
+   *               
+   * @return   The encoding value or <code>null</code> if it cannot be identified.
+   */
+  public static final Encoding valueByName( @KNotEmpty(name="name") String name ) {
+    for( Encoding encoding : Encoding.values() ) {
+      if( encoding.encoding.equalsIgnoreCase( name ) ) {
+        return encoding;
+      }
+    }
+    return null;
   }
 
 } /* ENDENUM */
