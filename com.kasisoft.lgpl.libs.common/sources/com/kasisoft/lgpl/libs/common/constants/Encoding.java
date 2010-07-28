@@ -20,11 +20,11 @@ public enum Encoding {
 
   
   /**
-   * @spec [06-Jan-2010:KASI]   http://java.sun.com/j2se/1.3/docs/api/java/lang/package-summary.html#charenc
+   * @spec [28-Jul-2010:KASI]   http://download-llnw.oracle.com/javase/1.3/docs/api/java/lang/package-summary.html#charenc
    */
   
   ASCII       ( "US-ASCII"    , false , null                  ),
-  Cp1252      ( "Cp1252"      , false , null                  ),
+  // Cp1252      ( "Cp1252"      , false , null                  ),
   UTF8        ( "UTF-8"       , false , ByteOrderMark.UTF8    ),
   UTF16       ( "UTF-16"      , true  , null                  ),
   UTF16BE     ( "UTF-16BE"    , false , ByteOrderMark.UTF16BE ),
