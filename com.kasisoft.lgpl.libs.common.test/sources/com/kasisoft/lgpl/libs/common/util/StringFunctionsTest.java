@@ -52,13 +52,67 @@ public class StringFunctionsTest {
       { "Semper fidelis", "xyz" . toCharArray(), Integer.valueOf(0)   , Integer.valueOf(-1) },  
     };
   }
-  
+
+  @DataProvider(name="createStringIndexOf")
+  public Object[][] createStringIndexOf() {
+    return new Object[][] {
+      { "Semper fidelis", toStringArray( "mf" ), Integer.valueOf(0)   , Integer.valueOf(2)  },  
+      { "Semper fidelis", toStringArray( "mf" ), Integer.valueOf(100) , Integer.valueOf(-1) },  
+      { "Semper fidelis", toStringArray( "xyz"), Integer.valueOf(0)   , Integer.valueOf(-1) },  
+    };
+  }
+
+  @DataProvider(name="createLastIndexOf")
+  public Object[][] createLastIndexOf() {
+    return new Object[][] {
+      { "Semper fidelis", "mf"  . toCharArray(), Integer.valueOf(100) , Integer.valueOf(7)  },  
+      { "Semper fidelis", "mf"  . toCharArray(), Integer.valueOf(0)   , Integer.valueOf(-1) },  
+      { "Semper fidelis", "xyz" . toCharArray(), Integer.valueOf(100) , Integer.valueOf(-1) },  
+    };
+  }
+
+  @DataProvider(name="createLastStringIndexOf")
+  public Object[][] createLastStringIndexOf() {
+    return new Object[][] {
+      { "Semper fidelis", toStringArray( "mf" ), Integer.valueOf(100) , Integer.valueOf(7)  },  
+      { "Semper fidelis", toStringArray( "mf" ), Integer.valueOf(0)   , Integer.valueOf(-1) },  
+      { "Semper fidelis", toStringArray( "xyz"), Integer.valueOf(100) , Integer.valueOf(-1) },  
+    };
+  }
+
+  private String[] toStringArray( String str ) {
+    char[]    chars   = str.toCharArray();
+    String[]  result  = new String[ chars.length ];
+    for( int i = 0; i < chars.length; i++ ) {
+      result[i] = String.valueOf( chars[i] );
+    }
+    return result;
+  }
+
   @Test(dataProvider="createIndexOf")
-  public void indexOf( String text, char[] characters, int offset, int expected ) {
+  public void indexOf1( String text, char[] characters, int offset, int expected ) {
     int index = StringFunctions.indexOf( offset, text, characters );
     Assert.assertEquals( index, expected );
   }
-  
+
+  @Test(dataProvider="createStringIndexOf")
+  public void indexOf2( String text, String[] literals, int offset, int expected ) {
+    int index = StringFunctions.indexOf( offset, text, literals );
+    Assert.assertEquals( index, expected );
+  }
+
+  @Test(dataProvider="createLastIndexOf")
+  public void lastIndexOf1( String text, char[] characters, int offset, int expected ) {
+    int index = StringFunctions.lastIndexOf( offset, text, characters );
+    Assert.assertEquals( index, expected );
+  }
+
+  @Test(dataProvider="createLastStringIndexOf")
+  public void lastIndexOf2( String text, String[] literals, int offset, int expected ) {
+    int index = StringFunctions.lastIndexOf( offset, text, literals );
+    Assert.assertEquals( index, expected );
+  }
+
   @DataProvider(name="createCleanup")
   public Object[][] createCleanup() {
     return new Object[][] {

@@ -53,13 +53,197 @@ public class StringFunctions {
   }
 
   /**
+   * Returns the last index of some literal.
+   * 
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of literals used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KNotNull(name="input")       String   input, 
+    @KNotEmpty(name="literals")   String   ... literals 
+  ) {
+    return lastIndexOf( input.length(), input, literals );
+  }
+
+  /**
+   * Returns the last index of some character.
+   * 
+   * @param input        The String where the characters have to be looked for.
+   *                     Neither <code>null</code> nor empty.
+   * @param characters   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a character has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KNotNull(name="input")         String   input, 
+    @KNotEmpty(name="characters")   char     ... characters 
+  ) {
+    return lastIndexOf( input.length(), input, characters );
+  }
+
+  /**
+   * Returns the last index of some character.
+   * 
+   * @param input        The String where the characters have to be looked for.
+   *                     Neither <code>null</code> nor empty.
+   * @param characters   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a character has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KNotNull(name="input")         StringBuffer   input, 
+    @KNotEmpty(name="characters")   char           ... characters 
+  ) {
+    return lastIndexOf( input.length(), input, characters );
+  }
+
+  /**
+   * Returns the last index of some literal.
+   * 
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of literals used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KNotNull(name="input")       StringBuffer   input, 
+    @KNotEmpty(name="literals")   String         ... literals 
+  ) {
+    return lastIndexOf( input.length(), input, literals );
+  }
+
+  /**
+   * Returns the last index of some character.
+   * 
+   * @param first        The first position where to start looking from.
+   * @param input        The String where the characters have to be looked for.
+   *                     Neither <code>null</code> nor empty.
+   * @param characters   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a character has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KIPositive(name="first",zero=true)   int      first, 
+    @KNotNull(name="input")               String   input, 
+    @KNotEmpty(name="characters")         char     ... characters 
+  ) {
+    int result = -1;
+    for( int i = 0; i < characters.length; i++ ) {
+      char ch  = characters[i];
+      int  pos = input.lastIndexOf( ch, first );
+      if( pos != -1 ) {
+        result = Math.max( result, pos );
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Returns the last index of some literal.
+   * 
+   * @param first      The first position where to start looking from.
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of literals used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KIPositive(name="first",zero=true)   int      first, 
+    @KNotNull(name="input")               String   input, 
+    @KNotEmpty(name="literals")           String   ... literals 
+  ) {
+    int result = -1;
+    for( int i = 0; i < literals.length; i++ ) {
+      String literal  = literals[i];
+      int    pos      = input.lastIndexOf( literal, first );
+      if( pos != -1 ) {
+        result = Math.max( result, pos );
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Returns the last index of some character.
+   * 
+   * @param first        The first position where to start looking from.
+   * @param input        The String where the characters have to be looked for.
+   *                     Neither <code>null</code> nor empty.
+   * @param characters   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a character has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KIPositive(name="first",zero=true)   int            first, 
+    @KNotNull(name="input")               StringBuffer   input, 
+    @KNotEmpty(name="characters")         char           ... characters 
+  ) {
+    int result = -1;
+    for( int i = 0; i < characters.length; i++ ) {
+      char ch  = characters[i];
+      int  pos = input.lastIndexOf( String.valueOf( ch ), first );
+      if( pos != -1 ) {
+        result = Math.max( result, pos );
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Returns the last index of some character.
+   * 
+   * @param first      The first position where to start looking from.
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (rightmost index) otherwise -1.
+   */
+  public static final int lastIndexOf( 
+    @KIPositive(name="first",zero=true)   int            first, 
+    @KNotNull(name="input")               StringBuffer   input, 
+    @KNotEmpty(name="literals")           String         ... literals 
+  ) {
+    int result = -1;
+    for( int i = 0; i < literals.length; i++ ) {
+      String literal  = literals[i];
+      int    pos      = input.lastIndexOf( literal, first );
+      if( pos != -1 ) {
+        result = Math.max( result, pos );
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Returns the first index of some character.
+   * 
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of literals used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (leftmost index) otherwise -1.
+   */
+  public static final int indexOf( 
+    @KNotNull(name="input")       String   input, 
+    @KNotEmpty(name="literals")   String   ... literals 
+  ) {
+    return indexOf( 0, input, literals );
+  }
+
+  /**
    * Returns the first index of some character.
    * 
    * @param input        The String where the characters have to be looked for.
    *                     Neither <code>null</code> nor empty.
    * @param characters   A list of characters used to test. Must have a minimum length of 1.
    * 
-   * @return   The index where a character hast been found (leftmost index) otherwise -1.
+   * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
   public static final int indexOf( 
     @KNotNull(name="input")         String   input, 
@@ -75,7 +259,7 @@ public class StringFunctions {
    *                     Neither <code>null</code> nor empty.
    * @param characters   A list of characters used to test. Must have a minimum length of 1.
    * 
-   * @return   The index where a character hast been found (leftmost index) otherwise -1.
+   * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
   public static final int indexOf( 
     @KNotNull(name="input")         StringBuffer   input, 
@@ -87,12 +271,28 @@ public class StringFunctions {
   /**
    * Returns the first index of some character.
    * 
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of literals used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (leftmost index) otherwise -1.
+   */
+  public static final int indexOf( 
+    @KNotNull(name="input")       StringBuffer   input, 
+    @KNotEmpty(name="literals")   String         ... literals 
+  ) {
+    return indexOf( 0, input, literals );
+  }
+
+  /**
+   * Returns the first index of some character.
+   * 
    * @param first        The first position where to start looking from.
    * @param input        The String where the characters have to be looked for.
    *                     Neither <code>null</code> nor empty.
    * @param characters   A list of characters used to test. Must have a minimum length of 1.
    * 
-   * @return   The index where a character hast been found (leftmost index) otherwise -1.
+   * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
   public static final int indexOf( 
     @KIPositive(name="first",zero=true)   int      first, 
@@ -117,12 +317,42 @@ public class StringFunctions {
   /**
    * Returns the first index of some character.
    * 
+   * @param first      The first position where to start looking from.
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of literals used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (leftmost index) otherwise -1.
+   */
+  public static final int indexOf( 
+    @KIPositive(name="first",zero=true)   int      first, 
+    @KNotNull(name="input")               String   input, 
+    @KNotEmpty(name="literals")           String   ... literals 
+  ) {
+    int result = Integer.MAX_VALUE;
+    for( int i = 0; i < literals.length; i++ ) {
+      String literal  = literals[i];
+      int    pos      = input.indexOf( literal, first );
+      if( pos != -1 ) {
+        result = Math.min( result, pos );
+      }
+    }
+    if( result == Integer.MAX_VALUE ) {
+      return -1;
+    } else {
+      return result;
+    }
+  }
+
+  /**
+   * Returns the first index of some character.
+   * 
    * @param first        The first position where to start looking from.
    * @param input        The String where the characters have to be looked for.
    *                     Neither <code>null</code> nor empty.
    * @param characters   A list of characters used to test. Must have a minimum length of 1.
    * 
-   * @return   The index where a character hast been found (leftmost index) otherwise -1.
+   * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
   public static final int indexOf( 
     @KIPositive(name="first",zero=true)   int            first, 
@@ -133,6 +363,36 @@ public class StringFunctions {
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
       int  pos = input.indexOf( String.valueOf( ch ), first );
+      if( pos != -1 ) {
+        result = Math.min( result, pos );
+      }
+    }
+    if( result == Integer.MAX_VALUE ) {
+      return -1;
+    } else {
+      return result;
+    }
+  }
+
+  /**
+   * Returns the first index of some character.
+   * 
+   * @param first      The first position where to start looking from.
+   * @param input      The String where the characters have to be looked for.
+   *                   Neither <code>null</code> nor empty.
+   * @param literals   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (leftmost index) otherwise -1.
+   */
+  public static final int indexOf( 
+    @KIPositive(name="first",zero=true)   int            first, 
+    @KNotNull(name="input")               StringBuffer   input, 
+    @KNotEmpty(name="literals")           String         ... literals 
+  ) {
+    int result = Integer.MAX_VALUE;
+    for( int i = 0; i < literals.length; i++ ) {
+      String literal  = literals[i];
+      int    pos      = input.indexOf( literal, first );
       if( pos != -1 ) {
         result = Math.min( result, pos );
       }
