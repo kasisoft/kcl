@@ -479,7 +479,7 @@
               <if>
                 <not><equals arg1="@{singleline}" arg2=""/></not>
                 <then>
-                  <echo file="@{destination}" append="true">/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.@{singleline}&#10;</echo>
+                  <echo file="@{destination}" append="true">@{singleline}&#10;</echo>
                 </then>
               </if>
             </sequential>
