@@ -14,7 +14,9 @@
       <class name="com.kasisoft.lgpl.libs.common.util.ExtArrayListTest"/>
       <class name="com.kasisoft.lgpl.libs.common.functionality.ZipTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.MiscFunctionsTest"/>
+      <!--
       <class name="com.kasisoft.lgpl.libs.common.net.NetFunctionsTest"/>
+      -->
       <class name="com.kasisoft.lgpl.libs.common.io.EnhancedFileFilterTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.NullableComparatorTest"/>
       <class name="com.kasisoft.lgpl.libs.common.io.IoFunctionsTest"/>
