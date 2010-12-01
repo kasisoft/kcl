@@ -174,12 +174,8 @@ public class NetFunctions {
       }
       return true;
     } catch( UnknownHostException ex ) {
-      System.err.println( "DODO" );
-      ex.printStackTrace();
       return false;
     } catch( IOException          ex ) {
-      System.err.println( "DODO" );
-      ex.printStackTrace();
       return false;
     } finally {
       close( socket );
