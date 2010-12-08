@@ -9,19 +9,18 @@
 package com.kasisoft.lgpl.libs.common.util;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
-
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.libs.common.sys.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.text.*;
 
+import java.lang.reflect.*;
+
 import java.util.*;
 
 import java.io.*;
-
-import java.lang.reflect.*;
 
 /**
  * Collection of various functions.
@@ -31,6 +30,22 @@ public class MiscFunctions {
 
   private static final Map<String,String> REPLACEMENTS = SystemProperty.createReplacementMap( true );
   
+  private static final Set<String> TRUEVALUES;
+  
+  static {
+    
+    TRUEVALUES  = new HashSet<String>();
+    
+    TRUEVALUES  . add( "true"   );
+    TRUEVALUES  . add( "yes"    );
+    TRUEVALUES  . add( "on"     );
+    TRUEVALUES  . add( "ein"    );
+    TRUEVALUES  . add( "an"     );
+    TRUEVALUES  . add( "1"      );
+    TRUEVALUES  . add( "-1"     );
+    
+  }
+
   /**
    * Prevent instantiation.
    */
@@ -446,6 +461,19 @@ public class MiscFunctions {
     } else {
       return null;
     }
+  }
+  
+  /**
+   * Interpretes a value as a boolean.
+   * 
+   * @param value   The value which has to be parsed. Not <code>null</code>.
+   * 
+   * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES}
+   *                                  (case insensitive).
+   *           <code>false</code> <=> All other cases.
+   */
+  public static final boolean parseBoolean( @KNotNull(name="value") String value ) {
+    return TRUEVALUES.contains( value.toLowerCase() );
   }
 
   /**
