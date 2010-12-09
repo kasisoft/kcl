@@ -37,6 +37,7 @@ public class MiscFunctions {
     TRUEVALUES  = new HashSet<String>();
     
     TRUEVALUES  . add( "true"   );
+    TRUEVALUES  . add( "ja"     );
     TRUEVALUES  . add( "yes"    );
     TRUEVALUES  . add( "on"     );
     TRUEVALUES  . add( "ein"    );
