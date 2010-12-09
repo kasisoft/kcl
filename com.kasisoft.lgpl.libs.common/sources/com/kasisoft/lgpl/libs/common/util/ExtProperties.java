@@ -9,20 +9,16 @@
 package com.kasisoft.lgpl.libs.common.util;
 
 import com.kasisoft.lgpl.libs.common.functionality.*;
-
 import com.kasisoft.lgpl.libs.common.constants.*;
-
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
+import java.util.regex.*;
 import java.util.*;
 
 import java.net.*;
-
-import java.util.regex.*;
-
 import java.io.*;
 
 /**
@@ -81,6 +77,9 @@ public class ExtProperties {
   // a map used for general replacements
   private Map<String,String>                       generalreplacements;
   
+  // basic error handling
+  private SimpleErrorHandler                       handler;
+  
   // for temporary use
   private List<String>                             lines;
   private Map<String,String>                       propertyvalues;
@@ -120,6 +119,7 @@ public class ExtProperties {
     lines               = new ArrayList<String>();
     pair                = new Tupel<String>();
     generalreplacements = setupGeneralReplacements();
+    handler             = null;
   }
   
   /**
@@ -150,6 +150,25 @@ public class ExtProperties {
     
   }
 
+  /**
+   * Changes the currently used error handler.
+   * 
+   * @param newhandler   The new error handler. If <code>null</code> there won't be any further
+   *                     notification.
+   */
+  public void setErrorHandler( SimpleErrorHandler newhandler ) {
+    handler = newhandler;
+  }
+  
+  /**
+   * Returns the error handler that has to be used currently.
+   * 
+   * @return   The error handler that has to be used currently. Maybe <code>null</code>.
+   */
+  public SimpleErrorHandler getErrorHandler() {
+    return handler;
+  }
+  
   /**
    * Returns <code>true</code> if empty values shall be treated as <code>null</code> values.
    * 
@@ -270,6 +289,9 @@ public class ExtProperties {
     } else {
       key   = line.substring( 0, idx );
       value = line.substring( idx + delimiter.length() ).trim();
+    }
+    if( emptyisnull ) {
+      value = StringFunctions.cleanup( value );
     }
     if( propkeyselector.matcher( key ).matches() ) {
       
