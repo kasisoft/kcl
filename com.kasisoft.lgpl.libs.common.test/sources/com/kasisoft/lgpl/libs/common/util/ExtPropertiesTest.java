@@ -313,16 +313,22 @@ public class ExtPropertiesTest {
       set.add( names.nextElement() );
     }
     
-    Assert.assertEquals( set.size(), 9 );
-    Assert.assertTrue( set.contains( "simple.1" ) );
-    Assert.assertTrue( set.contains( "simple.2" ) );
-    Assert.assertTrue( set.contains( "simple.3" ) );
-    Assert.assertTrue( set.contains( "simple.4" ) );
-    Assert.assertTrue( set.contains( "simple.5" ) );
-    Assert.assertTrue( set.contains( "simple.6" ) );
-    Assert.assertTrue( set.contains( "simple.7" ) );
-    Assert.assertTrue( set.contains( "simple.8" ) );
-    Assert.assertTrue( set.contains( "simple"   ) );
+    Assert.assertEquals( set.size(), 15 );
+    Assert.assertTrue( set.contains( "simple.1"         ) );
+    Assert.assertTrue( set.contains( "simple.2"         ) );
+    Assert.assertTrue( set.contains( "simple.3"         ) );
+    Assert.assertTrue( set.contains( "simple.4"         ) );
+    Assert.assertTrue( set.contains( "simple.5"         ) );
+    Assert.assertTrue( set.contains( "simple.6"         ) );
+    Assert.assertTrue( set.contains( "simple.7"         ) );
+    Assert.assertTrue( set.contains( "simple.8"         ) );
+    Assert.assertTrue( set.contains( "simple"           ) );
+    Assert.assertTrue( set.contains( "car"              ) );
+    Assert.assertTrue( set.contains( "birthdate"        ) );
+    Assert.assertTrue( set.contains( "indexedcar"       ) );
+    Assert.assertTrue( set.contains( "indexedbirthdate" ) );
+    Assert.assertTrue( set.contains( "validdate"        ) );
+    Assert.assertTrue( set.contains( "invaliddate"      ) );
 
   }
 
