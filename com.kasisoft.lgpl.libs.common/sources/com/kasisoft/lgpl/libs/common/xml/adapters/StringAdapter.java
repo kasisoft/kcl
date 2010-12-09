@@ -17,14 +17,14 @@ public class StringAdapter extends NullSafeAdapter<String,String> {
   /**
    * {@inheritDoc}
    */
-  public String marshalImpl( String v ) throws Exception {
+  public String marshalImpl( String v ) {
     return v;
   }
 
   /**
    * {@inheritDoc}
    */
-  public String unmarshalImpl( String v ) throws Exception {
+  public String unmarshalImpl( String v ) {
     return v;
   }
 

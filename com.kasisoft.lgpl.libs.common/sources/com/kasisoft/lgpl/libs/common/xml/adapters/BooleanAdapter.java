@@ -19,14 +19,14 @@ public class BooleanAdapter extends NullSafeAdapter<String,Boolean> {
   /**
    * {@inheritDoc}
    */
-  public String marshalImpl( Boolean v ) throws Exception {
+  public String marshalImpl( Boolean v ) {
     return v.toString();
   }
 
   /**
    * {@inheritDoc}
    */
-  public Boolean unmarshalImpl( String v ) throws Exception {
+  public Boolean unmarshalImpl( String v ) {
     return Boolean.valueOf( MiscFunctions.parseBoolean( v ) );
   }
 

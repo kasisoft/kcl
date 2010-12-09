@@ -54,7 +54,7 @@ public class DateAdapter extends NullSafeAdapter<String,Date> {
   /**
    * {@inheritDoc}
    */
-  public String marshalImpl( Date v ) throws Exception {
+  public String marshalImpl( Date v ) {
     return formatter.format(v);
   }
 
