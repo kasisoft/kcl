@@ -32,6 +32,9 @@
       <class name="com.kasisoft.lgpl.libs.common.test.framework.Utilities"/>
       <class name="com.kasisoft.lgpl.libs.common.functionality.FilterTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.ArrayFunctionsTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.AssociativePropertyTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.IndexedPropertyTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.SimplePropertyTest"/>
       <class name="com.kasisoft.lgpl.libs.common.graphics.GraphicsFunctionsTest"/>
       <class name="com.kasisoft.lgpl.libs.common.functionality.ReduceTest"/>
       <class name="com.kasisoft.lgpl.libs.common.constants.SystemPropertyTest"/>
