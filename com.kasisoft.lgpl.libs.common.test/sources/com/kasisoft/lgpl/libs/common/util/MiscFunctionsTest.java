@@ -160,6 +160,27 @@ public class MiscFunctionsTest {
     };
   }
 
+  @DataProvider(name="createParseBoolean")
+  public Object[][] createParseBoolean() {
+    return new Object[][] {
+      { "true"  , Boolean.TRUE  },
+      { "yes"   , Boolean.TRUE  },
+      { "ja"    , Boolean.TRUE  },
+      { "ein"   , Boolean.TRUE  },
+      { "on"    , Boolean.TRUE  },
+      { "an"    , Boolean.TRUE  },
+      { "1"     , Boolean.TRUE  },
+      { "-1"    , Boolean.TRUE  },
+      { ""      , Boolean.FALSE },
+      { "false" , Boolean.FALSE },
+      { "no"    , Boolean.FALSE },
+      { "nein"  , Boolean.FALSE },
+      { "off"   , Boolean.FALSE },
+      { "aus"   , Boolean.FALSE },
+      { "0"     , Boolean.FALSE },
+    };
+  }
+  
   @Test(dataProvider="createDateValues")
   public void parseDate( String datevalue, Date expected ) {
     Date currentdate = MiscFunctions.parseDate( datevalue, DATEPATTERNS );
@@ -172,6 +193,11 @@ public class MiscFunctionsTest {
     Assert.assertEquals( currentdate, expected );
   }
 
+  @Test(dataProvider="createParseBoolean")
+  public void parseBoolean( String value, Boolean expected ) {
+    Assert.assertEquals( MiscFunctions.parseBoolean( value ), expected.booleanValue() );
+  }
+  
   @Test
   public void sleepMilliseconds() {
     long time   = (long) (30000 * Math.random());
