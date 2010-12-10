@@ -53,6 +53,12 @@
       <class name="com.kasisoft.lgpl.libs.common.util.KDateTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.KTimeTest"/>
       <class name="com.kasisoft.lgpl.libs.common.util.KDateTimeTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.BooleanAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.DateAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.DoubleAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.EnumerationAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.IntegerAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.util.StringAdapterTest"/>
     </classes>
   </test>
 </suite>
