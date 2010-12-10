@@ -44,7 +44,10 @@ public enum FailureCode {
   XmlFailure                                          (  -9 ),
   
   /** a requested resource could not be found. */
-  MissingResource                                     ( -10 );
+  MissingResource                                     ( -10 ),
+  
+  /** a conversion failed. */
+  ConversionFailure                                   ( -11 );
 
   private int   code;
   

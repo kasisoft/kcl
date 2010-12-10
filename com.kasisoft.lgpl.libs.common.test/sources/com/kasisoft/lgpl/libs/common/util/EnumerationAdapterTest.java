@@ -10,6 +10,8 @@ package com.kasisoft.lgpl.libs.common.util;
 
 import com.kasisoft.lgpl.libs.common.xml.adapters.*;
 
+import com.kasisoft.lgpl.libs.common.base.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -37,6 +39,12 @@ public class EnumerationAdapterTest {
       { "gandalf" , LordOfTheRings.Gandalf  },
       { "bilbo"   , LordOfTheRings.Bilbo    },
       { "boromir" , LordOfTheRings.Boromir  },
+    };
+  }
+
+  @DataProvider(name="createInvalidUnmarshalling")
+  public Object[][] createInvalidUnmarshalling() {
+    return new Object[][] {
       { "gollum"  , null                    },
     };
   }
@@ -55,7 +63,12 @@ public class EnumerationAdapterTest {
   public void unmarshal( String value, LordOfTheRings expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
-  
+
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=FailureException.class)
+  public void invalidUnmarshal( String value, LordOfTheRings expected ) throws Exception {
+    Assert.assertEquals( adapter.unmarshal( value ), expected );
+  }
+
   @Test(dataProvider="createMarshalling")
   public void marshal( LordOfTheRings value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );

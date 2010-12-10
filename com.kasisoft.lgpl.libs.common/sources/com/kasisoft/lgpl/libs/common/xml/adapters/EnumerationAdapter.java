@@ -8,6 +8,9 @@
  */
 package com.kasisoft.lgpl.libs.common.xml.adapters;
 
+import com.kasisoft.lgpl.libs.common.constants.*;
+
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.util.*;
@@ -28,6 +31,7 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
   private Class<T>        enumtype;
   private Map<String,T>   values;
   private boolean         ignorecase;
+  private StringBuffer    allowed;
 
   /**
    * Initializes this adapter using the supplied enumeration type.
@@ -47,9 +51,14 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
   public EnumerationAdapter( @KNotNull(name="type") Class<T> type, boolean caseinsensitive ) {
     enumtype    = type;
     ignorecase  = caseinsensitive;
+    allowed     = new StringBuffer();
     values      = new Hashtable<String,T>();
     for( T value : enumtype.getEnumConstants() ) {
       String text = String.valueOf( value );
+      if( allowed.length() > 0 ) {
+        allowed.append( "," );
+      }
+      allowed.append( text );
       if( ignorecase ) {
         text = text.toLowerCase();
       }
@@ -70,6 +79,9 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
   public T unmarshalImpl( String v ) {
     if( ignorecase ) {
       v = v.toLowerCase();
+    }
+    if( ! values.containsKey( v ) ) {
+      throw new FailureException( FailureCode.ConversionFailure, String.format( "%s != {%s}", v, allowed ) );
     }
     return values.get( v );
   }
