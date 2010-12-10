@@ -8,10 +8,13 @@
  */
 package com.kasisoft.lgpl.libs.common.xml.adapters;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 
 /**
  * Simple adapter for double types.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class DoubleAdapter extends NullSafeAdapter<String,Double> {
 
   private static final String NAN           = "NaN";

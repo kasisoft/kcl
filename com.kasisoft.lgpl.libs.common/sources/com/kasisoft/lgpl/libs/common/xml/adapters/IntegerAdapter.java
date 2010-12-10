@@ -8,10 +8,13 @@
  */
 package com.kasisoft.lgpl.libs.common.xml.adapters;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 
 /**
  * Simple adapter for integer types.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class IntegerAdapter extends NullSafeAdapter<String,Integer> {
 
   private static final String MAX   = "MAX";

@@ -18,6 +18,7 @@ import java.util.*;
 /**
  * Accessor type for an associative property.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class AssociativeProperty<T> {
 
   private static final Map<String,Object> EMPTY_DEFAULTS = new HashMap<String,Object>();

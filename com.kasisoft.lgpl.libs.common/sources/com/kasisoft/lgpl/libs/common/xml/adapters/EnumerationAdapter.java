@@ -26,6 +26,7 @@ import java.util.*;
  * </ul>
  * 
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
 
   private Class<T>        enumtype;

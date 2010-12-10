@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.adapters.*;
 /**
  * Accessor type for a simple property.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class SimpleProperty<T> {
 
   private String                 key;

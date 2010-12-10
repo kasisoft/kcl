@@ -18,6 +18,7 @@ import java.util.*;
  * An adapter used to convert a Date into a String and vice versa. Also note that this adapter is
  * not only used for jaxb.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class DateAdapter extends NullSafeAdapter<String,Date> {
 
   private static final String FORMAT_DEFAULT = "yyyy-MM-dd";

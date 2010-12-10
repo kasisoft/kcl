@@ -10,10 +10,13 @@ package com.kasisoft.lgpl.libs.common.xml.adapters;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 
 /**
  * This is an adapter that allows to handle boolean values.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class BooleanAdapter extends NullSafeAdapter<String,Boolean> {
 
   /**

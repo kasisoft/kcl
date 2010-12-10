@@ -18,6 +18,7 @@ import java.util.*;
 /**
  * Accessor type for an indexed property.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class IndexedProperty<T> {
 
   private static final List<Object> EMPTY_DEFAULTS = new ArrayList<Object>();

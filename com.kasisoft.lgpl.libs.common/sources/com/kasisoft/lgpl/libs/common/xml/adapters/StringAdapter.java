@@ -8,10 +8,13 @@
  */
 package com.kasisoft.lgpl.libs.common.xml.adapters;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 
 /**
  * Simple adapter for String identity.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class StringAdapter extends NullSafeAdapter<String,String> {
 
   /**
