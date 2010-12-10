@@ -1,5 +1,5 @@
 /**
- * Name........: SimpleErrorHandler
+ * Name........: XmlErrorHandler
  * Description.: Default implementation of an ErrorHandler.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
@@ -20,7 +20,7 @@ import java.util.*;
  * Default implementation of an ErrorHandler.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class SimpleErrorHandler implements ErrorHandler {
+public class XmlErrorHandler implements ErrorHandler {
 
   private int               errorcount;
   private List<XmlFault>    faults;
@@ -28,7 +28,7 @@ public class SimpleErrorHandler implements ErrorHandler {
   /**
    * Initialises this basic error handler.
    */
-  public SimpleErrorHandler() {
+  public XmlErrorHandler() {
     errorcount    = 0;
     faults        = new ArrayList<XmlFault>();
   }

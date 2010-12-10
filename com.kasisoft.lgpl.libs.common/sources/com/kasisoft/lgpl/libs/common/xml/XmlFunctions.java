@@ -157,14 +157,14 @@ public final class XmlFunctions {
       factory . setValidating     ( validate      );
       factory . setXIncludeAware  ( xincludes     );
       DocumentBuilder        docbuilder = factory.newDocumentBuilder();
-      SimpleErrorHandler     newhandler = null;
+      XmlErrorHandler     newhandler = null;
       if( resolver != null ) {
         docbuilder.setEntityResolver( resolver );
       }
       if( handler != null ) {
         docbuilder.setErrorHandler( handler );
       } else {
-        newhandler  = new SimpleErrorHandler();
+        newhandler  = new XmlErrorHandler();
         docbuilder.setErrorHandler( newhandler );
       }
       Document document = null;
