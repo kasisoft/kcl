@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.swing.style;
+package com.kasisoft.lgpl.libs.common.swing;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
