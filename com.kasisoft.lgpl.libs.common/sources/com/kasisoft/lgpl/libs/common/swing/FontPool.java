@@ -21,7 +21,7 @@ import java.util.*;
  * Simple helper classes used to manage fonts.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-class FontPool {
+public class FontPool {
 
   private Map<String,Font>   fonts;
   private List<String>       familynames;
