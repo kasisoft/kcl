@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.libs.common.constants;
 
+import com.kasisoft.lgpl.libs.common.util.*;
+
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.util.*;
@@ -25,15 +27,16 @@ import java.io.*;
  */
 public enum CommonProperty {
 
-  /** valuetype: Boolean */
   Debug       ( "com.kasisoft.lgpl.libs.common#DEBUG"       , false , Boolean.FALSE                     , Boolean.class ),
-  /** valuetype: Integer */
+  
   IoRetries   ( "com.kasisoft.lgpl.libs.common#IORETRIES"   , false , Integer.valueOf(5)                , Integer.class ),
-  /** valuetype: Integer */
+  
   Sleep       ( "com.kasisoft.lgpl.libs.common#SLEEP"       , false , Integer.valueOf(100)              , Integer.class ),
-  /** valuetype: Integer */
+  
   BufferCount ( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , false , Integer.valueOf(4096)             , Integer.class ),
-  /** valuetype: String  */
+  
+  Application ( "com.kasisoft.lgpl.libs.common#APPLICATION" , true  , null                              , File.class    ),
+  
   TempDir     ( "com.kasisoft.lgpl.libs.common#TEMPDIR"     , true  , SystemProperty.TempDir.getValue() , File.class    );
   
   private String     key;
@@ -157,8 +160,7 @@ public enum CommonProperty {
   private <T> T processValue( String value ) {
     if( value != null ) {
       if( filesystem ) {
-        // just make sure since the properties might come from an external map,
-        // so we should deliver valid pathes
+        // if the properties came from an external map, we should verify to deliver valid pathes
         value = value.replace( '\\', '/' ).replace( '/', File.separatorChar );
       }
     } else {
@@ -166,7 +168,7 @@ public enum CommonProperty {
     }
     Object objvalue = value;
     if( typeclass == Boolean.class ) {
-      objvalue = Boolean.valueOf( "yes".equalsIgnoreCase( value ) || "ja".equalsIgnoreCase( value ) || "true".equalsIgnoreCase( value ) );
+      objvalue = Boolean.valueOf( MiscFunctions.parseBoolean( value ) );
     } else if( typeclass == Integer.class ) {
       objvalue = Integer.valueOf( value );
     } else if( typeclass == File.class ) {
