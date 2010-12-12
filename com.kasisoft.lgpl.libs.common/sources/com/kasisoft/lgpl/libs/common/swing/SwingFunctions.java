@@ -8,6 +8,7 @@
  */
 package com.kasisoft.lgpl.libs.common.swing;
 
+import com.kasisoft.lgpl.libs.common.workspace.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.awt.*;
@@ -28,7 +29,7 @@ public class SwingFunctions {
    */
   public static final void center( @KNotNull(name="relocatable") Component relocatable, Component related ) {
     if( related == null ) {
-        center( relocatable );
+      center( relocatable );
     } else {
       Dimension relosize    = relocatable.getSize();
       Dimension relatedsize = related.getSize();
@@ -53,6 +54,20 @@ public class SwingFunctions {
     int       width       = screensize.width  - relosize.width;
     int       height      = screensize.height - relosize.height;
     relocatable.setBounds( Math.max( width / 2, 0 ), Math.max( height / 2, 0 ), relosize.width, relosize.height );
+  }
+  
+  /**
+   * Restores the bounds of a component. The restauration only happens if there were settings. This
+   * function is typically called when a component will be initialised.
+   * 
+   * @param property    The property used to access the restored bounds. Neither <code>null</code> nor empty.
+   * @param component   The component which has to be configured. Not <code>null</code>.
+   */
+  public static final void restoreBounds( @KNotEmpty(name="property") String property, @KNotNull(name="component") Component component ) {
+    Rectangle bounds = Workspace.getInstance().getRectangle( property );
+    if( bounds != null ) {
+      component.setBounds( bounds );
+    }
   }
 
 } /* ENDCLASS */
