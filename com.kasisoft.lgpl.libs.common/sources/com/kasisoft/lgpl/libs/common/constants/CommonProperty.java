@@ -25,6 +25,7 @@ import java.io.*;
  * F.e. <code>com.kasisoft.lgpl.libs.common#DEBUG</code>
  * 
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum CommonProperty {
 
   Debug       ( "com.kasisoft.lgpl.libs.common#DEBUG"       , false , Boolean.FALSE                     , Boolean.class ),

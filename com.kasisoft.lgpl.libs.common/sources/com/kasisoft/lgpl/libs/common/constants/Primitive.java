@@ -13,7 +13,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * Declarations used to identify primitive types.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Primitive {
 
   PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , 0                   , 0                   ) ,

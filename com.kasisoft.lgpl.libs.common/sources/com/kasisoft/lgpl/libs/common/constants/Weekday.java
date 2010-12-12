@@ -16,7 +16,7 @@ import java.text.*;
 /**
  * Constants used to describe a weekday.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Weekday {
 
   Monday    ( Calendar.MONDAY    ) ,

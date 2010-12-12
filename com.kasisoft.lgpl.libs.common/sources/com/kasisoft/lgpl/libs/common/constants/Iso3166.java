@@ -8,9 +8,12 @@
  */
 package com.kasisoft.lgpl.libs.common.constants;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
  * Collection of iso-3166 codes.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Iso3166 {
 
   Afghanistan                          ( "AFG", "AF",   4 ),

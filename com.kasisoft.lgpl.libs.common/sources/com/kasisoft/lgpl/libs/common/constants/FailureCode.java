@@ -8,9 +8,12 @@
  */
 package com.kasisoft.lgpl.libs.common.constants;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
  * Collection of failure codes.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum FailureCode {
 
   /** everythings okay. */

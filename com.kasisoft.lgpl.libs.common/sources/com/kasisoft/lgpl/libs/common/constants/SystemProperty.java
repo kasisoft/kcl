@@ -17,6 +17,7 @@ import java.io.*;
 /**
  * Listing of system properties used to be accessed.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum SystemProperty {
 
   ClassPath             ( "java.class.path"             , "classpath"   , true  ),

@@ -13,6 +13,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * Constants the different byte order marks.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum ByteOrderMark {
 
   UTF8    ( new byte[] { (byte) 0xef, (byte) 0xbb, (byte) 0xbf } ) ,

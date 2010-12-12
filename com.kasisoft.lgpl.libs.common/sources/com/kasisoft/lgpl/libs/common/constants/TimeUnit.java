@@ -13,6 +13,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * Collection of time units.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum TimeUnit {
 
   Millisecond  (                   1 ),

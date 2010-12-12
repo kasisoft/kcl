@@ -16,6 +16,7 @@ import java.io.*;
 /**
  * Collection of supported encodings.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Encoding {
 
   

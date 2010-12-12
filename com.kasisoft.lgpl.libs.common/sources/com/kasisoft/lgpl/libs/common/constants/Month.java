@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Values to identify a month.
  */
-@KDiagnostic
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Month {
 
   January     ( Calendar.JANUARY   , 31 ),

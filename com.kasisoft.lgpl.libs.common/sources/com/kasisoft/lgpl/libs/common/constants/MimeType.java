@@ -19,6 +19,7 @@ import java.util.*;
  * 
  * @note [15-Feb-2010:KASI]   Not all types have been used here.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum MimeType {
 
   GZip                        ( "application/gzip"              , "gz"                                ),  // GNU Zip
