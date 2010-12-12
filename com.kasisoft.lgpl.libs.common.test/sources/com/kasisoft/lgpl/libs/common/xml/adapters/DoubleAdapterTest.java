@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.lgpl.libs.common.xml.adapters;
 
 import com.kasisoft.lgpl.libs.common.xml.adapters.*;
 
