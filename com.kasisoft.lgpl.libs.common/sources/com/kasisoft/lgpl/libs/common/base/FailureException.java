@@ -11,10 +11,13 @@ package com.kasisoft.lgpl.libs.common.base;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
 
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 /**
  * Specialisation of the RuntimeException which provides a numerical code which allows to handle 
  * this exception in a more apropriate way than checking it's message.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FailureException extends RuntimeException {
 
   private FailureCode   failurecode;
