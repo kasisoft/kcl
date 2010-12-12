@@ -59,6 +59,12 @@
       <class name="com.kasisoft.lgpl.libs.common.xml.adapters.EnumerationAdapterTest"/>
       <class name="com.kasisoft.lgpl.libs.common.xml.adapters.IntegerAdapterTest"/>
       <class name="com.kasisoft.lgpl.libs.common.xml.adapters.StringAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.adapters.FileAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.adapters.PointAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.adapters.RectangleAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.adapters.InsetsAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.adapters.ColorAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.xml.adapters.URLAdapterTest"/>
     </classes>
   </test>
 </suite>
