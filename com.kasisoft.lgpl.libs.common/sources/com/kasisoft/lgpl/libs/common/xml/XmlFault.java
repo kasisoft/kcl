@@ -15,6 +15,7 @@ import org.xml.sax.*;
 /**
  * Simple datastructure representing a fault within a xml document.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class XmlFault {
 
   private boolean   warning;

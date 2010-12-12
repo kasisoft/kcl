@@ -18,6 +18,7 @@ import java.io.*;
 /**
  * The Workspace allows to store various configuration information during the runtime.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public final class Workspace {
 
   private static Workspace       instance = null;

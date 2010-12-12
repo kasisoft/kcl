@@ -15,6 +15,7 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 /**
  * Simple class that provides some system related informations.
  */
+@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum SystemInfo {
   
   Sun           ( "SunOS"         , true  , "$%s", "$(%s)" ),
