@@ -693,5 +693,24 @@ public class StringFunctions {
     }
     return buffer.toString();
   }
+  
+  /**
+   * Returns <code>true</code> if both literals are equal. This function allows to ignore the case
+   * sensitivity by choice.
+   * 
+   * @param str1         One String to be used for the comparison. Not <code>null</code>. 
+   * @param str2         One String to be used for the comparison. Not <code>null</code>.
+   * @param ignorecase   <code>true</code> <=> Ignore case sensitivity.
+   * 
+   * @return   <code>true</code> <=> Both Strings are equal.
+   */
+  public static final boolean equals( String str1, String str2, boolean ignorecase ) {
+    if( ignorecase ) {
+      return str1.equalsIgnoreCase( str2 );
+    } else {
+      return str1.equals( str2 );
+    }
+  }
+
 
 } /* ENDCLASS */
