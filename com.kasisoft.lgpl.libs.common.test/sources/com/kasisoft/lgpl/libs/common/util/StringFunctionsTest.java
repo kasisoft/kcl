@@ -270,4 +270,11 @@ public class StringFunctionsTest {
 
   }
   
+  @Test
+  public void equals() {
+    Assert.assertEquals( StringFunctions.equals( "Alpha", "alpha", false ), false );
+    Assert.assertEquals( StringFunctions.equals( "Alpha", "alpha", true  ), true  );
+    Assert.assertEquals( StringFunctions.equals( "Alpha", "Alpha", false ), true  );
+  }
+  
 } /* ENDCLASS */
