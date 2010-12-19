@@ -22,16 +22,37 @@ import java.awt.*;
 public class MultiSplitPane extends JPanel {
 
   private JSplitPane[]   chain;
+
+  /**
+   * Initialises this instance without continuous layouting.
+   * 
+   * @param orientation   The orientation for the contained fields. Not <code>null</code>.
+   * @param count         The number of fields to be provided. Minimum allowed value is 2.
+   */
+  public MultiSplitPane( 
+      @KNotNull(name="orientation")   Orientation   orientation, 
+      @KIRange(name="count",min=2)    int           count
+  ) {
+    this( orientation, count, false );
+  }
   
+  /**
+   * Initialises this instance with configurable continuous layouting.
+   * 
+   * @param orientation        The orientation for the contained fields. Not <code>null</code>.
+   * @param count              The number of fields to be provided. Minimum allowed value is 2.
+   * @param continuouslayout   <code>true</code> <=> Enable continuous layouting while the divider location
+   *                                                 is still being changed.
+   */
   public MultiSplitPane( 
     @KNotNull(name="orientation")   Orientation   orientation, 
     @KIRange(name="count",min=2)    int           count, 
-                                    boolean       newcontinuouslayout 
+                                    boolean       continuouslayout 
   ) {
     super( new BorderLayout() );
     chain = new JSplitPane[ count - 1 ];
     for( int i = 0; i < chain.length; i++ ) {
-      chain[i] = new JSplitPane( orientation.getSplitPaneOrientation(), newcontinuouslayout );
+      chain[i] = new JSplitPane( orientation.getSplitPaneOrientation(), continuouslayout );
     }
     for( int i = 1; i < chain.length; i++ ) {
       chain[ i - 1 ].setBottomComponent( chain[i] );
