@@ -11,7 +11,8 @@ package com.kasisoft.lgpl.libs.common.util;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 /**
- * StringF(ormatting)Buffer equivalent which supports formatting.
+ * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which means
+ * that the original index is calculated beginning from the end of the buffer.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class StringFBuffer {
@@ -85,49 +86,49 @@ public class StringFBuffer {
    * @see StringBuffer#charAt(int)
    */
   public char charAt( int index ) {
-    return origin.charAt( index );
+    return origin.charAt( adjustIndex( index ) );
   }
 
   /**
    * @see StringBuffer#codePointAt(int)
    */
   public int codePointAt( int index ) {
-    return origin.codePointAt( index );
+    return origin.codePointAt( adjustIndex( index ) );
   }
 
   /**
    * @see StringBuffer#codePointBefore(int)
    */
   public int codePointBefore( int index ) {
-    return origin.codePointBefore( index );
+    return origin.codePointBefore( adjustIndex( index ) );
   }
 
   /**
    * @see StringBuffer#codePointCount(int, int)
    */
   public int codePointCount( int begin, int end ) {
-    return origin.codePointCount( begin, end );
+    return origin.codePointCount( adjustIndex( begin ), adjustIndex( end ) );
   }
 
   /**
    * @see StringBuffer#offsetByCodePoints(int, int)
    */
   public int offsetByCodePoints( int index, int codepointoffset ) {
-    return origin.offsetByCodePoints(  index, codepointoffset );
+    return origin.offsetByCodePoints( adjustIndex( index ), codepointoffset );
   }
 
   /**
    * @see StringBuffer#getChars(int, int, char[], int)
    */
-  public void getChars( int sourcebegin, int sourceend, char[] destination, int destbegin ) {
-    origin.getChars( sourcebegin, sourceend, destination, destbegin );
+  public void getChars( int start, int end, char[] destination, int destbegin ) {
+    origin.getChars( adjustIndex( start ), adjustIndex( end ), destination, destbegin );
   }
 
   /**
    * @see StringBuffer#setCharAt(int, char)
    */
   public void setCharAt( int index, char ch ) {
-    origin.setCharAt( index, ch );
+    origin.setCharAt( adjustIndex( index ), ch );
   }
 
   /**
@@ -266,7 +267,7 @@ public class StringFBuffer {
    * @see StringBuffer#delete(int, int)
    */
   public StringFBuffer delete( int start, int end ) {
-    origin = origin.delete( start, end );
+    origin = origin.delete( adjustIndex( start ), adjustIndex( end ) );
     return this;
   }
 
@@ -274,7 +275,7 @@ public class StringFBuffer {
    * @see StringBuffer#deleteCharAt(int)
    */
   public StringFBuffer deleteCharAt( int index ) {
-    origin = origin.deleteCharAt( index );
+    origin = origin.deleteCharAt( adjustIndex( index ) );
     return this;
   }
 
@@ -282,7 +283,7 @@ public class StringFBuffer {
    * @see StringBuffer#replace(int, int, String)
    */
   public StringFBuffer replace( int start, int end, String str ) {
-    origin = origin.replace( start, end, str );
+    origin = origin.replace( adjustIndex( start ), adjustIndex( end ), str );
     return this;
   }
 
@@ -290,28 +291,28 @@ public class StringFBuffer {
    * @see StringBuffer#substring(int)
    */
   public String substring( int start ) {
-    return origin.substring( start );
+    return origin.substring( adjustIndex( start ) );
   }
 
   /**
    * @see StringBuffer#subSequence(int, int)
    */
   public CharSequence subSequence( int start, int end ) {
-    return origin.subSequence( start, end );
+    return origin.subSequence( adjustIndex( start ), adjustIndex( end ) );
   }
 
   /**
    * @see StringBuffer#substring(int, int)
    */
   public String substring( int start, int end ) {
-    return origin.substring( start, end );
+    return origin.substring( adjustIndex( start ), adjustIndex( end ) );
   }
 
   /**
    * @see StringBuffer#insert(int, char[], int, int)
    */
   public StringFBuffer insert( int index, char[] charray, int offset, int length ) {
-    origin = origin.insert( index, charray, offset, length );
+    origin = origin.insert( adjustIndex( offset ), charray, offset, length );
     return this;
   }
 
@@ -319,7 +320,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, Object)
    */
   public StringFBuffer insert( int offset, Object obj ) {
-    origin = origin.insert( offset, obj );
+    origin = origin.insert( adjustIndex( offset ), obj );
     return this;
   }
 
@@ -327,7 +328,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, String)
    */
   public StringFBuffer insert( int offset, String value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -341,14 +342,14 @@ public class StringFBuffer {
    * @return   The current buffer.
    */
   public StringFBuffer insertF( int offset, String format, Object ... args ) {
-    return insert( offset, String.format( format, args ) );
+    return insert( adjustIndex( offset ), String.format( format, args ) );
   }
 
   /**
    * @see StringBuffer#insert(int, char[])
    */
   public StringFBuffer insert( int offset, char[] value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -356,7 +357,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, CharSequence)
    */
   public StringFBuffer insert( int offset, CharSequence value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -364,7 +365,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, CharSequence, int, int)
    */
   public StringFBuffer insert( int offset, CharSequence value, int start, int end ) {
-    origin = origin.insert( offset, value, start, end );
+    origin = origin.insert( adjustIndex( offset ), value, start, end );
     return this;
   }
 
@@ -372,7 +373,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, boolean)
    */
   public StringFBuffer insert( int offset, boolean value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -380,7 +381,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, char)
    */
   public StringFBuffer insert( int offset, char value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -388,7 +389,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, int)
    */
   public StringFBuffer insert( int offset, int value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -396,7 +397,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, long)
    */
   public StringFBuffer insert( int offset, long value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -404,7 +405,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, float)
    */
   public StringFBuffer insert( int offset, float value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -412,7 +413,7 @@ public class StringFBuffer {
    * @see StringBuffer#insert(int, double)
    */
   public StringFBuffer insert( int offset, double value ) {
-    origin = origin.insert( offset, value );
+    origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
 
@@ -427,7 +428,7 @@ public class StringFBuffer {
    * @see StringBuffer#indexOf(String, int)
    */
   public int indexOf( String str, int index ) {
-    return origin.indexOf( str, index );
+    return origin.indexOf( str, adjustIndex( index ) );
   }
 
   /**
@@ -441,7 +442,7 @@ public class StringFBuffer {
    * @see StringBuffer#lastIndexOf(String, int)
    */
   public int lastIndexOf( String str, int index ) {
-    return origin.lastIndexOf( str, index );
+    return origin.lastIndexOf( str, adjustIndex( index ) );
   }
   
   /**
@@ -457,6 +458,20 @@ public class StringFBuffer {
    */
   public String toString() {
     return origin.toString();
+  }
+
+  /**
+   * Returns an adjusted index since this extension supports negative indices as well.
+   * 
+   * @param index   The index supplied by the user.
+   * 
+   * @return  The index to use for the original implementation.
+   */
+  private int adjustIndex( int index ) {
+    if( index < 0 ) {
+      return origin.length() + index;
+    }
+    return index;
   }
 
 } /* ENDCLASS */
