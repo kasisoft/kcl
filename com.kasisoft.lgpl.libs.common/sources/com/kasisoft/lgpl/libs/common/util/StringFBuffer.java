@@ -459,6 +459,32 @@ public class StringFBuffer {
   public String toString() {
     return origin.toString();
   }
+  
+  /**
+   * This function removes leading whitespace from this buffer.
+   */
+  public void trimLeading() {
+    while( (length() > 0) && Character.isWhitespace( charAt(0) ) ) {
+      deleteCharAt(0);
+    }
+  }
+
+  /**
+   * This function removes trailing whitespace from this buffer.
+   */
+  public void trimTrailing() {
+    while( (length() > 0) && Character.isWhitespace( charAt(-1) ) ) {
+      deleteCharAt(-1);
+    }
+  }
+
+  /**
+   * This function removes leading and trailing whitespace from this buffer.
+   */
+  public void trim() {
+    trimLeading();
+    trimTrailing();
+  }
 
   /**
    * Returns an adjusted index since this extension supports negative indices as well.
