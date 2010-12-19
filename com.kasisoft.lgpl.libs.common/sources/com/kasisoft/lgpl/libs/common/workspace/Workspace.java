@@ -216,8 +216,31 @@ public final class Workspace {
    * @throws FailureException   Loading existing settings failed for some reason.
    */
   public static final synchronized Workspace getInstance() {
+    return getInstance( null );
+  }
+  
+  /**
+   * Returns a Workspace instance used for the current runtime. This function primarily makes use of the supplied
+   * location <code>settings</code>. If this parameter is <code>null</code> the property
+   * {@link CommonLibraryConstants#PROP_APPLICATIONFILE} will be used. If this property also has not been set a dummy
+   * instance will be created.
+   * 
+   * @note [19-Dec-2010:KASI]   Supplying a parameter won't have any effect if an instance already has been created so
+   *                            it's advisable to create a new instance as early as possible when launching the
+   *                            application.
+   *                            
+   * @param settings   The file where all settings will be written, to. Maybe <code>null</code>.
+   * 
+   * @return   A Workspace instance used for the current runtime. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading existing settings failed for some reason.
+   */
+  public static final synchronized Workspace getInstance( File settings ) {
     if( instance == null ) {
-      File appfile = CommonProperty.Application.getValue();
+      File appfile = settings;
+      if( appfile == null ) {
+        appfile = CommonProperty.Application.getValue();
+      }
       if( appfile == null ) {
         // no settings available, so we're providing a dummy instance instead
         instance = new Workspace();
