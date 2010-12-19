@@ -40,5 +40,29 @@ public class StringFBufferTest {
     Assert.assertEquals( buffer.substring( 0, 2 )  , "My" );
     Assert.assertEquals( buffer.substring( -10 ) , "Not 0x11 !" );
   }
+  
+  @Test
+  public void trimLeading() {
+    StringFBuffer buffer = new StringFBuffer();
+    buffer.appendF( "\r\n   My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
+    buffer.trimLeading();
+    Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
+  }
+
+  @Test
+  public void trimTrailing() {
+    StringFBuffer buffer = new StringFBuffer();
+    buffer.appendF( "My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf( 17 ) );
+    buffer.trimTrailing();
+    Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
+  }
+
+  @Test
+  public void trim() {
+    StringFBuffer buffer = new StringFBuffer();
+    buffer.appendF( "\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf( 17 ) );
+    buffer.trim();
+    Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
+  }
 
 } /* ENDCLASS */
