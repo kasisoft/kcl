@@ -169,14 +169,12 @@ public enum CommonProperty {
       value = String.valueOf( defvalue );
     }
     Object objvalue = value;
-    if( typeclass == Boolean.class ) {
-      objvalue = Boolean.valueOf( MiscFunctions.parseBoolean( value ) );
-    } else if( typeclass == Integer.class ) {
-      objvalue = Integer.valueOf( value );
-    } else if( typeclass == File.class ) {
-      objvalue = new File( value );
-    } else {
-      objvalue = value;
+    if( value != null ) {
+             if( typeclass == Boolean . class ) { objvalue = Boolean.valueOf( MiscFunctions.parseBoolean( value ) );
+      } else if( typeclass == Integer . class ) { objvalue = Integer.valueOf( value );
+      } else if( typeclass == Double  . class ) { objvalue = Double.valueOf( value );
+      } else if( typeclass == File    . class ) { objvalue = new File( value );
+      }
     }
     return (T) objvalue;
   }
