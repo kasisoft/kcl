@@ -51,6 +51,7 @@ public enum CommonProperty {
    * @param propertykey   The property key to be used. Neither <code>null</code> nor empty.
    * @param filesys       <code>true</code> <=> The property is related to a filesystem value.
    * @param defval        The default value to be used if none could be found. Not <code>null</code>.
+   * @param clazz         The destination type. Not <code>null</code>.
    */
   CommonProperty( String propertykey, boolean filesys, Object defval, Class<?> clazz ) {
     key         = propertykey;
