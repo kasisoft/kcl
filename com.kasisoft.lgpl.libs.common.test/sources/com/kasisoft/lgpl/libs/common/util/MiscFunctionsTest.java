@@ -29,6 +29,14 @@ public class MiscFunctionsTest {
   private static final String[] DATEPATTERNS = new String[] {
     "dd.MM.yyyy", "dd-MM-yyyy", "dd MMM - yyyy"
   };
+  
+  private <T> List<T> toList( T ... args ) {
+    List<T> result = new ArrayList<T>();
+    for( T arg : args ) {
+      result.add( arg );
+    }
+    return result;
+  }
 
   private char[][] toCharArray( String ... str ) {
     if( str == null ) {
@@ -160,6 +168,14 @@ public class MiscFunctionsTest {
     };
   }
 
+  @DataProvider(name="createToSet")
+  public Object[][] createToSet() {
+    return new Object[][] {
+      { toList( "Otto", "Fred", "Ginger"         ), toList( "Fred", "Ginger", "Otto" ) },
+      { toList( "Otto", "Fred", "Otto", "Ginger" ), toList( "Fred", "Ginger", "Otto" ) },
+    };
+  }
+  
   @DataProvider(name="createParseBoolean")
   public Object[][] createParseBoolean() {
     return new Object[][] {
@@ -312,6 +328,16 @@ public class MiscFunctionsTest {
   public void compareBytes( byte[] buffer, byte[] sequence, int offset, boolean expected ) {
     boolean result = MiscFunctions.compare( buffer, sequence, offset );
     Assert.assertEquals( result, expected );
+  }
+  
+  @Test(dataProvider="createToSet")
+  public void toSet( List<String> list, List<String> expected ) {
+    List<String> altered = MiscFunctions.toSet( list );
+    Assert.assertNotNull( altered );
+    Assert.assertEquals( altered.size(), expected.size() );
+    for( int i = 0; i < altered.size(); i++ ) {
+      Assert.assertEquals( altered.get(i), expected.get(i) );
+    }
   }
 
 } /* ENDCLASS */

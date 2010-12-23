@@ -601,6 +601,24 @@ public class MiscFunctions {
   }
   
   /**
+   * Sorts the supplied list and makes sure that every entry only occures once. 
+   * 
+   * @param list   The list of Comparable instances. This list must support the {@link List#remove(int)} method. 
+   *               Not <code>null</code>.
+   * 
+   * @return   The supplied list. Not <code>null</code>.
+   */
+  public static final <T extends Comparable<T>> List<T> toSet( @KNotEmpty(name="list") List<T> list ) {
+    Collections.sort( list );
+    for( int i = list.size() - 1; i > 0; i-- ) {
+      if( list.get(i).compareTo( list.get( i - 1 ) ) == 0 ) {
+        list.remove(i);
+      }
+    }
+    return list;
+  }
+
+  /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */
   private static final class KeyComparator<T extends Comparable> implements Comparator<Map.Entry<T,?>> {
