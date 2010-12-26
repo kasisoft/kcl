@@ -512,15 +512,30 @@ public class StringFunctions {
     @KNotEmpty(name="search")   String   search, 
     @KNotNull(name="replace")   String   replace 
   ) {
-    StringBuffer buffer = new StringBuffer( input );
-    int          index  = buffer.indexOf( search, 0 );
+    StringFBuffer buffer = new StringFBuffer( input );
+    replace( buffer, search, replace );
+    return buffer.toString();
+  }
+
+  /**
+   * Performs a search & replace operation on the supplied input.
+   * 
+   * @param buffer    The buffer which has to be modified in place. Not <code>null</code>.
+   * @param search    The partial String to search for. Neither <code>null</code> nor empty.
+   * @param replace   The String to replace instead. Not <code>null</code>.
+   */
+  public static final void replace( 
+    @KNotNull(name="buffer")    StringFBuffer   buffer, 
+    @KNotEmpty(name="search")   String          search, 
+    @KNotNull(name="replace")   String          replace 
+  ) {
+    int index  = buffer.indexOf( search, 0 );
     while( index != -1 ) {
       buffer.replace( index, index + search.length(), replace );
       index = buffer.indexOf( search, index + replace.length() );
     }
-    return buffer.toString();
   }
-  
+
   /**
    * Performs a search & replace operation on the supplied input.
    * 
@@ -533,7 +548,21 @@ public class StringFunctions {
     @KNotNull(name="input")          String               input, 
     @KNotNull(name="replacements")   Map<String,String>   replacements
   ) {
-    StringBuffer  buffer = new StringBuffer( input );
+    StringFBuffer  buffer = new StringFBuffer( input );
+    replace( buffer, replacements );
+    return buffer.toString();
+  }
+
+  /**
+   * Performs a search & replace operation on the supplied input.
+   * 
+   * @param buffer         The buffer which has to be modified in place. Not <code>null</code>.
+   * @param replacements   A Map of String's used to run the search replace operation. Not <code>null</code>.
+   */
+  public static final void replace( 
+    @KNotNull(name="buffer")         StringFBuffer        buffer, 
+    @KNotNull(name="replacements")   Map<String,String>   replacements
+  ) {
     Set<String>   search = replacements.keySet();
     Tupel<String> key    = new Tupel<String>();
     int           index  = indexOf( buffer, search, key, 0 );
@@ -543,7 +572,6 @@ public class StringFunctions {
       buffer.replace( index, index + searchstr.length(), replacestr );
       index             = indexOf( buffer, search, key, index + replacestr.length() );
     }
-    return buffer.toString();
   }
 
   /**
@@ -557,7 +585,7 @@ public class StringFunctions {
    * @return   The index where a search string has been found or -1 in case none has been found.
    */
   private static final int indexOf( 
-    StringBuffer input, Set<String> keys, Tupel<String> key, int start 
+    StringFBuffer input, Set<String> keys, Tupel<String> key, int start 
   ) {
     int result = -1;
     key.setValues( (String[]) null );
