@@ -8,18 +8,15 @@
  */
 package com.kasisoft.lgpl.libs.common.graphics;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
 import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import javax.imageio.*;
 
-import java.net.*;
-
-import java.io.*;
-
 import java.awt.image.*;
+
+import java.net.*;
+import java.io.*;
 
 /**
  * Several utility functions related to graphical operations.

@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
+package com.kasisoft.lgpl.libs.common.base;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 

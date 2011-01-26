@@ -8,15 +8,12 @@
  */
 package com.kasisoft.lgpl.libs.common.net;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.net.*;
-
 import java.io.*;
 
 /**
