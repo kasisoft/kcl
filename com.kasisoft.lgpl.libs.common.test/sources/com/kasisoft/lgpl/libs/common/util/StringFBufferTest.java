@@ -64,5 +64,32 @@ public class StringFBufferTest {
     buffer.trim();
     Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
   }
+  
+  @Test
+  public void endsWith() {
+    StringFBuffer buffer = new StringFBuffer();
+    buffer.appendF( "The frog is here !" );
+    Assert.assertTrue  ( buffer.endsWith( true  , "here !" ) );
+    Assert.assertFalse ( buffer.endsWith( true  , "HERE !" ) );
+    Assert.assertTrue  ( buffer.endsWith( false , "HERE !" ) );
+  }
+
+  @Test
+  public void startsWith() {
+    StringFBuffer buffer = new StringFBuffer();
+    buffer.appendF( "The frog is here !" );
+    Assert.assertTrue  ( buffer.startsWith( true  , "The" ) );
+    Assert.assertFalse ( buffer.startsWith( true  , "THE" ) );
+    Assert.assertTrue  ( buffer.startsWith( false , "THE" ) );
+  }
+
+  @Test
+  public void equals() {
+    StringFBuffer buffer = new StringFBuffer();
+    buffer.appendF( "The frog is here !" );
+    Assert.assertTrue  ( buffer.startsWith( true  , "The frog is here !" ) );
+    Assert.assertFalse ( buffer.startsWith( true  , "THE FROG IS HERE !" ) );
+    Assert.assertTrue  ( buffer.startsWith( false , "THE FROG IS HERE !" ) );
+  }
 
 } /* ENDCLASS */

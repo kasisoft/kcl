@@ -500,4 +500,75 @@ public class StringFBuffer {
     return index;
   }
 
+  /**
+   * Returns <code>true</code> if the content of this buffer starts with the supplied literal.
+   *  
+   * @param totest   The text used for the comparison. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The literal starts with the supplied literal.
+   */
+  public boolean startsWith( @KNotEmpty(name="totest") String totest ) {
+    return startsWith( true, totest );
+  }
+  
+  /**
+   * Returns <code>true</code> if the content of this buffer starts with the supplied literal.
+   *  
+   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
+   * @param totest          The text used for the comparison. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The literal starts with the supplied literal.
+   */
+  public boolean startsWith( boolean casesensitive, @KNotEmpty(name="totest") String totest ) {
+    String part = origin.substring( 0, totest.length() );
+    return StringFunctions.compare( ! casesensitive, part, totest );
+  }
+
+  /**
+   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
+   *  
+   * @param totest   The text used for the comparison. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The literal ends with the supplied literal.
+   */
+  public boolean endsWith( @KNotEmpty(name="totest") String totest ) {
+    return endsWith( true, totest );
+  }
+
+  /**
+   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
+   *  
+   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
+   * @param totest          The text used for the comparison. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The literal ends with the supplied literal.
+   */
+  public boolean endsWith( boolean casesensitive, @KNotEmpty(name="totest") String totest ) {
+    String part = origin.substring( origin.length() - totest.length() );
+    return StringFunctions.compare( ! casesensitive, part, totest );
+  }
+  
+  /**
+   * Returns <code>true</code> if the content of this buffer equals the supplied literal.
+   *  
+   * @param totest   The text used for the comparison. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The literal is equal.
+   */
+  public boolean equals( @KNotEmpty(name="totest") String totest ) {
+    return equals( true, totest );
+  }
+  
+  /**
+   * Returns <code>true</code> if the content of this buffer equals the supplied literal.
+   *  
+   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
+   * @param totest          The text used for the comparison. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The literal is equal.
+   */
+  public boolean equals( boolean casesensitive, @KNotNull(name="totest") String totest ) {
+    return StringFunctions.compare( ! casesensitive, origin.toString(), totest );
+  }
+
 } /* ENDCLASS */
