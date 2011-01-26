@@ -64,7 +64,7 @@ public class ZipRunnable extends AbstractRunnable {
     ZipOutputStream  zipout  = null;
     try {
       buffer  = IoFunctions.allocateBytes( buffersize );
-      fileout = new FileOutputStream ( zipfile );
+      fileout = IoFunctions.newFileOutputStream ( zipfile );
       zipout  = new ZipOutputStream  ( fileout );
       zipout.setMethod( ZipOutputStream.DEFLATED );
       zipout.setLevel(9);
@@ -118,7 +118,7 @@ public class ZipRunnable extends AbstractRunnable {
   private void packFile( ZipOutputStream zipout, String relative, File file ) throws IOException {
     InputStream input = null;
     try {
-      input           = new FileInputStream( file );
+      input           = IoFunctions.newFileInputStream( file );
       ZipEntry zentry = new ZipEntry( relative );
       zipout.putNextEntry( zentry );
       IoFunctions.copy( input, zipout, buffer );

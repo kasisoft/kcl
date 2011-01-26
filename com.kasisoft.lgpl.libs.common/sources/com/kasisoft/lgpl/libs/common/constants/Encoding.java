@@ -9,6 +9,8 @@
 package com.kasisoft.lgpl.libs.common.constants;
 
 import com.kasisoft.lgpl.libs.common.base.*;
+import com.kasisoft.lgpl.libs.common.io.*;
+
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.io.*;
@@ -52,11 +54,7 @@ public enum Encoding {
    * @throws FailureException if opening the file failed for some reason.
    */
   public Reader openReader( @KFile(name="file") File file ) {
-    try {
-      return openReader( new FileInputStream( file ) );
-    } catch( FileNotFoundException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
-    }
+    return openReader( IoFunctions.newFileInputStream( file ) );
   }
 
   /**
@@ -85,11 +83,7 @@ public enum Encoding {
    * @throws FailureException if opening the file failed for some reason.
    */
   public Writer openWriter( @KFile(name="file") File file ) {
-    try {
-      return openWriter( new FileOutputStream( file ) );
-    } catch( FileNotFoundException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
-    }
+    return openWriter( IoFunctions.newFileOutputStream( file ) );
   }
 
   /**
@@ -118,11 +112,7 @@ public enum Encoding {
    * @throws FailureException if opening the file failed for some reason.
    */
   public PrintStream openPrintStream( @KFile(name="file") File file ) {
-    try {
-      return openPrintStream( new FileOutputStream( file ) );
-    } catch( FileNotFoundException        ex ) {
-      throw new FailureException( FailureCode.IO, ex );
-    }
+    return openPrintStream( IoFunctions.newFileOutputStream( file ) );
   }
 
   /**

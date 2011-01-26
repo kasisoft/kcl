@@ -114,10 +114,8 @@ public final class XmlFunctions {
   ) throws FailureException {
     InputStream input = null;
     try {
-      input = new FileInputStream( file );
+      input = IoFunctions.newFileInputStream( file );
       return readDocument( input, handler, baseurl, resolver, validate, xmlnamespaces, xincludes );
-    } catch( FileNotFoundException ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
     } finally {
       IoFunctions.close( input );
     }
@@ -267,10 +265,8 @@ public final class XmlFunctions {
   ) throws FailureException {
     OutputStream output = null;
     try {
-      output = new FileOutputStream( destination );
+      output = IoFunctions.newFileOutputStream( destination );
       writeDocument( output, node, encoding );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
     } finally {
       IoFunctions.close( output );
     }
@@ -289,10 +285,8 @@ public final class XmlFunctions {
   public static final Transformer newTransformer( @KFile(name="xsl") File xsl ) throws FailureException {
     InputStream         instream  = null;
     try {
-      instream = new FileInputStream( xsl );
+      instream = IoFunctions.newFileInputStream( xsl );
       return newTransformer( instream );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       IoFunctions.close( instream );
     }

@@ -78,24 +78,20 @@ public class UnzipRunnable extends AbstractRunnable {
         File     file   = new File( destination, entry.getName() );
         
         if( entry.isDirectory() ) {
-          if( ! file.mkdirs() ) {
-            throw new FailureException( FailureCode.IO );
-          }
+          IoFunctions.mkdirs( file );
           onIterationEnd( entry.getName(), true, 0L );
           continue;
         }
         
         File parent = file.getParentFile();
         if( ! parent.isDirectory() ) {
-          if( ! file.getParentFile().mkdirs() ) {
-            throw new FailureException( FailureCode.IO );
-          }
+          IoFunctions.mkdirs( file.getParentFile() );
         }
         
         OutputStream outstream = null;
         InputStream  instream  = null;
         try {
-          outstream = new FileOutputStream( file );
+          outstream = IoFunctions.newFileOutputStream( file );
           instream  = zipfile.getInputStream( entry );
           IoFunctions.copy( instream, outstream, buffer );
         } finally {

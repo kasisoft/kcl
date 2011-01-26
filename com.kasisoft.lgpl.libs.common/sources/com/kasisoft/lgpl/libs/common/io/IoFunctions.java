@@ -39,6 +39,36 @@ public class IoFunctions {
    */
   private IoFunctions() {
   }
+  
+  /**
+   * Creates an instance of {@link FileInputStream} and handles potential exceptions.
+   * 
+   * @param file   The {@link File} that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link FileInputStream}. Not <code>null</code>.
+   */
+  public static final FileInputStream newFileInputStream( @KFile(name="file") File file ) {
+    try {
+      return new FileInputStream( file );
+    } catch( FileNotFoundException ex ) {
+      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath() );
+    }
+  }
+
+  /**
+   * Creates an instance of {@link FileOutputStream} and handles potential exceptions.
+   * 
+   * @param file   The {@link File} that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link FileOutputStream}. Not <code>null</code>.
+   */
+  public static final FileOutputStream newFileOutputStream( @KFile(name="file") File file ) {
+    try {
+      return new FileOutputStream( file );
+    } catch( FileNotFoundException ex ) {
+      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath() );
+    }
+  }
 
   /**
    * Returns a file for temporary use.
@@ -367,10 +397,10 @@ public class IoFunctions {
     FileChannel       outchannel = null;
     try {
       long size  = input.length();
-      instream   = new FileInputStream( input );
-      outstream  = new FileOutputStream( output );
-      inchannel  = instream.getChannel();
-      outchannel = outstream.getChannel();
+      instream   = newFileInputStream  ( input );
+      outstream  = newFileOutputStream ( output );
+      inchannel  = instream  . getChannel();
+      outchannel = outstream . getChannel();
       inchannel.transferTo( 0, size, outchannel );
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
@@ -533,10 +563,8 @@ public class IoFunctions {
     InputStream           input   = null;
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     try {
-      input = new FileInputStream( file );
+      input = newFileInputStream( file );
       copy( input, byteout, buffersize );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       close( true, input );
     }
@@ -844,10 +872,8 @@ public class IoFunctions {
   ) {
     InputStream input = null;
     try {
-      input = new FileInputStream( file );
+      input = newFileInputStream( file );
       return loadFragment( input, offset, length );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       close( input );
     }
@@ -955,10 +981,8 @@ public class IoFunctions {
   ) {
     InputStream input = null;
     try {
-      input = new FileInputStream( file );
+      input = newFileInputStream( file );
       return crc32( input, crc, buffersize );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       close( input );
     }
@@ -978,10 +1002,8 @@ public class IoFunctions {
   ) {
     InputStream input = null;
     try {
-      input = new FileInputStream( file );
+      input = newFileInputStream( file );
       return crc32( input, null, null );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       close( input );
     }
@@ -1066,10 +1088,8 @@ public class IoFunctions {
   ) {
     OutputStream output = null;
     try {
-      output = new FileOutputStream( file );
+      output = newFileOutputStream( file );
       writeText( output, lines, encoding );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       close( output );
     }
@@ -1110,10 +1130,8 @@ public class IoFunctions {
   ) {
     OutputStream output = null;
     try {
-      output = new FileOutputStream( file );
+      output = newFileOutputStream( file );
       writeText( output, text, encoding );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       close( output );
     }
@@ -1133,10 +1151,8 @@ public class IoFunctions {
   ) {
     OutputStream output = null;
     try {
-      output = new FileOutputStream( file );
+      output = newFileOutputStream( file );
       writeBytes( output, content );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       close( output );
     }
