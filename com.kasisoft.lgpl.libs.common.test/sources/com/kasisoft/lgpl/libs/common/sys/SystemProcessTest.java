@@ -8,7 +8,7 @@
  */
 package com.kasisoft.lgpl.libs.common.sys;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
+import com.kasisoft.lgpl.libs.common.base.*;
 
 import org.testng.annotations.*;
 

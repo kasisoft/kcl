@@ -916,6 +916,7 @@ public class Assert {
     }
   }
   
+  @SuppressWarnings("null")
   static public void assertEquals(final File actual, final File expected, final String message) {
     if(expected == actual) {
       return;
