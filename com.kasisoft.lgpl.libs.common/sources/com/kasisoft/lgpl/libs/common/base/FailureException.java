@@ -75,4 +75,28 @@ public class FailureException extends RuntimeException {
     return failurecode;
   }
   
+  /**
+   * Creates a BuildException using the supplied arguments. If the last argument is an instance of
+   * Exception it will be used as the causing exception rather than an argument.
+   * 
+   * @param args   The arguments to be passed to the formatting message. Maybe <code>null</code>.
+   * 
+   * @return   A BuildException indicating the error cause. Not <code>null</code>.
+   */
+  public static final FailureException create( FailureCode code, Object ... args ) {
+    String message = String.format( code.getMessage(), args );
+    if( (args == null) || (args.length == 0) ) {
+      return new FailureException( code, message );
+    } else {
+      Object last = args[ args.length - 1 ];
+      if( last instanceof Exception ) {
+        // we don't need to reduce the argument array as the last argument is just not being
+        // used (even if it would be used it just would be redundant).
+        return new FailureException( code, message, (Exception) last );
+      } else {
+        return new FailureException( code, message );
+      }
+    }
+  }
+
 } /* ENDCLASS */
