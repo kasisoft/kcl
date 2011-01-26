@@ -21,17 +21,13 @@ import org.w3c.dom.*;
 import org.xml.sax.*;
 
 import javax.xml.transform.stream.*;
-
 import javax.xml.transform.dom.*;
-
 import javax.xml.transform.*;
 
 import javax.xml.parsers.*;
 
 import java.util.*;
-
 import java.net.*;
-
 import java.io.*;
 
 /**
@@ -343,4 +339,62 @@ public final class XmlFunctions {
     }
   }
 
+  /**
+   * Makes sure that a child gets inserted at the first position of a parent.
+   * 
+   * @param parent   The parent which will be extended. Not <code>null</code>.
+   * @param child    The child which has to be inserted to the first position. Not <code>null</code>.
+   */
+  public static final void insertFirst( 
+    @KNotNull(name="parent") Element parent, @KNotNull(name="child") Node child 
+  ) {
+    if( parent.getFirstChild() != null ) {
+      parent.insertBefore( child, parent.getFirstChild() );
+    } else {
+      parent.appendChild( child );
+    }
+  }
+  
+  /**
+   * Simple helper function which allows to easily create an element.
+   * 
+   * @param doc       The document which will own the returned element. Not <code>null</code>.
+   * @param tag       The tag for the element. Neither <code>null</code> nor empty.
+   * @param content   The textual content. Maybe <code>null</code>.
+   * @param attrs     A list of pairs representing the attributes. Maybe <code>null</code>.
+   * 
+   * @return   An Element which contains all supplied informations. Not <code>null</code>.
+   */
+  public static final Element createElement( 
+    @KNotNull(name="doc")    Document     doc, 
+    @KNotEmpty(name="tag")   String       tag, 
+                             String       content, 
+                             String ...   attrs 
+  ) {
+    Element result = doc.createElement( tag );
+    if( content != null ) {
+      result.setTextContent( content );
+    }
+    if( attrs != null ) {
+      for( int i = 0; i < attrs.length; i += 2 ) {
+        result.setAttribute( attrs[ i + 0 ], attrs[ i + 1 ] );
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Removes the supplied list of nodes.
+   * 
+   * @param nodes   A list of nodes which have to be removed from the DOM tree. Maybe <code>null</code>.
+   */
+  public static final void removeNodes( NodeList nodes ) {
+    if( nodes != null ) {
+      for( int i = nodes.getLength() - 1; i >= 0; i-- ) {
+        Node current = nodes.item(i);
+        current.getParentNode().removeChild( current );
+      }
+    }
+  }
+  
 } /* ENDCLASS */
