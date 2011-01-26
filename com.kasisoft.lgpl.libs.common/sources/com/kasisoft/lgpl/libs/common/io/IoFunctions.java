@@ -9,25 +9,20 @@
 package com.kasisoft.lgpl.libs.common.io;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
-
 import com.kasisoft.lgpl.libs.common.thread.*;
-
 import com.kasisoft.lgpl.libs.common.util.*;
-
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.libs.common.sys.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.util.zip.*;
-
 import java.util.*;
 
-import java.net.*;
-
-import java.io.*;
-
 import java.nio.channels.*;
+
+import java.net.*;
+import java.io.*;
 
 /**
  * Collection of functions used for IO operations.
@@ -1380,11 +1375,11 @@ public class IoFunctions {
   public static final void mkdirs( @KFile(name="dir") File dir ) {
     if( dir.exists() ) {
       if( ! dir.isDirectory() ) {
-        throw FailureException.create( FailureCode.CreateDirectory );
+        throw new FailureException( FailureCode.CreateDirectory );
       }
     } else {
       if( ! dir.mkdirs() ) {
-        throw FailureException.create( FailureCode.CreateDirectory );
+        throw new FailureException( FailureCode.CreateDirectory );
       }
     }
   }
