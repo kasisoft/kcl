@@ -580,6 +580,56 @@ public class IoFunctions {
   }
 
   /**
+   * Loads a specific amount of data into a buffer.
+   * 
+   * @param buffer     The buffer where the data shall be written to. Not <code>null</code>.
+   * @param instream   The InputStream which provides the content. Not <code>null</code>.
+   * @param count      The amount of data which has to be loaded.
+   * 
+   * @throws IOException   Loading the content failed for some reason.
+   */
+  public static final void loadBytes( 
+    @KNotNull(name="buffer")    byte[]        buffer, 
+    @KNotNull(name="instream")  InputStream   instream, 
+    @KIPositive(name="count")   int           count 
+  ) throws IOException {
+    int offset  = 0; 
+    int read    = instream.read( buffer, offset, count );
+    while( (read != -1) && (count > 0) ) {
+      if( read > 0 ) {
+        offset += read;
+        count  -= read;
+      }
+      read = instream.read( buffer, offset, count );
+    }
+  }
+  
+  /**
+   * Loads a specific amount of data into a buffer.
+   * 
+   * @param buffer   The buffer where the data shall be written to. Not <code>null</code>.
+   * @param reader   The Reader which provides the content. Not <code>null</code>.
+   * @param count    The amount of data which has to be loaded.
+   * 
+   * @throws IOException   Loading the content failed for some reason.
+   */
+  public static final void loadChars( 
+    @KNotNull(name="buffer")    char[]   buffer, 
+    @KNotNull(name="instream")  Reader   reader, 
+    @KIPositive(name="count")   int      count 
+  ) throws IOException {
+    int offset  = 0; 
+    int read    = reader.read( buffer, offset, count );
+    while( (read != -1) && (count > 0) ) {
+      if( read > 0 ) {
+        offset += read;
+        count  -= read;
+      }
+      read = reader.read( buffer, offset, count );
+    }
+  }
+
+  /**
    * Reads the character content of a File.
    * 
    * @param file         The File providing the content. Not <code>null</code>.
@@ -1241,11 +1291,11 @@ public class IoFunctions {
   /**
    * Calculates the class directory used for the supplied class instance.
    * 
-   * @param classobj   The class which is used to locate the application directory.
+   * @param classobj   The class which is used to locate the application directory. Not <code>null</code>.
    * 
    * @return   The location of the application directory or <code>null</code> in case of a failure.
    */
-  public static final File locateDirectory( Class<?> classobj ) {
+  public static final File locateDirectory( @KNotNull(name="classobj") Class<?> classobj ) {
     
     String        classname = String.format( "/%s.class", classobj.getName().replace('.','/') );
         
@@ -1325,4 +1375,21 @@ public class IoFunctions {
     
   }
 
+  /**
+   * Creates a directory.
+   * 
+   * @param dir   The directory that needs to be created. Not <code>null</code> and must be a valid file.
+   */
+  public static final void mkdirs( @KFile(name="dir") File dir ) {
+    if( dir.exists() ) {
+      if( ! dir.isDirectory() ) {
+        throw FailureException.create( FailureCode.CreateDirectory );
+      }
+    } else {
+      if( ! dir.mkdirs() ) {
+        throw FailureException.create( FailureCode.CreateDirectory );
+      }
+    }
+  }
+  
 } /* ENDCLASS */
