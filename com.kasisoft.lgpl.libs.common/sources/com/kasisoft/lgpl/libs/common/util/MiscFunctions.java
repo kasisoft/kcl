@@ -16,6 +16,8 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.text.*;
 
+import java.util.regex.*;
+
 import java.lang.reflect.*;
 
 import java.util.*;
@@ -618,6 +620,53 @@ public class MiscFunctions {
     return list;
   }
 
+  /**
+   * Creates a copy of the supplied instance.
+   * 
+   * @param source   The instance that has to be copied. Maybe <code>null</code>.
+   * 
+   * @return   A copy of the supplied instance. <code>null</code> if <code>source</code> was <code>null</code>.
+   */
+  public static final <T extends Serializable> T clone( T source ) {
+    if( source != null ) {
+      try {
+        ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
+        ObjectOutputStream    objectout = new ObjectOutputStream( byteout );
+        objectout.writeObject( source );
+        objectout.flush();
+        objectout.close();
+        ByteArrayInputStream  bytein    = new ByteArrayInputStream( byteout.toByteArray() );
+        ObjectInputStream     objectin  = new ObjectInputStream( bytein );
+        return (T) objectin.readObject();
+      } catch( IOException ex ) {
+        // since we're only working in memory this should never happen
+      } catch( ClassNotFoundException ex ) {
+        // cannot happen since we've just serialised the type ourselves so it's guarantueed 
+      }
+    }
+    return null;
+  }
+  
+  /**
+   * Returns a list with regions providing the ranges for a matched pattern.
+   * 
+   * @param pattern    The pattern to be matched. Not <code>null</code>.
+   * @param sequence   The sequence where to look for the pattern. Not <code>null</code>.
+   * 
+   * @return   A list of regions providing the positions within the sequence. Not <code>null</code>.
+   */
+  public static List<int[]> getRegexRegions( 
+    @KNotNull(name="pattern")    Pattern   pattern, 
+    @KNotNull(name="sequence")   String    sequence 
+  ) {
+    List<int[]> result  = new ArrayList<int[]>();
+    Matcher     matcher = pattern.matcher( sequence );
+    while( matcher.find() ) {
+      result.add( new int[] { matcher.start(), matcher.end() } );
+    }
+    return result;
+  }
+  
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */
