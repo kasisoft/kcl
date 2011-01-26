@@ -90,19 +90,6 @@ public class IoFunctions {
   }
 
   /**
-   * Launches a FailureException if it's been desired.
-   * 
-   * @param fail   <code>true</code> <=> Launch the FailureException.
-   * @param code   The failure code used for the launched exception. Not <code>null</code>.
-   * @param ex     The causing exception. Not <code>null</code>. 
-   */
-  private static final void causeException( boolean fail, FailureCode code, Exception ex ) {
-    if( fail ) {
-      throw new FailureException( code, ex );
-    }
-  }
-
-  /**
    * Closes the supplied channel. 
    * 
    * @param fail      <code>true</code> <=> Cause an exception if it happens.
@@ -116,7 +103,9 @@ public class IoFunctions {
       try {
         channel.close();
       } catch( IOException ex ) {
-        causeException( fail, FailureCode.Close, ex );
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
       }
     }
   }
@@ -144,7 +133,9 @@ public class IoFunctions {
       try {
         stream.close();
       } catch( IOException ex ) {
-        causeException( fail, FailureCode.Close, ex );
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
       }
     }
   }
@@ -172,7 +163,9 @@ public class IoFunctions {
       try {
         stream.close();
       } catch( IOException ex ) {
-        causeException( fail, FailureCode.Close, ex );
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
       }
     }
   }
@@ -200,7 +193,9 @@ public class IoFunctions {
       try {
         reader.close();
       } catch( IOException ex ) {
-        causeException( fail, FailureCode.Close, ex );
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
       }
     }
   }
@@ -228,7 +223,9 @@ public class IoFunctions {
       try {
         writer.close();
       } catch( IOException ex ) {
-        causeException( fail, FailureCode.Close, ex );
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
       }
     }
   }
