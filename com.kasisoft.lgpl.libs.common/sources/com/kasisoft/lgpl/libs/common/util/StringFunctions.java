@@ -740,5 +740,25 @@ public class StringFunctions {
     }
   }
 
-
+  /**
+   * Compares two strings depending on the case sensitivity.
+   * 
+   * @param ignorecase   <code>true</code> <=> Ignore the cases.
+   * @param str1         One string to compare. Neither <code>null</code> nor empty.
+   * @param str2         One string to compare. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> Both strings are equal.
+   */
+  public static final boolean compare( 
+                             boolean   ignorecase, 
+    @KNotNull(name="str1")   String    str1, 
+    @KNotNull(name="str2")   String    str2 
+  ) {
+    if( ignorecase ) {
+      return str1.equalsIgnoreCase( str2 );
+    } else {
+      return str1.equals( str2 );
+    }
+  }
+  
 } /* ENDCLASS */
