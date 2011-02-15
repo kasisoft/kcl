@@ -8,25 +8,28 @@
  */
 package com.kasisoft.lgpl.libs.common.xml;
 
-import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import org.w3c.dom.ls.*;
 import org.xml.sax.*;
 
+import javax.xml.transform.*;
 import javax.xml.parsers.*;
 
 import java.util.*;
+
 import java.net.*;
+
 import java.io.*;
 
 /**
  * Basic data structure used to store entity ids together with the urls.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class XmlCatalog implements EntityResolver, LSResourceResolver {
+public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver {
 
   private Map<String,byte[]>    catalogdata;
   private Set<URL>              failures;
@@ -71,6 +74,20 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver {
   }
   
   /**
+   * Just a helper which is supposed to be overridden if necessary. This function opens an InputStream to the
+   * supplied URL.
+   * 
+   * @param url   The URL which shall be accessed. Not <code>null</code>.
+   * 
+   * @return   The InputStream allowing to access the supplied URL.
+   * 
+   * @throws IOException   Accessing the URL failed for some reason.
+   */
+  protected InputStream openStream( @KNotNull(name="url") URL url ) throws IOException {
+    return url.openStream();
+  }
+  
+  /**
    * Registers the supplied resource with a specified id.
    * 
    * @param id    The ID used for the resource. Neither <code>null</code> nor empty.
@@ -81,14 +98,20 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver {
     @KNotNull(name="url")   URL      url 
   ) {
     if( ! failures.contains( url ) ) {
+      InputStream instream = null;
       try {
-        byte[] data = IoFunctions.loadBytes( url, null );
+        instream    = openStream( url );
+        byte[] data = IoFunctions.loadBytes( instream, null );
         catalogdata.put( id, data );
+      } catch( IOException      ex ) {
+        throw new FailureException( FailureCode.IO, ex );
       } catch( FailureException ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
         // we just register this url as 'invalid'
         failures.add( url );
+      } finally {
+        IoFunctions.close( instream );
       }
     }
   }
@@ -100,8 +123,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver {
    */
   public synchronized void registerSystemID( @KNotNull(name="systemid") URL systemid ) {
     if( ! failures.contains( systemid ) ) {
+      InputStream instream = null;
       try {
-        byte[]  data = IoFunctions.loadBytes( systemid, null );
+        instream     = openStream( systemid );
+        byte[]  data = IoFunctions.loadBytes( instream, null );
         catalogdata.put( systemid.toExternalForm(), data );
         // we're also registering the resource name which might also be used to match
         String  path = systemid.getPath();
@@ -111,11 +136,15 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver {
         } else {
           catalogdata.put( path, data );
         }
+      } catch( IOException      ex ) {
+        throw new FailureException( FailureCode.IO, ex );
       } catch( FailureException ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
         // we just register this url as 'invalid'
         failures.add( systemid );
+      } finally {
+        IoFunctions.close( instream );
       }
     }
   }
@@ -245,6 +274,13 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver {
         // we just return null for this error case
       }
     }
+    return null;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Source resolve( String href, String base ) throws TransformerException {
     return null;
   }
 

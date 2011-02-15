@@ -17,11 +17,15 @@ import org.xml.sax.*;
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class XmlFault {
+  
+  public static enum FaultType {
+    warning, error, fatal;
+  }
 
-  private boolean   warning;
-  private String    message;
-  private int       column;
-  private int       line;
+  private FaultType   type;
+  private String      message;
+  private int         column;
+  private int         line;
   
   /**
    * Initialises this datastructure from the supplied exception.
@@ -29,11 +33,11 @@ public class XmlFault {
    * @param iswarning   <code>true</code> <=> The cause is a warning.
    * @param ex          The original exception. Not <code>null</code>.
    */
-  public XmlFault( boolean iswarning, @KNotEmpty(name="ex") SAXParseException ex ) {
-    warning   = iswarning;
-    message   = ex.getMessage();
-    column    = ex.getColumnNumber();
-    line      = ex.getLineNumber();
+  public XmlFault( @KNotNull(name="faulttype") FaultType faulttype, @KNotEmpty(name="ex") SAXParseException ex ) {
+    type    = faulttype;
+    message = ex.getMessage();
+    column  = ex.getColumnNumber();
+    line    = ex.getLineNumber();
   }
 
   /**
@@ -43,7 +47,7 @@ public class XmlFault {
    *           Neither <code>null</code> nor empty.
    */
   public String getFaultMessage() {
-    return String.format( "[%s] ( %d, %d ) : %s", warning ? "W" : "E", Integer.valueOf( line ), Integer.valueOf( column ), message );
+    return String.format( "[%s] ( %d, %d ) : %s", type, Integer.valueOf( line ), Integer.valueOf( column ), message );
   }
   
   /**
@@ -52,7 +56,25 @@ public class XmlFault {
    * @return   This datastructure is related to a warning.
    */
   public boolean isWarning() {
-    return warning;
+    return type == FaultType.warning;
+  }
+
+  /**
+   * Returns <code>true</code> if this datastructure is related to an error.
+   * 
+   * @return   This datastructure is related to an error.
+   */
+  public boolean isError() {
+    return type == FaultType.error;
+  }
+
+  /**
+   * Returns <code>true</code> if this datastructure is related to a fatal error.
+   * 
+   * @return   This datastructure is related to a fatal error.
+   */
+  public boolean isFatal() {
+    return type == FaultType.fatal;
   }
 
   /**
@@ -65,12 +87,30 @@ public class XmlFault {
   }
   
   /**
+   * Changes the current message.
+   * 
+   * @param newmessage   The new message. Neither <code>null</code> nor empty.
+   */
+  public void setMessage( @KNotEmpty(name="newmessage") String newmessage ) {
+    message = newmessage;
+  }
+  
+  /**
    * Returns the conflicting column number.
    * 
    * @return   The conflicting column number.
    */
   public int getColumn() {
     return column;
+  }
+  
+  /**
+   * Changes the current column information.
+   * 
+   * @param newcolumn   The new column.
+   */
+  public void setColumn( int newcolumn ) {
+    column = newcolumn;
   }
 
   /**
@@ -80,6 +120,15 @@ public class XmlFault {
    */
   public int getLine() {
     return line;
+  }
+  
+  /**
+   * Changes the current line information.
+   * 
+   * @param newline   The new line information.
+   */
+  public void setLine( int newline ) {
+    line = newline;
   }
   
 } /* ENDCLASS */

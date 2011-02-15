@@ -72,7 +72,7 @@ public class XmlErrorHandler implements ErrorHandler {
    */
   public void error( SAXParseException ex ) throws SAXException {
     errorcount++;
-    faults.add( new XmlFault( false, ex ) );
+    faults.add( newFault( XmlFault.FaultType.error, ex ) );
   }
 
   /**
@@ -80,14 +80,26 @@ public class XmlErrorHandler implements ErrorHandler {
    */
   public void fatalError( SAXParseException ex ) throws SAXException {
     errorcount++;
-    faults.add( new XmlFault( false, ex ) );
+    faults.add( newFault( XmlFault.FaultType.fatal, ex ) );
   }
 
   /**
    * {@inheritDoc}
    */
   public void warning( SAXParseException ex ) throws SAXException {
-    faults.add( new XmlFault( true, ex ) );
+    faults.add( newFault( XmlFault.FaultType.warning, ex ) );
   }
 
+  /**
+   * This function can be overridden in order to refined the generated error message.
+   * 
+   * @param type   The error type. Not <code>null</code>.
+   * @param ex     The cause of the failure. Not <code>null</code>.
+   * 
+   * @return   A freshly created error instance. Not <code>null</code>.
+   */
+  protected XmlFault newFault( XmlFault.FaultType type, SAXParseException ex ) {
+    return new XmlFault( type, ex );
+  }
+  
 } /* ENDCLASS */

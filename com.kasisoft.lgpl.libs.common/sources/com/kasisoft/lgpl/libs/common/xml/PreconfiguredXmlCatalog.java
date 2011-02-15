@@ -69,18 +69,27 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
   public PreconfiguredXmlCatalog( boolean failifmissing, boolean lsaware ) throws FailureException {
     super( lsaware );
     for( int i = 0; i < PRECONFIGURED.length; i += 2 ) {
-      String publicid = PRECONFIGURED[ i + 0 ];
-      String resource = PRECONFIGURED[ i + 1 ];
-      URL    url      = getClass().getResource( resource );
-      if( url != null ) {
-        if( publicid != null ) {
-          registerPublicID( publicid, url );
-        } else {
-          registerSystemID( url );
-        }
-      } else if( failifmissing ) {
-        throw new FailureException( FailureCode.MissingResource, resource );
+      registerResource( failifmissing, PRECONFIGURED[ i + 0 ], PRECONFIGURED[ i + 1 ] );
+    }
+  }
+  
+  /**
+   * Registers a single resource with this catalog.
+   *  
+   * @param failifmissing   <code>true</code> <=> Cause an exception in case a resource could not be resolved.
+   * @param publicid        A public id. Maybe <code>null</code>. 
+   * @param resource        The resource associated with the id or a system id itself. Neither <code>null</code> nor empty.
+   */
+  protected void registerResource( boolean failifmissing, String publicid, @KNotEmpty(name="resource") String resource ) {
+    URL url = getClass().getResource( resource );
+    if( url != null ) {
+      if( publicid != null ) {
+        registerPublicID( publicid, url );
+      } else {
+        registerSystemID( url );
       }
+    } else if( failifmissing ) {
+      throw new FailureException( FailureCode.MissingResource, resource );
     }
   }
 

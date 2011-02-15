@@ -174,7 +174,7 @@ public final class XmlFunctions {
     } catch( ParserConfigurationException ex ) {
       throw new FailureException( FailureCode.XmlFailure, ex );
     } catch( SAXParseException             ex ) {
-      XmlFault fault = new XmlFault( false, ex );
+      XmlFault fault = new XmlFault( XmlFault.FaultType.fatal, ex );
       throw new FailureException( FailureCode.XmlFailure, fault.getFaultMessage() );
     } catch( SAXException                  ex ) {
       throw new FailureException( FailureCode.XmlFailure, ex );
