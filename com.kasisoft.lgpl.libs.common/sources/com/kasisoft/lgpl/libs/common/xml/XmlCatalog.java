@@ -79,7 +79,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @param url   The URL which shall be accessed. Not <code>null</code>.
    * 
-   * @return   The InputStream allowing to access the supplied URL.
+   * @return   The InputStream allowing to access the supplied URL. Not <code>null</code>.
    * 
    * @throws IOException   Accessing the URL failed for some reason.
    */
@@ -104,7 +104,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         byte[] data = IoFunctions.loadBytes( instream, null );
         catalogdata.put( id, data );
       } catch( IOException      ex ) {
-        throw new FailureException( FailureCode.IO, ex );
+        // we're ignoring this which means that we weren't capable to access the resource
+        // but the resolving process still might succeed. to prevent subsequent failures
+        // we just register this url as 'invalid'
+        failures.add( url );
       } catch( FailureException ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
@@ -137,7 +140,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
           catalogdata.put( path, data );
         }
       } catch( IOException      ex ) {
-        throw new FailureException( FailureCode.IO, ex );
+        // we're ignoring this which means that we weren't capable to access the resource
+        // but the resolving process still might succeed. to prevent subsequent failures
+        // we just register this url as 'invalid'
+        failures.add( systemid );
       } catch( FailureException ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
