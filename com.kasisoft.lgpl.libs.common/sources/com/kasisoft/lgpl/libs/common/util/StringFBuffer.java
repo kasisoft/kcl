@@ -571,4 +571,22 @@ public class StringFBuffer {
     return StringFunctions.compare( ! casesensitive, origin.toString(), totest );
   }
 
+  /**
+   * Removes a collection of characters from this buffer.
+   * 
+   * @param toremove   A list of characters which have to be removed. Neither <code>null</code> nor empty.
+   * 
+   * @return   The altered input. Not <code>null</code>.
+   */
+  public StringFBuffer remove( @KNotEmpty(name="toremove") String toremove ) {
+    synchronized( origin ) {
+      for( int i = length() - 1; i >= 0; i-- ) {
+        if( toremove.indexOf( charAt(i) ) != -1 ) {
+          deleteCharAt(i);
+        }
+      }
+    }
+    return this;
+  }
+
 } /* ENDCLASS */
