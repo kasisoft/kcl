@@ -30,7 +30,7 @@ public class XmlFault {
   /**
    * Initialises this datastructure from the supplied exception.
    * 
-   * @param iswarning   <code>true</code> <=> The cause is a warning.
+   * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
    * @param ex          The original exception. Not <code>null</code>.
    */
   public XmlFault( @KNotNull(name="faulttype") FaultType faulttype, @KNotEmpty(name="ex") SAXParseException ex ) {
@@ -38,6 +38,19 @@ public class XmlFault {
     message = ex.getMessage();
     column  = ex.getColumnNumber();
     line    = ex.getLineNumber();
+  }
+
+  /**
+   * Initialises this datastructure from the supplied message.
+   * 
+   * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
+   * @param msg         The original message. Not <code>null</code>.
+   */
+  public XmlFault( @KNotNull(name="faulttype") FaultType faulttype, @KNotEmpty(name="msg") String msg ) {
+    type    = faulttype;
+    message = msg;
+    column  = -1;
+    line    = -1;
   }
 
   /**
