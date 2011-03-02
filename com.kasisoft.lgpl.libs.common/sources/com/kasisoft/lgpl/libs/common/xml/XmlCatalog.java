@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.libs.common.xml;
 
+import com.kasisoft.lgpl.libs.common.util.*;
+
 import com.kasisoft.lgpl.libs.common.io.*;
 
 import com.kasisoft.lgpl.libs.common.base.*;
@@ -114,7 +116,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         // we just register this url as 'invalid'
         failures.add( url );
       } finally {
-        IoFunctions.close( instream );
+        MiscFunctions.close( instream );
       }
     }
   }
@@ -150,7 +152,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         // we just register this url as 'invalid'
         failures.add( systemid );
       } finally {
-        IoFunctions.close( instream );
+        MiscFunctions.close( instream );
       }
     }
   }

@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.libs.common.thread;
 
+import com.kasisoft.lgpl.libs.common.util.*;
+
 import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.libs.common.io.*;
 
@@ -95,8 +97,8 @@ public class UnzipRunnable extends AbstractRunnable {
           instream  = zipfile.getInputStream( entry );
           IoFunctions.copy( instream, outstream, buffer );
         } finally {
-          IoFunctions.close( instream  );
-          IoFunctions.close( outstream );
+          MiscFunctions.close( instream  );
+          MiscFunctions.close( outstream );
         }
         
         onIterationEnd( entry.getName(), false, file.length() );

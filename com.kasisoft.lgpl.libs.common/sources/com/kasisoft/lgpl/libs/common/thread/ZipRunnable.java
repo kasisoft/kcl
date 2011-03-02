@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.libs.common.thread;
 
+import com.kasisoft.lgpl.libs.common.util.*;
+
 import com.kasisoft.lgpl.libs.common.base.*;
 import com.kasisoft.lgpl.libs.common.io.*;
 
@@ -73,8 +75,8 @@ public class ZipRunnable extends AbstractRunnable {
       handleIOFailure( ex );
     } finally {
       IoFunctions.releaseBytes( buffer );
-      IoFunctions.close( zipout  );
-      IoFunctions.close( fileout );
+      MiscFunctions.close( zipout  );
+      MiscFunctions.close( fileout );
       buffer = null;
     }
   }
@@ -124,7 +126,7 @@ public class ZipRunnable extends AbstractRunnable {
       IoFunctions.copy( input, zipout, buffer );
       zipout.closeEntry();
     } finally {
-      IoFunctions.close( input );
+      MiscFunctions.close( input );
     }
   }
   

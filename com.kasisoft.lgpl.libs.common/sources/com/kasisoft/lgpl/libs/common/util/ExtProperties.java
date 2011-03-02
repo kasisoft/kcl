@@ -230,7 +230,7 @@ public class ExtProperties {
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {
-      IoFunctions.close( instream );
+      MiscFunctions.close( instream );
     }
   }
 

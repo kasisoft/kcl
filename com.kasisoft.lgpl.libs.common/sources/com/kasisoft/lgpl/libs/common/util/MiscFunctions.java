@@ -667,7 +667,37 @@ public class MiscFunctions {
     }
     return result;
   }
-  
+
+  /**
+   * Closes the supplied Closeable. 
+   * 
+   * @param fail        <code>true</code> <=> Cause an exception if it happens.
+   * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
+   * 
+   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
+   *                            exception comes up.
+   */
+  public static final void close( boolean fail, Closeable closeable ) {
+    if( closeable != null ) {
+      try {
+        closeable.close();
+      } catch( IOException ex ) {
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
+      }
+    }
+  }
+
+  /**
+   * Closes the supplied Closeable. 
+   * 
+   * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
+   */
+  public static final void close( Closeable closeable ) {
+    close( false, closeable );
+  }
+
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */

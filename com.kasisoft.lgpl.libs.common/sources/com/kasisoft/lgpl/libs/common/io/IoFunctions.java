@@ -122,26 +122,22 @@ public class IoFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
    *                            exception comes up.
+   *                            
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
    */
   public static final void close( boolean fail, FileChannel channel ) {
-    if( channel != null ) {
-      try {
-        channel.close();
-      } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
-      }
-    }
+    MiscFunctions.close( fail, channel );
   }
 
   /**
    * Closes the supplied channel. An exception will not be launched in case of an exception. 
    * 
    * @param channel   The channel that has to be closed. Maybe <code>null</code>.
+   * 
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
    */
   public static final void close( FileChannel channel ) {
-    close( false, channel );
+    MiscFunctions.close( channel );
   }
   
   /**
@@ -152,26 +148,22 @@ public class IoFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
    *                            exception comes up.
+   *                            
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
    */
   public static final void close( boolean fail, InputStream stream ) {
-    if( stream != null ) {
-      try {
-        stream.close();
-      } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
-      }
-    }
+    MiscFunctions.close( fail, stream );
   }
   
   /**
    * Closes the supplied stream. An exception will not be launched in case of an exception. 
    * 
    * @param stream   The stream that has to be closed. Maybe <code>null</code>.
+   * 
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
    */
   public static final void close( InputStream stream ) {
-    close( false, stream );
+    MiscFunctions.close( stream );
   }
   
   /**
@@ -182,26 +174,22 @@ public class IoFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
    *                            exception comes up.
+   *                            
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
    */
   public static final void close( boolean fail, OutputStream stream ) {
-    if( stream != null ) {
-      try {
-        stream.close();
-      } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
-      }
-    }
+    MiscFunctions.close( fail, stream );
   }
   
   /**
    * Closes the supplied stream. An exception will not be launched in case of an exception.
    * 
    * @param stream   The stream that has to be closed. Maybe <code>null</code>.
+   * 
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
    */
   public static final void close( OutputStream stream ) {
-    close( false, stream );
+    MiscFunctions.close( stream );
   }
   
   /**
@@ -212,26 +200,22 @@ public class IoFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
    *                            exception comes up.
+   *                            
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
    */
   public static final void close( boolean fail, Reader reader ) {
-    if( reader != null ) {
-      try {
-        reader.close();
-      } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
-      }
-    }
+    MiscFunctions.close( fail, reader );
   }
   
   /**
    * Closes the supplied reader. An exception will not be launched in case of an exception. 
    * 
    * @param reader   The reader that has to be closed. Maybe <code>null</code>.
+   * 
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
    */
   public static final void close( Reader reader ) {
-    close( false, reader );
+    MiscFunctions.close( reader );
   }
   
   /**
@@ -242,26 +226,22 @@ public class IoFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
    *                            exception comes up.
+   *                            
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
    */
   public static final void close( boolean fail, Writer writer ) {
-    if( writer != null ) {
-      try {
-        writer.close();
-      } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
-      }
-    }
+    MiscFunctions.close( fail, writer );
   }
   
   /**
    * Closes the supplied writer. An exception will not be launched in case of an exception.
    * 
    * @param writer   The writer that has to be closed. Maybe <code>null</code>.
+   * 
+   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
    */
   public static final void close( Writer writer ) {
-    close( false, writer );
+    MiscFunctions.close( writer );
   }
   
   /**

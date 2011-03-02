@@ -117,7 +117,7 @@ public final class XmlFunctions {
       input = IoFunctions.newFileInputStream( file );
       return readDocument( input, handler, baseurl, resolver, validate, xmlnamespaces, xincludes );
     } finally {
-      IoFunctions.close( input );
+      MiscFunctions.close( input );
     }
   }
 
@@ -268,7 +268,7 @@ public final class XmlFunctions {
       output = IoFunctions.newFileOutputStream( destination );
       writeDocument( output, node, encoding );
     } finally {
-      IoFunctions.close( output );
+      MiscFunctions.close( output );
     }
   }
   
@@ -288,7 +288,7 @@ public final class XmlFunctions {
       instream = IoFunctions.newFileInputStream( xsl );
       return newTransformer( instream );
     } finally {
-      IoFunctions.close( instream );
+      MiscFunctions.close( instream );
     }
   }
 
@@ -310,7 +310,7 @@ public final class XmlFunctions {
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {
-      IoFunctions.close( instream );
+      MiscFunctions.close( instream );
     }
   }
 
