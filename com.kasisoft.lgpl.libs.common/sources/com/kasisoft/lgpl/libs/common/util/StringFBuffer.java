@@ -432,6 +432,47 @@ public class StringFBuffer {
   }
 
   /**
+   * Like {@link StringBuffer#indexOf(String)} with the difference that this function provides the position of the
+   * leftmost literal which could be found.
+   * 
+   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * 
+   * @return   The index of the leftmost found literal or -1 if none matched.
+   */
+  public int indexOf( String ... literals ) {
+    return indexOf( 0, literals );
+  }
+  
+  /**
+   * Like {@link StringBuffer#indexOf(String)} with the difference that this function provides the position of the
+   * leftmost literal which could be found.
+   * 
+   * @param index      The index used as the starting point for the lookup.
+   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * 
+   * @return   The index of the leftmost found literal or -1 if none matched.
+   */
+  public int indexOf( int index, String ... literals ) {
+    synchronized( origin ) {
+      index      = adjustIndex( index );
+      int result = -1;
+      if( literals != null ) {
+        for( String literal : literals ) {
+          int pos = origin.indexOf( literal, index );
+          if( pos != -1 ) {
+            if( result == -1 ) {
+              result = pos;
+            } else {
+              result = Math.min( result, pos );
+            }
+          }
+        }
+      }
+      return result;
+    }
+  }
+  
+  /**
    * @see StringBuffer#lastIndexOf(String)
    */
   public int lastIndexOf( String str ) {
@@ -443,6 +484,47 @@ public class StringFBuffer {
    */
   public int lastIndexOf( String str, int index ) {
     return origin.lastIndexOf( str, adjustIndex( index ) );
+  }
+
+  /**
+   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of the
+   * rightmost literal which could be found.
+   * 
+   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * 
+   * @return   The index of the rightmost found literal or -1 if none matched.
+   */
+  public int lastIndexOf( String ... literals ) {
+    return lastIndexOf( -1, literals );
+  }
+  
+  /**
+   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of the
+   * rightmost literal which could be found.
+   * 
+   * @param index      The index used as the starting point for the lookup.
+   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * 
+   * @return   The index of the rightmost found literal or -1 if none matched.
+   */
+  public int lastIndexOf( int index, String ... literals ) {
+    synchronized( origin ) {
+      index      = adjustIndex( index );
+      int result = -1;
+      if( literals != null ) {
+        for( String literal : literals ) {
+          int pos = origin.lastIndexOf( literal, index );
+          if( pos != -1 ) {
+            if( result == -1 ) {
+              result = pos;
+            } else {
+              result = Math.max( result, pos );
+            }
+          }
+        }
+      }
+      return result;
+    }
   }
   
   /**
