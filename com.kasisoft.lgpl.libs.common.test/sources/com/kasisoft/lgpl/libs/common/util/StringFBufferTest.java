@@ -22,7 +22,8 @@ public class StringFBufferTest {
   public Object[][] dataStringBuffers() {
     return new Object[][] {
       new Object[] { new StringFBuffer()      },
-      new Object[] { new StringFBuffer( 256 ) }
+      new Object[] { new StringFBuffer( 256 ) },
+      new Object[] { new StringFBuffer( "" )  },
     };
   }
   
