@@ -86,137 +86,173 @@ public class StringFBuffer {
    * @see StringBuffer#charAt(int)
    */
   public char charAt( int index ) {
-    return origin.charAt( adjustIndex( index ) );
+    synchronized( origin ) {
+      return origin.charAt( adjustIndex( index ) );
+    }
   }
 
   /**
    * @see StringBuffer#codePointAt(int)
    */
   public int codePointAt( int index ) {
-    return origin.codePointAt( adjustIndex( index ) );
+    synchronized( origin ) {
+      return origin.codePointAt( adjustIndex( index ) );
+    }
   }
 
   /**
    * @see StringBuffer#codePointBefore(int)
    */
   public int codePointBefore( int index ) {
-    return origin.codePointBefore( adjustIndex( index ) );
+    synchronized( origin ) {
+      return origin.codePointBefore( adjustIndex( index ) );
+    }
   }
 
   /**
    * @see StringBuffer#codePointCount(int, int)
    */
   public int codePointCount( int begin, int end ) {
-    return origin.codePointCount( adjustIndex( begin ), adjustIndex( end ) );
+    synchronized( origin ) {
+      return origin.codePointCount( adjustIndex( begin ), adjustIndex( end ) );
+    }
   }
 
   /**
    * @see StringBuffer#offsetByCodePoints(int, int)
    */
   public int offsetByCodePoints( int index, int codepointoffset ) {
-    return origin.offsetByCodePoints( adjustIndex( index ), codepointoffset );
+    synchronized( origin ) {
+      return origin.offsetByCodePoints( adjustIndex( index ), codepointoffset );
+    }
   }
 
   /**
    * @see StringBuffer#getChars(int, int, char[], int)
    */
   public void getChars( int start, int end, char[] destination, int destbegin ) {
-    origin.getChars( adjustIndex( start ), adjustIndex( end ), destination, destbegin );
+    synchronized( origin ) {
+      origin.getChars( adjustIndex( start ), adjustIndex( end ), destination, destbegin );
+    }
   }
 
   /**
    * @see StringBuffer#setCharAt(int, char)
    */
   public void setCharAt( int index, char ch ) {
-    origin.setCharAt( adjustIndex( index ), ch );
+    synchronized( origin ) {
+      origin.setCharAt( adjustIndex( index ), ch );
+    }
   }
 
   /**
    * @see StringBuffer#append(Object)
    */
   public StringFBuffer append( Object obj ) {
-    origin = origin.append( obj );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( obj );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(String) 
    */
   public StringFBuffer append( String str ) {
-    origin = origin.append( str );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( str );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(StringBuffer)
    */
   public StringFBuffer append( StringBuffer buffer ) {
-    origin = origin.append( buffer );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( buffer );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(StringBuffer)
    */
   public StringFBuffer append( StringFBuffer buffer ) {
-    origin = origin.append( buffer.origin );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( buffer.origin );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(CharSequence)
    */
   public StringFBuffer append( CharSequence sequence ) {
-    origin = origin.append( sequence );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( sequence );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(CharSequence, int, int)
    */
   public StringFBuffer append( CharSequence sequence, int start, int end ) {
-    origin = origin.append( sequence, start, end );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( sequence, start, end );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(char[])
    */
   public StringFBuffer append( char[] charray ) {
-    origin = origin.append( charray );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( charray );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(char[], int, int)
    */
   public StringFBuffer append( char[] charray, int offset, int length ) {
-    origin = origin.append( charray, offset, length );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( charray, offset, length );
+      return this;
+    }
   }
   
   /**
    * @see StringBuffer#append(boolean)
    */
   public StringFBuffer append( boolean value ) {
-    origin = origin.append( value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(char)
    */
   public StringFBuffer append( char value ) {
-    origin = origin.append( value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(int)
    */
   public StringFBuffer append( int value ) {
-    origin = origin.append( value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( value );
+      return this;
+    }
   }
 
   /**
@@ -235,101 +271,127 @@ public class StringFBuffer {
    * @see StringBuffer#appendCodePoint(int)
    */
   public StringFBuffer appendCodePoint( int codepoint ) {
-    origin = origin.appendCodePoint( codepoint );
-    return this;
+    synchronized( origin ) {
+      origin = origin.appendCodePoint( codepoint );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(long)
    */
   public StringFBuffer append( long value ) {
-    origin = origin.append( value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(float)
    */
   public StringFBuffer append( float value ) {
-    origin = origin.append( value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#append(double)
    */
   public StringFBuffer append( double value ) {
-    origin = origin.append( value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.append( value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#delete(int, int)
    */
   public StringFBuffer delete( int start, int end ) {
-    origin = origin.delete( adjustIndex( start ), adjustIndex( end ) );
-    return this;
+    synchronized( origin ) {
+      origin = origin.delete( adjustIndex( start ), adjustIndex( end ) );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#deleteCharAt(int)
    */
   public StringFBuffer deleteCharAt( int index ) {
-    origin = origin.deleteCharAt( adjustIndex( index ) );
-    return this;
+    synchronized( origin ) {
+      origin = origin.deleteCharAt( adjustIndex( index ) );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#replace(int, int, String)
    */
   public StringFBuffer replace( int start, int end, String str ) {
-    origin = origin.replace( adjustIndex( start ), adjustIndex( end ), str );
-    return this;
+    synchronized( origin ) {
+      origin = origin.replace( adjustIndex( start ), adjustIndex( end ), str );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#substring(int)
    */
   public String substring( int start ) {
-    return origin.substring( adjustIndex( start ) );
+    synchronized( origin ) {
+      return origin.substring( adjustIndex( start ) );
+    }
   }
 
   /**
    * @see StringBuffer#subSequence(int, int)
    */
   public CharSequence subSequence( int start, int end ) {
-    return origin.subSequence( adjustIndex( start ), adjustIndex( end ) );
+    synchronized( origin ) {
+      return origin.subSequence( adjustIndex( start ), adjustIndex( end ) );
+    }
   }
 
   /**
    * @see StringBuffer#substring(int, int)
    */
   public String substring( int start, int end ) {
-    return origin.substring( adjustIndex( start ), adjustIndex( end ) );
+    synchronized( origin ) {
+      return origin.substring( adjustIndex( start ), adjustIndex( end ) );
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, char[], int, int)
    */
   public StringFBuffer insert( int index, char[] charray, int offset, int length ) {
-    origin = origin.insert( adjustIndex( offset ), charray, offset, length );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), charray, offset, length );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, Object)
    */
   public StringFBuffer insert( int offset, Object obj ) {
-    origin = origin.insert( adjustIndex( offset ), obj );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), obj );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, String)
    */
   public StringFBuffer insert( int offset, String value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
@@ -342,79 +404,99 @@ public class StringFBuffer {
    * @return   The current buffer.
    */
   public StringFBuffer insertF( int offset, String format, Object ... args ) {
-    return insert( adjustIndex( offset ), String.format( format, args ) );
+    synchronized( origin ) {
+      return insert( adjustIndex( offset ), String.format( format, args ) );
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, char[])
    */
   public StringFBuffer insert( int offset, char[] value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, CharSequence)
    */
   public StringFBuffer insert( int offset, CharSequence value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, CharSequence, int, int)
    */
   public StringFBuffer insert( int offset, CharSequence value, int start, int end ) {
-    origin = origin.insert( adjustIndex( offset ), value, start, end );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value, start, end );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, boolean)
    */
   public StringFBuffer insert( int offset, boolean value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, char)
    */
   public StringFBuffer insert( int offset, char value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, int)
    */
   public StringFBuffer insert( int offset, int value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, long)
    */
   public StringFBuffer insert( int offset, long value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, float)
    */
   public StringFBuffer insert( int offset, float value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
    * @see StringBuffer#insert(int, double)
    */
   public StringFBuffer insert( int offset, double value ) {
-    origin = origin.insert( adjustIndex( offset ), value );
-    return this;
+    synchronized( origin ) {
+      origin = origin.insert( adjustIndex( offset ), value );
+      return this;
+    }
   }
 
   /**
@@ -428,7 +510,9 @@ public class StringFBuffer {
    * @see StringBuffer#indexOf(String, int)
    */
   public int indexOf( String str, int index ) {
-    return origin.indexOf( str, adjustIndex( index ) );
+    synchronized( origin ) {
+      return origin.indexOf( str, adjustIndex( index ) );
+    }
   }
 
   /**
@@ -483,7 +567,9 @@ public class StringFBuffer {
    * @see StringBuffer#lastIndexOf(String, int)
    */
   public int lastIndexOf( String str, int index ) {
-    return origin.lastIndexOf( str, adjustIndex( index ) );
+    synchronized( origin ) {
+      return origin.lastIndexOf( str, adjustIndex( index ) );
+    }
   }
 
   /**
@@ -531,8 +617,10 @@ public class StringFBuffer {
    * @see StringBuffer#reverse()
    */
   public StringFBuffer reverse() {
-    origin = origin.reverse();
-    return this;
+    synchronized( origin ) {
+      origin = origin.reverse();
+      return this;
+    }
   }
 
   /**
@@ -546,8 +634,10 @@ public class StringFBuffer {
    * This function removes leading whitespace from this buffer.
    */
   public void trimLeading() {
-    while( (length() > 0) && Character.isWhitespace( charAt(0) ) ) {
-      deleteCharAt(0);
+    synchronized( origin ) {
+      while( (length() > 0) && Character.isWhitespace( charAt(0) ) ) {
+        deleteCharAt(0);
+      }
     }
   }
 
@@ -555,8 +645,10 @@ public class StringFBuffer {
    * This function removes trailing whitespace from this buffer.
    */
   public void trimTrailing() {
-    while( (length() > 0) && Character.isWhitespace( charAt(-1) ) ) {
-      deleteCharAt(-1);
+    synchronized( origin ) {
+      while( (length() > 0) && Character.isWhitespace( charAt(-1) ) ) {
+        deleteCharAt(-1);
+      }
     }
   }
 
@@ -564,8 +656,10 @@ public class StringFBuffer {
    * This function removes leading and trailing whitespace from this buffer.
    */
   public void trim() {
-    trimLeading();
-    trimTrailing();
+    synchronized( origin ) {
+      trimLeading();
+      trimTrailing();
+    }
   }
 
   /**
@@ -602,8 +696,14 @@ public class StringFBuffer {
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
   public boolean startsWith( boolean casesensitive, @KNotEmpty(name="totest") String totest ) {
-    String part = origin.substring( 0, totest.length() );
-    return StringFunctions.compare( ! casesensitive, part, totest );
+    synchronized( origin ) {
+      if( totest.length() > origin.length() ) {
+        return false;
+      } else {
+        String part = origin.substring( 0, totest.length() );
+        return StringFunctions.compare( ! casesensitive, part, totest );
+      }
+    }
   }
 
   /**
@@ -626,8 +726,14 @@ public class StringFBuffer {
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
   public boolean endsWith( boolean casesensitive, @KNotEmpty(name="totest") String totest ) {
-    String part = origin.substring( origin.length() - totest.length() );
-    return StringFunctions.compare( ! casesensitive, part, totest );
+    synchronized( origin ) {
+      if( totest.length() > origin.length() ) {
+        return false;
+      } else {
+        String part = origin.substring( origin.length() - totest.length() );
+        return StringFunctions.compare( ! casesensitive, part, totest );
+      }
+    }
   }
   
   /**
