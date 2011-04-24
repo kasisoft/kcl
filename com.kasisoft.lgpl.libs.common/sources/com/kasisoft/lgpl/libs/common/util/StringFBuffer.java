@@ -933,23 +933,4 @@ public class StringFBuffer implements Serializable, CharSequence {
     }
   }
 
-  public static final void main( String[] args ) throws Exception {
-//    StringFBuffer buffer = new StringFBuffer();
-//    // buffer.append( "This was my 3 birthday on the 2 street." );
-//    buffer.append( "58817162" );
-//    String[] parts = buffer.splitRegex( "[0-9]+" );
-//    System.out.println( "count: " + parts.length );
-//    for( String part : parts ) {
-//      System.out.println( "-" + part + "-" );
-//    }
-//    System.out.println( "DONE" );
-    
-    StringFBuffer buffer = new StringFBuffer();
-    buffer.append( "This was my 3 birthday on the 2 street." );
-//    buffer.append( "58817162" );
-    buffer.replaceAll( "[0-9]+", "4" );
-    System.out.println( "DONE:" + buffer );
-    
-  }
-  
 } /* ENDCLASS */
