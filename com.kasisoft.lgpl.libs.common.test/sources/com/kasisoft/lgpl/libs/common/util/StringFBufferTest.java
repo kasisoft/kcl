@@ -76,6 +76,8 @@ public class StringFBufferTest {
     Assert.assertTrue  ( buffer.endsWith( false , "HERE !" ) );
     Assert.assertTrue  ( buffer.endsWith( "here !" ) );
     Assert.assertFalse ( buffer.endsWith( "HERE !" ) );
+    Assert.assertFalse ( buffer.endsWith( true  , "The frog is here ! Oops !" ) );
+    Assert.assertFalse ( buffer.endsWith( false , "The frog is here ! Oops !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers")
@@ -86,6 +88,8 @@ public class StringFBufferTest {
     Assert.assertTrue  ( buffer.startsWith( false , "THE" ) );
     Assert.assertTrue  ( buffer.startsWith( "The" ) );
     Assert.assertFalse ( buffer.startsWith( "THE" ) );
+    Assert.assertFalse ( buffer.startsWith( true  , "The frog is here ! Oops !" ) );
+    Assert.assertFalse ( buffer.startsWith( false , "The frog is here ! Oops !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers")
