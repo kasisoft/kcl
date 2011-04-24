@@ -65,6 +65,7 @@
       <class name="com.kasisoft.lgpl.libs.common.xml.adapters.InsetsAdapterTest"/>
       <class name="com.kasisoft.lgpl.libs.common.xml.adapters.ColorAdapterTest"/>
       <class name="com.kasisoft.lgpl.libs.common.xml.adapters.URLAdapterTest"/>
+      <class name="com.kasisoft.lgpl.libs.common.workspace.WorkspaceTest"/>
     </classes>
   </test>
 </suite>
