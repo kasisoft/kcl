@@ -10,41 +10,57 @@ package com.kasisoft.lgpl.libs.common.util;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
+import java.util.regex.*;
+
+import java.util.*;
+
+import java.io.*;
+
 /**
  * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which means
  * that the original index is calculated beginning from the end of the buffer.
  */
 @KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
-public class StringFBuffer {
+public class StringFBuffer implements Serializable, CharSequence {
 
-  private StringBuffer   origin;
+  static final long serialVersionUID = 0x7ABEDA21D57AD988L;
+  
+  // only used for temporary purposes
+  private transient List<String>   collector;
+  
+  // the original implementation
+  private           StringBuffer   origin;
   
   /**
    * @see StringBuffer#StringBuffer()
    */
   public StringFBuffer() {
-    origin = new StringBuffer();
+    origin    = new StringBuffer();
+    collector = new ArrayList<String>();
   }
 
   /**
    * @see StringBuffer#StringBuffer(int)
    */
   public StringFBuffer( int capacity ) {
-    origin = new StringBuffer( capacity );
+    origin    = new StringBuffer( capacity );
+    collector = new ArrayList<String>();
   }
 
   /**
    * @see StringBuffer#StringBuffer(String)
    */
   public StringFBuffer( String str ) {
-    origin = new StringBuffer( str );
+    origin    = new StringBuffer( str );
+    collector = new ArrayList<String>();
   }
 
   /**
    * @see StringBuffer#StringBuffer(CharSequence)
    */
   public StringFBuffer( CharSequence seq ) {
-    origin = new StringBuffer( seq );
+    origin    = new StringBuffer( seq );
+    collector = new ArrayList<String>();
   }
 
   /**
@@ -777,4 +793,163 @@ public class StringFBuffer {
     return this;
   }
 
+  /**
+   * Returns a splitted representation of this buffer except the delimiting characters. In difference to the function
+   * {@link String#split(String)} this one doesn't use a regular expression.
+   * 
+   * @param delimiters   A list of characters providing the delimiters for the splitting. 
+   *                     Neither <code>null</code> nor empty.
+   *                     
+   * @return   A splitted list without the delimiting character. Not <code>null</code>.
+   */
+  public String[] split( @KNotEmpty(name="delimiters") String delimiters ) {
+    synchronized( origin ) {
+      collector.clear();
+      StringTokenizer tokenizer = new StringTokenizer( origin.toString(), delimiters, false );
+      while( tokenizer.hasMoreTokens() ) {
+        collector.add( tokenizer.nextToken() );
+      }
+      return collector.toArray( new String[ collector.size() ] );
+    }
+  }
+  
+  /**
+   * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
+   * 
+   * @param regex   A regular expression used for the splitting. Neither <code>null</code> nor empty.
+   *                     
+   * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
+   */
+  public String[] splitRegex( @KNotEmpty(name="regex") String regex ) {
+    synchronized( origin ) {
+      collector.clear();
+      Pattern pattern = Pattern.compile( regex );
+      Matcher matcher = pattern.matcher( origin );
+      int     last    = 0;
+      boolean match   = false;
+      while( matcher.find() ) {
+        match         = true;
+        if( matcher.start() > last ) {
+          collector.add( origin.substring( last, matcher.start() ) );
+        }
+        last = matcher.end();
+      }
+      if( match && (last < origin.length() - 1 ) ) {
+        collector.add( origin.substring( last ) );
+      }
+      if( ! match ) {
+        // there was not at least one match
+        collector.add( origin.toString() );
+      }
+      return collector.toArray( new String[ collector.size() ] );
+    }
+  }
+
+  /**
+   * @see {@link String#replace(char, char)}
+   * 
+   * @param from   The character which has to be replaced.
+   * @param to     The character which has to be used instead.
+   * 
+   * @return   This buffer without <code>from</code> characters. Not <code>null</code>.
+   */
+  public StringFBuffer replace( char from, char to ) {
+    synchronized( origin ) {
+      for( int i = 0; i < origin.length(); i++ ) {
+        if( origin.charAt(i) == from ) {
+          origin.setCharAt( i, to );
+        }
+      }
+      return this;
+    }
+  }
+
+  /**
+   * Replaces all occurrences of a regular expression with a specified replacement.
+   * 
+   * @param regex         The regular expression used to select the fragments that will be replaced.
+   *                      Neither <code>null</code> nor empty.
+   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  public StringFBuffer replaceAll( @KNotEmpty(name="regex") String regex, @KNotNull(name="replacement") String replacement ) {
+    synchronized( origin ) {
+      Pattern pattern = Pattern.compile( regex );
+      Matcher matcher = pattern.matcher( origin );
+      while( matcher.find() ) {
+        origin.delete( matcher.start(), matcher.end() );
+        origin.insert( matcher.start(), replacement );
+      }
+      return this;
+    }
+  }
+
+  /**
+   * Like {@link #replaceAll(String, String)} but only the first occurrence of the regular expression will be replaced. 
+   * 
+   * @param regex         The regular expression used to select the fragments that will be replaced.
+   *                      Neither <code>null</code> nor empty.
+   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  public StringFBuffer replaceFirst( @KNotEmpty(name="regex") String regex, String replacement ) {
+    synchronized( origin ) {
+      Pattern pattern = Pattern.compile( regex );
+      Matcher matcher = pattern.matcher( origin );
+      if( matcher.find() ) {
+        origin.delete( matcher.start(), matcher.end() );
+        origin.insert( matcher.start(), replacement );
+      }
+      return this;
+    }
+  }
+
+  /**
+   * Like {@link #replaceAll(String, String)} but only the last occurrence of the regular expression will be replaced. 
+   * 
+   * @param regex         The regular expression used to select the fragments that will be replaced.
+   *                      Neither <code>null</code> nor empty.
+   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  public StringFBuffer replaceLast( @KNotEmpty(name="regex") String regex, String replacement ) {
+    synchronized( origin ) {
+      Pattern pattern   = Pattern.compile( regex );
+      Matcher matcher   = pattern.matcher( origin );
+      int     start     = -1;
+      int     end       = -1;
+      while( matcher.find() ) {
+        start = matcher.start();
+        end   = matcher.end();
+      }
+      if( start != -1 ) {
+        origin.delete( start, end );
+        origin.insert( start, replacement );
+      }
+      return this;
+    }
+  }
+
+  public static final void main( String[] args ) throws Exception {
+//    StringFBuffer buffer = new StringFBuffer();
+//    // buffer.append( "This was my 3 birthday on the 2 street." );
+//    buffer.append( "58817162" );
+//    String[] parts = buffer.splitRegex( "[0-9]+" );
+//    System.out.println( "count: " + parts.length );
+//    for( String part : parts ) {
+//      System.out.println( "-" + part + "-" );
+//    }
+//    System.out.println( "DONE" );
+    
+    StringFBuffer buffer = new StringFBuffer();
+    buffer.append( "This was my 3 birthday on the 2 street." );
+//    buffer.append( "58817162" );
+    buffer.replaceAll( "[0-9]+", "4" );
+    System.out.println( "DONE:" + buffer );
+    
+  }
+  
 } /* ENDCLASS */

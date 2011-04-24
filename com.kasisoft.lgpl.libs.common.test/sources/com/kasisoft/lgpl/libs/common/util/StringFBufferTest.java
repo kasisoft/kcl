@@ -137,5 +137,92 @@ public class StringFBufferTest {
     Assert.assertEquals( buffer.lastIndexOf( "frog", "is" ),  9 );
     Assert.assertEquals( buffer.lastIndexOf( "Flansch"    ), -1 );
   }
+  
+  @Test(dataProvider="dataStringBuffers")
+  public void replace( StringFBuffer buffer ) {
+    buffer.append( "The frog is here !" );
+    Assert.assertEquals( buffer.replace( 'e', 'a' ).toString(), "Tha frog is hara !" );
+  }
+
+  @Test(dataProvider="dataStringBuffers")
+  public void split( StringFBuffer buffer ) {
+    
+    buffer.append( "This was my 3 birthday on the 2 street." );
+    String[] expected = new String[] {
+      "This", "was", "my", "3", "bir", "hday", "on", "he", "2", "s", "ree", "."
+    };
+    String[] parts    = buffer.split( " t" );
+    Assert.assertNotNull( parts );
+    Assert.assertEquals( parts.length, expected.length );
+    Assert.assertEquals( parts, expected );
+    
+    buffer.setLength(0);
+    buffer.append( "58817162" );
+    parts = buffer.split( "0123456789" );
+    Assert.assertNotNull( parts );
+    Assert.assertEquals( parts.length, 0 );
+  }
+
+  @Test(dataProvider="dataStringBuffers")
+  public void splitRegex( StringFBuffer buffer ) {
+    
+    buffer.append( "This was my 3 birthday on the 2 street." );
+    String[] expected = new String[] {
+      "This was my ", " birthday on the ", " street."
+    };
+    String[] parts    = buffer.splitRegex( "[0-9]+" );
+    Assert.assertNotNull( parts );
+    Assert.assertEquals( parts.length, expected.length );
+    Assert.assertEquals( parts, expected );
+    
+    buffer.setLength(0);
+    buffer.append( "58817162" );
+    parts = buffer.splitRegex( "[0-9]+" );
+    Assert.assertNotNull( parts );
+    Assert.assertEquals( parts.length, 0 );
+    
+  }
+
+  @Test(dataProvider="dataStringBuffers")
+  public void replaceAll( StringFBuffer buffer ) {
+    
+    buffer.append( "This was my 3 birthday on the 2 street." );
+    buffer.replaceAll( "[0-9]+", "abce" );
+    Assert.assertEquals( buffer.toString(), "This was my abce birthday on the abce street." );
+    
+    buffer.setLength(0);
+    buffer.append( "58817162" );
+    buffer.replaceAll( "[0-9]+", "dodo" );
+    Assert.assertEquals( buffer.toString(), "dodo" );
+    
+  }
+
+  @Test(dataProvider="dataStringBuffers")
+  public void replaceFirst( StringFBuffer buffer ) {
+    
+    buffer.append( "This was my 3 birthday on the 2 street." );
+    buffer.replaceFirst( "[0-9]+", "abce" );
+    Assert.assertEquals( buffer.toString(), "This was my abce birthday on the 2 street." );
+    
+    buffer.setLength(0);
+    buffer.append( "58817162" );
+    buffer.replaceFirst( "[0-9]+", "dodo" );
+    Assert.assertEquals( buffer.toString(), "dodo" );
+    
+  }
+
+  @Test(dataProvider="dataStringBuffers")
+  public void replaceLast( StringFBuffer buffer ) {
+    
+    buffer.append( "This was my 3 birthday on the 2 street." );
+    buffer.replaceLast( "[0-9]+", "abce" );
+    Assert.assertEquals( buffer.toString(), "This was my 3 birthday on the abce street." );
+    
+    buffer.setLength(0);
+    buffer.append( "58817162" );
+    buffer.replaceLast( "[0-9]+", "dodo" );
+    Assert.assertEquals( buffer.toString(), "dodo" );
+    
+  }
 
 } /* ENDCLASS */
