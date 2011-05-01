@@ -385,10 +385,41 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {
-      close( inchannel  );
-      close( outchannel );
-      close( instream   );
-      close( outstream  );
+      MiscFunctions.close( inchannel  );
+      MiscFunctions.close( outchannel );
+      MiscFunctions.close( instream   );
+      MiscFunctions.close( outstream  );
+    }
+  }
+  
+  /**
+   * Copies the content from one directory to another directory. Destination directories will be created as needed.
+   * 
+   * @param input       The directory which contains the content. Must be a valid directory.
+   * @param output      The destination where to write the content to. Not <code>null</code>.
+   * @param recursive   <code>true</code> <=> Copy subdirectories, too.
+   * 
+   * @throws FailureException when the copying process fails for some reason.
+   */
+  public static final void copyDir( 
+    @KDirectory(name="input")                  File      input, 
+    @KDirectory(name="output", exists=false)   File      output,
+                                               boolean   recursive
+  ) {
+    if( ! output.exists() ) {
+      mkdirs( output );
+    }
+    File[] children = input.listFiles();
+    for( int i = 0; i < children.length; i++ ) {
+      File newchild = new File( output, children[i].getName() );
+      if( children[i].isFile() ) {
+        copy( children[i], newchild );
+      } else if( children[i].isDirectory() ) {
+        mkdirs( newchild );
+        if( recursive ) {
+          copyDir( children[i], newchild, true );
+        }
+      }
     }
   }
   
@@ -546,7 +577,7 @@ public class IoFunctions {
       input = newFileInputStream( file );
       copy( input, byteout, buffersize );
     } finally {
-      close( true, input );
+      MiscFunctions.close( true, input );
     }
     return byteout.toByteArray();
   }
@@ -574,7 +605,7 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {
-      close( true, input );
+      MiscFunctions.close( true, input );
     }
     return byteout.toByteArray();
   }
@@ -653,7 +684,7 @@ public class IoFunctions {
       reader = Encoding.openReader( file, encoding );
       copy( reader, charout, buffersize );
     } finally {
-      close( reader );
+      MiscFunctions.close( reader );
     }
     return charout.toCharArray();
   }
@@ -725,7 +756,7 @@ public class IoFunctions {
       reader = Encoding.openReader( input, encoding );
       return readText( reader, trim, emptylines );
     } finally {
-      close( reader );
+      MiscFunctions.close( reader );
     }
   }
 
@@ -750,7 +781,7 @@ public class IoFunctions {
       reader = Encoding.openReader( input, encoding );
       return readText( reader, false, true );
     } finally {
-      close( reader );
+      MiscFunctions.close( reader );
     }
   }
 
@@ -855,7 +886,7 @@ public class IoFunctions {
       input = newFileInputStream( file );
       return loadFragment( input, offset, length );
     } finally {
-      close( input );
+      MiscFunctions.close( input );
     }
   }
   
@@ -964,7 +995,7 @@ public class IoFunctions {
       input = newFileInputStream( file );
       return crc32( input, crc, buffersize );
     } finally {
-      close( input );
+      MiscFunctions.close( input );
     }
   }
 
@@ -985,7 +1016,7 @@ public class IoFunctions {
       input = newFileInputStream( file );
       return crc32( input, null, null );
     } finally {
-      close( input );
+      MiscFunctions.close( input );
     }
   }
 
@@ -1024,7 +1055,7 @@ public class IoFunctions {
         printer.println( lines.get(i) );
       }
     } finally {
-      close( printer );
+      MiscFunctions.close( printer );
     }
   }
 
@@ -1047,7 +1078,7 @@ public class IoFunctions {
         printer.println( lines.get(i) );
       }
     } finally {
-      close( printer );
+      MiscFunctions.close( printer );
     }
   }
 
@@ -1071,7 +1102,7 @@ public class IoFunctions {
       output = newFileOutputStream( file );
       writeText( output, lines, encoding );
     } finally {
-      close( output );
+      MiscFunctions.close( output );
     }
   }
   
@@ -1092,7 +1123,7 @@ public class IoFunctions {
       printer = Encoding.openPrintStream( output, encoding );
       printer.print( text );
     } finally {
-      close( printer );
+      MiscFunctions.close( printer );
     }
   }
   
@@ -1113,7 +1144,7 @@ public class IoFunctions {
       output = newFileOutputStream( file );
       writeText( output, text, encoding );
     } finally {
-      close( output );
+      MiscFunctions.close( output );
     }
   }
   
@@ -1134,7 +1165,7 @@ public class IoFunctions {
       output = newFileOutputStream( file );
       writeBytes( output, content );
     } finally {
-      close( output );
+      MiscFunctions.close( output );
     }
   }
 
@@ -1176,7 +1207,7 @@ public class IoFunctions {
       writer = encoding.openWriter( file );
       writeCharacters( writer, content );
     } finally {
-      close( writer );
+      MiscFunctions.close( writer );
     }
   }
 
