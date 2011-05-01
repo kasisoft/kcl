@@ -12,8 +12,6 @@ import com.kasisoft.lgpl.libs.common.constants.*;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
-import org.testng.annotations.*;
-
 import org.testng.*;
 
 import java.util.*;
@@ -23,7 +21,6 @@ import java.io.*;
 /**
  * Collection of utility functions.
  */
-@Test(groups="all")
 public class Utilities {
 
   public static final List<File> createFileSystemStructure( File basedir ) {
@@ -86,6 +83,30 @@ public class Utilities {
     byte[]  data    = createByteBlock();
     IoFunctions.writeBytes( result, data );
     return result;
+  }
+  
+  public static final File createRandomDirectory() {
+    File result = IoFunctions.newTempFile();
+    IoFunctions.mkdirs( result );
+    int  count  = 20 + (int) (Math.random() * 100);
+    fill( result, count );
+    return result;
+  }
+  
+  private static final void fill( File dir, int count ) {
+    count--;
+    boolean createdir = ((int) (Math.random() * 100)) % 2 == 0;
+    File    newchild  = new File( dir, String.format( "child%d", Integer.valueOf( count ) ) ); 
+    if( createdir ) {
+      IoFunctions.mkdirs( newchild );
+      fill( newchild, count );
+    } else {
+      byte[]  data    = createByteBlock();
+      IoFunctions.writeBytes( newchild, data );
+      if( count > 0 ) {
+        fill( dir, count );
+      }
+    }
   }
 
   public static final File createRandomCharacterFile() {

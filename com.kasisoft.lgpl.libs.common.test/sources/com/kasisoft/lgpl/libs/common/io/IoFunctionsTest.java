@@ -124,6 +124,16 @@ public class IoFunctionsTest {
   }
   
   @Test
+  public void copyDir() {
+    
+    File tempdir1 = Utilities.createRandomDirectory();
+    File tempdir2 = IoFunctions.newTempFile();
+    IoFunctions.copyDir( tempdir1, tempdir2, true );
+    Assert.assertEquals( tempdir2, tempdir1, "Comparing directories." );
+    
+  }
+  
+  @Test
   public void copyReaderToWriter() throws IOException {
     
     char[]           data    = "MY DATA".toCharArray();
