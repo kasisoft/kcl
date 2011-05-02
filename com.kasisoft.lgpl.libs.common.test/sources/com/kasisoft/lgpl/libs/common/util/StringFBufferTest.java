@@ -194,6 +194,11 @@ public class StringFBufferTest {
     buffer.append( "58817162" );
     buffer.replaceAll( "[0-9]+", "dodo" );
     Assert.assertEquals( buffer.toString(), "dodo" );
+   
+    buffer.setLength(0);
+    buffer.append( "This was my 43356 birthday on the 233120 street 2928010." );
+    buffer.replaceAll( "[0-9]+", "abce" );
+    Assert.assertEquals( buffer.toString(), "This was my abce birthday on the abce street abce." );
     
   }
 
