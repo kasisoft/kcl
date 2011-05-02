@@ -875,11 +875,17 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer replaceAll( @KNotEmpty(name="regex") String regex, @KNotNull(name="replacement") String replacement ) {
     synchronized( origin ) {
-      Pattern pattern = Pattern.compile( regex );
-      Matcher matcher = pattern.matcher( origin );
+      Pattern     pattern = Pattern.compile( regex );
+      Matcher     matcher = pattern.matcher( origin );
+      List<int[]> matches = new ArrayList<int[]>();
       while( matcher.find() ) {
-        origin.delete( matcher.start(), matcher.end() );
-        origin.insert( matcher.start(), replacement );
+        matches.add( new int[] { matcher.start(), matcher.end() } );
+      }
+      for( int i = matches.size() - 1; i >= 0; i-- ) {
+        int start = matches.get(i)[0];
+        int end   = matches.get(i)[1];
+        origin.delete( start, end         );
+        origin.insert( start, replacement );
       }
       return this;
     }
