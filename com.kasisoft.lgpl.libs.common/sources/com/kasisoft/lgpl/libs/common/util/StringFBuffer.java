@@ -822,8 +822,20 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public String[] splitRegex( @KNotEmpty(name="regex") String regex ) {
     synchronized( origin ) {
+      return splitRegex( Pattern.compile( regex ) );
+    }
+  }
+  
+  /**
+   * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
+   * 
+   * @param pattern   A pattern providing the regular expression used for the splitting. Not <code>null</code>.
+   *                     
+   * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
+   */
+  public String[] splitRegex( @KNotNull(name="pattern") Pattern pattern) {
+    synchronized( origin ) {
       collector.clear();
-      Pattern pattern = Pattern.compile( regex );
       Matcher matcher = pattern.matcher( origin );
       int     last    = 0;
       boolean match   = false;
@@ -875,7 +887,21 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer replaceAll( @KNotEmpty(name="regex") String regex, @KNotNull(name="replacement") String replacement ) {
     synchronized( origin ) {
-      Pattern     pattern = Pattern.compile( regex );
+      return replaceAll( Pattern.compile( regex ), replacement );
+    }
+  }
+  
+  /**
+   * Replaces all occurrences of a regular expression with a specified replacement.
+   * 
+   * @param pattern       The Pattern providing the regular expression for the substitution.
+   *                      Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  public StringFBuffer replaceAll( @KNotNull(name="pattern") Pattern pattern, @KNotNull(name="replacement") String replacement ) {
+    synchronized( origin ) {
       Matcher     matcher = pattern.matcher( origin );
       List<int[]> matches = new ArrayList<int[]>();
       while( matcher.find() ) {
@@ -902,7 +928,21 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer replaceFirst( @KNotEmpty(name="regex") String regex, String replacement ) {
     synchronized( origin ) {
-      Pattern pattern = Pattern.compile( regex );
+      return replaceFirst( Pattern.compile( regex ), replacement );
+    }
+  }
+  
+  /**
+   * Like {@link #replaceAll(String, String)} but only the first occurrence of the regular expression will be replaced. 
+   * 
+   * @param pattern       The Pattern providing the regular expression for the substitution.
+   *                      Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  public StringFBuffer replaceFirst( @KNotNull(name="pattern") Pattern pattern, String replacement ) {
+    synchronized( origin ) {
       Matcher matcher = pattern.matcher( origin );
       if( matcher.find() ) {
         origin.delete( matcher.start(), matcher.end() );
@@ -923,7 +963,21 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer replaceLast( @KNotEmpty(name="regex") String regex, String replacement ) {
     synchronized( origin ) {
-      Pattern pattern   = Pattern.compile( regex );
+      return replaceLast( Pattern.compile( regex ), replacement );
+    }
+  }
+  
+  /**
+   * Like {@link #replaceAll(String, String)} but only the last occurrence of the regular expression will be replaced. 
+   * 
+   * @param pattern       The Pattern providing the regular expression for the substitution.
+   *                      Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  public StringFBuffer replaceLast( @KNotNull(name="pattern") Pattern pattern, String replacement ) {
+    synchronized( origin ) {
       Matcher matcher   = pattern.matcher( origin );
       int     start     = -1;
       int     end       = -1;
