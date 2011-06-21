@@ -229,8 +229,16 @@ public final class XmlFunctions {
       if( encoding == null ) {
         encoding = Encoding.getDefault();
       }
+      String      method      = "xml";
+      Document    document    = node.getOwnerDocument();
+      if( document.getDocumentElement() != null ) {
+        if( "html".equalsIgnoreCase( document.getDocumentElement().getTagName() ) ) {
+          method = "html";
+        }
+      }
       Transformer transformer = factory.newTransformer();
-      transformer.setOutputProperty( OutputKeys.INDENT               , "yes" );
+      transformer.setOutputProperty( OutputKeys.METHOD               , method                 );
+      transformer.setOutputProperty( OutputKeys.INDENT               , "yes"                  );
       transformer.setOutputProperty( OutputKeys.ENCODING             , encoding.getEncoding() );
       // a transformer can generate output in different formats, so it doesn't know
       // about the target format which means that we have to alter the pi by our own
