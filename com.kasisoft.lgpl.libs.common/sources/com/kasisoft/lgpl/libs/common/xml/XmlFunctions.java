@@ -231,7 +231,7 @@ public final class XmlFunctions {
       }
       String      method      = "xml";
       Document    document    = node.getOwnerDocument();
-      if( document.getDocumentElement() != null ) {
+      if( (document != null) && (document.getDocumentElement() != null) ) {
         if( "html".equalsIgnoreCase( document.getDocumentElement().getTagName() ) ) {
           method = "html";
         }
