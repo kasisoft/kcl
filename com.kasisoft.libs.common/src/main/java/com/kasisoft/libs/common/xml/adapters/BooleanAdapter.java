@@ -6,22 +6,19 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
+package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
+import com.kasisoft.libs.common.util.*;
 
 /**
  * This is an adapter that allows to handle boolean values.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class BooleanAdapter extends NullSafeAdapter<String,Boolean> {
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( Boolean v ) {
     return v.toString();
   }
@@ -29,6 +26,7 @@ public class BooleanAdapter extends NullSafeAdapter<String,Boolean> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Boolean unmarshalImpl( String v ) {
     return Boolean.valueOf( MiscFunctions.parseBoolean( v ) );
   }

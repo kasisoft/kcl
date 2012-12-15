@@ -6,17 +6,15 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.libs.common.util;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
 
 import javax.xml.bind.annotation.adapters.*;
 
 /**
  * Accessor type for a simple property.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class SimpleProperty<T> {
 
   private String                 key;
@@ -25,14 +23,10 @@ public class SimpleProperty<T> {
   /**
    * Initialises this accessor using a specific key and an adapter used to access the type.
    * 
-   * @param property     The name of the property which has to be access. 
-   *                     Neither <code>null</code> nor empty. 
+   * @param property     The name of the property which has to be access. Neither <code>null</code> nor empty. 
    * @param xmladapter   The adapter used to convert the type. Not <code>null</code>.
    */
-  public SimpleProperty( 
-    @KNotEmpty(name="property")    String                 property, 
-    @KNotNull(name="xmladapter")   XmlAdapter<String,T>   xmladapter
-  ) {
+  public SimpleProperty( String property, XmlAdapter<String,T> xmladapter) {
     key     = property;
     adapter = xmladapter;
   }
@@ -44,10 +38,9 @@ public class SimpleProperty<T> {
    * 
    * @return   The stored value. Maybe <code>null</code>.
    * 
-   * @throws FailureException if the property value cannot be converted properly and the generation
-   *                          of failures is enabled.
+   * @throws FailureException if the property value cannot be converted properly and the generation of failures is enabled.
    */
-  public T get( @KNotNull(name="props") ExtProperties props ) {
+  public T get( ExtProperties props ) {
     return get( props, null );
   }
   
@@ -55,15 +48,13 @@ public class SimpleProperty<T> {
    * Returns the value stored within the supplied properties.
    * 
    * @param props      The Properties providing the values. Not <code>null</code>.
-   * @param defvalue   A default value in case there's no corresponding property value.
-   *                   Maybe <code>null</code>.
+   * @param defvalue   A default value in case there's no corresponding property value. Maybe <code>null</code>.
    * 
    * @return   The stored value. Maybe <code>null</code>.
    * 
-   * @throws FailureException if the property value cannot be converted properly and the generation
-   *                          of failures is enabled.
+   * @throws FailureException if the property value cannot be converted properly and the generation of failures is enabled.
    */
-  public T get( @KNotNull(name="props") ExtProperties props, T defvalue ) {
+  public T get( ExtProperties props, T defvalue ) {
     String value = props.getSimpleProperty( key );
     return unmarshal( props.getErrorHandler(), value, defvalue );
   }
@@ -74,10 +65,9 @@ public class SimpleProperty<T> {
    * @param props   The Properties which need to be altered. Not <code>null</code>.
    * @param value   The value which has to be set. Not <code>null</code>.
    * 
-   * @throws FailureException if the property value cannot be converted properly and the generation
-   *                          of failures is enabled.
+   * @throws FailureException if the property value cannot be converted properly and the generation of failures is enabled.
    */
-  public void set( @KNotNull(name="props") ExtProperties props, @KNotNull(name="value") T value ) {
+  public void set( ExtProperties props, T value ) {
     props.setSimpleProperty( key, marshal( props.getErrorHandler(), value ) );
   }
 
@@ -86,13 +76,14 @@ public class SimpleProperty<T> {
    * 
    * @param props   The Properties which need to be altered. Not <code>null</code>.
    */
-  public void remove( @KNotNull(name="props") ExtProperties props ) {
+  public void remove( ExtProperties props ) {
     props.removeSimpleProperty( key );
   }
   
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return key.hashCode();
   }
@@ -100,6 +91,7 @@ public class SimpleProperty<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return key;
   }
@@ -109,6 +101,7 @@ public class SimpleProperty<T> {
    * 
    * Equality assumes that only one instance with a specific key is being created.
    */
+  @Override
   public boolean equals( Object o ) {
     if( o == this ) {
       return true;
@@ -124,8 +117,7 @@ public class SimpleProperty<T> {
   /**
    * Marshals a value depending on the current adapter implementation.
    * 
-   * @param errorhandler   The {@link SimpleErrorHandler} implementation used to communicate errors.
-   *                       Maybe <code>null</code>.
+   * @param errorhandler   The {@link SimpleErrorHandler} implementation used to communicate errors. Maybe <code>null</code>.
    * @param value          The value that has to be marshalled. Not <code>null</code>.
    * 
    * @return   The marshalled value. Maybe <code>null</code>.
@@ -144,8 +136,7 @@ public class SimpleProperty<T> {
   /**
    * Unmarshals a value depending on the current adapter implementation.
    * 
-   * @param errorhandler   The {@link SimpleErrorHandler} implementation used to communicate errors.
-   *                       Maybe <code>null</code>.
+   * @param errorhandler   The {@link SimpleErrorHandler} implementation used to communicate errors. Maybe <code>null</code>.
    * @param value          The value that has to be unmarshalled. Not <code>null</code>.
    * @param defvalue       A default value to be used in case of a conversion error.
    * 

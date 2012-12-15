@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
+package com.kasisoft.libs.common.functionality;
 
 /**
  * Transforms an input into a specific output.

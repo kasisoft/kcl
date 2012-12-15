@@ -1,25 +1,21 @@
 /**
  * Name........: CellBorder
- * Description.: The CellBorder is similar to the borders known from spreadsheets where each
- *               edge can be selectively enabled. 
+ * Description.: The CellBorder is similar to the borders known from spreadsheets where each edge can be selectively 
+ *               enabled. 
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.swing.border;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.swing.border;
 
 import javax.swing.border.*;
 
 import java.awt.*;
 
 /**
- * The CellBorder is similar to the borders known from spreadsheets where each edge can be 
- * selectively enabled.
+ * The CellBorder is similar to the borders known from spreadsheets where each edge can be selectively enabled.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class CellBorder extends LineBorder {
 
   private boolean   left;
@@ -31,8 +27,7 @@ public class CellBorder extends LineBorder {
    * Initialises this border with selectively enabled edges.
    *  
    * @param color   The Color to be used.
-   * @param edges   The edges, where the order is: top, left, bottom, right. Any additional value 
-   *                is ignored.
+   * @param edges   The edges, where the order is: top, left, bottom, right. Any additional value is ignored.
    */
   public CellBorder( Color color, boolean ... edges ) {
     super( color );
@@ -44,8 +39,7 @@ public class CellBorder extends LineBorder {
    * 
    * @param color       The Color to be used.
    * @param thickness   The thickness of the line. Must be positive.
-   * @param edges       The edges, where the order is: top, left, bottom, right. Any additional 
-   *                    value is ignored.
+   * @param edges       The edges, where the order is: top, left, bottom, right. Any additional value is ignored.
    */
   public CellBorder( Color color, int thickness, boolean ... edges ) {
     super( color, thickness );
@@ -55,8 +49,7 @@ public class CellBorder extends LineBorder {
   /**
    * Enables/disables the edges which have to be painted.
    * 
-   * @param edges   The edges, where the order is: top, left, bottom, right. Any additional value is 
-   *                ignored.
+   * @param edges   The edges, where the order is: top, left, bottom, right. Any additional value is ignored.
    */
   private void setEdges( boolean ... edges ) {
     left   = false;
@@ -82,6 +75,7 @@ public class CellBorder extends LineBorder {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
     Color oldcolor = g.getColor();
     g.setColor( getLineColor() );

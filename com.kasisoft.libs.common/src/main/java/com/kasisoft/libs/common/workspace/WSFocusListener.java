@@ -1,19 +1,17 @@
 /**
  * Name........: WSFocusListener
- * Description.: A FocusListener implementation which stores the setting of a widget when it looses
- *               it's focus.
+ * Description.: A FocusListener implementation which stores the setting of a widget when it looses it's focus.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.workspace;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.workspace;
 
 import javax.swing.*;
 
 import java.awt.event.*;
+
 import java.awt.*;
 
 /**
@@ -28,13 +26,14 @@ public class WSFocusListener extends FocusAdapter {
    * 
    * @param key   The key used to persist the settings. Neither <code>null</code> nor empty.
    */
-  public WSFocusListener( @KNotEmpty(name="key") String key ) {
+  public WSFocusListener( String key ) {
     wsproperty = key;
   }
   
   /**
    * {@inheritDoc}
    */
+  @Override
   public void focusLost( FocusEvent evt ) {
     Component component = evt.getComponent();
     if( component instanceof JTextField ) {

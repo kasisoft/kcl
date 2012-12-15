@@ -6,9 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.io;
+package com.kasisoft.libs.common.io;
 
-import com.kasisoft.lgpl.libs.common.test.framework.*;
+import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
 
@@ -27,7 +27,7 @@ public class BasicFileFilterTest {
   private File              testdata;
   private BasicFileFilter   filter;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     testdata  = new File( "testdata" );
     filter    = new BasicFileFilter( ".txt" );
@@ -36,9 +36,9 @@ public class BasicFileFilterTest {
   @DataProvider(name="listingData")
   public Object[][] listingData() {
     return new Object[][] {
-      { "."             , Utilities.toList( "./.svn", "./bin", "./dir01", "./dir02", "./images", "./props", "./testfile.txt" ) },
-      { "dir01"         , Utilities.toList( "dir01/.svn", "dir01/dir03", "dir01/file04.txt" ) },
-      { "dir01/dir03"   , Utilities.toList( "dir01/dir03/.svn", "dir01/dir03/dir04", "dir01/dir03/file01.txt" ) }
+      { "."             , Utilities.toList( "./_svn", "./bin", "./dir01", "./images", "./props", "./testfile.txt" ) },
+      { "dir01"         , Utilities.toList( "dir01/_svn", "dir01/dir03", "dir01/file04.txt" ) },
+      { "dir01/dir03"   , Utilities.toList( "dir01/dir03/_svn", "dir01/dir03/dir04", "dir01/dir03/file01.txt" ) }
     };
   }
   

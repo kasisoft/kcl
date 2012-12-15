@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.graphics;
+package com.kasisoft.libs.common.graphics;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * Collection of constants used to identify image formats.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum PictureFormat {
 
   Bmp     ( true  , MimeType.Bitmap                 , "bmp" ),

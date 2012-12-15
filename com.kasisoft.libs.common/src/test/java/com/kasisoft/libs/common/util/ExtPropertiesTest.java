@@ -6,12 +6,10 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.libs.common.util;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.libs.common.io.*;
-
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.*;
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -45,10 +43,11 @@ public class ExtPropertiesTest {
   private File   simplefile;
   private File   evaluationfile;
   
-  @BeforeSuite
+  @BeforeTest
   public void init() {
-    simplefile      = new File( "testdata/props/simple.properties"     );
-    evaluationfile  = new File( "testdata/props/evaluation.properties" );
+    File dir        = new File( "testdata" );
+    simplefile      = new File( dir, "props/simple.properties"     );
+    evaluationfile  = new File( dir, "props/evaluation.properties" );
     Assert.assertTrue( simplefile     . isFile() );
     Assert.assertTrue( evaluationfile . isFile() );
   }

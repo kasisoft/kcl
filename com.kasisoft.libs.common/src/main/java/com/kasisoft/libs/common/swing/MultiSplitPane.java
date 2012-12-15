@@ -6,11 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.swing;
+package com.kasisoft.libs.common.swing;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 import javax.swing.*;
 
@@ -29,10 +27,7 @@ public class MultiSplitPane extends JPanel {
    * @param orientation   The orientation for the contained fields. Not <code>null</code>.
    * @param count         The number of fields to be provided. Minimum allowed value is 2.
    */
-  public MultiSplitPane( 
-      @KNotNull(name="orientation")   Orientation   orientation, 
-      @KIRange(name="count",min=2)    int           count
-  ) {
+  public MultiSplitPane( Orientation orientation, int count ) {
     this( orientation, count, false );
   }
   
@@ -41,14 +36,10 @@ public class MultiSplitPane extends JPanel {
    * 
    * @param orientation        The orientation for the contained fields. Not <code>null</code>.
    * @param count              The number of fields to be provided. Minimum allowed value is 2.
-   * @param continuouslayout   <code>true</code> <=> Enable continuous layouting while the divider location
-   *                                                 is still being changed.
+   * @param continuouslayout   <code>true</code> <=> Enable continuous layouting while the divider location is still 
+   *                                                 being changed.
    */
-  public MultiSplitPane( 
-    @KNotNull(name="orientation")   Orientation   orientation, 
-    @KIRange(name="count",min=2)    int           count, 
-                                    boolean       continuouslayout 
-  ) {
+  public MultiSplitPane( Orientation orientation, int count, boolean continuouslayout ) {
     super( new BorderLayout() );
     chain = new JSplitPane[ count - 1 ];
     for( int i = 0; i < chain.length; i++ ) {
@@ -76,7 +67,7 @@ public class MultiSplitPane extends JPanel {
    * 
    * @return   The field which was stored at the desired position. Maybe <code>null</code>.
    */
-  public Component getField( @KIPositive(name="index") int index ) {
+  public Component getField( int index ) {
     if( index >= 0 ) {
       if( index < chain.length ) {
         return chain[ index ].getTopComponent();
@@ -93,7 +84,7 @@ public class MultiSplitPane extends JPanel {
    * @param index       The position of the desired field. The value must be within the range {0, {@link #getFieldCount()} - 1} .
    * @param component   The Component which has to be set. Not <code>null</code>.
    */
-  public void setField( @KIPositive(name="index") int index, @KNotNull(name="component") Component component ) {
+  public void setField( int index, Component component ) {
     if( index >= 0 ) {
       if( index < chain.length ) {
         chain[ index ].setTopComponent( component );

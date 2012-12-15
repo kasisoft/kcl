@@ -7,20 +7,16 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
+package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
 
 import java.net.*;
 
 /**
- * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar 
- * which should be on the classpath. This catalog doesn't care about missing resources as they're
- * supposed to be made available afterwards.
+ * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 
+ * the classpath. This catalog doesn't care about missing resources as they're supposed to be made available afterwards.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 
   private static final String[] PRECONFIGURED = new String[] {
@@ -61,11 +57,9 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
   /**
    * Initialises this catalog.
    * 
-   * @param failifmissing   <code>true</code> <=> In case a resource could not be found a 
-   *                        FailureException is raised.
-   * @param lsaware         <code>true</code> <=> Support the LSResourceResolver interface, too. If 
-   *                        no appropriate DOM implementation can be found this could cause a 
-   *                        FailureException.
+   * @param failifmissing   <code>true</code> <=> In case a resource could not be found a FailureException is raised.
+   * @param lsaware         <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
+   *                        implementation can be found this could cause a FailureException.
    *                        
    * @throws FailureException if a resource is missing and causing a failure has been enabled.
    */
@@ -83,7 +77,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * @param publicid        A public id. Maybe <code>null</code>. 
    * @param resource        The resource associated with the id or a system id itself. Neither <code>null</code> nor empty.
    */
-  protected void registerResource( boolean failifmissing, String publicid, @KNotEmpty(name="resource") String resource ) {
+  protected void registerResource( boolean failifmissing, String publicid, String resource ) {
     URL url = getClass().getResource( resource );
     if( url != null ) {
       if( publicid != null ) {

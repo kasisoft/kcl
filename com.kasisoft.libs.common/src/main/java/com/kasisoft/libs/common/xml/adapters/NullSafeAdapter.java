@@ -6,22 +6,20 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.xml.adapters;
 
 import javax.xml.bind.annotation.adapters.*;
 
 /**
- * Simple adapter implementation which is <code>null</code> safe. This base implementation should
- * be used if <code>null</code> values are supposed to be adapter unchanged.
+ * Simple adapter implementation which is <code>null</code> safe. This base implementation should be used if
+ * <code>null</code> values are supposed to be adapter unchanged.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public abstract class NullSafeAdapter<F,T> extends XmlAdapter<F,T> {
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public final F marshal( T v ) throws Exception {
     if( v != null ) {
       return marshalImpl( v );
@@ -32,6 +30,7 @@ public abstract class NullSafeAdapter<F,T> extends XmlAdapter<F,T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public final T unmarshal( F v ) throws Exception {
     if( v != null ) {
       return unmarshalImpl( v );

@@ -6,21 +6,19 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.xml.adapters;
 
 import java.net.*;
 
 /**
  * Simple adapter for URL types.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class URLAdapter extends NullSafeAdapter<String,URL> {
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( URL v ) throws Exception {
     return v.toExternalForm();
   }
@@ -28,6 +26,7 @@ public class URLAdapter extends NullSafeAdapter<String,URL> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public URL unmarshalImpl( String v ) throws Exception {
     return new URL( v );
   }

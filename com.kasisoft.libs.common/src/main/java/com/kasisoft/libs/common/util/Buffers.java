@@ -6,25 +6,20 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.libs.common.util;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 import java.util.*;
 
 /**
- * Simple class used to provide buffers for temporary use. This is currently a straight forward
- * implementation and not optimized since I don't expect heavy usage. Next optimisation step 
- * would be the use of interval partitioning. Nevertheless this type provides buffers meant to be
- * reused especially in multi-threading environments.
+ * Simple class used to provide buffers for temporary use. This is currently a straight forward implementation and not 
+ * optimized since I don't expect heavy usage. Next optimisation step would be the use of interval partitioning. 
+ * Nevertheless this type provides buffers meant to be reused especially in multi-threading environments.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class Buffers<T> {
 
   private List<T>     allocated;
-  private List<T>     used;
   private Primitive   type;
   
   /**
@@ -34,7 +29,6 @@ public class Buffers<T> {
    */
   private Buffers( Primitive primitive ) {
     allocated = new ArrayList<T>();
-    used      = new ArrayList<T>();
     type      = primitive;
   }
   
@@ -68,11 +62,11 @@ public class Buffers<T> {
   }
   
   /**
-   * Allocates a block with a specified size. The returned block doesn't necessarily have the desired
-   * size so the returned block might be larger.
+   * Allocates a block with a specified size. The returned block doesn't necessarily have the desired size so the 
+   * returned block might be larger.
    * 
-   * @param size   The requested size of the returned buffer. A value of <code>null</code>
-   *               means that the default size has to be used (see {@link CommonProperty#BufferCount}).
+   * @param size   The requested size of the returned buffer. A value of <code>null</code> means that the default size 
+   *               has to be used (see {@link CommonProperty#BufferCount}).
    * 
    * @return   A block with the requested size. Neither <code>null</code> nor empty.
    */
@@ -87,7 +81,6 @@ public class Buffers<T> {
       value  = ((value / 1024) + 1) * 1024;
       result = (T) type.newArray( value );
     }
-    used.add( result );
     return result;
   }
   
@@ -96,15 +89,7 @@ public class Buffers<T> {
    * 
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
-  public synchronized void release( 
-    @KNotNull(name="data")   T   data 
-  ) {
-    if( used.contains( data ) ) {
-      used.remove( data );
-    } else {
-      // the block is not owned by this buffers, so do nothing
-      return;  
-    }
+  public synchronized void release( T data ) {
     if( allocated.isEmpty() ) {
       allocated.add( data );
     } else {
@@ -125,15 +110,6 @@ public class Buffers<T> {
   }
   
   /**
-   * Releases all currently allocated buffers.
-   */
-  public synchronized void releaseAll() {
-    while( ! used.isEmpty() ) {
-      release( used.remove(0) );
-    }
-  }
-
-  /**
    * Creates a Buffers management depending on the supplied type.
    * 
    * @param primitive   An identification for the primitive type. Not <code>null</code>.
@@ -142,17 +118,17 @@ public class Buffers<T> {
    *           safely casted to the desired Buffers instance. Not <code>null</code>.
    */
   @SuppressWarnings("unchecked")
-  public static final Buffers newBuffers( 
-    @KNotNull(name="primitive")   Primitive   primitive 
-  ) {
-              if( primitive == Primitive.PBoolean )    { return new Buffers<boolean[]>( primitive );
-    } else    if( primitive == Primitive.PByte    )    { return new Buffers<byte   []>( primitive );
-    } else    if( primitive == Primitive.PChar    )    { return new Buffers<char   []>( primitive );
-    } else    if( primitive == Primitive.PDouble  )    { return new Buffers<double []>( primitive );
-    } else    if( primitive == Primitive.PFloat   )    { return new Buffers<float  []>( primitive );
-    } else    if( primitive == Primitive.PInt     )    { return new Buffers<int    []>( primitive );
-    } else    if( primitive == Primitive.PLong    )    { return new Buffers<long   []>( primitive );
-    } else /* if( primitive == Primitive.Short    ) */ { return new Buffers<short  []>( primitive );
+  public static final Buffers newBuffers( Primitive primitive ) {
+    switch( primitive ) {
+    case PBoolean : return new Buffers<boolean[]>( primitive );
+    case PByte    : return new Buffers<byte   []>( primitive );
+    case PChar    : return new Buffers<char   []>( primitive );
+    case PDouble  : return new Buffers<double []>( primitive );
+    case PFloat   : return new Buffers<float  []>( primitive );
+    case PInt     : return new Buffers<int    []>( primitive );
+    case PLong    : return new Buffers<long   []>( primitive );
+    /* Primitive.Short */ 
+    default       : return new Buffers<short  []>( primitive );
     }
   }
   

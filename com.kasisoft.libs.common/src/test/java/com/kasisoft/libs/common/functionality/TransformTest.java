@@ -6,9 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
+package com.kasisoft.libs.common.functionality;
 
-import com.kasisoft.lgpl.libs.common.test.framework.*;
+import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
 
@@ -24,7 +24,7 @@ public class TransformTest {
 
   private Wrapper   wrapper;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     wrapper = new Wrapper();
   }
@@ -32,8 +32,8 @@ public class TransformTest {
   @DataProvider(name="invalidUses")
   public Object[][] invalidUses() {
     return new Object[][] {
-      { null    , Utilities.toList(3) },
-      { wrapper , null                },
+      { null    , Utilities.intsToList(3) },
+      { wrapper , null                    },
     };
   }
   
@@ -44,7 +44,7 @@ public class TransformTest {
   
   @Test
   public void runWrapper() {
-    List<List<Integer>> result = FuFunctions.map( wrapper, Utilities.toList( 3 ) );
+    List<List<Integer>> result = FuFunctions.map( wrapper, Utilities.intsToList( 3 ) );
     Assert.assertNotNull( result );
     Assert.assertEquals( result.size(), 1 );
     List<Integer>       first  = result.get(0);

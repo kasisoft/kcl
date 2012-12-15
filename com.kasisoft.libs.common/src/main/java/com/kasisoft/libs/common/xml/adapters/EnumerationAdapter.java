@@ -6,17 +6,15 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
+package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
 
 import java.util.*;
 
 /**
- * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is
- * supposed to realise the following constraints:
+ * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise 
+ * the following constraints:
  * 
  * <ul>
  *   <li>The parameter type must be an enumeration.</li>
@@ -25,7 +23,6 @@ import java.util.*;
  * </ul>
  * 
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
 
   private Class<T>        enumtype;
@@ -38,7 +35,7 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
    * 
    * @param type   The class of the enumeration which shall be adapted. Not <code>null</code>.
    */
-  public EnumerationAdapter( @KNotNull(name="type") Class<T> type ) {
+  public EnumerationAdapter( Class<T> type ) {
     this( type, false );
   }
   
@@ -48,7 +45,7 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    * @param caseinsensitive   <code>true</code> <=> Disable case sensitivity.
    */
-  public EnumerationAdapter( @KNotNull(name="type") Class<T> type, boolean caseinsensitive ) {
+  public EnumerationAdapter( Class<T> type, boolean caseinsensitive ) {
     enumtype    = type;
     ignorecase  = caseinsensitive;
     allowed     = new StringBuffer();
@@ -69,6 +66,7 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( T v ) {
     return v.toString();
   }
@@ -76,6 +74,7 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public T unmarshalImpl( String v ) {
     if( ignorecase ) {
       v = v.toLowerCase();

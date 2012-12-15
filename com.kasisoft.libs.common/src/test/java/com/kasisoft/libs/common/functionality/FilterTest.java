@@ -6,9 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
+package com.kasisoft.libs.common.functionality;
 
-import com.kasisoft.lgpl.libs.common.test.framework.*;
+import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
 
@@ -24,7 +24,7 @@ public class FilterTest {
 
   private Filter<Integer>   filter;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     filter = new EvenFilter();
   }
@@ -32,17 +32,17 @@ public class FilterTest {
   @DataProvider(name="createForOne")
   public Object[][] createForOne() {
     return new Object[][] {
-      { Integer.valueOf(0), Utilities.toList(7) },
-      { Integer.valueOf(1), Utilities.toList(8) },
+      { Integer.valueOf(0), Utilities.intsToList(7) },
+      { Integer.valueOf(1), Utilities.intsToList(8) },
     };
   }
 
   @DataProvider(name="createForMultiple")
   public Object[][] createForMultiple() {
     return new Object[][] {
-      { Integer.valueOf(2), Utilities.toList( 7, 8, 13, 14 ) },
-      { Integer.valueOf(2), Utilities.toList( 8, 13, 14 ) },
-      { Integer.valueOf(0), Utilities.toList( 7, 13 ) },
+      { Integer.valueOf(2), Utilities.intsToList( 7, 8, 13, 14 ) },
+      { Integer.valueOf(2), Utilities.intsToList( 8, 13, 14 ) },
+      { Integer.valueOf(0), Utilities.intsToList( 7, 13 ) },
     };
   }
   
@@ -50,7 +50,7 @@ public class FilterTest {
   public Object[][] invalidUses() {
     return new Object[][] {
       { filter, null },
-      { null,   Utilities.toList( 2, 4 ) },
+      { null,   Utilities.intsToList( 2, 4 ) },
       { null, null }
     };
   }

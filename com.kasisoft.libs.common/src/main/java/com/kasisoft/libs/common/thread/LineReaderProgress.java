@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.thread;
 
 /**
  * Progress information for the line reading Runnable.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class LineReaderProgress {
 
   private int   total;
@@ -50,7 +47,7 @@ public class LineReaderProgress {
    * 
    * @param newcurrent   The new number of currently copied lines.
    */
-  void setCurrent( @KIPositive(name="newcurrent", zero=true) int newcurrent ) {
+  void setCurrent( int newcurrent ) {
     current = newcurrent;
   }
   

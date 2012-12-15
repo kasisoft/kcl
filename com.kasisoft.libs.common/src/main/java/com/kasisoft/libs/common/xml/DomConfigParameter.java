@@ -6,15 +6,15 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
+package com.kasisoft.libs.common.xml;
 
 import org.w3c.dom.*;
 
 /**
  * Collection of parameters for the {@link DOMConfiguration} .
  * 
- * @see http://xerces.apache.org/xerces2-j/javadocs/api/org/w3c/dom/ls/LSSerializer.html [18-Feb-2011:KASI]
- * @see http://download.oracle.com/javase/1.5.0/docs/api/org/w3c/dom/DOMConfiguration.html [18-Feb-2011:KASI]
+ * @see http://xerces.apache.org/xerces2-j/javadocs/api/org/w3c/dom/ls/LSSerializer.html [09-Dec-2012:KASI]
+ * @see http://download.oracle.com/javase/1.5.0/docs/api/org/w3c/dom/DOMConfiguration.html [09-Dec-2012:KASI]
  */
 public enum DomConfigParameter {
 

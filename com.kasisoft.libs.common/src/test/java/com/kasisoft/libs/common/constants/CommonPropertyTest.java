@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
+package com.kasisoft.libs.common.constants;
 
 import org.testng.annotations.*;
 
@@ -55,7 +55,7 @@ public class CommonPropertyTest {
     Integer sleep       = CommonProperty.Sleep.getValue( noproperties, false );
     Assert.assertEquals( sleep, Integer.valueOf(100) );
     Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties, false );
-    Assert.assertEquals( buffersize, Integer.valueOf(4096) );
+    Assert.assertEquals( buffersize, Integer.valueOf(8192) );
     File    tempdir     = CommonProperty.TempDir.getValue( noproperties, false );
     Assert.assertEquals( tempdir, new File( SystemProperty.TempDir.getValue() ) );
   }

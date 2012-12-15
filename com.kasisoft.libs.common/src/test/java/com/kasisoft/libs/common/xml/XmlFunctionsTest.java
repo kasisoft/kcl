@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
+package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.libs.common.io.*;
-
-import com.kasisoft.lgpl.libs.common.base.*;
-
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.*;
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -37,7 +34,7 @@ public class XmlFunctionsTest {
   private File   testfile;
   private File   tempfile;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     File testdata = new File( "testdata" );
     simplexml     = new File( testdata, "simple.xml" );

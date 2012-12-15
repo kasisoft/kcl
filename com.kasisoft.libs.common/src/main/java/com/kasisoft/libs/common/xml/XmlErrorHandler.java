@@ -6,11 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
+package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 import org.xml.sax.*;
 
@@ -19,7 +17,6 @@ import java.util.*;
 /**
  * Default implementation of an ErrorHandler.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class XmlErrorHandler implements ErrorHandler {
 
   private int               errorcount;
@@ -54,8 +51,8 @@ public class XmlErrorHandler implements ErrorHandler {
   /**
    * Returns a full text representation of this fault used for presentations.
    * 
-   * @return   A full text representation of this fault used for presentations.
-   *           Neither <code>null</code> nor empty if {@link #hasErrors()}.
+   * @return   A full text representation of this fault used for presentations. Neither <code>null</code> nor empty 
+   *           if {@link #hasErrors()}.
    */
   public String getFaultMessage() {
     String       linesep  = SystemProperty.LineSeparator.getValue();
@@ -70,6 +67,7 @@ public class XmlErrorHandler implements ErrorHandler {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void error( SAXParseException ex ) throws SAXException {
     errorcount++;
     faults.add( newFault( XmlFault.FaultType.error, ex ) );
@@ -78,6 +76,7 @@ public class XmlErrorHandler implements ErrorHandler {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void fatalError( SAXParseException ex ) throws SAXException {
     errorcount++;
     faults.add( newFault( XmlFault.FaultType.fatal, ex ) );
@@ -86,6 +85,7 @@ public class XmlErrorHandler implements ErrorHandler {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void warning( SAXParseException ex ) throws SAXException {
     faults.add( newFault( XmlFault.FaultType.warning, ex ) );
   }

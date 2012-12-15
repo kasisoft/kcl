@@ -6,19 +6,15 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.xml.adapters;
 
 import java.text.*;
 
 import java.util.*;
 
 /**
- * An adapter used to convert a Date into a String and vice versa. Also note that this adapter is
- * not only used for jaxb.
+ * An adapter used to convert a Date into a String and vice versa. Also note that this adapter is not only used for jaxb.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class DateAdapter extends NullSafeAdapter<String,Date> {
 
   private static final String FORMAT_DEFAULT = "yyyy-MM-dd";
@@ -26,8 +22,7 @@ public class DateAdapter extends NullSafeAdapter<String,Date> {
   private SimpleDateFormat   formatter;
   
   /**
-   * Creates this adapter using the default format which is {@link #FORMAT_DEFAULT}. The default
-   * locale is {@link Locale#ENGLISH}.
+   * Creates this adapter using the default format which is {@link #FORMAT_DEFAULT}. The default locale is {@link Locale#ENGLISH}.
    */
   public DateAdapter() {
     this( null, null );
@@ -36,13 +31,12 @@ public class DateAdapter extends NullSafeAdapter<String,Date> {
   /**
    * Creates this adapter with a specified format.
    * 
-   * @param format   The format which has to be used. If not <code>null</code> it's not allowed
-   *                 to be empty. If <code>null</code> the default format {@link #FORMAT_DEFAULT} 
-   *                 is used.
-   * @param locale   The Locale instance to be used for the formatting/parsing. 
-   *                 If <code>null</code> {@link Locale#ENGLISH} is being used.
+   * @param format   The format which has to be used. If not <code>null</code> it's not allowed to be empty. 
+   *                 If <code>null</code> the default format {@link #FORMAT_DEFAULT} is used.
+   * @param locale   The Locale instance to be used for the formatting/parsing. If <code>null</code> 
+   *                 {@link Locale#ENGLISH} is being used.
    */
-  public DateAdapter( @KNotEmpty(name="format",nullable=true) String format, Locale locale ) {
+  public DateAdapter( String format, Locale locale ) {
     if( locale == null ) {
       locale = Locale.ENGLISH;
     }
@@ -55,6 +49,7 @@ public class DateAdapter extends NullSafeAdapter<String,Date> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( Date v ) {
     return formatter.format(v);
   }
@@ -62,6 +57,7 @@ public class DateAdapter extends NullSafeAdapter<String,Date> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Date unmarshalImpl( String v ) throws Exception {
     return formatter.parse( v );
   }

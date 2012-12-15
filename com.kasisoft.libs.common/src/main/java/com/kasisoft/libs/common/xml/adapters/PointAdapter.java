@@ -6,12 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
+package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-import com.kasisoft.lgpl.libs.common.base.*;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.regex.*;
 
@@ -20,7 +19,6 @@ import java.awt.*;
 /**
  * Adapter used to convert a String into a Point and vice versa.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class PointAdapter extends NullSafeAdapter<String,Point> {
 
   private static final String MSG_INVALIDPOINT  = "%s is not a valid Point";
@@ -37,8 +35,8 @@ public class PointAdapter extends NullSafeAdapter<String,Point> {
   /**
    * Initialises this adapter with the supplied delimiter.
    * 
-   * @param delim   The delimiter to be used for the textual representation.
-   *                If <code>null</code> or empty the default ',' is used.
+   * @param delim   The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
+   *                ',' is used.
    */
   public PointAdapter( String delim ) {
     delimiter = StringFunctions.cleanup( delim );
@@ -50,6 +48,7 @@ public class PointAdapter extends NullSafeAdapter<String,Point> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected String marshalImpl( Point v ) throws Exception {
     return String.format( "%d%s%d", Integer.valueOf( v.x ), delimiter, Integer.valueOf( v.y ) );
   }
@@ -57,6 +56,7 @@ public class PointAdapter extends NullSafeAdapter<String,Point> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected Point unmarshalImpl( String v ) throws Exception {
     String[] parts = v.split( Pattern.quote( delimiter ) );
     if( (parts == null) || (parts.length != 2) ) {

@@ -6,20 +6,17 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
+package com.kasisoft.libs.common.xml.adapters;
 
 /**
  * Simple adapter for String identity.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class StringAdapter extends NullSafeAdapter<String,String> {
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( String v ) {
     return v;
   }
@@ -27,6 +24,7 @@ public class StringAdapter extends NullSafeAdapter<String,String> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String unmarshalImpl( String v ) {
     return v;
   }

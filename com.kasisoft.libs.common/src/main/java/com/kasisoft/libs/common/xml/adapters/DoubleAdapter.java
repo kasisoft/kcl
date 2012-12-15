@@ -6,15 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
+package com.kasisoft.libs.common.xml.adapters;
 
 /**
  * Simple adapter for double types.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class DoubleAdapter extends NullSafeAdapter<String,Double> {
 
   private static final String NAN           = "NaN";
@@ -30,6 +26,7 @@ public class DoubleAdapter extends NullSafeAdapter<String,Double> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( Double v ) {
     return v.toString();
   }
@@ -37,6 +34,7 @@ public class DoubleAdapter extends NullSafeAdapter<String,Double> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Double unmarshalImpl( String v ) {
     if( NAN.equalsIgnoreCase( v ) ) {
       return Double.valueOf( Double.NaN );

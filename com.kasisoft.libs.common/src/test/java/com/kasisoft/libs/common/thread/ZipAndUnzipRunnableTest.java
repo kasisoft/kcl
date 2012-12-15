@@ -6,11 +6,10 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
+package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.lgpl.libs.common.io.*;
-
-import com.kasisoft.lgpl.libs.common.test.framework.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
 
@@ -57,7 +56,7 @@ public class ZipAndUnzipRunnableTest {
     thread.start();
     thread.join();
     Assert.assertTrue( runnable.hasCompleted() );
-    Assert.assertEquals( unpackeddir, directory, "Resources aren't equal !" );
+    AssertExtension.assertEquals( unpackeddir, directory );
   }
   
   @Test

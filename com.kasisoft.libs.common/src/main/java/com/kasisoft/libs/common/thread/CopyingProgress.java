@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
+package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * Progress information for byte/character copying processes.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class CopyingProgress {
 
   private int         total;
@@ -36,7 +33,7 @@ public class CopyingProgress {
    * 
    * @param newdatatype   The new datatype of items which are being copied. Not <code>null</code>.
    */
-  void setDatatype( @KNotNull(name="newdatatype") Primitive newdatatype ) {
+  void setDatatype( Primitive newdatatype ) {
     datatype = newdatatype;
   }
   
@@ -72,7 +69,7 @@ public class CopyingProgress {
    * 
    * @param newcurrent   The new number of currently copied items.
    */
-  void setCurrent( @KIPositive(name="newcurrent", zero=true) int newcurrent ) {
+  void setCurrent( int newcurrent ) {
     current = newcurrent;
   }
   

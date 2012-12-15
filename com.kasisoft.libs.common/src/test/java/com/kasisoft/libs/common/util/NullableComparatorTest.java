@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.*;
 
@@ -53,7 +53,7 @@ public class NullableComparatorTest {
   }
 
   @Test
-  public void sortWitDelegate() {
+  public void sortWithDelegate() {
     
     Comparator<Integer> delegate = new Comparator<Integer>() {
       public int compare( Integer o1, Integer o2 ) {

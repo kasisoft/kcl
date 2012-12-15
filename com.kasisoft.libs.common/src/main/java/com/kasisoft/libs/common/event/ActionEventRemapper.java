@@ -6,19 +6,16 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.event;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.event;
 
 import javax.swing.*;
 
 import java.awt.event.*;
 
 /**
- * Specialisation of a dispatcher which allows to change the 'source' of an ActionEvent. 
- * This listener implementation is typically used for composite widgets. 
+ * Specialisation of a dispatcher which allows to change the 'source' of an ActionEvent. This listener implementation 
+ * is typically used for composite widgets. 
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ActionEventRemapper extends ActionEventDispatcher implements ActionListener {
 
   private JComponent   newsource;
@@ -28,18 +25,16 @@ public class ActionEventRemapper extends ActionEventDispatcher implements Action
    * 
    * @param source   The new source to be used while firing events. Not <code>null</code>.
    */
-  public ActionEventRemapper(
-    @KNotNull(name="source") JComponent source 
-  ) {
-    super();
+  public ActionEventRemapper( JComponent source ) {
     newsource = source;
   }
   
   /**
    * {@inheritDoc}
    */
+  @Override
   public void actionPerformed( ActionEvent evt ) {
-    fireActionEvent( new ActionEvent( newsource, evt.getID(), evt.getActionCommand(), evt.getWhen(), evt.getModifiers() ) );
+    fireEvent( new ActionEvent( newsource, evt.getID(), evt.getActionCommand(), evt.getWhen(), evt.getModifiers() ) );
   }
   
 } /* ENDCLASS */

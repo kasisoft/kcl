@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.util;
 
 import java.util.*;
 
 /**
  * A Comparator implementation that is capable to handle <code>null</code> values.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class NullableComparator<T extends Comparable> implements Comparator<T> {
 
   private Comparator<T>   delegate;
@@ -30,8 +27,7 @@ public class NullableComparator<T extends Comparable> implements Comparator<T> {
   /**
    * Initialises this Comparator instance relying on the supplied Comparator.
    * 
-   * @param impl   A Comparator implementation used to perform the comparison for two values.
-   *               Maybe <code>null</code>.
+   * @param impl   A Comparator implementation used to perform the comparison for two values. Maybe <code>null</code>.
    */
   public NullableComparator( Comparator<T> impl ) {
     delegate = impl;
@@ -40,6 +36,7 @@ public class NullableComparator<T extends Comparable> implements Comparator<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public int compare( T o1, T o2 ) {
     if( (o1 == null) && (o2 == null) ) {
       return 0;

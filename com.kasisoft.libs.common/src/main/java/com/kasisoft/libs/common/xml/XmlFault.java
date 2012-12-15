@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
 
 /**
  * Simple datastructure representing a fault within a xml document.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class XmlFault {
   
   public static enum FaultType {
@@ -33,7 +30,7 @@ public class XmlFault {
    * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
    * @param ex          The original exception. Not <code>null</code>.
    */
-  public XmlFault( @KNotNull(name="faulttype") FaultType faulttype, @KNotEmpty(name="ex") SAXParseException ex ) {
+  public XmlFault( FaultType faulttype, SAXParseException ex ) {
     type    = faulttype;
     message = ex.getMessage();
     column  = ex.getColumnNumber();
@@ -46,7 +43,7 @@ public class XmlFault {
    * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
    * @param msg         The original message. Not <code>null</code>.
    */
-  public XmlFault( @KNotNull(name="faulttype") FaultType faulttype, @KNotEmpty(name="msg") String msg ) {
+  public XmlFault( FaultType faulttype, String msg ) {
     type    = faulttype;
     message = msg;
     column  = -1;
@@ -104,7 +101,7 @@ public class XmlFault {
    * 
    * @param newmessage   The new message. Neither <code>null</code> nor empty.
    */
-  public void setMessage( @KNotEmpty(name="newmessage") String newmessage ) {
+  public void setMessage( String newmessage ) {
     message = newmessage;
   }
   

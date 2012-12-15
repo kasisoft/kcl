@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
+package com.kasisoft.libs.common.functionality;
 
 import org.testng.annotations.*;
 
@@ -24,7 +24,7 @@ public class PredefinedTest {
   private Filter<Object>   isevenfilter;
   private List<Object>     inputlist;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     integerfilter = new IsInteger();
     isevenfilter  = new IsEven();

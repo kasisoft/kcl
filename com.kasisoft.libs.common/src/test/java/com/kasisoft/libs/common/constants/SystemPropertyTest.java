@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
+package com.kasisoft.libs.common.constants;
 
 import org.testng.annotations.*;
 
@@ -25,7 +25,7 @@ public class SystemPropertyTest {
   private Properties   systemproperties;
   private Properties   noproperties;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     noproperties      = new Properties();
     systemproperties  = new Properties();

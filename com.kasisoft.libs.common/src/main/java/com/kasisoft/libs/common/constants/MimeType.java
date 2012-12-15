@@ -1,25 +1,22 @@
 /**
  * Name........: MimeType
- * Description.: 
+ * Description.: Collection of mime types.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.constants;
 
 import java.util.*;
 
 /**
- * @source [15-Feb-2010:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
+ * @spec [09-Dec-2012:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
  * 
- * Alternate and more official: @source [15-Feb-2010:KASI]   http://www.iana.org/assignments/media-types
+ * Alternate and more official: @source [09-Dec-2012:KASI]   http://www.iana.org/assignments/media-types
  * 
- * @note [15-Feb-2010:KASI]   Not all types have been used here.
+ * @note [09-Dec-2012:KASI]   Not all types have been used here.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum MimeType {
 
   GZip                        ( "application/gzip"              , "gz"                                ),  // GNU Zip
@@ -58,22 +55,18 @@ public enum MimeType {
   Xml                         ( "text/xml"                      , "xml"                               ),  // xml files
   Sgml                        ( "text/x-sgml"                   , "sgm", "sgml"                       );  // SGML-files
 
-  private String     mimetype;
-  private String[]   suffices;
+  private String         mimetype;
+  private List<String>   suffices;
   
   MimeType( String type, String ... suffixlist ) {
     mimetype  = type;
-    suffices  = suffixlist;
-    if( suffices == null ) {
-      suffices  = new String[0];
-    }
+    suffices  = Collections.unmodifiableList( Arrays.asList( suffixlist ) );
   }
   
   /**
    * Returns the mime type as it appears in internet related messages/documents.
    * 
-   * @return   The mime type as it appears in internet related messages/documents. 
-   *           Neither <code>null</code> nor empty.
+   * @return   The mime type as it appears in internet related messages/documents. Neither <code>null</code> nor empty.
    */
   public String getMimeType() {
     return mimetype;
@@ -86,7 +79,7 @@ public enum MimeType {
    * @return   A list of suffices supported by this mime type. Not <code>null</code>.
    */
   public List<String> getSuffices() {
-    return Arrays.asList( suffices );
+    return suffices;
   }
   
   /**
@@ -96,13 +89,8 @@ public enum MimeType {
    * 
    * @return   <code>true</code> <=> The supplied suffix is supported by this mime type.
    */
-  public boolean supportsSuffix( @KNotEmpty(name="suffix") String suffix ) {
-    for( String current : suffices ) {
-      if( current.equalsIgnoreCase( suffix ) ) {
-        return true;
-      }
-    }
-    return false;
+  public boolean supportsSuffix( String suffix ) {
+    return suffices.contains( suffix.toLowerCase() );
   }
   
   /**
@@ -112,7 +100,7 @@ public enum MimeType {
    * 
    * @return   The MimeType if it could be found or <code>null</code>.
    */
-  public static final MimeType valueByMimeType( @KNotEmpty(name="type") String type ) {
+  public static final MimeType valueByMimeType( String type ) {
     for( MimeType mime : MimeType.values() ) {
       if( type.equalsIgnoreCase( mime.mimetype ) ) {
         return mime;
@@ -126,9 +114,9 @@ public enum MimeType {
    * 
    * @param suffix   The suffix used to identify a filetype. Neither <code>null</code> nor empty.
    * 
-   * @return   A set of supporting mime types. Not <code>null</code>.
+   * @return   A set of supporting mime types. Not <code>null</code>. [U]
    */
-  public static final Set<MimeType> valuesBySuffix( @KNotEmpty(name="suffix") String suffix ) {
+  public static final Set<MimeType> valuesBySuffix( String suffix ) {
     Set<MimeType> result = new HashSet<MimeType>();
     for( MimeType mime : MimeType.values() ) {
       if( mime.supportsSuffix( suffix ) ) {

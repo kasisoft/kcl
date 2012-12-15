@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.xml.adapters;
 
 import java.io.*;
 
 /**
  * Simple adapter for File types.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FileAdapter extends NullSafeAdapter<String,File> {
 
   private boolean   canonical;
@@ -31,6 +28,7 @@ public class FileAdapter extends NullSafeAdapter<String,File> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( File v ) throws Exception {
     if( canonical ) {
       v = v.getCanonicalFile();
@@ -41,6 +39,7 @@ public class FileAdapter extends NullSafeAdapter<String,File> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public File unmarshalImpl( String v ) throws Exception {
     File result = new File( v.replace( '\\', '/' ).replace( '/', File.separatorChar ) );
     if( canonical ) {

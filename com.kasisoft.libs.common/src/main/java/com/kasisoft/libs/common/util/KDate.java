@@ -6,24 +6,23 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.libs.common.util;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 import java.text.*;
 
 import java.util.*;
 
 /**
- * Convenience class used to represent a date information. Initially I intended to create a 
- * descendant of java.util.Date but that would require to change the API which could be problematic 
- * in cases an instance would have been supplied to jre methods which wouldn't be aware of such API
- * differences. So this is a completely new Date class just meant as an aid.
+ * Convenience class used to represent a date information. Initially I intended to create a descendant of java.util.Date 
+ * but that would require to change the API which could be problematic in cases an instance would have been supplied to 
+ * jre methods which wouldn't be aware of such API differences. So this is a completely new Date class just meant as an 
+ * aid.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class KDate {
+
+  private static final SimpleDateFormat FORMATTER = new SimpleDateFormat( "dd.MM.yyyy" );
 
   private GregorianCalendar   calendar;
   
@@ -58,9 +57,7 @@ public class KDate {
    * 
    * @param day   The day within the month. [ 1 .. 31 ]
    */
-  public void setDay( 
-    @KIRange(name="day", min=1, max=31)   int   day 
-  ) {
+  public void setDay( int day ) {
     calendar.set( Calendar.DAY_OF_MONTH, day );
   }
 
@@ -88,9 +85,7 @@ public class KDate {
    * 
    * @param month   The new month which has to be set. Not <code>null</code>.
    */
-  public void setMonth( 
-    @KNotNull(name="month")   Month   month 
-  ) {
+  public void setMonth( Month month ) {
     calendar.set( Calendar.MONTH, month.getJreMonth() );
   }
 
@@ -108,7 +103,7 @@ public class KDate {
    * 
    * @paran year   The new year of this date. [ 1800 .. * ] 
    */
-  public void setYear( @KIRange(name="year", min=1800) int year ) {
+  public void setYear( int year ) {
     calendar.set( Calendar.YEAR, year );
   }
 
@@ -229,11 +224,9 @@ public class KDate {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
-    return
-      StringFunctions.decFormat2( getDay() ) + "." +
-      StringFunctions.decFormat2( getMonth().getNumber() ) + "." +
-      StringFunctions.decFormat4( getYear() );
+    return FORMATTER.format( toDate() );
   }
 
   /**
@@ -244,7 +237,7 @@ public class KDate {
    *                 
    * @return   A textual representation of this instance. Not <code>null</code>.
    */
-  public String toString( @KNotEmpty(name="format") String format ) {
+  public String toString( String format ) {
     SimpleDateFormat formatter = new SimpleDateFormat( format );
     return formatter.format( toDate() );
   }
@@ -252,6 +245,7 @@ public class KDate {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean equals( Object obj ) {
     if( obj == null ) {
       return false;

@@ -6,11 +6,10 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.test.framework;
+package com.kasisoft.libs.common.test.framework;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.libs.common.io.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.*;
 
 import org.testng.*;
 
@@ -22,7 +21,7 @@ import java.io.*;
  * Collection of utility functions.
  */
 public class Utilities {
-
+  
   public static final List<File> createFileSystemStructure( File basedir ) {
     List<File>    result    = new ArrayList<File>();
     int           count     = Math.max( (int) (Math.random() * 1000), 50 );
@@ -128,7 +127,7 @@ public class Utilities {
     return result;
   }
   
-  public static final List<Integer> toList( int ... args ) {
+  public static final List<Integer> intsToList( int ... args ) {
     List<Integer> result = new ArrayList<Integer>();
     for( int value : args ) {
       result.add( Integer.valueOf( value ) );

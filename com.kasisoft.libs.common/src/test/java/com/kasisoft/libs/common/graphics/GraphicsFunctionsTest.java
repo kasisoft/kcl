@@ -6,9 +6,10 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.graphics;
+package com.kasisoft.libs.common.graphics;
 
-import com.kasisoft.lgpl.libs.common.io.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.sys.*;
 
 import org.testng.annotations.*;
 
@@ -16,9 +17,9 @@ import org.testng.*;
 
 import java.util.*;
 
-import java.io.*;
-
 import java.awt.image.*;
+
+import java.io.*;
 
 /**
  * Tests for the utility class 'GraphicsFunctions'.
@@ -29,7 +30,7 @@ public class GraphicsFunctionsTest implements FilenameFilter {
   private File     images;
   private File[]   inputfiles;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     images          = new File( "testdata/images" );
     Assert.assertTrue( images.isDirectory() );
@@ -43,7 +44,9 @@ public class GraphicsFunctionsTest implements FilenameFilter {
     List<PictureFormat> formats = new ArrayList<PictureFormat>();
     for( PictureFormat format : PictureFormat.values() ) {
       if( format.isRasterFormat() ) {
-        formats.add( format );
+        if( (format != PictureFormat.Jpeg) || (! SystemInfo.getRunningOS().isUnixLike()) ) {
+          formats.add( format );
+        }
       }
     }
     Object[][]      result  = new Object[ formats.size() ][1];
@@ -64,6 +67,7 @@ public class GraphicsFunctionsTest implements FilenameFilter {
   public void convert( PictureFormat outformat ) {
     File tempdir = IoFunctions.newTempFile();
     tempdir.mkdirs();
+    Assert.assertTrue( tempdir.isDirectory() );
     for( File inputfile : inputfiles ) {
       BufferedImage image     = GraphicsFunctions.readImage( inputfile );
       Assert.assertNotNull( image );

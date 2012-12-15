@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.constants;
 
 /**
  * Collection of time units.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum TimeUnit {
 
   Millisecond  (                   1 ),
@@ -44,7 +41,7 @@ public enum TimeUnit {
    * 
    * @return   The amount of milliseconds representing that amount.
    */
-  public long amount( @KIPositive(name="number") int number ) {
+  public long amount( int number ) {
     return number * milliseconds;
   }
   

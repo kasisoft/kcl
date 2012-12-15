@@ -6,23 +6,22 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.util;
 
 import java.text.*;
 
 import java.util.*;
 
 /**
- * Convenience class used to represent a time information. Initially I intended to create a 
- * descendant of java.util.Date but that would require to change the API which could be problematic 
- * in cases an instance would have been supplied to jre methods which wouldn't be aware of such API
- * differences. So this is a completely new Date class just meant as an aid.
+ * Convenience class used to represent a time information. Initially I intended to create a descendant of 
+ * java.util.Date but that would require to change the API which could be problematic in cases an instance would have 
+ * been supplied to jre methods which wouldn't be aware of such API differences. So this is a completely new Date class 
+ * just meant as an aid.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class KTime {
 
+  private static final SimpleDateFormat FORMATTER = new SimpleDateFormat( "HH:mm:ss SSS" );
+  
   private GregorianCalendar   calendar;
   
   /**
@@ -56,9 +55,7 @@ public class KTime {
    * 
    * @param hours   The hour of the day. [ 0 .. 23 ]
    */
-  public void setHours( 
-    @KIRange(name="hours", min=0, max=23)   int   hours 
-  ) {
+  public void setHours( int hours ) {
     calendar.set( Calendar.HOUR_OF_DAY, hours );
   }
 
@@ -231,12 +228,9 @@ public class KTime {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
-    return
-      StringFunctions.decFormat2( getHours() ) + ":" +
-      StringFunctions.decFormat2( getMinutes() ) + ":" +
-      StringFunctions.decFormat2( getSeconds() ) + " " +
-      StringFunctions.decFormat3( getMilliseconds() );
+    return FORMATTER.format( toDate() );
   }
 
   /**
@@ -247,7 +241,7 @@ public class KTime {
    *                 
    * @return   A textual representation of this instance. Not <code>null</code>.
    */
-  public String toString( @KNotEmpty(name="format") String format ) {
+  public String toString( String format ) {
     SimpleDateFormat formatter = new SimpleDateFormat( format );
     return formatter.format( toDate() );
   }
@@ -275,6 +269,7 @@ public class KTime {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean equals( Object obj ) {
     if( obj == null ) {
       return false;

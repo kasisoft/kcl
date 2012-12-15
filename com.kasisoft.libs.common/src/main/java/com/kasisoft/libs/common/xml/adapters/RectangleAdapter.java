@@ -6,12 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
+package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-import com.kasisoft.lgpl.libs.common.base.*;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.regex.*;
 
@@ -20,7 +19,6 @@ import java.awt.*;
 /**
  * Adapter used to convert a String into a Point and vice versa.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class RectangleAdapter extends NullSafeAdapter<String,Rectangle> {
 
   private static final String MSG_INVALIDRECTANGLE  = "%s is not a valid Rectangle";
@@ -50,6 +48,7 @@ public class RectangleAdapter extends NullSafeAdapter<String,Rectangle> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected String marshalImpl( Rectangle v ) throws Exception {
     return String.format( "%d%s%d%s%d%s%d", Integer.valueOf( v.x ), delimiter, Integer.valueOf( v.y ), delimiter, Integer.valueOf( v.width ), delimiter, Integer.valueOf( v.height ) );
   }
@@ -57,6 +56,7 @@ public class RectangleAdapter extends NullSafeAdapter<String,Rectangle> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected Rectangle unmarshalImpl( String v ) throws Exception {
     String[] parts = v.split( Pattern.quote( delimiter ) );
     if( (parts == null) || (parts.length != 4) ) {

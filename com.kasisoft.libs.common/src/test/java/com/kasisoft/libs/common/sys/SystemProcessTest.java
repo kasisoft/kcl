@@ -6,10 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.sys;
+package com.kasisoft.libs.common.sys;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-
+import com.kasisoft.libs.common.base.*;
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -27,25 +26,17 @@ public class SystemProcessTest {
   private ByteArrayOutputStream   byteout;
   private ByteArrayOutputStream   byteerr;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     exefile        = null;
-    File   dir     = null;
-    String basedir = System.getProperty( "test.basedir" );
-    if( (basedir != null) && (basedir.length() > 0) ) {
-      dir = new File( basedir );
-    }
+    File   dir     = new File( "testdata" );
     String path    = null;
     if( SystemInfo.getRunningOS().isUnixLike() ) {
-      path = "testdata/bin/testprocess.unix.exe";
+      path = "bin/testprocess.unix.exe";
     } else {
-      path = "testdata/bin/testprocess.win32.exe";
+      path = "bin/testprocess.win32.exe";
     }
-    if( dir != null ) {
-      exefile       = new File( dir, path );
-    } else {
-      exefile       = new File( path );
-    }
+    exefile       = new File( dir, path );
     Assert.assertTrue( exefile.canExecute() );
     byteout       = new ByteArrayOutputStream();
     byteerr       = new ByteArrayOutputStream();

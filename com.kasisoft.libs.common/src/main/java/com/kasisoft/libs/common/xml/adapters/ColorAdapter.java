@@ -6,22 +6,21 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
+package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-import com.kasisoft.lgpl.libs.common.base.*;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
-import java.lang.reflect.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
+
 import java.awt.*;
+
+import java.lang.reflect.*;
 
 /**
  * Adapter used to convert a String into a Color and vice versa.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ColorAdapter extends NullSafeAdapter<String,Color> {
 
   private static final String MSG_INVALIDCOLOR  = "%s is not a valid Color";
@@ -50,6 +49,7 @@ public class ColorAdapter extends NullSafeAdapter<String,Color> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected String marshalImpl( Color v ) {
     return 
       String.format( 
@@ -64,6 +64,7 @@ public class ColorAdapter extends NullSafeAdapter<String,Color> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected Color unmarshalImpl( String v ) throws Exception {
     if( v.startsWith( "#" ) ) {
       return unmarshalNumerical( v );

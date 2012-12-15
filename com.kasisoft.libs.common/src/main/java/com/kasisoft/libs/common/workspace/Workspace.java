@@ -6,29 +6,27 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.workspace;
+package com.kasisoft.libs.common.workspace;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
 
-import com.kasisoft.lgpl.libs.common.util.*;
 
-import com.kasisoft.lgpl.libs.common.xml.adapters.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.xml.adapters.*;
 
 import javax.xml.bind.annotation.adapters.*;
 
 import java.util.*;
 
-import java.io.*;
-
 import java.awt.*;
+
+import java.io.*;
 
 /**
  * The Workspace allows to store various configuration information during the runtime.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public final class Workspace {
 
   private static Workspace       instance = null;
@@ -52,12 +50,11 @@ public final class Workspace {
   /**
    * Initialises this workspace using the supplied settings File for persistency.
    * 
-   * @param settings   The File where the settings have to be stored. Must be a writable File.
-   *                   Not <code>null</code>.
+   * @param settings   The File where the settings have to be stored. Must be a writable File. Not <code>null</code>.
    * 
    * @throws FailureException   Loading failed for some reason.
    */
-  private Workspace( @KFile(name="settings", right=KFile.Right.Write) File settings ) throws FailureException {
+  private Workspace( File settings ) throws FailureException {
     this();
     settingsfile = settings;
     isnew        = true;
@@ -69,8 +66,7 @@ public final class Workspace {
   }
   
   /**
-   * Returns <code>true</code> in case the configuration file had to be created while setting
-   * up this instance.
+   * Returns <code>true</code> in case the configuration file had to be created while setting up this instance.
    * 
    * @return   <code>true</code> <=> The configuration file had to be created.
    */
@@ -103,7 +99,7 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
    */
-  public void setString( @KNotEmpty(name="property") String property, String value ) {
+  public void setString( String property, String value ) {
     properties.setProperty( property, value );
   }
   
@@ -115,7 +111,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public String getString( @KNotEmpty(name="property") String property, String defvalue ) {
+  public String getString( String property, String defvalue ) {
     return properties.getProperty( property, defvalue );
   }
 
@@ -126,7 +122,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public String getString( @KNotEmpty(name="property") String property ) {
+  public String getString( String property ) {
     return properties.getProperty( property, null );
   }
 
@@ -136,7 +132,7 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
    */
-  public void setRectangle( @KNotEmpty(name="property") String property, Rectangle value ) {
+  public void setRectangle( String property, Rectangle value ) {
     set( Rectangle.class, property, value );
   }
   
@@ -148,7 +144,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public Rectangle getRectangle( @KNotEmpty(name="property") String property, Rectangle defvalue ) {
+  public Rectangle getRectangle( String property, Rectangle defvalue ) {
     return get( Rectangle.class, property, defvalue );
   }
 
@@ -159,7 +155,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public Rectangle getRectangle( @KNotEmpty(name="property") String property ) {
+  public Rectangle getRectangle( String property ) {
     return get( Rectangle.class, property, null );
   }
   
@@ -207,9 +203,9 @@ public final class Workspace {
   }
 
   /**
-   * Returns a Workspace instance used for the current runtime. If the property
-   * {@link CommonLibraryConstants#PROP_APPLICATIONFILE} has not been set, it will return
-   * a dummy instance always relying on default values.
+   * Returns a Workspace instance used for the current runtime. If the property 
+   * {@link CommonLibraryConstants#PROP_APPLICATIONFILE} has not been set, it will return a dummy instance always 
+   * relying on default values.
    * 
    * @return   A Workspace instance used for the current runtime. Not <code>null</code>.
    * 
@@ -226,7 +222,7 @@ public final class Workspace {
    * instance will be created.
    * 
    * @note [19-Dec-2010:KASI]   Supplying a parameter won't have any effect if an instance already has been created so
-   *                            it's advisable to create a new instance as early as possible when launching the
+   *                            it's advisable to create a new instance as early as possible when launching the 
    *                            application.
    *                            
    * @param settings   The file where all settings will be written, to. Maybe <code>null</code>.

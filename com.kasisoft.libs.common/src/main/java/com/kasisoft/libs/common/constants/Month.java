@@ -6,17 +6,15 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.constants;
 
 import java.text.*;
+
 import java.util.*;
 
 /**
  * Values to identify a month.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Month {
 
   January     ( Calendar.JANUARY   , 31 ),
@@ -43,7 +41,7 @@ public enum Month {
   /**
    * Initialises this constant.
    * 
-   * @param jre     The month contstant within the JRE..
+   * @param jre     The month contstant within the JRE.
    * @param days    The number of days.
    */
   Month( int jre, int days ) {
@@ -70,10 +68,7 @@ public enum Month {
    * @return   A long presentable text for this month. Neither <code>null</code> nor empty.
    */
   @SuppressWarnings("deprecation")
-  public String getPresentable(
-    @KNotNull(name="locale")
-    Locale locale 
-  ) {
+  public String getPresentable( Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "MMMM", locale );
     Date             date      = new Date();
     date.setMonth( jremonth );
@@ -97,10 +92,7 @@ public enum Month {
    * @return   A short presentable text for this month. Neither <code>null</code> nor empty.
    */
   @SuppressWarnings("deprecation")
-  public String getShortPresentable(
-    @KNotNull(name="locale")
-    Locale locale 
-  ) {
+  public String getShortPresentable( Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "MMM", locale );
     Date             date      = new Date();
     date.setMonth( jremonth );
@@ -170,16 +162,12 @@ public enum Month {
   }
 
   /**
-   * Returns the number of days for this month. To calculate the number of days for {@link #February} 
-   * the current year is used.
+   * Returns the number of days for this month. To calculate the number of days for {@link #February} the current year 
+   * is used.
    * 
    * @return   The number of days for this month. [ 1 .. result .. 31 ]
    */
-  @KIRange(min=1, max=31)
   public int getDayCount() {
-    if( this != February ) {
-      return daycount;
-    }
     return getDayCount( CURRENTYEAR );
   }
   
@@ -190,10 +178,7 @@ public enum Month {
    * 
    * @return   The number of days for this month. [ 1 .. result .. 31 ]
    */
-  @KIRange(min=1, max=31)
-  public int getDayCount( 
-    @KIRange(name="year", min=1800, max=2200)   int year 
-  ) {
+  public int getDayCount( int year ) {
     if( this != February ) {
       return daycount;
     }
@@ -225,53 +210,43 @@ public enum Month {
    * @return   The first weekday of the month. Not <code>null</code>.
    */
   @SuppressWarnings("deprecation")
-  public Weekday getFirstWeekday(
-    @KIRange(name="year", min=1800, max=2200)   int year 
-  ) {
+  public Weekday getFirstWeekday( int year ) {
     return Weekday.valueOf( new Date( year - 1900, jremonth, 1 ) );
   }
   
   /**
    * Returns the weekday of a specific day.
    * 
-   * @param day      The day within the month. [ 1 .. getDayCount ]
+   * @param day   The day within the month. [ 1 .. getDayCount ]
    * 
    * @return   The weekday of the specified day. Not <code>null</code>.
    */
-  public Weekday getWeekay( 
-    @KIRange(name="day", min=1, max=31)   int day 
-  ) {
+  public Weekday getWeekay( int day ) {
     return getWeekday( CURRENTYEAR, day );
   }
 
   /**
    * Returns the weekday of a specific day.
    * 
-   * @param year     The year we're currently using. [ 1800 .. year .. 2200 ]
-   * @param day      The day within the month. [ 1 .. getDayCount ]
+   * @param year   The year we're currently using. [ 1800 .. year .. 2200 ]
+   * @param day    The day within the month. [ 1 .. getDayCount ]
    * 
    * @return   The weekday of the specified day. Not <code>null</code>.
    */
   @SuppressWarnings("deprecation")
-  public Weekday getWeekday( 
-    @KIRange(name="year", min=1800, max=2200)   int year, 
-    @KIRange(name="day", min=1, max=31)         int day 
-  ) {
+  public Weekday getWeekday( int year, int day ) {
     return Weekday.valueOf( new Date( year - 1900, jremonth, day ) );
   }
   
   /**
    * Returns the month constant for the supplied Date.
    * 
-   * @param date    The date to be used. Not <code>null</code>.
+   * @param date   The date to be used. Not <code>null</code>.
    * 
    * @return   The month for the supplied date. 
    */
   @SuppressWarnings("deprecation")
-  public static final Month valueOf(
-    @KNotNull(name="date")
-    Date date 
-  ) {
+  public static final Month valueOf( Date date ) {
     int number = date.getMonth() + 1;
     for( Month month : Month.values() ) {
       if( month.jremonth == number ) {

@@ -6,15 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
+package com.kasisoft.libs.common.xml.adapters;
 
 /**
  * Simple adapter for integer types.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class IntegerAdapter extends NullSafeAdapter<String,Integer> {
 
   private static final String MAX   = "MAX";
@@ -23,6 +19,7 @@ public class IntegerAdapter extends NullSafeAdapter<String,Integer> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String marshalImpl( Integer v ) {
     return v.toString();
   }
@@ -30,6 +27,7 @@ public class IntegerAdapter extends NullSafeAdapter<String,Integer> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Integer unmarshalImpl( String v ) {
     if( MAX.equalsIgnoreCase( v ) ) {
       return Integer.valueOf( Integer.MAX_VALUE );

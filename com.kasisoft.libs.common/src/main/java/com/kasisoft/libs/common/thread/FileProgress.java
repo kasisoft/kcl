@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.thread;
 
 import java.io.*;
 
 /**
  * Progress information for file based Runnable implementations.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FileProgress {
   
   private int    total;
@@ -36,7 +33,7 @@ public class FileProgress {
    * 
    * @param newfile   The new file. Not <code>null</code>.
    */
-  void setFile( @KNotNull(name="newfile") File newfile ) {
+  void setFile( File newfile ) {
     file = newfile;
   }
   
@@ -72,7 +69,7 @@ public class FileProgress {
    * 
    * @param newcurrent   The new number of currently processed items.
    */
-  void setCurrent( @KIPositive(name="newcurrent", zero=true) int newcurrent ) {
+  void setCurrent( int newcurrent ) {
     current = newcurrent;
   }
   

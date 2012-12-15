@@ -6,22 +6,20 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
+package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.lgpl.libs.common.util.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.libs.common.io.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.zip.*;
+
 import java.io.*;
 
 /**
  * A Runnable that is used to ZIP a directory.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ZipRunnable extends AbstractRunnable {
 
   private File      zipfile;
@@ -44,14 +42,10 @@ public class ZipRunnable extends AbstractRunnable {
    * 
    * @param zip    The ZIP archive.
    * @param dir    The directory which shall be zipped.
-   * @param size   The size used for the internal buffers. A value of <code>null</code> means
-   *               that the default buffersize will be used.
+   * @param size   The size used for the internal buffers. A value of <code>null</code> means that the default 
+   *               buffersize will be used.
    */
-  public ZipRunnable( 
-    @KFile(name="zip", right=KFile.Right.Write)   File      zip, 
-    @KDirectory(name="dir")                       File      dir, 
-                                                  Integer   size 
-  ) {
+  public ZipRunnable( File zip, File dir, Integer size ) {
     zipfile    = zip;
     sourcedir  = dir;
     buffersize = size;
@@ -61,12 +55,13 @@ public class ZipRunnable extends AbstractRunnable {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected void execute() {
-    FileOutputStream fileout = null;
-    ZipOutputStream  zipout  = null;
+    OutputStream    fileout = null;
+    ZipOutputStream zipout  = null;
     try {
       buffer  = IoFunctions.allocateBytes( buffersize );
-      fileout = IoFunctions.newFileOutputStream ( zipfile );
+      fileout = IoFunctions.newOutputStream ( zipfile );
       zipout  = new ZipOutputStream  ( fileout );
       zipout.setMethod( ZipOutputStream.DEFLATED );
       zipout.setLevel(9);
@@ -120,7 +115,7 @@ public class ZipRunnable extends AbstractRunnable {
   private void packFile( ZipOutputStream zipout, String relative, File file ) throws IOException {
     InputStream input = null;
     try {
-      input           = IoFunctions.newFileInputStream( file );
+      input           = IoFunctions.newInputStream( file );
       ZipEntry zentry = new ZipEntry( relative );
       zipout.putNextEntry( zentry );
       IoFunctions.copy( input, zipout, buffer );
@@ -131,8 +126,7 @@ public class ZipRunnable extends AbstractRunnable {
   }
   
   /**
-   * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing an
-   * ExtendedRuntimeException.
+   * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing an {@link FailureException}.
    * 
    * @param ex   The cause of the failure.
    */

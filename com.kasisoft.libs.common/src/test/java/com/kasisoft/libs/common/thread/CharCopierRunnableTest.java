@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
+package com.kasisoft.libs.common.thread;
 
 import org.testng.annotations.*;
 
@@ -50,14 +50,8 @@ public class CharCopierRunnableTest {
   public void copyRunnable( char[] data, Integer buffersize ) {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
-    CharCopierRunnable runnable = null;
-    if( buffersize == null ) {
-      runnable = new CharCopierRunnable();
-      runnable.configure( charin, charout );
-    } else {
-      runnable = new CharCopierRunnable();
-      runnable.configure( charin, charout, buffersize.intValue() );
-    }
+    CharCopierRunnable runnable = new CharCopierRunnable( buffersize );
+    runnable.configure( charin, charout );
     runnable.run();
     char[] copied = charout.toCharArray();
     Assert.assertEquals( copied, data );
@@ -67,14 +61,8 @@ public class CharCopierRunnableTest {
   public void copyThread( char[] data, Integer buffersize ) throws InterruptedException {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
-    CharCopierRunnable runnable = null;
-    if( buffersize == null ) {
-      runnable = new CharCopierRunnable();
-      runnable.configure( charin, charout );
-    } else {
-      runnable = new CharCopierRunnable();
-      runnable.configure( charin, charout, buffersize.intValue() );
-    }
+    CharCopierRunnable runnable = new CharCopierRunnable( buffersize );
+    runnable.configure( charin, charout );
     Thread thread = new Thread( runnable );
     thread.start();
     thread.join();
@@ -86,26 +74,14 @@ public class CharCopierRunnableTest {
   public void copyFailingRunnable( char[] data, Integer buffersize ) {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
-    CharCopierRunnable runnable = null;
-    if( buffersize == null ) {
-      runnable = new CharCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
+    CharCopierRunnable runnable = new CharCopierRunnable( buffersize ) {
+      protected void progress( CopyingProgress progress ) {
+        if( progress.getCurrent() > 10 ) {
+          throw new RuntimeException();
         }
-      };
-      runnable.configure( charin, charout );
-    } else {
-      runnable = new CharCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
-        }
-      };
-      runnable.configure( charin, charout, buffersize.intValue() );
-    }
+      }
+    };
+    runnable.configure( charin, charout );
     runnable.run();
     // should not be reached as an exception is expected to occure
     Assert.fail();
@@ -115,26 +91,14 @@ public class CharCopierRunnableTest {
   public void copyFailingThread( char[] data, Integer buffersize ) throws InterruptedException {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
-    CharCopierRunnable runnable = null;
-    if( buffersize == null ) {
-      runnable = new CharCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
+    CharCopierRunnable runnable = new CharCopierRunnable( buffersize ) {
+      protected void progress( CopyingProgress progress ) {
+        if( progress.getCurrent() > 10 ) {
+          throw new RuntimeException();
         }
-      };
-      runnable.configure( charin, charout );
-    } else {
-      runnable = new CharCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
-        }
-      };
-      runnable.configure( charin, charout, buffersize.intValue() );
-    }
+      }
+    };
+    runnable.configure( charin, charout );
     Thread thread = new Thread( runnable );
     thread.start();
     thread.join();

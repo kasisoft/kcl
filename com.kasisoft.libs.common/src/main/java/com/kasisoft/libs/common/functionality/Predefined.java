@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.functionality;
 
 import java.util.*;
 
 /**
  * Collection of predefined types.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class Predefined {
 
   /**
@@ -27,31 +24,23 @@ public class Predefined {
   /**
    * Creates a new filter which combines the parameters with an OR operation.
    * 
-   * @param left    One filter to be used. Not <code>null</code>.
-   * @param right   Another filter to be used. Not <code>null</code>.
+   * @param filters   The filters to be used. Not <code>null</code>.
    * 
    * @return   A Filter performing an OR operation on both parameters. Not <code>null</code>.
    */
-  public static final <T> Filter<T> or( 
-    @KNotNull(name="left")    Filter<T>   left, 
-    @KNotNull(name="right")   Filter<T>   right 
-  ) {
-    return new Or<T>( left, right );
+  public static final <T> Filter<T> or( Filter<T> ... filters ) {
+    return new Or<T>( filters );
   }
 
   /**
    * Creates a new filter which combines the parameters with an AND operation.
    * 
-   * @param left    One filter to be used. Not <code>null</code>.
-   * @param right   Another filter to be used. Not <code>null</code>.
+   * @param filters   The filters to be used. Not <code>null</code>.
    * 
    * @return   A Filter performing an AND operation on both parameters. Not <code>null</code>.
    */
-  public static final <T> Filter<T> and( 
-    @KNotNull(name="left")    Filter<T>   left, 
-    @KNotNull(name="right")   Filter<T>   right 
-  ) {
-    return new And<T>( left, right );
+  public static final <T> Filter<T> and( Filter<T> ... filters ) {
+    return new And<T>( filters );
   }
 
   /**
@@ -61,9 +50,7 @@ public class Predefined {
    * 
    * @return   A Filter performing a NOT operation on the parameters. Not <code>null</code>.
    */
-  public static final <T> Filter<T> not( 
-    @KNotNull(name="inner")   Filter<T>   inner 
-  ) {
+  public static final <T> Filter<T> not( Filter<T> inner ) {
     return new Not<T>( inner );
   }
   
@@ -76,9 +63,7 @@ public class Predefined {
    * @return   The Transform instance allowing to transform any kind of type into a String.
    *           Not <code>null</code>.
    */
-  public static final <T> Transform<T,String> toStringTransform( 
-    @KNotNull(name="clazz")   Class<T>   clazz 
-  ) {
+  public static final <T> Transform<T,String> toStringTransform( Class<T> clazz ) {
     return new ToString<T>();
   }
 
@@ -92,10 +77,7 @@ public class Predefined {
    * @return   The Transform instance allowing to transform any kind of type into a String.
    *           Not <code>null</code>.
    */
-  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( 
-    @KNotNull(name="keyclass")     Class<K>   keyclass, 
-    @KNotNull(name="valueclass")   Class<V>   valueclass 
-  ) {
+  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( Class<K> keyclass, Class<V> valueclass ) {
     return new KeyToString<K,V>();
   }
 
@@ -109,10 +91,7 @@ public class Predefined {
    * @return   The Transform instance allowing to transform any kind of type into a String.
    *           Not <code>null</code>.
    */
-  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform( 
-    @KNotNull(name="keyclass")     Class<K>   keyclass, 
-    @KNotNull(name="valueclass")   Class<V>   valueclass 
-  ) {
+  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform( Class<K> keyclass, Class<V> valueclass ) {
     return new ValueToString<K,V>();
   }
 
@@ -141,19 +120,22 @@ public class Predefined {
    */
   private static class Or<T> implements Filter<T> {
 
-    private Filter<T>    left;
-    private Filter<T>    right;
+    private Filter<T>[]   atoms;
     
-    public Or( Filter<T> leftfilter, Filter<T> rightfilter ) {
-      left  = leftfilter;
-      right = rightfilter;
+    public Or( Filter<T> ... filters ) {
+      atoms = filters;
     }
     
     /**
      * {@inheritDoc}
      */
     public boolean accept( T input ) {
-      return left.accept( input ) || right.accept( input );
+      for( Filter<T> filter : atoms ) {
+        if( filter.accept( input ) ) {
+          return true;
+        }
+      }
+      return false;
     }
     
   } /* ENDCLASS */
@@ -163,19 +145,22 @@ public class Predefined {
    */
   private static class And<T> implements Filter<T> {
 
-    private Filter<T>    left;
-    private Filter<T>    right;
+    private Filter<T>[]   atoms;
     
-    public And( Filter<T> leftfilter, Filter<T> rightfilter ) {
-      left  = leftfilter;
-      right = rightfilter;
+    public And( Filter<T> ... filters ) {
+      atoms = filters;
     }
     
     /**
      * {@inheritDoc}
      */
     public boolean accept( T input ) {
-      return left.accept( input ) && right.accept( input );
+      for( Filter<T> filter : atoms ) {
+        if( ! filter.accept( input ) ) {
+          return false;
+        }
+      }
+      return true;
     }
     
   } /* ENDCLASS */

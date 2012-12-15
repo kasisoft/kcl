@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.base;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.base;
 
 /**
  * Collection of failure codes.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum FailureCode {
 
   /** everythings okay. */

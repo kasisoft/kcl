@@ -6,11 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
+package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
 
@@ -25,7 +23,6 @@ import java.io.*;
  * F.e. <code>com.kasisoft.lgpl.libs.common#DEBUG</code>
  * 
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum CommonProperty {
 
   Debug       ( "com.kasisoft.lgpl.libs.common#DEBUG"       , false , Boolean.FALSE                     , Boolean.class ),
@@ -34,7 +31,7 @@ public enum CommonProperty {
   
   Sleep       ( "com.kasisoft.lgpl.libs.common#SLEEP"       , false , Integer.valueOf(100)              , Integer.class ),
   
-  BufferCount ( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , false , Integer.valueOf(4096)             , Integer.class ),
+  BufferCount ( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , false , Integer.valueOf(8192)             , Integer.class ),
   
   Application ( "com.kasisoft.lgpl.libs.common#APPLICATION" , true  , null                              , File.class    ),
   
@@ -187,9 +184,7 @@ public enum CommonProperty {
    *              
    * @return   The enumeration value or <code>null</code> in case the key could not be found.
    */
-  public static final CommonProperty getByKey( 
-    @KNotEmpty(name="key")   String   key 
-  ) {
+  public static final CommonProperty getByKey( String key ) {
     for( CommonProperty sysprop : CommonProperty.values() ) {
       if( key.equals( sysprop.getKey() ) ) {
         return sysprop;
@@ -211,14 +206,12 @@ public enum CommonProperty {
   /**
    * Creates a replacement map used to substitute system properties.
    * 
-   * @param format     A formatting String with one %s format code. This is used in order
-   *                   to support various key formats. Neither <code>null</code> nor empty.
+   * @param format   A formatting String with one %s format code. This is used in order to support various key formats. 
+   *                 Neither <code>null</code> nor empty.
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( 
-    @KNotEmpty(name="format")   String    format
-  ) {
+  public static final Map<String,String> createReplacementMap( String format ) {
     Map<String,String> result = new Hashtable<String,String>();
     for( CommonProperty sysprop : CommonProperty.values() ) {
       result.put( String.format( format, sysprop.getKey() ), String.valueOf( sysprop.getValue() ) );

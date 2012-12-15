@@ -6,29 +6,28 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.libs.common.util;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-import com.kasisoft.lgpl.libs.common.base.*;
 
-import com.kasisoft.lgpl.libs.common.sys.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.sys.*;
 
 import java.text.*;
 
 import java.util.regex.*;
 
-import java.lang.reflect.*;
-
 import java.util.*;
 
+import java.net.*;
+
 import java.io.*;
+
+import java.lang.reflect.*;
 
 /**
  * Collection of various functions.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class MiscFunctions {
 
   private static final Map<String,String> REPLACEMENTS = SystemProperty.createReplacementMap( true );
@@ -57,8 +56,7 @@ public class MiscFunctions {
   }
   
   /**
-   * Convenience function which waits until the supplied Thread finishes his task or will be 
-   * interrupted.
+   * Convenience function which waits until the supplied Thread finishes his task or will be interrupted.
    * 
    * @param thread   The Thread that will be executed. Maybe <code>null</code>.
    */
@@ -84,9 +82,7 @@ public class MiscFunctions {
    * 
    * @param delay   The time to sleep in milliseconds.
    */
-  public static final void sleep( 
-    @KIPositive(name="delay")   long   delay 
-  ) {
+  public static final void sleep( long delay ) {
     while( delay > 0 ) {
       long before = System.currentTimeMillis();
       try {
@@ -100,16 +96,12 @@ public class MiscFunctions {
   }
   
   /**
-   * Convenience method which allows to write code in the style of 
-   * <code>sleep(12, TimeUnit.Millisecond)</code>.
+   * Convenience method which allows to write code in the style of <code>sleep(12, TimeUnit.Millisecond)</code>.
    * 
    * @param num    The number of units.
    * @param unit   The time unit itself. Not <code>null</code>.
    */
-  public static final void sleep( 
-    @KIPositive(name="num")   int        num, 
-    @KNotNull(name="unit")    TimeUnit   unit 
-  ) {
+  public static final void sleep( int num, TimeUnit unit ) {
     sleep( unit.amount( num ) );
   }
 
@@ -122,11 +114,7 @@ public class MiscFunctions {
    * 
    * @return   <code>true</code> <=> The byte sequence is available at the specified offset.
    */
-  public static final boolean compare( 
-    @KNotNull(name="data")                  byte[]   data, 
-    @KNotNull(name="tocompare")             byte[]   tocompare, 
-    @KIPositive(name="offset", zero=true)   int      offset 
-  ) {
+  public static final boolean compare( byte[] data, byte[] tocompare, int offset ) {
     for( int i = 0; i < tocompare.length; i++, offset++ ) {
       if( offset == data.length ) {
         // premature end of the comparison process
@@ -148,11 +136,7 @@ public class MiscFunctions {
    * 
    * @return   <code>true</code> <=> The char sequence is available at the specified offset.
    */
-  public static final boolean compare( 
-    @KNotNull(name="data")                  char[]   data, 
-    @KNotNull(name="tocompare")             char[]   tocompare, 
-    @KIPositive(name="offset", zero=true)   int      offset 
-  ) {
+  public static final boolean compare( char[] data, char[] tocompare, int offset ) {
     for( int i = 0; i < tocompare.length; i++, offset++ ) {
       if( offset == data.length ) {
         // premature end of the comparison process
@@ -174,11 +158,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( 
-    @KNotNull(name="buffer")             byte[]   buffer, 
-    @KNotNull(name="sequence")           byte[]   sequence, 
-    @KIPositive(name="pos", zero=true)   int      pos 
-  ) {
+  public static final int indexOf( byte[] buffer, byte[] sequence, int pos ) {
     if( sequence.length > buffer.length ) {
       // the sequence doesn't fit, so it's not available
       return -1;
@@ -208,11 +188,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( 
-    @KNotNull(name="buffer")             char[]   buffer, 
-    @KNotNull(name="sequence")           char[]   sequence, 
-    @KIPositive(name="pos", zero=true)   int      pos 
-  ) {
+  public static final int indexOf( char[] buffer, char[] sequence, int pos ) {
     if( sequence.length > buffer.length ) {
       // the sequence doesn't fit, so it's not available
       return -1;
@@ -241,10 +217,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( 
-    @KNotNull(name="data")       byte[]   data, 
-    @KNotNull(name="sequence")   byte[]   sequence 
-  ) {
+  public static final int indexOf( byte[] data, byte[] sequence ) {
     return indexOf( data, sequence, 0 );
   }
 
@@ -256,16 +229,13 @@ public class MiscFunctions {
    * 
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( 
-    @KNotNull(name="data")       char[]   data, 
-    @KNotNull(name="sequence")   char[]   sequence 
-  ) {
+  public static final int indexOf( char[] data, char[] sequence ) {
     return indexOf( data, sequence, 0 );
   }
   
   /**
-   * Creates a new byte sequence while inserting one into a data block. If the index is outside of
-   * the destination no insertion takes place.
+   * Creates a new byte sequence while inserting one into a data block. If the index is outside of the destination no 
+   * insertion takes place.
    * 
    * @param destination   The current data block which will be modified. Not <code>null</code>.
    * @param newsequence   The byte sequence which has to be inserted. Not <code>null</code>.
@@ -273,11 +243,7 @@ public class MiscFunctions {
    * 
    * @return   The modified data block. Not <code>null</code>.
    */
-  public static final byte[] insert( 
-    @KNotNull(name="destination")          byte[]   destination, 
-    @KNotNull(name="newsequence")          byte[]   newsequence, 
-    @KIPositive(name="index", zero=true)   int      index 
-  ) {
+  public static final byte[] insert( byte[] destination, byte[] newsequence, int index ) {
     if( destination.length == 0 ) {
       return new byte[0];
     }
@@ -298,8 +264,8 @@ public class MiscFunctions {
   }
 
   /**
-   * Creates a new char sequence while inserting one into a data block. If the index is outside of
-   * the destination no insertion takes place.
+   * Creates a new char sequence while inserting one into a data block. If the index is outside of the destination no 
+   * insertion takes place.
    * 
    * @param destination   The current data block which will be modified. Not <code>null</code>.
    * @param newsequence   The char sequence which has to be inserted. Not <code>null</code>.
@@ -307,11 +273,7 @@ public class MiscFunctions {
    * 
    * @return   The modified data block. Not <code>null</code>.
    */
-  public static final char[] insert( 
-    @KNotNull(name="destination")          char[]   destination, 
-    @KNotNull(name="newsequence")          char[]   newsequence, 
-    @KIPositive(name="index", zero=true)   int      index 
-  ) {
+  public static final char[] insert( char[] destination, char[] newsequence, int index ) {
     if( destination.length == 0 ) {
       return new char[0];
     }
@@ -338,9 +300,7 @@ public class MiscFunctions {
    * 
    * @return   A String with resolved environment variables. Neither <code>null</code> nor empty.
    */
-  public static final String expandVariables( 
-    @KNotEmpty(name="input")   String   input 
-  ) {
+  public static final String expandVariables( String input ) {
     Map<String, String> variables     = new Hashtable<String, String>();
     Enumeration<?>      propertynames = System.getProperties().propertyNames();
     while( propertynames.hasMoreElements() ) {
@@ -357,15 +317,12 @@ public class MiscFunctions {
   /**
    * Returns a File location depending on the supplied formatting String.
    * 
-   * @param format   A formatting String which is allowed to contain short property keys as
-   *                 described in SystemProperty. Each key must be enclosed using a '%' character.
-   *                 Neither <code>null</code> nor empty.
+   * @param format   A formatting String which is allowed to contain short property keys as described in SystemProperty. 
+   *                 Each key must be enclosed using a '%' character. Neither <code>null</code> nor empty.
    * 
    * @return   The File location which has been evaluated. Not <code>null</code>.
    */
-  public static final File expandFileLocation( 
-    @KNotEmpty(name="format")   String   format 
-  ) {
+  public static final File expandFileLocation( String format ) {
     return new File( StringFunctions.replace( format, REPLACEMENTS ) );
   }
 
@@ -376,9 +333,7 @@ public class MiscFunctions {
    * 
    * @return   A joined buffer. Not <code>null</code>.
    */
-  public static final byte[] joinBuffers( 
-    @KNotNull(name="buffers")   byte[] ... buffers 
-  ) {
+  public static final byte[] joinBuffers( byte[] ... buffers ) {
     int size = 0;
     for( int i = 0; i < buffers.length; i++ ) {
       if( buffers[i] != null ) {
@@ -403,9 +358,7 @@ public class MiscFunctions {
    * 
    * @return   A joined buffer. Not <code>null</code>.
    */
-  public static final char[] joinBuffers( 
-    @KNotNull(name="buffers")   char[] ... buffers 
-  ) {
+  public static final char[] joinBuffers( char[] ... buffers ) {
     int size = 0;
     for( int i = 0; i < buffers.length; i++ ) {
       if( buffers[i] != null ) {
@@ -431,10 +384,7 @@ public class MiscFunctions {
    * 
    * @return   The date that has been parsed or <code>null</code> in case of a failure.
    */
-  public static final Date parseDate( 
-    @KNotEmpty(name="value")      String     value, 
-    @KNotEmpty(name="patterns")   String ... patterns 
-  ) {
+  public static final Date parseDate( String value, String ... patterns ) {
     Date result = null;
     for( int i = 0; i < patterns.length; i++ ) {
       SimpleDateFormat formatter = new SimpleDateFormat( patterns[i] );
@@ -453,8 +403,7 @@ public class MiscFunctions {
    * @param value      The value that has to be parsed. Neither <code>null</code> nor empty.
    * @param patterns   The allowed patterns. Neither <code>null</code> nor empty.
    * 
-   * @return   The date as a Calendar instance that has been parsed or <code>null</code> in case of 
-   *           a failure.
+   * @return   The date as a Calendar instance that has been parsed or <code>null</code> in case of a failure.
    */
   public static final Calendar parseCalendar( String value, String ... patterns ) {
     Date date = parseDate( value, patterns );
@@ -472,11 +421,10 @@ public class MiscFunctions {
    * 
    * @param value   The value which has to be parsed. Not <code>null</code>.
    * 
-   * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES}
-   *                                  (case insensitive).
+   * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
    *           <code>false</code> <=> All other cases.
    */
-  public static final boolean parseBoolean( @KNotNull(name="value") String value ) {
+  public static final boolean parseBoolean( String value ) {
     return TRUEVALUES.contains( value.toLowerCase() );
   }
 
@@ -484,12 +432,11 @@ public class MiscFunctions {
    * Instantiates the supplied class with the supplied arguments.
    * 
    * @param classname   The class that shall be instantiated. Neither <code>null</code> nor empty.
-   * @param args        The arguments which have to be passed to the constructor. If omitted the
-   *                    default constructor will be used. If passed each element must be 
-   *                    non-<code>null</code> in order to determine the parameter type.
+   * @param args        The arguments which have to be passed to the constructor. If omitted the default constructor 
+   *                    will be used. If passed each element must be non-<code>null</code> in order to determine the 
+   *                    parameter type.
    * 
-   * @return   <code>null</code> <=> If the class could not be instantiated otherwise the instance 
-   *                                 itself.
+   * @return   <code>null</code> <=> If the class could not be instantiated otherwise the instance itself.
    */
   public static final Object newInstance( String classname, Object ... args ) {
     return newInstance( false, classname, args );
@@ -499,27 +446,21 @@ public class MiscFunctions {
    * Instantiates the supplied class with the supplied arguments. The behaviour of this
    * method can be configured using the supplied flag.
    * 
-   * @param fail        <code>true</code> <=> If the creation of the instance fails a 
-   *                    FailureException is generation with the constant code
-   *                    {@link CommonLibraryConstants#RTE_REFLECTIONS}. Otherwise this
-   *                    method returns normally with the value <code>null</code>.
+   * @param fail        <code>true</code> <=> If the creation of the instance fails a FailureException is generation 
+   *                    with the constant code {@link CommonLibraryConstants#RTE_REFLECTIONS}. Otherwise this method 
+   *                    returns normally with the value <code>null</code>.
    * @param classname   The class that shall be instantiated. Neither <code>null</code> nor empty.
-   * @param args        The arguments which have to be passed to the constructor. If omitted the
-   *                    default constructor will be used. If passed each element must be 
-   *                    non-<code>null</code> in order to determine the parameter type.
+   * @param args        The arguments which have to be passed to the constructor. If omitted the default constructor 
+   *                    will be used. If passed each element must be non-<code>null</code> in order to determine the 
+   *                    parameter type.
    * 
-   * @return   If <code>fail</code> is <code>true</code> the value is not <code>null</code>.
-   *           Otherwise it is <code>null</code> in case of a failure.
+   * @return   If <code>fail</code> is <code>true</code> the value is not <code>null</code>. Otherwise it is 
+   *           <code>null</code> in case of a failure.
    *           
-   * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> 
-   *                            is set to <code>true</code>.
+   * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> is set to <code>true</code>.
    */
   @SuppressWarnings("unchecked")
-  public static final Object newInstance( 
-                                   boolean   fail, 
-    @KNotEmpty(name="classname")   String    classname, 
-                                   Object    ... args 
-  ) {
+  public static final Object newInstance( boolean fail, String classname, Object ... args ) {
     try {
       Class clazz = Class.forName( classname );
       if( (args == null) || (args.length == 0) ) {
@@ -552,9 +493,8 @@ public class MiscFunctions {
   }
 
   /**
-   * Identifies a constructor by it's signature. This might be necessary if the appropriate 
-   * Constructor uses an interface, so using a concrete type might fail to locate the right
-   * Constructor.
+   * Identifies a constructor by it's signature. This might be necessary if the appropriate Constructor uses an 
+   * interface, so using a concrete type might fail to locate the right Constructor.
    *  
    * @param candidates   The possible candidates of Constructors. Not <code>null</code>.
    * @param params       The current signature used to locate the Constructor. Not <code>null</code>.
@@ -597,9 +537,7 @@ public class MiscFunctions {
    * 
    * @param type   The type of the key. Not <code>null</code>.
    */
-  public static final <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( 
-    @KNotNull(name="type")   Class<T>   type 
-  ) {
+  public static final <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( Class<T> type ) {
     return new KeyComparator<T>();
   }
   
@@ -611,7 +549,7 @@ public class MiscFunctions {
    * 
    * @return   The supplied list. Not <code>null</code>.
    */
-  public static final <T extends Comparable<T>> List<T> toSet( @KNotEmpty(name="list") List<T> list ) {
+  public static final <T extends Comparable<T>> List<T> toSet( List<T> list ) {
     Collections.sort( list );
     for( int i = list.size() - 1; i > 0; i-- ) {
       if( list.get(i).compareTo( list.get( i - 1 ) ) == 0 ) {
@@ -656,10 +594,7 @@ public class MiscFunctions {
    * 
    * @return   A list of regions providing the positions within the sequence. Not <code>null</code>.
    */
-  public static List<int[]> getRegexRegions( 
-    @KNotNull(name="pattern")    Pattern   pattern, 
-    @KNotNull(name="sequence")   String    sequence 
-  ) {
+  public static List<int[]> getRegexRegions( Pattern pattern, String sequence ) {
     List<int[]> result  = new ArrayList<int[]>();
     Matcher     matcher = pattern.matcher( sequence );
     while( matcher.find() ) {
@@ -669,13 +604,52 @@ public class MiscFunctions {
   }
 
   /**
+   * Closes the supplied Socket. 
+   * 
+   * @param fail     <code>true</code> <=> Cause an exception if it happens.
+   * @param socket   The Socket that has to be closed. Maybe <code>null</code>.
+   * 
+   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
+   */
+  public static final void close( boolean fail, Socket socket ) {
+    if( socket != null ) {
+      try {
+        socket.close();
+      } catch( IOException ex ) {
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
+      }
+    }
+  }
+
+  /**
+   * Closes the supplied ServerSocket. 
+   * 
+   * @param fail     <code>true</code> <=> Cause an exception if it happens.
+   * @param socket   The ServerSocket that has to be closed. Maybe <code>null</code>.
+   * 
+   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
+   */
+  public static final void close( boolean fail, ServerSocket socket ) {
+    if( socket != null ) {
+      try {
+        socket.close();
+      } catch( IOException ex ) {
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
+      }
+    }
+  }
+  
+  /**
    * Closes the supplied Closeable. 
    * 
    * @param fail        <code>true</code> <=> Cause an exception if it happens.
    * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
    * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
-   *                            exception comes up.
+   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
    */
   public static final void close( boolean fail, Closeable closeable ) {
     if( closeable != null ) {

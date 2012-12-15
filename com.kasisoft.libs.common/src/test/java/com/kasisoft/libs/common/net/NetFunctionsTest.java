@@ -6,9 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.net;
+package com.kasisoft.libs.common.net;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
+import com.kasisoft.libs.common.constants.*;
 
 import org.testng.annotations.*;
 
@@ -30,6 +30,7 @@ public class NetFunctionsTest {
       }
     };
     t1.start();
+    Thread.sleep( 3000 );
     Assert.assertTrue( NetFunctions.sendMessage( "127.0.0.1", 17175, "MY MESSAGE".getBytes() ) );
     t1.join();
 
@@ -42,6 +43,7 @@ public class NetFunctionsTest {
       }
     };
     t2.start();
+    Thread.sleep( 3000 );
     t2.join();
     long   after  = System.currentTimeMillis();
     long   diff   = after - before;

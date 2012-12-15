@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
+package com.kasisoft.libs.common.xml.adapters;
 
 import org.testng.annotations.*;
 
@@ -25,20 +25,20 @@ public class FileAdapterTest {
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {
     return new Object[][] {
-      { null                  , null                            },
-      { "testdata\\http.xsd"  , new File( "testdata/http.xsd" ) },
-      { "testdata/http.xsd"   , new File( "testdata/http.xsd" ) },
-      { "testdata\\bibo.txt"  , new File( "testdata/bibo.txt" ) },
-      { "testdata/bibo.txt"   , new File( "testdata/bibo.txt" ) },
+      { null                 , null                            },
+      { "testdata\\http.xsd" , new File( "testdata/http.xsd" ) },
+      { "testdata/http.xsd"  , new File( "testdata/http.xsd" ) },
+      { "testdata\\bibo.txt" , new File( "testdata/bibo.txt" ) },
+      { "testdata/bibo.txt"  , new File( "testdata/bibo.txt" ) },
     };
   }
 
   @DataProvider(name="createMarshalling")
   public Object[][] createMarshalling() {
     return new Object[][] {
-      { null                              , null                },
-      { new File( "testdata/http.xsd" )   , "testdata/http.xsd" },
-      { new File( "testdata/bibo.txt" )   , "testdata/bibo.txt" },
+      { null                            , null               },
+      { new File( "testdata/http.xsd" ) , "testdata/http.xsd" },
+      { new File( "testdata/bibo.txt" ) , "testdata/bibo.txt" },
     };
   }
 

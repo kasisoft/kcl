@@ -6,9 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.constants;
 
 import java.util.*;
 
@@ -17,7 +15,6 @@ import java.io.*;
 /**
  * Listing of system properties used to be accessed.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum SystemProperty {
 
   ClassPath             ( "java.class.path"             , "classpath"   , true  ),
@@ -45,8 +42,7 @@ public enum SystemProperty {
    * Sets up this value with the associated property key.
    * 
    * @param propertykey     The property key to be used. Neither <code>null</code> nor empty.
-   * @param propertyshort   A short key mainly used for substitution purposes.
-   *                        Neither <code>null</code> nor empty.
+   * @param propertyshort   A short key mainly used for substitution purposes. Neither <code>null</code> nor empty.
    * @param filesys         <code>true</code> <=> The property is related to a filesystem value.
    */
   SystemProperty( String propertykey, String propertyshort, boolean filesys ) {
@@ -58,8 +54,7 @@ public enum SystemProperty {
   /**
    * Returns the property key allowing to access a system property.
    * 
-   * @return   The property key allowing to access a system property. 
-   *           Neither <code>null</code> nor empty.
+   * @return   The property key allowing to access a system property. Neither <code>null</code> nor empty.
    */
   public String getKey() {
     return key;
@@ -68,8 +63,7 @@ public enum SystemProperty {
   /**
    * Returns the short key allowing to access a system property.
    * 
-   * @return   The short key allowing to access a system property.
-   *           Neither <code>null</code> nor empty.
+   * @return   The short key allowing to access a system property. Neither <code>null</code> nor empty.
    */
   public String getShortKey() {
     return shortkey;
@@ -114,8 +108,8 @@ public enum SystemProperty {
   }
 
   /**
-   * Returns the value for this property. If the property cannot be found in the supplied map the
-   * system properties will be used.
+   * Returns the value for this property. If the property cannot be found in the supplied map the system properties will 
+   * be used.
    * 
    * @param properties   The properties used to access the value.
    * 
@@ -166,6 +160,7 @@ public enum SystemProperty {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     String result = getValue();
     if( result == null ) {
@@ -177,14 +172,11 @@ public enum SystemProperty {
   /**
    * Returns the enumeration value associated with the supplied short key.
    * 
-   * @param key   The short key used to refer to a system property.  
-   *              Neither <code>null</code> nor empty.
+   * @param key   The short key used to refer to a system property. Neither <code>null</code> nor empty.
    *              
    * @return   The enumeration value or <code>null</code> in case the key could not be found.
    */
-  public static final SystemProperty getByShortkey( 
-    @KNotEmpty(name="key")   String   key 
-  ) {
+  public static final SystemProperty getByShortkey( String key ) {
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( key.equals( sysprop.getShortKey() ) ) {
         return sysprop;
@@ -196,14 +188,11 @@ public enum SystemProperty {
   /**
    * Returns the enumeration value associated with the supplied long key.
    * 
-   * @param key   The long key used to refer to a system property.  
-   *              Neither <code>null</code> nor empty.
+   * @param key   The long key used to refer to a system property. Neither <code>null</code> nor empty.
    *              
    * @return   The enumeration value or <code>null</code> in case the key could not be found.
    */
-  public static final SystemProperty getByLongkey( 
-    @KNotEmpty(name="key")   String   key 
-  ) {
+  public static final SystemProperty getByLongkey( String key ) {
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( key.equals( sysprop.getKey() ) ) {
         return sysprop;
@@ -215,14 +204,11 @@ public enum SystemProperty {
   /**
    * Returns the enumeration value associated with the supplied key (either the long or the short one).
    * 
-   * @param key   The short/long key used to refer to a system property.  
-   *              Neither <code>null</code> nor empty.
+   * @param key   The short/long key used to refer to a system property. Neither <code>null</code> nor empty.
    *              
    * @return   The enumeration value or <code>null</code> in case the key could not be found.
    */
-  public static final SystemProperty getByKey( 
-    @KNotEmpty(name="key")   String   key 
-  ) {
+  public static final SystemProperty getByKey( String key ) {
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( key.equals( sysprop.getKey() ) || key.equals( sysprop.getShortKey() ) ) {
         return sysprop;
@@ -232,8 +218,7 @@ public enum SystemProperty {
   }
 
   /**
-   * Creates a replacement map used to substitute system properties. The key is encapsulated
-   * by '%' characters.
+   * Creates a replacement map used to substitute system properties. The key is encapsulated by '%' characters.
    * 
    * @param shortkey     <code>true</code> <=> Use the short key representation to create the key.
    *
@@ -246,16 +231,13 @@ public enum SystemProperty {
   /**
    * Creates a replacement map used to substitute system properties.
    * 
-   * @param format     A formatting String with one %s format code. This is used in order
-   *                   to support various key formats. Neither <code>null</code> nor empty.
+   * @param format     A formatting String with one %s format code. This is used in order to support various key 
+   *                   formats. Neither <code>null</code> nor empty.
    * @param shortkey   <code>true</code> <=> Use the short key representation to create the key.
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( 
-    @KNotEmpty(name="format")   String    format, 
-                                boolean   shortkey 
-  ) {
+  public static final Map<String,String> createReplacementMap( String format, boolean shortkey ) {
     Map<String,String> result = new Hashtable<String,String>();
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( shortkey ) {

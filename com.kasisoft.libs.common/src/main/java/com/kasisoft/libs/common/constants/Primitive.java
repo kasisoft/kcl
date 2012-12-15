@@ -6,14 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
+package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.util.*;
 
 /**
  * Declarations used to identify primitive types.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Primitive {
 
   PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , 0                   , 0                   ) ,
@@ -30,6 +29,7 @@ public enum Primitive {
   private Class<?>     clazz;
   private long         min;
   private long         max;
+  private Buffers      buffers;
   
   /**
    * Sets up this enumeration value.
@@ -46,6 +46,7 @@ public enum Primitive {
     arrayclass     = arraytype;
     min            = minval;
     max            = maxval;
+    buffers        = null;
   }
   
   /**
@@ -119,18 +120,32 @@ public enum Primitive {
    * 
    * @param size   The number of items.
    * 
-   * @return   The array of this type.
+   * @return   The array of this type. Not <code>null</code>.
    */
-  public Object newArray( @KIPositive(name="size", zero=true) int size ) {
-              if( this == PBoolean )    { return new boolean [ size ];
-    } else    if( this == PByte    )    { return new byte    [ size ];
-    } else    if( this == PChar    )    { return new char    [ size ];
-    } else    if( this == PShort   )    { return new short   [ size ];
-    } else    if( this == PInt     )    { return new int     [ size ];
-    } else    if( this == PLong    )    { return new long    [ size ];
-    } else    if( this == PFloat   )    { return new float   [ size ];
-    } else /* if( this == PDouble  ) */ { return new double  [ size ];
+  public <T> T newArray( int size ) {
+    switch( this ) {
+    case PBoolean : return (T) new boolean [ size ];
+    case PByte    : return (T) new byte    [ size ];
+    case PChar    : return (T) new char    [ size ];
+    case PShort   : return (T) new short   [ size ];
+    case PInt     : return (T) new int     [ size ];
+    case PLong    : return (T) new long    [ size ];
+    case PFloat   : return (T) new float   [ size ];
+    /* case PDouble: */
+    default       : return (T) new double  [ size ];
     }
+  }
+
+  /**
+   * Returns the {@link Buffers} instance for this type.
+   * 
+   * @return   The {@link Buffers} instance for this type. Not <code>null</code>.
+   */
+  public synchronized <T> Buffers<T> getBuffers() {
+    if( buffers == null ) {
+      buffers = Buffers.newBuffers( this );
+    }
+    return buffers;
   }
   
   /**
@@ -140,20 +155,17 @@ public enum Primitive {
    * 
    * @return   The length of an array instance.
    */
-  public int length( 
-    @KInstance(name="arrayobj", 
-      allowed = {boolean[].class, byte[].class, char[].class, short[].class, int[].class, long[].class, float[].class, double[].class}
-    ) 
-    Object arrayobj 
-  ) {
-              if( this == PBoolean )    { return ((boolean []) arrayobj).length;
-    } else    if( this == PByte    )    { return ((byte    []) arrayobj).length;
-    } else    if( this == PChar    )    { return ((char    []) arrayobj).length;
-    } else    if( this == PShort   )    { return ((short   []) arrayobj).length;
-    } else    if( this == PInt     )    { return ((int     []) arrayobj).length;
-    } else    if( this == PLong    )    { return ((long    []) arrayobj).length;
-    } else    if( this == PFloat   )    { return ((float   []) arrayobj).length;
-    } else /* if( this == PDouble  ) */ { return ((double  []) arrayobj).length;
+  public int length( Object arrayobj ) {
+    switch( this ) {
+    case PBoolean : return ((boolean []) arrayobj).length;
+    case PByte    : return ((byte    []) arrayobj).length;
+    case PChar    : return ((char    []) arrayobj).length;
+    case PShort   : return ((short   []) arrayobj).length;
+    case PInt     : return ((int     []) arrayobj).length;
+    case PLong    : return ((long    []) arrayobj).length;
+    case PFloat   : return ((float   []) arrayobj).length;
+      /* case PDouble: */
+    default       : return ((double  []) arrayobj).length;
     }
   }
   
@@ -164,10 +176,7 @@ public enum Primitive {
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid array type.
    */
-  public static final Primitive byArrayType(
-    @KNotNull(name="obj")
-    Object obj 
-  ) {
+  public static final Primitive byArrayType( Object obj ) {
               if( obj instanceof boolean [] )    { return PBoolean;
     } else    if( obj instanceof byte    [] )    { return PByte;
     } else    if( obj instanceof char    [] )    { return PChar;
@@ -186,10 +195,7 @@ public enum Primitive {
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid object type.
    */
-  public static final Primitive byObjectType(
-    @KNotNull(name="obj")
-    Object obj 
-  ) {
+  public static final Primitive byObjectType( Object obj ) {
               if( obj instanceof Boolean   )    { return PBoolean;
     } else    if( obj instanceof Byte      )    { return PByte;
     } else    if( obj instanceof Character )    { return PChar;

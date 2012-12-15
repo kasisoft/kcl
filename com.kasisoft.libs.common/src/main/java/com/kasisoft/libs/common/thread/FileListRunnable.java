@@ -6,9 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.thread;
 
 import java.util.*;
 
@@ -17,7 +15,6 @@ import java.io.*;
 /**
  * Implementation allowing to traverse a directory structure.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FileListRunnable extends AbstractRunnable<FileProgress> {
 
   private static final File[] EMPTY_LIST = new File[0];
@@ -55,8 +52,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   }
   
   /**
-   * Initialises the object state. This only affects the parameters which can be set using
-   * #configure() .
+   * Initialises the object state. This only affects the parameters which can be set using {@link #configure(File...)}
    */
   private void reset() {
     dirreceiver   . clear();
@@ -168,6 +164,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected void execute() {
     if( configured ) {
         

@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
+package com.kasisoft.libs.common.xml;
 
 import org.testng.annotations.*;
 
@@ -25,7 +25,7 @@ public class XmlCatalogTest {
   private File    httpxsd;
   private File    xmlxsd;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     File testdata = new File( "testdata" );
     httpxsd       = new File( testdata, "http.xsd" );

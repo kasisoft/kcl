@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.util;
 
 import java.util.*;
 
 /**
  * Collection of functions useful in conjunction with arrays.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ArrayFunctions {
 
   /**
@@ -31,9 +28,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static final int maxInt( 
-    @KNotEmpty(name="args")   int ... args 
-  ) {
+  public static final int maxInt( int ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -51,9 +46,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static final long maxLong( 
-    @KNotEmpty(name="args")   long ... args 
-  ) {
+  public static final long maxLong( long ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -71,9 +64,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static final float maxFloat( 
-    @KNotEmpty(name="args")   float ... args
-  ) {
+  public static final float maxFloat( float ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -91,9 +82,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static final double maxDouble( 
-    @KNotEmpty(name="args")   double ... args 
-  ) {
+  public static final double maxDouble( double ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -111,9 +100,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static final int minInt( 
-    @KNotEmpty(name="args")   int ... args 
-  ) {
+  public static final int minInt( int ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -131,9 +118,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static final long minLong( 
-    @KNotEmpty(name="args")   long ... args 
-  ) {
+  public static final long minLong( long ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -151,9 +136,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static final float minFloat(
-    @KNotEmpty(name="args")   float ... args 
-  ) {
+  public static final float minFloat( float ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -171,9 +154,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static final double minDouble( 
-    @KNotEmpty(name="args")   double ... args 
-  ) {
+  public static final double minDouble( double ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -191,9 +172,7 @@ public class ArrayFunctions {
    * 
    * @return   The boolean result. Not <code>null</code>.
    */
-  public static final Boolean objectAnd( 
-    @KNotEmpty(name="atoms")   Boolean ... atoms 
-  ) {
+  public static final Boolean objectAnd( Boolean ... atoms ) {
     boolean result = atoms[0].booleanValue();
     for( int i = 0; (i < atoms.length) && result; i++ ) {
       result = result && atoms[i].booleanValue();
@@ -208,9 +187,7 @@ public class ArrayFunctions {
    * 
    * @return   The boolean result. Not <code>null</code>.
    */
-  public static final Boolean objectOr( 
-    @KNotEmpty(name="atoms")   Boolean ... atoms 
-  ) {
+  public static final Boolean objectOr( Boolean ... atoms ) {
     boolean result = atoms[0].booleanValue();
     for( int i = 0; (i < atoms.length) && (! result); i++ ) {
       result = result || atoms[i].booleanValue();
@@ -225,9 +202,7 @@ public class ArrayFunctions {
    * 
    * @return   <code>true</code> <=> Each argument was <code>true</code>.
    */
-  public static final boolean and( 
-    @KNotEmpty(name="args")  boolean ... args
-  ) {
+  public static final boolean and( boolean ... args ) {
     boolean result = args[0];
     for( int i = 1; (i < args.length) && result; i++ ) {
       result = result && args[i];
@@ -242,9 +217,7 @@ public class ArrayFunctions {
    * 
    * @return   <code>true</code> <=> At least one argument was <code>true</code>.
    */
-  public static final boolean or( 
-    @KNotEmpty(name="args")   boolean ... args
-  ) {
+  public static final boolean or( boolean ... args ) {
     boolean result = args[0];
     for( int i = 1; (i < args.length) && (! result); i++ ) {
       result = result || args[i];
@@ -253,18 +226,15 @@ public class ArrayFunctions {
   }
 
   /**
-   * Extendss a list with an array and returns it. The order is preserved. The list will be extended
-   * so any previously existing content remains there.
+   * Extendss a list with an array and returns it. The order is preserved. The list will be extended so any previously 
+   * existing content remains there.
    * 
    * @param receiver   The list which will be extended. Not <code>null</code>.
    * @param input      The data items which have to be added. Maybe <code>null</code>.
    * 
    * @return   The list that has been supplied. Not <code>null</code>.
    */
-  public static final <T> List<T> addAll( 
-    @KNotNull(name="receiver")   List<T>     receiver, 
-                                 T       ... input 
-  ) {
+  public static final <T> List<T> addAll( List<T> receiver, T ... input ) {
     if( input != null ) {
       for( int i = 0; i < input.length; i++ ) {
         receiver.add( input[i] );
@@ -280,9 +250,7 @@ public class ArrayFunctions {
    * 
    * @return   The enumeration which is used to traverse the array.
    */
-  public static final <T> Enumeration<T> enumeration( 
-    @KNotNull(name="input")   T ... input 
-  ) {
+  public static final <T> Enumeration<T> enumeration( T ... input ) {
     return new ArrayTraversal<T>( input );
   }
 
@@ -318,6 +286,7 @@ public class ArrayFunctions {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean hasMoreElements() {
       return index < data.length;
     }
@@ -325,6 +294,7 @@ public class ArrayFunctions {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean hasNext() {
       return hasMoreElements();
     }
@@ -332,6 +302,7 @@ public class ArrayFunctions {
     /**
      * {@inheritDoc}
      */
+    @Override
     public T nextElement() {
       if( index >= data.length ) {
         throw new NoSuchElementException();
@@ -344,6 +315,7 @@ public class ArrayFunctions {
     /**
      * {@inheritDoc}
      */
+    @Override
     public T next() {
       return nextElement();
     }
@@ -351,6 +323,7 @@ public class ArrayFunctions {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void remove() {
       throw new UnsupportedOperationException();
     }

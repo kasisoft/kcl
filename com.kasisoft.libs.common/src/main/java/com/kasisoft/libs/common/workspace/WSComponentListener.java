@@ -7,11 +7,10 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.workspace;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.workspace;
 
 import java.awt.event.*;
+
 import java.awt.*;
 
 /**
@@ -26,13 +25,14 @@ public class WSComponentListener extends ComponentAdapter {
    * 
    * @param key   The key used to persist the settings. Neither <code>null</code> nor empty.
    */
-  public WSComponentListener( @KNotEmpty(name="key") String key ) {
+  public WSComponentListener( String key ) {
     wsproperty = key;
   }
   
   /**
    * {@inheritDoc}
    */
+  @Override
   public void componentMoved( ComponentEvent evt ) {
     Component component = evt.getComponent();
     Workspace.getInstance().setRectangle( wsproperty, component.getBounds() );
@@ -41,6 +41,7 @@ public class WSComponentListener extends ComponentAdapter {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void componentResized( ComponentEvent evt ) {
     Component component = evt.getComponent();
     Workspace.getInstance().setRectangle( wsproperty, component.getBounds() );

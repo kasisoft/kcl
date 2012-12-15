@@ -6,20 +6,19 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
+package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.lgpl.libs.common.util.*;
 
-import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.util.*;
 
 import org.w3c.dom.ls.*;
 import org.xml.sax.*;
 
-import javax.xml.transform.*;
 import javax.xml.parsers.*;
+import javax.xml.transform.*;
 
 import java.util.*;
 
@@ -30,7 +29,6 @@ import java.io.*;
 /**
  * Basic data structure used to store entity ids together with the urls.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver {
 
   private Map<String,byte[]>    catalogdata;
@@ -47,9 +45,8 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   /**
    * Initialises this catalog.
    * 
-   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no 
-   *                  appropriate DOM implementation can be found this could cause a 
-   *                  FailureException.
+   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
+   *                  implementation can be found this could cause a FailureException.
    *                                
    * @throws FailureException if <code>lsaware = true</code> and no DOMImplementationLS could be found.
    */
@@ -76,8 +73,8 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   }
   
   /**
-   * Just a helper which is supposed to be overridden if necessary. This function opens an InputStream to the
-   * supplied URL.
+   * Just a helper which is supposed to be overridden if necessary. This function opens an InputStream to the supplied 
+   * URL.
    * 
    * @param url   The URL which shall be accessed. Not <code>null</code>.
    * 
@@ -85,7 +82,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @throws IOException   Accessing the URL failed for some reason.
    */
-  protected InputStream openStream( @KNotNull(name="url") URL url ) throws IOException {
+  protected InputStream openStream( URL url ) throws IOException {
     return url.openStream();
   }
   
@@ -95,10 +92,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * @param id    The ID used for the resource. Neither <code>null</code> nor empty.
    * @param url   The resource that will be identified through the id. Not <code>null</code>.
    */
-  public synchronized void registerPublicID( 
-    @KNotEmpty(name="id")   String   id, 
-    @KNotNull(name="url")   URL      url 
-  ) {
+  public synchronized void registerPublicID( String id, URL url ) {
     if( ! failures.contains( url ) ) {
       InputStream instream = null;
       try {
@@ -126,7 +120,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @param systemid   The resource which has to be registered. Not <code>null</code>.
    */
-  public synchronized void registerSystemID( @KNotNull(name="systemid") URL systemid ) {
+  public synchronized void registerSystemID( URL systemid ) {
     if( ! failures.contains( systemid ) ) {
       InputStream instream = null;
       try {
@@ -164,7 +158,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The content if it could be loaded. Maybe <code>null</code>.
    */
-  public synchronized byte[] loadResource( @KNotEmpty(name="publicid") String publicid ) {
+  public synchronized byte[] loadResource( String publicid ) {
     return catalogdata.get( publicid );
   }
 
@@ -175,7 +169,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The content if it could be loaded. Maybe <code>null</code>.
    */
-  public synchronized byte[] loadResource( @KNotNull(name="resource") URL resource ) {
+  public synchronized byte[] loadResource( URL resource ) {
     if( catalogdata.containsKey( resource ) ) {
       return catalogdata.get( resource );
     } else {
@@ -190,8 +184,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   }
 
   /**
-   * Loads the data associated with either the supplied public id or the system id
-   * if it could be found.
+   * Loads the data associated with either the supplied public id or the system id if it could be found.
    * 
    * @param publicid   The public id used for the resolving. Maybe <code>null</code>.
    * @param systemid   The system id used for the resolving. Maybe <code>null</code>.
@@ -224,6 +217,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   /**
    * {@inheritDoc}
    */
+  @Override
   public InputSource resolveEntity( String publicid, String systemid ) throws SAXException, IOException {
     byte[] result = loadData( publicid, systemid );
     if( result != null ) {
@@ -239,9 +233,8 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   /**
    * {@inheritDoc}
    */
-  public LSInput resolveResource( 
-    String type, String namespaceuri, String publicid, String systemid, String baseuri 
-  ) {
+  @Override
+  public LSInput resolveResource( String type, String namespaceuri, String publicid, String systemid, String baseuri ) {
     if( domimpl != null ) {
       if( (publicid != null) || (systemid != null) ) {
         byte[] result = loadData( publicid, systemid );
@@ -288,6 +281,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   /**
    * {@inheritDoc}
    */
+  @Override
   public Source resolve( String href, String base ) throws TransformerException {
     return null;
   }

@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.sys;
+package com.kasisoft.libs.common.sys;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * Simple class that provides some system related informations.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum SystemInfo {
   
   Sun           ( "SunOS"         , true  , "$%s", "$(%s)" ),
@@ -53,7 +50,7 @@ public enum SystemInfo {
    * 
    * @return   The variable keys matching the os. Neither <code>null</code> nor empty.
    */
-  public String[] getVariableKeys( @KNotEmpty(name="keyname") String keyname ) {
+  public String[] getVariableKeys( String keyname ) {
     String[] result = new String[ varformats.length ];
     for( int i = 0; i < varformats.length; i++ ) {
       result[i] = String.format( varformats[i], keyname );
@@ -65,9 +62,8 @@ public enum SystemInfo {
   /**
    * Returns <code>true</code> if the filesystem is case sensitive.
    * 
-   * @note [09-Jan-2010:KASI]   This information is just a close guess. Case sensitivity of a filesystem
-   *                            might as well depend on the technical specifications of the filesystem
-   *                            itself.
+   * @note [09-Dec-2012:KASI]   This information is just a close guess. Case sensitivity of a filesystem might as well 
+   *                            depend on the technical specifications of the filesystem itself.
    * 
    * @return   <code>true</code> <=> The filesystem is case sensitive.
    */
@@ -84,10 +80,7 @@ public enum SystemInfo {
    * 
    * @return   <code>true</code> <=> The supplied candidate ends with the specified literal.
    */
-  public boolean endsWith( 
-    @KNotEmpty(name="candidate")   String   candidate, 
-    @KNotEmpty(name="suffix")      String   suffix 
-  ) {
+  public boolean endsWith( String candidate, String suffix ) {
     if( casesensitive ) {
       return candidate.endsWith( suffix );
     } else {
@@ -104,10 +97,7 @@ public enum SystemInfo {
    * 
    * @return   <code>true</code> <=> The supplied candidate begins with the specified literal.
    */
-  public boolean startsWith( 
-    @KNotEmpty(name="candidate")   String   candidate, 
-    @KNotEmpty(name="suffix")      String   suffix 
-  ) {
+  public boolean startsWith( String candidate, String suffix ) {
     if( casesensitive ) {
       return candidate.startsWith( suffix );
     } else {
@@ -116,18 +106,15 @@ public enum SystemInfo {
   }
 
   /**
-   * Returns <code>true</code> if the supplied candidate begins with a specific literal. This function
-   * is intended to be used for filesystem resources.
+   * Returns <code>true</code> if the supplied candidate begins with a specific literal. This function is intended to 
+   * be used for filesystem resources.
    * 
    * @param candidate   The candidated that has to be tested. Neither <code>null</code> nor empty.
    * @param suffix      The potential begin. Neither <code>null</code> nor empty.
    * 
    * @return   <code>true</code> <=> The supplied candidate begins with the specified literal.
    */
-  public boolean startsWith( 
-    @KNotEmpty(name="candidate")   StringBuffer   candidate, 
-    @KNotEmpty(name="suffix")      String         suffix 
-  ) {
+  public boolean startsWith( StringBuffer candidate, String suffix ) {
     if( candidate.length() < suffix.length() ) {
       return false;
     }
@@ -140,18 +127,15 @@ public enum SystemInfo {
   }
 
   /**
-   * Returns <code>true</code> if the supplied candidate ends with a specific literal. This function
-   * is intended to be used for filesystem resources.
+   * Returns <code>true</code> if the supplied candidate ends with a specific literal. This function is intended to be 
+   * used for filesystem resources.
    * 
    * @param candidate   The candidated that has to be tested. Neither <code>null</code> nor empty.
    * @param suffix      The potential ending. Neither <code>null</code> nor empty.
    * 
    * @return   <code>true</code> <=> The supplied candidate ends with the specified literal.
    */
-  public boolean endsWith( 
-    @KNotEmpty(name="candidate")   StringBuffer   candidate, 
-    @KNotEmpty(name="suffix")      String         suffix 
-  ) {
+  public boolean endsWith( StringBuffer candidate, String suffix ) {
     if( candidate.length() < suffix.length() ) {
       return false;
     }
@@ -212,9 +196,9 @@ public enum SystemInfo {
   }
 
   /**
-   * Returns the currently actively used operating system if it could be determined. If it's not
-   * available a value of <code>null</code> is returned. Check for the property {@link SystemProperty#OsName}
-   * to get the actual key for the running operating system in that case.
+   * Returns the currently actively used operating system if it could be determined. If it's not available a value of 
+   * <code>null</code> is returned. Check for the property {@link SystemProperty#OsName} to get the actual key for the 
+   * running operating system in that case.
    * 
    * @return   The constant used to identify the operating system. Maybe <code>null</code>.
    */

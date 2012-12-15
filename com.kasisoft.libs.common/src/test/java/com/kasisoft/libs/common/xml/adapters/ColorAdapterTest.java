@@ -6,9 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml.adapters;
+package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.lgpl.libs.common.base.*;
+import com.kasisoft.libs.common.base.*;
 
 import org.testng.annotations.*;
 

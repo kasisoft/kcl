@@ -6,21 +6,19 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.swing;
+package com.kasisoft.libs.common.swing;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.util.*;
 
-import java.awt.geom.*;
-import java.awt.*;
-
-import java.util.List;
 import java.util.*;
+import java.util.List;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 /**
  * Simple helper classes used to manage fonts.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FontPool {
 
   private Map<String,Font>   fonts;
@@ -49,7 +47,7 @@ public class FontPool {
    * 
    * @return   <code>true</code> <=> A Font for the supplied family is available.
    */
-  public boolean isKnownFamily( @KNotEmpty(name="familyname") String familyname ) {
+  public boolean isKnownFamily( String familyname ) {
     return fonts.containsKey( familyname );
   }
   
@@ -61,7 +59,7 @@ public class FontPool {
    * @return   The Font instance if {@link #isKnownFamily(String)} is <code>true</code> else 
    *           <code>null</code>.
    */
-  public Font getFont( @KNotEmpty(name="familyname") String familyname ) {
+  public Font getFont( String familyname ) {
     return fonts.get( familyname );
   }
   
@@ -81,7 +79,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( @KNotEmpty(name="familyname") String familyname, int style, float size ) {
+  public Font deriveFont( String familyname, int style, float size ) {
     Font font = fonts.get( familyname );
     return font.deriveFont( style, size );
   }
@@ -91,7 +89,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( @KNotEmpty(name="familyname") String familyname, int style, AffineTransform trans ) {
+  public Font deriveFont( String familyname, int style, AffineTransform trans ) {
     Font font = fonts.get( familyname );
     return font.deriveFont( style, trans );
   }
@@ -101,7 +99,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( @KNotEmpty(name="familyname") String familyname, float size ) {
+  public Font deriveFont( String familyname, float size ) {
     Font font = fonts.get( familyname );
     return font.deriveFont( size );
   }
@@ -111,7 +109,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( @KNotEmpty(name="familyname") String familyname, AffineTransform trans ){
+  public Font deriveFont( String familyname, AffineTransform trans ){
     Font font = fonts.get( familyname );
     return font.deriveFont( trans );
   }
@@ -121,7 +119,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( @KNotEmpty(name="familyname") String familyname, int style ){
+  public Font deriveFont( String familyname, int style ){
     Font font = fonts.get( familyname );
     return font.deriveFont( style );
   }

@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.thread;
 
 /**
  * Basic implementation for a Runnable.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public abstract class AbstractRunnable<T> implements Runnable {
 
   private boolean   stopped;
@@ -22,6 +19,7 @@ public abstract class AbstractRunnable<T> implements Runnable {
   /**
    * {@inheritDoc}
    */
+  @Override
   public final void run() {
     stopped   = false;
     completed = false;
@@ -33,9 +31,8 @@ public abstract class AbstractRunnable<T> implements Runnable {
   }
 
   /**
-   * Maybe used in order to provide progress information. A listener concept would also be a
-   * possibility but I suspect that the information will often be ignored, so this mechanism
-   * is the cheaper one.
+   * Maybe used in order to provide progress information. A listener concept would also be a possibility but I suspect 
+   * that the information will often be ignored, so this mechanism is the cheaper one.
    * 
    * @param progressinfo   The current progress information.
    */

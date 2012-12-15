@@ -1,25 +1,22 @@
 /**
  * Name........: BasicFileFilter
- * Description.: FileFilter implementation which is capable to be used with the standard File class 
- *               as well as with the JFileChooser implementation. 
- * Author......: Daniel Kasmeroglu
+ * Description.: FileFilter implementation which is capable to be used with the standard File class as well as with the 
+ *               JFileChooser implementation. 
+ * Author......: Daniel Kasmeroglu1
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.io;
+package com.kasisoft.libs.common.io;
 
-import com.kasisoft.lgpl.libs.common.sys.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.sys.*;
 
 import java.io.*;
 
 /**
- * FileFilter implementation which is capable to be used with the standard File class as well as 
- * with the JFileChooser implementation.
+ * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 
+ * implementation.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class BasicFileFilter extends javax.swing.filechooser.FileFilter implements FileFilter {
 
   private String   mainsuffix;
@@ -30,9 +27,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * 
    * @param suffix   The suffix to be used with this filter. Neither <code>null</code> nor empty.
    */
-  public BasicFileFilter( 
-    @KNotEmpty(name="suffix")   String   suffix 
-  ) {
+  public BasicFileFilter( String suffix ) {
     mainsuffix  = validateSuffix( suffix );
     description = null;
   }
@@ -43,10 +38,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * @param suffix              The suffix to be used with this filter. Neither <code>null</code> nor empty.
    * @param filterdescription   The description which will be displayed.
    */
-  public BasicFileFilter( 
-    @KNotEmpty(name="suffix")              String   suffix, 
-    @KNotEmpty(name="filterdescription")   String   filterdescription 
-  ) {
+  public BasicFileFilter( String suffix, String filterdescription ) {
     this( suffix );
     description = filterdescription;
   }
@@ -61,9 +53,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * @return   The suffix if it was correct already or an adjusted pendant. 
    *           Neither <code>null</code> nor empty.
    */
-  protected String validateSuffix( 
-    @KNotEmpty(name="suffix")   String   suffix 
-  ) {
+  protected String validateSuffix( String suffix ) {
     if( suffix.charAt(0) != '.' ) {
       suffix = String.format( ".%s", suffix );
     }
@@ -80,9 +70,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * 
    * @return   The supplied File or a changed one if it was necessary.
    */
-  public File fixFile( 
-    @KNotNull(name="file")   File   file 
-  ) {
+  public File fixFile( File file ) {
     String name = file.getName();
     if( name.endsWith( mainsuffix ) ) {
       // the name is already valid
@@ -99,9 +87,8 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
   /**
    * {@inheritDoc}
    */
-  public boolean accept( 
-    @KNotNull(name="file")   File   file 
-  ) {
+  @Override
+  public boolean accept( File file ) {
     if( ! file.isFile() ) {
       return true;
     }
@@ -110,14 +97,14 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
   }
 
   /**
-   * Returns a normalised filename allowing to be used depending on the currently running operating
-   * system mainly useful to handle case sensitivity.
+   * Returns a normalised filename allowing to be used depending on the currently running operating system mainly useful 
+   * to handle case sensitivity.
    * 
    * @param filename   The filename to be altered if necessary. Neither <code>null</code> nor empty.
    * 
    * @return   The normalised filename. Neither <code>null</code> nor empty.
    */
-  protected String normaliseFilename( @KNotEmpty(name="filename") String filename ) {
+  protected String normaliseFilename( String filename ) {
     if( SystemInfo.getRunningOS().isCaseSensitiveFS() ) {
       return filename;
     } else {
@@ -137,6 +124,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getDescription() {
     if( description == null ) {
       return getSuffixList();

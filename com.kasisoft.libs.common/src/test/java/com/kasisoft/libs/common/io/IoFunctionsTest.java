@@ -6,11 +6,10 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.io;
+package com.kasisoft.libs.common.io;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.libs.common.test.framework.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
 
@@ -33,7 +32,7 @@ public class IoFunctionsTest {
   private File   unpackeddir;
   private File   destfile;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     testdata      = new File( "testdata" );
     destfile      = IoFunctions.newTempFile( "file-", ".zip" );
@@ -119,7 +118,7 @@ public class IoFunctionsTest {
     File    tempfile1 = Utilities.createRandomBytesFile();
     File    tempfile2 = IoFunctions.newTempFile();
     IoFunctions.copy( tempfile1, tempfile2 );
-    Assert.assertEquals( tempfile2, tempfile1, "Comparing files." );
+    AssertExtension.assertEquals( tempfile2, tempfile1 );
     
   }
   
@@ -129,7 +128,7 @@ public class IoFunctionsTest {
     File tempdir1 = Utilities.createRandomDirectory();
     File tempdir2 = IoFunctions.newTempFile();
     IoFunctions.copyDir( tempdir1, tempdir2, true );
-    Assert.assertEquals( tempdir2, tempdir1, "Comparing directories." );
+    AssertExtension.assertEquals( tempdir2, tempdir1 );
     
   }
   
@@ -268,7 +267,7 @@ public class IoFunctionsTest {
     Assert.assertEquals( result1, "BLUB" );
     
     File                  testfile  = new File( testdata, "testfile.txt" );
-    String                result2   = Encoding.UTF8.decode( IoFunctions.loadFragment( testfile, 15, 6 ) );
+    String                result2   = Encoding.UTF8.decode( IoFunctions.loadFragment( testfile, 13, 6 ) );
     Assert.assertEquals( result2, "LINE 1" );
     
   }
@@ -359,23 +358,20 @@ public class IoFunctionsTest {
        */
       public boolean accept( File pathname ) {
         if( pathname.isDirectory() ) {
-          return ! ".svn".equalsIgnoreCase( pathname.getName() );
+          return ! "_svn".equalsIgnoreCase( pathname.getName() );
         }
         return true;
       }
     };
     
     List<File> list1  = IoFunctions.listRecursive( testdata, filter );
-    for( int i = 0; i < list1.size(); i++ ) {
-      System.out.println( "### [" + i + "] := " + list1.get(i).getAbsolutePath() );
-    }
     Assert.assertEquals( list1.size(), 26 );
 
     List<File> list2  = IoFunctions.listRecursive( testdata, filter, true, false );
-    Assert.assertEquals( list2.size(), 18 );
+    Assert.assertEquals( list2.size(), 19 );
 
     List<File> list3  = IoFunctions.listRecursive( testdata, filter, false, true );
-    Assert.assertEquals( list3.size(), 8 );
+    Assert.assertEquals( list3.size(), 7 );
 
   }
   
@@ -392,7 +388,7 @@ public class IoFunctionsTest {
   @Test
   public void locateDirectory() throws IOException {
     File dir      = IoFunctions.locateDirectory( Iso3166Test.class );
-    File current  = new File( "classes" );;
+    File current  = new File( "target/test-classes" );;
     Assert.assertEquals( dir, current.getCanonicalFile() );
   }
 

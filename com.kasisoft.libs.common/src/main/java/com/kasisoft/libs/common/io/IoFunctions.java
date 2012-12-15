@@ -6,33 +6,31 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.io;
+package com.kasisoft.libs.common.io;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-import com.kasisoft.lgpl.libs.common.thread.*;
-import com.kasisoft.lgpl.libs.common.util.*;
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.libs.common.sys.*;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
 
-import java.util.zip.*;
+
+
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.sys.*;
+import com.kasisoft.libs.common.thread.*;
+import com.kasisoft.libs.common.util.*;
+
 import java.util.*;
-
-import java.nio.channels.*;
+import java.util.zip.*;
 
 import java.net.*;
+
 import java.io.*;
 
 /**
  * Collection of functions used for IO operations.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class IoFunctions {
 
   private static final byte[]          NO_DATA     = new byte[0];
-
-  private static final Buffers<byte[]> BYTEBUFFERS = Buffers.newBuffers( Primitive.PByte );
 
   /**
    * Prevent instantiation.
@@ -41,30 +39,45 @@ public class IoFunctions {
   }
   
   /**
-   * Creates an instance of {@link FileInputStream} and handles potential exceptions.
+   * Creates an instance of {@link InputStream} and handles potential exceptions.
    * 
    * @param file   The {@link File} that will be opened. Not <code>null</code>.
    * 
-   * @return   The opened {@link FileInputStream}. Not <code>null</code>.
+   * @return   The opened {@link InputStream}. Not <code>null</code>.
    */
-  public static final FileInputStream newFileInputStream( @KFile(name="file") File file ) {
+  public static final InputStream newInputStream( File file ) {
     try {
-      return new FileInputStream( file );
+      return new BufferedInputStream( new FileInputStream( file ) );
     } catch( FileNotFoundException ex ) {
       throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath() );
     }
   }
 
   /**
-   * Creates an instance of {@link FileOutputStream} and handles potential exceptions.
+   * Creates an instance of {@link InputStream} and handles potential exceptions.
+   * 
+   * @param url   The URL pointing to the resource that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link InputStream}. Not <code>null</code>.
+   */
+  public static final InputStream newInputStream( URL url ) {
+    try {
+      return new BufferedInputStream( url.openStream() );
+    } catch( IOException e ) {
+      throw new FailureException( FailureCode.IO, url.toExternalForm() );
+    }
+  }
+
+  /**
+   * Creates an instance of {@link OutputStream} and handles potential exceptions.
    * 
    * @param file   The {@link File} that will be opened. Not <code>null</code>.
    * 
-   * @return   The opened {@link FileOutputStream}. Not <code>null</code>.
+   * @return   The opened {@link OutputStream}. Not <code>null</code>.
    */
-  public static final FileOutputStream newFileOutputStream( @KFile(name="file") File file ) {
+  public static final OutputStream newOutputStream( File file ) {
     try {
-      return new FileOutputStream( file );
+      return new BufferedOutputStream( new FileOutputStream( file ) );
     } catch( FileNotFoundException ex ) {
       throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath() );
     }
@@ -106,144 +119,14 @@ public class IoFunctions {
       basename  = "";
     }
     File dir        = CommonProperty.TempDir.getValue();
-    long number     = (long) (System.currentTimeMillis() * Math.random());
-    File candidate  = new File( dir, String.format( "%s%08x%s", basename, Long.valueOf( number ), suffix ) );
-    while( candidate.exists() ) {
-      candidate = new File( dir, String.format( "%s%08x%s", basename, Long.valueOf( number ), suffix ) );
-    }
+    File candidate  = null;
+    do {
+      long number = (long) (System.currentTimeMillis() * Math.random());
+      candidate   = new File( dir, String.format( "%s%08x%s", basename, Long.valueOf( number ), suffix ) );
+    } while( candidate.exists() );
     return candidate;
   }
 
-  /**
-   * Closes the supplied channel. 
-   * 
-   * @param fail      <code>true</code> <=> Cause an exception if it happens.
-   * @param channel   The channel that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
-   *                            exception comes up.
-   *                            
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
-   */
-  public static final void close( boolean fail, FileChannel channel ) {
-    MiscFunctions.close( fail, channel );
-  }
-
-  /**
-   * Closes the supplied channel. An exception will not be launched in case of an exception. 
-   * 
-   * @param channel   The channel that has to be closed. Maybe <code>null</code>.
-   * 
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
-   */
-  public static final void close( FileChannel channel ) {
-    MiscFunctions.close( channel );
-  }
-  
-  /**
-   * Closes the supplied stream. 
-   * 
-   * @param fail     <code>true</code> <=> Cause an exception if it happens.
-   * @param stream   The stream that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
-   *                            exception comes up.
-   *                            
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
-   */
-  public static final void close( boolean fail, InputStream stream ) {
-    MiscFunctions.close( fail, stream );
-  }
-  
-  /**
-   * Closes the supplied stream. An exception will not be launched in case of an exception. 
-   * 
-   * @param stream   The stream that has to be closed. Maybe <code>null</code>.
-   * 
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
-   */
-  public static final void close( InputStream stream ) {
-    MiscFunctions.close( stream );
-  }
-  
-  /**
-   * Closes the supplied stream.
-   * 
-   * @param fail     <code>true</code> <=> Cause an exception if it happens.
-   * @param stream   The stream that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
-   *                            exception comes up.
-   *                            
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
-   */
-  public static final void close( boolean fail, OutputStream stream ) {
-    MiscFunctions.close( fail, stream );
-  }
-  
-  /**
-   * Closes the supplied stream. An exception will not be launched in case of an exception.
-   * 
-   * @param stream   The stream that has to be closed. Maybe <code>null</code>.
-   * 
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
-   */
-  public static final void close( OutputStream stream ) {
-    MiscFunctions.close( stream );
-  }
-  
-  /**
-   * Closes the supplied reader. 
-   * 
-   * @param fail     <code>true</code> <=> Cause an exception if it happens.
-   * @param reader   The reader that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
-   *                            exception comes up.
-   *                            
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
-   */
-  public static final void close( boolean fail, Reader reader ) {
-    MiscFunctions.close( fail, reader );
-  }
-  
-  /**
-   * Closes the supplied reader. An exception will not be launched in case of an exception. 
-   * 
-   * @param reader   The reader that has to be closed. Maybe <code>null</code>.
-   * 
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
-   */
-  public static final void close( Reader reader ) {
-    MiscFunctions.close( reader );
-  }
-  
-  /**
-   * Closes the supplied writer.
-   * 
-   * @param fail     <code>true</code> <=> Cause an exception if it happens.
-   * @param writer   The writer that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an
-   *                            exception comes up.
-   *                            
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(boolean, Closeable)} instead.
-   */
-  public static final void close( boolean fail, Writer writer ) {
-    MiscFunctions.close( fail, writer );
-  }
-  
-  /**
-   * Closes the supplied writer. An exception will not be launched in case of an exception.
-   * 
-   * @param writer   The writer that has to be closed. Maybe <code>null</code>.
-   * 
-   * @deprecated since 0.7; Use {@link MiscFunctions#close(Closeable)} instead.
-   */
-  public static final void close( Writer writer ) {
-    MiscFunctions.close( writer );
-  }
-  
   /**
    * Allocates some byte buffer.
    * 
@@ -252,7 +135,7 @@ public class IoFunctions {
    * @return   The buffer itself. Not <code>null</code>.
    */
   public static final byte[] allocateBytes( Integer size ) {
-    return BYTEBUFFERS.allocate( size );
+    return Primitive.PByte.<byte[]>getBuffers().allocate( size );
   }
 
   /**
@@ -260,10 +143,8 @@ public class IoFunctions {
    * 
    * @param buffer   The buffer which has to be released. Not <code>null</code>.
    */
-  public static final void releaseBytes( 
-    @KNotNull(name="buffer")   byte[]   buffer 
-  ) {
-    BYTEBUFFERS.release( buffer );
+  public static final void releaseBytes( byte[] buffer ) {
+    Primitive.PByte.<byte[]>getBuffers().release( buffer );
   }
 
   /**
@@ -275,27 +156,12 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    InputStream    input, 
-    @KNotNull(name="output")   OutputStream   output, 
-                               byte[]         buffer
-  ) {
-    byte[] allocated = null;
-    if( buffer == null ) { 
-      allocated = allocateBytes( null );
-      buffer    = allocated;
-    }
-    try {
-      ByteCopierRunnable runnable = new ByteCopierRunnable();
-      runnable.configure( input, output, buffer );
-      runnable.run();
-      if( ! runnable.hasCompleted() ) {
-        throw new FailureException( FailureCode.IO );
-      }
-    } finally {
-      if( allocated != null ) {
-        releaseBytes( allocated );
-      }
+  public static final void copy( InputStream input, OutputStream output, byte[] buffer ) {
+    ByteCopierRunnable runnable = new ByteCopierRunnable( buffer );
+    runnable.configure( input, output );
+    runnable.run();
+    if( ! runnable.hasCompleted() ) {
+      throw new FailureException( FailureCode.IO );
     }
   }
 
@@ -304,14 +170,10 @@ public class IoFunctions {
    * 
    * @param input    The stream providing the content. Not <code>null</code>.
    * @param output   The stream receiving the content. Not <code>null</code>.
-   * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    InputStream    input, 
-    @KNotNull(name="output")   OutputStream   output
-  ) {
+  public static final void copy( InputStream input, OutputStream output ) {
     copy( input, output, (byte[]) null );
   }
   
@@ -324,21 +186,12 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    InputStream    input, 
-    @KNotNull(name="output")   OutputStream   output, 
-                               Integer        buffersize
-  ) {
-    byte[] allocated = allocateBytes( buffersize );
-    try {
-      ByteCopierRunnable runnable = new ByteCopierRunnable();
-      runnable.configure( input, output, allocated );
-      runnable.run();
-      if( ! runnable.hasCompleted() ) {
-        throw new FailureException( FailureCode.IO );
-      }
-    } finally {
-      releaseBytes( allocated );
+  public static final void copy( InputStream input, OutputStream output, Integer buffersize ) {
+    ByteCopierRunnable runnable = new ByteCopierRunnable( buffersize );
+    runnable.configure( input, output );
+    runnable.run();
+    if( ! runnable.hasCompleted() ) {
+      throw new FailureException( FailureCode.IO );
     }
   }
 
@@ -351,11 +204,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    InputStream    input, 
-    @KNotNull(name="output")   OutputStream   output, 
-                               int            buffersize
-  ) {
+  public static final void copy( InputStream input, OutputStream output, int buffersize ) {
     copy( input, output, Integer.valueOf( buffersize ) );
   }
   
@@ -367,26 +216,14 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final void copy( 
-    @KFile(name="input")                             File   input, 
-    @KFile(name="output", right=KFile.Right.Write)   File   output 
-  ) {
-    FileInputStream   instream   = null;
-    FileOutputStream  outstream  = null;
-    FileChannel       inchannel  = null;
-    FileChannel       outchannel = null;
+  public static final void copy( File input, File output ) {
+    InputStream   instream   = null;
+    OutputStream  outstream  = null;
     try {
-      long size  = input.length();
-      instream   = newFileInputStream  ( input );
-      outstream  = newFileOutputStream ( output );
-      inchannel  = instream  . getChannel();
-      outchannel = outstream . getChannel();
-      inchannel.transferTo( 0, size, outchannel );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      instream   = newInputStream  ( input  );
+      outstream  = newOutputStream ( output );
+      copy( instream, outstream );
     } finally {
-      MiscFunctions.close( inchannel  );
-      MiscFunctions.close( outchannel );
       MiscFunctions.close( instream   );
       MiscFunctions.close( outstream  );
     }
@@ -401,11 +238,7 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final void copyDir( 
-    @KDirectory(name="input")                  File      input, 
-    @KDirectory(name="output", exists=false)   File      output,
-                                               boolean   recursive
-  ) {
+  public static final void copyDir( File input, File output, boolean recursive ) {
     if( ! output.exists() ) {
       mkdirs( output );
     }
@@ -432,27 +265,12 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    Reader   input, 
-    @KNotNull(name="output")   Writer   output, 
-                               char[]   buffer
-  ) {
-    char[] allocated = null;
-    if( buffer == null ) { 
-      allocated = StringFunctions.allocateChars( null );
-      buffer    = allocated;
-    }
-    try {
-      CharCopierRunnable runnable = new CharCopierRunnable();
-      runnable.configure( input, output, buffer );
-      runnable.run();
-      if( ! runnable.hasCompleted() ) {
-        throw new FailureException( FailureCode.IO );
-      }
-    } finally {
-      if( allocated != null ) {
-        StringFunctions.releaseChars( allocated );
-      }
+  public static final void copy( Reader input, Writer output, char[] buffer ) {
+    CharCopierRunnable runnable = new CharCopierRunnable( buffer );
+    runnable.configure( input, output );
+    runnable.run();
+    if( ! runnable.hasCompleted() ) {
+      throw new FailureException( FailureCode.IO );
     }
   }
 
@@ -461,14 +279,10 @@ public class IoFunctions {
    * 
    * @param input    The reader providing the content. Not <code>null</code>.
    * @param output   The writer receiving the content. Not <code>null</code>.
-   * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    Reader   input, 
-    @KNotNull(name="output")   Writer   output
-  ) {
+  public static final void copy( Reader input, Writer output ) {
     copy( input, output, (char[]) null );
   }
   
@@ -481,21 +295,12 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    Reader    input, 
-    @KNotNull(name="output")   Writer    output, 
-                               Integer   buffersize
-  ) {
-    char[] allocated = StringFunctions.allocateChars( buffersize );
-    try {
-      CharCopierRunnable runnable = new CharCopierRunnable();
-      runnable.configure( input, output, allocated );
-      runnable.run();
-      if( ! runnable.hasCompleted() ) {
-        throw new FailureException( FailureCode.IO );
-      }
-    } finally {
-      StringFunctions.releaseChars( allocated );
+  public static final void copy( Reader input, Writer output, Integer buffersize ) {
+    CharCopierRunnable runnable = new CharCopierRunnable( buffersize );
+    runnable.configure( input, output );
+    runnable.run();
+    if( ! runnable.hasCompleted() ) {
+      throw new FailureException( FailureCode.IO );
     }
   }
 
@@ -508,11 +313,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( 
-    @KNotNull(name="input")    Reader   input, 
-    @KNotNull(name="output")   Writer   output, 
-                               int      buffersize
-  ) {
+  public static final void copy( Reader input, Writer output, int buffersize ) {
     copy( input, output, Integer.valueOf( buffersize ) );
   }
   
@@ -527,10 +328,7 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final byte[] loadBytes( 
-    @KNotNull(name="input")   InputStream   input, 
-                              Integer       buffersize
-  ) {
+  public static final byte[] loadBytes( InputStream input, Integer buffersize ) {
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     copy( input, byteout, buffersize );
     return byteout.toByteArray();
@@ -540,17 +338,13 @@ public class IoFunctions {
    * Reads the binary content of a Reader.
    * 
    * @param input        The Reader providing the content. Not <code>null</code>.
-   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use
-   *                     the default size.
+   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use the default size.
    *                       
    * @return   The binary content. Not <code>null</code>.
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final char[] loadChars( 
-    @KNotNull(name="input")   Reader    input, 
-                              Integer   buffersize
-  ) {
+  public static final char[] loadChars( Reader input, Integer buffersize ) {
     CharArrayWriter charout = new CharArrayWriter();
     copy( input, charout, buffersize );
     return charout.toCharArray();
@@ -560,21 +354,17 @@ public class IoFunctions {
    * Reads the binary content of a File.
    * 
    * @param file         The File providing the content. Not <code>null</code>.
-   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use
-   *                     the default size.
+   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use the default size.
    *                       
    * @return   The binary content. Not <code>null</code>.
    *
    * @throws FailureException whenever the reading process fails for some reason.
    */
-  public static final byte[] loadBytes( 
-    @KFile(name="file")   File      file, 
-                          Integer   buffersize 
-  ) {
+  public static final byte[] loadBytes( File file, Integer buffersize ) {
     InputStream           input   = null;
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     try {
-      input = newFileInputStream( file );
+      input = newInputStream( file );
       copy( input, byteout, buffersize );
     } finally {
       MiscFunctions.close( true, input );
@@ -586,24 +376,18 @@ public class IoFunctions {
    * Reads the binary content of an URL.
    * 
    * @param url          The resource providing the content. Not <code>null</code>.
-   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use
-   *                     the default size.
+   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use the default size.
    *                       
    * @return   The binary content. Not <code>null</code>.
    *
    * @throws FailureException whenever the reading process fails for some reason.
    */
-  public static final byte[] loadBytes( 
-    @KNotNull(name="url")   URL       url, 
-                            Integer   buffersize 
-  ) {
+  public static final byte[] loadBytes( URL url, Integer buffersize ) {
     InputStream           input   = null;
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     try {
-      input = url.openStream();
+      input = newInputStream( url );
       copy( input, byteout, buffersize );
-    } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
     } finally {
       MiscFunctions.close( true, input );
     }
@@ -619,11 +403,7 @@ public class IoFunctions {
    * 
    * @throws IOException   Loading the content failed for some reason.
    */
-  public static final void loadBytes( 
-    @KNotNull(name="buffer")    byte[]        buffer, 
-    @KNotNull(name="instream")  InputStream   instream, 
-    @KIPositive(name="count")   int           count 
-  ) throws IOException {
+  public static final void loadBytes( byte[] buffer, InputStream instream, int count ) throws IOException {
     int offset  = 0; 
     int read    = instream.read( buffer, offset, count );
     while( (read != -1) && (count > 0) ) {
@@ -644,11 +424,7 @@ public class IoFunctions {
    * 
    * @throws IOException   Loading the content failed for some reason.
    */
-  public static final void loadChars( 
-    @KNotNull(name="buffer")    char[]   buffer, 
-    @KNotNull(name="instream")  Reader   reader, 
-    @KIPositive(name="count")   int      count 
-  ) throws IOException {
+  public static final void loadChars( char[] buffer, Reader reader, int count ) throws IOException {
     int offset  = 0; 
     int read    = reader.read( buffer, offset, count );
     while( (read != -1) && (count > 0) ) {
@@ -664,20 +440,15 @@ public class IoFunctions {
    * Reads the character content of a File.
    * 
    * @param file         The File providing the content. Not <code>null</code>.
-   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use
-   *                     the default size.
-   * @param encoding     The encoding which has to be used to read the characters. If <code>null</code>
-   *                     the default encoding is used.
+   * @param buffersize   The buffer size to use. A value of <code>null</code> indicates to use the default size.
+   * @param encoding     The encoding which has to be used to read the characters. If <code>null</code> the default 
+   *                     encoding is used.
    *                       
    * @return   The character content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
    */
-  public static final char[] loadChars( 
-    @KFile(name="input")   File       file, 
-                           Integer    buffersize, 
-                           Encoding   encoding 
-  ) {
+  public static final char[] loadChars( File file, Integer buffersize, Encoding encoding ) {
     Reader          reader  = null;
     CharArrayWriter charout = new CharArrayWriter();
     try {
@@ -700,11 +471,7 @@ public class IoFunctions {
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText( 
-    @KNotNull(name="input")   Reader    input, 
-                              boolean   trim, 
-                              boolean   emptylines 
-  ) {
+  public static final List<String> readText( Reader input, boolean trim, boolean emptylines ) {
     List<String>       result   = new ArrayList<String>();
     LineReaderRunnable runnable = new LineReaderRunnable( input, result );
     runnable.setTrim( trim );
@@ -726,9 +493,7 @@ public class IoFunctions {
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText(
-    @KNotNull(name="input")   Reader   input 
-  ) {
+  public static final List<String> readText( Reader input ) {
     return readText( input, false, true );
   }
   
@@ -738,19 +503,14 @@ public class IoFunctions {
    * @param input        The File providing the textual content. Not <code>null</code>.
    * @param trim         <code>true</code> <=> Trim each line.
    * @param emptylines   <code>true</code> <=> Also include empty lines in the result.
-   * @param encoding     The encoding to be used while loading the content. If <code>null</code>
-   *                     the default encoding will be used.
+   * @param encoding     The encoding to be used while loading the content. If <code>null</code> the default encoding 
+   *                     will be used.
    * 
    * @return   A list with the textual content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText( 
-    @KFile(name="input")   File       input, 
-                           boolean    trim, 
-                           boolean    emptylines,
-                           Encoding   encoding
-  ) {
+  public static final List<String> readText( File input, boolean trim, boolean emptylines, Encoding encoding ) {
     Reader reader = null;
     try {
       reader = Encoding.openReader( input, encoding );
@@ -761,28 +521,18 @@ public class IoFunctions {
   }
 
   /**
-   * Loads the textual content from a File. The lines will be read as is, so even empty
-   * lines will be returned.
+   * Loads the textual content from a File. The lines will be read as is, so even empty lines will be returned.
    * 
    * @param input      The File providing the textual content. Not <code>null</code>.
-   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the
-   *                   default encoding will be used.
+   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
+   *                   be used.
    * 
    * @return   A list with the textual content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText( 
-    @KFile(name="input")   File       input,
-                           Encoding   encoding
-  ) {
-    Reader reader = null;
-    try {
-      reader = Encoding.openReader( input, encoding );
-      return readText( reader, false, true );
-    } finally {
-      MiscFunctions.close( reader );
-    }
+  public static final List<String> readText( File input, Encoding encoding ) {
+    return readText( input, false, true, encoding );
   }
 
   /**
@@ -793,10 +543,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if skipping didn't succeed.
    */
-  public static final void skip( 
-    @KNotNull(name="input")                 InputStream   input, 
-    @KIPositive(name="offset", zero=true)   int           offset 
-  ) {
+  public static final void skip( InputStream input, int offset ) {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
@@ -816,10 +563,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if skipping didn't succeed.
    */
-  public static final void skip( 
-    @KNotNull(name="input")                 Reader   input, 
-    @KIPositive(name="offset", zero=true)   int      offset 
-  ) {
+  public static final void skip( Reader input, int offset ) {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
@@ -842,13 +586,9 @@ public class IoFunctions {
    * 
    * @throws FailureException in case the fragment could not be read.
    */
-  public static final byte[] loadFragment( 
-    @KNotNull(name="input")                 InputStream   input, 
-    @KIPositive(name="offset", zero=true)   int           offset, 
-    @KIPositive(name="length")              int           length 
-  ) {
+  public static final byte[] loadFragment( InputStream input, int offset, int length ) {
     skip( input, offset );
-    byte[] buffer = BYTEBUFFERS.allocate( Integer.valueOf( length ) );
+    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( Integer.valueOf( length ) );
     try {
       int read = input.read( buffer, 0, length );
       if( (read != -1) && (read > 0) ) {
@@ -861,7 +601,7 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {
-      BYTEBUFFERS.release( buffer );
+      Primitive.PByte.<byte[]>getBuffers().release( buffer );
     }
   }
   
@@ -876,14 +616,10 @@ public class IoFunctions {
    * 
    * @throws FailureException in case the fragment could not be read.
    */
-  public static final byte[] loadFragment( 
-    @KFile(name="file")                     File   file, 
-    @KIPositive(name="offset", zero=true)   int    offset, 
-    @KIPositive(name="length")              int    length 
-  ) {
+  public static final byte[] loadFragment( File file, int offset, int length ) {
     InputStream input = null;
     try {
-      input = newFileInputStream( file );
+      input = newInputStream( file );
       return loadFragment( input, offset, length );
     } finally {
       MiscFunctions.close( input );
@@ -891,22 +627,18 @@ public class IoFunctions {
   }
   
   /**
-   * Returns <code>true</code> if the supplied buffer indicates to be compressed using the popular
-   * GZIP algorithm.
+   * Returns <code>true</code> if the supplied buffer indicates to be compressed using the popular GZIP algorithm.
    *  
    * @param buffer   The buffer which will be tested. Not <code>null</code>.
    * 
    * @return   <code>true</code> <=> The buffer seems to be compressed using GZIP.
    */
-  public static final boolean isGZIP( 
-    @KNotNull(name="buffer")   byte[]   buffer 
-  ) {
-    return (((buffer[1] << 8) | buffer[0]) & 0x0000FFFF ) == GZIPInputStream.GZIP_MAGIC;
+  public static final boolean isGZIP( byte[] buffer ) {
+    return MagicNumber.GZIP.find( buffer );
   }
 
   /**
-   * Returns <code>true</code> if the supplied File indicates to be compressed using the popular
-   * GZIP algorithm.
+   * Returns <code>true</code> if the supplied File indicates to be compressed using the popular GZIP algorithm.
    *  
    * @param file   The File that has to be tested. Not <code>null</code>.
    * 
@@ -914,9 +646,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if loading the header failed for some reason.
    */
-  public static final boolean isGZIP( 
-    @KFile(name="file")   File   file 
-  ) {
+  public static final boolean isGZIP( File file ) {
     byte[] fragment = loadFragment( file, 0, 2 );
     if( fragment.length == 2 ) {
       return isGZIP( fragment );
@@ -936,13 +666,9 @@ public class IoFunctions {
    * 
    * @throws FailureException if the accessing the stream failed for some reason.
    */
-  public static final long crc32( 
-    @KNotNull(name="instream")   InputStream   instream, 
-                                 CRC32         crc, 
-                                 Integer       buffersize 
-  ) {
+  public static final long crc32( InputStream instream, CRC32 crc, Integer buffersize ) {
     crc           = crc == null ? new CRC32() : crc;
-    byte[] buffer = BYTEBUFFERS.allocate( buffersize );
+    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
     try {
       int read = instream.read( buffer );
       while( read != -1 ) {
@@ -954,7 +680,7 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {
-      BYTEBUFFERS.release( buffer );
+      Primitive.PByte.<byte[]>getBuffers().release( buffer );
     }
     return crc.getValue();
   }
@@ -968,9 +694,7 @@ public class IoFunctions {
    * 
    * @throws FailureException in case io failed for some reason.
    */
-  public static final long crc32( 
-    @KNotNull(name="instream")   InputStream   instream 
-  ) {
+  public static final long crc32( InputStream instream ) {
     return crc32( instream, null, null );
   }
 
@@ -985,14 +709,10 @@ public class IoFunctions {
    * 
    * @throws FailureException in case io failed for some reason.
    */
-  public static final long crc32( 
-    @KFile(name="file")   File      file, 
-                          CRC32     crc, 
-                          Integer   buffersize 
-  ) {
+  public static final long crc32( File file, CRC32 crc, Integer buffersize ) {
     InputStream input = null;
     try {
-      input = newFileInputStream( file );
+      input = newInputStream( file );
       return crc32( input, crc, buffersize );
     } finally {
       MiscFunctions.close( input );
@@ -1008,12 +728,10 @@ public class IoFunctions {
    * 
    * @throws FailureException in case io failed for some reason.
    */
-  public static final long crc32( 
-    @KFile(name="file")   File   file 
-  ) {
+  public static final long crc32( File file ) {
     InputStream input = null;
     try {
-      input = newFileInputStream( file );
+      input = newInputStream( file );
       return crc32( input, null, null );
     } finally {
       MiscFunctions.close( input );
@@ -1028,7 +746,7 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> <=> Deletion of all files succeeded.
    */
-  public static final boolean delete( @KNotNull(name="files") File ... files ) {
+  public static final boolean delete( File ... files ) {
     FileDeleteRunnable runnable = new FileDeleteRunnable( files );
     runnable.run();
     return runnable.hasCompleted();
@@ -1043,11 +761,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the text failed for some reason.
    */
-  public static final void writeText( 
-    @KNotNull(name="output")   OutputStream   output, 
-    @KNotNull(name="lines")    List<String>   lines, 
-                               Encoding       encoding 
-  ) {
+  public static final void writeText( OutputStream output, List<String> lines, Encoding encoding ) {
     PrintStream printer = null;
     try {
       printer = Encoding.openPrintStream( output, encoding );
@@ -1067,10 +781,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the text failed for some reason.
    */
-  public static final void writeText( 
-    @KNotNull(name="writer")   Writer         writer, 
-    @KNotNull(name="lines")    List<String>   lines 
-  ) {
+  public static final void writeText( Writer writer, List<String> lines ) {
     PrintWriter printer = null;
     try {
       printer = new PrintWriter( writer );
@@ -1089,17 +800,12 @@ public class IoFunctions {
    * @param lines      The text lines that have to be dumped.
    * @param encoding   The encoding to use. <code>null</code> means default encoding.
    * 
-   * 
    * @throws FailureException if writing the text failed for some reason.
    */
-  public static final void writeText( 
-    @KFile(name="file", right=KFile.Right.Write)   File           file, 
-    @KNotNull(name="lines")                        List<String>   lines, 
-                                                   Encoding       encoding 
-  ) {
+  public static final void writeText( File file, List<String> lines, Encoding encoding ) {
     OutputStream output = null;
     try {
-      output = newFileOutputStream( file );
+      output = newOutputStream( file );
       writeText( output, lines, encoding );
     } finally {
       MiscFunctions.close( output );
@@ -1113,11 +819,7 @@ public class IoFunctions {
    * @param text       The text which has to be written. Not <code>null</code>.
    * @param encoding   The encoding which has to be used. Maybe <code>null</code>.
    */
-  public static final void writeText( 
-    @KNotNull(name="output")   OutputStream   output, 
-    @KNotNull(name="text")     String         text, 
-                               Encoding       encoding 
-  ) {
+  public static final void writeText( OutputStream output, String text, Encoding encoding ) {
     PrintStream printer = null;
     try {
       printer = Encoding.openPrintStream( output, encoding );
@@ -1134,14 +836,10 @@ public class IoFunctions {
    * @param text       The text which has to be written. Not <code>null</code>.
    * @param encoding   The encoding which has to be used. Maybe <code>null</code>.
    */
-  public static final void writeText( 
-    @KFile(name="file", right=KFile.Right.Write)   File       file, 
-    @KNotNull(name="text")                         String     text, 
-                                                   Encoding   encoding 
-  ) {
+  public static final void writeText( File file, String text, Encoding encoding ) {
     OutputStream output = null;
     try {
-      output = newFileOutputStream( file );
+      output = newOutputStream( file );
       writeText( output, text, encoding );
     } finally {
       MiscFunctions.close( output );
@@ -1156,13 +854,10 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeBytes( 
-    @KFile(name="file", right=KFile.Right.Write)   File     file, 
-    @KNotNull(name="content")                      byte[]   content 
-  ) {
+  public static final void writeBytes( File file, byte[] content ) {
     OutputStream output = null;
     try {
-      output = newFileOutputStream( file );
+      output = newOutputStream( file );
       writeBytes( output, content );
     } finally {
       MiscFunctions.close( output );
@@ -1177,10 +872,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeBytes( 
-    @KNotNull(name="outstream")   OutputStream   outstream, 
-    @KNotNull(name="content")     byte[]         content 
-  ) {
+  public static final void writeBytes( OutputStream outstream, byte[] content ) {
     try {
       outstream.write( content );
     } catch( IOException ex ) {
@@ -1197,11 +889,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeCharacters( 
-    @KFile(name="file", right=KFile.Right.Write)   File       file, 
-    @KNotNull(name="content")                      char[]     content,
-    @KNotNull(name="encoding")                     Encoding   encoding
-  ) {
+  public static final void writeCharacters( File file, char[] content, Encoding encoding ) {
     Writer writer = null;
     try {
       writer = encoding.openWriter( file );
@@ -1219,10 +907,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeCharacters( 
-    @KNotNull(name="writer")    Writer   writer, 
-    @KNotNull(name="content")   char[]   content 
-  ) {
+  public static final void writeCharacters( Writer writer, char[] content ) {
     try {
       writer.write( content );
     } catch( IOException ex ) {
@@ -1241,12 +926,7 @@ public class IoFunctions {
    * 
    * @return   The list which collects the filesystem entries. Not <code>null</code>.
    */
-  public static final List<File> listRecursive( 
-    @KDirectory(name="dir")   File         dir, 
-                              FileFilter   filter, 
-                              boolean      includefiles, 
-                              boolean      includedirs 
-  ) {
+  public static final List<File> listRecursive( File dir, FileFilter filter, boolean includefiles, boolean includedirs ) {
     FileListRunnable runnable = new FileListRunnable( dir );
     runnable.setIncludeFiles( includefiles );
     runnable.setIncludeDirs( includedirs );
@@ -1261,10 +941,7 @@ public class IoFunctions {
    * @param dir      The current directory to scan. Not <code>null</code>. 
    * @param filter   A FileFilter usable to specify additional filter criterias. Not <code>null</code>.
    */
-  public static final List<File> listRecursive( 
-    @KDirectory(name="dir")   File         dir, 
-    @KNotNull(name="filter")  FileFilter   filter 
-  ) {
+  public static final List<File> listRecursive( File dir, FileFilter filter ) {
     return listRecursive( dir, filter, true, true );
   }
   
@@ -1277,11 +954,7 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> if the process could successfully complete.
    */
-  public static final boolean zip( 
-    @KFile(name="zipfile", right=KFile.Right.Write)   File      zipfile, 
-    @KDirectory(name="dir")                           File      dir, 
-                                                      Integer   buffersize 
-  ) {
+  public static final boolean zip( File zipfile, File dir, Integer buffersize ) {
     ZipRunnable runnable = new ZipRunnable( zipfile, dir, buffersize );
     runnable.run();
     return runnable.hasCompleted();
@@ -1297,11 +970,7 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> if the process could successfully complete.
    */
-  public static final boolean unzip( 
-    @KFile(name="zipfile")        File      zipfile, 
-    @KDirectory(name="destdir")   File      destdir, 
-                                  Integer   buffersize 
-  ) {
+  public static final boolean unzip( File zipfile, File destdir, Integer buffersize ) {
     UnzipRunnable runnable = new UnzipRunnable( zipfile, destdir, buffersize );
     runnable.run();
     return runnable.hasCompleted();
@@ -1314,7 +983,7 @@ public class IoFunctions {
    * 
    * @return   The location of the application directory or <code>null</code> in case of a failure.
    */
-  public static final File locateDirectory( @KNotNull(name="classobj") Class<?> classobj ) {
+  public static final File locateDirectory( Class<?> classobj ) {
     
     String        classname = String.format( "/%s.class", classobj.getName().replace('.','/') );
         
@@ -1399,7 +1068,7 @@ public class IoFunctions {
    * 
    * @param dir   The directory that needs to be created. Not <code>null</code> and must be a valid file.
    */
-  public static final void mkdirs( @KFile(name="dir") File dir ) {
+  public static final void mkdirs( File dir ) {
     if( dir.exists() ) {
       if( ! dir.isDirectory() ) {
         throw new FailureException( FailureCode.CreateDirectory );

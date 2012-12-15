@@ -6,9 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.swing;
+package com.kasisoft.libs.common.swing;
 
-import com.kasisoft.lgpl.libs.common.event.*;
+import com.kasisoft.libs.common.event.*;
 
 /**
  * Each implementor supports to distinguish between a valid and an invalid state.

@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
+package com.kasisoft.libs.common.thread;
 
 import org.testng.annotations.*;
 
@@ -46,14 +46,8 @@ public class ByteCopierRunnableTest {
   public void copyRunnable( byte[] data, Integer buffersize ) {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-    ByteCopierRunnable    runnable  = null;
-    if( buffersize == null ) {
-      runnable = new ByteCopierRunnable();
-      runnable.configure( bytein, byteout );
-    } else {
-      runnable = new ByteCopierRunnable();
-      runnable.configure( bytein, byteout, buffersize.intValue() );
-    }
+    ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize );
+    runnable.configure( bytein, byteout );
     runnable.run();
     byte[] copied = byteout.toByteArray();
     Assert.assertEquals( copied, data );
@@ -63,14 +57,8 @@ public class ByteCopierRunnableTest {
   public void copyThread( byte[] data, Integer buffersize ) throws InterruptedException {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-    ByteCopierRunnable    runnable  = null;
-    if( buffersize == null ) {
-      runnable = new ByteCopierRunnable();
-      runnable.configure( bytein, byteout );
-    } else {
-      runnable = new ByteCopierRunnable();
-      runnable.configure( bytein, byteout, buffersize.intValue() );
-    }
+    ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize );
+    runnable.configure( bytein, byteout );
     Thread thread = new Thread( runnable );
     thread.start();
     thread.join();
@@ -82,26 +70,14 @@ public class ByteCopierRunnableTest {
   public void copyFailingRunnable( byte[] data, Integer buffersize ) {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-    ByteCopierRunnable    runnable  = null;
-    if( buffersize == null ) {
-      runnable = new ByteCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
+    ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize ) {
+      protected void progress( CopyingProgress progress ) {
+        if( progress.getCurrent() > 10 ) {
+          throw new RuntimeException();
         }
-      };
-      runnable.configure( bytein, byteout );
-    } else {
-      runnable = new ByteCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
-        }
-      };
-      runnable.configure( bytein, byteout, buffersize.intValue() );
-    }
+      }
+    };
+    runnable.configure( bytein, byteout );
     runnable.run();
     // should not be reached as an exception is expected to occure
     Assert.fail();
@@ -111,26 +87,14 @@ public class ByteCopierRunnableTest {
   public void copyFailingThread( byte[] data, Integer buffersize ) throws InterruptedException {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-    ByteCopierRunnable    runnable  = null;
-    if( buffersize == null ) {
-      runnable = new ByteCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
+    ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize ) {
+      protected void progress( CopyingProgress progress ) {
+        if( progress.getCurrent() > 10 ) {
+          throw new RuntimeException();
         }
-      };
-      runnable.configure( bytein, byteout );
-    } else {
-      runnable = new ByteCopierRunnable() {
-        protected void progress( CopyingProgress progress ) {
-          if( progress.getCurrent() > 10 ) {
-            throw new RuntimeException();
-          }
-        }
-      };
-      runnable.configure( bytein, byteout, buffersize.intValue() );
-    }
+      }
+    };
+    runnable.configure( bytein, byteout );
     Thread thread = new Thread( runnable );
     thread.start();
     thread.join();

@@ -6,9 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.util;
 
 import java.util.regex.*;
 
@@ -20,7 +18,6 @@ import java.io.*;
  * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which means
  * that the original index is calculated beginning from the end of the buffer.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class StringFBuffer implements Serializable, CharSequence {
 
   static final long serialVersionUID = 0x7ABEDA21D57AD988L;
@@ -66,6 +63,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#length() 
    */
+  @Override
   public int length() {
     return origin.length();
   }
@@ -101,6 +99,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#charAt(int)
    */
+  @Override
   public char charAt( int index ) {
     synchronized( origin ) {
       return origin.charAt( adjustIndex( index ) );
@@ -365,6 +364,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#subSequence(int, int)
    */
+  @Override
   public CharSequence subSequence( int start, int end ) {
     synchronized( origin ) {
       return origin.subSequence( adjustIndex( start ), adjustIndex( end ) );
@@ -589,8 +589,8 @@ public class StringFBuffer implements Serializable, CharSequence {
   }
 
   /**
-   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of the
-   * rightmost literal which could be found.
+   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of 
+   * the rightmost literal which could be found.
    * 
    * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
    * 
@@ -601,8 +601,8 @@ public class StringFBuffer implements Serializable, CharSequence {
   }
   
   /**
-   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of the
-   * rightmost literal which could be found.
+   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of 
+   * the rightmost literal which could be found.
    * 
    * @param index      The index used as the starting point for the lookup.
    * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
@@ -642,6 +642,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return origin.toString();
   }
@@ -699,7 +700,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith( @KNotEmpty(name="totest") String totest ) {
+  public boolean startsWith( String totest ) {
     return startsWith( true, totest );
   }
   
@@ -711,7 +712,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith( boolean casesensitive, @KNotEmpty(name="totest") String totest ) {
+  public boolean startsWith( boolean casesensitive, String totest ) {
     synchronized( origin ) {
       if( totest.length() > origin.length() ) {
         return false;
@@ -729,7 +730,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith( @KNotEmpty(name="totest") String totest ) {
+  public boolean endsWith( String totest ) {
     return endsWith( true, totest );
   }
 
@@ -741,7 +742,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith( boolean casesensitive, @KNotEmpty(name="totest") String totest ) {
+  public boolean endsWith( boolean casesensitive, String totest ) {
     synchronized( origin ) {
       if( totest.length() > origin.length() ) {
         return false;
@@ -759,7 +760,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals( @KNotEmpty(name="totest") String totest ) {
+  public boolean equals( String totest ) {
     return equals( true, totest );
   }
   
@@ -771,7 +772,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals( boolean casesensitive, @KNotNull(name="totest") String totest ) {
+  public boolean equals( boolean casesensitive, String totest ) {
     return StringFunctions.compare( ! casesensitive, origin.toString(), totest );
   }
 
@@ -782,7 +783,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   The altered input. Not <code>null</code>.
    */
-  public StringFBuffer remove( @KNotEmpty(name="toremove") String toremove ) {
+  public StringFBuffer remove( String toremove ) {
     synchronized( origin ) {
       for( int i = length() - 1; i >= 0; i-- ) {
         if( toremove.indexOf( charAt(i) ) != -1 ) {
@@ -802,7 +803,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without the delimiting character. Not <code>null</code>.
    */
-  public String[] split( @KNotEmpty(name="delimiters") String delimiters ) {
+  public String[] split( String delimiters ) {
     synchronized( origin ) {
       collector.clear();
       StringTokenizer tokenizer = new StringTokenizer( origin.toString(), delimiters, false );
@@ -820,7 +821,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex( @KNotEmpty(name="regex") String regex ) {
+  public String[] splitRegex( String regex ) {
     synchronized( origin ) {
       return splitRegex( Pattern.compile( regex ) );
     }
@@ -833,7 +834,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex( @KNotNull(name="pattern") Pattern pattern) {
+  public String[] splitRegex( Pattern pattern) {
     synchronized( origin ) {
       collector.clear();
       Matcher matcher = pattern.matcher( origin );
@@ -879,13 +880,13 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
-   * @param regex         The regular expression used to select the fragments that will be replaced.
+   * @param regex         The regular expression used to select the fragments that will be replaced. 
    *                      Neither <code>null</code> nor empty.
    * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceAll( @KNotEmpty(name="regex") String regex, @KNotNull(name="replacement") String replacement ) {
+  public StringFBuffer replaceAll( String regex, String replacement ) {
     synchronized( origin ) {
       return replaceAll( Pattern.compile( regex ), replacement );
     }
@@ -900,7 +901,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceAll( @KNotNull(name="pattern") Pattern pattern, @KNotNull(name="replacement") String replacement ) {
+  public StringFBuffer replaceAll( Pattern pattern, String replacement ) {
     synchronized( origin ) {
       Matcher     matcher = pattern.matcher( origin );
       List<int[]> matches = new ArrayList<int[]>();
@@ -926,7 +927,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceFirst( @KNotEmpty(name="regex") String regex, String replacement ) {
+  public StringFBuffer replaceFirst( String regex, String replacement ) {
     synchronized( origin ) {
       return replaceFirst( Pattern.compile( regex ), replacement );
     }
@@ -935,13 +936,12 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * Like {@link #replaceAll(String, String)} but only the first occurrence of the regular expression will be replaced. 
    * 
-   * @param pattern       The Pattern providing the regular expression for the substitution.
-   *                      Not <code>null</code>.
+   * @param pattern       The Pattern providing the regular expression for the substitution. Not <code>null</code>.
    * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceFirst( @KNotNull(name="pattern") Pattern pattern, String replacement ) {
+  public StringFBuffer replaceFirst( Pattern pattern, String replacement ) {
     synchronized( origin ) {
       Matcher matcher = pattern.matcher( origin );
       if( matcher.find() ) {
@@ -961,7 +961,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceLast( @KNotEmpty(name="regex") String regex, String replacement ) {
+  public StringFBuffer replaceLast( String regex, String replacement ) {
     synchronized( origin ) {
       return replaceLast( Pattern.compile( regex ), replacement );
     }
@@ -970,13 +970,12 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * Like {@link #replaceAll(String, String)} but only the last occurrence of the regular expression will be replaced. 
    * 
-   * @param pattern       The Pattern providing the regular expression for the substitution.
-   *                      Not <code>null</code>.
+   * @param pattern       The Pattern providing the regular expression for the substitution. Not <code>null</code>.
    * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceLast( @KNotNull(name="pattern") Pattern pattern, String replacement ) {
+  public StringFBuffer replaceLast( Pattern pattern, String replacement ) {
     synchronized( origin ) {
       Matcher matcher   = pattern.matcher( origin );
       int     start     = -1;

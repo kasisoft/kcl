@@ -6,28 +6,23 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
+package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.libs.common.io.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.io.*;
 
 import java.io.*;
 
 /**
  * Collection of supported encodings.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Encoding {
-
   
   /**
-   * @spec [28-Jul-2010:KASI]   http://download-llnw.oracle.com/javase/1.3/docs/api/java/lang/package-summary.html#charenc
+   * @spec [09-Dec-2012:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
    */
   
   ASCII       ( "US-ASCII"    , false , null                  ),
-  // Cp1252      ( "Cp1252"      , false , null                  ),
   UTF8        ( "UTF-8"       , false , ByteOrderMark.UTF8    ),
   UTF16       ( "UTF-16"      , true  , null                  ),
   UTF16BE     ( "UTF-16BE"    , false , ByteOrderMark.UTF16BE ),
@@ -53,18 +48,18 @@ public enum Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public Reader openReader( @KFile(name="file") File file ) {
-    return openReader( IoFunctions.newFileInputStream( file ) );
+  public Reader openReader( File file ) {
+    return openReader( IoFunctions.newInputStream( file ) );
   }
 
   /**
    * Opens a Reader for a specific InputStream using this encoding.
    * 
-   * @param instream   The InputStream that has to be accessed using this encoding. Must be a valid file.
+   * @param instream   The InputStream that has to be accessed using this encoding. Not <code>null</code>.
    *  
-   * @return   The InputStream if it can be accessed. Not <code>null</code>.
+   * @return   The Reader if it can be accessed. Not <code>null</code>.
    */
-  public Reader openReader( @KNotNull(name="instream") InputStream instream ) {
+  public Reader openReader( InputStream instream ) {
     try {
       return new BufferedReader( new InputStreamReader( instream, encoding ) );
     } catch( UnsupportedEncodingException ex ) {
@@ -82,8 +77,8 @@ public enum Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public Writer openWriter( @KFile(name="file") File file ) {
-    return openWriter( IoFunctions.newFileOutputStream( file ) );
+  public Writer openWriter( File file ) {
+    return openWriter( IoFunctions.newOutputStream( file ) );
   }
 
   /**
@@ -93,7 +88,7 @@ public enum Encoding {
    *  
    * @return   The writer if the file could be opened. Not <code>null</code>.
    */
-  public Writer openWriter( @KNotNull(name="outstream") OutputStream outstream ) {
+  public Writer openWriter( OutputStream outstream ) {
     try {
       return new BufferedWriter( new OutputStreamWriter( outstream, encoding ) );
     } catch( UnsupportedEncodingException ex ) {
@@ -111,8 +106,8 @@ public enum Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public PrintStream openPrintStream( @KFile(name="file") File file ) {
-    return openPrintStream( IoFunctions.newFileOutputStream( file ) );
+  public PrintStream openPrintStream( File file ) {
+    return openPrintStream( IoFunctions.newOutputStream( file ) );
   }
 
   /**
@@ -122,9 +117,9 @@ public enum Encoding {
    *  
    * @return   The PrintStream if the OutputStream could be accessed. Not <code>null</code>.
    */
-  public PrintStream openPrintStream( @KNotNull(name="outstream") OutputStream outstream ) {
+  public PrintStream openPrintStream( OutputStream outstream ) {
     try {
-      return new PrintStream( outstream, true, encoding );
+      return new PrintStream( new BufferedOutputStream( outstream ), true, encoding );
     } catch( UnsupportedEncodingException ex ) {
       // won't happen as we only support guarantueed encodings
       return null;
@@ -132,8 +127,8 @@ public enum Encoding {
   }
 
   /**
-   * Returns the Byte Order Mark associated with this character set encoding. The result maybe
-   * <code>null</code> (f.e. byte character sets).
+   * Returns the Byte Order Mark associated with this character set encoding. The result maybe <code>null</code> (f.e. 
+   * byte character sets).
    * 
    * @return   The Byte Order Mark associated with this character set encoding. Maybe <code>null</code>.
    */
@@ -142,8 +137,8 @@ public enum Encoding {
   }
   
   /**
-   * Returns <code>true</code> if the BOM (byte order mark) is required. If it's not required the
-   * BOM might still be there.
+   * Returns <code>true</code> if the BOM (byte order mark) is required. If it's not required the BOM might still be 
+   * there.
    * 
    * @return   <code>true</code> <=> The BOM is required.
    */
@@ -167,7 +162,7 @@ public enum Encoding {
    * 
    * @return   The data which has to be encoded. Not <code>null</code>.
    */
-  public byte[] encode( @KNotNull(name="text") String text ) {
+  public byte[] encode( String text ) {
     try {
       return text.getBytes( encoding );
     } catch( UnsupportedEncodingException ex ) {
@@ -183,7 +178,7 @@ public enum Encoding {
    * 
    * @return   The decoded String. Not <code>null</code>.
    */
-  public String decode( @KNotNull(name="data") byte[] data ) {
+  public String decode( byte[] data ) {
     try {
       return new String( data, encoding );
     } catch( UnsupportedEncodingException ex ) {
@@ -205,16 +200,13 @@ public enum Encoding {
    * Opens a Reader for a specific file using this encoding.
    * 
    * @param file       The file that has to be opened using this encoding. Must be a valid file.
-   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding
-   *                   {@link #UTF8} is used.
+   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is used.
    *  
    * @return   The reader if the file could be opened. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Reader openReader( 
-    @KFile(name="file") File file, Encoding encoding 
-  ) {
+  public static final Reader openReader( File file, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openReader( file );
     } else {
@@ -226,16 +218,13 @@ public enum Encoding {
    * Opens a Reader for a specific InputStream using this encoding.
    * 
    * @param instream   The InputStream that has to be opened using this encoding. Not <code>null</code>.
-   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding
-   *                   {@link #UTF8} is used.
+   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is used.
    *  
    * @return   The reader if the InputStream could be accessed. Not <code>null</code>.
    * 
    * @throws FailureException if accessing the InputStream failed for some reason.
    */
-  public static final Reader openReader( 
-    @KNotNull(name="instream") InputStream instream, Encoding encoding 
-  ) {
+  public static final Reader openReader( InputStream instream, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openReader( instream );
     } else {
@@ -247,14 +236,13 @@ public enum Encoding {
    * Opens a Writer for a specific file using this encoding.
    * 
    * @param file       The file that has to be opened using this encoding. Must be a valid file.
-   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding
-   *                   {@link #UTF8} is used.
+   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is used.
    *  
    * @return   The writer if the file could be opened. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Writer openWriter( @KNotNull(name="file") File file, Encoding encoding ) {
+  public static final Writer openWriter( File file, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openWriter( file );
     } else {
@@ -266,16 +254,13 @@ public enum Encoding {
    * Opens a Writer for a specific OutputStream using this encoding.
    * 
    * @param outstream   The OutputStream that has to be opened using this encoding. Not <code>null</code>.
-   * @param encoding    The encoding that has to be used. If <code>null</code> the default encoding
-   *                    {@link #UTF8} is used.
+   * @param encoding    The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is used.
    *  
    * @return   The writer if the OutputStream could be accessed. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Writer openWriter( 
-    @KNotNull(name="outstream") OutputStream outstream, Encoding encoding 
-  ) {
+  public static final Writer openWriter( OutputStream outstream, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openWriter( outstream );
     } else {
@@ -287,16 +272,13 @@ public enum Encoding {
    * Opens a PrintStream for a specific file using this encoding.
    * 
    * @param file       The file that has to be opened using this encoding. Must be a valid file.
-   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding
-   *                   {@link #UTF8} is used.
+   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is used.
    *  
    * @return   The PrintStream if the file could be opened. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final PrintStream openPrintStream( 
-    @KNotNull(name="file") File file, Encoding encoding 
-  ) {
+  public static final PrintStream openPrintStream( File file, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openPrintStream( file );
     } else {
@@ -308,16 +290,14 @@ public enum Encoding {
    * Opens a PrintStream for a specific OutputStream using this encoding.
    * 
    * @param outstream   The OutputStream that has to be accessed using this encoding. Not <code>null</code>.
-   * @param encoding    The encoding that has to be used. If <code>null</code> the default encoding
-   *                    {@link #UTF8} is used.
+   * @param encoding    The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is 
+   *                    used.
    *  
    * @return   The PrintStream if the OutputStream could be accessed. Not <code>null</code>.
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final PrintStream openPrintStream( 
-    @KNotNull(name="outstream") OutputStream outstream, Encoding encoding 
-  ) {
+  public static final PrintStream openPrintStream( OutputStream outstream, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openPrintStream( outstream );
     } else {
@@ -329,13 +309,12 @@ public enum Encoding {
    * This helper function identifies the encoding value which corresponds to the supplied name. Be
    * aware that this enumeration only supports the <b>required</b> encodings.
    * 
-   * @param name   The name of the encoding which has to be identified. Case sensitivity doesn't
-   *               matter here.
+   * @param name   The name of the encoding which has to be identified. Case sensitivity doesn't matter here.
    *               Neither <code>null</code> nor empty.
    *               
    * @return   The encoding value or <code>null</code> if it cannot be identified.
    */
-  public static final Encoding valueByName( @KNotEmpty(name="name") String name ) {
+  public static final Encoding valueByName( String name ) {
     for( Encoding encoding : Encoding.values() ) {
       if( encoding.encoding.equalsIgnoreCase( name ) ) {
         return encoding;

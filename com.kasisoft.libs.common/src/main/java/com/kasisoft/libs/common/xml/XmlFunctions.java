@@ -6,34 +6,33 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.xml;
+package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
 
-import com.kasisoft.lgpl.libs.common.util.*;
 
-import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.util.*;
 
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
-import javax.xml.transform.stream.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.*;
-
 import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
 
 import java.util.*;
+
 import java.net.*;
+
 import java.io.*;
 
 /**
  * Collection of xml related functions.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public final class XmlFunctions {
 
   private static final Map<String, String> XML2NORMAL = new Hashtable<String, String>();
@@ -80,11 +79,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
    */
-  public static final Document readDocument( 
-    @KFile(name="file")   File      file, 
-                          boolean   validate, 
-                          boolean   xmlnamespaces 
-  ) throws FailureException {
+  public static final Document readDocument( File file, boolean validate, boolean xmlnamespaces ) throws FailureException {
     return readDocument( file, null, null, null, validate, xmlnamespaces, false );
   }
   
@@ -104,17 +99,17 @@ public final class XmlFunctions {
    * @throws FailureException   Loading the xml content failed for some reason.
    */
   public static final Document readDocument( 
-    @KFile(name="file")   File             file, 
-                          ErrorHandler     handler,
-                          URL              baseurl,
-                          EntityResolver   resolver,
-                          boolean          validate, 
-                          boolean          xmlnamespaces, 
-                          boolean          xincludes 
+    File             file, 
+    ErrorHandler     handler,
+    URL              baseurl,
+    EntityResolver   resolver,
+    boolean          validate, 
+    boolean          xmlnamespaces, 
+    boolean          xincludes 
   ) throws FailureException {
     InputStream input = null;
     try {
-      input = IoFunctions.newFileInputStream( file );
+      input = IoFunctions.newInputStream( file );
       return readDocument( input, handler, baseurl, resolver, validate, xmlnamespaces, xincludes );
     } finally {
       MiscFunctions.close( input );
@@ -137,13 +132,13 @@ public final class XmlFunctions {
    * @throws FailureException   Loading the xml content failed for some reason.
    */
   public static final Document readDocument( 
-    @KNotNull(name="input")   InputStream      input, 
-                              ErrorHandler     handler,
-                              URL              baseurl,
-                              EntityResolver   resolver,
-                              boolean          validate, 
-                              boolean          xmlnamespaces, 
-                              boolean          xincludes 
+    InputStream      input, 
+    ErrorHandler     handler,
+    URL              baseurl,
+    EntityResolver   resolver,
+    boolean          validate, 
+    boolean          xmlnamespaces, 
+    boolean          xincludes 
   ) throws FailureException {
     try {
       DocumentBuilderFactory factory    = DocumentBuilderFactory.newInstance();
@@ -190,9 +185,7 @@ public final class XmlFunctions {
    * 
    * @return   A decoded String. Not <code>null</code>.
    */
-  public static final String decodeString( 
-    @KNotNull(name="source")   String   source 
-  ) {
+  public static final String decodeString( String source ) {
     return StringFunctions.replace( source, XML2NORMAL );
   }
 
@@ -203,9 +196,7 @@ public final class XmlFunctions {
    * 
    * @return   An encoded String. Not <code>null</code>.
    */
-  public static final String encodeString( 
-    @KNotNull(name="source")   String   source 
-  ) {
+  public static final String encodeString( String source ) {
     return StringFunctions.replace( source, NORMAL2XML );
   }
 
@@ -214,16 +205,12 @@ public final class XmlFunctions {
    * 
    * @param output     The OutputStream used to receive the content. Not <code>null</code>.
    * @param node       The DOM tree which will be saved. Not <code>null</code>.
-   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value
-   *                   means that the default encoding is used. 
+   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
+   *                   encoding is used. 
    *                       
    * @throws FailureException   Saving the XML datastructure failed.
    */
-  public static final void writeDocument( 
-    @KNotNull(name="output")   OutputStream   output, 
-    @KNotNull(name="node")     Node           node, 
-                               Encoding       encoding 
-  ) throws FailureException {
+  public static final void writeDocument( OutputStream output, Node node, Encoding encoding ) throws FailureException {
     TransformerFactory factory = TransformerFactory.newInstance();
     try {
       if( encoding == null ) {
@@ -261,19 +248,15 @@ public final class XmlFunctions {
    * 
    * @param destination   The destination File which will be overwritten if already existent. Not <code>null</code>.
    * @param node          The DOM tree which will be saved. Not <code>null</code>.
-   * @param encoding      The encoding to use while saving. <code>null</code> or an empty value
-   *                      means that the default encoding is used. 
+   * @param encoding      The encoding to use while saving. <code>null</code> or an empty value means that the default 
+   *                      encoding is used. 
    *                       
    * @throws FailureException   Saving the XML datastructure failed.
    */
-  public static final void writeDocument( 
-    @KNotNull(name="destination")   File       destination, 
-    @KNotNull(name="node")          Node       node, 
-                                    Encoding   encoding 
-  ) throws FailureException {
+  public static final void writeDocument( File destination, Node node, Encoding encoding ) throws FailureException {
     OutputStream output = null;
     try {
-      output = IoFunctions.newFileOutputStream( destination );
+      output = IoFunctions.newOutputStream( destination );
       writeDocument( output, node, encoding );
     } finally {
       MiscFunctions.close( output );
@@ -290,10 +273,10 @@ public final class XmlFunctions {
    * 
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
-  public static final Transformer newTransformer( @KFile(name="xsl") File xsl ) throws FailureException {
+  public static final Transformer newTransformer( File xsl ) throws FailureException {
     InputStream         instream  = null;
     try {
-      instream = IoFunctions.newFileInputStream( xsl );
+      instream = IoFunctions.newInputStream( xsl );
       return newTransformer( instream );
     } finally {
       MiscFunctions.close( instream );
@@ -301,8 +284,8 @@ public final class XmlFunctions {
   }
 
   /**
-   * Sets up a new transformer from the supplied stylesheet resource. This transformer can be used to
-   * convert xml documents in various outcomes.
+   * Sets up a new transformer from the supplied stylesheet resource. This transformer can be used to convert xml 
+   * documents in various outcomes.
    * 
    * @param resource   The xslt stylesheet resource. Not <code>null</code>.
    * 
@@ -310,7 +293,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
-  public static final Transformer newTransformer( @KNotNull(name="resource") URL resource ) throws FailureException {
+  public static final Transformer newTransformer( URL resource ) throws FailureException {
     InputStream instream  = null;
     try {
       instream = resource.openStream();
@@ -323,8 +306,8 @@ public final class XmlFunctions {
   }
 
   /**
-   * Sets up a new transformer from the supplied stylesheet InputStream. This transformer can be 
-   * used to convert xml documents in various outcomes.
+   * Sets up a new transformer from the supplied stylesheet InputStream. This transformer can be used to convert xml 
+   * documents in various outcomes.
    * 
    * @param xslinstream   The xslt stylesheet provided by an InputStream. Not <code>null</code>.
    * 
@@ -332,7 +315,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
-  public static final Transformer newTransformer( @KNotNull(name="xslinstream") InputStream xslinstream ) throws FailureException {
+  public static final Transformer newTransformer( InputStream xslinstream ) throws FailureException {
     TransformerFactory  factory   = TransformerFactory.newInstance();
     try {
       return factory.newTransformer( new StreamSource( xslinstream ) );
@@ -347,9 +330,7 @@ public final class XmlFunctions {
    * @param parent   The parent which will be extended. Not <code>null</code>.
    * @param child    The child which has to be inserted to the first position. Not <code>null</code>.
    */
-  public static final void insertFirst( 
-    @KNotNull(name="parent") Element parent, @KNotNull(name="child") Node child 
-  ) {
+  public static final void insertFirst( Element parent, Node child ) {
     if( parent.getFirstChild() != null ) {
       parent.insertBefore( child, parent.getFirstChild() );
     } else {
@@ -367,12 +348,7 @@ public final class XmlFunctions {
    * 
    * @return   An Element which contains all supplied informations. Not <code>null</code>.
    */
-  public static final Element createElement( 
-    @KNotNull(name="doc")    Document     doc, 
-    @KNotEmpty(name="tag")   String       tag, 
-                             String       content, 
-                             String ...   attrs 
-  ) {
+  public static final Element createElement( Document doc, String tag, String content, String ... attrs ) {
     Element result = doc.createElement( tag );
     if( content != null ) {
       result.setTextContent( content );

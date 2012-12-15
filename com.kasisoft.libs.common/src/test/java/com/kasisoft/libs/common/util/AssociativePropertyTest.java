@@ -6,13 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
+package com.kasisoft.libs.common.util;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.libs.common.xml.adapters.*;
-
-import com.kasisoft.lgpl.libs.common.io.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.xml.adapters.*;
 
 import org.testng.annotations.*;
 
@@ -46,7 +44,7 @@ public class AssociativePropertyTest {
   
   private File   evaluationfile;
   
-  @BeforeSuite
+  @BeforeTest
   public void init() {
     evaluationfile  = new File( "testdata/props/evaluation.properties" );
     Assert.assertTrue( evaluationfile . isFile() );

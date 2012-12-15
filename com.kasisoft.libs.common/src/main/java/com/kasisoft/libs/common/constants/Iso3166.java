@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.constants;
 
 /**
  * Collection of iso-3166 codes.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum Iso3166 {
 
   Afghanistan                          ( "AFG", "AF",   4 ),
@@ -311,8 +308,7 @@ public enum Iso3166 {
    * 
    * @param alpha3   The alpha-3 code which value shall be searched for.
    * 
-   * @return   The iso value or <code>null</code> in case the supplied code
-   *           isn't valid or just not known.
+   * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
   public static final Iso3166 valueByAlpha3( String alpha3 ) {
     if( (alpha3 != null) && (alpha3.length() == 3) ) {
@@ -330,11 +326,10 @@ public enum Iso3166 {
    * 
    * @param alpha2   The alpha-2 code which value shall be searched for.
    * 
-   * @return   The iso value or <code>null</code> in case the supplied code
-   *           isn't valid or just not known.
+   * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
   public static final Iso3166 valueByAlpha2( String alpha2 ) {
-    if( (alpha2 != null) && (alpha2.length() == 3) ) {
+    if( (alpha2 != null) && (alpha2.length() == 2) ) {
       for( Iso3166 isocode : Iso3166.values() ) {
         if( isocode.alpha2.equals( alpha2 ) ) {
           return isocode;
@@ -349,8 +344,7 @@ public enum Iso3166 {
    * 
    * @param numerical   The numerical code which value shall be searched for.
    * 
-   * @return   The iso value or <code>null</code> in case the supplied code
-   *           isn't valid or just not known.
+   * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
   public static final Iso3166 valueByNumerical( int numerical ) {
     for( Iso3166 isocode : Iso3166.values() ) {

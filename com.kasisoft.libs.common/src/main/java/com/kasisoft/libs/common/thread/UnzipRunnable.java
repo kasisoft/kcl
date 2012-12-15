@@ -6,24 +6,21 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
+package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.lgpl.libs.common.util.*;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.libs.common.io.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.util.*;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
-import java.util.zip.*;
 import java.util.*;
+import java.util.zip.*;
 
 import java.io.*;
 
 /**
  * A Runnable that is used to perform an unzip process.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class UnzipRunnable extends AbstractRunnable {
 
   private File      zip;
@@ -45,14 +42,10 @@ public class UnzipRunnable extends AbstractRunnable {
    * 
    * @param zipfile   The ZIP file to unpack.
    * @param destdir   The destination directory.
-   * @param size      The size for an internally used buffer. A value of <code>null</code> indicates
-   *                  the use of a default value.
+   * @param size      The size for an internally used buffer. A value of <code>null</code> indicates the use of a default 
+   *                  value.
    */
-  public UnzipRunnable( 
-    @KFile(name="zipfile")        File      zipfile, 
-    @KDirectory(name="destdir")   File      destdir, 
-                                  Integer   size 
-  ) {
+  public UnzipRunnable( File zipfile, File destdir, Integer size ) {
     zip         = zipfile;
     destination = destdir.getAbsoluteFile();
     buffersize  = size;
@@ -61,6 +54,7 @@ public class UnzipRunnable extends AbstractRunnable {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected void execute() {
     
     ZipFile zipfile = null;
@@ -93,7 +87,7 @@ public class UnzipRunnable extends AbstractRunnable {
         OutputStream outstream = null;
         InputStream  instream  = null;
         try {
-          outstream = IoFunctions.newFileOutputStream( file );
+          outstream = IoFunctions.newOutputStream( file );
           instream  = zipfile.getInputStream( entry );
           IoFunctions.copy( instream, outstream, buffer );
         } finally {
@@ -125,8 +119,8 @@ public class UnzipRunnable extends AbstractRunnable {
    * 
    * @param name    The name of the zipfile entry.
    * @param dir     <code>true</code> <=> The entry is a directory.
-   * @param size    If this is a file, then this is the uncompressed length of it. A value of -1 indicates
-   *                that the length is not known.
+   * @param size    If this is a file, then this is the uncompressed length of it. A value of -1 indicates that the 
+   *                length is not known.
    */
   protected void onIterationBegin( String name, boolean dir, long size ) {
   }
@@ -142,8 +136,7 @@ public class UnzipRunnable extends AbstractRunnable {
   }
   
   /**
-   * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing
-   * an ExtendedRuntimeException.
+   * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing an {@link FailureException}.
    * 
    * @param ex   The cause of the failure.
    */

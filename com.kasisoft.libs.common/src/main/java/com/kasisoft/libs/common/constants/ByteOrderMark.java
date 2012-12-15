@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.constants;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.constants;
 
 /**
  * Constants the different byte order marks.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public enum ByteOrderMark {
 
   UTF8    ( new byte[] { (byte) 0xef, (byte) 0xbb, (byte) 0xbf } ) ,
@@ -44,7 +41,7 @@ public enum ByteOrderMark {
    * 
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
-  public boolean startsWith( @KNotNull(name="data") byte[] data ) {
+  public boolean startsWith( byte[] data ) {
     return startsWith( data, 0 );
   }
   
@@ -56,10 +53,7 @@ public enum ByteOrderMark {
    * 
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
-  public boolean startsWith( 
-    @KNotNull(name="data")   byte[]   data, 
-    @KIPositive(zero=true)   int      offset 
-  ) {
+  public boolean startsWith( byte[] data, int offset ) {
     for( int i = 0; (i < bomsequence.length) && (offset < data.length); i++, offset++ ) {
       if( data[ offset ] != bomsequence[i] ) {
         return false;
@@ -75,7 +69,7 @@ public enum ByteOrderMark {
    * 
    * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
    */
-  public static final ByteOrderMark identify( @KNotNull(name="data") byte[] data ) {
+  public static final ByteOrderMark identify( byte[] data ) {
     return identify( data, 0 );
   }
   
@@ -87,25 +81,12 @@ public enum ByteOrderMark {
    * 
    * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
    */
-  public static final ByteOrderMark identify( 
-    @KNotNull(name="data")   byte[]   data, 
-    @KIPositive(zero=true)   int      offset 
-  ) {
-    while( offset < data.length ) {
-      if( data[ offset ] == UTF8.bomsequence[0] ) {
-        if( UTF8.startsWith( data, offset ) ) {
-          return UTF8;
-        }
-      } else if( data[ offset ] == UTF16BE.bomsequence[0] ) {
-        if( UTF16BE.startsWith( data, offset ) ) {
-          return UTF16BE;
-        }
-      } else if( data[ offset ] == UTF16LE.bomsequence[0] ) {
-        if( UTF16LE.startsWith( data, offset ) ) {
-          return UTF16LE;
-        }
+  public static final ByteOrderMark identify( byte[] data, int offset ) {
+    ByteOrderMark[] marks = ByteOrderMark.values();
+    for( ByteOrderMark mark : marks ) {
+      if( mark.startsWith( data, offset ) ) {
+        return mark;
       }
-      offset++;
     }
     return null;
   }

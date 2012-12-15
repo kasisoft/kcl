@@ -1,36 +1,33 @@
 /**
  * Name........: EnhancedFileFilter
- * Description.: FileFilter implementation which is capable to be used with the standard
- *               File class as well as with the JFileChooser implementation. 
+ * Description.: FileFilter implementation which is capable to be used with the standard File class as well as with the 
+ *               JFileChooser implementation. 
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.io;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.io;
 
 import java.util.*;
 
 import java.io.*;
 
 /**
- * FileFilter implementation which is capable to be used with the standard
- * File class as well as with the JFileChooser implementation.
+ * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 
+ * implementation.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class EnhancedFileFilter extends BasicFileFilter {
 
   
   private static final String[] DEFAULT_EXCLUDEDDIRS = new String[] {
-    ".svn", "_svn", "CVS"
+    ".git", ".svn", "_svn", "CVS"
   };
   
   private static final String[] DEFAULT_EXCLUDEDFILES = new String[] {
-    
   };
 
+  private String        suffixlistasstring;
   private List<String>  suffixlist;
   private Set<String>   excludeddirs;
   private Set<String>   excludedfiles;
@@ -42,9 +39,10 @@ public class EnhancedFileFilter extends BasicFileFilter {
    */
   public EnhancedFileFilter( String suffix ) {
     super( suffix );
-    suffixlist    = new ArrayList<String>();
-    excludeddirs  = new HashSet<String>();
-    excludedfiles = new HashSet<String>();
+    suffixlist          = new ArrayList<String>();
+    excludeddirs        = new HashSet<String>();
+    excludedfiles       = new HashSet<String>();
+    suffixlistasstring  = null;
   }
 
   /**
@@ -55,18 +53,19 @@ public class EnhancedFileFilter extends BasicFileFilter {
    */
   public EnhancedFileFilter( String suffix, String filterdescription ) {
     super( suffix, filterdescription );
-    suffixlist    = new ArrayList<String>();
-    excludeddirs  = new HashSet<String>();
-    excludedfiles = new HashSet<String>();
+    suffixlist          = new ArrayList<String>();
+    excludeddirs        = new HashSet<String>();
+    excludedfiles       = new HashSet<String>();
+    suffixlistasstring  = null;
   }
   
   /**
    * Adds the supplied directory to the exclusion list.
    * 
-   * @param dirname   The name of a directory which shall be added to the exclusion list.
+   * @param dirname   The name of a directory which shall be added to the exclusion list. 
    *                  Neither <code>null</code> nor empty.
    */
-  public void addExcludedDir( @KNotEmpty(name="dirname") String dirname ) {
+  public void addExcludedDir( String dirname ) {
     synchronized( excludeddirs ) {
       excludeddirs.add( normaliseFilename( dirname ) );
     }
@@ -78,7 +77,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * @param filename   The name of the file which shall be added to the exclusion list.
    *                   Neither <code>null</code> nor empty.
    */
-  public void addExcludedFile( @KNotEmpty(name="filename") String filename ) {
+  public void addExcludedFile( String filename ) {
     synchronized( excludedfiles ) {
       excludedfiles.add( normaliseFilename( filename ) );
     }
@@ -88,11 +87,15 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * Sets up this filter to be initialised with default exclusions.
    */
   public void addDefaultExcludes() {
-    for( String dirname : DEFAULT_EXCLUDEDDIRS ) {
-      addExcludedDir( dirname );
+    synchronized( excludeddirs ) {
+      for( String dirname : DEFAULT_EXCLUDEDDIRS ) {
+        addExcludedDir( dirname );
+      }
     }
-    for( String filename : DEFAULT_EXCLUDEDFILES ) {
-      addExcludedFile( filename );
+    synchronized( excludedfiles ) {
+      for( String filename : DEFAULT_EXCLUDEDFILES ) {
+        addExcludedFile( filename );
+      }
     }
   }
   
@@ -101,10 +104,9 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * 
    * @param suffix   An additionally supported suffix. Neither <code>null</code> nor empty.
    */
-  public void addSuffix( 
-    @KNotEmpty(name="suffix")   String   suffix 
-  ) {
+  public void addSuffix( String suffix ) {
     synchronized( suffixlist ) {
+      suffixlistasstring  = null;
       suffixlist.add( validateSuffix( suffix ) );
     }
   }
@@ -112,13 +114,18 @@ public class EnhancedFileFilter extends BasicFileFilter {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected String getSuffixList() {
     synchronized( suffixlist ) {
-      String result = super.getSuffixList();
-      for( int i = 0; i < suffixlist.size(); i++ ) {
-        result += ", " + suffixlist.get(i);
+      if( suffixlistasstring == null ) {
+        StringBuffer buffer = new StringBuffer( super.getSuffixList() );
+        for( String suffix : suffixlist ) {
+          buffer.append( ", " );
+          buffer.append( suffix );
+        }
+        suffixlistasstring = buffer.toString();
       }
-      return result;
+      return suffixlistasstring;
     }
   }
   
@@ -130,7 +137,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * 
    * @return   <code>true</code> <=> The supplied file has to be excluded from the filtering process.
    */
-  public boolean isExcluded( @KNotNull(name="file") File file ) {
+  public boolean isExcluded( File file ) {
     if( file.isDirectory() ) {
       return excludeddirs.contains( normaliseFilename( file.getName() ) );
     } else if( file.isFile() ) {
@@ -144,6 +151,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean accept( File file ) {
     if( isExcluded( file ) ) {
       return false;

@@ -6,16 +6,16 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
+package com.kasisoft.libs.common.functionality;
 
 import org.testng.annotations.*;
 
 import org.testng.*;
 
 import java.util.*;
+import java.util.List;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * A test for the interface 'Zip'.
@@ -32,7 +32,7 @@ public class ZipTest {
   
   private Zip<Color,Font,Map<String,Object>>   zipfunction;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     zipfunction = new StyleMap();
   }

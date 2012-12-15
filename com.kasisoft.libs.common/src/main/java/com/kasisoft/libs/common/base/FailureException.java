@@ -1,21 +1,18 @@
 /**
  * Name........: FailureException
- * Description.: Specialisation of the RuntimeException which provides a numerical code which allows 
- *               to handle this exception in a more apropriate way than checking it's message.
+ * Description.: Specialisation of the RuntimeException which provides a numerical code which allows to handle this 
+ *               exception in a more apropriate way than checking it's message.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.base;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.base;
 
 /**
- * Specialisation of the RuntimeException which provides a numerical code which allows to handle 
- * this exception in a more apropriate way than checking it's message.
+ * Specialisation of the RuntimeException which provides a numerical code which allows to handle this exception in a 
+ * more apropriate way than checking it's message.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FailureException extends RuntimeException {
 
   private FailureCode   failurecode;

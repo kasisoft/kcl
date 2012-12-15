@@ -6,21 +6,20 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.sys;
+package com.kasisoft.libs.common.sys;
 
-import com.kasisoft.lgpl.libs.common.thread.*;
-import com.kasisoft.lgpl.libs.common.util.*;
-import com.kasisoft.lgpl.libs.common.base.*;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.thread.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
+
 import java.io.*;
 
 /**
  * Convenience class for the Runtime.exec method.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class SystemProcess {
 
   private OutputStream         outstream;
@@ -54,10 +53,7 @@ public class SystemProcess {
    * @param key     The name of the variable. Neither <code>null</code> nor empty.
    * @param value   The value of the variable. Not <code>null</code>.
    */
-  public synchronized void addVariable( 
-    @KNotEmpty(name="key")    String   key, 
-    @KNotNull(name="value")   String   value 
-  ) {
+  public synchronized void addVariable( String key, String value ) {
     variables.put( key, value );
   }
   
@@ -67,17 +63,14 @@ public class SystemProcess {
    * @param key   The name of the variable which has to be removed. 
    *              Neither <code>null</code> nor empty.
    */
-  public synchronized void removeVariable( 
-    @KNotEmpty(name="key")   String key 
-  ) {
+  public synchronized void removeVariable( String key ) {
     variables.remove( key );
   }
   
   /**
    * Marks the environment as inheritable (default: <code>true</code>) for the subprocess.
    * 
-   * @param useenvironment   <code>true</code> <=> The current environment will be inherited by
-   *                                               the subprocess.
+   * @param useenvironment   <code>true</code> <=> The current environment will be inherited by the subprocess.
    */
   public synchronized void setInheritEnvironment( boolean useenvironment ) {
     environment = useenvironment;
@@ -167,8 +160,8 @@ public class SystemProcess {
   /**
    * Runs the system process with the supplied args.
    * 
-   * @param args   The arguments used to pass to the system process. If any of these args
-   *               contains a space or something like that it has to be quoted before.
+   * @param args   The arguments used to pass to the system process. If any of these args contains a space or something 
+   *               like that it has to be quoted before.
    *               
    * @return  The exitcode from the subprocess or a failure code.
    */
@@ -255,8 +248,7 @@ public class SystemProcess {
   /**
    * Returns an environment which only contains the variables added to this process.
    * 
-   * @return   An environment which only contains the variables added to this process. 
-   *           Not <code>null</code>.
+   * @return   An environment which only contains the variables added to this process. Not <code>null</code>.
    */
   private synchronized String[] getExtendingEnvironment() {
     return toEnvp( variables );
@@ -266,8 +258,7 @@ public class SystemProcess {
    * Returns an environment which is a merger of the current environment and the variables
    * added to this process.
    * 
-   * @return   An environment which is a merger of the current environment and the variables
-   *           added to this process.
+   * @return   An environment which is a merger of the current environment and the variables added to this process.
    */
   private synchronized String[] extendProperties() {
     Map<String,String> map = new Hashtable<String,String>();
@@ -281,8 +272,7 @@ public class SystemProcess {
    * 
    * @param map    A Map containing pairs of variable names and their values. Not <code>null</code>.
    * 
-   * @return   An array of Strings usable as an environment for the execution of a command.
-   *           Not <code>null</code>.
+   * @return   An array of Strings usable as an environment for the execution of a command. Not <code>null</code>.
    */
   private String[] toEnvp( Map<String,String> map ) {
     String[]                           result   = new String[ map.size() ];

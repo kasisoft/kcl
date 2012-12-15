@@ -6,14 +6,11 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.util;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class Tupel<T> {
 
   private T[]   values;

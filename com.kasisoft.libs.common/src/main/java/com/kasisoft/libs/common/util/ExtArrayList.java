@@ -6,17 +6,14 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.util;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.util;
 
 import java.util.*;
 
 /**
- * ArrayList variety which can handle negative indices. So an index of -1 points to the last
- * element. An index of -2 to it's predecessor and so on.
+ * ArrayList variety which can handle negative indices. So an index of -1 points to the last element. An index of -2 
+ * to it's predecessor and so on.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class ExtArrayList<T> extends ArrayList<T> {
 
   /**
@@ -71,6 +68,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void add( int index, T element ) {
     super.add( adjustIndex( index ), element );
   }
@@ -78,16 +76,15 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean addAll( int index, Collection<? extends T> collection ) {
     return super.addAll( adjustIndex( index ), collection );
   }
 
   /**
-   * Inserts all of the elements in the specified array into this
-   * list, starting at the specified position.
+   * Inserts all of the elements in the specified array into this list, starting at the specified position.
    *
-   * @param index   Index at which to insert the first element from the
-   *                specified array.
+   * @param index   Index at which to insert the first element from the specified array.
    * @param items   The data which has to be inserted.
    * 
    * @return <code>true</code> <=> This list has changed as a result of the call.
@@ -102,8 +99,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   }
   
   /**
-   * Inserts all of the elements in the specified array into this
-   * list, starting at the end.
+   * Inserts all of the elements in the specified array into this list, starting at the end.
    *
    * @param items   The data which has to be inserted.
    * 
@@ -116,6 +112,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public T get( int index ) {
     return super.get( adjustIndex( index ) );
   }
@@ -123,6 +120,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public T remove( int index ) {
     return super.remove( adjustIndex( index ) );
   }
@@ -130,6 +128,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected void removeRange( int from, int to ) {
     super.removeRange( adjustIndex( from ), adjustIndex( to ) );
   }
@@ -137,6 +136,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public T set( int index, T element ) {
     return super.set( adjustIndex( index ), element );
   }
@@ -144,6 +144,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public ListIterator<T> listIterator( int index ) {
     return super.listIterator( adjustIndex( index ) );
   }
@@ -151,6 +152,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * {@inheritDoc}
    */
+  @Override
   public List<T> subList( int from, int to ) {
     return super.subList( adjustIndex( from ), adjustIndex( to ) );
   }

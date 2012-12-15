@@ -6,9 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.db;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.db;
 
 import java.sql.*;
 
@@ -59,7 +57,7 @@ public enum Database {
    * 
    * @throws SQLException   Something went wrong while accessing the database.
    */
-  public Connection getConnection( @KNotEmpty(name="url") String url ) throws SQLException {
+  public Connection getConnection( String url ) throws SQLException {
     activate();
     return DriverManager.getConnection( url );
   }
@@ -75,11 +73,7 @@ public enum Database {
    * 
    * @throws SQLException   Something went wrong while accessing the database.
    */
-  public Connection getConnection( 
-    @KNotEmpty(name="url")        String   url, 
-    @KNotEmpty(name="username")   String   username, 
-                                  String   password 
-  ) throws SQLException {
+  public Connection getConnection( String url, String username, String password ) throws SQLException {
     activate();
     return DriverManager.getConnection( url, username, password );
   }

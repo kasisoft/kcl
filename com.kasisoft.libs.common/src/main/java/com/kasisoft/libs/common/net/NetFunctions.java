@@ -6,20 +6,19 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.net;
+package com.kasisoft.libs.common.net;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.net.*;
+
 import java.io.*;
 
 /**
  * Collection of net related helper functions.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class NetFunctions {
 
   /**
@@ -29,76 +28,11 @@ public class NetFunctions {
   }
   
   /**
-   * Launches a FailureException if it's been desired.
-   * 
-   * @param fail   <code>true</code> <=> Launch the FailureException.
-   * @param ex     The causing exception. Not <code>null</code>. 
-   */
-  private static final void causeException( boolean fail, IOException ex ) {
-    if( fail ) {
-      throw new FailureException( FailureCode.IO, ex );
-    }
-  }
-  
-  /**
-   * Closes the supplied Socket.
-   * 
-   * @param fail     <code>true</code> <=> Raise an ExtendedRuntimeException in case closing
-   *                                       the socket caused an Exception.
-   * @param socket   The Socket which has to be closed. Maybe <code>null</code>.
-   */
-  public static final void close( boolean fail, Socket socket ) {
-    if( socket != null ) {
-      try {
-        socket.close();
-      } catch( IOException ex ) {
-        causeException( fail, ex );
-      }
-    }
-  }
-
-  /**
-   * Closes the supplied Socket.
-   * 
-   * @param socket   The Socket which has to be closed. Maybe <code>null</code>.
-   * @param fail     <code>true</code> <=> Raise an ExtendedRuntimeException in case closing
-   *                                       the socket caused an Exception.
-   */
-  public static final void close( boolean fail, ServerSocket socket ) {
-    if( socket != null ) {
-      try {
-        socket.close();
-      } catch( IOException ex ) {
-        causeException( fail, ex );
-      }
-    }
-  }
-
-  /**
-   * Closes the supplied Socket.
-   * 
-   * @param socket   The Socket which has to be closed. Maybe <code>null</code>.
-   */
-  public static final void close( Socket socket ) {
-    close( false, socket );
-  }
-
-  /**
-   * Closes the supplied Socket.
-   * 
-   * @param socket    The Socket which has to be closed. Maybe <code>null</code>.
-   */
-  public static final void close( ServerSocket socket ) {
-    close( false, socket );
-  }
-  
-  /**
    * Blocks the current Thread while waiting for a message to be transferred.
    * 
    * @param port   The port to listen to.
    * 
-   * @return   The message that has been transferred. <code>null</code> means that an
-   *           exception has been raised.
+   * @return   The message that has been transferred. <code>null</code> means that an exception has been raised.
    */
   public static final byte[] waitForMessage( int port ) {
     return waitForMessage( port, null );
@@ -110,8 +44,7 @@ public class NetFunctions {
    * @param port      The port to listen to.
    * @param timeout   An optional timeout value. Maybe <code>null</code>.
    * 
-   * @return   The message that has been transferred. <code>null</code> means that an
-   *           exception has been raised.
+   * @return   The message that has been transferred. <code>null</code> means that an exception has been raised.
    */
   public static final byte[] waitForMessage( int port, Integer timeout ) {
     ServerSocket socket = null;
@@ -126,8 +59,8 @@ public class NetFunctions {
     } catch( IOException ex ) {
       return null;
     } finally {
-      close( client );
-      close( socket );
+      MiscFunctions.close( true, client );
+      MiscFunctions.close( true, socket );
     }
   }
 
@@ -154,12 +87,7 @@ public class NetFunctions {
    * 
    * @return   <code>true</code> <=> The message could be sent successfully.
    */
-  public static final boolean sendMessage( 
-    @KNotEmpty(name="address")   String    address, 
-    @KIPositive(name="port")     int       port, 
-                                 byte[]    message, 
-                                 Integer   timeout 
-  ) {
+  public static final boolean sendMessage( String address, int port, byte[] message, Integer timeout ) {
     Socket  socket = null;
     try {
       socket = new Socket( address, port );
@@ -175,7 +103,7 @@ public class NetFunctions {
     } catch( IOException          ex ) {
       return false;
     } finally {
-      close( socket );
+      MiscFunctions.close( true, socket );
     }
   }
 

@@ -6,11 +6,9 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.thread;
+package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.constants.*;
 
 import java.util.*;
 
@@ -19,7 +17,6 @@ import java.io.*;
 /**
  * A Runnable implementation used to delete a file.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FileDeleteRunnable extends FileListRunnable {
 
   /**
@@ -32,8 +29,8 @@ public class FileDeleteRunnable extends FileListRunnable {
   /**
    * Initialises this Runnable which is used to delete a bunch of filesystem resources.
    * 
-   * @param files   The files that has to be deleted. Not <code>null</code> but they files are
-   *                not required to be existent.
+   * @param files   The files that has to be deleted. Not <code>null</code> but they files are not required to be 
+   *                existent.
    */
   public FileDeleteRunnable( File ... files ) {
     super( files );
@@ -42,6 +39,7 @@ public class FileDeleteRunnable extends FileListRunnable {
   /**
    * {@inheritDoc}
    */
+  @Override
   protected void execute() {
     
     super.execute();

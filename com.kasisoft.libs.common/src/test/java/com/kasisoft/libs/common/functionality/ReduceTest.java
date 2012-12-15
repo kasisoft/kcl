@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
+package com.kasisoft.libs.common.functionality;
 
 import org.testng.annotations.*;
 
@@ -22,7 +22,7 @@ public class ReduceTest {
 
   private Sum   reducefunction;
   
-  @BeforeSuite
+  @BeforeTest
   public void setup() {
     reducefunction = new Sum();
   }

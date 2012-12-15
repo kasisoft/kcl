@@ -6,16 +6,13 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.functionality;
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
+package com.kasisoft.libs.common.functionality;
 
 import java.util.*;
 
 /**
  * Helper functions to perform operations similar to the functional paradigm.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class FuFunctions {
 
   /**
@@ -33,11 +30,7 @@ public class FuFunctions {
    * 
    * @return   The reduced value. Not <code>null</code>.
    */
-  public static final <F,T> T reduce( 
-    @KNotNull(name="function")   Reduce<F,T>   function, 
-    @KNotNull(name="objects")    List<F>       objects, 
-    @KNotNull(name="initial")    T             initial 
-  ) {
+  public static final <F,T> T reduce( Reduce<F,T> function, List<F> objects, T initial ) {
     T result = initial;
     for( int i = 0; i < objects.size(); i++ ) {
       result = function.reduce( objects.get(i), result );
@@ -53,10 +46,7 @@ public class FuFunctions {
    * 
    * @return   The transformed values. Not <code>null</code>.
    */
-  public static final <F,T> List<T> map( 
-    @KNotNull(name="function")   Transform<F,T>   function, 
-    @KNotNull(name="objects")    List<F>          objects 
-  ) {
+  public static final <F,T> List<T> map( Transform<F,T> function, List<F> objects ) {
     List<T> result = new ArrayList<T>();
     for( int i = 0; i < objects.size(); i++ ) {
       result.add( function.map( objects.get(i) ) );
@@ -72,10 +62,7 @@ public class FuFunctions {
    * 
    * @return   The transformed map. Not <code>null</code>.
    */
-  public static final <K,F,T> Map<K,T> mapValue(
-    @KNotNull(name="function")   Transform<F,T>   function, 
-    @KNotNull(name="objects")    Map<K,F>         objects 
-  ) {
+  public static final <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects ) {
     Map<K,T> result = new HashMap<K,T>();
     for( Map.Entry<K,F> entry : objects.entrySet() ) {
       result.put( entry.getKey(), function.map( entry.getValue() ) );
@@ -84,29 +71,25 @@ public class FuFunctions {
   }
 
   /**
-   * Maps one map into another while transforming the key part of each record. Note that due to the
-   * nature of a key the function needs to be injective. Otherwise two entries might cause an 
-   * override of a single entry. 
+   * Maps one map into another while transforming the key part of each record. Note that due to the nature of a key the 
+   * function needs to be injective. Otherwise two entries might cause an override of a single entry. 
    * 
    * @param function   The function used to perform the transformation. Not <code>null</code>.
    * @param objects    The map which has to be transformed. Not <code>null</code>.
    * 
    * @return   The transformed map. Not <code>null</code>.
    */
-  public static final <V,F,T> Map<T,V> mapKey(
-      @KNotNull(name="function")   Transform<F,T>   function, 
-      @KNotNull(name="objects")    Map<F,V>         objects 
-    ) {
-      Map<T,V> result = new HashMap<T,V>();
-      for( Map.Entry<F,V> entry : objects.entrySet() ) {
-        result.put( function.map( entry.getKey() ), entry.getValue() );
-      }
-      return result;
+  public static final <V,F,T> Map<T,V> mapKey( Transform<F,T> function, Map<F,V> objects ) {
+    Map<T,V> result = new HashMap<T,V>();
+    for( Map.Entry<F,V> entry : objects.entrySet() ) {
+      result.put( function.map( entry.getKey() ), entry.getValue() );
     }
+    return result;
+  }
 
   /**
-   * Zips two lists while recombining their elements and recreating a new list. It is <b>not</b>
-   * allowed to have lists with different lengths. 
+   * Zips two lists while recombining their elements and recreating a new list. It is <b>not</b> allowed to have lists 
+   * with different lengths. 
    * 
    * @param function   The function used to perform the recombination. Not <code>null</code>.
    * @param left       The list which contains the elements of the left side. Not <code>null</code>.
@@ -114,21 +97,13 @@ public class FuFunctions {
    * 
    * @return   The list with the recombined values. Not <code>null</code>.
    */
-  public static final <L,R,V> List<V> zipE( 
-                              Zip<L,R,V>   function, 
-    @KNotNull(name="left")    List<L>      left, 
-    @KNotNull(name="right")   List<R>      right 
-  ) {
-    if( left.size() != right.size() ) {
-      throw new IllegalArgumentException( "the parameters 'left' and 'right' must have the same sizes. currently they are " + left.size() + " and " + right.size() );
-    }
+  public static final <L,R,V> List<V> zipE( Zip<L,R,V> function, List<L> left, List<R> right ) {
     return zip( function, left, right );
   }
   
   /**
-   * Zips two lists while recombining their elements and recreating a new list. It is allowed
-   * to have lists with different lengths. Missing elements will be passed as <code>null</code>
-   * values to the function.
+   * Zips two lists while recombining their elements and recreating a new list. It is allowed to have lists with 
+   * different lengths. Missing elements will be passed as <code>null</code> values to the function.
    * 
    * @param function    The function used to perform the recombination. Not <code>null</code>.
    * @param left        The list which contains the elements of the left side. Not <code>null</code>.
@@ -136,11 +111,7 @@ public class FuFunctions {
    * 
    * @return   The list with the recombined values. Not <code>null</code>.
    */
-  public static final <L,R,V> List<V> zip( 
-    @KNotNull(name="function")   Zip<L,R,V>   function, 
-    @KNotNull(name="left")       List<L>      left, 
-    @KNotNull(name="right")      List<R>      right 
-  ) {
+  public static final <L,R,V> List<V> zip( Zip<L,R,V> function, List<L> left, List<R> right ) {
     int     max    = Math.max( left.size(), right.size() );
     List<V> result = new ArrayList<V>();
     for( int i = 0; i < max; i++ ) {
@@ -165,10 +136,7 @@ public class FuFunctions {
    * 
    * @return   A newly created list. Not <code>null</code>.
    */
-  public static final <T> List<T> filter(
-    @KNotNull(name="function")   Filter<T>   function, 
-    @KNotNull(name="objects")    List<T>     objects 
-  ) {
+  public static final <T> List<T> filter( Filter<T> function, List<T> objects ) {
     List<T> result = new ArrayList<T>();
     for( int i = 0; i < objects.size(); i++ ) {
       T object = objects.get(i);

@@ -6,22 +6,21 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.graphics;
+package com.kasisoft.libs.common.graphics;
 
-import com.kasisoft.lgpl.libs.common.base.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.libs.common.base.*;
 
 import javax.imageio.*;
 
+import java.net.*;
+
 import java.awt.image.*;
 
-import java.net.*;
 import java.io.*;
 
 /**
  * Several utility functions related to graphical operations.
  */
-@KDiagnostic(loggername="com.kasisoft.lgpl.libs.common")
 public class GraphicsFunctions {
 
   /**
@@ -37,7 +36,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
-  public static final BufferedImage readImage( @KFile(name="file") File file ) {
+  public static final BufferedImage readImage( File file ) {
     return readImage( false, file );
   }
 
@@ -47,10 +46,9 @@ public class GraphicsFunctions {
    * @param fail   <code>true</code> <=> Cause an exception if the resource could not be loaded.
    * @param file   The resource which has to be loaded. Must be a valid file.
    * 
-   * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource
-   *           could not be loaded.
+   * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
    */
-  public static final BufferedImage readImage( boolean fail, @KFile(name="file") File file ) {
+  public static final BufferedImage readImage( boolean fail, File file ) {
     try {
       return ImageIO.read( file );
     } catch( IOException ex ) {
@@ -69,7 +67,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
-  public static final BufferedImage readImage( @KNotNull(name="url") URL url ) {
+  public static final BufferedImage readImage( URL url ) {
     return readImage( false, url );
   }
   
@@ -79,10 +77,9 @@ public class GraphicsFunctions {
    * @param fail   <code>true</code> <=> Cause an exception if the resource could not be loaded.
    * @param url    The resource which has to be loaded. Not <code>null</code>.
    * 
-   * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource
-   *           could not be loaded.
+   * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
    */
-  public static final BufferedImage readImage( boolean fail, @KNotNull(name="url") URL url ) {
+  public static final BufferedImage readImage( boolean fail, URL url ) {
     try {
       return ImageIO.read( url );
     } catch( IOException ex ) {
@@ -101,7 +98,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
-  public static final BufferedImage readImage( @KNotNull(name="instream") InputStream instream ) {
+  public static final BufferedImage readImage( InputStream instream ) {
     return readImage( false, instream );
   }
 
@@ -114,7 +111,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource
    *           could not be loaded.
    */
-  public static final BufferedImage readImage( boolean fail, @KNotNull(name="instream") InputStream instream ) {
+  public static final BufferedImage readImage( boolean fail, InputStream instream ) {
     try {
       return ImageIO.read( instream );
     } catch( IOException ex ) {
@@ -135,11 +132,7 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded.
    */
-  public static final boolean writeImage( 
-    @KFile(name="file")        File            file, 
-    @KNotNull(name="format")   PictureFormat   format, 
-    @KNotNull(name="image")    BufferedImage   image 
-  ) {
+  public static final boolean writeImage( File file, PictureFormat format, BufferedImage image ) {
     return writeImage( false, file, format, image );
   }
 
@@ -154,12 +147,7 @@ public class GraphicsFunctions {
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
    */
-  public static final boolean writeImage( 
-                               boolean         fail, 
-    @KFile(name="file")        File            file, 
-    @KNotNull(name="format")   PictureFormat   format, 
-    @KNotNull(name="image")    BufferedImage   image 
-  ) {
+  public static final boolean writeImage( boolean fail, File file, PictureFormat format, BufferedImage image ) {
     boolean result = false;
     try {
       result = ImageIO.write( image, format.getImageIOFormat(), file );
@@ -183,11 +171,7 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded.
    */
-  public static final boolean writeImage( 
-    @KNotNull(name="outstream")   OutputStream    outstream, 
-    @KNotNull(name="format")      PictureFormat   format, 
-    @KNotNull(name="image")       BufferedImage   image 
-  ) {
+  public static final boolean writeImage( OutputStream outstream, PictureFormat format, BufferedImage image ) {
     return writeImage( false, outstream, format, image );
   }
 
@@ -202,12 +186,7 @@ public class GraphicsFunctions {
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
    */
-  public static final boolean writeImage( 
-                                  boolean         fail, 
-    @KNotNull(name="outstream")   OutputStream    outstream, 
-    @KNotNull(name="format")      PictureFormat   format, 
-    @KNotNull(name="image")       BufferedImage   image 
-  ) {
+  public static final boolean writeImage( boolean fail, OutputStream outstream, PictureFormat format, BufferedImage image ) {
     boolean result = false;
     try {
       result = ImageIO.write( image, format.getImageIOFormat(), outstream );

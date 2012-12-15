@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.libs.common.workspace;
+package com.kasisoft.libs.common.workspace;
 
 import org.testng.annotations.*;
 
