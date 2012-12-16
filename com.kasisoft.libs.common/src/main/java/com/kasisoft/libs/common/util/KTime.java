@@ -288,4 +288,12 @@ public class KTime {
     return false;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int hashCode() {
+    return calendar.hashCode();
+  }
+
 } /* ENDCLASS */

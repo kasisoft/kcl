@@ -262,5 +262,13 @@ public class KDate {
     }
     return false;
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int hashCode() {
+    return calendar.hashCode();
+  }
   
 } /* ENDCLASS */
