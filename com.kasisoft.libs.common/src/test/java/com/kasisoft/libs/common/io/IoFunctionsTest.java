@@ -267,7 +267,7 @@ public class IoFunctionsTest {
     Assert.assertEquals( result1, "BLUB" );
     
     File                  testfile  = new File( testdata, "testfile.txt" );
-    String                result2   = Encoding.UTF8.decode( IoFunctions.loadFragment( testfile, 13, 6 ) );
+    String                result2   = Encoding.UTF8.decode( IoFunctions.loadFragment( testfile, 15, 6 ) );
     Assert.assertEquals( result2, "LINE 1" );
     
   }
