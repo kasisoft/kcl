@@ -182,6 +182,7 @@ public enum Month {
     if( this != February ) {
       return daycount;
     }
+    // we need to calculate the count for this year
     if( year % 400 == 0 ) {
       return daycount + 1;
     } else if( year % 100 == 0 ) {

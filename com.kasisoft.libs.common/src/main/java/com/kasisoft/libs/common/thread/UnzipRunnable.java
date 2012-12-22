@@ -8,13 +8,12 @@
  */
 package com.kasisoft.libs.common.thread;
 
-
+import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.util.*;
 
-import java.util.*;
 import java.util.zip.*;
+import java.util.*;
 
 import java.io.*;
 
@@ -117,10 +116,10 @@ public class UnzipRunnable extends AbstractRunnable {
   /**
    * Will be invoked whenever the decompression begins.
    * 
-   * @param name    The name of the zipfile entry.
-   * @param dir     <code>true</code> <=> The entry is a directory.
-   * @param size    If this is a file, then this is the uncompressed length of it. A value of -1 indicates that the 
-   *                length is not known.
+   * @param name   The name of the zipfile entry.
+   * @param dir    <code>true</code> <=> The entry is a directory.
+   * @param size   If this is a file, then this is the uncompressed length of it. A value of -1 indicates that the 
+   *               length is not known.
    */
   protected void onIterationBegin( String name, boolean dir, long size ) {
   }
@@ -128,9 +127,9 @@ public class UnzipRunnable extends AbstractRunnable {
   /**
    * Will be invoked whenever the decompression ends.
    * 
-   * @param name    The name of the zipfile entry.
-   * @param dir     <code>true</code> <=> The entry is a directory.
-   * @param size    If this is a file, then this is the uncompressed length of it.
+   * @param name   The name of the zipfile entry.
+   * @param dir    <code>true</code> <=> The entry is a directory.
+   * @param size   If this is a file, then this is the uncompressed length of it.
    */
   protected void onIterationEnd( String name, boolean dir, long size ) {
   }

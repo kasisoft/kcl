@@ -88,8 +88,7 @@ public class FuFunctions {
   }
 
   /**
-   * Zips two lists while recombining their elements and recreating a new list. It is <b>not</b> allowed to have lists 
-   * with different lengths. 
+   * Zips two lists while recombining their elements and recreating a new list. 
    * 
    * @param function   The function used to perform the recombination. Not <code>null</code>.
    * @param left       The list which contains the elements of the left side. Not <code>null</code>.

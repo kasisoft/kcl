@@ -11,9 +11,11 @@ package com.kasisoft.libs.common.util;
 import java.util.*;
 
 /**
- * A Comparator implementation that is capable to handle <code>null</code> values.
+ * A Comparator implementation that is capable to handle <code>null</code> values. The default implementation which
+ * doesn't use a {@link Comparator} expects the generic type <code>T</code> to be an extension of {@link Comparable}.
+ * Otherwise this implementation will cause a {@link ClassCastException} while being used.
  */
-public class NullableComparator<T extends Comparable> implements Comparator<T> {
+public class NullableComparator<T> implements Comparator<T> {
 
   private Comparator<T>   delegate;
   
@@ -45,7 +47,7 @@ public class NullableComparator<T extends Comparable> implements Comparator<T> {
       if( delegate != null ) {
         return delegate.compare( o1, o2 );
       } else {
-        return o1.compareTo( o2 );
+        return ((Comparable<T>) o1).compareTo( o2 );
       }
     }
     if( o1 != null ) {

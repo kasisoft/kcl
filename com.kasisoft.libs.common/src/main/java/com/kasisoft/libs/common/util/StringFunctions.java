@@ -10,10 +10,7 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 
-import java.text.*;
-
 import java.util.*;
-
 import java.io.*;
 
 /**
@@ -21,10 +18,9 @@ import java.io.*;
  */
 public class StringFunctions {
 
-  private static final DecimalFormat FORMAT2 = new DecimalFormat(   "00" );
-  private static final DecimalFormat FORMAT3 = new DecimalFormat(  "000" );
-  private static final DecimalFormat FORMAT4 = new DecimalFormat( "0000" );
-
+  private StringFunctions() {
+  }
+  
   /**
    * Allocates some character buffer.
    * 
@@ -501,39 +497,6 @@ public class StringFunctions {
       }
     }
     return result;
-  }
-
-  /**
-   * Creates a decimal formatted String from the supplied value. Two cyphers with preceeding zeros.
-   * 
-   * @param value   The value used to get a formatted String.
-   * 
-   * @return   A formatted String. Neither <code>null</code> nor empty.
-   */
-  public static final String decFormat2( int value ) {
-    return FORMAT2.format( value );
-  }
-
-  /**
-   * Creates a decimal formatted String from the supplied value. Three cyphers with preceeding zeros.
-   * 
-   * @param value   The value used to get a formatted String.
-   * 
-   * @return   A formatted String. Neither <code>null</code> nor empty.
-   */
-  public static final String decFormat3( int value ) {
-    return FORMAT3.format( value );
-  }
-
-  /**
-   * Creates a decimal formatted String from the supplied value. Four cyphers with preceeding zeros.
-   * 
-   * @param value   The value used to get a formatted String.
-   * 
-   * @return   A formatted String. Neither <code>null</code> nor empty.
-   */
-  public static final String decFormat4( int value ) {
-    return FORMAT4.format( value );
   }
 
   /**

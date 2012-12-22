@@ -8,10 +8,9 @@
  */
 package com.kasisoft.libs.common.sys;
 
-
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.thread.*;
 import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.base.*;
 
 import java.util.*;
 
@@ -158,6 +157,46 @@ public class SystemProcess {
   }
 
   /**
+   * Creates a list of environment variables depending on the current settings.
+   * 
+   * @return   A list of environment variables depending on the current settings. Maybe <code>null</code>.
+   */
+  private String[] createEnvironment() {
+    String[] result = null;
+    if( environment ) {
+      if( ! variables.isEmpty() ) {
+        // if we don't have an extension we can use the value 'null' to indicate that
+        // the current environment has to be inherited. in the other case we must create
+        // a copy of the current environment and modify it with the extending variables.
+        result = extendProperties();
+      }
+    } else {
+      result = getExtendingEnvironment();
+    }
+    return result;
+  }
+  
+  /**
+   * Creates a command vector using the supplied arguments.
+   * 
+   * @param args
+   *          A list of arguments to be used for the command execution. Maybe <code>null</code>.
+   *          
+   * @return   A command vector providing the executable and all arguments. Not <code>null</code>.
+   */
+  private String[] createCommandVector( String ... args ) {
+    String[] result = null;
+    if( (args != null) && (args.length > 0) ) {
+      result    = new String[ args.length + 1 ];
+      System.arraycopy( args, 0, result, 1, args.length );
+      result[0] = executable.getAbsolutePath();
+    } else {
+      result    = new String[] { executable.getAbsolutePath() };
+    }
+    return result;
+  }
+  
+  /**
    * Runs the system process with the supplied args.
    * 
    * @param args   The arguments used to pass to the system process. If any of these args contains a space or something 
@@ -175,44 +214,15 @@ public class SystemProcess {
     
     try {
 
-      String[] cmdvector = null;
-      if( args != null ) {
-        cmdvector    = new String[ args.length + 1 ];
-        System.arraycopy( args, 0, cmdvector, 1, args.length );
-        cmdvector[0] = executable.getAbsolutePath();
-      } else {
-        cmdvector    = new String[] { executable.getAbsolutePath() };
-      }
+      Process process = Runtime.getRuntime().exec( createCommandVector( args ), createEnvironment(), workingdir );
 
-      String[] envp = null;
-      synchronized( this ) {
-        if( environment ) {
-          if( ! variables.isEmpty() ) {
-            // if we don't have an extension we can use the value 'null' to indicate that
-            // the current environment has to be inherited. in the other case we must create
-            // a copy of the current environment and modify it with the extending variables.
-            envp = extendProperties();
-          }
-        } else {
-          envp = getExtendingEnvironment();
-        }
-      }
-      
-      Process p = Runtime.getRuntime().exec( cmdvector, envp, workingdir );
-
-      OutputStream out = outstream;
-      OutputStream err = errstream;
-      if( out == null ) {
-        out = System.out;
-      }
-      if( err == null ) {
-        err = System.err;
-      }
+      OutputStream out = outstream != null ? outstream : System.out;
+      OutputStream err = errstream != null ? errstream : System.err;
       
       ByteCopierRunnable outrunnable = new ByteCopierRunnable(); 
       ByteCopierRunnable errrunnable = new ByteCopierRunnable(); 
-      outrunnable.configure( p.getInputStream(), out );
-      errrunnable.configure( p.getErrorStream(), err );
+      outrunnable.configure( process.getInputStream(), out );
+      errrunnable.configure( process.getErrorStream(), err );
       
       outcopier  = new Thread( outrunnable );
       errcopier  = new Thread( errrunnable );
@@ -220,7 +230,7 @@ public class SystemProcess {
       outcopier.start();
       errcopier.start();
 
-      returncode = p.waitFor();
+      returncode = process.waitFor();
 
     } catch( IOException ex ) {
       exception = ex;
@@ -250,7 +260,7 @@ public class SystemProcess {
    * 
    * @return   An environment which only contains the variables added to this process. Not <code>null</code>.
    */
-  private synchronized String[] getExtendingEnvironment() {
+  private String[] getExtendingEnvironment() {
     return toEnvp( variables );
   }
 
@@ -260,7 +270,7 @@ public class SystemProcess {
    * 
    * @return   An environment which is a merger of the current environment and the variables added to this process.
    */
-  private synchronized String[] extendProperties() {
+  private String[] extendProperties() {
     Map<String,String> map = new Hashtable<String,String>();
     map.putAll( System.getenv() );
     map.putAll( variables       );

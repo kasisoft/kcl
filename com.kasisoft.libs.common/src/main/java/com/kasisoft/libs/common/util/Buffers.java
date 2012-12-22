@@ -39,7 +39,7 @@ public class Buffers<T> {
    * 
    * @return   The block with the apropriate space or <code>null</code>.
    */
-  private synchronized T getBlock( int size ) {
+  private T getBlock( int size ) {
     if( allocated.isEmpty() ) {
       return null;
     }

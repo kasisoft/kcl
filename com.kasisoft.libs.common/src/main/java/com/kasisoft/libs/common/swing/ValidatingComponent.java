@@ -1,5 +1,5 @@
 /**
- * Name........: ValidatingEditor
+ * Name........: ValidatingComponent
  * Description.: Each implementor supports to distinguish between a valid and an invalid state.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net

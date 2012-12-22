@@ -58,7 +58,6 @@ public enum SystemInfo {
     return result;
   }
   
-  
   /**
    * Returns <code>true</code> if the filesystem is case sensitive.
    * 

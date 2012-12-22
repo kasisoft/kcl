@@ -30,6 +30,7 @@ public enum Primitive {
   private long         min;
   private long         max;
   private Buffers      buffers;
+  private boolean      minmax;
   
   /**
    * Sets up this enumeration value.
@@ -47,6 +48,16 @@ public enum Primitive {
     min            = minval;
     max            = maxval;
     buffers        = null;
+    minmax         = minval != maxval;
+  }
+  
+  /**
+   * Returns <code>true</code> if this type supports the usage of {@link #getMin()} and {@link #getMax()}.
+   * 
+   * @return   <code>true</code> <=> Using {@link #getMin()} and {@link #getMax()} is supported.
+   */
+  public boolean supportsMinMax() {
+    return minmax;
   }
   
   /**
@@ -56,15 +67,6 @@ public enum Primitive {
    */
   public long getMin() {
     return min;
-  }
-  
-  /**
-   * Returns <code>true</code> if this type supports the usage of {@link #getMin()} and {@link #getMax()}.
-   * 
-   * @return   <code>true</code> <=> Using {@link #getMin()} and {@link #getMax()} is supported.
-   */
-  public boolean supportsMinMax() {
-    return (this == PByte ) || (this == PShort) || (this == PInt  ) || (this == PLong );
   }
   
   /**

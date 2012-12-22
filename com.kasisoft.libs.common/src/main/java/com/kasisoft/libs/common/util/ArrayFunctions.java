@@ -236,8 +236,8 @@ public class ArrayFunctions {
    */
   public static final <T> List<T> addAll( List<T> receiver, T ... input ) {
     if( input != null ) {
-      for( int i = 0; i < input.length; i++ ) {
-        receiver.add( input[i] );
+      for( T object : input ) {
+        receiver.add( object );
       }
     }
     return receiver;

@@ -16,7 +16,6 @@ import java.awt.*;
  * Collection of Swing related utility functions.
  */
 public class SwingFunctions {
-
   
   /**
    * Modifies the boundaries of a component so it's being centered related to another component.

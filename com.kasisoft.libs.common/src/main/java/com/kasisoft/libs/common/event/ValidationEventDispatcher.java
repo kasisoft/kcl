@@ -8,7 +8,6 @@
  */
 package com.kasisoft.libs.common.event;
 
-
 /**
  * Basic implementation of a dispatcher for ValidationEvents. Listeners called using this dispatcher will be executed 
  * within the EventDispatchThread.

@@ -8,10 +8,8 @@
  */
 package com.kasisoft.libs.common.thread;
 
-
-
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
 
 import java.io.*;
@@ -31,6 +29,13 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
   private Integer           size;
   
   /**
+   * Initialises this Runnable implementation using a locally allocated buffer of a default size.
+   */
+  public CharCopierRunnable() {
+    this( (Integer) null );
+  }
+
+  /**
    * Initialises this Runnable implementation using the supplied block as a buffer.
    * 
    * @param allocated   The buffer used for copying purposes. If <code>null</code> buffers will be allocated locally.
@@ -40,13 +45,6 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
     size      = null;
     owned     = allocated == null;
     buffer    = allocated;
-  }
-
-  /**
-   * Initialises this Runnable implementation using a locally allocated buffer of a default size.
-   */
-  public CharCopierRunnable() {
-    this( (Integer) null );
   }
 
   /**
@@ -103,44 +101,44 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
   @Override
   protected void execute() {
     
-    if( configured ) {
+    if( ! configured ) {
+      return;
+    }
       
-      try {
-        
-        if( owned ) {
-          buffer  = getBuffers().allocate( size );
-        }
-        
-        progress.setTotal(-1);
-        progress( progress );
-        
-        int read = source.read( buffer );
-        while( (! isStopped()) && (read != -1) ) {
-          
-          if( read > 0 ) {
-            
-            destination.write( buffer, 0, read );
-           
-            // update the written amount
-            progress.setCurrent( progress.getCurrent() + read );
-            progress( progress );
-
-          }
-          
-          read = source.read( buffer );
-          
-        }
-        
-      } catch( IOException ex ) {
-        handleIOFailure( ex );
-      } finally {
-        if( owned ) {
-          getBuffers().release( buffer );
-          buffer = null;
-        }
-        reset();
+    try {
+      
+      if( owned ) {
+        buffer  = getBuffers().allocate( size );
       }
       
+      progress.setTotal(-1);
+      progress( progress );
+      
+      int read = source.read( buffer );
+      while( (! isStopped()) && (read != -1) ) {
+        
+        if( read > 0 ) {
+          
+          destination.write( buffer, 0, read );
+         
+          // update the written amount
+          progress.setCurrent( progress.getCurrent() + read );
+          progress( progress );
+
+        }
+        
+        read = source.read( buffer );
+        
+      }
+      
+    } catch( IOException ex ) {
+      handleIOFailure( ex );
+    } finally {
+      if( owned ) {
+        getBuffers().release( buffer );
+        buffer = null;
+      }
+      reset();
     }
     
   }

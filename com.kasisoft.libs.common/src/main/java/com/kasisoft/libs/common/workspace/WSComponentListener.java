@@ -1,7 +1,6 @@
 /**
  * Name........: WSComponentListener
- * Description.: A ComponentListener implementation which stores the settings of a Component
- *               to the Workspace.
+ * Description.: A ComponentListener implementation which stores the settings of a Component to the Workspace.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft

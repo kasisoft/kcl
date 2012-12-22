@@ -158,7 +158,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
     }
     boolean result = super.accept( file );
     if( result ) {
-      String  filename  = super.normaliseFilename( file.getName() );
+      String filename = super.normaliseFilename( file.getName() );
       synchronized( suffixlist ) {
         for( int i = 0; (i < suffixlist.size()) && (! result); i++ ) {
           result = filename.endsWith( suffixlist.get(i) );

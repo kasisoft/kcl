@@ -166,61 +166,63 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
    */
   @Override
   protected void execute() {
-    if( configured ) {
+    
+    if( ! configured ) {
+      return;
+    }
         
-      List<File> queue = new ArrayList<File>();
-      for( File root : roots ) {
-        queue.add( root ); 
-      }
-      
-      FileFilter filefilter = null;
-      if( filter != null ) {
-        filefilter = filter;
-      } else {
-        filefilter = new AcceptAllFilter();
-      }
-      
-      progress.setTotal(-1);
-      progress( progress );
-      
-      while( (! isStopped()) && (! queue.isEmpty()) ) {
-        File    current = queue.remove(0);
-        boolean accept  = filefilter.accept( current );
-        if( accept ) {
+    List<File> queue = new ArrayList<File>();
+    for( File root : roots ) {
+      queue.add( root ); 
+    }
+    
+    FileFilter filefilter = null;
+    if( filter != null ) {
+      filefilter = filter;
+    } else {
+      filefilter = new AcceptAllFilter();
+    }
+    
+    progress.setTotal(-1);
+    progress( progress );
+    
+    while( (! isStopped()) && (! queue.isEmpty()) ) {
+      File    current = queue.remove(0);
+      boolean accept  = filefilter.accept( current );
+      if( accept ) {
+        
+        if( current.isFile() ) {
           
-          if( current.isFile() ) {
-            
-            if( incfiles && (filereceiver != null) ) {
-              // collect the file
-              filereceiver.add( current );
-            }
-            
-          } else if( current.isDirectory() ) {
-            
-            File[] children = current.listFiles( filefilter );
-            if( incdirs && (dirreceiver != null) ) {
-              // collect the directory
-              dirreceiver.add( current );
-            }
-            if( children != null ) {
-              // add children to the queue for further processing
-              for( File child : children ) {
-                queue.add( child );
-              }
-            }
-            
-          } else {
-            // we're ignoring everything which is neither a file nor a directory
+          if( incfiles && (filereceiver != null) ) {
+            // collect the file
+            filereceiver.add( current );
           }
           
-          progress.setFile( current );
-          progress.setCurrent( progress.getCurrent() + 1 );
-          progress( progress );
+        } else if( current.isDirectory() ) {
           
+          File[] children = current.listFiles( filefilter );
+          if( incdirs && (dirreceiver != null) ) {
+            // collect the directory
+            dirreceiver.add( current );
+          }
+          if( children != null ) {
+            // add children to the queue for further processing
+            for( File child : children ) {
+              queue.add( child );
+            }
+          }
+          
+        } else {
+          // we're ignoring everything which is neither a file nor a directory
         }
-      }
         
+        progress.setFile( current );
+        progress.setCurrent( progress.getCurrent() + 1 );
+        progress( progress );
+        
+      }
     }
+      
   }
   
   /**

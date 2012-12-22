@@ -20,22 +20,22 @@ import java.io.*;
  * 
  *    <base-package-path> '#' <property-name>
  *    
- * F.e. <code>com.kasisoft.lgpl.libs.common#DEBUG</code>
+ * F.e. <code>com.kasisoft.lgpl.common#DEBUG</code>
  * 
  */
 public enum CommonProperty {
 
-  Debug       ( "com.kasisoft.lgpl.libs.common#DEBUG"       , false , Boolean.FALSE                     , Boolean.class ),
+  Application ( "com.kasisoft.libs.common#APPLICATION" , true  , null                              , File.class    ),
   
-  IoRetries   ( "com.kasisoft.lgpl.libs.common#IORETRIES"   , false , Integer.valueOf(5)                , Integer.class ),
+  BufferCount ( "com.kasisoft.libs.common#BUFFERCOUNT" , false , Integer.valueOf(8192)             , Integer.class ),
   
-  Sleep       ( "com.kasisoft.lgpl.libs.common#SLEEP"       , false , Integer.valueOf(100)              , Integer.class ),
+  Debug       ( "com.kasisoft.libs.common#DEBUG"       , false , Boolean.FALSE                     , Boolean.class ),
   
-  BufferCount ( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , false , Integer.valueOf(8192)             , Integer.class ),
+  IoRetries   ( "com.kasisoft.libs.common#IORETRIES"   , false , Integer.valueOf(5)                , Integer.class ),
   
-  Application ( "com.kasisoft.lgpl.libs.common#APPLICATION" , true  , null                              , File.class    ),
+  Sleep       ( "com.kasisoft.libs.common#SLEEP"       , false , Integer.valueOf(100)              , Integer.class ),
   
-  TempDir     ( "com.kasisoft.lgpl.libs.common#TEMPDIR"     , true  , SystemProperty.TempDir.getValue() , File.class    );
+  TempDir     ( "com.kasisoft.libs.common#TEMPDIR"     , true  , SystemProperty.TempDir.getValue() , File.class    );
   
   private String     key;
   private Object     defvalue;

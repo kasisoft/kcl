@@ -16,6 +16,7 @@ import java.sql.*;
 public enum Database {
 
   derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          ),
+  h2          ( "org.h2.Driver"                                 ),
   hsql        ( "org.hsqldb.jdbcDriver"                         ),
   mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  ),
   mysql       ( "com.mysql.jdbc.Driver"                         ),

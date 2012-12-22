@@ -11,8 +11,8 @@ package com.kasisoft.libs.common.event;
 import java.awt.event.*;
 
 /**
- * Basic implementation of a dispatcher for KeyEvent's. Listeners called using this
- * dispatcher will be executed within the EventDispatchThread.
+ * Basic implementation of a dispatcher for KeyEvent's. Listeners called using this dispatcher will be executed within 
+ * the EventDispatchThread.
  */
 public class KeyEventDispatcher extends AbstractEventDispatcher<KeyListener,KeyEvent> {
 

@@ -176,33 +176,6 @@ public class StringFunctionsTest {
     Assert.assertEquals( result, contained );
   }
 
-  @Test
-  public void decFormat2() {
-    Assert.assertEquals( StringFunctions.decFormat2(0), "00" );
-    Assert.assertEquals( StringFunctions.decFormat2(1), "01" );
-    Assert.assertEquals( StringFunctions.decFormat2(10), "10" );
-    Assert.assertEquals( StringFunctions.decFormat2(100), "100" );
-  }
-
-  @Test
-  public void decFormat3() {
-    Assert.assertEquals( StringFunctions.decFormat3(0), "000" );
-    Assert.assertEquals( StringFunctions.decFormat3(1), "001" );
-    Assert.assertEquals( StringFunctions.decFormat3(10), "010" );
-    Assert.assertEquals( StringFunctions.decFormat3(100), "100" );
-    Assert.assertEquals( StringFunctions.decFormat3(1200), "1200" );
-  }
-
-  @Test
-  public void decFormat4() {
-    Assert.assertEquals( StringFunctions.decFormat4(0), "0000" );
-    Assert.assertEquals( StringFunctions.decFormat4(1), "0001" );
-    Assert.assertEquals( StringFunctions.decFormat4(10), "0010" );
-    Assert.assertEquals( StringFunctions.decFormat4(100), "0100" );
-    Assert.assertEquals( StringFunctions.decFormat4(1200), "1200" );
-    Assert.assertEquals( StringFunctions.decFormat4(12040), "12040" );
-  }
-  
   @DataProvider(name="createFillString")
   public Object[][] createFillString() {
     return new Object[][] {

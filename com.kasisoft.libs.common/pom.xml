@@ -74,4 +74,16 @@
     <name>Kasisoft</name>
     <url>https://kasisoft.com</url>
   </organization>
+  <url>https://kasisoft.com/confluence/display/KCOM</url>
+  <scm>
+    <url>https://kasisoft.com/svn/kasisoftcommon</url>
+  </scm>
+  <issueManagement>
+    <system>jira</system>
+    <url>https://kasisoft.com/jira/KCOM</url>
+  </issueManagement>
+  <ciManagement>
+    <system>jenkins</system>
+    <url>https://kasisoft.com/jenkins</url>
+  </ciManagement>
 </project>

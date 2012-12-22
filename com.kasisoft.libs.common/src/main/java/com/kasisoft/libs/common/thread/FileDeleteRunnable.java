@@ -46,41 +46,37 @@ public class FileDeleteRunnable extends FileListRunnable {
     
     List<File>  files       = getFiles();
     List<File>  directories = getDirectories();
-    int         retries     = ((Integer) CommonProperty.IoRetries.getValue()).intValue();
+    int         retries     = CommonProperty.IoRetries.<Integer>getValue().intValue();
     retries                *= (files.size() + directories.size());
     
     // 1. delete all files
-    while( (! isStopped()) && (! files.isEmpty()) ) {
-      for( int i = files.size() - 1; i >= 0; i-- ) {
-        File candidate = files.get(i);
-        if( candidate.exists() ) {
-          if( candidate.delete() ) {
-            // the resource could be removed without any problem
-            files.remove(i);
-          }
-        } else {
-          // the resource doesn't exist in the first place
-          files.remove(i);
-        }
-        retries--;
-        if( retries == 0 ) {
-          stop();
-        }
-      }
-    }
+    retries = delete( files, retries );
     
     // 2. delete all directories
-    while( (! isStopped()) && (! directories.isEmpty()) ) {
-      for( int i = directories.size() - 1; i >= 0; i-- ) {
-        File candidate = directories.get(i);
+    retries = delete( directories, retries );
+    
+  }
+  
+  /**
+   * Deletes all resources which are supposed to become deleted.
+   * 
+   * @param resources   A list of resources which is supposed to be deleted. Not <code>null</code>.
+   * @param retries     The current number of retries used as an abortion criteria.
+   * 
+   * @return   An updated number of retries used as an abortion criteria.
+   */
+  private int delete( List<File> resources, int retries ) {
+    while( (! isStopped()) && (! resources.isEmpty()) ) {
+      for( int i = resources.size() - 1; (! isStopped()) && (i >= 0); i-- ) {
+        File candidate = resources.get(i);
         if( candidate.exists() ) {
           if( candidate.delete() ) {
             // the resource could be removed without any problem
-            directories.remove(i);
+            resources.remove(i);
           }
         } else {
           // the resource doesn't exist in the first place
-          directories.remove(i);
+          resources.remove(i);
         }
         retries--;
         if( retries == 0 ) {
@@ -88,7 +84,7 @@ public class FileDeleteRunnable extends FileListRunnable {
         }
       }
     }
-    
+    return retries;
   }
 
 } /* ENDCLASS */

@@ -1,7 +1,7 @@
 /**
  * Name........: PreconfiguredXmlCatalog
- * Description.: Specialisation of the XmlCatalog which provides preconfigured resources depending
- *               on the w3c.jar which should be on the classpath.
+ * Description.: Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which 
+ *               should be on the classpath.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
