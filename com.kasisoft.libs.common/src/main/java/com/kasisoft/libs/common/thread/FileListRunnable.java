@@ -8,6 +8,10 @@
  */
 package com.kasisoft.libs.common.thread;
 
+import com.kasisoft.libs.common.io.*;
+
+import java.util.regex.*;
+
 import java.util.*;
 
 import java.io.*;
@@ -27,6 +31,8 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   private File[]                  roots;
   private FileProgress            progress;
   private boolean                 configured;
+  private Pattern                 filepattern;
+  private Pattern                 dirpattern;
 
   /**
    * Initialises this file lister allowing to collect resources selectively.
@@ -44,6 +50,8 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     incdirs       = true;
     incfiles      = true;
     filter        = null;
+    filepattern   = null;
+    dirpattern    = null;
     progress      = new FileProgress();
     dirreceiver   = new ProtectableList<File>();
     filereceiver  = new ProtectableList<File>();
@@ -64,6 +72,32 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     configured  = false;
   }
   
+  /**
+   * Provides an Ant like filesystem pattern which allows to filter directories.
+   * 
+   * @param newpattern   The new pattern which allows to filter directories.
+   */
+  public void setDirPattern( String newpattern ) {
+    if( newpattern != null ) {
+      dirpattern = IoFunctions.compileFilesystemPattern( newpattern );
+    } else {
+      dirpattern = null;
+    }
+  }
+
+  /**
+   * Provides an Ant like filesystem pattern which allows to filter files.
+   * 
+   * @param newpattern   The new pattern which allows to filter files.
+   */
+  public void setFilePattern( String newpattern ) {
+    if( newpattern != null ) {
+      filepattern = IoFunctions.compileFilesystemPattern( newpattern );
+    } else {
+      filepattern = null;
+    }
+  }
+
   /**
    * Sets the resources which have to be traversed.
    * 
@@ -249,6 +283,17 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     boolean result = true;
     if( filter != null ) {
       result = filter.accept( file );
+    }
+    if( result ) {
+      if( file.isFile() ) {
+        if( filepattern != null ) {
+          result = filepattern.matcher( path.toString() ).matches();
+        }
+      } else if( file.isDirectory() ) {
+        if( dirpattern != null ) {
+          result = dirpattern.matcher( path.toString() ).matches();
+        }
+      }
     }
     return result;
   }
