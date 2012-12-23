@@ -29,11 +29,11 @@ public class CommonPropertyTest {
   public void setup() {
     noproperties  = new Properties();
     properties    = new Properties();
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#DEBUG"       , "true"     );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#IORETRIES"   , "20"       );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#SLEEP"       , "1000"     );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#BUFFERCOUNT" , "8192"     );
-    properties.setProperty( "com.kasisoft.lgpl.libs.common#TEMPDIR"     , "D:/temp"  );
+    properties.setProperty( "com.kasisoft.libs.common#DEBUG"       , "true"     );
+    properties.setProperty( "com.kasisoft.libs.common#IORETRIES"   , "20"       );
+    properties.setProperty( "com.kasisoft.libs.common#SLEEP"       , "1000"     );
+    properties.setProperty( "com.kasisoft.libs.common#BUFFERCOUNT" , "8192"     );
+    properties.setProperty( "com.kasisoft.libs.common#TEMPDIR"     , "D:/temp"  );
   }
   
   @DataProvider(name="createProperties")
