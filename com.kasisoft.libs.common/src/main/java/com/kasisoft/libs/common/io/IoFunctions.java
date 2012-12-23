@@ -8,14 +8,16 @@
  */
 package com.kasisoft.libs.common.io;
 
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.thread.*;
 import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.sys.*;
+import com.kasisoft.libs.common.thread.*;
+import com.kasisoft.libs.common.util.*;
 
-import java.util.zip.*;
+import java.util.regex.*;
+
 import java.util.*;
+import java.util.zip.*;
 
 import java.net.*;
 
@@ -28,12 +30,53 @@ public class IoFunctions {
 
   private static final byte[] NO_DATA = new byte[0];
 
+  private static final String WC1 = "([^/]+)";    // *
+  private static final String WC2 = "(.+)";       // **
+
   /**
    * Prevent instantiation.
    */
   private IoFunctions() {
   }
   
+  /**
+   * Creates a regex pattern used to match a filesystem path.
+   * 
+   * @param pattern   The filesystem pattern which is supposed to be compiled. Neither <code>null</code> nor empty.
+   * 
+   * @return   A {@link Pattern} instance used to test filesystem pathes. Not <code>null</code>.
+   */
+  public static final Pattern compileFilesystemPattern( String pattern ) {
+    StringBuffer    buffer    = new StringBuffer();
+    StringTokenizer tokenizer = new StringTokenizer( pattern, "*", true );
+    boolean         last      = false;
+    while( tokenizer.hasMoreTokens() ) {
+      String token = tokenizer.nextToken();
+      if( "*".equals( token ) ) {
+        if( last ) {
+          buffer.append( WC2 );
+          last = false;
+        } else {
+          last = true;
+        }
+      } else {
+        if( last ) {
+          buffer.append( WC1 );
+          last = false;
+        }
+        buffer.append( Pattern.quote( token ) );
+      }
+    }
+    if( last ) {
+      buffer.append( WC1 );
+    }
+    int flags = 0;
+    if( ! SystemInfo.getRunningOS().isCaseSensitiveFS() ) {
+      flags |= Pattern.CASE_INSENSITIVE;
+    }
+    return Pattern.compile( buffer.toString(), flags );
+  }
+
   /**
    * Creates an instance of {@link InputStream} and handles potential exceptions.
    * 
