@@ -19,14 +19,14 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
 
   private static final File[] EMPTY_LIST = new File[0];
   
-  private boolean         incdirs;
-  private boolean         incfiles;
-  private FileFilter      filter;
-  private List<File>      dirreceiver;
-  private List<File>      filereceiver;
-  private File[]          roots;
-  private FileProgress    progress;
-  private boolean         configured;
+  private boolean                 incdirs;
+  private boolean                 incfiles;
+  private FileFilter              filter;
+  private ProtectableList<File>   dirreceiver;
+  private ProtectableList<File>   filereceiver;
+  private File[]                  roots;
+  private FileProgress            progress;
+  private boolean                 configured;
 
   /**
    * Initialises this file lister allowing to collect resources selectively.
@@ -45,8 +45,8 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     incfiles      = true;
     filter        = null;
     progress      = new FileProgress();
-    dirreceiver   = new ArrayList<File>();
-    filereceiver  = new ArrayList<File>();
+    dirreceiver   = new ProtectableList<File>();
+    filereceiver  = new ProtectableList<File>();
     reset();
     configure( files );
   }
@@ -160,7 +160,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   public boolean isIncludeFiles() {
     return incfiles;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -170,73 +170,111 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     if( ! configured ) {
       return;
     }
-        
-    List<File> queue = new ArrayList<File>();
-    for( File root : roots ) {
-      queue.add( root ); 
-    }
-    
-    FileFilter filefilter = null;
-    if( filter != null ) {
-      filefilter = filter;
-    } else {
-      filefilter = new AcceptAllFilter();
-    }
-    
+
     progress.setTotal(-1);
     progress( progress );
     
-    while( (! isStopped()) && (! queue.isEmpty()) ) {
-      File    current = queue.remove(0);
-      boolean accept  = filefilter.accept( current );
-      if( accept ) {
-        
-        if( current.isFile() ) {
-          
-          if( incfiles && (filereceiver != null) ) {
-            // collect the file
-            filereceiver.add( current );
-          }
-          
-        } else if( current.isDirectory() ) {
-          
-          File[] children = current.listFiles( filefilter );
-          if( incdirs && (dirreceiver != null) ) {
-            // collect the directory
-            dirreceiver.add( current );
-          }
-          if( children != null ) {
-            // add children to the queue for further processing
-            for( File child : children ) {
-              queue.add( child );
-            }
-          }
-          
-        } else {
-          // we're ignoring everything which is neither a file nor a directory
-        }
-        
-        progress.setFile( current );
-        progress.setCurrent( progress.getCurrent() + 1 );
-        progress( progress );
-        
+    // we're using write protected lists depending on the current settings
+    filereceiver.protect  = ! incfiles;
+    dirreceiver.protect   = ! incdirs;
+    
+    StringBuffer buffer = new StringBuffer();
+    for( File resource : roots ) {
+      
+      if( isStopped() ) {
+        break;
       }
+      
+      buffer.setLength(0);
+      iterate( filereceiver, dirreceiver, buffer, resource );
+        
     }
       
   }
+
+  /**
+   * Iterates through the supplied directory.
+   * 
+   * @param files   The receiver for file instances. Not <code>null</code>.
+   * @param dirs    The receiver for directory instances. Not <code>null</code>.
+   * @param path    A buffer providing the relative path. Not <code>null</code>.
+   * @param dir     The directory that is supposed to be processed. Not <code>null</code>.
+   */
+  private void iterateDir( List<File> files, List<File> dirs, StringBuffer path, File dir ) {
+    File[] children = dir.listFiles();
+    if( children != null ) {
+      for( File child : children ) {
+        if( isStopped() ) { 
+          break;
+        }
+        iterate( files, dirs, path, child );
+      }
+    }
+  }
   
   /**
-   * Simple helper which is used to accept all File records.
+   * Iterates through the supplied resource.
+   * 
+   * @param files     The receiver for file instances. Not <code>null</code>.
+   * @param dirs      The receiver for directory instances. Not <code>null</code>.
+   * @param path      A buffer providing the relative path. Not <code>null</code>.
+   * @param current   The resource that is supposed to be processed. Not <code>null</code>.
    */
-  private static final class AcceptAllFilter implements FileFilter {
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean accept( File pathname ) {
-      return true;
+  private void iterate( List<File> files, List<File> dirs, StringBuffer path, File current ) {
+    int oldlength = path.length();
+    path.append( current.getName() );
+    if( accept( current, path ) ) {
+      if( current.isFile() ) {
+        progressUpdate( current );
+        files.add( current );
+      } else if( current.isDirectory() ) {
+        progressUpdate( current );
+        dirs.add( current );
+        path.append( "/" );
+        iterateDir( files, dirs, path, current );
+      }
+    }
+    path.setLength( oldlength );
+  }
+  
+  /**
+   * Returns <code>true</code> if the supplied file is acceptable.
+   * 
+   * @param file   The file that is supposed to be tested. Not <code>null</code>.
+   * @param path   The current relative path for the supplied file. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> The supplied file is acceptable.
+   */
+  private boolean accept( File file, StringBuffer path ) {
+    boolean result = true;
+    if( filter != null ) {
+      result = filter.accept( file );
+    }
+    return result;
+  }
+  
+  /**
+   * Performs a small update for the supplied resource.
+   * 
+   * @param file   The resource that is currently being processed. Not <code>null</code>.
+   */
+  private void progressUpdate( File file ) {
+    progress.setFile( file );
+    progress.setCurrent( progress.getCurrent() + 1 );
+    progress( progress );
+  }
+  
+  private static class ProtectableList<T> extends ArrayList<T> {
+    
+    private boolean   protect = false;
+    
+    public boolean add( T element ) {
+      if( protect ) {
+        return true;
+      }
+      return super.add( element );
     }
     
   } /* ENDCLASS */
-
+    
 } /* ENDCLASS */
