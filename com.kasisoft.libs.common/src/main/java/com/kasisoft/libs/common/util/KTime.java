@@ -20,15 +20,15 @@ import java.util.*;
  */
 public class KTime {
 
-  private static final SimpleDateFormat FORMATTER = new SimpleDateFormat( "HH:mm:ss SSS" );
-  
+  private SimpleDateFormat    formatter;
   private GregorianCalendar   calendar;
   
   /**
    * Initialises this instance with the setting of the current timestamp.
    */
   public KTime() {
-    calendar = new GregorianCalendar();
+    formatter = new SimpleDateFormat( "HH:mm:ss SSS" );
+    calendar  = new GregorianCalendar();
   }
   
   /**
@@ -230,7 +230,7 @@ public class KTime {
    */
   @Override
   public String toString() {
-    return FORMATTER.format( toDate() );
+    return formatter.format( toDate() );
   }
 
   /**
