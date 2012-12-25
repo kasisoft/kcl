@@ -38,7 +38,7 @@ public enum Database {
    * 
    * @throws SQLException   The driver could not be loaded.
    */
-  private void activate() throws SQLException {
+  private synchronized void activate() throws SQLException {
     if( ! active ) {
       try {
         Class.forName( driver );
