@@ -29,11 +29,11 @@ public class I18NSupportTest {
   }
 
   public void correctMessages2() {
-    Assert.assertEquals( Messages1.m0, "Default.0"     );
-    Assert.assertEquals( Messages1.m1, "Translation.1" );
-    Assert.assertEquals( Messages1.m2, "Translation.2" );
-    Assert.assertEquals( Messages1.m3, "Translation.3" );
-    Assert.assertEquals( Messages1.m4, "correct"       );
+    Assert.assertEquals( Messages2.m0, "Default.0"     );
+    Assert.assertEquals( Messages2.m1, "Translation.1" );
+    Assert.assertEquals( Messages2.m2, "Translation.2" );
+    Assert.assertEquals( Messages2.m3, "Translation.3" );
+    Assert.assertEquals( Messages2.m4, "correct"       );
   }
 
   public void correctMessages3() {
