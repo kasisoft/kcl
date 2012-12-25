@@ -16,11 +16,13 @@ import java.text.*;
 
 import java.util.regex.*;
 import java.util.*;
+import java.util.Date;
 
 import java.net.*;
 import java.io.*;
 
 import java.lang.reflect.*;
+import java.sql.*;
 
 /**
  * Collection of various functions.
@@ -667,6 +669,35 @@ public class MiscFunctions {
    */
   public static final void close( Closeable closeable ) {
     close( false, closeable );
+  }
+
+  /**
+   * Closes the supplied Connection. 
+   * 
+   * @param fail         <code>true</code> <=> Cause an exception if it happens.
+   * @param connection   The connection that has to be closed. Maybe <code>null</code>.
+   * 
+   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
+   */
+  public static final void close( boolean fail, Connection connection ) {
+    if( connection != null ) {
+      try {
+        connection.close();
+      } catch( SQLException ex ) {
+        if( fail ) {
+          throw new FailureException( FailureCode.Close, ex );
+        }
+      }
+    }
+  }
+  
+  /**
+   * Closes the supplied Connection. 
+   * 
+   * @param connection   The connection that has to be closed. Maybe <code>null</code>.
+   */
+  public static final void close( Connection connection ) {
+    close( false, connection );
   }
 
   /**
