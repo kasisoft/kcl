@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.swing;
+package com.kasisoft.libs.common.ui;
 
 import java.awt.*;
 import java.awt.geom.*;

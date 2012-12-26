@@ -7,7 +7,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.swing.border;
+package com.kasisoft.libs.common.ui.border;
 
 import javax.swing.border.*;
 

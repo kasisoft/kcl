@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.swing.component;
+package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.validation.*;
 import com.kasisoft.libs.common.constants.*;
