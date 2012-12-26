@@ -1,5 +1,5 @@
 /**
- * Name........: MultiSplitPane
+ * Name........: KMultiSplitPane
  * Description.: A JSplitPane like variety that supports more than two parts. 
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
@@ -17,7 +17,7 @@ import java.awt.*;
 /**
  * A JSplitPane like variety that supports more than two parts.
  */
-public class MultiSplitPane extends JPanel {
+public class KMultiSplitPane extends JPanel {
 
   private JSplitPane[]   chain;
 
@@ -27,7 +27,7 @@ public class MultiSplitPane extends JPanel {
    * @param orientation   The orientation for the contained fields. Not <code>null</code>.
    * @param count         The number of fields to be provided. Minimum allowed value is 2.
    */
-  public MultiSplitPane( Orientation orientation, int count ) {
+  public KMultiSplitPane( Orientation orientation, int count ) {
     this( orientation, count, false );
   }
   
@@ -39,7 +39,7 @@ public class MultiSplitPane extends JPanel {
    * @param continuouslayout   <code>true</code> <=> Enable continuous layouting while the divider location is still 
    *                                                 being changed.
    */
-  public MultiSplitPane( Orientation orientation, int count, boolean continuouslayout ) {
+  public KMultiSplitPane( Orientation orientation, int count, boolean continuouslayout ) {
     super( new BorderLayout() );
     chain = new JSplitPane[ count - 1 ];
     for( int i = 0; i < chain.length; i++ ) {
