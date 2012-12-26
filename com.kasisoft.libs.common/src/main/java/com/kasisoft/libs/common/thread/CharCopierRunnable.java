@@ -8,8 +8,8 @@
  */
 package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.util.*;
 
 import java.io.*;

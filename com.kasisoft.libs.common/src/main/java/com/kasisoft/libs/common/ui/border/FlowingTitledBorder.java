@@ -8,11 +8,11 @@
  */
 package com.kasisoft.libs.common.ui.border;
 
-import javax.swing.border.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
-import java.awt.geom.*;
 import java.awt.*;
+import java.awt.geom.*;
 
 /**
  * The FlowingTitledBorder also allows to display a title where this title is backgrounded by a flow changing one color 

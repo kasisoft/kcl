@@ -13,8 +13,8 @@ import com.kasisoft.libs.common.util.*;
 import java.util.*;
 import java.util.List;
 
-import java.awt.geom.*;
 import java.awt.*;
+import java.awt.geom.*;
 
 /**
  * Simple helper classes used to manage fonts.

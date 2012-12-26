@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.event;
+package com.kasisoft.libs.common.ui.event;
 
 import com.kasisoft.libs.common.util.*;
 

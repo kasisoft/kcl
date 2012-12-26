@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.awt;
+package com.kasisoft.libs.common.ui.layout;
 
 import java.util.*;
 

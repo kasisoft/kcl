@@ -8,7 +8,7 @@
  */
 package com.kasisoft.libs.common.ui.component;
 
-import com.kasisoft.libs.common.event.*;
+import com.kasisoft.libs.common.ui.event.*;
 import com.kasisoft.libs.common.validation.*;
 
 import javax.swing.event.*;

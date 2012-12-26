@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.event;
+package com.kasisoft.libs.common.ui.event;
 
 /**
  * Basic implementation of a dispatcher for ValidationEvents. Listeners called using this dispatcher will be executed 

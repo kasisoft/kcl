@@ -8,7 +8,7 @@
  */
 package com.kasisoft.libs.common.ui.component;
 
-import com.kasisoft.libs.common.event.*;
+import com.kasisoft.libs.common.ui.event.*;
 
 /**
  * This interface is used to identify widgets where the input is allowed to be temporarily invalid. 

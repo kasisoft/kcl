@@ -8,8 +8,8 @@
  */
 package com.kasisoft.libs.common.net;
 
-import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.net.*;
 
