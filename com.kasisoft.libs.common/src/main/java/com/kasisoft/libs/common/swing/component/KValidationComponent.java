@@ -1,27 +1,20 @@
 /**
- * Name........: ValidatingComponent
- * Description.: Each implementor supports to distinguish between a valid and an invalid state.
+ * Name........: KValidationComponent
+ * Description.: This interface is used to identify widgets where the input is allowed to be temporarily invalid. 
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.swing;
+package com.kasisoft.libs.common.swing.component;
 
 import com.kasisoft.libs.common.event.*;
 
 /**
- * Each implementor supports to distinguish between a valid and an invalid state.
+ * This interface is used to identify widgets where the input is allowed to be temporarily invalid. 
  */
-public interface ValidatingComponent {
+public interface KValidationComponent {
 
-  /**
-   * Returns <code>true</code> if the current state indicates a valid state.
-   * 
-   * @return   <code>true</code> <=> The current state indicates a valid state.
-   */
-  boolean isValid();
-  
   /**
    * Registers the supplied listener to become informed upon changes.
    * 
@@ -36,4 +29,11 @@ public interface ValidatingComponent {
    */
   void removeValidationListener( ValidationListener l );
 
+  /**
+   * Returns <code>true</code> if the current input is valid.
+   * 
+   * @return   <code>true</code> <=> The current input is valid.
+   */
+  boolean isValid();
+  
 } /* ENDINTERFACE */
