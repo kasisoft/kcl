@@ -13,6 +13,7 @@ import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.functionality.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.regex.*;
 
@@ -98,7 +99,7 @@ public class ExtProperties {
    * @param comment   The literal which introduces a comment. If not <code>null</code> it must be not empty.
    */
   public ExtProperties( String del, String comment ) {
-    delimiter           = del != null ? del : "=";
+    delimiter           = del     != null ? del     : "=";
     commentintro        = comment != null ? comment : "#";
     varformatter        = "${%s%s}";
     formatter           = "%s[%s]%s%s";
@@ -439,7 +440,34 @@ public class ExtProperties {
       return defvalues;
     }
   }
-  
+
+  /**
+   * Returns an ordered list of property values. The list is ordered according to the indices.
+   * Note: The index within the list doesn't necessarily correspond to the index of the property.
+   * 
+   * @param key         The key used to access the indexed properties. Neither <code>null</code> nor empty.
+   * @param defvalues   The default values that will be returned in case the property doesn't exist.
+   *                    Maybe <code>null</code>.
+   * @param adapter     A type adapter which generates typed representations of the supplied value. Not <code>null</code>.
+   *                    
+   * @return   The list of sorted property values. Maybe <code>null</code> if the property doesn't exist and no default 
+   *           values have been provided.
+   */
+  public synchronized <T> List<T> getIndexedProperties( String key, List<T> defvalues, TypeAdapter<String,T> adapter ) {
+    Map<Integer,PropertyValue> map = indexed.get( key );
+    if( map != null ) {
+      // get a list of the entries first
+      List<Map.Entry<Integer,PropertyValue>> values = new ArrayList<Map.Entry<Integer,PropertyValue>>( map.entrySet() );
+      // now sort them according to the indexes
+      Collections.sort( values, MiscFunctions.newKeyComparator( Integer.class ) );
+      // now map them, since we're only interested in the values
+      List<String> list = FuFunctions.map( Predefined.<Integer,PropertyValue>toStringValueTransform(), values );
+      return FuFunctions.map( adapter, list );
+    } else {
+      return defvalues;
+    }
+  }
+
   /**
    * Returns the value of an indexed property.
    *  
@@ -516,7 +544,31 @@ public class ExtProperties {
   public synchronized Map<String,String> getAssociatedProperties( String key, Map<String,String> defvalues ) {
     Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
-      return FuFunctions.mapValue( Predefined.<PropertyValue>toStringTransform(), map );
+      return FuFunctions.mapValue( Predefined.<PropertyValue>toStringTransform(), map, defvalues );
+    } else {
+      return defvalues;
+    }
+  }
+
+  /**
+   * Returns a map of associated values for a specific property while providing a typed result.
+   * 
+   * @param key         The name of the property. Neither <code>null</code> nor empty.
+   * @param defvalues   The default values which will be returned in case the property didn't exist.
+   *                    Maybe <code>null</code>.
+   * @param adapter     The adapter which is used to generate the typed value. Not <code>null</ocde>.
+   *                    
+   * @return   The map providing the associated values. <code>null</code> if the default values were <code>null</code>
+   *           and there aren't any properties with the supplied key.
+   */
+  public synchronized <T> Map<String,T> getAssociatedProperties( String key, Map<String,T> defvalues, TypeAdapter<String,T> adapter ) {
+    Map<String,PropertyValue> map = associated.get( key );
+    if( map != null ) {
+      Transform<PropertyValue,T> joined = Predefined.joinTransforms( 
+        Predefined.<PropertyValue>toStringTransform(), 
+        adapter
+      );
+      return FuFunctions.mapValue( joined, map, defvalues );
     } else {
       return defvalues;
     }
@@ -885,7 +937,7 @@ public class ExtProperties {
   /**
    * This PropertyValue implementation is used for values that require to be resolved.
    */
-  private static final class EvalPropertyValue extends PropertyValue {
+  private static class EvalPropertyValue extends PropertyValue {
 
     private ExtProperties   pthis;
     private String          varname;

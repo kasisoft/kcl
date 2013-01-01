@@ -9,6 +9,7 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
+import com.kasisoft.libs.common.functionality.*;
 import com.kasisoft.libs.common.util.*;
 
 /**
@@ -21,7 +22,7 @@ import com.kasisoft.libs.common.util.*;
  * <li>This adapter assumes that <code>null</code> will always be mapped to <code>null</code> and vice versa.</li>
  * </ul>
  */
-public abstract class TypeAdapter<F,T> {
+public abstract class TypeAdapter<F,T> implements Transform<F,T> {
 
   private SimpleErrorHandler   errhandler;
   private F                    defvalue1;
@@ -61,7 +62,11 @@ public abstract class TypeAdapter<F,T> {
   }
   
   /**
-   * {@inheritDoc}
+   * Converts the supplied To-Type into the expected From-Type.
+   * 
+   * @param v   The To-Type instance to convert. Maybe <code>null</code>.
+   * 
+   * @return   The From-Type instance. Maybe <code>null</code>.
    */
   public final F marshal( T v ) {
     if( v != null ) {
@@ -76,7 +81,11 @@ public abstract class TypeAdapter<F,T> {
   }
 
   /**
-   * {@inheritDoc}
+   * Converts the supplied From-Type into the expected To-Type.
+   * 
+   * @param v   The From-Type instance to convert. Maybe <code>null</code>.
+   * 
+   * @return   The To-Type instance. Maybe <code>null</code>.
    */
   public final T unmarshal( F v ) {
     if( v != null ) {
@@ -88,6 +97,14 @@ public abstract class TypeAdapter<F,T> {
       }
     }
     return null;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final T map( F input ) {
+    return unmarshal( input );
   }
 
   /**

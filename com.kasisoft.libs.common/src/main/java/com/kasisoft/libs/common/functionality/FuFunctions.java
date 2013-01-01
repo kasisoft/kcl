@@ -63,7 +63,23 @@ public class FuFunctions {
    * @return   The transformed map. Not <code>null</code>.
    */
   public static final <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects ) {
+    return mapValue( function, objects, null );
+  }
+
+  /**
+   * Maps one map into another while transforming the value part of each record. 
+   * 
+   * @param function    The function used to perform the transformation. Not <code>null</code>.
+   * @param objects     The map which has to be transformed. Not <code>null</code>.
+   * @param defvalues   Default values which will be used as a preset. Maybe <code>null</code>.
+   * 
+   * @return   The transformed map. Not <code>null</code>.
+   */
+  public static final <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects, Map<K,T> defvalues ) {
     Map<K,T> result = new HashMap<K,T>();
+    if( defvalues != null ) {
+      result.putAll( defvalues );
+    }
     for( Map.Entry<K,F> entry : objects.entrySet() ) {
       result.put( entry.getKey(), function.map( entry.getValue() ) );
     }

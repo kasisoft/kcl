@@ -66,6 +66,18 @@ public class Predefined {
   }
 
   /**
+   * Returns a Transform which combines the supplied instances.
+   * 
+   * @param t1   A Transform which generates the source type for the second transformation. Not <code>null</code>.
+   * @param t2   A second Transform which generates the result type. Not <code>null</code>.
+   * 
+   * @return   A Transform which combines the supplied Transform instances. Not <code>null</code>.
+   */
+  public static final <S1,S2,S3> Transform<S1,S3> joinTransforms( Transform<S1,S2> t1, Transform<S2,S3> t2 ) {
+    return new Join<S1,S2,S3>( t1, t2 );
+  }
+  
+  /**
    * Returns a Transform instance allowing to transform any kind of key from a Map.Entry record 
    * into a String. <code>null</code> values remain <code>null</code> values.
    * 
@@ -222,4 +234,24 @@ public class Predefined {
     
   } /* ENDCLASS */
 
+  private static class Join<S1,S2,S3> implements Transform<S1,S3> {
+    
+    private Transform<S1,S2>   t1;
+    private Transform<S2,S3>   t2;
+    
+    public Join( Transform<S1,S2> t1, Transform<S2,S3> t2 ) {
+      this.t1 = t1;
+      this.t2 = t2;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public S3 map( S1 input ) {
+      return t2.map( t1.map( input ) );
+    }
+    
+  } /* ENDCLASS */
+  
 } /* ENDCLASS */
