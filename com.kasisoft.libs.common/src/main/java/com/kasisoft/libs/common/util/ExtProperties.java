@@ -80,6 +80,9 @@ public class ExtProperties {
   // basic error handling
   private SimpleErrorHandler                       handler;
   
+  // type adapters if desired by the client
+  private Map<String,TypeAdapter>                  typeadapters;
+  
   // for temporary use
   private List<String>                             lines;
   private Map<String,String>                       propertyvalues;
@@ -115,6 +118,15 @@ public class ExtProperties {
     pair                = new Tupel<String>();
     generalreplacements = setupGeneralReplacements();
     handler             = null;
+    typeadapters        = new Hashtable<String,TypeAdapter>();
+  }
+  
+  public void registerTypeAdapter( String key, TypeAdapter adapter ) {
+    typeadapters.put( key, adapter );
+  }
+  
+  public void unregisterTypeAdapter( String key ) {
+    typeadapters.remove( key );
   }
   
   /**
@@ -428,17 +440,7 @@ public class ExtProperties {
    *           values have been provided.
    */
   public synchronized List<String> getIndexedProperties( String key, List<String> defvalues ) {
-    Map<Integer,PropertyValue> map = indexed.get( key );
-    if( map != null ) {
-      // get a list of the entries first
-      List<Map.Entry<Integer,PropertyValue>> values = new ArrayList<Map.Entry<Integer,PropertyValue>>( map.entrySet() );
-      // now sort them according to the indexes
-      Collections.sort( values, MiscFunctions.newKeyComparator( Integer.class ) );
-      // now map them, since we're only interested in the values
-      return FuFunctions.map( Predefined.<Integer,PropertyValue>toStringValueTransform(), values );
-    } else {
-      return defvalues;
-    }
+    return getIndexedProperties( key, defvalues, new StringAdapter() );
   }
 
   /**
@@ -542,12 +544,7 @@ public class ExtProperties {
    *           this map without altering this properties. Maybe <code>null</code>.
    */
   public synchronized Map<String,String> getAssociatedProperties( String key, Map<String,String> defvalues ) {
-    Map<String,PropertyValue> map = associated.get( key );
-    if( map != null ) {
-      return FuFunctions.mapValue( Predefined.<PropertyValue>toStringTransform(), map, defvalues );
-    } else {
-      return defvalues;
-    }
+    return getAssociatedProperties( key, defvalues, new StringAdapter() );
   }
 
   /**
