@@ -8,28 +8,20 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
-
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
-
-import java.util.regex.*;
 
 import java.awt.*;
 
 /**
  * Adapter used to convert a String into a Point and vice versa.
  */
-public class PointAdapter extends NullSafeAdapter<String,Point> {
-
-  private static final String MSG_INVALIDPOINT  = "%s is not a valid Point";
-  
-  private String   delimiter;
+public class PointAdapter extends ListTypeAdapter<Point> {
 
   /**
    * Initialises this adapter with the default delimiter ','.
    */
   public PointAdapter() {
-    this( null );
+    this( null, null, null, null );
   }
 
   /**
@@ -39,32 +31,52 @@ public class PointAdapter extends NullSafeAdapter<String,Point> {
    *                ',' is used.
    */
   public PointAdapter( String delim ) {
-    delimiter = StringFunctions.cleanup( delim );
-    if( delimiter == null ) {
-      delimiter = ",";
-    }
+    this( null, null, null, delim );
   }
-  
+
+  /**
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler   A custom error handler. Maybe <code>null</code>.
+   * @param defval1   A default value for the source type. Maybe <code>null</code>.
+   * @param defval2   A default value for the target type. Maybe <code>null</code>.
+   */
+  public PointAdapter( SimpleErrorHandler handler, String defval1, Point defval2 ) {
+    this( handler, defval1, defval2, null );
+  }
+
+  /**
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler   A custom error handler. Maybe <code>null</code>.
+   * @param defval1   A default value for the source type. Maybe <code>null</code>.
+   * @param defval2   A default value for the target type. Maybe <code>null</code>.
+   * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
+   *                  ',' is used.
+   */
+  public PointAdapter( SimpleErrorHandler handler, String defval1, Point defval2, String delim ) {
+    super( handler, defval1, defval2, 2, delim );
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected Point unmarshalListImpl( String[] v ) throws Exception {
+    int x = Integer.parseInt( v[0] );
+    int y = Integer.parseInt( v[1] );
+    return new Point( x, y );
+  }
+
   /**
    * {@inheritDoc}
    */
   @Override
   protected String marshalImpl( Point v ) throws Exception {
-    return String.format( "%d%s%d", Integer.valueOf( v.x ), delimiter, Integer.valueOf( v.y ) );
+    return marshalListImpl(
+      Integer.valueOf( v.x ),
+      Integer.valueOf( v.y )
+    );
   }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected Point unmarshalImpl( String v ) throws Exception {
-    String[] parts = v.split( Pattern.quote( delimiter ) );
-    if( (parts == null) || (parts.length != 2) ) {
-      throw new FailureException( FailureCode.ConversionFailure, String.format( MSG_INVALIDPOINT, v ) );
-    }
-    int x = Integer.parseInt( parts[0] );
-    int y = Integer.parseInt( parts[1] );
-    return new Point( x, y );
-  }
-
+  
 } /* ENDCLASS */

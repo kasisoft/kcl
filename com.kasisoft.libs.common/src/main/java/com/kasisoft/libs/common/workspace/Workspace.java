@@ -13,8 +13,6 @@ import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
-import javax.xml.bind.annotation.adapters.*;
-
 import java.util.*;
 
 import java.awt.*;
@@ -28,10 +26,10 @@ public final class Workspace {
 
   private static Workspace       instance = null;
   
-  private File                       settingsfile;
-  private ExtProperties              properties;
-  private boolean                    isnew;
-  private Map<Class<?>,XmlAdapter>   adapters;
+  private File                        settingsfile;
+  private ExtProperties               properties;
+  private boolean                     isnew;
+  private Map<Class<?>,TypeAdapter>   adapters;
   
   /**
    * Initialises this workspace used for temporary savings.
@@ -40,7 +38,7 @@ public final class Workspace {
     settingsfile  = null;
     isnew         = false;
     properties    = new ExtProperties();
-    adapters      = new Hashtable<Class<?>,XmlAdapter>();
+    adapters      = new Hashtable<Class<?>,TypeAdapter>();
     adapters.put( Rectangle.class, new RectangleAdapter( ":" ) );
   }
   
@@ -166,7 +164,7 @@ public final class Workspace {
    * @return   The typed value. Maybe <code>null</code>.
    */
   private <T> T get( Class<T> type, String property, T defvalue ) {
-    XmlAdapter<String,T> adapter = adapters.get( type );
+    TypeAdapter<String,T> adapter = adapters.get( type );
     try {
       String result = properties.getProperty( property );
       if( result != null ) {
@@ -188,7 +186,7 @@ public final class Workspace {
    * @param value      The value which has to be set.
    */
   private <T> void set( Class<T> type, String property, T value ) {
-    XmlAdapter<String,T> adapter = adapters.get( type );
+    TypeAdapter<String,T> adapter = adapters.get( type );
     try {
       String strvalue = adapter.marshal( value );
       properties.setProperty( property, strvalue );

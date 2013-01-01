@@ -9,8 +9,7 @@
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
-
-import javax.xml.bind.annotation.adapters.*;
+import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.*;
 
@@ -21,8 +20,8 @@ public class AssociativeProperty<T> {
 
   private static final Map<String,Object> EMPTY_DEFAULTS = new HashMap<String,Object>();
   
-  private String                 key;
-  private XmlAdapter<String,T>   adapter;
+  private String                  key;
+  private TypeAdapter<String,T>   adapter;
   
   /**
    * Initialises this accessor using a specific key and an adapter used to access the type.
@@ -30,7 +29,7 @@ public class AssociativeProperty<T> {
    * @param property     The name of the property which has to be access. Neither <code>null</code> nor empty. 
    * @param xmladapter   The adapter used to convert the type. Not <code>null</code>.
    */
-  public AssociativeProperty( String property, XmlAdapter<String,T> xmladapter ) {
+  public AssociativeProperty( String property, TypeAdapter<String,T> xmladapter ) {
     key     = property;
     adapter = xmladapter;
   }

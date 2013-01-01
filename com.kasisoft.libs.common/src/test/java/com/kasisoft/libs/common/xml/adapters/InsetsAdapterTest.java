@@ -9,6 +9,7 @@
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.util.*;
 
 import org.testng.annotations.*;
 
@@ -22,7 +23,20 @@ import java.awt.*;
 @Test(groups="all")
 public class InsetsAdapterTest {
 
-  private InsetsAdapter adapter = new InsetsAdapter( ":" );
+  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+
+    @Override
+    public void failure( Object source, String message, Exception cause ) {
+      if( cause instanceof RuntimeException ) {
+        throw ((RuntimeException) cause);
+      } else {
+        throw new RuntimeException( cause );
+      }
+    }
+    
+  };
+
+  private InsetsAdapter adapter = new InsetsAdapter( errhandler, null, null, ":" );
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

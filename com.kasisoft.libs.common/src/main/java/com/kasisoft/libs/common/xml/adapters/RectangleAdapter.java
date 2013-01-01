@@ -8,65 +8,79 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
-
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
-
-import java.util.regex.*;
 
 import java.awt.*;
 
 /**
  * Adapter used to convert a String into a Point and vice versa.
  */
-public class RectangleAdapter extends NullSafeAdapter<String,Rectangle> {
-
-  private static final String MSG_INVALIDRECTANGLE  = "%s is not a valid Rectangle";
-  
-  private String   delimiter;
+public class RectangleAdapter extends ListTypeAdapter<Rectangle> {
 
   /**
    * Initialises this adapter with the default delimiter ','.
    */
   public RectangleAdapter() {
-    this( null );
+    this( null, null, null, null );
   }
 
   /**
    * Initialises this adapter with the supplied delimiter.
    * 
-   * @param delim   The delimiter to be used for the textual representation.
-   *                If <code>null</code> or empty the default ',' is used.
+   * @param delim   The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
+   *                ',' is used.
    */
   public RectangleAdapter( String delim ) {
-    delimiter = StringFunctions.cleanup( delim );
-    if( delimiter == null ) {
-      delimiter = ",";
-    }
+    this( null, null, null, delim );
   }
-  
+
   /**
-   * {@inheritDoc}
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler   A custom error handler. Maybe <code>null</code>.
+   * @param defval1   A default value for the source type. Maybe <code>null</code>.
+   * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  @Override
-  protected String marshalImpl( Rectangle v ) throws Exception {
-    return String.format( "%d%s%d%s%d%s%d", Integer.valueOf( v.x ), delimiter, Integer.valueOf( v.y ), delimiter, Integer.valueOf( v.width ), delimiter, Integer.valueOf( v.height ) );
+  public RectangleAdapter( SimpleErrorHandler handler, String defval1, Rectangle defval2 ) {
+    this( handler, defval1, defval2, null );
+  }
+
+  /**
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler   A custom error handler. Maybe <code>null</code>.
+   * @param defval1   A default value for the source type. Maybe <code>null</code>.
+   * @param defval2   A default value for the target type. Maybe <code>null</code>.
+   * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
+   *                  ',' is used.
+   */
+  public RectangleAdapter( SimpleErrorHandler handler, String defval1, Rectangle defval2, String delim ) {
+    super( handler, defval1, defval2, 4, delim );
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected Rectangle unmarshalImpl( String v ) throws Exception {
-    String[] parts = v.split( Pattern.quote( delimiter ) );
-    if( (parts == null) || (parts.length != 4) ) {
-      throw new FailureException( FailureCode.ConversionFailure, String.format( MSG_INVALIDRECTANGLE, v ) );
-    }
-    int x = Integer.parseInt( parts[0] );
-    int y = Integer.parseInt( parts[1] );
-    int w = Integer.parseInt( parts[2] );
-    int h = Integer.parseInt( parts[3] );
+  protected Rectangle unmarshalListImpl( String[] v ) throws Exception {
+    int x = Integer.parseInt( v[0] );
+    int y = Integer.parseInt( v[1] );
+    int w = Integer.parseInt( v[2] );
+    int h = Integer.parseInt( v[3] );
     return new Rectangle( x, y, w, h );
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected String marshalImpl( Rectangle v ) throws Exception {
+    return marshalListImpl(
+      Integer.valueOf( v.x      ),
+      Integer.valueOf( v.y      ),
+      Integer.valueOf( v.width  ),
+      Integer.valueOf( v.height )
+    );
   }
 
 } /* ENDCLASS */

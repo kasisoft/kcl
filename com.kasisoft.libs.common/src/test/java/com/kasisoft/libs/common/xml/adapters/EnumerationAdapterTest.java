@@ -9,6 +9,7 @@
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.util.*;
 
 import org.testng.annotations.*;
 
@@ -28,7 +29,20 @@ public class EnumerationAdapterTest {
     
   }
   
-  private EnumerationAdapter<LordOfTheRings> adapter = new EnumerationAdapter<LordOfTheRings>( LordOfTheRings.class, true );
+  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+
+    @Override
+    public void failure( Object source, String message, Exception cause ) {
+      if( cause instanceof RuntimeException ) {
+        throw ((RuntimeException) cause);
+      } else {
+        throw new RuntimeException( cause );
+      }
+    }
+    
+  };
+
+  private EnumerationAdapter<LordOfTheRings> adapter = new EnumerationAdapter<LordOfTheRings>( errhandler, null, null, LordOfTheRings.class, true );
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

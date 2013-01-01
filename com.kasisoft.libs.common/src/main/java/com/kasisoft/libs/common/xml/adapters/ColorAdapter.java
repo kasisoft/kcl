@@ -21,7 +21,7 @@ import java.lang.reflect.*;
 /**
  * Adapter used to convert a String into a Color and vice versa.
  */
-public class ColorAdapter extends NullSafeAdapter<String,Color> {
+public class ColorAdapter extends TypeAdapter<String,Color> {
 
   private static final String MSG_INVALIDCOLOR  = "%s is not a valid Color";
 
@@ -30,9 +30,22 @@ public class ColorAdapter extends NullSafeAdapter<String,Color> {
   private Map<String,Color>   colors;
   
   /**
-   * Initialises this adapter used to convert a Color.
+   * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 
+   * <code>null</code> values.
    */
   public ColorAdapter() {
+    this( null, null, null );
+  }
+  
+  /**
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler   A custom error handler. Maybe <code>null</code>.
+   * @param defval1   A default value for the source type. Maybe <code>null</code>.
+   * @param defval2   A default value for the target type. Maybe <code>null</code>.
+   */
+  public ColorAdapter( SimpleErrorHandler handler, String defval1, Color defval2 ) {
+    super( handler, defval1, defval2 );
     colors          = new Hashtable<String,Color>();
     Field[] fields  = Color.class.getFields();
     for( Field field : fields ) {
@@ -45,7 +58,7 @@ public class ColorAdapter extends NullSafeAdapter<String,Color> {
       }
     }
   }
-  
+
   /**
    * {@inheritDoc}
    */

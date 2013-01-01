@@ -9,16 +9,15 @@
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
-
-import javax.xml.bind.annotation.adapters.*;
+import com.kasisoft.libs.common.xml.adapters.*;
 
 /**
  * Accessor type for a simple property.
  */
 public class SimpleProperty<T> {
 
-  private String                 key;
-  private XmlAdapter<String,T>   adapter;
+  private String                  key;
+  private TypeAdapter<String,T>   adapter;
   
   /**
    * Initialises this accessor using a specific key and an adapter used to access the type.
@@ -26,7 +25,7 @@ public class SimpleProperty<T> {
    * @param property     The name of the property which has to be access. Neither <code>null</code> nor empty. 
    * @param xmladapter   The adapter used to convert the type. Not <code>null</code>.
    */
-  public SimpleProperty( String property, XmlAdapter<String,T> xmladapter) {
+  public SimpleProperty( String property, TypeAdapter<String,T> xmladapter) {
     key     = property;
     adapter = xmladapter;
   }

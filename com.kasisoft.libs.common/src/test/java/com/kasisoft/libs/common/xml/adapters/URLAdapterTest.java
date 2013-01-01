@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
+import com.kasisoft.libs.common.util.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -20,7 +22,20 @@ import java.net.*;
 @Test(groups="all")
 public class URLAdapterTest {
 
-  private URLAdapter adapter = new URLAdapter();
+  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+
+    @Override
+    public void failure( Object source, String message, Exception cause ) {
+      if( cause instanceof RuntimeException ) {
+        throw ((RuntimeException) cause);
+      } else {
+        throw new RuntimeException( cause );
+      }
+    }
+    
+  };
+
+  private URLAdapter adapter = new URLAdapter( errhandler, null, null );
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() throws Exception {
@@ -50,7 +65,7 @@ public class URLAdapterTest {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=MalformedURLException.class)
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=RuntimeException.class)
   public void invalidUnmarshal( String value, URL expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }

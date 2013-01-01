@@ -8,28 +8,20 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
-
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
-
-import java.util.regex.*;
 
 import java.awt.*;
 
 /**
  * Adapter used to convert a String into a Insets and vice versa.
  */
-public class InsetsAdapter extends NullSafeAdapter<String,Insets> {
-
-  private static final String MSG_INVALIDINSETS  = "%s is not a valid Insets";
-  
-  private String   delimiter;
+public class InsetsAdapter extends ListTypeAdapter<Insets> {
 
   /**
    * Initialises this adapter with the default delimiter ','.
    */
   public InsetsAdapter() {
-    this( null );
+    this( null, null, null, null );
   }
 
   /**
@@ -39,34 +31,56 @@ public class InsetsAdapter extends NullSafeAdapter<String,Insets> {
    *                ',' is used.
    */
   public InsetsAdapter( String delim ) {
-    delimiter = StringFunctions.cleanup( delim );
-    if( delimiter == null ) {
-      delimiter = ",";
-    }
+    this( null, null, null, delim );
   }
-  
+
   /**
-   * {@inheritDoc}
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler   A custom error handler. Maybe <code>null</code>.
+   * @param defval1   A default value for the source type. Maybe <code>null</code>.
+   * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  @Override
-  protected String marshalImpl( Insets v ) throws Exception {
-    return String.format( "%d%s%d%s%d%s%d", Integer.valueOf( v.top ), delimiter, Integer.valueOf( v.left ), delimiter, Integer.valueOf( v.bottom ), delimiter, Integer.valueOf( v.right ) );
+  public InsetsAdapter( SimpleErrorHandler handler, String defval1, Insets defval2 ) {
+    this( handler, defval1, defval2, null );
+  }
+
+  /**
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler   A custom error handler. Maybe <code>null</code>.
+   * @param defval1   A default value for the source type. Maybe <code>null</code>.
+   * @param defval2   A default value for the target type. Maybe <code>null</code>.
+   * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
+   *                  ',' is used.
+   */
+  public InsetsAdapter( SimpleErrorHandler handler, String defval1, Insets defval2, String delim ) {
+    super( handler, defval1, defval2, 4, delim );
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected Insets unmarshalImpl( String v ) throws Exception {
-    String[] parts = v.split( Pattern.quote( delimiter ) );
-    if( (parts == null) || (parts.length != 4) ) {
-      throw new FailureException( FailureCode.ConversionFailure, String.format( MSG_INVALIDINSETS, v ) );
-    }
-    int top     = Integer.parseInt( parts[0] );
-    int left    = Integer.parseInt( parts[1] );
-    int bottom  = Integer.parseInt( parts[2] );
-    int right   = Integer.parseInt( parts[3] );
+  protected Insets unmarshalListImpl( String[] v ) throws Exception {
+    int top     = Integer.parseInt( v[0] );
+    int left    = Integer.parseInt( v[1] );
+    int bottom  = Integer.parseInt( v[2] );
+    int right   = Integer.parseInt( v[3] );
     return new Insets( top, left, bottom, right );
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected String marshalImpl( Insets v ) throws Exception {
+    return marshalListImpl( 
+      Integer.valueOf( v.top    ),
+      Integer.valueOf( v.left   ),
+      Integer.valueOf( v.bottom ),
+      Integer.valueOf( v.right  )
+    );
   }
 
 } /* ENDCLASS */

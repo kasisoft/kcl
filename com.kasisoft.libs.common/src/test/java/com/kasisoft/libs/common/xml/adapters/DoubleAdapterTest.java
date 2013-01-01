@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
+import com.kasisoft.libs.common.util.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -18,7 +20,20 @@ import org.testng.*;
 @Test(groups="all")
 public class DoubleAdapterTest {
 
-  private DoubleAdapter adapter = new DoubleAdapter();
+  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+
+    @Override
+    public void failure( Object source, String message, Exception cause ) {
+      if( cause instanceof RuntimeException ) {
+        throw ((RuntimeException) cause);
+      } else {
+        throw new RuntimeException( cause );
+      }
+    }
+    
+  };
+
+  private DoubleAdapter adapter = new DoubleAdapter( errhandler, null, null );
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

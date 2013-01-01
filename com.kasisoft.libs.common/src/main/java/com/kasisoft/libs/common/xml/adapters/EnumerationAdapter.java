@@ -9,6 +9,7 @@
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ import java.util.*;
  * </ul>
  * 
  */
-public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
+public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
 
   private Class<T>        enumtype;
   private Map<String,T>   values;
@@ -36,9 +37,9 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
    * @param type   The class of the enumeration which shall be adapted. Not <code>null</code>.
    */
   public EnumerationAdapter( Class<T> type ) {
-    this( type, false );
+    this( null, null, null, type, false );
   }
-  
+
   /**
    * Initializes this adapter using the supplied enumeration type.
    * 
@@ -46,6 +47,32 @@ public class EnumerationAdapter<T> extends NullSafeAdapter<String,T> {
    * @param caseinsensitive   <code>true</code> <=> Disable case sensitivity.
    */
   public EnumerationAdapter( Class<T> type, boolean caseinsensitive ) {
+    this( null, null, null, type, caseinsensitive );
+  }
+
+  /**
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler           A custom error handler. Maybe <code>null</code>.
+   * @param defval1           A default value for the source type. Maybe <code>null</code>.
+   * @param defval2           A default value for the target type. Maybe <code>null</code>.
+   * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
+   */
+  public EnumerationAdapter( SimpleErrorHandler handler, String defval1, T defval2, Class<T> type ) {
+    this( handler, defval1, defval2, type, false );
+  }
+  
+  /**
+   * Initializes this adpater to make use of a customized error handling.
+   * 
+   * @param handler           A custom error handler. Maybe <code>null</code>.
+   * @param defval1           A default value for the source type. Maybe <code>null</code>.
+   * @param defval2           A default value for the target type. Maybe <code>null</code>.
+   * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
+   * @param caseinsensitive   <code>true</code> <=> Disable case sensitivity.
+   */
+  public EnumerationAdapter( SimpleErrorHandler handler, String defval1, T defval2, Class<T> type, boolean caseinsensitive ) {
+    super( handler, defval1, defval2 );
     enumtype    = type;
     ignorecase  = caseinsensitive;
     allowed     = new StringBuffer();
