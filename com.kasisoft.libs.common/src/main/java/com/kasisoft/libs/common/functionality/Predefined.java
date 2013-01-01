@@ -58,12 +58,10 @@ public class Predefined {
    * Returns a Transform instance allowing to transform any kind of type into a String.
    * <code>null</code> values remain <code>null</code> values.
    * 
-   * @param clazz   The type which has to be transformed. Not <code>null</code>.
-   * 
    * @return   The Transform instance allowing to transform any kind of type into a String.
    *           Not <code>null</code>.
    */
-  public static final <T> Transform<T,String> toStringTransform( Class<T> clazz ) {
+  public static final <T> Transform<T,String> toStringTransform() {
     return new ToString<T>();
   }
 
@@ -82,16 +80,13 @@ public class Predefined {
   }
 
   /**
-   * Returns a Transform instance allowing to transform any kind of value from a Map.Entry record 
-   * into a String. <code>null</code> values remain <code>null</code> values.
-   * 
-   * @param keyclass     The type of the key. Not <code>null</code>.
-   * @param valueclass   The type of the value. Not <code>null</code>.
+   * Returns a Transform instance allowing to transform any kind of value from a Map.Entry record into a String. 
+   * <code>null</code> values remain <code>null</code> values.
    * 
    * @return   The Transform instance allowing to transform any kind of type into a String.
    *           Not <code>null</code>.
    */
-  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform( Class<K> keyclass, Class<V> valueclass ) {
+  public static final <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform() {
     return new ValueToString<K,V>();
   }
 

@@ -434,7 +434,7 @@ public class ExtProperties {
       // now sort them according to the indexes
       Collections.sort( values, MiscFunctions.newKeyComparator( Integer.class ) );
       // now map them, since we're only interested in the values
-      return FuFunctions.map( Predefined.toStringValueTransform( Integer.class, PropertyValue.class ), values );
+      return FuFunctions.map( Predefined.<Integer,PropertyValue>toStringValueTransform(), values );
     } else {
       return defvalues;
     }
@@ -516,7 +516,7 @@ public class ExtProperties {
   public synchronized Map<String,String> getAssociatedProperties( String key, Map<String,String> defvalues ) {
     Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
-      return FuFunctions.mapValue( Predefined.toStringTransform( PropertyValue.class ), map );
+      return FuFunctions.mapValue( Predefined.<PropertyValue>toStringTransform(), map );
     } else {
       return defvalues;
     }
