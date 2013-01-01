@@ -426,7 +426,7 @@ public class ExtProperties {
    * @return   The list of sorted property values. Maybe <code>null</code> if the property doesn't exist and no default 
    *           values have been provided.
    */
-  public synchronized List<String> getIndexedProperty( String key, List<String> defvalues ) {
+  public synchronized List<String> getIndexedProperties( String key, List<String> defvalues ) {
     Map<Integer,PropertyValue> map = indexed.get( key );
     if( map != null ) {
       // get a list of the entries first

@@ -124,7 +124,7 @@ public class ExtPropertiesTest {
     
     ExtProperties props = setupContent( simplefile, delimiter, commentintro );
 
-    List<String> list = props.getIndexedProperty( "class", null );
+    List<String> list = props.getIndexedProperties( "class", null );
     Assert.assertNotNull( list );
     Assert.assertEquals( list.size(), 3 );
     Assert.assertEquals( list.get(0), "java.lang.String"    );

@@ -60,7 +60,7 @@ public class IndexedProperty<T> {
    * @throws FailureException if the property value cannot be converted properly and the generation of failures is enabled.
    */
   public List<T> get( ExtProperties props, List<T> defvalues ) {
-    List<String> values = props.getIndexedProperty( key, (List<String>) null );
+    List<String> values = props.getIndexedProperties( key, (List<String>) null );
     if( values == null ) {
       return defvalues;
     } else {
