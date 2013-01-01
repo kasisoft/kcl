@@ -513,7 +513,7 @@ public class ExtProperties {
    * @return   The map providing the associated values. If it's not the default values you're allowed to do changes to 
    *           this map without altering this properties. Maybe <code>null</code>.
    */
-  public synchronized Map<String,String> getAssociatedProperty( String key, Map<String,String> defvalues ) {
+  public synchronized Map<String,String> getAssociatedProperties( String key, Map<String,String> defvalues ) {
     Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
       return FuFunctions.mapValue( Predefined.toStringTransform( PropertyValue.class ), map );

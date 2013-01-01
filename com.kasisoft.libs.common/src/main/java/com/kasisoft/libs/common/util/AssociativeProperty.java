@@ -60,7 +60,7 @@ public class AssociativeProperty<T> {
    * @throws FailureException if the property value cannot be converted properly and the generation of failures is enabled.
    */
   public Map<String,T> get( ExtProperties props, Map<String,T> defvalues ) {
-    Map<String,String> values = props.getAssociatedProperty( key, (Map<String,String>) null );
+    Map<String,String> values = props.getAssociatedProperties( key, (Map<String,String>) null );
     if( values == null ) {
       return defvalues;
     } else {
