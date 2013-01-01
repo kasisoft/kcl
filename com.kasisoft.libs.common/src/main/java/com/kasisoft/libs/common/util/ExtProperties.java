@@ -439,23 +439,7 @@ public class ExtProperties {
    * @return   The list of sorted property values. Maybe <code>null</code> if the property doesn't exist and no default 
    *           values have been provided.
    */
-  public synchronized List<String> getIndexedProperties( String key, List<String> defvalues ) {
-    return getIndexedProperties( key, defvalues, new StringAdapter() );
-  }
-
-  /**
-   * Returns an ordered list of property values. The list is ordered according to the indices.
-   * Note: The index within the list doesn't necessarily correspond to the index of the property.
-   * 
-   * @param key         The key used to access the indexed properties. Neither <code>null</code> nor empty.
-   * @param defvalues   The default values that will be returned in case the property doesn't exist.
-   *                    Maybe <code>null</code>.
-   * @param adapter     A type adapter which generates typed representations of the supplied value. Not <code>null</code>.
-   *                    
-   * @return   The list of sorted property values. Maybe <code>null</code> if the property doesn't exist and no default 
-   *           values have been provided.
-   */
-  public synchronized <T> List<T> getIndexedProperties( String key, List<T> defvalues, TypeAdapter<String,T> adapter ) {
+  public synchronized <T> List<T> getIndexedProperties( String key, List<T> defvalues ) {
     Map<Integer,PropertyValue> map = indexed.get( key );
     if( map != null ) {
       // get a list of the entries first
@@ -463,8 +447,13 @@ public class ExtProperties {
       // now sort them according to the indexes
       Collections.sort( values, MiscFunctions.newKeyComparator( Integer.class ) );
       // now map them, since we're only interested in the values
-      List<String> list = FuFunctions.map( Predefined.<Integer,PropertyValue>toStringValueTransform(), values );
-      return FuFunctions.map( adapter, list );
+      List<String>          list    = FuFunctions.map( Predefined.<Integer,PropertyValue>toStringValueTransform(), values );
+      TypeAdapter<String,T> adapter = typeadapters.get( key );
+      if( adapter != null ) {
+        return FuFunctions.map( adapter, list );
+      } else {
+        return (List<T>) list;
+      }
     } else {
       return defvalues;
     }
@@ -496,7 +485,8 @@ public class ExtProperties {
   }
 
   /**
-   * Returns the value of an associated property.
+   * Returns the value of an associated property. The result is typed in case an adapter has been registered using
+   * {@link #registerTypeAdapter(String, TypeAdapter)}.
    * 
    * @param key           The key used to access the property. Neither <code>null</code> nor empty.
    * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
@@ -506,12 +496,13 @@ public class ExtProperties {
    * @return   The value stored using the associated property. Maybe <code>null</code> if none exists
    *           and no default value has been supplied.
    */
-  public synchronized String getAssociatedProperty( String key, String association, String defvalue ) {
+  public synchronized <T> T getAssociatedProperty( String key, String association, T defvalue ) {
     return getIndexedOrAssociatedProperty( key, association, associated, defvalue );
   }
 
   /**
-   * Returns the value of an indexed/associated property.
+   * Returns the value of an indexed/associated property. The result is typed if a {@link TypeAdapter} has been
+   * registered via {@link #registerTypeAdapter(String, TypeAdapter)}.
    * 
    * @param key           The key used to access the property. Neither <code>null</code> nor empty.
    * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
@@ -522,64 +513,58 @@ public class ExtProperties {
    * @return   The value stored using the associated property. Maybe <code>null</code> if none exists and no default 
    *           value has been supplied.
    */
-  private <T> String getIndexedOrAssociatedProperty( 
-    String key, T association, Map<String,Map<T,PropertyValue>> source, String defvalue 
+  private <T,V> V getIndexedOrAssociatedProperty( 
+    String key, T association, Map<String,Map<T,PropertyValue>> source, V defvalue 
   ) {
     Map<T,PropertyValue> map = source.get( key );
     if( map != null ) {
-      return getPropertyValue( map.get( association ), defvalue  );
+      return getPropertyValue( key, map.get( association ), defvalue  );
     } else {
       return defvalue;
     }
   }
   
   /**
-   * Returns a map of associated values for a specific property.
+   * Returns a map of associated values for a specific property while providing a typed result in case a 
+   * {@link TypeAdapter} has been registered using {@link #registerTypeAdapter(String, TypeAdapter)}.
    * 
    * @param key         The name of the property. Neither <code>null</code> nor empty.
    * @param defvalues   The default values which will be returned in case the property didn't exist.
    *                    Maybe <code>null</code>.
-   *                    
-   * @return   The map providing the associated values. If it's not the default values you're allowed to do changes to 
-   *           this map without altering this properties. Maybe <code>null</code>.
-   */
-  public synchronized Map<String,String> getAssociatedProperties( String key, Map<String,String> defvalues ) {
-    return getAssociatedProperties( key, defvalues, new StringAdapter() );
-  }
-
-  /**
-   * Returns a map of associated values for a specific property while providing a typed result.
-   * 
-   * @param key         The name of the property. Neither <code>null</code> nor empty.
-   * @param defvalues   The default values which will be returned in case the property didn't exist.
-   *                    Maybe <code>null</code>.
-   * @param adapter     The adapter which is used to generate the typed value. Not <code>null</ocde>.
    *                    
    * @return   The map providing the associated values. <code>null</code> if the default values were <code>null</code>
    *           and there aren't any properties with the supplied key.
    */
-  public synchronized <T> Map<String,T> getAssociatedProperties( String key, Map<String,T> defvalues, TypeAdapter<String,T> adapter ) {
+  public synchronized <T> Map<String,T> getAssociatedProperties( String key, Map<String,T> defvalues ) {
     Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
-      Transform<PropertyValue,T> joined = Predefined.joinTransforms( 
-        Predefined.<PropertyValue>toStringTransform(), 
-        adapter
-      );
-      return FuFunctions.mapValue( joined, map, defvalues );
+      TypeAdapter<String,T>       adapter   = typeadapters.get( key );
+      Transform<PropertyValue,T>  transform = null;
+      if( adapter != null ) {
+        transform = Predefined.joinTransforms( 
+          Predefined.<PropertyValue>toStringTransform(), 
+          adapter
+        );
+      } else {
+        // <T> is supposed to be a String
+        transform = (Transform<PropertyValue,T>) Predefined.<PropertyValue>toStringTransform();
+      }
+      return FuFunctions.mapValue( transform, map, defvalues );
     } else {
       return defvalues;
     }
   }
 
   /**
-   * Returns the value of an associated property.
+   * Returns the value of an associated property. The result is typed if an adapter has been registered using
+   * {@link #registerTypeAdapter(String, TypeAdapter)}.
    * 
    * @param key           The key used to access the property. Neither <code>null</code> nor empty.
    * @param association   The association name used to access the value. Neither <code>null</code> nor empty.
    * 
    * @return   The value stored using the associated property. Maybe <code>null</code> if none exists.
    */
-  public synchronized String getAssociatedProperty( String key, String association ) {
+  public synchronized <T> T getAssociatedProperty( String key, String association ) {
     return getAssociatedProperty( key, association, null );
   }
 
@@ -590,7 +575,7 @@ public class ExtProperties {
    * 
    * @return   The property value or <code>null</code> in case it didn't exist.
    */
-  public synchronized String getSimpleProperty( String key ) {
+  public synchronized <T> T getSimpleProperty( String key ) {
     return getSimpleProperty( key, null );
   }
   
@@ -602,25 +587,32 @@ public class ExtProperties {
    * 
    * @return   The property value or <code>null</code> in case it didn't exist and no default value has been supplied.
    */
-  public synchronized String getSimpleProperty( String key, String defvalue ) {
-    return getPropertyValue( simple.get( key ), defvalue );
+  public synchronized <T> T getSimpleProperty( String key, T defvalue ) {
+    return getPropertyValue( key, simple.get( key ), defvalue );
   }
   
   /**
    * Just a convenience method which allows to return a PropertyValue while doing a <code>null</code>
    * check.
    * 
+   * @param key        The key that has been used to access the {@link PropertyValue}. Neither <code>null</code> nor empty.
    * @param value      The PropertyValue which content has to be returned. Maybe <code>null</code>.
    * @param defvalue   The default value to be used in case no PropertyValue has been given. Maybe <code>null</code>.
    *                   
    * @return   Maybe <code>null</code> if neither a PropertyValue nor a non-<code>null</code> default value has been 
    *           provided.
    */
-  private String getPropertyValue( PropertyValue value, String defvalue ) {
+  private <T> T getPropertyValue( String key, PropertyValue value, T defvalue ) {
     if( value == null ) {
       return defvalue;
     } else {
-      return value.toString();
+      String                astext  = value.toString();
+      TypeAdapter<String,T> adapter = typeadapters.get( key );
+      if( adapter != null ) {
+        return adapter.map( astext );
+      } else {
+        return (T) astext;
+      }
     }
   }
 
@@ -791,7 +783,7 @@ public class ExtProperties {
     Collections.sort( list, MiscFunctions.newKeyComparator( type ) );
     for( int i = 0; i < list.size(); i++ ) {
       PropertyValue value = list.get(i).getValue();
-      receiver.add( String.format( formatter, key, list.get(i).getKey(), delimiter, getPropertyValue( value, "" ) ) );
+      receiver.add( String.format( formatter, key, list.get(i).getKey(), delimiter, getPropertyValue( key, value, "" ) ) );
     }
   }
   
@@ -807,7 +799,7 @@ public class ExtProperties {
       return;
     }
     PropertyValue value = simple.get( key );
-    receiver.add( String.format( "%s%s%s", key, delimiter, getPropertyValue( value, "" ) ) );
+    receiver.add( String.format( "%s%s%s", key, delimiter, getPropertyValue( key, value, "" ) ) );
   }
   
   /**

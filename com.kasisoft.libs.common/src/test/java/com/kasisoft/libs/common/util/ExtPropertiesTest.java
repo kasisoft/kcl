@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.xml.adapters.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -24,6 +26,18 @@ import java.io.*;
 @Test(groups="all",sequential=true)
 public class ExtPropertiesTest {
 
+  private File   simplefile;
+  private File   evaluationfile;
+  
+  @BeforeTest
+  public void init() {
+    File dir        = new File( "testdata" );
+    simplefile      = new File( dir, "props/simple.properties"     );
+    evaluationfile  = new File( dir, "props/evaluation.properties" );
+    Assert.assertTrue( simplefile     . isFile() );
+    Assert.assertTrue( evaluationfile . isFile() );
+  }
+  
   @DataProvider(name="createConfigs")
   public Object[][] createConfigs() {
     String[]   delimiters    = new String[] { "=", ":", "kr" };
@@ -39,19 +53,7 @@ public class ExtPropertiesTest {
     }
     return result;
   }
-  
-  private File   simplefile;
-  private File   evaluationfile;
-  
-  @BeforeTest
-  public void init() {
-    File dir        = new File( "testdata" );
-    simplefile      = new File( dir, "props/simple.properties"     );
-    evaluationfile  = new File( dir, "props/evaluation.properties" );
-    Assert.assertTrue( simplefile     . isFile() );
-    Assert.assertTrue( evaluationfile . isFile() );
-  }
-  
+
   /**
    * This function creates an ExtProperties instance configured with the supplied settings. The
    * underlying properties file is altered in order to verify that it can be loaded correctly by
@@ -66,7 +68,7 @@ public class ExtPropertiesTest {
    * 
    * @return   The new instance of the allowing to access the properties. Not <code>null</code>.
    */
-  private ExtProperties setupContent( File file, String delimiter, String commentintro ) {
+  private ExtProperties setupContent( File file, String delimiter, String commentintro, boolean emptyisnull ) {
     List<String> text     = IoFunctions.readText( file, Encoding.UTF8 );
     StringBuffer buffer   = new StringBuffer();
     for( int i = 0; i < text.size(); i++ ) {
@@ -77,6 +79,7 @@ public class ExtPropertiesTest {
       buffer.append( SystemProperty.LineSeparator );
     }
     ExtProperties result = new ExtProperties( delimiter, commentintro );
+    result.setEmptyIsNull( emptyisnull );
     result.load( new CharArrayReader( buffer.toString().toCharArray() ) );
     return result;
   }
@@ -84,7 +87,7 @@ public class ExtPropertiesTest {
   @Test(dataProvider="createConfigs")
   public void basicAccess( String delimiter, String commentintro ) {
     
-    ExtProperties props = setupContent( simplefile, delimiter, commentintro );
+    ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
     
     // check basic property access
     Assert.assertEquals( props.getSimpleProperty( "simple_property" ), ""   );
@@ -122,7 +125,7 @@ public class ExtPropertiesTest {
   @Test(dataProvider="createConfigs")
   public void checkSortings( String delimiter, String commentintro ) {
     
-    ExtProperties props = setupContent( simplefile, delimiter, commentintro );
+    ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
 
     List<String> list = props.getIndexedProperties( "class", null );
     Assert.assertNotNull( list );
@@ -136,7 +139,7 @@ public class ExtPropertiesTest {
   @Test(dataProvider="createConfigs")
   public void specificRemovals( String delimiter, String commentintro ) {
 
-    ExtProperties props = setupContent( simplefile, delimiter, commentintro );
+    ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
 
     // these aren't working
     props.removeIndexedProperty( "notworking1", 1 );
@@ -183,7 +186,7 @@ public class ExtPropertiesTest {
   @Test(dataProvider="createConfigs")
   public void removeAllIndexed( String delimiter, String commentintro ) {
 
-    ExtProperties props = setupContent( simplefile, delimiter, commentintro );
+    ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
 
     props.removeIndexedProperty( "class" );
     
@@ -222,7 +225,7 @@ public class ExtPropertiesTest {
   @Test(dataProvider="createConfigs")
   public void removeAllAssociated( String delimiter, String commentintro ) {
 
-    ExtProperties props = setupContent( simplefile, delimiter, commentintro );
+    ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
 
     props.removeAssociatedProperty( "car" );
     
@@ -261,7 +264,7 @@ public class ExtPropertiesTest {
   @Test(dataProvider="createConfigs")
   public void checkEvaluated( String delimiter, String commentintro ) {
 
-    ExtProperties props = setupContent( evaluationfile, delimiter, commentintro );
+    ExtProperties props = setupContent( evaluationfile, delimiter, commentintro, false );
     
     Assert.assertEquals( props.getProperty( "simple.1" ), "A" );
     Assert.assertEquals( props.getProperty( "simple.2" ), "A${}B" );
@@ -290,7 +293,7 @@ public class ExtPropertiesTest {
   @Test(dataProvider="createConfigs")
   public void checkNameTraversal( String delimiter, String commentintro ) {
     
-    ExtProperties       simpleprops = setupContent( simplefile, delimiter, commentintro );
+    ExtProperties       simpleprops = setupContent( simplefile, delimiter, commentintro, false );
     Enumeration<String> names       = simpleprops.propertyNames();
     Set<String>         set         = new HashSet<String>();
     while( names.hasMoreElements() ) {
@@ -305,7 +308,7 @@ public class ExtPropertiesTest {
     Assert.assertTrue( set.contains( "class" ) );
     Assert.assertTrue( set.contains( "car" ) );
 
-    ExtProperties       evaluationprops = setupContent( evaluationfile, delimiter, commentintro );
+    ExtProperties       evaluationprops = setupContent( evaluationfile, delimiter, commentintro, false );
     names                               = evaluationprops.propertyNames();
     set.clear();
     while( names.hasMoreElements() ) {
@@ -335,7 +338,7 @@ public class ExtPropertiesTest {
   public void loadAndStore( String delimiter, String commentintro ) {
     
     // load/reload with simple.properties
-    ExtProperties   simpleprops     = setupContent( simplefile, delimiter, commentintro );
+    ExtProperties   simpleprops     = setupContent( simplefile, delimiter, commentintro, false );
     CharArrayWriter writer1         = new CharArrayWriter();
     simpleprops.store( writer1 );
     
@@ -349,7 +352,7 @@ public class ExtPropertiesTest {
     Assert.assertEquals( charray2, charray1 );
 
     // load/reload with evaluation.properties
-    ExtProperties   evaluationprops = setupContent( evaluationfile, delimiter, commentintro );
+    ExtProperties   evaluationprops = setupContent( evaluationfile, delimiter, commentintro, false );
     CharArrayWriter writer3         = new CharArrayWriter();
     evaluationprops.store( writer3 );
     
@@ -364,4 +367,163 @@ public class ExtPropertiesTest {
 
   }
 
+  @Test(dataProvider="createConfigs")
+  public void ipBasicAccess( String delimiter, String commentintro ) {
+    
+    ExtProperties           props     = setupContent( evaluationfile, delimiter, commentintro, true );
+    List<String>            list      = props.getIndexedProperties( "indexedcar", null );
+    Assert.assertNotNull( list );
+
+    Assert.assertEquals( list.size(), 4 );
+
+    Assert.assertEquals( list.get(0), "Golf"    );
+    Assert.assertEquals( list.get(1), null      );
+    Assert.assertEquals( list.get(2), "Maybach" );
+    Assert.assertEquals( list.get(3), "Smart"   );
+    
+  }
+
+  @Test(dataProvider="createConfigs")
+  public void ipBasicSingleAccess( String delimiter, String commentintro ) {
+    
+    ExtProperties           props     = setupContent( evaluationfile, delimiter, commentintro, true );
+
+    Assert.assertEquals( props.getIndexedProperty( "indexedcar", 2 ), "Golf"    );
+    Assert.assertEquals( props.getIndexedProperty( "indexedcar", 4 ), null      );
+    Assert.assertEquals( props.getIndexedProperty( "indexedcar", 5 ), "Maybach" );
+    Assert.assertEquals( props.getIndexedProperty( "indexedcar", 7 ), "Smart"   );
+    
+  }
+
+  @Test(dataProvider="createConfigs")
+  public void ipRemoveComplete( String delimiter, String commentintro ) {
+    
+    ExtProperties props = setupContent( evaluationfile, delimiter, commentintro, true );
+    
+    // remove all associated entries
+    props.removeIndexedProperty( "indexedcar" );
+
+    // there are no more entries
+    Assert.assertNull( props.getIndexedProperties( "indexedcar", null ) );
+
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test(dataProvider="createConfigs")
+  public void ipSpecificlyTypedAccess( String delimiter, String commentintro ) {
+    
+    ExtProperties         props     = setupContent( evaluationfile, delimiter, commentintro, true );
+    props.registerTypeAdapter( "indexedbirthdate", new DateAdapter( "dd.MM.yyyy", Locale.GERMAN ) );
+    
+    List<Date>            list      = props.getIndexedProperties( "indexedbirthdate", null );
+    Assert.assertNotNull( list );
+
+    Assert.assertEquals( list.size(), 3 );
+
+    Assert.assertEquals( list.get( 0 ), new Date( 65, 2, 12 ) );
+    Assert.assertEquals( list.get( 1 ), null                  );
+    Assert.assertEquals( list.get( 2 ), new Date( 87, 6, 4  ) );
+    
+  }
+  
+  @Test(dataProvider="createConfigs")
+  public void apBasicAccess( String delimiter, String commentintro ) {
+    
+    ExtProperties               props     = setupContent( evaluationfile, delimiter, commentintro, true );
+    Map<String,String>          map       = props.getAssociatedProperties( "car", null );
+    Assert.assertNotNull( map );
+
+    Assert.assertEquals( map.size(), 4 );
+
+    Assert.assertTrue( map.containsKey( "small"  ) );
+    Assert.assertTrue( map.containsKey( "medium" ) );
+    Assert.assertTrue( map.containsKey( "big"    ) );
+    Assert.assertTrue( map.containsKey( "dodo"   ) );
+
+    Assert.assertEquals( map.get( "small"  ), "Smart"   );
+    Assert.assertEquals( map.get( "medium" ), "Golf"    );
+    Assert.assertEquals( map.get( "big"    ), "Maybach" );
+    Assert.assertEquals( map.get( "dodo"   ), null      );
+    
+  }
+
+  @Test(dataProvider="createConfigs")
+  public void apBasicSingleAccess( String delimiter, String commentintro ) {
+    
+    ExtProperties               props     = setupContent( evaluationfile, delimiter, commentintro, true );
+
+    Assert.assertEquals( props.getAssociatedProperty( "car", "small"  ), "Smart"   );
+    Assert.assertEquals( props.getAssociatedProperty( "car", "medium" ), "Golf"    );
+    Assert.assertEquals( props.getAssociatedProperty( "car", "big"    ), "Maybach" );
+    Assert.assertEquals( props.getAssociatedProperty( "car", "dodo"   ), null      );
+    
+  }
+
+  @Test(dataProvider="createConfigs")
+  public void apRemoveComplete( String delimiter, String commentintro ) {
+    
+    ExtProperties               props     = setupContent( evaluationfile, delimiter, commentintro, true );
+    
+    // remove all associated entries
+    props.removeAssociatedProperty( "car" );
+
+    // there are no more entries
+    Assert.assertNull( props.getAssociatedProperties( "car", null ) );
+
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test(dataProvider="createConfigs")
+  public void apSpecificlyTypedAccess( String delimiter, String commentintro ) {
+    
+    ExtProperties             props     = setupContent( evaluationfile, delimiter, commentintro, true );
+    props.registerTypeAdapter( "birthdate", new DateAdapter( "dd.MM.yyyy", Locale.GERMAN ) );
+    
+    Map<String,Date>    map       = props.getAssociatedProperties( "birthdate", null );
+    Assert.assertNotNull( map );
+
+    Assert.assertEquals( map.size(), 3 );
+
+    Assert.assertTrue( map.containsKey( "mildred"  ) );
+    Assert.assertTrue( map.containsKey( "hugo"     ) );
+    Assert.assertTrue( map.containsKey( "ben"      ) );
+
+    Assert.assertEquals( map.get( "mildred"  ), new Date( 87, 6, 4  ) );
+    Assert.assertEquals( map.get( "hugo"     ), new Date( 65, 2, 12 ) );
+    Assert.assertEquals( map.get( "ben"      ), null                  );
+    
+  }
+
+  @Test(dataProvider="createConfigs")
+  public void spBasicAccess( String delimiter, String commentintro ) {
+    ExtProperties           props     = setupContent( evaluationfile, delimiter, commentintro, true );
+    Assert.assertEquals( props.getSimpleProperty( "simple" ), "glow" );
+  }
+
+  @Test(dataProvider="createConfigs")
+  public void spRemoveComplete( String delimiter, String commentintro ) {
+    
+    ExtProperties          props     = setupContent( evaluationfile, delimiter, commentintro, true );
+    
+    // remove all associated entries
+    props.removeSimpleProperty( "simple" );
+
+    // there are no more entries
+    Assert.assertNull( props.getSimpleProperty( "simple" ) );
+
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test(dataProvider="createConfigs")
+  public void spSpecificlyTypedAccess( String delimiter, String commentintro ) {
+    
+    ExtProperties        props        = setupContent( evaluationfile, delimiter, commentintro, true );
+    props.registerTypeAdapter( "validdate"   , new DateAdapter( "dd.MM.yyyy", Locale.GERMAN ) );
+    props.registerTypeAdapter( "invaliddate" , new DateAdapter( "dd.MM.yyyy", Locale.GERMAN ) );
+    
+    Assert.assertEquals( props . getSimpleProperty( "validdate"   ), new Date( 65, 2, 12 ) );
+    Assert.assertEquals( props . getSimpleProperty( "invaliddate" ), null                  );
+    
+  }
+  
 } /* ENDCLASS */
