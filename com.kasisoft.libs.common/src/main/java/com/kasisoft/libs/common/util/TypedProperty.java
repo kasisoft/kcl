@@ -48,6 +48,7 @@ public class TypedProperty<T> {
 
   private String                  key;
   private TypeAdapter<String,T>   adapter;
+  private T                       defaultvalue;
   private boolean                 required;
 
   /**
@@ -58,7 +59,7 @@ public class TypedProperty<T> {
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
   public TypedProperty( String property, TypeAdapter<String,T> typeadapter ) {
-    this( property, typeadapter, false );
+    this( property, typeadapter, false, null );
   }
   
   /**
@@ -70,9 +71,36 @@ public class TypedProperty<T> {
    *                                            to be <code>null</code>.
    */
   public TypedProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
-    key       = property;
-    adapter   = typeadapter;
-    required  = req;
+    this( property, typeadapter, req, null );
+  }
+
+  /**
+   * Initializes this typed property with the supplied adapter which is being used for the conversion.
+   *   
+   * @param property      The textual property key. Neither <code>null</code> nor empty.
+   * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
+   * @param defvalue      The default value which has to be used in case no value has been given. 
+   *                      Maybe <code>null</code>.
+   */
+  public TypedProperty( String property, TypeAdapter<String,T> typeadapter, T defvalue ) {
+    this( property, typeadapter, false, defvalue );
+  }
+
+  /**
+   * Initializes this typed property with the supplied adapter which is being used for the conversion.
+   *   
+   * @param property      The textual property key. Neither <code>null</code> nor empty.
+   * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
+   * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
+   *                                            to be <code>null</code>.
+   * @param defvalue      The default value which has to be used in case no value has been given. 
+   *                      Maybe <code>null</code>.
+   */
+  private TypedProperty( String property, TypeAdapter<String,T> typeadapter, boolean req, T defvalue ) {
+    key           = property;
+    adapter       = typeadapter;
+    required      = req;
+    defaultvalue  = defvalue;
   }
   
   /**
@@ -211,7 +239,12 @@ public class TypedProperty<T> {
       result = adapter.unmarshal( value );
     }
     if( result == null ) {
+      // use the default value provided by the caller
       result = defvalue;
+    }
+    if( result == null ) {
+      // use the default value provided by this property
+      result = defaultvalue;
     }
     if( (result == null) && required ) {
       // damn, we need to complain here
