@@ -46,7 +46,10 @@ import java.util.*;
  */
 public class TypedProperty<T> {
 
+  private static final Map<String,TypedProperty<?>>   TYPEDPROPERTIES = new Hashtable<>();
+  
   private String                  key;
+  private String                  description;
   private TypeAdapter<String,T>   adapter;
   private T                       defaultvalue;
   private boolean                 required;
@@ -59,7 +62,7 @@ public class TypedProperty<T> {
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
   public TypedProperty( String property, TypeAdapter<String,T> typeadapter ) {
-    this( property, typeadapter, false, null );
+    this( property, null, typeadapter, false, null );
   }
   
   /**
@@ -71,7 +74,7 @@ public class TypedProperty<T> {
    *                                            to be <code>null</code>.
    */
   public TypedProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
-    this( property, typeadapter, req, null );
+    this( property, null, typeadapter, req, null );
   }
 
   /**
@@ -83,24 +86,65 @@ public class TypedProperty<T> {
    *                      Maybe <code>null</code>.
    */
   public TypedProperty( String property, TypeAdapter<String,T> typeadapter, T defvalue ) {
-    this( property, typeadapter, false, defvalue );
+    this( property, null, typeadapter, false, defvalue );
+  }
+
+  /**
+   * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
+   * creates optional properties.
+   *   
+   * @param property      The textual property key. Neither <code>null</code> nor empty.
+   * @param desc          A description which provides further information about this property. Maybe <code>null</code>.
+   * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
+   */
+  public TypedProperty( String property, String desc, TypeAdapter<String,T> typeadapter ) {
+    this( property, desc, typeadapter, false, null );
+  }
+  
+  /**
+   * Initializes this typed property with the supplied adapter which is being used for the conversion.
+   *   
+   * @param property      The textual property key. Neither <code>null</code> nor empty.
+   * @param desc          A description which provides further information about this property. Maybe <code>null</code>.
+   * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
+   * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
+   *                                            to be <code>null</code>.
+   */
+  public TypedProperty( String property, String desc, TypeAdapter<String,T> typeadapter, boolean req ) {
+    this( property, desc, typeadapter, req, null );
   }
 
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion.
    *   
    * @param property      The textual property key. Neither <code>null</code> nor empty.
+   * @param desc          A description which provides further information about this property. Maybe <code>null</code>.
+   * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
+   * @param defvalue      The default value which has to be used in case no value has been given. 
+   *                      Maybe <code>null</code>.
+   */
+  public TypedProperty( String property, String desc, TypeAdapter<String,T> typeadapter, T defvalue ) {
+    this( property, desc, typeadapter, false, defvalue );
+  }
+
+  /**
+   * Initializes this typed property with the supplied adapter which is being used for the conversion.
+   *   
+   * @param property      The textual property key. Neither <code>null</code> nor empty.
+   * @param desc          A description which provides further information about this property. Maybe <code>null</code>.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    * @param defvalue      The default value which has to be used in case no value has been given. 
    *                      Maybe <code>null</code>.
    */
-  private TypedProperty( String property, TypeAdapter<String,T> typeadapter, boolean req, T defvalue ) {
+  private TypedProperty( String property, String desc, TypeAdapter<String,T> typeadapter, boolean req, T defvalue ) {
     key           = property;
+    description   = StringFunctions.cleanup( desc );
     adapter       = typeadapter;
     required      = req;
     defaultvalue  = defvalue;
+    TYPEDPROPERTIES.put( property, this );
   }
   
   /**
@@ -290,6 +334,27 @@ public class TypedProperty<T> {
       result = System.getProperty( key );
     }
     return StringFunctions.cleanup( result );
+  }
+
+  /**
+   * Returns a simple help text about the currently registered properties.
+   * 
+   * @return   A simple help text about the currently registered properties. Not <code>null</code>.
+   */
+  public static final String help() {
+    StringFBuffer buffer = new StringFBuffer();
+    List<String>  keys   = new ArrayList<String>( TYPEDPROPERTIES.keySet() );
+    Collections.sort( keys );
+    for( String key : keys ) {
+      TypedProperty<?> property = TYPEDPROPERTIES.get( key );
+      buffer.appendF( "%s ", key );
+      buffer.appendF( "(%s) ", property.required ? "mandatory" : "optional" );
+      if( property.defaultvalue != null ) {
+        buffer.appendF( "(default=%s) ", property.defaultvalue );
+      }
+      buffer.appendF( ": %s\n", property.description != null ? property.description : "" );
+    }
+    return buffer.toString();
   }
   
 } /* ENDCLASS */
