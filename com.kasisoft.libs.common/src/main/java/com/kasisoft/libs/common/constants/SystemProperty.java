@@ -238,7 +238,7 @@ public enum SystemProperty {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static final Map<String,String> createReplacementMap( String format, boolean shortkey ) {
-    Map<String,String> result = new Hashtable<String,String>();
+    Map<String,String> result = new Hashtable<>();
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( shortkey ) {
         result.put( String.format( format, sysprop.getShortKey() ), sysprop.getValue() );

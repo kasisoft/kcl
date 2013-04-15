@@ -15,15 +15,19 @@ import java.lang.ref.*;
 /**
  * Collector for often used objects like collections, maps etc. .
  */
-public abstract class Bucket<T> {
+public class Bucket<T> {
 
   private List<SoftReference<T>>   references;
+  private BucketFactory<T>         factory;
   
   /**
    * Initializes this bucket.
+   * 
+   * @param bucketfactory   The factory that will be used to create/reset new objects. Not <code>null</code>.
    */
-  public Bucket() {
+  public Bucket( BucketFactory<T> bucketfactory ) {
     references  = new LinkedList<>();
+    factory     = bucketfactory;
   }
   
   /**
@@ -42,13 +46,15 @@ public abstract class Bucket<T> {
    */
   public <P extends T> T allocate() {
     T result = null;
-    while( (result == null) && (! references.isEmpty()) ) {
-      SoftReference<T> reference = references.remove(0);
-      result                     = reference.get();
-      reference.clear();
+    synchronized( references ) {
+      while( (result == null) && (! references.isEmpty()) ) {
+        SoftReference<T> reference = references.remove(0);
+        result                     = reference.get();
+        reference.clear();
+      }
     }
     if( result == null ) {
-      result = create();
+      result = factory.create();
     }
     return result;
   }
@@ -60,24 +66,9 @@ public abstract class Bucket<T> {
    *          The object that shall be freed. Not <code>null</code>.
    */
   public void free( T object ) {
-    references.add( new SoftReference<T>( reset( object ) ) );
+    synchronized( references ) {
+      references.add( new SoftReference<T>( factory.reset( object ) ) );
+    }
   }
-
-  /**
-   * Creates a new instance.
-   * 
-   * @return   A new instance. Not <code>null</code>.
-   */
-  public abstract <P extends T> P create();
-
-  /**
-   * Resets the supplied object.
-   * 
-   * @param object
-   *          The object that is supposed to be cleared. Not <code>null</code>.
-   *          
-   * @return   The supplied object. Not <code>null</code>.
-   */
-  public abstract <P extends T> P reset( T object );
 
 } /* ENDCLASS */

@@ -569,9 +569,10 @@ public class MiscFunctions {
    */
   public static final <T extends Serializable> T clone( T source ) {
     if( source != null ) {
-      try {
+      try(
         ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
         ObjectOutputStream    objectout = new ObjectOutputStream( byteout );
+      ) {
         objectout.writeObject( source );
         objectout.flush();
         objectout.close();
@@ -710,6 +711,7 @@ public class MiscFunctions {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compare( Map.Entry<T, ?> o1, Map.Entry<T, ?> o2 ) {
       if( (o1 == null) && (o2 == null) ) {
         return 0;

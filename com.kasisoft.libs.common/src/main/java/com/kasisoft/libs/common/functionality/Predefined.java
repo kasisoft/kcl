@@ -29,7 +29,7 @@ public class Predefined {
    * @return   A Filter performing an OR operation on both parameters. Not <code>null</code>.
    */
   public static final <T> Filter<T> or( Filter<T> ... filters ) {
-    return new Or<T>( filters );
+    return new Or<>( filters );
   }
 
   /**
@@ -40,7 +40,7 @@ public class Predefined {
    * @return   A Filter performing an AND operation on both parameters. Not <code>null</code>.
    */
   public static final <T> Filter<T> and( Filter<T> ... filters ) {
-    return new And<T>( filters );
+    return new And<>( filters );
   }
 
   /**
@@ -51,7 +51,7 @@ public class Predefined {
    * @return   A Filter performing a NOT operation on the parameters. Not <code>null</code>.
    */
   public static final <T> Filter<T> not( Filter<T> inner ) {
-    return new Not<T>( inner );
+    return new Not<>( inner );
   }
   
   /**
@@ -62,7 +62,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static final <T> Transform<T,String> toStringTransform() {
-    return new ToString<T>();
+    return new ToString<>();
   }
 
   /**
@@ -74,7 +74,7 @@ public class Predefined {
    * @return   A Transform which combines the supplied Transform instances. Not <code>null</code>.
    */
   public static final <S1,S2,S3> Transform<S1,S3> joinTransforms( Transform<S1,S2> t1, Transform<S2,S3> t2 ) {
-    return new Join<S1,S2,S3>( t1, t2 );
+    return new Join<>( t1, t2 );
   }
   
   /**
@@ -88,7 +88,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static final <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( Class<K> keyclass, Class<V> valueclass ) {
-    return new KeyToString<K,V>();
+    return new KeyToString<>();
   }
 
   /**
@@ -99,7 +99,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static final <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform() {
-    return new ValueToString<K,V>();
+    return new ValueToString<>();
   }
 
   /** 
@@ -116,6 +116,7 @@ public class Predefined {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean accept( T input ) {
       return ! inner.accept( input );
     }
@@ -136,6 +137,7 @@ public class Predefined {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean accept( T input ) {
       for( Filter<T> filter : atoms ) {
         if( filter.accept( input ) ) {
@@ -161,6 +163,7 @@ public class Predefined {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean accept( T input ) {
       for( Filter<T> filter : atoms ) {
         if( ! filter.accept( input ) ) {
@@ -180,6 +183,7 @@ public class Predefined {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String map( T input ) {
       if( input == null ) {
         return null;
@@ -198,6 +202,7 @@ public class Predefined {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String map( Map.Entry<K,V> input ) {
       if( input == null ) {
         return null;
@@ -220,6 +225,7 @@ public class Predefined {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String map( Map.Entry<K,V> input ) {
       if( input == null ) {
         return null;

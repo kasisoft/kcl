@@ -23,7 +23,7 @@ public class BucketTest {
   @Test
   public void runAllocations() {
     
-    ListBucket<String> bucket = new ListBucket<String>();
+    Bucket<List<String>> bucket = new Bucket<>( new ListBucketFactory<String>() );
 
     Assert.assertEquals( 0, bucket.getSize() );
     
@@ -44,7 +44,7 @@ public class BucketTest {
     
   }
   
-  private static class ListBucket<T> extends Bucket<List<T>> {
+  private static class ListBucketFactory<T> implements BucketFactory<List<T>> {
 
     /**
      * {@inheritDoc}

@@ -59,6 +59,7 @@ public class GraphicsFunctionsTest implements FilenameFilter {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean accept( File dir, String name ) {
     return name.startsWith( "sample" );
   }

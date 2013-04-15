@@ -41,6 +41,7 @@ public enum Database {
   private synchronized void activate() throws SQLException {
     if( ! active ) {
       try {
+        // only required for non v4 jdbc drivers
         Class.forName( driver );
         active = true;
       } catch( ClassNotFoundException ex ) {

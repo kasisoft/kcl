@@ -105,6 +105,7 @@ public class ZipTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Map<String, Object> zip( Color color, Font font ) {
 
       StringBuffer style = new StringBuffer();

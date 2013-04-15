@@ -59,6 +59,7 @@ public class TransformTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<Integer> map( Integer input ) {
       List<Integer> result = new ArrayList<Integer>();
       result.add( input );

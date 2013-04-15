@@ -356,6 +356,7 @@ public class IoFunctionsTest {
       /**
        * {@inheritDoc}
        */
+      @Override
       public boolean accept( File pathname ) {
         if( pathname.isDirectory() ) {
           return ! "_svn".equalsIgnoreCase( pathname.getName() );

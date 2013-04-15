@@ -974,22 +974,12 @@ public class AssertExtension {
   
   private static final byte[] loadFile(File file) {
     byte[] result = new byte[ (int) file.length() ];
-    InputStream instream = null;
-    try {
-      instream = new FileInputStream(file);
+    try( InputStream instream = new FileInputStream( file ) ) {
       if(instream.read(result) != result.length) {
         Assert.fail("Couldn't read data from file '" + file + "' !");
       }
     } catch( IOException ex ) {
       Assert.fail("File loading fails. Cause: " + ex.getMessage());
-    } finally {
-      if( instream != null ) {
-        try {
-          instream.close();
-        } catch( IOException ex ) {
-          Assert.fail("File loading fails. Cause: " + ex.getMessage());
-        }
-      }
     }
     return result;
   }

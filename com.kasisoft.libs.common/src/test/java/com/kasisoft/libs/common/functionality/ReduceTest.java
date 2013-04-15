@@ -84,6 +84,7 @@ public class ReduceTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Integer reduce( Byte input, Integer initial ) {
       return Integer.valueOf( input.byteValue() + initial.intValue() );
     }

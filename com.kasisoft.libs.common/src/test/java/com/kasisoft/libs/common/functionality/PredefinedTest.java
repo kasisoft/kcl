@@ -81,6 +81,7 @@ public class PredefinedTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean accept( Object input ) {
       return input instanceof Integer;
     }
@@ -95,6 +96,7 @@ public class PredefinedTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean accept( Object input ) {
       if( input instanceof Integer ) {
         Integer intobj = (Integer) input;

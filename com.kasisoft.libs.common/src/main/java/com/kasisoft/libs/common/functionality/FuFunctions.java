@@ -47,7 +47,7 @@ public class FuFunctions {
    * @return   The transformed values. Not <code>null</code>.
    */
   public static final <F,T> List<T> map( Transform<F,T> function, List<F> objects ) {
-    List<T> result = new ArrayList<T>();
+    List<T> result = new ArrayList<>();
     for( int i = 0; i < objects.size(); i++ ) {
       result.add( function.map( objects.get(i) ) );
     }
@@ -76,7 +76,7 @@ public class FuFunctions {
    * @return   The transformed map. Not <code>null</code>.
    */
   public static final <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects, Map<K,T> defvalues ) {
-    Map<K,T> result = new HashMap<K,T>();
+    Map<K,T> result = new HashMap<>();
     if( defvalues != null ) {
       result.putAll( defvalues );
     }
@@ -96,7 +96,7 @@ public class FuFunctions {
    * @return   The transformed map. Not <code>null</code>.
    */
   public static final <V,F,T> Map<T,V> mapKey( Transform<F,T> function, Map<F,V> objects ) {
-    Map<T,V> result = new HashMap<T,V>();
+    Map<T,V> result = new HashMap<>();
     for( Map.Entry<F,V> entry : objects.entrySet() ) {
       result.put( function.map( entry.getKey() ), entry.getValue() );
     }
@@ -128,7 +128,7 @@ public class FuFunctions {
    */
   public static final <L,R,V> List<V> zip( Zip<L,R,V> function, List<L> left, List<R> right ) {
     int     max    = Math.max( left.size(), right.size() );
-    List<V> result = new ArrayList<V>();
+    List<V> result = new ArrayList<>();
     for( int i = 0; i < max; i++ ) {
       L leftobj  = null;
       R rightobj = null;
@@ -152,7 +152,7 @@ public class FuFunctions {
    * @return   A newly created list. Not <code>null</code>.
    */
   public static final <T> List<T> filter( Filter<T> function, List<T> objects ) {
-    List<T> result = new ArrayList<T>();
+    List<T> result = new ArrayList<>();
     for( int i = 0; i < objects.size(); i++ ) {
       T object = objects.get(i);
       if( function.accept( object ) ) {

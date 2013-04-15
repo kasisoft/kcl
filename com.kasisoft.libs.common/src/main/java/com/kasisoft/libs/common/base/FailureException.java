@@ -9,10 +9,13 @@
  */
 package com.kasisoft.libs.common.base;
 
+import lombok.*;
+
 /**
  * Specialisation of the RuntimeException which provides a numerical code which allows to handle this exception in a 
  * more apropriate way than checking it's message.
  */
+@Getter
 public class FailureException extends RuntimeException {
 
   private FailureCode   failurecode;
@@ -47,15 +50,6 @@ public class FailureException extends RuntimeException {
   public FailureException( FailureCode code, String message ) {
     super( String.format( "%s: %s", String.valueOf( code ), message ) );
     failurecode = code;
-  }
-
-  /**
-   * Returns the failurecode used to produce this exception.
-   * 
-   * @return   The failurecode used to produce this exception. Not <code>null</code>.
-   */
-  public FailureCode getFailureCode() {
-    return failurecode;
   }
   
 } /* ENDCLASS */

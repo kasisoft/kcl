@@ -1021,6 +1021,7 @@ public class ExtProperties {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
       return evaluate();
     }
@@ -1046,6 +1047,7 @@ public class ExtProperties {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
       return content;
     }

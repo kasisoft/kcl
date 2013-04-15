@@ -250,6 +250,7 @@ public final class Workspace {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void run() {
       Workspace.this.saveSettings();
     }

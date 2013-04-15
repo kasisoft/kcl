@@ -117,7 +117,7 @@ public enum MimeType {
    * @return   A set of supporting mime types. Not <code>null</code>. [U]
    */
   public static final Set<MimeType> valuesBySuffix( String suffix ) {
-    Set<MimeType> result = new HashSet<MimeType>();
+    Set<MimeType> result = new HashSet<>();
     for( MimeType mime : MimeType.values() ) {
       if( mime.supportsSuffix( suffix ) ) {
         result.add( mime );
