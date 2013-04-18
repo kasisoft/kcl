@@ -15,24 +15,41 @@ import java.sql.*;
  */
 public enum Database {
 
-  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          ),
-  h2          ( "org.h2.Driver"                                 ),
-  hsql        ( "org.hsqldb.jdbcDriver"                         ),
-  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  ),
-  mysql       ( "com.mysql.jdbc.Driver"                         ),
-  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  ),
-  oracle      ( "oracle.jdbc.driver.OracleDriver"               ),
-  postgresql  ( "org.postgresql.Driver"                         ),
-  sqlite      ( "org.sqlite.JDBC"                               );
+  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1" ),
+  h2          ( "org.h2.Driver"                                 , "SELECT 1" ),
+  hsql        ( "org.hsqldb.jdbcDriver"                         , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" ),
+  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , "SELECT 1" ),
+  mysql       ( "com.mysql.jdbc.Driver"                         , "SELECT 1" ),
+  // not available as the underlying db system isn't known here
+  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , null       ),
+  oracle      ( "oracle.jdbc.driver.OracleDriver"               , "SELECT 1 FROM DUAL" ),
+  postgresql  ( "org.postgresql.Driver"                         , "SELECT 1" ),
+  sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1" );
 
   private String    driver;
   private boolean   active;
+  private String    alive;
 
-  Database( String driverclass ) {
+  Database( String driverclass, String query ) {
     driver  = driverclass;
     active  = false;
+    alive   = query;
   }
 
+  /**
+   * Returns the alive query which allows to test a connection.
+   * 
+   * @return   The alive query associated with this db type. Neither <code>null</code> nor empty.
+   * 
+   * @throws UnsupportedOperationException for {@link #odbc}.
+   */
+  public String getAliveQuery() {
+    if( this == odbc ) {
+      throw new UnsupportedOperationException();
+    }
+    return alive;
+  }
+  
   /**
    * Verifies that a required driver is available.
    * 
