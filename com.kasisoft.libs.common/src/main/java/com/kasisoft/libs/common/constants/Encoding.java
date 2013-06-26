@@ -37,6 +37,13 @@ public final class Encoding {
   private boolean         bom;
   private ByteOrderMark   byteordermark;
   
+  /**
+   * Initializes this Encoding instance for a specific character set.
+   *  
+   * @param key           The name of the character set. Neither <code>null</code> nor empty.
+   * @param requiresbom   <code>true</code> <=> Identifying this encoding requires a {@link ByteOrderMark}. 
+   * @param mark          A {@link ByteOrderMark} which allows to identify the encoding. Maybe <code>null</code>.
+   */
   public Encoding( String key, boolean requiresbom, ByteOrderMark mark ) {
     encoding      = key;
     bom           = requiresbom;
