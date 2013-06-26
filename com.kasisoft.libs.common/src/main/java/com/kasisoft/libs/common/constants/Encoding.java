@@ -11,32 +11,42 @@ package com.kasisoft.libs.common.constants;
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.io.*;
 
+import java.util.*;
+
 import java.io.*;
 
 /**
  * Collection of supported encodings.
  */
-public enum Encoding {
+public final class Encoding {
   
   /**
-   * @spec [09-Dec-2012:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
+   * @spec [27-Jul-2013:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
    */
   
-  ASCII       ( "US-ASCII"    , false , null                  ),
-  UTF8        ( "UTF-8"       , false , ByteOrderMark.UTF8    ),
-  UTF16       ( "UTF-16"      , true  , null                  ),
-  UTF16BE     ( "UTF-16BE"    , false , ByteOrderMark.UTF16BE ),
-  UTF16LE     ( "UTF-16LE"    , false , ByteOrderMark.UTF16LE ),
-  ISO88591    ( "ISO-8859-1"  , false , null                  );
+  public static final Encoding ASCII       = new Encoding( "US-ASCII"    , false , null                  );
+  public static final Encoding UTF8        = new Encoding( "UTF-8"       , false , ByteOrderMark.UTF8    );
+  public static final Encoding UTF16       = new Encoding( "UTF-16"      , true  , null                  );
+  public static final Encoding UTF16BE     = new Encoding( "UTF-16BE"    , false , ByteOrderMark.UTF16BE );
+  public static final Encoding UTF16LE     = new Encoding( "UTF-16LE"    , false , ByteOrderMark.UTF16LE );
+  public static final Encoding ISO88591    = new Encoding( "ISO-8859-1"  , false , null                  );
+  
+  private static Map<String,Encoding>   ENCODINGS = null;
   
   private String          encoding;
   private boolean         bom;
   private ByteOrderMark   byteordermark;
   
-  Encoding( String key, boolean requiresbom, ByteOrderMark mark ) {
+  public Encoding( String key, boolean requiresbom, ByteOrderMark mark ) {
     encoding      = key;
     bom           = requiresbom;
     byteordermark = mark;
+    synchronized( Encoding.class ) {
+      if( ENCODINGS == null ) {
+        ENCODINGS = new Hashtable<>();
+      }
+      ENCODINGS.put( key, this );
+    }
   }
   
   /**
@@ -305,6 +315,10 @@ public enum Encoding {
     }
   }
 
+  public static final Encoding[] values() {
+    return (Encoding[]) ENCODINGS.values().toArray();
+  }
+  
   /**
    * This helper function identifies the encoding value which corresponds to the supplied name. Be
    * aware that this enumeration only supports the <b>required</b> encodings.
@@ -323,4 +337,4 @@ public enum Encoding {
     return null;
   }
 
-} /* ENDENUM */
+} /* ENDCLASS */
