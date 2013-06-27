@@ -73,12 +73,13 @@ public class FileDeleteRunnable extends FileListRunnable {
           if( candidate.delete() ) {
             // the resource could be removed without any problem
             resources.remove(i);
+          } else {
+            retries--;
           }
         } else {
           // the resource doesn't exist in the first place
           resources.remove(i);
         }
-        retries--;
         if( retries == 0 ) {
           stop();
         }

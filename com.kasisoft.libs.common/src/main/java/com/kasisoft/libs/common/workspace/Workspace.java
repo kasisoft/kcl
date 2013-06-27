@@ -230,9 +230,6 @@ public final class Workspace {
     if( instance == null ) {
       File appfile = settings;
       if( appfile == null ) {
-        appfile = CommonProperty.Application.getValue();
-      }
-      if( appfile == null ) {
         // no settings available, so we're providing a dummy instance instead
         instance = new Workspace();
       } else {

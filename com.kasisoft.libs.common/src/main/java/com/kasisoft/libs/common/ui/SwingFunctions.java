@@ -35,7 +35,7 @@ public class SwingFunctions {
     if( (menuitems == null) || (menuitems.length == 0) ) {
       return null;
     }
-    ExtArrayList<JMenuItem> items = new ExtArrayList<JMenuItem>();
+    ExtArrayList<JMenuItem> items = new ExtArrayList<>();
     for( int i = 0; i < menuitems.length; i++ ) {
       if( menuitems[i] == null ) {
         if( (! items.isEmpty()) && (items.get(-1) != null) ) {

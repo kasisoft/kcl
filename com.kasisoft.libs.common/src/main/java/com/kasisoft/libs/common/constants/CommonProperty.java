@@ -24,7 +24,6 @@ import java.io.*;
  */
 public interface CommonProperty {
 
-  TypedProperty<File>     Application = new TypedProperty<File>    ( "com.kasisoft.libs.common#APPLICATION", new FileAdapter    (), false );
   TypedProperty<Integer>  BufferCount = new TypedProperty<Integer> ( "com.kasisoft.libs.common#BUFFERCOUNT", new IntegerAdapter (), Integer.valueOf( 8192 ) );
   TypedProperty<Integer>  IoRetries   = new TypedProperty<Integer> ( "com.kasisoft.libs.common#IORETRIES"  , new IntegerAdapter (), Integer.valueOf( 5 ) );
   TypedProperty<File>     TempDir     = new TypedProperty<File>    ( "com.kasisoft.libs.common#TEMPDIR"    , new FileAdapter    (), new File( SystemProperty.TempDir.getValue() ) );

@@ -43,7 +43,7 @@ public class SystemProcess {
     executable  = exec;
     workingdir  = null;
     returncode  = 0;
-    variables   = new Hashtable<String,String>();
+    variables   = new Hashtable<>();
   }
 
   /**
@@ -271,7 +271,7 @@ public class SystemProcess {
    * @return   An environment which is a merger of the current environment and the variables added to this process.
    */
   private String[] extendProperties() {
-    Map<String,String> map = new Hashtable<String,String>();
+    Map<String,String> map = new Hashtable<>();
     map.putAll( System.getenv() );
     map.putAll( variables       );
     return toEnvp( map );

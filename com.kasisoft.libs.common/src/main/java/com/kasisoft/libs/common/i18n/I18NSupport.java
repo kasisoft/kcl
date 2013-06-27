@@ -55,7 +55,7 @@ public class I18NSupport {
     if( modifier != MODIFIERS ) {
       return false;
     }
-    I18N i18nmessage = field.getAnnotation(I18N.class);
+    I18N i18nmessage = field.getAnnotation( I18N.class );
     return (i18nmessage != null) && (field.getType() == String.class);
   }
   

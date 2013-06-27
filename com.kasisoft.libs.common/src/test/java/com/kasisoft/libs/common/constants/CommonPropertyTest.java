@@ -39,17 +39,6 @@ public class CommonPropertyTest {
   @DataProvider(name="createProperties")
   public Object[][] createProperties() {
     Object[][] result = new Object[][] {
-      { CommonProperty.Application },
-      { CommonProperty.BufferCount },
-      { CommonProperty.IoRetries   },
-      { CommonProperty.TempDir     }
-    };
-    return result;
-  }
-
-  @DataProvider(name="createInvalidProperties")
-  public Object[][] createInvalidProperties() {
-    Object[][] result = new Object[][] {
       { CommonProperty.BufferCount },
       { CommonProperty.IoRetries   },
       { CommonProperty.TempDir     }
@@ -77,7 +66,7 @@ public class CommonPropertyTest {
     Assert.assertEquals( tempdir, new File( "D:/temp".replace( '/', File.separatorChar ) ) );
   }
 
-  @Test(dataProvider="createInvalidProperties", expectedExceptions={ClassCastException.class})
+  @Test(dataProvider="createProperties", expectedExceptions={ClassCastException.class})
   public void invalidUsedProperties( TypedProperty<Float> property ) {
     @SuppressWarnings("unused")
     Float floatvalue = property.getValue();

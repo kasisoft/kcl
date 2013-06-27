@@ -447,12 +447,8 @@ public class MiscFunctions {
           }
         }
       }
-    } catch( ClassNotFoundException      ex ) { reflectionFailure( fail, ex );
-    } catch( InstantiationException      ex ) { reflectionFailure( fail, ex );
-    } catch( IllegalAccessException      ex ) { reflectionFailure( fail, ex );
-    } catch( SecurityException           ex ) { reflectionFailure( fail, ex );
-    } catch( IllegalArgumentException    ex ) { reflectionFailure( fail, ex );
-    } catch( InvocationTargetException   ex ) { reflectionFailure( fail, ex );
+    } catch( Exception ex ) { 
+      reflectionFailure( fail, ex );
     }
     return null;
   }

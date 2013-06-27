@@ -39,9 +39,9 @@ public class EnhancedFileFilter extends BasicFileFilter {
    */
   public EnhancedFileFilter( String suffix ) {
     super( suffix );
-    suffixlist          = new ArrayList<String>();
-    excludeddirs        = new HashSet<String>();
-    excludedfiles       = new HashSet<String>();
+    suffixlist          = new ArrayList<>();
+    excludeddirs        = new HashSet<>();
+    excludedfiles       = new HashSet<>();
     suffixlistasstring  = null;
   }
 
@@ -53,9 +53,9 @@ public class EnhancedFileFilter extends BasicFileFilter {
    */
   public EnhancedFileFilter( String suffix, String filterdescription ) {
     super( suffix, filterdescription );
-    suffixlist          = new ArrayList<String>();
-    excludeddirs        = new HashSet<String>();
-    excludedfiles       = new HashSet<String>();
+    suffixlist          = new ArrayList<>();
+    excludeddirs        = new HashSet<>();
+    excludedfiles       = new HashSet<>();
     suffixlistasstring  = null;
   }
   
@@ -118,7 +118,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
   protected String getSuffixList() {
     synchronized( suffixlist ) {
       if( suffixlistasstring == null ) {
-        StringBuffer buffer = new StringBuffer( super.getSuffixList() );
+        StringBuilder buffer = new StringBuilder( super.getSuffixList() );
         for( String suffix : suffixlist ) {
           buffer.append( ", " );
           buffer.append( suffix );

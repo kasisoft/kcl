@@ -97,9 +97,7 @@ public class NetFunctions {
         socket.getOutputStream().write( message );
       }
       return true;
-    } catch( UnknownHostException ex ) {
-      return false;
-    } catch( IOException          ex ) {
+    } catch( IOException ex ) {
       return false;
     } finally {
       MiscFunctions.close( true, socket );

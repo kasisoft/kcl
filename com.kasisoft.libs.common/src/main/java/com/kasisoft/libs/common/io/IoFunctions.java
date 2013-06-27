@@ -47,7 +47,7 @@ public class IoFunctions {
    * @return   A {@link Pattern} instance used to test filesystem pathes. Not <code>null</code>.
    */
   public static final Pattern compileFilesystemPattern( String pattern ) {
-    StringBuffer    buffer    = new StringBuffer();
+    StringBuilder   buffer    = new StringBuilder();
     StringTokenizer tokenizer = new StringTokenizer( pattern, "*", true );
     boolean         last      = false;
     while( tokenizer.hasMoreTokens() ) {
@@ -707,7 +707,7 @@ public class IoFunctions {
    */
   public static final long crc32( InputStream instream, CRC32 crc, Integer buffersize ) {
     crc           = crc == null ? new CRC32() : crc;
-    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
+    byte[] buffer = allocateBytes( buffersize );
     try {
       int read = instream.read( buffer );
       while( read != -1 ) {
@@ -719,7 +719,7 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw new FailureException( FailureCode.IO, ex );
     } finally {
-      Primitive.PByte.<byte[]>getBuffers().release( buffer );
+      releaseBytes( buffer );
     }
     return crc.getValue();
   }
@@ -954,7 +954,6 @@ public class IoFunctions {
     }
   }
   
-
   /**
    * Scans a directory recursively and stores them into a list.
    * 

@@ -26,7 +26,7 @@ public abstract class AbstractEventDispatcher<L,E> {
    * Initialises this dispatcher to deliver Swing UI events.
    */
   public AbstractEventDispatcher() {
-    listeners     = new HashSet<L>();
+    listeners     = new HashSet<>();
     errorhandler  = null;
   }
 

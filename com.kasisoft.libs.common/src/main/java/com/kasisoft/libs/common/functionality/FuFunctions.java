@@ -112,7 +112,7 @@ public class FuFunctions {
    * 
    * @return   The list with the recombined values. Not <code>null</code>.
    */
-  public static final <L,R,V> List<V> zipE( Zip<L,R,V> function, List<L> left, List<R> right ) {
+  public static final <L,R,V> List<V> zipEqualLengths( Zip<L,R,V> function, List<L> left, List<R> right ) {
     return zip( function, left, right );
   }
   
