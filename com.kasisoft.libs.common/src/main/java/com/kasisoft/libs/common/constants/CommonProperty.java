@@ -29,11 +29,7 @@ public enum CommonProperty {
   
   BufferCount ( "com.kasisoft.libs.common#BUFFERCOUNT" , false , Integer.valueOf(8192)             , Integer.class ),
   
-  Debug       ( "com.kasisoft.libs.common#DEBUG"       , false , Boolean.FALSE                     , Boolean.class ),
-  
   IoRetries   ( "com.kasisoft.libs.common#IORETRIES"   , false , Integer.valueOf(5)                , Integer.class ),
-  
-  Sleep       ( "com.kasisoft.libs.common#SLEEP"       , false , Integer.valueOf(100)              , Integer.class ),
   
   TempDir     ( "com.kasisoft.libs.common#TEMPDIR"     , true  , SystemProperty.TempDir.getValue() , File.class    );
   

@@ -9,7 +9,6 @@
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.sys.*;
 
 import org.testng.annotations.*;
@@ -213,33 +212,6 @@ public class MiscFunctionsTest {
   }
   
   @Test
-  public void sleepMilliseconds() {
-    long time   = (long) (30000 * Math.random());
-    long before = System.currentTimeMillis();
-    MiscFunctions.sleep( time );
-    long after  = System.currentTimeMillis();
-    Assert.assertTrue( (after - before) >= time );
-  }
-
-  @Test
-  public void sleepDefault() {
-    Integer time   = CommonProperty.Sleep.getValue();
-    long    before = System.currentTimeMillis();
-    MiscFunctions.sleep();
-    long after  = System.currentTimeMillis();
-    Assert.assertTrue( (after - before) >= time.intValue() );
-  }
-  
-  @Test
-  public void sleepTimeUnit() {
-    long time   = TimeUnit.Second.amount(5);
-    long before = System.currentTimeMillis();
-    MiscFunctions.sleep( 5, TimeUnit.Second );
-    long after  = System.currentTimeMillis();
-    Assert.assertTrue( (after - before) >= time );
-  }
-
-  @Test
   public void newInstance() {
     Object object = MiscFunctions.newInstance( false, String.class.getName(), "Frosch".getBytes() );
     Assert.assertEquals( object, "Frosch" );
@@ -257,7 +229,10 @@ public class MiscFunctionsTest {
     Runnable runnable = new Runnable() {
       public void run() {
         for( int i = 0; i < 10; i++ ) {
-          MiscFunctions.sleep();
+          try {
+            Thread.sleep( 1000 );
+          } catch( InterruptedException ex ) {
+          }
         }
         outparam.setValues( Boolean.TRUE );
       }

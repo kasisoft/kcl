@@ -71,42 +71,6 @@ public class MiscFunctions {
   }
   
   /**
-   * Sleeps for the default time as defined in CommonProperty .
-   */
-  public static final void sleep() {
-    Integer sleepingtime = CommonProperty.Sleep.getValue();
-    sleep( sleepingtime.intValue() );
-  }
-  
-  /**
-   * Sleeps for the supplied number of milliseconds.
-   * 
-   * @param delay   The time to sleep in milliseconds.
-   */
-  public static final void sleep( long delay ) {
-    while( delay > 0 ) {
-      long before = System.currentTimeMillis();
-      try {
-        Thread.sleep( delay );
-      } catch( InterruptedException ex ) {
-      }
-      long after  = System.currentTimeMillis();
-      long diff   = after - before;
-      delay       = delay - diff;
-    }
-  }
-  
-  /**
-   * Convenience method which allows to write code in the style of <code>sleep(12, TimeUnit.Millisecond)</code>.
-   * 
-   * @param num    The number of units.
-   * @param unit   The time unit itself. Not <code>null</code>.
-   */
-  public static final void sleep( int num, TimeUnit unit ) {
-    sleep( unit.amount( num ) );
-  }
-
-  /**
    * Returns <code>true</code> if a byte sequence could be found at a specific position.
    * 
    * @param data        The data block where to search for. Not <code>null</code>.

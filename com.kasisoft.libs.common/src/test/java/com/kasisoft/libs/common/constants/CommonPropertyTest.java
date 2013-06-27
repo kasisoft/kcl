@@ -29,9 +29,7 @@ public class CommonPropertyTest {
   public void setup() {
     noproperties  = new Properties();
     properties    = new Properties();
-    properties.setProperty( "com.kasisoft.libs.common#DEBUG"       , "true"     );
     properties.setProperty( "com.kasisoft.libs.common#IORETRIES"   , "20"       );
-    properties.setProperty( "com.kasisoft.libs.common#SLEEP"       , "1000"     );
     properties.setProperty( "com.kasisoft.libs.common#BUFFERCOUNT" , "8192"     );
     properties.setProperty( "com.kasisoft.libs.common#TEMPDIR"     , "D:/temp"  );
   }
@@ -48,12 +46,8 @@ public class CommonPropertyTest {
   
   @Test
   public void checkMissingProperties() {
-    Boolean debug       = CommonProperty.Debug.getValue( noproperties, false );
-    Assert.assertEquals( debug, Boolean.FALSE );
     Integer ioretries   = CommonProperty.IoRetries.getValue( noproperties, false );
     Assert.assertEquals( ioretries, Integer.valueOf(5) );
-    Integer sleep       = CommonProperty.Sleep.getValue( noproperties, false );
-    Assert.assertEquals( sleep, Integer.valueOf(100) );
     Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties, false );
     Assert.assertEquals( buffersize, Integer.valueOf(8192) );
     File    tempdir     = CommonProperty.TempDir.getValue( noproperties, false );
@@ -62,12 +56,8 @@ public class CommonPropertyTest {
 
   @Test
   public void checkAvailableProperties() {
-    Boolean debug       = CommonProperty.Debug.getValue( properties, false );
-    Assert.assertEquals( debug, Boolean.TRUE );
     Integer ioretries   = CommonProperty.IoRetries.getValue( properties, false );
     Assert.assertEquals( ioretries, Integer.valueOf(20) );
-    Integer sleep       = CommonProperty.Sleep.getValue( properties, false );
-    Assert.assertEquals( sleep, Integer.valueOf(1000) );
     Integer buffersize  = CommonProperty.BufferCount.getValue( properties, false );
     Assert.assertEquals( buffersize, Integer.valueOf(8192) );
     File    tempdir     = CommonProperty.TempDir.getValue( properties, false );
