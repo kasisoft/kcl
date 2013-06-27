@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kasisoft</groupId>
   <artifactId>com.kasisoft.libs.common</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.9-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Kasisoft Common Library</name>
   <description>Collection of general purpose functionalities.</description>
@@ -28,6 +28,8 @@
         <version>2.4.1</version>
         <configuration>
           <tagBase>https://kasisoft.com/svn/kasisoftcommon/tags</tagBase>
+          <!-- [MRELEASE-263] -->
+          <mavenExecutorId>forked-path</mavenExecutorId>
         </configuration>
       </plugin>
       <plugin>
