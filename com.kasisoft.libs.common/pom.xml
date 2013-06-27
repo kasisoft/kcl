@@ -7,6 +7,14 @@
   <version>0.9-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Kasisoft Common Library</name>
+  <description>Collection of general purpose functionalities.</description>
+  <url>https://kasisoft.com/software/kasisoftcommon.html</url>
+  <licenses>
+    <license>
+      <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+      <url>http://www.gnu.org/licenses/lgpl.html</url>
+    </license>
+  </licenses>
   <properties>
     <java.version>1.7</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -105,9 +113,17 @@
   </organization>
   <scm>
     <url>https://kasisoft.com/svn/kasisoftcommon</url>
+    <connection>https://kasisoft.com/svn/kasisoftcommon</connection>
   </scm>
   <issueManagement>
     <system>jira</system>
-    <url>https://kasisoft.com/jira/KCOM</url>
+    <url>https://kasisoft.com/jira/browse/KCOM</url>
   </issueManagement>
+  <developers>
+    <developer>
+      <id>costamojan</id>
+      <name>Daniel Kasmeroglu</name>
+      <email>Daniel.Kasmeroglu@kasisoft.net</email>
+    </developer>
+  </developers>
 </project>
