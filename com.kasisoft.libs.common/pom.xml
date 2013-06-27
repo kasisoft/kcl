@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kasisoft</groupId>
   <artifactId>com.kasisoft.libs.common</artifactId>
-  <version>0.91-SNAPSHOT</version>
+  <version>0.9-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Kasisoft Common Library</name>
   <description>Collection of general purpose functionalities.</description>
@@ -172,4 +172,33 @@
       <url>https://kasisoft.com/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
   </distributionManagement>
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>  
 </project>
