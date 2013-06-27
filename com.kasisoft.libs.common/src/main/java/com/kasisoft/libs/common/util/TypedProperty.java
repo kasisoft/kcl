@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following
  * code segments:
@@ -44,6 +46,8 @@ import java.util.*;
  * If the {@link TypeAdapter} instance shall generate an exception it's advisable to make use of the 
  * {@link MissingPropertyException}.
  */
+@ToString
+@EqualsAndHashCode
 public class TypedProperty<T> {
 
   private static final Map<String,TypedProperty<?>>   TYPEDPROPERTIES = new Hashtable<>();
@@ -337,6 +341,29 @@ public class TypedProperty<T> {
   }
 
   /**
+   * Small helper function which always delivers a property value as a text.
+   * 
+   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
+   * @param nullvalue    A specific value which has to be delivered in case of a <code>null</code> value. 
+   *                     Maybe <code>null</code>.
+   * 
+   * @return   The textual value of this property. Maybe <code>null</code> if <param>nullvalue</param> was.
+   */
+  private String getValueAsText( Map<String,String> properties, String nullvalue ) {
+    T value = null;
+    try {
+      value = getValue( properties );
+    } catch( MissingPropertyException ex ) {
+      // legal case for a required but missing property, so value stays null
+    }
+    if( value == null ) {
+      return nullvalue;
+    } else {
+      return adapter.marshal( value );
+    }
+  }
+  
+  /**
    * Returns a simple help text about the currently registered properties.
    * 
    * @return   A simple help text about the currently registered properties. Not <code>null</code>.
@@ -357,4 +384,68 @@ public class TypedProperty<T> {
     return buffer.toString();
   }
   
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  public static final Map<String,String> createReplacementMap( Map<String,String> properties ) {
+    return createReplacementMap( properties, "%%%s%%", "" );
+  }
+
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  public static final Map<String,String> createReplacementMap( Properties properties ) {
+    return createReplacementMap( properties, "%%%s%%", "" );
+  }
+
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
+   * @param format       A formatting String with one %s format code. This is used in order to support various key 
+   *                     formats. Neither <code>null</code> nor empty.
+   * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
+   *                     Not <code>null</code>.
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  public static final Map<String,String> createReplacementMap( Map<String,String> properties, String format, String nullvalue ) {
+    Map<String,String> result = new HashMap<>();
+    for( TypedProperty property : TYPEDPROPERTIES.values() ) {
+      String keypattern = String.format( format, property.getKey() );
+      String value      = property.getValueAsText( properties, nullvalue );
+      result.put( keypattern, value );
+    }
+    return result;
+  }
+
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
+   * @param format       A formatting String with one %s format code. This is used in order to support various key 
+   *                     formats. Neither <code>null</code> nor empty.
+   * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
+   *                     Not <code>null</code>.
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  public static final Map<String,String> createReplacementMap( Properties properties, String format, String nullvalue ) {
+    Map<String,String> result = new HashMap<>();
+    for( TypedProperty property : TYPEDPROPERTIES.values() ) {
+      String keypattern = String.format( format, property.getKey() );
+      String value      = property.getValueAsText( properties, nullvalue );
+      result.put( keypattern, value );
+    }
+    return result;
+  }
+
 } /* ENDCLASS */

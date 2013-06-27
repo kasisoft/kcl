@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.constants;
 
+import com.kasisoft.libs.common.util.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -36,36 +38,47 @@ public class CommonPropertyTest {
   
   @DataProvider(name="createProperties")
   public Object[][] createProperties() {
-    CommonProperty[] properties = CommonProperty.values();
-    Object[][]       result     = new Object[ properties.length ][];
-    for( int i = 0; i < properties.length; i++ ) {
-      result[i] = new Object[] { properties[i] };
-    }
+    Object[][] result = new Object[][] {
+      { CommonProperty.Application },
+      { CommonProperty.BufferCount },
+      { CommonProperty.IoRetries   },
+      { CommonProperty.TempDir     }
+    };
     return result;
   }
-  
+
+  @DataProvider(name="createInvalidProperties")
+  public Object[][] createInvalidProperties() {
+    Object[][] result = new Object[][] {
+      { CommonProperty.BufferCount },
+      { CommonProperty.IoRetries   },
+      { CommonProperty.TempDir     }
+    };
+    return result;
+  }
+
   @Test
   public void checkMissingProperties() {
-    Integer ioretries   = CommonProperty.IoRetries.getValue( noproperties, false );
+    Integer ioretries   = CommonProperty.IoRetries.getValue( noproperties );
     Assert.assertEquals( ioretries, Integer.valueOf(5) );
-    Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties, false );
+    Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties );
     Assert.assertEquals( buffersize, Integer.valueOf(8192) );
-    File    tempdir     = CommonProperty.TempDir.getValue( noproperties, false );
+    File    tempdir     = CommonProperty.TempDir.getValue( noproperties );
     Assert.assertEquals( tempdir, new File( SystemProperty.TempDir.getValue() ) );
   }
 
   @Test
   public void checkAvailableProperties() {
-    Integer ioretries   = CommonProperty.IoRetries.getValue( properties, false );
+    Integer ioretries   = CommonProperty.IoRetries.getValue( properties );
     Assert.assertEquals( ioretries, Integer.valueOf(20) );
-    Integer buffersize  = CommonProperty.BufferCount.getValue( properties, false );
+    Integer buffersize  = CommonProperty.BufferCount.getValue( properties );
     Assert.assertEquals( buffersize, Integer.valueOf(8192) );
-    File    tempdir     = CommonProperty.TempDir.getValue( properties, false );
+    File    tempdir     = CommonProperty.TempDir.getValue( properties );
     Assert.assertEquals( tempdir, new File( "D:/temp".replace( '/', File.separatorChar ) ) );
   }
 
-  @Test(dataProvider="createProperties", expectedExceptions={ClassCastException.class})
-  public void invalidUsedProperties( CommonProperty property ) {
+  @Test(dataProvider="createInvalidProperties", expectedExceptions={ClassCastException.class})
+  public void invalidUsedProperties( TypedProperty<Float> property ) {
     @SuppressWarnings("unused")
     Float floatvalue = property.getValue();
     Assert.fail( "This part should never be executed." );
