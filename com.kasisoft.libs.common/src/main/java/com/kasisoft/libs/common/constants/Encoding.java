@@ -24,14 +24,24 @@ public final class Encoding {
    * @spec [27-Jul-2013:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
    */
   
-  public static final Encoding ASCII       = new Encoding( "US-ASCII"    , false , null                  );
-  public static final Encoding UTF8        = new Encoding( "UTF-8"       , false , ByteOrderMark.UTF8    );
-  public static final Encoding UTF16       = new Encoding( "UTF-16"      , true  , null                  );
-  public static final Encoding UTF16BE     = new Encoding( "UTF-16BE"    , false , ByteOrderMark.UTF16BE );
-  public static final Encoding UTF16LE     = new Encoding( "UTF-16LE"    , false , ByteOrderMark.UTF16LE );
-  public static final Encoding ISO88591    = new Encoding( "ISO-8859-1"  , false , null                  );
+  public static final Encoding ASCII;
+  public static final Encoding UTF8;
+  public static final Encoding UTF16;
+  public static final Encoding UTF16BE;
+  public static final Encoding UTF16LE;
+  public static final Encoding ISO88591;
   
-  private static Map<String,Encoding>   ENCODINGS = null;
+  private static final Map<String,Encoding>   ENCODINGS;
+  
+  static {
+    ENCODINGS   = new Hashtable<>();
+    ASCII       = new Encoding( "US-ASCII"    , false , null                  );
+    UTF8        = new Encoding( "UTF-8"       , false , ByteOrderMark.UTF8    );
+    UTF16       = new Encoding( "UTF-16"      , true  , null                  );
+    UTF16BE     = new Encoding( "UTF-16BE"    , false , ByteOrderMark.UTF16BE );
+    UTF16LE     = new Encoding( "UTF-16LE"    , false , ByteOrderMark.UTF16LE );
+    ISO88591    = new Encoding( "ISO-8859-1"  , false , null                  );
+  }
   
   private String          encoding;
   private boolean         bom;
@@ -48,12 +58,7 @@ public final class Encoding {
     encoding      = key;
     bom           = requiresbom;
     byteordermark = mark;
-    synchronized( Encoding.class ) {
-      if( ENCODINGS == null ) {
-        ENCODINGS = new Hashtable<>();
-      }
-      ENCODINGS.put( key, this );
-    }
+    ENCODINGS.put( key, this );
   }
   
   /**
@@ -323,7 +328,7 @@ public final class Encoding {
   }
 
   public static final Encoding[] values() {
-    return (Encoding[]) ENCODINGS.values().toArray();
+    return ENCODINGS.values().toArray( new Encoding[ ENCODINGS.size() ] );
   }
   
   /**

@@ -34,4 +34,30 @@ public class EncodingTest {
     Assert.assertEquals( encoded, bytes );
   }
   
+  @Test
+  public void values() {
+    Assert.assertNotNull( Encoding.values() );
+  }
+
+  @Test
+  public void getDefault() {
+    Assert.assertNotNull( Encoding.getDefault() );
+  }
+
+  @DataProvider(name="valueByNameData")
+  public Object[][] valueByNameData() {
+    return new Object[][] {
+      { Encoding . UTF8    . getEncoding(), Encoding . UTF8    },  
+      { Encoding . UTF16   . getEncoding(), Encoding . UTF16   },
+      { Encoding . UTF16BE . getEncoding(), Encoding . UTF16BE },
+      { Encoding . UTF16LE . getEncoding(), Encoding . UTF16LE },
+      { "Bibo"                            , null               },
+    };
+  }
+
+  @Test(dataProvider="valueByNameData")
+  public void valueByName( String name, Encoding expected ) {
+    Assert.assertEquals( Encoding.valueByName( name ), expected );
+  }
+  
 } /* ENDCLASS */
