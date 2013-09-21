@@ -55,8 +55,9 @@ public class I18NSupport {
     if( modifier != MODIFIERS ) {
       return false;
     }
-    I18N i18nmessage = field.getAnnotation( I18N.class );
-    return (i18nmessage != null) && (field.getType() == String.class);
+    I18N    i18nmessage = field.getAnnotation( I18N.class );
+    boolean validtype   = (field.getType() == String.class) || (field.getType() == I18NFormatter.class);
+    return (i18nmessage != null) && validtype;
   }
   
   /**
@@ -126,7 +127,11 @@ public class I18NSupport {
         value            = i18ndefault.value();
       }
       try {
-        field.set( null, value );
+        if( field.getType() == String.class ) {
+          field.set( null, value );
+        } else {
+          field.set( null, new I18NFormatter( value ) );
+        }
       } catch( Exception ex ) {
         throw new FailureException( FailureCode.Reflections, ex );
       }

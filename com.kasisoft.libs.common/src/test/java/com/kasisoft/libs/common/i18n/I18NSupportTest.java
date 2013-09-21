@@ -44,4 +44,16 @@ public class I18NSupportTest {
     Assert.assertEquals( Messages3.m4, "correct"       );
   }
 
+  public void correctMessages4() {
+    
+    Assert.assertEquals( Messages4.m0, "Default.0" );
+    Assert.assertEquals( Messages4.m1, "Default.1" );
+    Assert.assertEquals( Messages4.m3, "Default.3" );
+    Assert.assertEquals( Messages4.m4, "Default.4" );
+    
+    Assert.assertEquals( Messages4.m2.toString(), "Default.%s.2" );
+    Assert.assertEquals( Messages4.m2.format( "test" ), "Default.test.2" );
+    
+  }
+
 } /* ENDCLASS */
