@@ -55,9 +55,7 @@ public class I18NSupport {
     if( modifier != MODIFIERS ) {
       return false;
     }
-    I18N    i18nmessage = field.getAnnotation( I18N.class );
-    boolean validtype   = (field.getType() == String.class) || (field.getType() == I18NFormatter.class);
-    return (i18nmessage != null) && validtype;
+    return (field.getType() == String.class) || (field.getType() == I18NFormatter.class);
   }
   
   /**
@@ -124,16 +122,20 @@ public class I18NSupport {
         value = translations.getProperty( property );
       } else {
         I18N i18ndefault = field.getAnnotation( I18N.class );
-        value            = i18ndefault.value();
-      }
-      try {
-        if( field.getType() == String.class ) {
-          field.set( null, value );
-        } else {
-          field.set( null, new I18NFormatter( value ) );
+        if( i18ndefault != null ) {
+          value = i18ndefault.value();
         }
-      } catch( Exception ex ) {
-        throw new FailureException( FailureCode.Reflections, ex );
+      }
+      if( value != null ) {
+        try {
+          if( field.getType() == String.class ) {
+            field.set( null, value );
+          } else {
+            field.set( null, new I18NFormatter( value ) );
+          }
+        } catch( Exception ex ) {
+          throw new FailureException( FailureCode.Reflections, ex );
+        }
       }
     }
   }
