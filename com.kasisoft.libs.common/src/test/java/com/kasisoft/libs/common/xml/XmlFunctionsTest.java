@@ -69,7 +69,21 @@ public class XmlFunctionsTest {
     Assert.assertNotNull( children );
     Assert.assertEquals( children.getLength(), 1 );
     Element title = (Element) children.item(0);
-    Assert.assertEquals( title.getTextContent(), "Blöde Schuhe" );
+    Assert.assertEquals( getText( title ), "Blöde Schuhe" );
+  }
+
+  private String getText( Element element ) {
+    StringBuilder builder  = new StringBuilder();
+    NodeList      children = element.getChildNodes();
+    if( children != null ) {
+      for( int i = 0; i < children.getLength(); i++ ) {
+        Node node = children.item(i);
+        if( node.getNodeType() == Node.TEXT_NODE ) {
+          builder.append( ((Text) node).getNodeValue() );
+        }
+      }
+    }
+    return builder.toString();
   }
   
   @Test

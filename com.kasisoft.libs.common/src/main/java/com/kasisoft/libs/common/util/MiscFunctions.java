@@ -529,10 +529,11 @@ public class MiscFunctions {
    */
   public static final <T extends Serializable> T clone( T source ) {
     if( source != null ) {
-      try(
-        ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-        ObjectOutputStream    objectout = new ObjectOutputStream( byteout );
-      ) {
+      ByteArrayOutputStream byteout   = null;
+      ObjectOutputStream    objectout = null;
+      try {
+        byteout   = new ByteArrayOutputStream();
+        objectout = new ObjectOutputStream( byteout );
         objectout.writeObject( source );
         objectout.flush();
         objectout.close();

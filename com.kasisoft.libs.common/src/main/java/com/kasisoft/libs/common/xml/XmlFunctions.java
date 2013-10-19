@@ -27,6 +27,8 @@ import java.net.*;
 
 import java.io.*;
 
+import java.lang.reflect.*;
+
 /**
  * Collection of xml related functions.
  */
@@ -122,7 +124,7 @@ public final class XmlFunctions {
    * @param resolver        Resolver for entities. Maybe <code>null</code>.
    * @param validate        <code>true</code> <=> Validates the document if possible.
    * @param xmlnamespaces   <code>true</code> <=> Recognize XML namespaces.
-   * @param xincludes       <code>true</code> <=> Recognize XML includes.
+   * @param xincludes       <code>true</code> <=> Recognize XML includes (only supported with JRE 1.7+).
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
@@ -141,7 +143,12 @@ public final class XmlFunctions {
       DocumentBuilderFactory factory    = DocumentBuilderFactory.newInstance();
       factory . setNamespaceAware ( xmlnamespaces );
       factory . setValidating     ( validate      );
-      factory . setXIncludeAware  ( xincludes     );
+      try {
+        Method method = factory.getClass().getMethod( "XIncludeAware", Boolean.TYPE );
+        method.invoke( factory, Boolean.valueOf( xincludes ) );
+      } catch( Exception ex ) {
+        // no effect here
+      }
       DocumentBuilder        docbuilder = factory.newDocumentBuilder();
       XmlErrorHandler     newhandler = null;
       if( resolver != null ) {
@@ -348,7 +355,7 @@ public final class XmlFunctions {
   public static final Element createElement( Document doc, String tag, String content, String ... attrs ) {
     Element result = doc.createElement( tag );
     if( content != null ) {
-      result.setTextContent( content );
+      result.appendChild( doc.createTextNode( content ) );
     }
     if( attrs != null ) {
       for( int i = 0; i < attrs.length; i += 2 ) {

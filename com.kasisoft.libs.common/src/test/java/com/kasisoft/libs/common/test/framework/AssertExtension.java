@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.test.framework;
 
+import com.kasisoft.libs.common.util.*;
+
 import org.testng.*;
 
 import java.util.*;
@@ -973,13 +975,17 @@ public class AssertExtension {
   }
   
   private static final byte[] loadFile(File file) {
-    byte[] result = new byte[ (int) file.length() ];
-    try( InputStream instream = new FileInputStream( file ) ) {
+    byte[]      result   = new byte[ (int) file.length() ];
+    InputStream instream = null;
+    try {
+      instream = new FileInputStream( file );
       if(instream.read(result) != result.length) {
         Assert.fail("Couldn't read data from file '" + file + "' !");
       }
     } catch( IOException ex ) {
       Assert.fail("File loading fails. Cause: " + ex.getMessage());
+    } finally {
+      MiscFunctions.close( instream );
     }
     return result;
   }

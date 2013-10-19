@@ -57,8 +57,10 @@ public class UnzipRunnable extends AbstractRunnable {
   protected void execute() {
     
     byte[] buffer  = IoFunctions.allocateBytes( buffersize );
-    try( ZipFile zipfile = new ZipFile( zip ) ) {
+    ZipFile zipfile = null;
+    try {
 
+      zipfile                                 = new ZipFile( zip );
       Enumeration<? extends ZipEntry> entries = zipfile.entries();
       while( (! isStopped()) && entries.hasMoreElements() ) {
         
