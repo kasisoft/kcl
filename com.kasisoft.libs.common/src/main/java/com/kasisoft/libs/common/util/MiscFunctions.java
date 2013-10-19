@@ -147,9 +147,9 @@ public class MiscFunctions {
   /**
    * Tries to find a char sequence within a data block.
    * 
-   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param buffer     The data block being investigated. Not <code>null</code>.
    * @param sequence   The char sequence to search for. Not <code>null</code>.
-   * @param offset     The offset where to begin the search.
+   * @param pos        The offset where to begin the search.
    * 
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
