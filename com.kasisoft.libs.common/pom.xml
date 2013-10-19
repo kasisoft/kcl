@@ -5,15 +5,25 @@
   <artifactId>com.kasisoft.libs.common</artifactId>
   <name>KCL :: Kasisoft Common Library</name>
   <description>Collection of general purpose functionalities.</description>
+
   <parent>
     <groupId>com.kasisoft</groupId>
     <artifactId>com.kasisoft.libs.common.parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <relativePath>../com.kasisoft.libs.common.parent/pom.xml</relativePath>
   </parent>
-  
+
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <compilerVersion>${java.version}</compilerVersion>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -22,31 +32,6 @@
             <addMavenDescriptor>false</addMavenDescriptor>
           </archive>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagBase>${svnLocation}/tags</tagBase>
-          <!-- [MRELEASE-263] -->
-          <mavenExecutorId>forked-path</mavenExecutorId>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerId>eclipse</compilerId>
-          <source>${java.source.version}</source>
-          <target>${java.target.version}</target>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-compiler-eclipse</artifactId>
-            <version>2.0</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -101,9 +86,26 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <tags>
+            <tag>
+              <name>spec</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>note</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>todo</name>
+              <placement>X</placement>
+            </tag>
+          </tags>
+        </configuration>
       </plugin>
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -127,6 +129,7 @@
       <artifactId>cobertura</artifactId>
     </dependency>
   </dependencies>
+
   <reporting>
     <plugins>
       <plugin>
@@ -141,4 +144,5 @@
       </plugin>
     </plugins>
   </reporting>
+  
 </project>
