@@ -50,7 +50,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class TypedProperty<T> {
 
-  private static final Map<String,TypedProperty<?>>   TYPEDPROPERTIES = new Hashtable<>();
+  private static final Map<String,TypedProperty<?>>   TYPEDPROPERTIES = new Hashtable<String,TypedProperty<?>>();
   
   private String                  key;
   private String                  description;
@@ -418,7 +418,7 @@ public class TypedProperty<T> {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static final Map<String,String> createReplacementMap( Map<String,String> properties, String format, String nullvalue ) {
-    Map<String,String> result = new HashMap<>();
+    Map<String,String> result = new HashMap<String,String>();
     for( TypedProperty property : TYPEDPROPERTIES.values() ) {
       String keypattern = String.format( format, property.getKey() );
       String value      = property.getValueAsText( properties, nullvalue );
@@ -439,7 +439,7 @@ public class TypedProperty<T> {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static final Map<String,String> createReplacementMap( Properties properties, String format, String nullvalue ) {
-    Map<String,String> result = new HashMap<>();
+    Map<String,String> result = new HashMap<String,String>();
     for( TypedProperty property : TYPEDPROPERTIES.values() ) {
       String keypattern = String.format( format, property.getKey() );
       String value      = property.getValueAsText( properties, nullvalue );

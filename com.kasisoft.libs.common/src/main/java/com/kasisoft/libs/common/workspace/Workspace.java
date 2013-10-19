@@ -199,7 +199,7 @@ public final class Workspace {
 
   /**
    * Returns a Workspace instance used for the current runtime. If the property 
-   * {@link CommonLibraryConstants#PROP_APPLICATIONFILE} has not been set, it will return a dummy instance always 
+   * {@link "CommonLibraryConstants#PROP_APPLICATIONFILE"} has not been set, it will return a dummy instance always 
    * relying on default values.
    * 
    * @return   A Workspace instance used for the current runtime. Not <code>null</code>.
@@ -213,7 +213,7 @@ public final class Workspace {
   /**
    * Returns a Workspace instance used for the current runtime. This function primarily makes use of the supplied
    * location <code>settings</code>. If this parameter is <code>null</code> the property
-   * {@link CommonLibraryConstants#PROP_APPLICATIONFILE} will be used. If this property also has not been set a dummy
+   * {@link "CommonLibraryConstants#PROP_APPLICATIONFILE"} will be used. If this property also has not been set a dummy
    * instance will be created.
    * 
    * @note [19-Dec-2010:KASI]   Supplying a parameter won't have any effect if an instance already has been created so

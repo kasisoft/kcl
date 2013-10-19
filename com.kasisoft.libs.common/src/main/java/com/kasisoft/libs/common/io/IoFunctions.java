@@ -761,7 +761,7 @@ public class IoFunctions {
   /**
    * Calculates the CRC32 checksum for the content delivered by a File.
    * 
-   * @param instream   The stream that delivers the input. Not <code>null</code>.
+   * @param file   The File that delivers the input. Not <code>null</code>.
    * 
    * @return   The CRC32 checksum value.
    * 

@@ -29,7 +29,7 @@ public class FontPool {
    */
   public FontPool() {
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment(); 
-    fonts                   = new Hashtable<>();
+    fonts                   = new Hashtable<String,Font>();
     familynames             = ArrayFunctions.addAll( new ArrayList<String>(), env.getAvailableFontFamilyNames() );
     Font[] fontlist         = env.getAllFonts();
     for( int i = 0; i < fontlist.length; i++ ) {

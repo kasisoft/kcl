@@ -26,7 +26,7 @@ public class Bucket<T> {
    * @param bucketfactory   The factory that will be used to create/reset new objects. Not <code>null</code>.
    */
   public Bucket( BucketFactory<T> bucketfactory ) {
-    references  = new LinkedList<>();
+    references  = new LinkedList<SoftReference<T>>();
     factory     = bucketfactory;
   }
   

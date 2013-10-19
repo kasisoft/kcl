@@ -859,7 +859,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   }
 
   /**
-   * @see {@link String#replace(char, char)}
+   * @see String#replace(char, char)
    * 
    * @param from   The character which has to be replaced.
    * @param to     The character which has to be used instead.

@@ -23,7 +23,7 @@ public class BucketTest {
   @Test
   public void runAllocations() {
     
-    Bucket<List<String>> bucket = new Bucket<>( new ListBucketFactory<String>() );
+    Bucket<List<String>> bucket = new Bucket<List<String>>( new ListBucketFactory<String>() );
 
     Assert.assertEquals( 0, bucket.getSize() );
     

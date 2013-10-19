@@ -29,7 +29,7 @@ public class Predefined {
    * @return   A Filter performing an OR operation on both parameters. Not <code>null</code>.
    */
   public static final <T> Filter<T> or( Filter<T> ... filters ) {
-    return new Or<>( filters );
+    return new Or<T>( filters );
   }
 
   /**
@@ -40,18 +40,18 @@ public class Predefined {
    * @return   A Filter performing an AND operation on both parameters. Not <code>null</code>.
    */
   public static final <T> Filter<T> and( Filter<T> ... filters ) {
-    return new And<>( filters );
+    return new And<T>( filters );
   }
 
   /**
    * Creates a new filter which combines the parameter with a NOT operation.
    * 
-   * @param left    One filter to be used. Not <code>null</code>.
+   * @param inner    One filter to be used. Not <code>null</code>.
    * 
    * @return   A Filter performing a NOT operation on the parameters. Not <code>null</code>.
    */
   public static final <T> Filter<T> not( Filter<T> inner ) {
-    return new Not<>( inner );
+    return new Not<T>( inner );
   }
   
   /**
@@ -62,7 +62,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static final <T> Transform<T,String> toStringTransform() {
-    return new ToString<>();
+    return new ToString<T>();
   }
 
   /**
@@ -74,7 +74,7 @@ public class Predefined {
    * @return   A Transform which combines the supplied Transform instances. Not <code>null</code>.
    */
   public static final <S1,S2,S3> Transform<S1,S3> joinTransforms( Transform<S1,S2> t1, Transform<S2,S3> t2 ) {
-    return new Join<>( t1, t2 );
+    return new Join<S1,S2,S3>( t1, t2 );
   }
   
   /**
@@ -88,7 +88,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static final <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( Class<K> keyclass, Class<V> valueclass ) {
-    return new KeyToString<>();
+    return new KeyToString<K,V>();
   }
 
   /**
@@ -99,7 +99,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static final <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform() {
-    return new ValueToString<>();
+    return new ValueToString<K,V>();
   }
 
   /** 

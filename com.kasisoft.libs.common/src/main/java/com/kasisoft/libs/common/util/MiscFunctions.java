@@ -412,7 +412,7 @@ public class MiscFunctions {
    * method can be configured using the supplied flag.
    * 
    * @param fail        <code>true</code> <=> If the creation of the instance fails a FailureException is generation 
-   *                    with the constant code {@link CommonLibraryConstants#RTE_REFLECTIONS}. Otherwise this method 
+   *                    with the constant code {@link "CommonLibraryConstants#RTE_REFLECTIONS"}. Otherwise this method 
    *                    returns normally with the value <code>null</code>.
    * @param classname   The class that shall be instantiated. Neither <code>null</code> nor empty.
    * @param args        The arguments which have to be passed to the constructor. If omitted the default constructor 

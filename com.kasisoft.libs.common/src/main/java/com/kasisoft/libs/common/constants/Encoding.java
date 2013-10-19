@@ -34,7 +34,7 @@ public final class Encoding {
   private static final Map<String,Encoding>   ENCODINGS;
   
   static {
-    ENCODINGS   = new Hashtable<>();
+    ENCODINGS   = new Hashtable<String,Encoding>();
     ASCII       = new Encoding( "US-ASCII"    , false , null                  );
     UTF8        = new Encoding( "UTF-8"       , false , ByteOrderMark.UTF8    );
     UTF16       = new Encoding( "UTF-16"      , true  , null                  );

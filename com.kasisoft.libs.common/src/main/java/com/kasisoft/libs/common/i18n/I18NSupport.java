@@ -28,7 +28,7 @@ import java.lang.reflect.*;
  * <pre>
  * public class MyTexts {
  * 
- *    @I18N("You made a fault.")
+ *    I18N("You made a fault.")
  *    public static String   message;
  * 
  *    static {
