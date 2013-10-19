@@ -75,6 +75,7 @@ public class CharCopierRunnableTest {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
     CharCopierRunnable runnable = new CharCopierRunnable( buffersize ) {
+      @Override
       protected void progress( CopyingProgress progress ) {
         if( progress.getCurrent() > 10 ) {
           throw new RuntimeException();
@@ -92,6 +93,7 @@ public class CharCopierRunnableTest {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
     CharCopierRunnable runnable = new CharCopierRunnable( buffersize ) {
+      @Override
       protected void progress( CopyingProgress progress ) {
         if( progress.getCurrent() > 10 ) {
           throw new RuntimeException();

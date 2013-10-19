@@ -71,6 +71,7 @@ public class ByteCopierRunnableTest {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize ) {
+      @Override
       protected void progress( CopyingProgress progress ) {
         if( progress.getCurrent() > 10 ) {
           throw new RuntimeException();
@@ -88,6 +89,7 @@ public class ByteCopierRunnableTest {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
     ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize ) {
+      @Override
       protected void progress( CopyingProgress progress ) {
         if( progress.getCurrent() > 10 ) {
           throw new RuntimeException();

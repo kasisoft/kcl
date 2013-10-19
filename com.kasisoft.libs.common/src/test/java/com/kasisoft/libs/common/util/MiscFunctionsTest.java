@@ -227,6 +227,7 @@ public class MiscFunctionsTest {
   public void joinThread() {
     final Tupel<Boolean> outparam = new Tupel<Boolean>( Boolean.FALSE );
     Runnable runnable = new Runnable() {
+      @Override
       public void run() {
         for( int i = 0; i < 10; i++ ) {
           try {

@@ -164,6 +164,7 @@ public class SwingFunctions {
    */
   public static final void updateComponentTreeUI( final Component component ) {
     Runnable runnable = new Runnable() {
+      @Override
       public void run() {
         SwingUtilities.updateComponentTreeUI( component );
       }

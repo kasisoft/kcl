@@ -24,6 +24,7 @@ public class NetFunctionsTest {
   public void waitAndSendMessage() throws InterruptedException {
     
     Thread t1 = new Thread() {
+      @Override
       public void run() {
         byte[] message = NetFunctions.waitForMessage( 17175 );
         Assert.assertEquals( message, "MY MESSAGE".getBytes() );
@@ -37,6 +38,7 @@ public class NetFunctionsTest {
     // test with a timeout
     long   before = System.currentTimeMillis();
     Thread t2     = new Thread() {
+      @Override
       public void run() {
         byte[] message = NetFunctions.waitForMessage( 17175, Integer.valueOf( (int) TimeUnit.Second.amount( 30 ) ) );
         Assert.assertNull( message );

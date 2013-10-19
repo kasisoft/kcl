@@ -76,6 +76,7 @@ public abstract class AbstractEventDispatcher<L,E> {
       final Object[] ls     = listeners.toArray();
       final Object   source = this;
       Runnable execution = new Runnable() {
+        @Override
         public void run() {
           for( Object listener : ls ) {
             try {

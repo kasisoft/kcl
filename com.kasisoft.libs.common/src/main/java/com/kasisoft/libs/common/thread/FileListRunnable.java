@@ -313,6 +313,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     
     private boolean   protect = false;
     
+    @Override
     public boolean add( T element ) {
       if( protect ) {
         return true;
