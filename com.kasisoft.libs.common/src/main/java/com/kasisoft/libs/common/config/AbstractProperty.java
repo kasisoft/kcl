@@ -95,10 +95,6 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
       // use the default value provided by this property
       result = instancedefault;
     }
-    if( (result == null) && required ) {
-      // damn, we need to complain here
-      throw new MissingPropertyException( key );
-    }
     return result;
   }
   
@@ -149,5 +145,5 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
       }
     }
   }
-  
+
 } /* ENDCLASS */

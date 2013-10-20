@@ -20,7 +20,7 @@ import java.util.*;
  * interface MyProperties {
  *   
  *   ...
- *   Property<URL> Website = new SimpleProperty<URL>( "website", new URLAdapter() );
+ *   SimpleProperty<URL> Website = new SimpleProperty<URL>( "website", new URLAdapter() );
  *   ...
  *   
  * }
@@ -97,7 +97,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( Map<String,String> properties ) {
-    return getTypedValue( getProperty( properties, false, getKey() ), getDefaultvalue() );
+    return checkForResult( getTypedValue( getProperty( properties, false, getKey() ), getDefaultvalue() ) );
   }
   
   /**
@@ -108,7 +108,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( Properties properties ) {
-    return getTypedValue( getProperty( properties, true, getKey() ), getDefaultvalue() );
+    return checkForResult( getTypedValue( getProperty( properties, true, getKey() ), getDefaultvalue() ) );
   }
 
   /**
@@ -124,7 +124,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
     if( result == null ) {
       result = getDefaultvalue();
     }
-    return result;
+    return checkForResult( result );
   }
   
   /**
@@ -140,7 +140,15 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
     if( result == null ) {
       result = getDefaultvalue();
     }
-    return result;
+    return checkForResult( result );
   }
 
+  private T checkForResult( T result ) {
+    if( (result == null) && isRequired() ) {
+      // damn, we need to complain here
+      throw new MissingPropertyException( getKey() );
+    }
+    return result;
+  }
+  
 } /* ENDCLASS */
