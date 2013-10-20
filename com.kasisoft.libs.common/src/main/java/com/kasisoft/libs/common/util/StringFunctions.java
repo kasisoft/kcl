@@ -401,7 +401,7 @@ public class StringFunctions {
     if( args == null ) {
       return "null";
     } else {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       if( args.length > 0 ) {
         buffer.append( toString( args[0] ) );
         for( int i = 1; i < args.length; i++ ) {
@@ -567,7 +567,7 @@ public class StringFunctions {
     if( delimiter == null ) {
       delimiter = "";
     }
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     for( int i = 0; i < args.length; i++ ) {
       if( (args[i] != null) && (args[i].length() > 0) ) {
         if( buffer.length() > 0 ) {

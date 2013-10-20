@@ -108,7 +108,7 @@ public class ZipTest {
     @Override
     public Map<String, Object> zip( Color color, Font font ) {
 
-      StringBuffer style = new StringBuffer();
+      StringBuilder style = new StringBuilder();
       if( (font.getStyle() & Font.ITALIC) != 0 ) {
         style.append( "italic" );
       }

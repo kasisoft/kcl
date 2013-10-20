@@ -15,9 +15,9 @@ import javax.swing.text.*;
  */
 public class KFilteringTextField extends KValidationTextField {
 
-  private String         allowed;
-  private StringBuffer   buffer;
-  private CustomFilter   filter;
+  private String          allowed;
+  private StringBuilder   buffer;
+  private CustomFilter    filter;
   
   /**
    * Sets up this field to filter some content.
@@ -25,7 +25,7 @@ public class KFilteringTextField extends KValidationTextField {
   public KFilteringTextField() {
     super();
     allowed = null;
-    buffer  = new StringBuffer();
+    buffer  = new StringBuilder();
     filter  = new CustomFilter( this );
     ((AbstractDocument) super.getDocument()).setDocumentFilter( filter );
   }

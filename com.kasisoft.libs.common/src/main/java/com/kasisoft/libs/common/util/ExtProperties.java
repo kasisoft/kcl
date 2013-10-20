@@ -931,7 +931,7 @@ public class ExtProperties {
     private ExtProperties   pthis;
     private String          varname;
     private Matcher         matcher;
-    private StringBuffer    buffer;
+    private StringBuilder   buffer;
     
     /**
      * Initialises this value using the supplied value.
@@ -943,7 +943,7 @@ public class ExtProperties {
       pthis   = fac;
       varname = String.format( pthis.varformatter, "", key );
       matcher = pthis.varselector.matcher( super.content );
-      buffer  = new StringBuffer();
+      buffer  = new StringBuilder();
     }
     
     /**

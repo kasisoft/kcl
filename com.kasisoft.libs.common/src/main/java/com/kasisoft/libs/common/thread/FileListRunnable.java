@@ -212,7 +212,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     filereceiver.protect  = ! incfiles;
     dirreceiver.protect   = ! incdirs;
     
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     for( File resource : roots ) {
       
       if( isStopped() ) {
@@ -234,7 +234,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
    * @param path    A buffer providing the relative path. Not <code>null</code>.
    * @param dir     The directory that is supposed to be processed. Not <code>null</code>.
    */
-  private void iterateDir( List<File> files, List<File> dirs, StringBuffer path, File dir ) {
+  private void iterateDir( List<File> files, List<File> dirs, StringBuilder path, File dir ) {
     File[] children = dir.listFiles();
     if( children != null ) {
       for( File child : children ) {
@@ -254,7 +254,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
    * @param path      A buffer providing the relative path. Not <code>null</code>.
    * @param current   The resource that is supposed to be processed. Not <code>null</code>.
    */
-  private void iterate( List<File> files, List<File> dirs, StringBuffer path, File current ) {
+  private void iterate( List<File> files, List<File> dirs, StringBuilder path, File current ) {
     int oldlength = path.length();
     path.append( current.getName() );
     if( accept( current, path ) ) {
@@ -279,7 +279,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
    * 
    * @return   <code>true</code> <=> The supplied file is acceptable.
    */
-  private boolean accept( File file, StringBuffer path ) {
+  private boolean accept( File file, StringBuilder path ) {
     boolean result = true;
     if( filter != null ) {
       result = filter.accept( file );

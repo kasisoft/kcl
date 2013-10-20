@@ -83,7 +83,7 @@ public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
 
   protected String marshalListImpl( Object ... elements ) throws Exception {
     if( elements.length > 0 ) {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for( int i = 0; i < elements.length; i++ ) {
         buffer.append( delimiter );
         buffer.append( elements[i] );

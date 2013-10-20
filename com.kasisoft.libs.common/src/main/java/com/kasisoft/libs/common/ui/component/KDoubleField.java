@@ -21,7 +21,7 @@ public class KDoubleField extends KFilteringTextField {
   private double                  minimum;
   private double                  maximum;
   private Double                  value;
-  private StringBuffer            buffer;
+  private StringBuilder           buffer;
   private ChangeEventDispatcher   changeeventdispatcher;
   
   /**
@@ -41,7 +41,7 @@ public class KDoubleField extends KFilteringTextField {
     super();
     value                 = null;
     changeeventdispatcher = new ChangeEventDispatcher();
-    buffer                = new StringBuffer();
+    buffer                = new StringBuilder();
     minimum               = min == null ? -Double.MAX_VALUE : min.doubleValue();
     maximum               = max == null ?  Double.MAX_VALUE : max.doubleValue();
     if( minimum >= 0 ) {

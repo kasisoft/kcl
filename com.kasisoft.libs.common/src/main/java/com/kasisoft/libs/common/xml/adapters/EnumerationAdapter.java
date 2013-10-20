@@ -29,7 +29,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
   private Class<T>        enumtype;
   private Map<String,T>   values;
   private boolean         ignorecase;
-  private StringBuffer    allowed;
+  private String          allowed;
 
   /**
    * Initializes this adapter using the supplied enumeration type.
@@ -75,18 +75,22 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
     super( handler, defval1, defval2 );
     enumtype    = type;
     ignorecase  = caseinsensitive;
-    allowed     = new StringBuffer();
     values      = new Hashtable<String,T>();
-    for( T value : enumtype.getEnumConstants() ) {
-      String text = String.valueOf( value );
-      if( allowed.length() > 0 ) {
-        allowed.append( "," );
+    allowed     = "";
+    T[] enums   = enumtype.getEnumConstants();
+    if( (enums != null) && (enums.length > 0) ) {
+      StringBuilder builder = new StringBuilder();
+      for( int i = 0; i < enums.length; i++ ) {
+        builder.append(',');
+        String text = String.valueOf( enums[i] );
+        builder.append( text );
+        if( ignorecase ) {
+          text = text.toLowerCase();
+        }
+        values.put( text, enums[i] ); 
       }
-      allowed.append( text );
-      if( ignorecase ) {
-        text = text.toLowerCase();
-      }
-      values.put( text, value );
+      builder.deleteCharAt(0);
+      allowed = builder.toString();
     }
   }
   

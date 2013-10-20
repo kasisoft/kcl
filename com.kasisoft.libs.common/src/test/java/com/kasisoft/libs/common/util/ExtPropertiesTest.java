@@ -69,8 +69,8 @@ public class ExtPropertiesTest {
    * @return   The new instance of the allowing to access the properties. Not <code>null</code>.
    */
   private ExtProperties setupContent( File file, String delimiter, String commentintro, boolean emptyisnull ) {
-    List<String> text     = IoFunctions.readText( file, Encoding.UTF8 );
-    StringBuffer buffer   = new StringBuffer();
+    List<String>  text   = IoFunctions.readText( file, Encoding.UTF8 );
+    StringBuilder buffer = new StringBuilder();
     for( int i = 0; i < text.size(); i++ ) {
       String line = text.get(i);
       line        = StringFunctions.replace( line, "~", commentintro );

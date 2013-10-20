@@ -336,7 +336,7 @@ public class IoFunctionsTest {
     List<String> loaded2    = IoFunctions.readText( tempfile1, false, true, Encoding.UTF8 );
     Assert.assertEquals( loaded2, lines );
     
-    StringBuffer buffer     = new StringBuffer();
+    StringBuilder buffer    = new StringBuilder();
     for( int i = 0; i < lines.size(); i++ ) {
       buffer.append( lines.get(i) );
       buffer.append( "\n" );

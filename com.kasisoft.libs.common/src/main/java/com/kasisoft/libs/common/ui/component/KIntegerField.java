@@ -22,7 +22,7 @@ public class KIntegerField extends KFilteringTextField {
   private long                    minimum;
   private long                    maximum;
   private Long                    value;
-  private StringBuffer            buffer;
+  private StringBuilder           buffer;
   private ChangeEventDispatcher   changeeventdispatcher;
   
   /**
@@ -63,7 +63,7 @@ public class KIntegerField extends KFilteringTextField {
     super();
     value                 = null;
     changeeventdispatcher = new ChangeEventDispatcher();
-    buffer                = new StringBuffer();
+    buffer                = new StringBuilder();
     minimum               = min == null ? Long.MIN_VALUE : min.intValue();
     maximum               = max == null ? Long.MAX_VALUE : max.intValue();
     if( minimum >= 0 ) {
