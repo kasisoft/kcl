@@ -81,6 +81,18 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
     }
     return null;
   }
+  
+  /**
+   * Like {@link #marshal(Object) with the difference that this function provides the cast implicitly. Therefore you 
+   * need to be cautious as the supplied object might cause a ClassCastException.
+   * 
+   * @param v   The To-Type instance to convert. Maybe <code>null</code>.
+   * 
+   * @return   The From-Type instance. Maybe <code>null</code>.
+   */
+  public final F marshalObject( Object v ) {
+    return marshal( (T) v );
+  }
 
   /**
    * @see #marshal(Object)
