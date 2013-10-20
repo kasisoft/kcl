@@ -18,7 +18,6 @@ import java.io.*;
  * implementation.
  */
 public class EnhancedFileFilter extends BasicFileFilter {
-
   
   private static final String[] DEFAULT_EXCLUDEDDIRS = new String[] {
     ".git", ".svn", "_svn", "CVS"
