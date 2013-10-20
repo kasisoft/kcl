@@ -12,6 +12,8 @@ package com.kasisoft.libs.common.xml.adapters;
 import com.kasisoft.libs.common.functionality.*;
 import com.kasisoft.libs.common.util.*;
 
+import java.util.*;
+
 /**
  * Simple adapter implementation which is <code>null</code> safe and allows to convert datatypes if possible. 
  * This adapter is similar to the {@link XmlToTypeAdapter} with the following differences:
@@ -81,6 +83,20 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
   }
 
   /**
+   * @see #marshal(Object)
+   */
+  public List<F> marshal( List<T> v ) {
+    if( v != null ) {
+      List<F> result = new ArrayList<F>();
+      for( int i = 0; i < v.size(); i++ ) {
+        result.add( marshal( v.get(i) ) );
+      }
+      return result;
+    }
+    return null;
+  }
+  
+  /**
    * Converts the supplied From-Type into the expected To-Type.
    * 
    * @param v   The From-Type instance to convert. Maybe <code>null</code>.
@@ -98,12 +114,33 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
     }
     return null;
   }
+
+  /**
+   * @see #unmarshal(Object)
+   */
+  public List<T> unmarshal( List<F> v ) {
+    if( v != null ) {
+      List<T> result = new ArrayList<T>( v.size() );
+      for( int i = 0; i < v.size(); i++ ) {
+        result.add( map( v.get(i) ) );
+      }
+      return result;
+    }
+    return null;
+  }
   
   /**
    * {@inheritDoc}
    */
   @Override
   public final T map( F input ) {
+    return unmarshal( input );
+  }
+  
+  /**
+   * @see #map(List)
+   */
+  public List<T> map( List<F> input ) {
     return unmarshal( input );
   }
 
