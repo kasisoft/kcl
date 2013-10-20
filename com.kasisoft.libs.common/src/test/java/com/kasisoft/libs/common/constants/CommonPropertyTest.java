@@ -8,7 +8,7 @@
  */
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.config.*;
 
 import org.testng.annotations.*;
 
@@ -67,9 +67,9 @@ public class CommonPropertyTest {
   }
 
   @Test(dataProvider="createProperties", expectedExceptions={ClassCastException.class})
-  public void invalidUsedProperties( TypedProperty<Float> property ) {
+  public void invalidUsedProperties( SimpleProperty<Float> property ) {
     @SuppressWarnings("unused")
-    Float floatvalue = property.getValue();
+    Float floatvalue = property.getValue( System.getProperties() );
     Assert.fail( "This part should never be executed." );
   }
 

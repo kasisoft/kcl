@@ -8,7 +8,7 @@
  */
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.config.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.io.*;
@@ -24,8 +24,8 @@ import java.io.*;
  */
 public interface CommonProperty {
 
-  TypedProperty<Integer>  BufferCount = new TypedProperty<Integer> ( "com.kasisoft.libs.common#BUFFERCOUNT", new IntegerAdapter (), Integer.valueOf( 8192 ) );
-  TypedProperty<Integer>  IoRetries   = new TypedProperty<Integer> ( "com.kasisoft.libs.common#IORETRIES"  , new IntegerAdapter (), Integer.valueOf( 5 ) );
-  TypedProperty<File>     TempDir     = new TypedProperty<File>    ( "com.kasisoft.libs.common#TEMPDIR"    , new FileAdapter    (), new File( SystemProperty.TempDir.getValue() ) );
+  SimpleProperty<Integer>  BufferCount = new SimpleProperty<Integer> ( "com.kasisoft.libs.common#BUFFERCOUNT", new IntegerAdapter () ).withDefault( Integer.valueOf( 8192 ) );
+  SimpleProperty<Integer>  IoRetries   = new SimpleProperty<Integer> ( "com.kasisoft.libs.common#IORETRIES"  , new IntegerAdapter () ).withDefault( Integer.valueOf( 5 ) );
+  SimpleProperty<File>     TempDir     = new SimpleProperty<File>    ( "com.kasisoft.libs.common#TEMPDIR"    , new FileAdapter    () ).withDefault( new File( SystemProperty.TempDir.getValue() ) );
   
 } /* ENDENUM */

@@ -63,7 +63,7 @@ public class IoFunctionsTest {
   @Test
   public void allocateAndRelease() {
     
-    Integer defaultsize = CommonProperty.BufferCount.getValue();
+    Integer defaultsize = CommonProperty.BufferCount.getValue( System.getProperties() );
     byte[]  data1       = IoFunctions.allocateBytes( null );
     Assert.assertNotNull( data1 );
     Assert.assertTrue( data1.length >= defaultsize.intValue() );

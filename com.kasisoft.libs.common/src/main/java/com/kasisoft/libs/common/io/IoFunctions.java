@@ -157,7 +157,7 @@ public class IoFunctions {
     if( basename == null ) {
       basename  = "";
     }
-    File dir        = CommonProperty.TempDir.getValue();
+    File dir        = CommonProperty.TempDir.getValue( System.getProperties() );
     File candidate  = null;
     do {
       long number = (long) (System.currentTimeMillis() * Math.random());

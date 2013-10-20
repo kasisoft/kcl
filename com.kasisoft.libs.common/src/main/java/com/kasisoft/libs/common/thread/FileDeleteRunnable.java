@@ -46,7 +46,7 @@ public class FileDeleteRunnable extends FileListRunnable {
     
     List<File>  files       = getFiles();
     List<File>  directories = getDirectories();
-    int         retries     = CommonProperty.IoRetries.getValue().intValue();
+    int         retries     = CommonProperty.IoRetries.getValue( System.getProperties() ).intValue();
     retries                *= (files.size() + directories.size());
     
     // 1. delete all files

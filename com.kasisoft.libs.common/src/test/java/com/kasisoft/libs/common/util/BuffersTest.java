@@ -37,7 +37,7 @@ public class BuffersTest {
     Buffers<T> buffers    = Buffers.newBuffers( primitive );
     T          datablock1 = buffers.allocate();
     Assert.assertNotNull( datablock1 );
-    Integer    count      = CommonProperty.BufferCount.getValue();
+    Integer    count      = CommonProperty.BufferCount.getValue( System.getProperties() );
     Assert.assertTrue( primitive.length( datablock1 ) >= count.intValue() );
     T          datablock2 = buffers.allocate( null );
     Assert.assertNotNull( datablock2 );

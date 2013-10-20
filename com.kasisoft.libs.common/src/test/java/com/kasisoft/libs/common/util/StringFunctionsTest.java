@@ -27,7 +27,7 @@ public class StringFunctionsTest {
   public void allocateAndReleaseChars() {
     
     char[]  buffer1 = StringFunctions.allocateChars( null );
-    Integer count   = CommonProperty.BufferCount.getValue();
+    Integer count   = CommonProperty.BufferCount.getValue( System.getProperties() );
     Assert.assertTrue( buffer1.length >= count.intValue() );
     
     Integer size    = Integer.valueOf( 4552 );

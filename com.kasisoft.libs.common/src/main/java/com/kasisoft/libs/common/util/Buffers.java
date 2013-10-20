@@ -73,7 +73,7 @@ public class Buffers<T> {
   @SuppressWarnings("unchecked")
   public synchronized T allocate( Integer size ) {
     if( size == null ) {
-      size = CommonProperty.BufferCount.getValue();
+      size = CommonProperty.BufferCount.getValue( System.getProperties() );
     }
     int value  = size.intValue();
     T   result = getBlock( value );
