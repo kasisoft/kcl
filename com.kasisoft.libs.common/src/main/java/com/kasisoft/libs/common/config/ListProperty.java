@@ -1,5 +1,5 @@
 /**
- * Name........: MapProperty
+ * Name........: ListProperty
  * Description.: This type allows to easily make use of typed properties.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
@@ -23,7 +23,7 @@ import java.util.*;
  * interface MyProperties {
  *   
  *   ...
- *   MapProperty<URL> Website = new MapProperty<URL>( "website", new URLAdapter() );
+ *   ListProperty<URL> Website = new ListProperty<URL>( "website", new URLAdapter() );
  *   ...
  *   
  * }
@@ -37,8 +37,8 @@ import java.util.*;
  *   import static MyProperties.*;
  *   ...
  *   {
- *      Properties       props = ...
- *      Map<String,URL>  site  = Website.getValues( props );
+ *      Properties props = ...
+ *      List<URL>  sites = Website.getValues( props );
  *   }
  *   ...
  *   
@@ -47,12 +47,11 @@ import java.util.*;
  * If the {@link TypeAdapter} instance shall generate an exception it's advisable to make use of the 
  * {@link MissingPropertyException}.
  */
-public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty> {
+public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
 
-  private static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(.+)\\s*\\])";
+  private static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
 
-  private Map<String,T>   novalues;
-  private Pattern         pattern;
+  private Pattern   pattern;
   
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
@@ -61,10 +60,9 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public MapProperty( String property, TypeAdapter<String,T> typeadapter ) {
+  public ListProperty( String property, TypeAdapter<String,T> typeadapter ) {
     super( property, typeadapter, false );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
-    novalues = Collections.emptyMap();
   }
   
   /**
@@ -75,10 +73,9 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public MapProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
+  public ListProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
-    novalues = Collections.emptyMap();
   }
 
   /**
@@ -102,12 +99,12 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( Map<String,String> properties, Map<String,T> newvalue ) {
+  public void setValue( Map<String,String> properties, List<T> newvalue ) {
     removeProperties( properties.keySet() );
     if( newvalue != null ) {
-      for( Map.Entry<String,T> entry : newvalue.entrySet() ) {
-        String key = String.format( "%s[%s]", getKey(), entry.getKey() );
-        setProperty( properties, false, key, entry.getValue() );
+      for( int i = 0; i < newvalue.size(); i++ ) {
+        String key = String.format( "%s[%s]", getKey(), Integer.valueOf(i) );
+        setProperty( properties, false, key, newvalue.get(i) );
       }
     }
   }
@@ -118,12 +115,12 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( Properties properties, Map<String,T> newvalue ) {
+  public void setValue( Properties properties, List<T> newvalue ) {
     removeProperties( properties.keySet() );
     if( newvalue != null ) {
-      for( Map.Entry<String,T> entry : newvalue.entrySet() ) {
-        String key = String.format( "%s[%s]", getKey(), entry.getKey() );
-        setProperty( properties, true, key, entry.getValue() );
+      for( int i = 0; i < newvalue.size(); i++ ) {
+        String key = String.format( "%s[%s]", getKey(), Integer.valueOf(i) );
+        setProperty( properties, true, key, newvalue.get(i) );
       }
     }
   }
@@ -133,45 +130,21 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @param properties   The properties providing the current settings. Not <code>null</code>.
    * 
-   * @return   The value if there was one. Maybe <code>null</code>.
+   * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( Map<String,String> properties ) {
-    return getValue( properties, null );
-  }
-  
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * 
-   * @return   The value if there was one. Maybe <code>null</code>.
-   */
-  public Map<String,T> getValue( Properties properties ) {
-    return getValue( properties, null );
+  public List<T> getValue( Map<String,String> properties ) {
+    return getTypedValues( getStringValues( properties ) );
   }
 
   /**
    * Returns the current value provided by the supplied properties.
    * 
    * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( Map<String,String> properties, Map<String,T> defvalue ) {
-    return getTypedValues( getStringValues( properties ), defvalue );
-  }
-
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
-   * 
-   * @return   The value if there was one or the default value. Maybe <code>null</code>.
-   */
-  public Map<String,T> getValue( Properties properties, Map<String,T> defvalue ) {
-    return getTypedValues( getStringValues( properties ), defvalue );
+  public List<T> getValue( Properties properties ) {
+    return getTypedValues( getStringValues( properties ) );
   }
 
   /**
@@ -181,16 +154,22 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The textual value providing the value. Maybe <code>null</code>. 
    */
-  private Map<String,String> getStringValues( Map<String,String> properties ) {
-    Map<String,String> result = new HashMap<String,String>();
+  private List<String> getStringValues( Map<String,String> properties ) {
+    Map<Integer,String> result = new Hashtable<Integer,String>();
     for( Map.Entry<String,String> entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( entry.getKey() );
       if( matcher.matches() ) {
-        String key  = matcher.group(2);
-        result.put( key, StringFunctions.cleanup( entry.getValue() ) );
+        Integer index = Integer.valueOf( matcher.group(2) );
+        result.put( index, StringFunctions.cleanup( entry.getValue() ) );
       }
     }
-    return result;
+    List<Integer> sorted = new ArrayList<Integer>( result.keySet() );
+    Collections.sort( sorted );
+    List<String>  list   = new ArrayList<String>();
+    for( int i = 0; i < sorted.size(); i++ ) {
+      list.add( result.get( sorted.get(i) ) );
+    }
+    return list;
   }
 
   /**
@@ -200,44 +179,37 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The textual value providing the value. Maybe <code>null</code>. 
    */
-  private Map<String,String> getStringValues( Properties properties ) {
-    Map<String,String> result = new HashMap<String,String>();
+  private List<String> getStringValues( Properties properties ) {
+    Map<Integer,String> result = new Hashtable<Integer,String>();
     for( Map.Entry<Object,Object> entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
       if( matcher.matches() ) {
-        String key  = matcher.group(2);
-        result.put( key, StringFunctions.cleanup( (String) entry.getValue() ) );
+        Integer index = Integer.valueOf( matcher.group(2) );
+        result.put( index, StringFunctions.cleanup( (String) entry.getValue() ) );
       }
     }
-    return result;
+    List<Integer> sorted = new ArrayList<Integer>( result.keySet() );
+    Collections.sort( sorted );
+    List<String>  list   = new ArrayList<String>();
+    for( int i = 0; i < sorted.size(); i++ ) {
+      list.add( result.get( sorted.get(i) ) );
+    }
+    return list;
   }
   
   /**
    * Returns the typed values from their String representations.
    * 
-   * @param values      The String values. Not <code>null</code>.
-   * @param defvalues   The default values provided by the caller. Maybe <code>null</code>.
+   * @param values   The String values. Not <code>null</code>.
    * 
    * @return   The typed values. Not <code>null</code>.
    */
-  private Map<String,T> getTypedValues( Map<String,String> values, Map<String,T> defvalues ) {
-    Map<String,T> result = new HashMap<String,T>();
-    if( defvalues == null ) {
-      defvalues = novalues;
-    } else {
-      result.putAll( defvalues );
-    }
-    for( Map.Entry<String,String> entry : values.entrySet() ) {
-      T defvalue = defvalues.get( entry.getKey() );
-      T value    = getTypedValue( entry.getValue(), defvalue );
-      if( value != null ) {
-        result.put( entry.getKey(), value );
-      }
-    }
+  private List<T> getTypedValues( List<String> values ) {
+    List<T> result = getAdapter().unmarshal( values );
     return checkForResult( result );
   }
   
-  private Map<String,T> checkForResult( Map<String,T> result ) {
+  private List<T> checkForResult( List<T> result ) {
     if( result.isEmpty() && isRequired() ) {
       // damn, we need to complain here
       throw new MissingPropertyException( getKey() );

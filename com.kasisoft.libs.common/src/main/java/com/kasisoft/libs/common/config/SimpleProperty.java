@@ -46,6 +46,8 @@ import java.util.*;
  */
 public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
 
+  private T   defaultvalue;
+
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
    * creates optional properties.
@@ -67,6 +69,27 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    */
   public SimpleProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
+  }
+  
+  /**
+   * Configures the default value for this property.
+   * 
+   * @param defvalue   The new default value for this property. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public SimpleProperty<T> withDefault( T defvalue ) {
+    defaultvalue = defvalue;
+    return this;
+  }
+
+  /**
+   * Returns the currently set default value. 
+   * 
+   * @return   The currently set default value. Maybe <code>null</code>.
+   */
+  public T getDefaultValue() {
+    return defaultvalue;
   }
   
   /**
@@ -97,7 +120,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( Map<String,String> properties ) {
-    return checkForResult( getTypedValue( getProperty( properties, false, getKey() ), getDefaultvalue() ) );
+    return checkForResult( getTypedValue( getProperty( properties, false, getKey() ), getDefaultValue() ) );
   }
   
   /**
@@ -108,7 +131,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( Properties properties ) {
-    return checkForResult( getTypedValue( getProperty( properties, true, getKey() ), getDefaultvalue() ) );
+    return checkForResult( getTypedValue( getProperty( properties, true, getKey() ), getDefaultValue() ) );
   }
 
   /**
@@ -122,7 +145,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
   public T getValue( Map<String,String> properties, T defvalue ) {
     T result = getTypedValue( getProperty( properties, false, getKey() ), defvalue );
     if( result == null ) {
-      result = getDefaultvalue();
+      result = getDefaultValue();
     }
     return checkForResult( result );
   }
@@ -138,7 +161,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
   public T getValue( Properties properties, T defvalue ) {
     T result = getTypedValue( getProperty( properties, true, getKey() ), defvalue );
     if( result == null ) {
-      result = getDefaultvalue();
+      result = getDefaultValue();
     }
     return checkForResult( result );
   }

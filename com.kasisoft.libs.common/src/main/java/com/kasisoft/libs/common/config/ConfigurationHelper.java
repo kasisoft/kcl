@@ -39,8 +39,8 @@ public class ConfigurationHelper {
       SimpleProperty<?> property = map.get( key );
       buffer.appendF( "%s ", key );
       buffer.appendF( "(%s) ", property.isRequired() ? "mandatory" : "optional" );
-      if( property.getDefaultvalue() != null ) {
-        buffer.appendF( "(default=%s) ", property.getDefaultvalue() );
+      if( property.getDefaultValue() != null ) {
+        buffer.appendF( "(default=%s) ", property.getDefaultValue() );
       }
       buffer.appendF( ": %s\n", property.getDescription() != null ? property.getDescription() : "" );
     }

@@ -19,14 +19,13 @@ import lombok.*;
  * Base type which allows to realize typed property values.
  */
 @ToString
-@EqualsAndHashCode(exclude={"adapter"})
+@EqualsAndHashCode(of={"key"})
 public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
 
   @Getter private String                  key;
   @Getter private TypeAdapter<String,T>   adapter;
   @Getter private boolean                 required;
   @Getter private String                  description;
-  @Getter private V                       defaultvalue;
   
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
@@ -65,18 +64,6 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
     return (C) this;
   }
   
-  /**
-   * Configures the default value for this property.
-   * 
-   * @param defvalue   The new default value for this property. Maybe <code>null</code>.
-   * 
-   * @return   this
-   */
-  public C withDefault( V defvalue ) {
-    defaultvalue = defvalue;
-    return (C) this;
-  }
-
   /**
    * Delivers the typed value provided by it's textual representation.
    * 
