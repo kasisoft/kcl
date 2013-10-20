@@ -182,19 +182,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    * @return   A simple help text about the currently registered properties. Not <code>null</code>.
    */
   public static final String help() {
-    StringFBuffer buffer = new StringFBuffer();
-    List<String>  keys   = new ArrayList<String>( TYPEDPROPERTIES.keySet() );
-    Collections.sort( keys );
-    for( String key : keys ) {
-      TypedProperty<?> property = TYPEDPROPERTIES.get( key );
-      buffer.appendF( "%s ", key );
-      buffer.appendF( "(%s) ", property.isRequired() ? "mandatory" : "optional" );
-      if( property.getDefaultvalue() != null ) {
-        buffer.appendF( "(default=%s) ", property.getDefaultvalue() );
-      }
-      buffer.appendF( ": %s\n", property.getDescription() != null ? property.getDescription() : "" );
-    }
-    return buffer.toString();
+    return ConfigurationHelper.help( TYPEDPROPERTIES.values().toArray( new SimpleProperty[ TYPEDPROPERTIES.size() ] ) );
   }
   
   /**
@@ -231,19 +219,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static final Map<String,String> createReplacementMap( Map<String,String> properties, String format, String nullvalue ) {
-    Map<String,String> result = new HashMap<String,String>();
-    for( TypedProperty<?> property : TYPEDPROPERTIES.values() ) {
-      String keypattern = String.format( format, property.getKey() );
-      String value      = null;
-      Object typedvalue = property.getValue( properties );
-      if( typedvalue == null ) {
-        value = nullvalue;
-      } else {
-        value = property.getAdapter().marshalObject( typedvalue );
-      }
-      result.put( keypattern, value );
-    }
-    return result;
+    return ConfigurationHelper.createReplacementMap( properties, format, nullvalue, TYPEDPROPERTIES.values().toArray( new SimpleProperty[ TYPEDPROPERTIES.size() ] ) );
   }
 
   /**
@@ -258,19 +234,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static final Map<String,String> createReplacementMap( Properties properties, String format, String nullvalue ) {
-    Map<String,String> result = new HashMap<String,String>();
-    for( TypedProperty<?> property : TYPEDPROPERTIES.values() ) {
-      String keypattern = String.format( format, property.getKey() );
-      String value      = null;
-      Object typedvalue = property.getValue( properties );
-      if( typedvalue == null ) {
-        value = nullvalue;
-      } else {
-        value = property.getAdapter().marshalObject( typedvalue );
-      }
-      result.put( keypattern, value );
-    }
-    return result;
+    return ConfigurationHelper.createReplacementMap( properties, format, nullvalue, TYPEDPROPERTIES.values().toArray( new SimpleProperty[ TYPEDPROPERTIES.size() ] ) );
   }
 
 } /* ENDCLASS */
