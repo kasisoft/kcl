@@ -1,12 +1,12 @@
 /**
- * Name........: TypedPropertyTest
- * Description.: Tests for the class 'TypedProperty'.
+ * Name........: SimplePropertyTest
+ * Description.: Tests for the class 'SimpleProperty'.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.util;
+package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.xml.adapters.*;
 
@@ -20,14 +20,13 @@ import java.awt.*;
 import junit.framework.*;
 
 /**
- * Tests for the class 'TypedProperty'.
+ * Tests for the class 'SimpleProperty'.
  */
 @Test(groups="all")
-@SuppressWarnings("deprecation")
-public class TypedPropertyTest {
+public class SimplePropertyTest {
 
-  private static final TypedProperty<Color> MyRequiredColor = new TypedProperty<Color>( "required.color", new ColorAdapter(), true  ); 
-  private static final TypedProperty<Color> MyOptionalColor = new TypedProperty<Color>( "optional.color", new ColorAdapter(), false );
+  private static final SimpleProperty<Color> MyRequiredColor = new SimpleProperty<Color>( "required.color", new ColorAdapter(), true  ); 
+  private static final SimpleProperty<Color> MyOptionalColor = new SimpleProperty<Color>( "optional.color", new ColorAdapter(), false );
   
   @DataProvider(name="roundtripData")
   public Object[][] roundtripData() {

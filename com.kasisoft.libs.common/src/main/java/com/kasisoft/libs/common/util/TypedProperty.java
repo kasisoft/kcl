@@ -8,11 +8,10 @@
  */
 package com.kasisoft.libs.common.util;
 
+import com.kasisoft.libs.common.config.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.*;
-
-import lombok.*;
 
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following
@@ -45,19 +44,14 @@ import lombok.*;
  * 
  * If the {@link TypeAdapter} instance shall generate an exception it's advisable to make use of the 
  * {@link MissingPropertyException}.
+ * 
+ * @deprecated Use {@link SimpleProperty} instead. This type will be deleted with release 1.1 .
  */
-@ToString
-@EqualsAndHashCode
-public class TypedProperty<T> {
+@Deprecated
+public class TypedProperty<T> extends SimpleProperty<T> {
 
   private static final Map<String,TypedProperty<?>>   TYPEDPROPERTIES = new Hashtable<String,TypedProperty<?>>();
   
-  private String                  key;
-  private String                  description;
-  private TypeAdapter<String,T>   adapter;
-  private T                       defaultvalue;
-  private boolean                 required;
-
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
    * creates optional properties.
@@ -143,60 +137,12 @@ public class TypedProperty<T> {
    *                      Maybe <code>null</code>.
    */
   private TypedProperty( String property, String desc, TypeAdapter<String,T> typeadapter, boolean req, T defvalue ) {
-    key           = property;
-    description   = StringFunctions.cleanup( desc );
-    adapter       = typeadapter;
-    required      = req;
-    defaultvalue  = defvalue;
+    super( property, typeadapter, req );
+    withDescription( desc );
+    withDefault( defvalue );
     TYPEDPROPERTIES.put( property, this );
   }
   
-  /**
-   * Returns the key that is used to access the data.
-   * 
-   * @return   The key that is used to access the data. Neither <code>null</code> nor empty.
-   */
-  public String getKey() {
-    return key;
-  }
-  
-  /**
-   * Returns <code>true</code> if this property is required.
-   * 
-   * @return   <code>true</code> <=> This property is required.
-   */
-  public boolean isRequired() {
-    return required;
-  }
-  
-  /**
-   * Applies the supplied value to the given properties.
-   * 
-   * @param properties   The properties instance that will be updated. Not <code>null</code>.
-   * @param newvalue     The new value to be set. Maybe <code>null</code>.
-   */
-  public void setValue( Map<String,String> properties, T newvalue ) {
-    if( newvalue == null ) {
-      properties.remove( key );
-    } else {
-      properties.put( key, adapter.marshal( newvalue ) );
-    }
-  }
-
-  /**
-   * Applies the supplied value to the given properties.
-   * 
-   * @param properties   The properties instance that will be updated. Not <code>null</code>.
-   * @param newvalue     The new value to be set. Maybe <code>null</code>.
-   */
-  public void setValue( Properties properties, T newvalue ) {
-    if( newvalue == null ) {
-      properties.remove( key );
-    } else {
-      properties.setProperty( key, adapter.marshal( newvalue ) );
-    }
-  }
-
   /**
    * Applies the supplied value to the system properties.
    * 
@@ -204,52 +150,6 @@ public class TypedProperty<T> {
    */
   public void setValue( T newvalue ) {
     setValue( System.getProperties(), newvalue );
-  }
-
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * 
-   * @return   The value if there was one. Maybe <code>null</code>.
-   */
-  public T getValue( Map<String,String> properties ) {
-    return getValue( properties, null );
-  }
-  
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
-   * 
-   * @return   The value if there was one or the default value. Maybe <code>null</code>.
-   */
-  public T getValue( Map<String,String> properties, T defvalue ) {
-    return getValueImpl( getStringValue( properties ), defvalue );
-  }
-
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * 
-   * @return   The value if there was one. Maybe <code>null</code>.
-   */
-  public T getValue( Properties properties ) {
-    return getValue( properties, null );
-  }
-  
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
-   * 
-   * @return   The value if there was one or the default value. Maybe <code>null</code>.
-   */
-  public T getValue( Properties properties, T defvalue ) {
-    return getValueImpl( getStringValue( properties ), defvalue );
   }
 
   /**
@@ -269,100 +169,13 @@ public class TypedProperty<T> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( T defvalue ) {
-    return getValueImpl( getStringValueImpl( null ), defvalue );
-  }
-
-  /**
-   * Delivers the typed value provided by it's textual representation.
-   * 
-   * @param value      The current textual presentation. Maybe <code>null</code>.
-   * @param defvalue   The default value which is supposed to be used if the value isn't valid. Maybe <code>null</code>.
-   * 
-   * @return   The typed value. Maybe <code>null</code>.
-   */
-  private T getValueImpl( String value, T defvalue ) {
-    T result = null;
-    if( value != null ) {
-      // conversion errors will only be filed if the adapter comes with a specific handling
-      result = adapter.unmarshal( value );
-    }
+    T result = getValue( System.getProperties() );
     if( result == null ) {
-      // use the default value provided by the caller
       result = defvalue;
-    }
-    if( result == null ) {
-      // use the default value provided by this property
-      result = defaultvalue;
-    }
-    if( (result == null) && required ) {
-      // damn, we need to complain here
-      throw new MissingPropertyException( key );
     }
     return result;
   }
-  
-  /**
-   * Returns the textual value provided by the supplied properties (falls back to the system properties).
-   * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
-   * 
-   * @return   The textual value providing the value. Maybe <code>null</code>. 
-   */
-  private String getStringValue( Map<String,String> properties ) {
-    String result = properties != null ? properties.get( key ) : null;
-    return getStringValueImpl( result );
-  }
 
-  /**
-   * Returns the textual value provided by the supplied properties (falls back to the system properties).
-   * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
-   * 
-   * @return   The textual value providing the value. Maybe <code>null</code>. 
-   */
-  private String getStringValue( Properties properties ) {
-    String result = properties != null ? properties.getProperty( key ) : null;
-    return getStringValueImpl( result );
-  }
-
-  /**
-   * Performs the fall back to the system property if necessary.
-   * 
-   * @param value   The current value as provided by the properties. Maybe <code>null</code>.
-   * 
-   * @return   The textual value. Maybe <code>null</code>.
-   */
-  private String getStringValueImpl( String value ) {
-    String result = value;
-    if( result == null ) {
-      result = System.getProperty( key );
-    }
-    return StringFunctions.cleanup( result );
-  }
-
-  /**
-   * Small helper function which always delivers a property value as a text.
-   * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
-   * @param nullvalue    A specific value which has to be delivered in case of a <code>null</code> value. 
-   *                     Maybe <code>null</code>.
-   * 
-   * @return   The textual value of this property. Maybe <code>null</code> if <param>nullvalue</param> was.
-   */
-  private String getValueAsText( Map<String,String> properties, String nullvalue ) {
-    T value = null;
-    try {
-      value = getValue( properties );
-    } catch( MissingPropertyException ex ) {
-      // legal case for a required but missing property, so value stays null
-    }
-    if( value == null ) {
-      return nullvalue;
-    } else {
-      return adapter.marshal( value );
-    }
-  }
-  
   /**
    * Returns a simple help text about the currently registered properties.
    * 
@@ -375,11 +188,11 @@ public class TypedProperty<T> {
     for( String key : keys ) {
       TypedProperty<?> property = TYPEDPROPERTIES.get( key );
       buffer.appendF( "%s ", key );
-      buffer.appendF( "(%s) ", property.required ? "mandatory" : "optional" );
-      if( property.defaultvalue != null ) {
-        buffer.appendF( "(default=%s) ", property.defaultvalue );
+      buffer.appendF( "(%s) ", property.isRequired() ? "mandatory" : "optional" );
+      if( property.getDefaultvalue() != null ) {
+        buffer.appendF( "(default=%s) ", property.getDefaultvalue() );
       }
-      buffer.appendF( ": %s\n", property.description != null ? property.description : "" );
+      buffer.appendF( ": %s\n", property.getDescription() != null ? property.getDescription() : "" );
     }
     return buffer.toString();
   }
@@ -419,9 +232,15 @@ public class TypedProperty<T> {
    */
   public static final Map<String,String> createReplacementMap( Map<String,String> properties, String format, String nullvalue ) {
     Map<String,String> result = new HashMap<String,String>();
-    for( TypedProperty property : TYPEDPROPERTIES.values() ) {
+    for( TypedProperty<?> property : TYPEDPROPERTIES.values() ) {
       String keypattern = String.format( format, property.getKey() );
-      String value      = property.getValueAsText( properties, nullvalue );
+      String value      = null;
+      Object typedvalue = property.getValue( properties );
+      if( typedvalue == null ) {
+        value = nullvalue;
+      } else {
+        value = property.getAdapter().marshalObject( typedvalue );
+      }
       result.put( keypattern, value );
     }
     return result;
@@ -440,9 +259,15 @@ public class TypedProperty<T> {
    */
   public static final Map<String,String> createReplacementMap( Properties properties, String format, String nullvalue ) {
     Map<String,String> result = new HashMap<String,String>();
-    for( TypedProperty property : TYPEDPROPERTIES.values() ) {
+    for( TypedProperty<?> property : TYPEDPROPERTIES.values() ) {
       String keypattern = String.format( format, property.getKey() );
-      String value      = property.getValueAsText( properties, nullvalue );
+      String value      = null;
+      Object typedvalue = property.getValue( properties );
+      if( typedvalue == null ) {
+        value = nullvalue;
+      } else {
+        value = property.getAdapter().marshalObject( typedvalue );
+      }
       result.put( keypattern, value );
     }
     return result;

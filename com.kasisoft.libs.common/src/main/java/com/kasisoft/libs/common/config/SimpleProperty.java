@@ -93,7 +93,6 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * Returns the current value provided by the supplied properties.
    * 
    * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
@@ -105,12 +104,43 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * Returns the current value provided by the supplied properties.
    * 
    * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( Properties properties ) {
     return getTypedValue( getProperty( properties, true, getKey() ), getDefaultvalue() );
+  }
+
+  /**
+   * Returns the current value provided by the supplied properties.
+   * 
+   * @param properties   The properties providing the current settings. Not <code>null</code>.
+   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
+   * 
+   * @return   The value if there was one or the default value. Maybe <code>null</code>.
+   */
+  public T getValue( Map<String,String> properties, T defvalue ) {
+    T result = getTypedValue( getProperty( properties, false, getKey() ), defvalue );
+    if( result == null ) {
+      result = getDefaultvalue();
+    }
+    return result;
+  }
+  
+  /**
+   * Returns the current value provided by the supplied properties.
+   * 
+   * @param properties   The properties providing the current settings. Not <code>null</code>.
+   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
+   * 
+   * @return   The value if there was one or the default value. Maybe <code>null</code>.
+   */
+  public T getValue( Properties properties, T defvalue ) {
+    T result = getTypedValue( getProperty( properties, true, getKey() ), defvalue );
+    if( result == null ) {
+      result = getDefaultvalue();
+    }
+    return result;
   }
 
 } /* ENDCLASS */
