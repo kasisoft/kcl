@@ -6,24 +6,31 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.libs.common.util;
+package com.kasisoft.libs.common.config;
 
 /**
  * Exception type that indicates that a required property is missing.
- * 
- * @deprecated Use {@link com.kasisoft.libs.common.config.MissingPropertyException} instead. This type will be deleted
- *             with release 1.1 .
  */
-@Deprecated
-public class MissingPropertyException extends com.kasisoft.libs.common.config.MissingPropertyException {
+public class MissingPropertyException extends RuntimeException {
 
+  private String   property;
+  
   /**
    * Initializes this exception with some information about the missing property.
    *  
    * @param propertykey   The property that is missing. Neither <code>null</code> nor empty.
    */
   public MissingPropertyException( String propertykey ) {
-    super( propertykey );
+    property  = propertykey;
   }
 
+  /**
+   * Returns the property that is missing.
+   * 
+   * @return   The property that is missing. Neither <code>null</code> nor empty.
+   */
+  public String getProperty() {
+    return property;
+  }
+  
 } /* ENDCLASS */
