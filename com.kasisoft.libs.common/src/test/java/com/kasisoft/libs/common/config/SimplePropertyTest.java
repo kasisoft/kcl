@@ -22,7 +22,7 @@ import junit.framework.*;
 /**
  * Tests for the class 'SimpleProperty'.
  */
-@Test(groups="all")
+@SuppressWarnings("deprecation")
 public class SimplePropertyTest {
 
   private static final SimpleProperty<Color> MyRequiredColor = new SimpleProperty<Color>( "required.color", new ColorAdapter(), true  ); 
@@ -38,7 +38,7 @@ public class SimplePropertyTest {
     };
   }
   
-  @Test(dataProvider="roundtripData")
+  @Test(dataProvider="roundtripData",groups="all")
   public void roundtripPropertiesForRequired( Color color ) {
     
     Properties properties = new Properties();
@@ -62,7 +62,7 @@ public class SimplePropertyTest {
     
   }
 
-  @Test(dataProvider="roundtripData")
+  @Test(dataProvider="roundtripData",groups="all")
   public void roundtripMapForRequired( Color color ) {
     
     Map<String,String> properties = new Hashtable<String,String>();
@@ -86,7 +86,7 @@ public class SimplePropertyTest {
     
   }
 
-  @Test(dataProvider="roundtripData")
+  @Test(dataProvider="roundtripData",groups="all")
   public void roundtripPropertiesForOptional( Color color ) {
     
     Properties properties = new Properties();
@@ -107,7 +107,7 @@ public class SimplePropertyTest {
     
   }
 
-  @Test(dataProvider="roundtripData")
+  @Test(dataProvider="roundtripData",groups="all")
   public void roundtripMapForOptional( Color color ) {
     
     Map<String,String> properties = new Hashtable<String,String>();

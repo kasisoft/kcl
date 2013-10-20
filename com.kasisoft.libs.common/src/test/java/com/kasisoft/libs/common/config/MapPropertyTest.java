@@ -21,6 +21,7 @@ import junit.framework.*;
 /**
  * Tests for the class 'MapProperty'.
  */
+@SuppressWarnings("deprecation")
 public class MapPropertyTest {
 
   private static final MapProperty<Color> ColorsRequired = new MapProperty<Color>( "color.required", new ColorAdapter(), true  ); 

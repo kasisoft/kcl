@@ -22,6 +22,7 @@ import junit.framework.*;
 /**
  * Tests for the class 'ListProperty'.
  */
+@SuppressWarnings("deprecation")
 public class ListPropertyTest {
 
   private static final ListProperty<Color> ColorsRequired = new ListProperty<Color>( "color.required", new ColorAdapter(), true  ); 

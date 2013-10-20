@@ -15,7 +15,9 @@ package com.kasisoft.libs.common.util;
  *             with release 1.1 .
  */
 @Deprecated
-public class MissingPropertyException extends com.kasisoft.libs.common.config.MissingPropertyException {
+public class MissingPropertyException extends RuntimeException {
+
+  private String   property;
 
   /**
    * Initializes this exception with some information about the missing property.
@@ -23,7 +25,16 @@ public class MissingPropertyException extends com.kasisoft.libs.common.config.Mi
    * @param propertykey   The property that is missing. Neither <code>null</code> nor empty.
    */
   public MissingPropertyException( String propertykey ) {
-    super( propertykey );
+    property  = propertykey;
+  }
+
+  /**
+   * Returns the property that is missing.
+   * 
+   * @return   The property that is missing. Neither <code>null</code> nor empty.
+   */
+  public String getProperty() {
+    return property;
   }
 
 } /* ENDCLASS */
