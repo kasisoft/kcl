@@ -155,4 +155,31 @@
     </plugins>
   </reporting>
   
+  <!-- distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://oss.sonatype.org/content/groups/public/</url>
+    </repository>
+  </distributionManagement-->
+  
+  <distributionManagement>
+    <repository>
+      <id>kasisoft</id>
+      <name>kasisoft-releases</name>
+      <url>https://kasisoft.com/artifactory/libs-release-local</url>
+    </repository>
+    <snapshotRepository>
+      <id>kasisoft</id>
+      <name>kasisoft-snapshots</name>
+      <url>https://kasisoft.com/artifactory/libs-snapshot-local</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
 </project>
