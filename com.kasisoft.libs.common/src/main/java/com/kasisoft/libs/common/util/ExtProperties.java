@@ -541,10 +541,7 @@ public class ExtProperties {
       TypeAdapter<String,T>       adapter   = typeadapters.get( key );
       Transform<PropertyValue,T>  transform = null;
       if( adapter != null ) {
-        transform = Predefined.joinTransforms( 
-          Predefined.<PropertyValue>toStringTransform(), 
-          adapter
-        );
+        transform = Predefined.joinTransforms( Predefined.<PropertyValue>toStringTransform(), adapter );
       } else {
         // <T> is supposed to be a String
         transform = (Transform<PropertyValue,T>) Predefined.<PropertyValue>toStringTransform();
