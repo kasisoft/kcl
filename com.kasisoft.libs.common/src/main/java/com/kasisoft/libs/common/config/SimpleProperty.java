@@ -82,6 +82,17 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
     defaultvalue = defvalue;
     return this;
   }
+  
+  /**
+   * Configures the default for this property.
+   * 
+   * @param defvalue   The new textual default value for this property. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public SimpleProperty<T> withTextualDefault( String defvalue ) {
+    return withDefault( getAdapter().unmarshal( defvalue ) );
+  }
 
   /**
    * Returns the currently set default value. 
