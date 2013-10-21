@@ -153,7 +153,7 @@ public enum FontFamily {
    * 
    * @return   The constant value. Maybe <code>null</code> if the suppleid value could not be matched.
    */
-  public static final FontFamily valueByFamilyname( String name ) {
+  public static FontFamily valueByFamilyname( String name ) {
     for( FontFamily fontfamily : FontFamily.values() ) {
       if( fontfamily.familyname.equals( name ) ) {
         return fontfamily;

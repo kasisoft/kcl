@@ -134,7 +134,7 @@ public enum Weekday {
    * @return   The weekday for the supplied date. <code>null</code> in case the supplied date wasn't valid.
    */
   @SuppressWarnings("deprecation")
-  public static final Weekday valueOf( Date date ) {
+  public static Weekday valueOf( Date date ) {
     int day = date.getDay() + 1;
     for( Weekday weekday : Weekday.values() ) {
       if( weekday.jreday == day ) {
@@ -155,7 +155,7 @@ public enum Weekday {
    * 
    * @return   The weekday for the supplied date. <code>null</code> in case the supplied day wasn't valid.
    */
-  public static final Weekday valueOf( int day ) {
+  public static Weekday valueOf( int day ) {
     for( Weekday weekday : Weekday.values() ) {
       if( weekday.jreday == day ) {
         return weekday;

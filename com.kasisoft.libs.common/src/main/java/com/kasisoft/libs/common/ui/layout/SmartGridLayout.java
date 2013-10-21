@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.ui.layout;
 
+import com.kasisoft.libs.common.util.*;
+
 import java.util.*;
 
 import java.awt.*;
@@ -282,8 +284,8 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
       width      -= columns * super.getHgap();
       height     -= rows    * super.getVgap();
 
-      int swidth  = sumArray( colwidth  );
-      int sheight = sumArray( rowheight );
+      int swidth  = ArrayFunctions.sum( colwidth );
+      int sheight = ArrayFunctions.sum( rowheight );
 
       int[] srowheight = new int[ rows    ];
       int[] scolwidth  = new int[ columns ];
@@ -540,8 +542,8 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
         };
       };
 
-      int swidth  = sumArray( colwidth  );
-      int sheight = sumArray( rowheight );
+      int swidth  = ArrayFunctions.sum( colwidth );
+      int sheight = ArrayFunctions.sum( rowheight );
 
       Dimension result = new Dimension(
         insets.left + insets.right  + swidth  + (rcols - 1) * super.getHgap(),
@@ -626,7 +628,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    *
    * @return  The grid which contains the elements. Not <code>null</code>.
    */
-  private static final Component[][] createGrid( Container parent, int cols, int rows ) {
+  private static Component[][] createGrid( Container parent, int cols, int rows ) {
 
     ArrayList<Component> resultlist = new ArrayList<Component>(7);
     boolean[]            colmask    = new boolean[ cols ];
@@ -691,7 +693,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    * @param rows   The number of rows used in that grid.
    * @param row    The row which should be removed.
    */
-  private static final void removeRow( ArrayList<Component> grid, int cols, int rows, int row ) {
+  private static void removeRow( ArrayList<Component> grid, int cols, int rows, int row ) {
     for( int i = cols - 1; i >= 0; i-- ) {
       grid.remove( row * cols + i );
     }
@@ -705,27 +707,10 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    * @param rows     The number of rows used in that grid.
    * @param column   The column which should be removed.
    */
-  private static final void removeColumn( ArrayList<Component> grid, int cols, int rows, int column ) {
+  private static void removeColumn( ArrayList<Component> grid, int cols, int rows, int column ) {
     for( int i = rows - 1; i >= 0; i-- ) {
       grid.remove( i * cols + column );
     }
-  }
-
-  /**
-   * Adds all array entries together.
-   *
-   * @param values  Array of numbers. Not <code>null</code>.
-   *
-   * @return  Sum of these numbers.
-   */
-  private static final int sumArray( int[] values ) {
-    int res = 0;
-    for( int i = 0; i < values.length; i++ ) {
-      if( values[i] > 0 ) {
-        res += values[i];
-      }
-    }
-    return res;
   }
 
 } /* ENDCLASS */

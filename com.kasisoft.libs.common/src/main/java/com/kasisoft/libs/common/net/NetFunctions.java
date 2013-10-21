@@ -33,7 +33,7 @@ public class NetFunctions {
    * 
    * @return   The message that has been transferred. <code>null</code> means that an exception has been raised.
    */
-  public static final byte[] waitForMessage( int port ) {
+  public static byte[] waitForMessage( int port ) {
     return waitForMessage( port, null );
   }
   
@@ -45,7 +45,7 @@ public class NetFunctions {
    * 
    * @return   The message that has been transferred. <code>null</code> means that an exception has been raised.
    */
-  public static final byte[] waitForMessage( int port, Integer timeout ) {
+  public static byte[] waitForMessage( int port, Integer timeout ) {
     ServerSocket socket = null;
     Socket       client = null;
     try {
@@ -72,7 +72,7 @@ public class NetFunctions {
    * 
    * @return   <code>true</code> <=> The message could be sent successfully.
    */
-  public static final boolean sendMessage( String address, int port, byte[] message ) {
+  public static boolean sendMessage( String address, int port, byte[] message ) {
     return sendMessage( address, port, message, null );
   }
 
@@ -86,7 +86,7 @@ public class NetFunctions {
    * 
    * @return   <code>true</code> <=> The message could be sent successfully.
    */
-  public static final boolean sendMessage( String address, int port, byte[] message, Integer timeout ) {
+  public static boolean sendMessage( String address, int port, byte[] message, Integer timeout ) {
     Socket  socket = null;
     try {
       socket = new Socket( address, port );

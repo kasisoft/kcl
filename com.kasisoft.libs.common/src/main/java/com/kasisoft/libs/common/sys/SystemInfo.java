@@ -201,7 +201,7 @@ public enum SystemInfo {
    * 
    * @return   The constant used to identify the operating system. Maybe <code>null</code>.
    */
-  public static final SystemInfo getRunningOS() {
+  public static SystemInfo getRunningOS() {
     for( SystemInfo info : SystemInfo.values() ) {
       if( info.isActive() ) {
         return info;

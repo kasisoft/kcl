@@ -61,7 +61,7 @@ public class MiscFunctions {
    * 
    * @param thread   The Thread that will be executed. Maybe <code>null</code>.
    */
-  public static final void joinThread( Thread thread ) {
+  public static void joinThread( Thread thread ) {
     if( thread != null ) {
       try {
         thread.join();
@@ -79,7 +79,7 @@ public class MiscFunctions {
    * 
    * @return   <code>true</code> <=> The byte sequence is available at the specified offset.
    */
-  public static final boolean compare( byte[] data, byte[] tocompare, int offset ) {
+  public static boolean compare( byte[] data, byte[] tocompare, int offset ) {
     for( int i = 0; i < tocompare.length; i++, offset++ ) {
       if( offset == data.length ) {
         // premature end of the comparison process
@@ -101,7 +101,7 @@ public class MiscFunctions {
    * 
    * @return   <code>true</code> <=> The char sequence is available at the specified offset.
    */
-  public static final boolean compare( char[] data, char[] tocompare, int offset ) {
+  public static boolean compare( char[] data, char[] tocompare, int offset ) {
     for( int i = 0; i < tocompare.length; i++, offset++ ) {
       if( offset == data.length ) {
         // premature end of the comparison process
@@ -123,7 +123,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( byte[] buffer, byte[] sequence, int pos ) {
+  public static int indexOf( byte[] buffer, byte[] sequence, int pos ) {
     if( sequence.length > buffer.length ) {
       // the sequence doesn't fit, so it's not available
       return -1;
@@ -153,7 +153,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( char[] buffer, char[] sequence, int pos ) {
+  public static int indexOf( char[] buffer, char[] sequence, int pos ) {
     if( sequence.length > buffer.length ) {
       // the sequence doesn't fit, so it's not available
       return -1;
@@ -182,7 +182,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( byte[] data, byte[] sequence ) {
+  public static int indexOf( byte[] data, byte[] sequence ) {
     return indexOf( data, sequence, 0 );
   }
 
@@ -194,7 +194,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
-  public static final int indexOf( char[] data, char[] sequence ) {
+  public static int indexOf( char[] data, char[] sequence ) {
     return indexOf( data, sequence, 0 );
   }
   
@@ -208,7 +208,7 @@ public class MiscFunctions {
    * 
    * @return   The modified data block. Not <code>null</code>.
    */
-  public static final byte[] insert( byte[] destination, byte[] newsequence, int index ) {
+  public static byte[] insert( byte[] destination, byte[] newsequence, int index ) {
     if( destination.length == 0 ) {
       return new byte[0];
     }
@@ -238,7 +238,7 @@ public class MiscFunctions {
    * 
    * @return   The modified data block. Not <code>null</code>.
    */
-  public static final char[] insert( char[] destination, char[] newsequence, int index ) {
+  public static char[] insert( char[] destination, char[] newsequence, int index ) {
     if( destination.length == 0 ) {
       return new char[0];
     }
@@ -265,7 +265,7 @@ public class MiscFunctions {
    * 
    * @return   A String with resolved environment variables. Neither <code>null</code> nor empty.
    */
-  public static final String expandVariables( String input ) {
+  public static String expandVariables( String input ) {
     Map<String, String> variables     = new Hashtable<String, String>();
     Enumeration<?>      propertynames = System.getProperties().propertyNames();
     while( propertynames.hasMoreElements() ) {
@@ -287,7 +287,7 @@ public class MiscFunctions {
    * 
    * @return   The File location which has been evaluated. Not <code>null</code>.
    */
-  public static final File expandFileLocation( String format ) {
+  public static File expandFileLocation( String format ) {
     return new File( StringFunctions.replace( format, REPLACEMENTS ) );
   }
 
@@ -298,7 +298,7 @@ public class MiscFunctions {
    * 
    * @return   A joined buffer. Not <code>null</code>.
    */
-  public static final byte[] joinBuffers( byte[] ... buffers ) {
+  public static byte[] joinBuffers( byte[] ... buffers ) {
     int size = 0;
     for( int i = 0; i < buffers.length; i++ ) {
       if( buffers[i] != null ) {
@@ -323,7 +323,7 @@ public class MiscFunctions {
    * 
    * @return   A joined buffer. Not <code>null</code>.
    */
-  public static final char[] joinBuffers( char[] ... buffers ) {
+  public static char[] joinBuffers( char[] ... buffers ) {
     int size = 0;
     for( int i = 0; i < buffers.length; i++ ) {
       if( buffers[i] != null ) {
@@ -349,7 +349,7 @@ public class MiscFunctions {
    * 
    * @return   The date that has been parsed or <code>null</code> in case of a failure.
    */
-  public static final Date parseDate( String value, String ... patterns ) {
+  public static Date parseDate( String value, String ... patterns ) {
     Date result = null;
     for( int i = 0; i < patterns.length; i++ ) {
       SimpleDateFormat formatter = new SimpleDateFormat( patterns[i] );
@@ -370,7 +370,7 @@ public class MiscFunctions {
    * 
    * @return   The date as a Calendar instance that has been parsed or <code>null</code> in case of a failure.
    */
-  public static final Calendar parseCalendar( String value, String ... patterns ) {
+  public static Calendar parseCalendar( String value, String ... patterns ) {
     Date date = parseDate( value, patterns );
     if( date != null ) {
       Calendar result = Calendar.getInstance();
@@ -389,7 +389,7 @@ public class MiscFunctions {
    * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
    *           <code>false</code> <=> All other cases.
    */
-  public static final boolean parseBoolean( String value ) {
+  public static boolean parseBoolean( String value ) {
     return TRUEVALUES.contains( value.toLowerCase() );
   }
 
@@ -403,7 +403,7 @@ public class MiscFunctions {
    * 
    * @return   <code>null</code> <=> If the class could not be instantiated otherwise the instance itself.
    */
-  public static final Object newInstance( String classname, Object ... args ) {
+  public static Object newInstance( String classname, Object ... args ) {
     return newInstance( false, classname, args );
   }
   
@@ -425,7 +425,7 @@ public class MiscFunctions {
    * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> is set to <code>true</code>.
    */
   @SuppressWarnings("unchecked")
-  public static final Object newInstance( boolean fail, String classname, Object ... args ) {
+  public static Object newInstance( boolean fail, String classname, Object ... args ) {
     try {
       Class clazz = Class.forName( classname );
       if( (args == null) || (args.length == 0) ) {
@@ -462,7 +462,7 @@ public class MiscFunctions {
    * 
    * @return   The Constructor if it could be found. Maybe <code>null</code>.
    */
-  private static final Constructor findMatchingConstructor( Constructor[] candidates, Class<?>[] params ) {
+  private static Constructor findMatchingConstructor( Constructor[] candidates, Class<?>[] params ) {
     for( Constructor constructor : candidates ) {
       Class[] expectedparams = constructor.getParameterTypes();
       if( (expectedparams != null) && (expectedparams.length == params.length) ) {
@@ -487,7 +487,7 @@ public class MiscFunctions {
    * @param fail    <code>true</code> <=> An exception has to be thrown.
    * @param cause   The cause of the failure. Not <code>null</code>.
    */
-  private static final void reflectionFailure( boolean fail, Exception cause ) {
+  private static void reflectionFailure( boolean fail, Exception cause ) {
     if( fail ) {
       throw new FailureException( FailureCode.Reflections, cause );
     }
@@ -498,7 +498,7 @@ public class MiscFunctions {
    * 
    * @param type   The type of the key. Not <code>null</code>.
    */
-  public static final <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( Class<T> type ) {
+  public static <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( Class<T> type ) {
     return new KeyComparator<T>();
   }
   
@@ -510,7 +510,7 @@ public class MiscFunctions {
    * 
    * @return   The supplied list. Not <code>null</code>.
    */
-  public static final <T extends Comparable<T>> List<T> toSet( List<T> list ) {
+  public static <T extends Comparable<T>> List<T> toSet( List<T> list ) {
     Collections.sort( list );
     for( int i = list.size() - 1; i > 0; i-- ) {
       if( list.get(i).compareTo( list.get( i - 1 ) ) == 0 ) {
@@ -527,7 +527,7 @@ public class MiscFunctions {
    * 
    * @return   A copy of the supplied instance. <code>null</code> if <code>source</code> was <code>null</code>.
    */
-  public static final <T extends Serializable> T clone( T source ) {
+  public static <T extends Serializable> T clone( T source ) {
     if( source != null ) {
       ByteArrayOutputStream byteout   = null;
       ObjectOutputStream    objectout = null;
@@ -574,7 +574,7 @@ public class MiscFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
    */
-  public static final void close( boolean fail, Socket socket ) {
+  public static void close( boolean fail, Socket socket ) {
     if( socket != null ) {
       try {
         socket.close();
@@ -594,7 +594,7 @@ public class MiscFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
    */
-  public static final void close( boolean fail, ServerSocket socket ) {
+  public static void close( boolean fail, ServerSocket socket ) {
     if( socket != null ) {
       try {
         socket.close();
@@ -614,7 +614,7 @@ public class MiscFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
    */
-  public static final void close( boolean fail, Closeable closeable ) {
+  public static void close( boolean fail, Closeable closeable ) {
     if( closeable != null ) {
       try {
         closeable.close();
@@ -631,7 +631,7 @@ public class MiscFunctions {
    * 
    * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
    */
-  public static final void close( Closeable closeable ) {
+  public static void close( Closeable closeable ) {
     close( false, closeable );
   }
 
@@ -643,7 +643,7 @@ public class MiscFunctions {
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
    */
-  public static final void close( boolean fail, Connection connection ) {
+  public static void close( boolean fail, Connection connection ) {
     if( connection != null ) {
       try {
         connection.close();
@@ -660,7 +660,7 @@ public class MiscFunctions {
    * 
    * @param connection   The connection that has to be closed. Maybe <code>null</code>.
    */
-  public static final void close( Connection connection ) {
+  public static void close( Connection connection ) {
     close( false, connection );
   }
 

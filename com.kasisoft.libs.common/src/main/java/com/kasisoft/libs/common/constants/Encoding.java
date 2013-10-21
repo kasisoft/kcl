@@ -214,7 +214,7 @@ public final class Encoding {
    * 
    * @return   The default encoding. Not <code>null</code>.
    */
-  public static final Encoding getDefault() {
+  public static Encoding getDefault() {
     return UTF8;
   }
   
@@ -228,7 +228,7 @@ public final class Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Reader openReader( File file, Encoding encoding ) {
+  public static Reader openReader( File file, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openReader( file );
     } else {
@@ -246,7 +246,7 @@ public final class Encoding {
    * 
    * @throws FailureException if accessing the InputStream failed for some reason.
    */
-  public static final Reader openReader( InputStream instream, Encoding encoding ) {
+  public static Reader openReader( InputStream instream, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openReader( instream );
     } else {
@@ -264,7 +264,7 @@ public final class Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Writer openWriter( File file, Encoding encoding ) {
+  public static Writer openWriter( File file, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openWriter( file );
     } else {
@@ -282,7 +282,7 @@ public final class Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final Writer openWriter( OutputStream outstream, Encoding encoding ) {
+  public static Writer openWriter( OutputStream outstream, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openWriter( outstream );
     } else {
@@ -300,7 +300,7 @@ public final class Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final PrintStream openPrintStream( File file, Encoding encoding ) {
+  public static PrintStream openPrintStream( File file, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openPrintStream( file );
     } else {
@@ -319,7 +319,7 @@ public final class Encoding {
    * 
    * @throws FailureException if opening the file failed for some reason.
    */
-  public static final PrintStream openPrintStream( OutputStream outstream, Encoding encoding ) {
+  public static PrintStream openPrintStream( OutputStream outstream, Encoding encoding ) {
     if( encoding == null ) {
       return getDefault().openPrintStream( outstream );
     } else {
@@ -327,7 +327,7 @@ public final class Encoding {
     }
   }
 
-  public static final Encoding[] values() {
+  public static Encoding[] values() {
     return ENCODINGS.values().toArray( new Encoding[ ENCODINGS.size() ] );
   }
   
@@ -340,7 +340,7 @@ public final class Encoding {
    *               
    * @return   The encoding value or <code>null</code> if it cannot be identified.
    */
-  public static final Encoding valueByName( String name ) {
+  public static Encoding valueByName( String name ) {
     for( Encoding encoding : Encoding.values() ) {
       if( encoding.encoding.equalsIgnoreCase( name ) ) {
         return encoding;

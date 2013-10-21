@@ -100,7 +100,7 @@ public enum MimeType {
    * 
    * @return   The MimeType if it could be found or <code>null</code>.
    */
-  public static final MimeType valueByMimeType( String type ) {
+  public static MimeType valueByMimeType( String type ) {
     for( MimeType mime : MimeType.values() ) {
       if( type.equalsIgnoreCase( mime.mimetype ) ) {
         return mime;
@@ -116,7 +116,7 @@ public enum MimeType {
    * 
    * @return   A set of supporting mime types. Not <code>null</code>. [U]
    */
-  public static final Set<MimeType> valuesBySuffix( String suffix ) {
+  public static Set<MimeType> valuesBySuffix( String suffix ) {
     Set<MimeType> result = new HashSet<MimeType>();
     for( MimeType mime : MimeType.values() ) {
       if( mime.supportsSuffix( suffix ) ) {

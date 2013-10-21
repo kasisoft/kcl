@@ -69,7 +69,7 @@ public enum ByteOrderMark {
    * 
    * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
    */
-  public static final ByteOrderMark identify( byte[] data ) {
+  public static ByteOrderMark identify( byte[] data ) {
     return identify( data, 0 );
   }
   
@@ -81,7 +81,7 @@ public enum ByteOrderMark {
    * 
    * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
    */
-  public static final ByteOrderMark identify( byte[] data, int offset ) {
+  public static ByteOrderMark identify( byte[] data, int offset ) {
     ByteOrderMark[] marks = ByteOrderMark.values();
     for( ByteOrderMark mark : marks ) {
       if( mark.startsWith( data, offset ) ) {

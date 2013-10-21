@@ -22,7 +22,7 @@ import java.io.*;
  */
 public class Utilities {
   
-  public static final List<File> createFileSystemStructure( File basedir ) {
+  public static List<File> createFileSystemStructure( File basedir ) {
     List<File>    result    = new ArrayList<File>();
     int           count     = Math.max( (int) (Math.random() * 1000), 50 );
     List<String>  filenames = new LinkedList<String>();
@@ -33,7 +33,7 @@ public class Utilities {
     return result;
   }
   
-  private static final void populate( List<File> collector, File basedir, List<String> filenames, int depth ) {
+  private static void populate( List<File> collector, File basedir, List<String> filenames, int depth ) {
     while( ! filenames.isEmpty() ) {
       boolean godeeper = (((int) (Math.random() * 8192)) % 2 == 0) && (depth <= 10);
       if( godeeper ) {
@@ -52,7 +52,7 @@ public class Utilities {
     }
   }
 
-  public static final byte[] createByteBlock() {
+  public static byte[] createByteBlock() {
     byte[] result = new byte[ (int) (Math.random() * 2048) ];
     for( int i = 0; i < result.length; i++ ) {
       result[i] = (byte) (Math.random() * Byte.MAX_VALUE);
@@ -60,7 +60,7 @@ public class Utilities {
     return result;
   }
 
-  public static final char[] createCharacterBlock() {
+  public static char[] createCharacterBlock() {
     char[] result = new char[ (int) (Math.random() * 2048) ];
     for( int i = 0; i < result.length; i++ ) {
       /** @todo [07-Feb-2010:KASI]   When using Character.MAX_VALUE instead of 256 characters which
@@ -77,14 +77,14 @@ public class Utilities {
     return result;
   }
 
-  public static final File createRandomBytesFile() {
+  public static File createRandomBytesFile() {
     File    result  = IoFunctions.newTempFile();
     byte[]  data    = createByteBlock();
     IoFunctions.writeBytes( result, data );
     return result;
   }
   
-  public static final File createRandomDirectory() {
+  public static File createRandomDirectory() {
     File result = IoFunctions.newTempFile();
     IoFunctions.mkdirs( result );
     int  count  = 20 + (int) (Math.random() * 100);
@@ -92,7 +92,7 @@ public class Utilities {
     return result;
   }
   
-  private static final void fill( File dir, int count ) {
+  private static void fill( File dir, int count ) {
     count--;
     boolean createdir = ((int) (Math.random() * 100)) % 2 == 0;
     File    newchild  = new File( dir, String.format( "child%d", Integer.valueOf( count ) ) ); 
@@ -108,18 +108,18 @@ public class Utilities {
     }
   }
 
-  public static final File createRandomCharacterFile() {
+  public static File createRandomCharacterFile() {
     File    result  = IoFunctions.newTempFile();
     char[]  data    = createCharacterBlock();
     IoFunctions.writeCharacters( result, data, Encoding.getDefault() );
     return result;
   }
 
-  public static final String[] toArray( String ... args ) {
+  public static String[] toArray( String ... args ) {
     return Arrays.copyOf( args, args.length );
   }
   
-  public static final <T> List<T> toList( T ... args ) {
+  public static <T> List<T> toList( T ... args ) {
     List<T> result = new ArrayList<T>();
     for( int i = 0; i < args.length; i++ ) {
       result.add( args[i] );
@@ -127,7 +127,7 @@ public class Utilities {
     return result;
   }
   
-  public static final List<Integer> intsToList( int ... args ) {
+  public static List<Integer> intsToList( int ... args ) {
     List<Integer> result = new ArrayList<Integer>();
     for( int value : args ) {
       result.add( Integer.valueOf( value ) );
@@ -135,7 +135,7 @@ public class Utilities {
     return result;
   }
   
-  public static final byte[] join( byte[] ... segments ) {
+  public static byte[] join( byte[] ... segments ) {
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     for( byte[] segment : segments ) {
       try {

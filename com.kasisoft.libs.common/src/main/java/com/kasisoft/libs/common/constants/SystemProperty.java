@@ -176,7 +176,7 @@ public enum SystemProperty {
    *              
    * @return   The enumeration value or <code>null</code> in case the key could not be found.
    */
-  public static final SystemProperty getByShortkey( String key ) {
+  public static SystemProperty getByShortkey( String key ) {
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( key.equals( sysprop.getShortKey() ) ) {
         return sysprop;
@@ -192,7 +192,7 @@ public enum SystemProperty {
    *              
    * @return   The enumeration value or <code>null</code> in case the key could not be found.
    */
-  public static final SystemProperty getByLongkey( String key ) {
+  public static SystemProperty getByLongkey( String key ) {
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( key.equals( sysprop.getKey() ) ) {
         return sysprop;
@@ -208,7 +208,7 @@ public enum SystemProperty {
    *              
    * @return   The enumeration value or <code>null</code> in case the key could not be found.
    */
-  public static final SystemProperty getByKey( String key ) {
+  public static SystemProperty getByKey( String key ) {
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( key.equals( sysprop.getKey() ) || key.equals( sysprop.getShortKey() ) ) {
         return sysprop;
@@ -224,7 +224,7 @@ public enum SystemProperty {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( boolean shortkey ) {
+  public static Map<String,String> createReplacementMap( boolean shortkey ) {
     return createReplacementMap( "%%%s%%", shortkey );
   }
   
@@ -237,7 +237,7 @@ public enum SystemProperty {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( String format, boolean shortkey ) {
+  public static Map<String,String> createReplacementMap( String format, boolean shortkey ) {
     Map<String,String> result = new Hashtable<String,String>();
     for( SystemProperty sysprop : SystemProperty.values() ) {
       if( shortkey ) {

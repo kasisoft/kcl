@@ -181,7 +181,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    * 
    * @return   A simple help text about the currently registered properties. Not <code>null</code>.
    */
-  public static final String help() {
+  public static String help() {
     return ConfigurationHelper.help( TYPEDPROPERTIES.values().toArray( new SimpleProperty[ TYPEDPROPERTIES.size() ] ) );
   }
   
@@ -192,7 +192,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Map<String,String> properties ) {
+  public static Map<String,String> createReplacementMap( Map<String,String> properties ) {
     return createReplacementMap( properties, "%%%s%%", "" );
   }
 
@@ -203,7 +203,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Properties properties ) {
+  public static Map<String,String> createReplacementMap( Properties properties ) {
     return createReplacementMap( properties, "%%%s%%", "" );
   }
 
@@ -218,7 +218,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Map<String,String> properties, String format, String nullvalue ) {
+  public static Map<String,String> createReplacementMap( Map<String,String> properties, String format, String nullvalue ) {
     return ConfigurationHelper.createReplacementMap( properties, format, nullvalue, TYPEDPROPERTIES.values().toArray( new SimpleProperty[ TYPEDPROPERTIES.size() ] ) );
   }
 
@@ -233,7 +233,7 @@ public class TypedProperty<T> extends SimpleProperty<T> {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Properties properties, String format, String nullvalue ) {
+  public static Map<String,String> createReplacementMap( Properties properties, String format, String nullvalue ) {
     return ConfigurationHelper.createReplacementMap( properties, format, nullvalue, TYPEDPROPERTIES.values().toArray( new SimpleProperty[ TYPEDPROPERTIES.size() ] ) );
   }
 

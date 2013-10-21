@@ -29,7 +29,7 @@ public class StringFunctions {
    * 
    * @return   The buffer itself. Not <code>null</code>.
    */
-  public static final char[] allocateChars( Integer size ) {
+  public static char[] allocateChars( Integer size ) {
     return Primitive.PChar.<char[]>getBuffers().allocate( size );
   }
 
@@ -38,7 +38,7 @@ public class StringFunctions {
    * 
    * @param buffer   The buffer which has to be released. Not <code>null</code>.
    */
-  public static final void releaseChars( char[] buffer ) {
+  public static void releaseChars( char[] buffer ) {
     Primitive.PChar.<char[]>getBuffers().release( buffer );
   }
 
@@ -50,7 +50,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( String input, String ... literals ) {
+  public static int lastIndexOf( String input, String ... literals ) {
     return lastIndexOf( input.length(), input, literals );
   }
 
@@ -62,7 +62,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( String input, char ... characters ) {
+  public static int lastIndexOf( String input, char ... characters ) {
     return lastIndexOf( input.length(), input, characters );
   }
 
@@ -74,7 +74,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( StringBuffer input, char ... characters ) {
+  public static int lastIndexOf( StringBuffer input, char ... characters ) {
     return lastIndexOf( input.length(), input, characters );
   }
 
@@ -86,7 +86,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( StringBuffer input, String ... literals ) {
+  public static int lastIndexOf( StringBuffer input, String ... literals ) {
     return lastIndexOf( input.length(), input, literals );
   }
 
@@ -99,7 +99,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( int first, String input, char ... characters ) {
+  public static int lastIndexOf( int first, String input, char ... characters ) {
     int result = -1;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
@@ -120,7 +120,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( int first, String input, String ... literals ) {
+  public static int lastIndexOf( int first, String input, String ... literals ) {
     int result = -1;
     for( int i = 0; i < literals.length; i++ ) {
       String literal  = literals[i];
@@ -141,7 +141,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( int first, StringBuffer input, char ... characters ) {
+  public static int lastIndexOf( int first, StringBuffer input, char ... characters ) {
     int result = -1;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
@@ -162,7 +162,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (rightmost index) otherwise -1.
    */
-  public static final int lastIndexOf( int first, StringBuffer input, String ... literals ) {
+  public static int lastIndexOf( int first, StringBuffer input, String ... literals ) {
     int result = -1;
     for( int i = 0; i < literals.length; i++ ) {
       String literal  = literals[i];
@@ -182,7 +182,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( String input, String ... literals ) {
+  public static int indexOf( String input, String ... literals ) {
     return indexOf( 0, input, literals );
   }
 
@@ -194,7 +194,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( String input, char ... characters ) {
+  public static int indexOf( String input, char ... characters ) {
     return indexOf( 0, input, characters );
   }
 
@@ -206,7 +206,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( StringBuffer input, char ... characters ) {
+  public static int indexOf( StringBuffer input, char ... characters ) {
     return indexOf( 0, input, characters );
   }
 
@@ -218,7 +218,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( StringBuffer input, String ... literals ) {
+  public static int indexOf( StringBuffer input, String ... literals ) {
     return indexOf( 0, input, literals );
   }
 
@@ -231,7 +231,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( int first, String input, char ... characters ) {
+  public static int indexOf( int first, String input, char ... characters ) {
     int result = Integer.MAX_VALUE;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
@@ -256,7 +256,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( int first, String input, String ... literals ) {
+  public static int indexOf( int first, String input, String ... literals ) {
     int result = Integer.MAX_VALUE;
     for( int i = 0; i < literals.length; i++ ) {
       String literal  = literals[i];
@@ -281,7 +281,7 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( int first, StringBuffer input, char ... characters ) {
+  public static int indexOf( int first, StringBuffer input, char ... characters ) {
     int result = Integer.MAX_VALUE;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
@@ -306,7 +306,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
-  public static final int indexOf( int first, StringBuffer input, String ... literals ) {
+  public static int indexOf( int first, StringBuffer input, String ... literals ) {
     int result = Integer.MAX_VALUE;
     for( int i = 0; i < literals.length; i++ ) {
       String literal  = literals[i];
@@ -330,7 +330,7 @@ public class StringFunctions {
    * 
    * @return   <code>null</code> or a non-empty String.
    */
-  public static final String cleanup( String input ) {
+  public static String cleanup( String input ) {
     if( input != null ) {
       input = input.trim();
       if( input.length() == 0 ) {
@@ -348,7 +348,7 @@ public class StringFunctions {
    * 
    * @return   A String with the supplied length and characters.
    */
-  public static final String fillString( int length, char character ) {
+  public static String fillString( int length, char character ) {
     char[] buffer = allocateChars( Integer.valueOf( length ) );
     try {
       Arrays.fill( buffer, character );
@@ -365,7 +365,7 @@ public class StringFunctions {
    * 
    * @return   A String providing the stack trace. Not <code>null</code>.
    */
-  public static final String toString( Throwable t ) {
+  public static String toString( Throwable t ) {
     if( t == null ) {
       return "null";
     }
@@ -382,7 +382,7 @@ public class StringFunctions {
    * 
    * @return   The textual representation of the supplied object.
    */
-  public static final String toString( Object obj ) {
+  public static String toString( Object obj ) {
     if( obj == null ) {
       return "null";
     } else {
@@ -397,7 +397,7 @@ public class StringFunctions {
    * 
    * @return   The textual representation of the supplied list.
    */
-  public static final String toString( Object[] args ) {
+  public static String toString( Object[] args ) {
     if( args == null ) {
       return "null";
     } else {
@@ -422,7 +422,7 @@ public class StringFunctions {
    * 
    * @return   The modified String. Not <code>null</code>.
    */
-  public static final String replace( String input, String search, String replace ) {
+  public static String replace( String input, String search, String replace ) {
     StringFBuffer buffer = new StringFBuffer( input );
     replace( buffer, search, replace );
     return buffer.toString();
@@ -435,7 +435,7 @@ public class StringFunctions {
    * @param search    The partial String to search for. Neither <code>null</code> nor empty.
    * @param replace   The String to replace instead. Not <code>null</code>.
    */
-  public static final void replace( StringFBuffer buffer, String search, String replace ) {
+  public static void replace( StringFBuffer buffer, String search, String replace ) {
     int index  = buffer.indexOf( search, 0 );
     while( index != -1 ) {
       buffer.replace( index, index + search.length(), replace );
@@ -451,7 +451,7 @@ public class StringFunctions {
    * 
    * @return   The modified String.
    */
-  public static final String replace( String input, Map<String,String> replacements ) {
+  public static String replace( String input, Map<String,String> replacements ) {
     StringFBuffer  buffer = new StringFBuffer( input );
     replace( buffer, replacements );
     return buffer.toString();
@@ -463,7 +463,7 @@ public class StringFunctions {
    * @param buffer         The buffer which has to be modified in place. Not <code>null</code>.
    * @param replacements   A Map of String's used to run the search replace operation. Not <code>null</code>.
    */
-  public static final void replace( StringFBuffer buffer, Map<String,String> replacements ) {
+  public static void replace( StringFBuffer buffer, Map<String,String> replacements ) {
     Set<String>   search = replacements.keySet();
     Tupel<String> key    = new Tupel<String>();
     int           index  = indexOf( buffer, search, key, 0 );
@@ -485,7 +485,7 @@ public class StringFunctions {
    * 
    * @return   The index where a search string has been found or -1 in case none has been found.
    */
-  private static final int indexOf( StringFBuffer input, Set<String> keys, Tupel<String> key, int start ) {
+  private static int indexOf( StringFBuffer input, Set<String> keys, Tupel<String> key, int start ) {
     int result = -1;
     key.setValues( (String[]) null );
     for( String current : keys ) {
@@ -508,7 +508,7 @@ public class StringFunctions {
    * 
    * @return  true <=> The element which has to be tested is contained.
    */
-  public static final boolean contains( String test, String ... candidates ) {
+  public static boolean contains( String test, String ... candidates ) {
     for( String entry : candidates ) {
       if( test.contains( entry ) ) {
         return true;
@@ -525,7 +525,7 @@ public class StringFunctions {
    * 
    * @return   <code>true</code> <=> The String has a specified ending.
    */
-  public static final boolean endsWith( String test, String ... candidates ) {
+  public static boolean endsWith( String test, String ... candidates ) {
     for( String entry : candidates ) {
       if( test.endsWith( entry ) ) {
         return true;
@@ -542,7 +542,7 @@ public class StringFunctions {
    * 
    * @return   <code>true</code> <=> The String has a specified beginning.
    */
-  public static final boolean startsWith( String test, String ... candidates ) {
+  public static boolean startsWith( String test, String ... candidates ) {
     for( String entry : candidates ) {
       if( test.startsWith( entry ) ) {
         return true;
@@ -560,7 +560,7 @@ public class StringFunctions {
    * 
    * @return   The concatenated String. Not <code>null</code>.
    */
-  public static final String concatenate( String delimiter, String ... args ) {
+  public static String concatenate( String delimiter, String ... args ) {
     if( args == null ) {
       return "";
     }
@@ -589,7 +589,7 @@ public class StringFunctions {
    * 
    * @return   <code>true</code> <=> Both Strings are equal.
    */
-  public static final boolean equals( String str1, String str2, boolean ignorecase ) {
+  public static boolean equals( String str1, String str2, boolean ignorecase ) {
     if( ignorecase ) {
       return str1.equalsIgnoreCase( str2 );
     } else {
@@ -606,7 +606,7 @@ public class StringFunctions {
    * 
    * @return   <code>true</code> <=> Both strings are equal.
    */
-  public static final boolean compare( boolean ignorecase, String str1, String str2 ) {
+  public static boolean compare( boolean ignorecase, String str1, String str2 ) {
     if( ignorecase ) {
       return str1.equalsIgnoreCase( str2 );
     } else {

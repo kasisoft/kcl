@@ -51,7 +51,7 @@ public enum MagicNumber {
    * 
    * @return   A matching magic number or <code>null</code> if none could be found.
    */
-  public static final MagicNumber identify( byte[] data ) {
+  public static MagicNumber identify( byte[] data ) {
     if( data != null ) {
       for( MagicNumber num : MagicNumber.values() ) {
         if( num.find( data ) ) {

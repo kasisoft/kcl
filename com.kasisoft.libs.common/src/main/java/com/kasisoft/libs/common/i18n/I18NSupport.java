@@ -50,7 +50,7 @@ public class I18NSupport {
    * 
    * @return   <code>true</code> <=> The supplied field is a translation field.
    */
-  private static final boolean isTranslationField( Field field ) {
+  private static boolean isTranslationField( Field field ) {
     int modifier = field.getModifiers();
     if( modifier != MODIFIERS ) {
       return false;
@@ -65,7 +65,7 @@ public class I18NSupport {
    * 
    * @return   A mapping between field names and the corresponding {@link Field} instances. Not <code>null</code>.
    */
-  private static final Map<String,Field> collectFields( Class<?> clazz ) {
+  private static Map<String,Field> collectFields( Class<?> clazz ) {
     Map<String,Field> result = new Hashtable<String,Field>();
     Field[]           fields = clazz.getDeclaredFields();
     for( Field field : fields ) {
@@ -83,7 +83,7 @@ public class I18NSupport {
    * 
    * @return   The {@link Properties} instance providing all current translations. Not <code>null</code>.
    */
-  private static final Properties loadTranslations( String[] candidates ) {
+  private static Properties loadTranslations( String[] candidates ) {
     Properties  result      = new Properties();
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
     for( String variant : candidates ) {
@@ -112,7 +112,7 @@ public class I18NSupport {
    *                       Not <code>null</code>.
    * @param fields         The map with all {@link Field} instances that have to be changed. Not <code>null</code>.
    */
-  private static final void applyTranslations( String prefix, Properties translations, Map<String, Field> fields ) {
+  private static void applyTranslations( String prefix, Properties translations, Map<String, Field> fields ) {
     for( Map.Entry<String, Field> entry : fields.entrySet() ) {
       String key      = entry.getKey();
       String property = String.format( "%s%s", prefix, key );
@@ -145,7 +145,7 @@ public class I18NSupport {
    * 
    * @param clazz   The class that is supposed to be translated. Not <code>null</code>.
    */
-  public static final void initialize( Class<?> clazz ) {
+  public static void initialize( Class<?> clazz ) {
     initialize( null, clazz );
   }
   
@@ -156,7 +156,7 @@ public class I18NSupport {
    *                 will be used.
    * @param clazz    The class that is supposed to be translated. Not <code>null</code>.
    */
-  public static final void initialize( Locale locale, Class<?> clazz ) {
+  public static void initialize( Locale locale, Class<?> clazz ) {
     
     if( locale == null ) {
       locale = Locale.getDefault();

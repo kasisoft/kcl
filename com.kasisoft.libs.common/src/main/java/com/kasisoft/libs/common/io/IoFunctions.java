@@ -46,7 +46,7 @@ public class IoFunctions {
    * 
    * @return   A {@link Pattern} instance used to test filesystem pathes. Not <code>null</code>.
    */
-  public static final Pattern compileFilesystemPattern( String pattern ) {
+  public static Pattern compileFilesystemPattern( String pattern ) {
     StringBuilder   buffer    = new StringBuilder();
     StringTokenizer tokenizer = new StringTokenizer( pattern, "*", true );
     boolean         last      = false;
@@ -84,7 +84,7 @@ public class IoFunctions {
    * 
    * @return   The opened {@link InputStream}. Not <code>null</code>.
    */
-  public static final InputStream newInputStream( File file ) {
+  public static InputStream newInputStream( File file ) {
     try {
       return new BufferedInputStream( new FileInputStream( file ) );
     } catch( FileNotFoundException ex ) {
@@ -99,7 +99,7 @@ public class IoFunctions {
    * 
    * @return   The opened {@link InputStream}. Not <code>null</code>.
    */
-  public static final InputStream newInputStream( URL url ) {
+  public static InputStream newInputStream( URL url ) {
     try {
       return new BufferedInputStream( url.openStream() );
     } catch( IOException e ) {
@@ -114,7 +114,7 @@ public class IoFunctions {
    * 
    * @return   The opened {@link OutputStream}. Not <code>null</code>.
    */
-  public static final OutputStream newOutputStream( File file ) {
+  public static OutputStream newOutputStream( File file ) {
     try {
       return new BufferedOutputStream( new FileOutputStream( file ) );
     } catch( FileNotFoundException ex ) {
@@ -127,7 +127,7 @@ public class IoFunctions {
    * 
    * @return   The file usable to create a directory or a file. Not <code>null</code> and does not exist.
    */
-  public static final File newTempFile() {
+  public static File newTempFile() {
     return newTempFile( null, null );
   }
 
@@ -138,7 +138,7 @@ public class IoFunctions {
    * 
    * @return   The file usable to create a directory or a file. Not <code>null</code> and does not exist.
    */
-  public static final File newTempFile( String basename ) {
+  public static File newTempFile( String basename ) {
     return newTempFile( basename, null );
   }
   
@@ -150,7 +150,7 @@ public class IoFunctions {
    * 
    * @return   The file usable to create a directory or a file. Not <code>null</code> and does not exist.
    */
-  public static final File newTempFile( String basename, String suffix ) {
+  public static File newTempFile( String basename, String suffix ) {
     if( suffix == null ) {
       suffix    = "";
     }
@@ -173,7 +173,7 @@ public class IoFunctions {
    * 
    * @return   The buffer itself. Not <code>null</code>.
    */
-  public static final byte[] allocateBytes( Integer size ) {
+  public static byte[] allocateBytes( Integer size ) {
     return Primitive.PByte.<byte[]>getBuffers().allocate( size );
   }
 
@@ -182,7 +182,7 @@ public class IoFunctions {
    * 
    * @param buffer   The buffer which has to be released. Not <code>null</code>.
    */
-  public static final void releaseBytes( byte[] buffer ) {
+  public static void releaseBytes( byte[] buffer ) {
     Primitive.PByte.<byte[]>getBuffers().release( buffer );
   }
 
@@ -195,7 +195,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( InputStream input, OutputStream output, byte[] buffer ) {
+  public static void copy( InputStream input, OutputStream output, byte[] buffer ) {
     ByteCopierRunnable runnable = new ByteCopierRunnable( buffer );
     runnable.configure( input, output );
     runnable.run();
@@ -212,7 +212,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( InputStream input, OutputStream output ) {
+  public static void copy( InputStream input, OutputStream output ) {
     copy( input, output, (byte[]) null );
   }
   
@@ -225,7 +225,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( InputStream input, OutputStream output, Integer buffersize ) {
+  public static void copy( InputStream input, OutputStream output, Integer buffersize ) {
     ByteCopierRunnable runnable = new ByteCopierRunnable( buffersize );
     runnable.configure( input, output );
     runnable.run();
@@ -243,7 +243,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( InputStream input, OutputStream output, int buffersize ) {
+  public static void copy( InputStream input, OutputStream output, int buffersize ) {
     copy( input, output, Integer.valueOf( buffersize ) );
   }
   
@@ -255,7 +255,7 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final void copy( File input, File output ) {
+  public static void copy( File input, File output ) {
     InputStream   instream   = null;
     OutputStream  outstream  = null;
     try {
@@ -277,7 +277,7 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final void copyDir( File input, File output, boolean recursive ) {
+  public static void copyDir( File input, File output, boolean recursive ) {
     if( ! output.exists() ) {
       mkdirs( output );
     }
@@ -304,7 +304,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( Reader input, Writer output, char[] buffer ) {
+  public static void copy( Reader input, Writer output, char[] buffer ) {
     CharCopierRunnable runnable = new CharCopierRunnable( buffer );
     runnable.configure( input, output );
     runnable.run();
@@ -321,7 +321,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( Reader input, Writer output ) {
+  public static void copy( Reader input, Writer output ) {
     copy( input, output, (char[]) null );
   }
   
@@ -334,7 +334,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( Reader input, Writer output, Integer buffersize ) {
+  public static void copy( Reader input, Writer output, Integer buffersize ) {
     CharCopierRunnable runnable = new CharCopierRunnable( buffersize );
     runnable.configure( input, output );
     runnable.run();
@@ -352,7 +352,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the copying failed for some reason.
    */
-  public static final void copy( Reader input, Writer output, int buffersize ) {
+  public static void copy( Reader input, Writer output, int buffersize ) {
     copy( input, output, Integer.valueOf( buffersize ) );
   }
   
@@ -367,7 +367,7 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final byte[] loadBytes( InputStream input, Integer buffersize ) {
+  public static byte[] loadBytes( InputStream input, Integer buffersize ) {
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     copy( input, byteout, buffersize );
     return byteout.toByteArray();
@@ -383,7 +383,7 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static final char[] loadChars( Reader input, Integer buffersize ) {
+  public static char[] loadChars( Reader input, Integer buffersize ) {
     CharArrayWriter charout = new CharArrayWriter();
     copy( input, charout, buffersize );
     return charout.toCharArray();
@@ -399,7 +399,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the reading process fails for some reason.
    */
-  public static final byte[] loadBytes( File file, Integer buffersize ) {
+  public static byte[] loadBytes( File file, Integer buffersize ) {
     InputStream           input   = null;
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     try {
@@ -421,7 +421,7 @@ public class IoFunctions {
    *
    * @throws FailureException whenever the reading process fails for some reason.
    */
-  public static final byte[] loadBytes( URL url, Integer buffersize ) {
+  public static byte[] loadBytes( URL url, Integer buffersize ) {
     InputStream           input   = null;
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     try {
@@ -442,7 +442,7 @@ public class IoFunctions {
    * 
    * @throws IOException   Loading the content failed for some reason.
    */
-  public static final void loadBytes( byte[] buffer, InputStream instream, int count ) throws IOException {
+  public static void loadBytes( byte[] buffer, InputStream instream, int count ) throws IOException {
     int offset  = 0; 
     int read    = instream.read( buffer, offset, count );
     while( (read != -1) && (count > 0) ) {
@@ -463,7 +463,7 @@ public class IoFunctions {
    * 
    * @throws IOException   Loading the content failed for some reason.
    */
-  public static final void loadChars( char[] buffer, Reader reader, int count ) throws IOException {
+  public static void loadChars( char[] buffer, Reader reader, int count ) throws IOException {
     int offset  = 0; 
     int read    = reader.read( buffer, offset, count );
     while( (read != -1) && (count > 0) ) {
@@ -487,7 +487,7 @@ public class IoFunctions {
    *
    * @throws FailureException in case of an io error.
    */
-  public static final char[] loadChars( File file, Integer buffersize, Encoding encoding ) {
+  public static char[] loadChars( File file, Integer buffersize, Encoding encoding ) {
     Reader          reader  = null;
     CharArrayWriter charout = new CharArrayWriter();
     try {
@@ -510,7 +510,7 @@ public class IoFunctions {
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText( Reader input, boolean trim, boolean emptylines ) {
+  public static List<String> readText( Reader input, boolean trim, boolean emptylines ) {
     List<String>       result   = new ArrayList<String>();
     LineReaderRunnable runnable = new LineReaderRunnable( input, result );
     runnable.setTrim( trim );
@@ -532,7 +532,7 @@ public class IoFunctions {
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText( Reader input ) {
+  public static List<String> readText( Reader input ) {
     return readText( input, false, true );
   }
   
@@ -549,7 +549,7 @@ public class IoFunctions {
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText( File input, boolean trim, boolean emptylines, Encoding encoding ) {
+  public static List<String> readText( File input, boolean trim, boolean emptylines, Encoding encoding ) {
     Reader reader = null;
     try {
       reader = Encoding.openReader( input, encoding );
@@ -570,7 +570,7 @@ public class IoFunctions {
    *
    * @throws FailureException in case of an io error.
    */
-  public static final List<String> readText( File input, Encoding encoding ) {
+  public static List<String> readText( File input, Encoding encoding ) {
     return readText( input, false, true, encoding );
   }
 
@@ -582,7 +582,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if skipping didn't succeed.
    */
-  public static final void skip( InputStream input, int offset ) {
+  public static void skip( InputStream input, int offset ) {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
@@ -602,7 +602,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if skipping didn't succeed.
    */
-  public static final void skip( Reader input, int offset ) {
+  public static void skip( Reader input, int offset ) {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
@@ -625,7 +625,7 @@ public class IoFunctions {
    * 
    * @throws FailureException in case the fragment could not be read.
    */
-  public static final byte[] loadFragment( InputStream input, int offset, int length ) {
+  public static byte[] loadFragment( InputStream input, int offset, int length ) {
     skip( input, offset );
     byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( Integer.valueOf( length ) );
     try {
@@ -655,7 +655,7 @@ public class IoFunctions {
    * 
    * @throws FailureException in case the fragment could not be read.
    */
-  public static final byte[] loadFragment( File file, int offset, int length ) {
+  public static byte[] loadFragment( File file, int offset, int length ) {
     InputStream input = null;
     try {
       input = newInputStream( file );
@@ -672,7 +672,7 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> <=> The buffer seems to be compressed using GZIP.
    */
-  public static final boolean isGZIP( byte[] buffer ) {
+  public static boolean isGZIP( byte[] buffer ) {
     return MagicNumber.GZIP.find( buffer );
   }
 
@@ -685,7 +685,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if loading the header failed for some reason.
    */
-  public static final boolean isGZIP( File file ) {
+  public static boolean isGZIP( File file ) {
     byte[] fragment = loadFragment( file, 0, 2 );
     if( fragment.length == 2 ) {
       return isGZIP( fragment );
@@ -705,7 +705,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if the accessing the stream failed for some reason.
    */
-  public static final long crc32( InputStream instream, CRC32 crc, Integer buffersize ) {
+  public static long crc32( InputStream instream, CRC32 crc, Integer buffersize ) {
     crc           = crc == null ? new CRC32() : crc;
     byte[] buffer = allocateBytes( buffersize );
     try {
@@ -733,7 +733,7 @@ public class IoFunctions {
    * 
    * @throws FailureException in case io failed for some reason.
    */
-  public static final long crc32( InputStream instream ) {
+  public static long crc32( InputStream instream ) {
     return crc32( instream, null, null );
   }
 
@@ -748,7 +748,7 @@ public class IoFunctions {
    * 
    * @throws FailureException in case io failed for some reason.
    */
-  public static final long crc32( File file, CRC32 crc, Integer buffersize ) {
+  public static long crc32( File file, CRC32 crc, Integer buffersize ) {
     InputStream input = null;
     try {
       input = newInputStream( file );
@@ -767,7 +767,7 @@ public class IoFunctions {
    * 
    * @throws FailureException in case io failed for some reason.
    */
-  public static final long crc32( File file ) {
+  public static long crc32( File file ) {
     InputStream input = null;
     try {
       input = newInputStream( file );
@@ -785,7 +785,7 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> <=> Deletion of all files succeeded.
    */
-  public static final boolean delete( File ... files ) {
+  public static boolean delete( File ... files ) {
     FileDeleteRunnable runnable = new FileDeleteRunnable( files );
     runnable.run();
     return runnable.hasCompleted();
@@ -800,7 +800,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the text failed for some reason.
    */
-  public static final void writeText( OutputStream output, List<String> lines, Encoding encoding ) {
+  public static void writeText( OutputStream output, List<String> lines, Encoding encoding ) {
     PrintStream printer = null;
     try {
       printer = Encoding.openPrintStream( output, encoding );
@@ -820,7 +820,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the text failed for some reason.
    */
-  public static final void writeText( Writer writer, List<String> lines ) {
+  public static void writeText( Writer writer, List<String> lines ) {
     PrintWriter printer = null;
     try {
       printer = new PrintWriter( writer );
@@ -841,7 +841,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the text failed for some reason.
    */
-  public static final void writeText( File file, List<String> lines, Encoding encoding ) {
+  public static void writeText( File file, List<String> lines, Encoding encoding ) {
     OutputStream output = null;
     try {
       output = newOutputStream( file );
@@ -858,7 +858,7 @@ public class IoFunctions {
    * @param text       The text which has to be written. Not <code>null</code>.
    * @param encoding   The encoding which has to be used. Maybe <code>null</code>.
    */
-  public static final void writeText( OutputStream output, String text, Encoding encoding ) {
+  public static void writeText( OutputStream output, String text, Encoding encoding ) {
     PrintStream printer = null;
     try {
       printer = Encoding.openPrintStream( output, encoding );
@@ -875,7 +875,7 @@ public class IoFunctions {
    * @param text       The text which has to be written. Not <code>null</code>.
    * @param encoding   The encoding which has to be used. Maybe <code>null</code>.
    */
-  public static final void writeText( File file, String text, Encoding encoding ) {
+  public static void writeText( File file, String text, Encoding encoding ) {
     OutputStream output = null;
     try {
       output = newOutputStream( file );
@@ -893,7 +893,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeBytes( File file, byte[] content ) {
+  public static void writeBytes( File file, byte[] content ) {
     OutputStream output = null;
     try {
       output = newOutputStream( file );
@@ -911,7 +911,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeBytes( OutputStream outstream, byte[] content ) {
+  public static void writeBytes( OutputStream outstream, byte[] content ) {
     try {
       outstream.write( content );
     } catch( IOException ex ) {
@@ -928,7 +928,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeCharacters( File file, char[] content, Encoding encoding ) {
+  public static void writeCharacters( File file, char[] content, Encoding encoding ) {
     Writer writer = null;
     try {
       writer = encoding.openWriter( file );
@@ -946,7 +946,7 @@ public class IoFunctions {
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
-  public static final void writeCharacters( Writer writer, char[] content ) {
+  public static void writeCharacters( Writer writer, char[] content ) {
     try {
       writer.write( content );
     } catch( IOException ex ) {
@@ -964,7 +964,7 @@ public class IoFunctions {
    * 
    * @return   The list which collects the filesystem entries. Not <code>null</code>.
    */
-  public static final List<File> listRecursive( File dir, FileFilter filter, boolean includefiles, boolean includedirs ) {
+  public static List<File> listRecursive( File dir, FileFilter filter, boolean includefiles, boolean includedirs ) {
     FileListRunnable runnable = new FileListRunnable( dir );
     runnable.setIncludeFiles( includefiles );
     runnable.setIncludeDirs( includedirs );
@@ -979,7 +979,7 @@ public class IoFunctions {
    * @param dir      The current directory to scan. Not <code>null</code>. 
    * @param filter   A FileFilter usable to specify additional filter criterias. Not <code>null</code>.
    */
-  public static final List<File> listRecursive( File dir, FileFilter filter ) {
+  public static List<File> listRecursive( File dir, FileFilter filter ) {
     return listRecursive( dir, filter, true, true );
   }
   
@@ -992,7 +992,7 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> if the process could successfully complete.
    */
-  public static final boolean zip( File zipfile, File dir, Integer buffersize ) {
+  public static boolean zip( File zipfile, File dir, Integer buffersize ) {
     ZipRunnable runnable = new ZipRunnable( zipfile, dir, buffersize );
     runnable.run();
     return runnable.hasCompleted();
@@ -1008,7 +1008,7 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> if the process could successfully complete.
    */
-  public static final boolean unzip( File zipfile, File destdir, Integer buffersize ) {
+  public static boolean unzip( File zipfile, File destdir, Integer buffersize ) {
     UnzipRunnable runnable = new UnzipRunnable( zipfile, destdir, buffersize );
     runnable.run();
     return runnable.hasCompleted();
@@ -1021,7 +1021,7 @@ public class IoFunctions {
    * 
    * @return   The location of the class directory/jarfile. Not <code>null</code>.
    */
-  public static final File locateDirectory( Class<?> classobj ) {
+  public static File locateDirectory( Class<?> classobj ) {
     
     String         classname    = String.format( "/%s.class", classobj.getName().replace('.','/') );
         
@@ -1049,7 +1049,7 @@ public class IoFunctions {
    * 
    * @param dir   The directory that needs to be created. Not <code>null</code> and must be a valid file.
    */
-  public static final void mkdirs( File dir ) {
+  public static void mkdirs( File dir ) {
     if( dir.exists() ) {
       if( ! dir.isDirectory() ) {
         throw new FailureException( FailureCode.CreateDirectory );

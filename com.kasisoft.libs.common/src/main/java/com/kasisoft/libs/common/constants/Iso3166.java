@@ -310,7 +310,7 @@ public enum Iso3166 {
    * 
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
-  public static final Iso3166 valueByAlpha3( String alpha3 ) {
+  public static Iso3166 valueByAlpha3( String alpha3 ) {
     if( (alpha3 != null) && (alpha3.length() == 3) ) {
       for( Iso3166 isocode : Iso3166.values() ) {
         if( isocode.alpha3.equals( alpha3 ) ) {
@@ -328,7 +328,7 @@ public enum Iso3166 {
    * 
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
-  public static final Iso3166 valueByAlpha2( String alpha2 ) {
+  public static Iso3166 valueByAlpha2( String alpha2 ) {
     if( (alpha2 != null) && (alpha2.length() == 2) ) {
       for( Iso3166 isocode : Iso3166.values() ) {
         if( isocode.alpha2.equals( alpha2 ) ) {
@@ -346,7 +346,7 @@ public enum Iso3166 {
    * 
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
-  public static final Iso3166 valueByNumerical( int numerical ) {
+  public static Iso3166 valueByNumerical( int numerical ) {
     for( Iso3166 isocode : Iso3166.values() ) {
       if( isocode.numeric == numerical ) {
         return isocode;

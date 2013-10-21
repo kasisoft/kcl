@@ -78,7 +78,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
    */
-  public static final Document readDocument( File file, boolean validate, boolean xmlnamespaces ) throws FailureException {
+  public static Document readDocument( File file, boolean validate, boolean xmlnamespaces ) throws FailureException {
     return readDocument( file, null, null, null, validate, xmlnamespaces, false );
   }
   
@@ -97,7 +97,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
    */
-  public static final Document readDocument( 
+  public static Document readDocument( 
     File             file, 
     ErrorHandler     handler,
     URL              baseurl,
@@ -130,7 +130,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
    */
-  public static final Document readDocument( 
+  public static Document readDocument( 
     InputStream      input, 
     ErrorHandler     handler,
     URL              baseurl,
@@ -189,7 +189,7 @@ public final class XmlFunctions {
    * 
    * @return   A decoded String. Not <code>null</code>.
    */
-  public static final String decodeString( String source ) {
+  public static String decodeString( String source ) {
     return StringFunctions.replace( source, XML2NORMAL );
   }
 
@@ -200,7 +200,7 @@ public final class XmlFunctions {
    * 
    * @return   An encoded String. Not <code>null</code>.
    */
-  public static final String encodeString( String source ) {
+  public static String encodeString( String source ) {
     return StringFunctions.replace( source, NORMAL2XML );
   }
 
@@ -214,7 +214,7 @@ public final class XmlFunctions {
    *                       
    * @throws FailureException   Saving the XML datastructure failed.
    */
-  public static final void writeDocument( OutputStream output, Node node, Encoding encoding ) throws FailureException {
+  public static void writeDocument( OutputStream output, Node node, Encoding encoding ) throws FailureException {
     TransformerFactory factory = TransformerFactory.newInstance();
     try {
       if( encoding == null ) {
@@ -257,7 +257,7 @@ public final class XmlFunctions {
    *                       
    * @throws FailureException   Saving the XML datastructure failed.
    */
-  public static final void writeDocument( File destination, Node node, Encoding encoding ) throws FailureException {
+  public static void writeDocument( File destination, Node node, Encoding encoding ) throws FailureException {
     OutputStream output = null;
     try {
       output = IoFunctions.newOutputStream( destination );
@@ -277,7 +277,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
-  public static final Transformer newTransformer( File xsl ) throws FailureException {
+  public static Transformer newTransformer( File xsl ) throws FailureException {
     InputStream         instream  = null;
     try {
       instream = IoFunctions.newInputStream( xsl );
@@ -297,7 +297,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
-  public static final Transformer newTransformer( URL resource ) throws FailureException {
+  public static Transformer newTransformer( URL resource ) throws FailureException {
     InputStream instream  = null;
     try {
       instream = resource.openStream();
@@ -319,7 +319,7 @@ public final class XmlFunctions {
    * 
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
-  public static final Transformer newTransformer( InputStream xslinstream ) throws FailureException {
+  public static Transformer newTransformer( InputStream xslinstream ) throws FailureException {
     TransformerFactory  factory   = TransformerFactory.newInstance();
     try {
       return factory.newTransformer( new StreamSource( xslinstream ) );
@@ -334,7 +334,7 @@ public final class XmlFunctions {
    * @param parent   The parent which will be extended. Not <code>null</code>.
    * @param child    The child which has to be inserted to the first position. Not <code>null</code>.
    */
-  public static final void insertFirst( Element parent, Node child ) {
+  public static void insertFirst( Element parent, Node child ) {
     if( parent.getFirstChild() != null ) {
       parent.insertBefore( child, parent.getFirstChild() );
     } else {
@@ -352,7 +352,7 @@ public final class XmlFunctions {
    * 
    * @return   An Element which contains all supplied informations. Not <code>null</code>.
    */
-  public static final Element createElement( Document doc, String tag, String content, String ... attrs ) {
+  public static Element createElement( Document doc, String tag, String content, String ... attrs ) {
     Element result = doc.createElement( tag );
     if( content != null ) {
       result.appendChild( doc.createTextNode( content ) );
@@ -370,7 +370,7 @@ public final class XmlFunctions {
    * 
    * @param nodes   A list of nodes which have to be removed from the DOM tree. Maybe <code>null</code>.
    */
-  public static final void removeNodes( NodeList nodes ) {
+  public static void removeNodes( NodeList nodes ) {
     if( nodes != null ) {
       for( int i = nodes.getLength() - 1; i >= 0; i-- ) {
         Node current = nodes.item(i);

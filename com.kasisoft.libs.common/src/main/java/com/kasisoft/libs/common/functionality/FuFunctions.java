@@ -30,7 +30,7 @@ public class FuFunctions {
    * 
    * @return   The reduced value. Not <code>null</code>.
    */
-  public static final <F,T> T reduce( Reduce<F,T> function, List<F> objects, T initial ) {
+  public static <F,T> T reduce( Reduce<F,T> function, List<F> objects, T initial ) {
     T result = initial;
     for( int i = 0; i < objects.size(); i++ ) {
       result = function.reduce( objects.get(i), result );
@@ -46,7 +46,7 @@ public class FuFunctions {
    * 
    * @return   The transformed values. Not <code>null</code>.
    */
-  public static final <F,T> List<T> map( Transform<F,T> function, List<F> objects ) {
+  public static <F,T> List<T> map( Transform<F,T> function, List<F> objects ) {
     List<T> result = new ArrayList<T>();
     for( int i = 0; i < objects.size(); i++ ) {
       result.add( function.map( objects.get(i) ) );
@@ -62,7 +62,7 @@ public class FuFunctions {
    * 
    * @return   The transformed map. Not <code>null</code>.
    */
-  public static final <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects ) {
+  public static <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects ) {
     return mapValue( function, objects, null );
   }
 
@@ -75,7 +75,7 @@ public class FuFunctions {
    * 
    * @return   The transformed map. Not <code>null</code>.
    */
-  public static final <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects, Map<K,T> defvalues ) {
+  public static <K,F,T> Map<K,T> mapValue( Transform<F,T> function, Map<K,F> objects, Map<K,T> defvalues ) {
     Map<K,T> result = new HashMap<K,T>();
     if( defvalues != null ) {
       result.putAll( defvalues );
@@ -95,7 +95,7 @@ public class FuFunctions {
    * 
    * @return   The transformed map. Not <code>null</code>.
    */
-  public static final <V,F,T> Map<T,V> mapKey( Transform<F,T> function, Map<F,V> objects ) {
+  public static <V,F,T> Map<T,V> mapKey( Transform<F,T> function, Map<F,V> objects ) {
     Map<T,V> result = new HashMap<T,V>();
     for( Map.Entry<F,V> entry : objects.entrySet() ) {
       result.put( function.map( entry.getKey() ), entry.getValue() );
@@ -112,7 +112,7 @@ public class FuFunctions {
    * 
    * @return   The list with the recombined values. Not <code>null</code>.
    */
-  public static final <L,R,V> List<V> zipEqualLengths( Zip<L,R,V> function, List<L> left, List<R> right ) {
+  public static <L,R,V> List<V> zipEqualLengths( Zip<L,R,V> function, List<L> left, List<R> right ) {
     return zip( function, left, right );
   }
   
@@ -126,7 +126,7 @@ public class FuFunctions {
    * 
    * @return   The list with the recombined values. Not <code>null</code>.
    */
-  public static final <L,R,V> List<V> zip( Zip<L,R,V> function, List<L> left, List<R> right ) {
+  public static <L,R,V> List<V> zip( Zip<L,R,V> function, List<L> left, List<R> right ) {
     int     max    = Math.max( left.size(), right.size() );
     List<V> result = new ArrayList<V>();
     for( int i = 0; i < max; i++ ) {
@@ -151,7 +151,7 @@ public class FuFunctions {
    * 
    * @return   A newly created list. Not <code>null</code>.
    */
-  public static final <T> List<T> filter( Filter<T> function, List<T> objects ) {
+  public static <T> List<T> filter( Filter<T> function, List<T> objects ) {
     List<T> result = new ArrayList<T>();
     for( int i = 0; i < objects.size(); i++ ) {
       T object = objects.get(i);

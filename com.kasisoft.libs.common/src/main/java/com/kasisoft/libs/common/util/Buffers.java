@@ -118,7 +118,7 @@ public class Buffers<T> {
    *           safely casted to the desired Buffers instance. Not <code>null</code>.
    */
   @SuppressWarnings("unchecked")
-  public static final Buffers newBuffers( Primitive primitive ) {
+  public static Buffers newBuffers( Primitive primitive ) {
     switch( primitive ) {
     case PBoolean : return new Buffers<boolean[]>( primitive );
     case PByte    : return new Buffers<byte   []>( primitive );

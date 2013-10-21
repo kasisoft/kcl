@@ -206,7 +206,7 @@ public final class Workspace {
    * 
    * @throws FailureException   Loading existing settings failed for some reason.
    */
-  public static final synchronized Workspace getInstance() {
+  public static synchronized Workspace getInstance() {
     return getInstance( null );
   }
   
@@ -226,7 +226,7 @@ public final class Workspace {
    * 
    * @throws FailureException   Loading existing settings failed for some reason.
    */
-  public static final synchronized Workspace getInstance( File settings ) {
+  public static synchronized Workspace getInstance( File settings ) {
     if( instance == null ) {
       File appfile = settings;
       if( appfile == null ) {

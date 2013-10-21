@@ -178,7 +178,7 @@ public enum Primitive {
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid array type.
    */
-  public static final Primitive byArrayType( Object obj ) {
+  public static Primitive byArrayType( Object obj ) {
               if( obj instanceof boolean [] )    { return PBoolean;
     } else    if( obj instanceof byte    [] )    { return PByte;
     } else    if( obj instanceof char    [] )    { return PChar;
@@ -197,7 +197,7 @@ public enum Primitive {
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid object type.
    */
-  public static final Primitive byObjectType( Object obj ) {
+  public static Primitive byObjectType( Object obj ) {
               if( obj instanceof Boolean   )    { return PBoolean;
     } else    if( obj instanceof Byte      )    { return PByte;
     } else    if( obj instanceof Character )    { return PChar;

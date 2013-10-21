@@ -31,7 +31,7 @@ public class SwingFunctions {
    * 
    * @return   The popup menu itself or <code>null</code> in case there's no enabled element.
    */
-  public static final JPopupMenu createPopupMenu( JMenuItem ... menuitems ) {
+  public static JPopupMenu createPopupMenu( JMenuItem ... menuitems ) {
     if( (menuitems == null) || (menuitems.length == 0) ) {
       return null;
     }
@@ -68,7 +68,7 @@ public class SwingFunctions {
    *  
    * @return   The widths of the supplied tables. Not <code>null</code>.
    */
-  public static final int[] getTableColumnWidths( JTable table ) {
+  public static int[] getTableColumnWidths( JTable table ) {
     TableColumnModel  model  = table.getColumnModel();
     int[]             result = new int[ model.getColumnCount() ];
     for( int i = 0; i < result.length; i++ ) {
@@ -84,7 +84,7 @@ public class SwingFunctions {
    * @param table    The JTable which column widths shall be changed. Not <code>null</code>.
    * @param widths   The widths for the corresponding columns. Not <code>null</code>.
    */
-  public static final void setTableColumnWidths( JTable table, int[] widths ) {
+  public static void setTableColumnWidths( JTable table, int[] widths ) {
     TableColumnModel model  = table.getColumnModel();
     int              length = Math.min( widths.length, model.getColumnCount() );
     for( int i = 0; i < length; i++ ) {
@@ -103,7 +103,7 @@ public class SwingFunctions {
    *
    * @return   A visual representation of the supplied component. Not <code>null</code>.
    */
-  public static final Image createImage( Component comp ) {
+  public static Image createImage( Component comp ) {
     BufferedImage image = new BufferedImage( comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB );
     comp.paint( image.getGraphics() );
     return image;
@@ -118,7 +118,7 @@ public class SwingFunctions {
    * 
    * @return   The newly created button. Not <code>null</code>.
    */
-  public static final JButton createButton( Icon icon, int deltax, int deltay ) {
+  public static JButton createButton( Icon icon, int deltax, int deltay ) {
     JButton result = new JButton( icon );
     setMinimumSize( result, icon.getIconWidth() + 2 * deltax, icon.getIconHeight() + 2 * deltay );
     return result;
@@ -131,7 +131,7 @@ public class SwingFunctions {
    * @param width       The width of the component.
    * @param height      The height of the component.
    */
-  public static final void setMinimumSize( JComponent component, int width, int height ) {
+  public static void setMinimumSize( JComponent component, int width, int height ) {
     Dimension prefsize    = component.getPreferredSize();
     Dimension newprefsize = new Dimension( prefsize.width, prefsize.height );
     if( newprefsize.width < width ) {
@@ -151,7 +151,7 @@ public class SwingFunctions {
    * @param width       The width of the component.
    * @param height      The height of the component.
    */
-  public static final void setFixedSize( Component component, int width, int height ) {
+  public static void setFixedSize( Component component, int width, int height ) {
     component . setMaximumSize   ( new Dimension( width, height ) );
     component . setMinimumSize   ( new Dimension( width, height ) );
     component . setPreferredSize ( new Dimension( width, height ) );
@@ -162,7 +162,7 @@ public class SwingFunctions {
    * 
    * @param component   The component tree that shall be updated completely. Not <code>null</code>.
    */
-  public static final void updateComponentTreeUI( final Component component ) {
+  public static void updateComponentTreeUI( final Component component ) {
     Runnable runnable = new Runnable() {
       @Override
       public void run() {
@@ -183,7 +183,7 @@ public class SwingFunctions {
    * @param related       The related container. If <code>null</code> the screen dimensions are used.
    *                      You can alternatively use {@link #center(Component)}.
    */
-  public static final void center( Component relocatable, Component related ) {
+  public static void center( Component relocatable, Component related ) {
     if( related == null ) {
       center( relocatable );
     } else {
@@ -204,7 +204,7 @@ public class SwingFunctions {
    * 
    * @param relocatable   The component which boundaries have to be adjusted. Not <code>null</code>.
    */
-  public static final void center( Component relocatable ) {
+  public static void center( Component relocatable ) {
     Dimension relosize    = relocatable.getSize();
     Dimension screensize  = Toolkit.getDefaultToolkit().getScreenSize();
     int       width       = screensize.width  - relosize.width;

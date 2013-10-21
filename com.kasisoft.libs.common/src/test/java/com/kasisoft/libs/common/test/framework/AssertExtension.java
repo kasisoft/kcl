@@ -974,7 +974,7 @@ public class AssertExtension {
     }
   }
   
-  private static final byte[] loadFile(File file) {
+  private static byte[] loadFile(File file) {
     byte[]      result   = new byte[ (int) file.length() ];
     InputStream instream = null;
     try {

@@ -247,7 +247,7 @@ public enum Month {
    * @return   The month for the supplied date. 
    */
   @SuppressWarnings("deprecation")
-  public static final Month valueOf( Date date ) {
+  public static Month valueOf( Date date ) {
     int number = date.getMonth() + 1;
     for( Month month : Month.values() ) {
       if( month.jremonth == number ) {
@@ -264,7 +264,7 @@ public enum Month {
    * 
    * @return   The month for the supplied jre month constant. 
    */
-  public static final Month valueOf( int jremonth ) {
+  public static Month valueOf( int jremonth ) {
     for( Month month : Month.values() ) {
       if( month.jremonth == jremonth ) {
         return month;

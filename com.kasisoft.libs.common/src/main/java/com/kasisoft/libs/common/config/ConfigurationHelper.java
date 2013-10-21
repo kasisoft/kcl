@@ -24,7 +24,7 @@ public class ConfigurationHelper {
    * 
    * @return   A simple help text about the supplied properties. Not <code>null</code>.
    */
-  public static final String help( SimpleProperty<?> ... properties ) {
+  public static String help( SimpleProperty<?> ... properties ) {
     StringFBuffer           buffer = new StringFBuffer();
     Map<String,SimpleProperty<?>> map    = new Hashtable<String,SimpleProperty<?>>();
     List<String>            keys   = new ArrayList<String>();
@@ -55,7 +55,7 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Map<String,String> props, SimpleProperty<?> ... properties ) {
+  public static Map<String,String> createReplacementMap( Map<String,String> props, SimpleProperty<?> ... properties ) {
     return createReplacementMap( props, "%%%s%%", "", properties );
   }
 
@@ -67,7 +67,7 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Properties props, SimpleProperty<?> ... properties ) {
+  public static Map<String,String> createReplacementMap( Properties props, SimpleProperty<?> ... properties ) {
     return createReplacementMap( props, "%%%s%%", "", properties );
   }
 
@@ -83,7 +83,7 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Map<String,String> props, String format, String nullvalue, SimpleProperty<?> ... properties ) {
+  public static Map<String,String> createReplacementMap( Map<String,String> props, String format, String nullvalue, SimpleProperty<?> ... properties ) {
     Map<String,String> result = new HashMap<String,String>();
     for( SimpleProperty<?> property : properties ) {
       String keypattern = String.format( format, property.getKey() );
@@ -105,7 +105,7 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static final Map<String,String> createReplacementMap( Properties props, String format, String nullvalue, SimpleProperty<?> ... properties ) {
+  public static Map<String,String> createReplacementMap( Properties props, String format, String nullvalue, SimpleProperty<?> ... properties ) {
     Map<String,String> result = new HashMap<String,String>();
     for( SimpleProperty<?> property : properties ) {
       String keypattern = String.format( format, property.getKey() );
@@ -124,7 +124,7 @@ public class ConfigurationHelper {
    * 
    * @return   The textual value of this property. Maybe <code>null</code> if <param>nullvalue</param> was.
    */
-  private static final <T> String getValueAsText( SimpleProperty<T> property, Map<String,String> properties, String nullvalue ) {
+  private static <T> String getValueAsText( SimpleProperty<T> property, Map<String,String> properties, String nullvalue ) {
     T value = null;
     try {
       value = property.getValue( properties );
@@ -147,7 +147,7 @@ public class ConfigurationHelper {
    * 
    * @return   The textual value of this property. Maybe <code>null</code> if <param>nullvalue</param> was.
    */
-  private static final <T> String getValueAsText( SimpleProperty<T> property, Properties properties, String nullvalue ) {
+  private static <T> String getValueAsText( SimpleProperty<T> property, Properties properties, String nullvalue ) {
     T value = null;
     try {
       value = property.getValue( properties );
