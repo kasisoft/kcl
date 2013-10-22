@@ -24,23 +24,26 @@ public class ConfigurationHelper {
    * 
    * @return   A simple help text about the supplied properties. Not <code>null</code>.
    */
-  public static String help( SimpleProperty<?> ... properties ) {
+  public static String help( AbstractProperty<?,?,?> ... properties ) {
     StringFBuffer           buffer = new StringFBuffer();
-    Map<String,SimpleProperty<?>> map    = new Hashtable<String,SimpleProperty<?>>();
+    Map<String,AbstractProperty<?,?,?>> map    = new Hashtable<String,AbstractProperty<?,?,?>>();
     List<String>            keys   = new ArrayList<String>();
     if( properties != null ) {
-      for( SimpleProperty<?> property : properties ) {
+      for( AbstractProperty<?,?,?> property : properties ) {
         keys.add( property.getKey() );
         map.put( property.getKey(), property );
       }
     }
     Collections.sort( keys );
     for( String key : keys ) {
-      SimpleProperty<?> property = map.get( key );
+      AbstractProperty<?,?,?> property = map.get( key );
       buffer.appendF( "%s ", key );
       buffer.appendF( "(%s) ", property.isRequired() ? "mandatory" : "optional" );
-      if( property.getDefaultValue() != null ) {
-        buffer.appendF( "(default=%s) ", property.getDefaultValue() );
+      if( property instanceof SimpleProperty ) {
+        SimpleProperty simpleproperty = (SimpleProperty) property;
+        if( simpleproperty.getDefaultValue() != null ) {
+          buffer.appendF( "(default=%s) ", simpleproperty.getDefaultValue() );
+        }
       }
       buffer.appendF( ": %s\n", property.getDescription() != null ? property.getDescription() : "" );
     }
