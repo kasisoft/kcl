@@ -302,7 +302,7 @@
     </plugins>
   </reporting>
   
-  <!-- distributionManagement>
+  <distributionManagement>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
@@ -312,11 +312,10 @@
       <id>sonatype-nexus-staging</id>
       <name>Nexus Release Repository</name>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
     </repository>
-  </distributionManagement-->
+  </distributionManagement>
   
-  <distributionManagement>
+  <!-- distributionManagement>
     <repository>
       <id>kasisoft</id>
       <name>kasisoft-releases</name>
@@ -327,6 +326,6 @@
       <name>kasisoft-snapshots</name>
       <url>https://kasisoft.com/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
-  </distributionManagement>
+  </distributionManagement-->
   
 </project>
