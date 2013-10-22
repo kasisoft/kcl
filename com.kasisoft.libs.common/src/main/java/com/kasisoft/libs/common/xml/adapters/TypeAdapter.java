@@ -83,7 +83,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
   }
   
   /**
-   * Like {@link #marshal(Object) with the difference that this function provides the cast implicitly. Therefore you 
+   * Like {@link #marshal(Object)} with the difference that this function provides the cast implicitly. Therefore you 
    * need to be cautious as the supplied object might cause a ClassCastException.
    * 
    * @param v   The To-Type instance to convert. Maybe <code>null</code>.
