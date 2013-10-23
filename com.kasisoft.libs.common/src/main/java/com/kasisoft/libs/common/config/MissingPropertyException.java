@@ -12,7 +12,9 @@ package com.kasisoft.libs.common.config;
  * Exception type that indicates that a required property is missing.
  */
 @SuppressWarnings("deprecation")
-public class MissingPropertyException extends com.kasisoft.libs.common.util.MissingPropertyException {
+public class MissingPropertyException extends RuntimeException {
+
+  private String   property;
 
   /**
    * Initializes this exception with some information about the missing property.
@@ -20,7 +22,16 @@ public class MissingPropertyException extends com.kasisoft.libs.common.util.Miss
    * @param propertykey   The property that is missing. Neither <code>null</code> nor empty.
    */
   public MissingPropertyException( String propertykey ) {
-    super( propertykey );
+    property  = propertykey;
+  }
+
+  /**
+   * Returns the property that is missing.
+   * 
+   * @return   The property that is missing. Neither <code>null</code> nor empty.
+   */
+  public String getProperty() {
+    return property;
   }
   
 } /* ENDCLASS */
