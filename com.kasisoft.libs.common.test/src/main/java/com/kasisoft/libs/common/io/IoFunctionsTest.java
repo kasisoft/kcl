@@ -389,7 +389,7 @@ public class IoFunctionsTest {
   @Test
   public void locateDirectory() throws IOException {
     File dir      = IoFunctions.locateDirectory( Iso3166Test.class );
-    File current  = new File( "target/test-classes" );;
+    File current  = new File( "target/classes" );;
     Assert.assertEquals( dir, current.getCanonicalFile() );
   }
 
