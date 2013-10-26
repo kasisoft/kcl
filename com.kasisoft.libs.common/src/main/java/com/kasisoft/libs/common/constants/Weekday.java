@@ -148,8 +148,8 @@ public enum Weekday {
    * Returns the weekday constant for the supplied day as specified
    * in java.util.Calendar .
    * 
-   * @note [26-Oct-2008:KASI]   If the day is taken from a Date instance you need to increase the value once since 
-   *                            Sunday on Date is 0 and the corresponding constant in the JRE is 1.
+   * @ks.note [26-Oct-2008:KASI]   If the day is taken from a Date instance you need to increase the value once since 
+   *                               Sunday on Date is 0 and the corresponding constant in the JRE is 1.
    * 
    * @param day    The day to be used. Not <code>null</code>.
    * 

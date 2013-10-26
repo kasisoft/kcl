@@ -216,9 +216,9 @@ public final class Workspace {
    * {@link "CommonLibraryConstants#PROP_APPLICATIONFILE"} will be used. If this property also has not been set a dummy
    * instance will be created.
    * 
-   * @note [19-Dec-2010:KASI]   Supplying a parameter won't have any effect if an instance already has been created so
-   *                            it's advisable to create a new instance as early as possible when launching the 
-   *                            application.
+   * @ks.note [19-Dec-2010:KASI]   Supplying a parameter won't have any effect if an instance already has been created so
+   *                               it's advisable to create a new instance as early as possible when launching the 
+   *                               application.
    *                            
    * @param settings   The file where all settings will be written, to. Maybe <code>null</code>.
    * 

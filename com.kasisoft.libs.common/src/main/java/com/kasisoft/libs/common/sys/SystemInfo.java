@@ -61,8 +61,8 @@ public enum SystemInfo {
   /**
    * Returns <code>true</code> if the filesystem is case sensitive.
    * 
-   * @note [09-Dec-2012:KASI]   This information is just a close guess. Case sensitivity of a filesystem might as well 
-   *                            depend on the technical specifications of the filesystem itself.
+   * @ks.note [09-Dec-2012:KASI]   This information is just a close guess. Case sensitivity of a filesystem might as well 
+   *                               depend on the technical specifications of the filesystem itself.
    * 
    * @return   <code>true</code> <=> The filesystem is case sensitive.
    */

@@ -102,11 +102,11 @@ public class SystemProcessTest {
   }
 
   /**
-   * @todo [15-Jan-2010:KASI]   I currently don't know a way to identify a crash in an executed
-   *                            application. There's no exception so even if the user affirms the
-   *                            crashed application it will be identified as if it has been executed
-   *                            successfully. There must be a proper way to identify such misbehaviours
-   *                            even if it's rarely occuring.
+   * @ks.todo [15-Jan-2010:KASI]   I currently don't know a way to identify a crash in an executed
+   *                               application. There's no exception so even if the user affirms the
+   *                               crashed application it will be identified as if it has been executed
+   *                               successfully. There must be a proper way to identify such misbehaviours
+   *                               even if it's rarely occuring.
    * 
   @Test
   public void errorApplication() {

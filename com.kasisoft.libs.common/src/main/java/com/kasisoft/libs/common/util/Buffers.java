@@ -43,7 +43,7 @@ public class Buffers<T> {
     if( allocated.isEmpty() ) {
       return null;
     }
-    /** @todo [11-Jan-2009:KASI] the access could be improved when the blocks are sorted depending on their length. */ 
+    /** @ks.todo [11-Jan-2009:KASI] the access could be improved when the blocks are sorted depending on their length. */ 
     for( int i = 0; i < allocated.size(); i++ ) {
       if( type.length( allocated.get(i) ) >= size ) {
         return allocated.remove(i);

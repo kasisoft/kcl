@@ -63,7 +63,7 @@ public class Utilities {
   public static char[] createCharacterBlock() {
     char[] result = new char[ (int) (Math.random() * 2048) ];
     for( int i = 0; i < result.length; i++ ) {
-      /** @todo [07-Feb-2010:KASI]   When using Character.MAX_VALUE instead of 256 characters which
+      /** @ks.todo [07-Feb-2010:KASI]   When using Character.MAX_VALUE instead of 256 characters which
        *                             are being read might have a directional property set which results
        *                             in a different code point (even though the data is binary
        *                             equivalent).

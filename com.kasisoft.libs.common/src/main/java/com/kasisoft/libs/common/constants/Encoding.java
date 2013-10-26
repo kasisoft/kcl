@@ -21,7 +21,7 @@ import java.io.*;
 public final class Encoding {
   
   /**
-   * @spec [27-Jul-2013:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
+   * @ks.spec [27-Jul-2013:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
    */
   
   public static final Encoding ASCII;

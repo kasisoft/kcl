@@ -11,11 +11,11 @@ package com.kasisoft.libs.common.constants;
 import java.util.*;
 
 /**
- * @spec [09-Dec-2012:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
+ * @ks.spec [09-Dec-2012:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
  * 
  * Alternate and more official: @source [09-Dec-2012:KASI]   http://www.iana.org/assignments/media-types
  * 
- * @note [09-Dec-2012:KASI]   Not all types have been used here.
+ * @ks.note [09-Dec-2012:KASI]   Not all types have been used here.
  */
 public enum MimeType {
 

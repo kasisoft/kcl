@@ -22,7 +22,7 @@ import java.io.*;
 /**
  * Tests for the class 'IoFunctions'.
  * 
- * @todo [06-Feb-2010:KASI]   Tests for the close methods are still missing.
+ * @ks.todo [06-Feb-2010:KASI]   Tests for the close methods are still missing.
  */
 @Test(groups="all")
 public class IoFunctionsTest {

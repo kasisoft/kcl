@@ -108,15 +108,15 @@
         <configuration>
           <tags>
             <tag>
-              <name>spec</name>
+              <name>ks.spec</name>
               <placement>X</placement>
             </tag>
             <tag>
-              <name>note</name>
+              <name>ks.note</name>
               <placement>X</placement>
             </tag>
             <tag>
-              <name>todo</name>
+              <name>ks.todo</name>
               <placement>X</placement>
             </tag>
           </tags>
