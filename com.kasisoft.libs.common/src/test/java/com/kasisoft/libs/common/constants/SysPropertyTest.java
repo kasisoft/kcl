@@ -27,43 +27,64 @@ public class SysPropertyTest {
   private Properties   systemproperties;
   private Properties   noproperties;
   
+  private File         toolsjar;
+  private File         endorseddir;
+  private File         extdir;
+  private File         root;
+  private File         sysdir;
+  private File         tempdir;
+  private File         userdir;
+  private File         homedir;
+    
+  
   @BeforeTest
-  public void setup() {
+  public void setup() throws Exception {
+
+    toolsjar    = new File( "/tools.jar" ) . getCanonicalFile();
+    endorseddir = new File( "/endorsed"  ) . getCanonicalFile();
+    extdir      = new File( "/ext"       ) . getCanonicalFile();
+    root        = new File( "/"          ) . getCanonicalFile();
+    sysdir      = new File( "/WINDOWS"   ) . getCanonicalFile();
+    tempdir     = new File( "/tmp"       ) . getCanonicalFile();
+    userdir     = new File( "/kasimir"   ) . getCanonicalFile();
+    homedir     = new File( "/kasimir2"  ) . getCanonicalFile();
+
     noproperties      = new Properties();
     systemproperties  = new Properties();
-    systemproperties.setProperty( "java.class.path"             , "C:/tools.jar"    );
+    systemproperties.setProperty( "java.class.path"             , toolsjar    . getAbsolutePath() );
+    systemproperties.setProperty( "java.endorsed.dirs"          , endorseddir . getAbsolutePath() );
+    systemproperties.setProperty( "java.ext.dirs"               , extdir      . getAbsolutePath() );
+    systemproperties.setProperty( "java.home"                   , root        . getAbsolutePath() );
+    systemproperties.setProperty( "java.library.path"           , sysdir      . getAbsolutePath() );
+    systemproperties.setProperty( "java.io.tmpdir"              , tempdir     . getAbsolutePath() );
+    systemproperties.setProperty( "user.dir"                    , userdir     . getAbsolutePath() );
+    systemproperties.setProperty( "user.home"                   , homedir     . getAbsolutePath() );
     systemproperties.setProperty( "java.class.version"          , "49"              );
-    systemproperties.setProperty( "java.endorsed.dirs"          , "C:/endorsed"     );
-    systemproperties.setProperty( "java.ext.dirs"               , "C:/ext"          );
-    systemproperties.setProperty( "java.home"                   , "C:/"             );
     systemproperties.setProperty( "java.version"                , "1.4"             );
     systemproperties.setProperty( "os.name"                     , "Windows 7"       );
     systemproperties.setProperty( "line.separator"              , "\r\n"            );
-    systemproperties.setProperty( "java.library.path"           , "C:/WINDOWS"      );
     systemproperties.setProperty( "java.runtime.version"        , "1.7.0_b17ea"     );
     systemproperties.setProperty( "java.specification.version"  , "1.7"             );
-    systemproperties.setProperty( "java.io.tmpdir"              , "C:/tmp"          );
-    systemproperties.setProperty( "user.dir"                    , "C:/kasimir"      );
-    systemproperties.setProperty( "user.home"                   , "C:/kasimir2"     );
+    
   }
   
   @DataProvider(name="createValues")
   public Object[][] createValues() throws Exception {
     Object[][]       result = new Object[][] {
-      { SysProperty.ClassPath             , asList( new File( "C:/tools.jar" ) ) },
-      { SysProperty.Path                  , asList( new File( "C:/WINDOWS"   ) ) },
-      { SysProperty.EndorsedDirs          , asList( new File( "C:/endorsed"  ) ) }, 
-      { SysProperty.ExtDirs               , asList( new File( "C:/ext"       ) ) }, 
-      { SysProperty.RuntimeVersion        , new Version( 1, 7, 0, "b17ea" )      },
-      { SysProperty.SpecificationVersion  , new Version( 1, 7 )                  },
-      { SysProperty.JavaVersion           , new Version( 1, 4 )                  }, 
-      { SysProperty.JavaHome              , new File( "C:/"         )            }, 
-      { SysProperty.TempDir               , new File( "C:/tmp"      )            },
-      { SysProperty.UserDir               , new File( "C:/kasimir"  )            },
-      { SysProperty.UserHome              , new File( "C:/kasimir2" )            },
-      { SysProperty.ClassVersion          , Double.valueOf(49)                   },
-      { SysProperty.OsName                , "Windows 7"                          }, 
-      { SysProperty.LineSeparator         , "\r\n"                               }, 
+      { SysProperty.ClassPath             , asList( toolsjar    )           },
+      { SysProperty.Path                  , asList( sysdir      )           },
+      { SysProperty.EndorsedDirs          , asList( endorseddir )           }, 
+      { SysProperty.ExtDirs               , asList( extdir      )           }, 
+      { SysProperty.RuntimeVersion        , new Version( 1, 7, 0, "b17ea" ) },
+      { SysProperty.SpecificationVersion  , new Version( 1, 7 )             },
+      { SysProperty.JavaVersion           , new Version( 1, 4 )             }, 
+      { SysProperty.JavaHome              , root                            }, 
+      { SysProperty.TempDir               , tempdir                         },
+      { SysProperty.UserDir               , userdir                         },
+      { SysProperty.UserHome              , homedir                         },
+      { SysProperty.ClassVersion          , Double.valueOf(49)              },
+      { SysProperty.OsName                , "Windows 7"                     }, 
+      { SysProperty.LineSeparator         , "\r\n"                          }, 
     };
     return result;
   }
