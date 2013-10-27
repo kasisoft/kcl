@@ -265,4 +265,24 @@ public class StringFunctionsTest {
     };
   }
   
+  @Test(dataProvider="createRepeat", groups="all")
+  public void repeat( int n, String text, String expected ) {
+    Assert.assertEquals( StringFunctions.repeat( n, text ), expected );
+  }
+  
+  @DataProvider(name="createRepeat")
+  public Object[][] createRepeat() {
+    return new Object[][] {
+      { Integer.valueOf(0) , null , ""   },
+      { Integer.valueOf(1) , null , ""   },
+      { Integer.valueOf(2) , null , ""   },
+      { Integer.valueOf(0) , ""   , ""   },
+      { Integer.valueOf(1) , ""   , ""   },
+      { Integer.valueOf(2) , ""   , ""   },
+      { Integer.valueOf(0) , "A"  , ""   },
+      { Integer.valueOf(1) , "A"  , "A"  },
+      { Integer.valueOf(2) , "A"  , "AA" },
+    };
+  }
+  
 } /* ENDCLASS */

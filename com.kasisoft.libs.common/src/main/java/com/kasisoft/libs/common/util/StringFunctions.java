@@ -632,4 +632,25 @@ public class StringFunctions {
     return null;
   }
   
+  /**
+   * Repeats the supplied text <param>n</param> times.
+   * 
+   * @param n      The number of concatenations that have to be performed.
+   * @param text   The text that has to be repeated. Neither <code>null</code> nor empty.
+   * 
+   * @return   The concatenated reproduction string. Not <code>null</code>.
+   */
+  public static String repeat( int n, String text ) {
+    if( (n > 0) && (text != null) && (text.length() > 0) ) {
+      StringBuffer buffer = new StringBuffer();
+      while( n > 0 ) {
+        buffer.append( text );
+        n--;
+      }
+      return buffer.toString();
+    }
+    return "";
+  }
+
+  
 } /* ENDCLASS */
