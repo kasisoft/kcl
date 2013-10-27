@@ -307,4 +307,76 @@ public class StringFunctionsTest {
     };
   }
 
+  @Test(dataProvider="createPadding", groups="all")
+  public void padding( String text, int limit, char padding, boolean left, String expected ) {
+    Assert.assertEquals( StringFunctions.padding( text, limit, padding, left ), expected );
+  }
+  
+  @DataProvider(name="createPadding")
+  public Object[][] createPadding() {
+    return new Object[][] {
+        
+      { null, Integer.valueOf(0), Character.valueOf(' '), Boolean.TRUE  , ""      },
+      { null, Integer.valueOf(5), Character.valueOf(' '), Boolean.TRUE  , "     " },
+
+      { null, Integer.valueOf(0), Character.valueOf(' '), Boolean.FALSE , ""      },
+      { null, Integer.valueOf(5), Character.valueOf(' '), Boolean.FALSE , "     " },
+
+      { "", Integer.valueOf(0), Character.valueOf(' '), Boolean.TRUE  , ""      },
+      { "", Integer.valueOf(5), Character.valueOf(' '), Boolean.TRUE  , "     " },
+
+      { "", Integer.valueOf(0), Character.valueOf(' '), Boolean.FALSE , ""      },
+      { "", Integer.valueOf(5), Character.valueOf(' '), Boolean.FALSE , "     " },
+
+      { "ABC", Integer.valueOf(0), Character.valueOf(' '), Boolean.TRUE  , ""      },
+      { "ABC", Integer.valueOf(5), Character.valueOf(' '), Boolean.TRUE  , "ABC  " },
+
+      { "ABC", Integer.valueOf(0), Character.valueOf(' '), Boolean.FALSE , ""      },
+      { "ABC", Integer.valueOf(5), Character.valueOf(' '), Boolean.FALSE , "  ABC" },
+
+      { "ABCDEFG", Integer.valueOf(0), Character.valueOf(' '), Boolean.TRUE  , ""      },
+      { "ABCDEFG", Integer.valueOf(5), Character.valueOf(' '), Boolean.TRUE  , "ABCDE" },
+
+      { "ABCDEFG", Integer.valueOf(0), Character.valueOf(' '), Boolean.FALSE , ""      },
+      { "ABCDEFG", Integer.valueOf(5), Character.valueOf(' '), Boolean.FALSE , "ABCDE" },
+
+    };
+  }
+
+  @Test(dataProvider="createPaddingNoChar", groups="all")
+  public void padding( String text, int limit, boolean left, String expected ) {
+    Assert.assertEquals( StringFunctions.padding( text, limit, left ), expected );
+  }
+  
+  @DataProvider(name="createPaddingNoChar")
+  public Object[][] createPaddingNoChar() {
+    return new Object[][] {
+        
+      { null, Integer.valueOf(0), Boolean.TRUE  , ""      },
+      { null, Integer.valueOf(5), Boolean.TRUE  , "     " },
+
+      { null, Integer.valueOf(0), Boolean.FALSE , ""      },
+      { null, Integer.valueOf(5), Boolean.FALSE , "     " },
+
+      { "", Integer.valueOf(0), Boolean.TRUE  , ""      },
+      { "", Integer.valueOf(5), Boolean.TRUE  , "     " },
+
+      { "", Integer.valueOf(0), Boolean.FALSE , ""      },
+      { "", Integer.valueOf(5), Boolean.FALSE , "     " },
+
+      { "ABC", Integer.valueOf(0), Boolean.TRUE  , ""      },
+      { "ABC", Integer.valueOf(5), Boolean.TRUE  , "ABC  " },
+
+      { "ABC", Integer.valueOf(0), Boolean.FALSE , ""      },
+      { "ABC", Integer.valueOf(5), Boolean.FALSE , "  ABC" },
+
+      { "ABCDEFG", Integer.valueOf(0), Boolean.TRUE  , ""      },
+      { "ABCDEFG", Integer.valueOf(5), Boolean.TRUE  , "ABCDE" },
+
+      { "ABCDEFG", Integer.valueOf(0), Boolean.FALSE , ""      },
+      { "ABCDEFG", Integer.valueOf(5), Boolean.FALSE , "ABCDE" },
+
+    };
+  }
+
 } /* ENDCLASS */

@@ -667,4 +667,41 @@ public class StringFunctions {
     return text;
   }
   
+  /**
+   * Creates a textual presentation with a padding using the space character.
+   * 
+   * @param text      The text that is supposed to be filled with padding. Maybe <code>null</code>.
+   * @param limit     The maximum number of characters allowed.
+   * @param left      <code>true</code> <=> Use left padding.
+   * 
+   * @return   The text that is padded. Not <code>null</code>.
+   */
+  public static String padding( String text, int limit, boolean left ) {
+    return padding( text, limit, ' ', left );
+  }
+
+  /**
+   * Creates a textual presentation with a padding.
+   * 
+   * @param text      The text that is supposed to be filled with padding. Maybe <code>null</code>.
+   * @param limit     The maximum number of characters allowed.
+   * @param padding   The padding character.
+   * @param left      <code>true</code> <=> Use left padding.
+   * 
+   * @return   The text that is padded. Not <code>null</code>.
+   */
+  public static String padding( String text, int limit, char padding, boolean left ) {
+    text = limit( text, limit );
+    if( text == null ) {
+      text = "";
+    }
+    int    diff   = limit - text.length();
+    String padstr = fillString( diff, padding );
+    if( left ) {
+      return String.format( "%s%s", text, padstr );
+    } else {
+      return String.format( "%s%s", padstr, text );
+    }
+  }
+  
 } /* ENDCLASS */
