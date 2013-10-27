@@ -113,6 +113,20 @@
     
     <plugins>
     
+      <plugin> 
+        <groupId>org.apache.felix</groupId> 
+        <artifactId>maven-bundle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-manifest</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -321,7 +335,7 @@
     </plugins>
   </reporting>
   
-  <!-- distributionManagement>
+  <distributionManagement>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
@@ -332,19 +346,6 @@
       <name>Nexus Release Repository</name>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-  </distributionManagement-->
-  
-  <!-- distributionManagement>
-    <repository>
-      <id>kasisoft</id>
-      <name>kasisoft-releases</name>
-      <url>https://kasisoft.com/artifactory/libs-release-local</url>
-    </repository>
-    <snapshotRepository>
-      <id>kasisoft</id>
-      <name>kasisoft-snapshots</name>
-      <url>https://kasisoft.com/artifactory/libs-snapshot-local</url>
-    </snapshotRepository>
-  </distributionManagement-->
+  </distributionManagement>
   
 </project>
