@@ -112,9 +112,6 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
     return emptylines;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void execute() {
     if( configured ) {

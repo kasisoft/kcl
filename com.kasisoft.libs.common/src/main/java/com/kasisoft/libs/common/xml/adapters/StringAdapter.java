@@ -34,17 +34,11 @@ public class StringAdapter extends TypeAdapter<String,String> {
     super( handler, defval1, defval2 );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( String v ) {
     return v;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String unmarshalImpl( String v ) {
     return v;

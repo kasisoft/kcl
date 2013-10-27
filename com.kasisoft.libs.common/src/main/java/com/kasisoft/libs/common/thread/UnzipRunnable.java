@@ -50,9 +50,6 @@ public class UnzipRunnable extends AbstractRunnable {
     buffersize  = size;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void execute() {
     

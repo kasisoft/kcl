@@ -36,17 +36,11 @@ public class URLAdapter extends TypeAdapter<String,URL> {
     super( handler, defval1, defval2 );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( URL v ) throws Exception {
     return v.toExternalForm();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public URL unmarshalImpl( String v ) throws Exception {
     return new URL( v );

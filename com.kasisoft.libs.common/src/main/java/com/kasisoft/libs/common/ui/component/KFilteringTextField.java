@@ -30,9 +30,6 @@ public class KFilteringTextField extends KValidationTextField {
     ((AbstractDocument) super.getDocument()).setDocumentFilter( filter );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void setDocument( Document newdocument ) {
     Document olddocument = super.getDocument();
@@ -96,17 +93,11 @@ public class KFilteringTextField extends KValidationTextField {
       owner = pthis;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void insertString( FilterBypass fb, int offset, String text, AttributeSet attrs ) throws BadLocationException {
       super.insertString( fb, offset, owner.calculateInsertionString( offset, text ), attrs );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void replace( FilterBypass fb, int offset, int length, String text, AttributeSet attrs ) throws BadLocationException {
       super.remove( fb, offset, length );

@@ -85,9 +85,6 @@ public enum HttpStatusCode {
     return codetext;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return name;

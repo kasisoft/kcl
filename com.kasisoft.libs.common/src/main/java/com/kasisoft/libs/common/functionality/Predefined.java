@@ -113,9 +113,6 @@ public class Predefined {
       inner  = filter;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean accept( T input ) {
       return ! inner.accept( input );
@@ -134,9 +131,6 @@ public class Predefined {
       atoms = filters;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean accept( T input ) {
       for( Filter<T> filter : atoms ) {
@@ -160,9 +154,6 @@ public class Predefined {
       atoms = filters;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean accept( T input ) {
       for( Filter<T> filter : atoms ) {
@@ -180,9 +171,6 @@ public class Predefined {
    */
   private static class ToString<T> implements Transform<T,String> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String map( T input ) {
       if( input == null ) {
@@ -199,9 +187,6 @@ public class Predefined {
    */
   private static class KeyToString<K,V> implements Transform<Map.Entry<K,V>,String> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String map( Map.Entry<K,V> input ) {
       if( input == null ) {
@@ -222,9 +207,6 @@ public class Predefined {
    */
   private static class ValueToString<K,V> implements Transform<Map.Entry<K,V>,String> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String map( Map.Entry<K,V> input ) {
       if( input == null ) {
@@ -250,9 +232,6 @@ public class Predefined {
       this.t2 = t2;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public S3 map( S1 input ) {
       return t2.map( t1.map( input ) );

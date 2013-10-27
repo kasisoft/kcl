@@ -14,9 +14,6 @@ package com.kasisoft.libs.common.ui.event;
  */
 public class ValidationEventDispatcher extends AbstractEventDispatcher<ValidationListener,ValidationEvent> {
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void invokeEvent( ValidationListener listener, ValidationEvent event ) {
     listener.validationChanged( event );

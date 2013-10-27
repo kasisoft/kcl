@@ -94,17 +94,11 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( T v ) {
     return v.toString();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public T unmarshalImpl( String v ) {
     if( ignorecase ) {

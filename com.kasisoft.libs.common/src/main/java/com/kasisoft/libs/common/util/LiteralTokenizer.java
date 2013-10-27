@@ -48,17 +48,11 @@ public class LiteralTokenizer implements Enumeration<String> {
     next          = getNext();
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean hasMoreElements() {
     return next != null;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String nextElement() {
     if( next == null ) {

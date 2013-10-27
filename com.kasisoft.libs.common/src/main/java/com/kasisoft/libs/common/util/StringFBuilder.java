@@ -547,9 +547,6 @@ public class StringFBuilder implements Serializable, CharSequence {
     return this;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return origin.toString();

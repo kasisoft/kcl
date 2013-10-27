@@ -122,9 +122,6 @@ public class FlowingTitledBorder extends TitledBorder {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
 

@@ -62,9 +62,6 @@ public class KValidationTextField extends JTextField implements KValidationCompo
     getDocument().addDocumentListener( localbehaviour );
     setInputVerifier( new InputVerifier() {
 
-      /**
-       * {@inheritDoc}
-       */
       @Override
       public boolean verify( JComponent input ) {
         KValidationTextField field = (KValidationTextField) input;
@@ -93,17 +90,11 @@ public class KValidationTextField extends JTextField implements KValidationCompo
     return validationconstraint;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void addValidationListener( ValidationListener l ) {
     validationdispatcher.addListener(l);
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void removeValidationListener( ValidationListener l ) {
     validationdispatcher.removeListener(l);
@@ -118,9 +109,6 @@ public class KValidationTextField extends JTextField implements KValidationCompo
     validationdispatcher.fireEvent( evt );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void setDocument( Document newdocument ) {
     Document olddocument = getDocument();
@@ -133,9 +121,6 @@ public class KValidationTextField extends JTextField implements KValidationCompo
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean isValid() {
     return valid;
@@ -235,25 +220,16 @@ public class KValidationTextField extends JTextField implements KValidationCompo
       owner = pthis;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void changedUpdate( DocumentEvent evt ) {
       owner.validityCheck();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void insertUpdate( DocumentEvent evt ) {
       owner.validityCheck();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void removeUpdate( DocumentEvent evt ) {
       owner.validityCheck();

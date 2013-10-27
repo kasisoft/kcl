@@ -72,9 +72,6 @@ public class CellBorder extends LineBorder {
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
     Color oldcolor = g.getColor();

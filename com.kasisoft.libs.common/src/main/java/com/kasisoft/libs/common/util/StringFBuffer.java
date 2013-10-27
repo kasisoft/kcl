@@ -639,9 +639,6 @@ public class StringFBuffer implements Serializable, CharSequence {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return origin.toString();

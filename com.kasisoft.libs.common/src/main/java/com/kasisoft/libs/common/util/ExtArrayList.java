@@ -65,17 +65,11 @@ public class ExtArrayList<T> extends ArrayList<T> {
     return index;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void add( int index, T element ) {
     super.add( adjustIndex( index ), element );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean addAll( int index, Collection<? extends T> collection ) {
     return super.addAll( adjustIndex( index ), collection );
@@ -109,49 +103,31 @@ public class ExtArrayList<T> extends ArrayList<T> {
     return addAll( size(), items );
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public T get( int index ) {
     return super.get( adjustIndex( index ) );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public T remove( int index ) {
     return super.remove( adjustIndex( index ) );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void removeRange( int from, int to ) {
     super.removeRange( adjustIndex( from ), adjustIndex( to ) );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public T set( int index, T element ) {
     return super.set( adjustIndex( index ), element );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public ListIterator<T> listIterator( int index ) {
     return super.listIterator( adjustIndex( index ) );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public List<T> subList( int from, int to ) {
     return super.subList( adjustIndex( from ), adjustIndex( to ) );

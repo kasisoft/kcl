@@ -44,17 +44,11 @@ public class DoubleAdapter extends TypeAdapter<String,Double> {
     super( handler, defval1, defval2 );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( Double v ) {
     return v.toString();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Double unmarshalImpl( String v ) {
     if( NAN.equalsIgnoreCase( v ) ) {

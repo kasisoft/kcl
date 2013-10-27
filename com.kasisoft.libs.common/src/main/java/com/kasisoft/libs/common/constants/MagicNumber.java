@@ -70,9 +70,6 @@ public enum MagicNumber {
   
   private static class GZIPTest implements NumberTest {
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean test( byte[] data ) {
       return ( ((data[1] << 8) | data[0]) & 0x0000FFFF ) == GZIPInputStream.GZIP_MAGIC;

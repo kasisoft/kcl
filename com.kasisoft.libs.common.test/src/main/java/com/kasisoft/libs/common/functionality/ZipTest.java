@@ -102,9 +102,6 @@ public class ZipTest {
    */
   private static final class StyleMap implements Zip<Color,Font,Map<String,Object>> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, Object> zip( Color color, Font font ) {
 

@@ -16,9 +16,6 @@ import javax.swing.event.*;
  */
 public class ChangeEventDispatcher extends AbstractEventDispatcher<ChangeListener,ChangeEvent>{
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void invokeEvent( ChangeListener listener, ChangeEvent event ) {
     listener.stateChanged( event );

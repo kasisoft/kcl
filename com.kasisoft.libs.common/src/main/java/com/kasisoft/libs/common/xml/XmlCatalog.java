@@ -212,9 +212,6 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     return result;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public InputSource resolveEntity( String publicid, String systemid ) throws SAXException, IOException {
     byte[] result = loadData( publicid, systemid );
@@ -228,9 +225,6 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public LSInput resolveResource( String type, String namespaceuri, String publicid, String systemid, String baseuri ) {
     if( domimpl != null ) {
@@ -276,9 +270,6 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     return null;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Source resolve( String href, String base ) throws TransformerException {
     return null;

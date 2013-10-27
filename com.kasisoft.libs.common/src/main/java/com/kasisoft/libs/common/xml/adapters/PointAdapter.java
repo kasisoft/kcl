@@ -58,9 +58,6 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
     super( handler, defval1, defval2, 2, delim );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SuppressWarnings("deprecation")
   protected Point unmarshalListImpl( String[] v ) throws Exception {
@@ -69,9 +66,6 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
     return new Point( x, y );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SuppressWarnings("deprecation")
   protected String marshalImpl( Point v ) throws Exception {

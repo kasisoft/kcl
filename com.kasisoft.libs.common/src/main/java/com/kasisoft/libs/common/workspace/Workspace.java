@@ -244,9 +244,6 @@ public final class Workspace {
    */
   private class ShutdownWorkspace extends Thread {
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void run() {
       Workspace.this.saveSettings();

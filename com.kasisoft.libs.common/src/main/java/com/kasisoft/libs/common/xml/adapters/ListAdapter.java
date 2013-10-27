@@ -71,9 +71,6 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
     elementadapter  = adapter;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected List<T> unmarshalImpl( String v ) throws Exception {
     String[] parts = v.split( quoted );

@@ -141,9 +141,6 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
     return null;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public final T map( F input ) {
     return unmarshal( input );

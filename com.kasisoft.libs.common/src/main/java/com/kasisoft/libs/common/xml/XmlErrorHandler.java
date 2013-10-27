@@ -64,27 +64,18 @@ public class XmlErrorHandler implements ErrorHandler {
     return buffer.toString();
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void error( SAXParseException ex ) throws SAXException {
     errorcount++;
     faults.add( newFault( XmlFault.FaultType.error, ex ) );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void fatalError( SAXParseException ex ) throws SAXException {
     errorcount++;
     faults.add( newFault( XmlFault.FaultType.fatal, ex ) );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void warning( SAXParseException ex ) throws SAXException {
     faults.add( newFault( XmlFault.FaultType.warning, ex ) );

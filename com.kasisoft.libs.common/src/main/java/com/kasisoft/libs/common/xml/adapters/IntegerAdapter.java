@@ -37,17 +37,11 @@ public class IntegerAdapter extends TypeAdapter<String,Integer> {
     super( handler, defval1, defval2 );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( Integer v ) {
     return v.toString();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Integer unmarshalImpl( String v ) {
     if( MAX.equalsIgnoreCase( v ) ) {

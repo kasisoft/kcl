@@ -110,9 +110,6 @@ public class EnhancedFileFilter extends BasicFileFilter {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String getSuffixList() {
     synchronized( suffixlist ) {
@@ -147,9 +144,6 @@ public class EnhancedFileFilter extends BasicFileFilter {
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean accept( File file ) {
     if( isExcluded( file ) ) {

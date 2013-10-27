@@ -78,9 +78,6 @@ public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
     count     = size;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected T unmarshalImpl( String v ) throws Exception {
     String[] parts = v.split( quoted );

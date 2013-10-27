@@ -46,17 +46,11 @@ public class BucketTest {
   
   private static class ListBucketFactory<T> implements BucketFactory<List<T>> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public <P extends List<T>> P create() {
       return (P) new ArrayList<T>();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public <P extends List<T>> P reset( List<T> object ) {
       object.clear();

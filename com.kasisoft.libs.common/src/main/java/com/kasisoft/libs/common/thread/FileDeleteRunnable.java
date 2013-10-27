@@ -36,9 +36,6 @@ public class FileDeleteRunnable extends FileListRunnable {
     super( files );
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void execute() {
     

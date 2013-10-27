@@ -58,9 +58,6 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
     super( handler, defval1, defval2, 4, delim );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SuppressWarnings("deprecation")
   protected Rectangle unmarshalListImpl( String[] v ) throws Exception {
@@ -71,9 +68,6 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
     return new Rectangle( x, y, w, h );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SuppressWarnings("deprecation")
   protected String marshalImpl( Rectangle v ) throws Exception {

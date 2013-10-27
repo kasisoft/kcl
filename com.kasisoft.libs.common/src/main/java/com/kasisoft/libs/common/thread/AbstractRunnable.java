@@ -16,9 +16,6 @@ public abstract class AbstractRunnable<T> implements Runnable {
   private boolean   stopped;
   private boolean   completed;
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public final void run() {
     stopped   = false;

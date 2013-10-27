@@ -81,9 +81,6 @@ public class ReduceTest {
    */
   private static class Sum implements Reduce<Byte,Integer> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Integer reduce( Byte input, Integer initial ) {
       return Integer.valueOf( input.byteValue() + initial.intValue() );

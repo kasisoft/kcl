@@ -84,9 +84,6 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean accept( File file ) {
     if( ! file.isFile() ) {
@@ -121,9 +118,6 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
     return mainsuffix;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getDescription() {
     if( description == null ) {

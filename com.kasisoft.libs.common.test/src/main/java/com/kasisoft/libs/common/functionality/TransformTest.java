@@ -56,9 +56,6 @@ public class TransformTest {
    */
   private static class Wrapper implements Transform<Integer,List<Integer>> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Integer> map( Integer input ) {
       List<Integer> result = new ArrayList<Integer>();

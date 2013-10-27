@@ -16,9 +16,6 @@ import java.awt.event.*;
  */
 public class KeyEventDispatcher extends AbstractEventDispatcher<KeyListener,KeyEvent> {
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void invokeEvent( KeyListener listener, KeyEvent evt ) {
            if( evt.getID() == KeyEvent.KEY_PRESSED  ) { listener.keyPressed   ( evt );

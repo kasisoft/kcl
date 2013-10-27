@@ -35,9 +35,6 @@ public class NullableComparator<T> implements Comparator<T> {
     delegate = impl;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int compare( T o1, T o2 ) {
     if( (o1 == null) && (o2 == null) ) {

@@ -698,9 +698,6 @@ public class MiscFunctions {
    */
   private static final class KeyComparator<T extends Comparable> implements Comparator<Map.Entry<T,?>> {
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int compare( Map.Entry<T, ?> o1, Map.Entry<T, ?> o2 ) {
       if( (o1 == null) && (o2 == null) ) {

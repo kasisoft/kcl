@@ -34,17 +34,11 @@ public class BooleanAdapter extends TypeAdapter<String,Boolean> {
     super( handler, defval1, defval2 );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( Boolean v ) {
     return v.toString();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Boolean unmarshalImpl( String v ) {
     return Boolean.valueOf( MiscFunctions.parseBoolean( v ) );

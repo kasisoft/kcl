@@ -108,17 +108,11 @@ public class VersionAdapter extends TypeAdapter<String,Version> {
     all       = matchall;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( Version v ) {
     return String.valueOf(v);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Version unmarshalImpl( String v ) throws Exception {
     if( all ) {

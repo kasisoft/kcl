@@ -353,9 +353,6 @@ public class IoFunctionsTest {
   @Test
   public void listRecursive() {
     FileFilter filter = new FileFilter() {
-      /**
-       * {@inheritDoc}
-       */
       @Override
       public boolean accept( File pathname ) {
         if( pathname.isDirectory() ) {

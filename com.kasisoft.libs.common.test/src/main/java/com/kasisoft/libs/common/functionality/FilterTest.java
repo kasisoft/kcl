@@ -86,9 +86,6 @@ public class FilterTest {
    */
   private static class EvenFilter implements Filter<Integer> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean accept( Integer input ) {
       return input.intValue() % 2 == 0;

@@ -239,33 +239,21 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
     expansion   = forceexp;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Dimension minimumLayoutSize( Container parent ) {
     return calcLayoutSize( SizeType.Minimum, parent );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Dimension preferredLayoutSize( Container parent ) {
     return calcLayoutSize( SizeType.Preferred, parent );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Dimension maximumLayoutSize( Container parent ) {
     return calcLayoutSize( SizeType.Maximum, parent );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void layoutContainer( Container parent ) {
 
@@ -440,16 +428,10 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
 
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void addLayoutComponent( String name, Component comp ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void addLayoutComponent( Component comp, Object constraint ) {
     if( constraint instanceof Integer ) {
@@ -457,9 +439,6 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void removeLayoutComponent( Component comp ) {
     if( constraints.containsKey( comp ) ) {
@@ -467,25 +446,16 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public float getLayoutAlignmentX( Container parent ) {
     return 0.5F;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public float getLayoutAlignmentY( Container parent ) {
     return 0.5F;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void invalidateLayout( Container parent ) {
     // Nothing to do here since we need the available size for calculation, so the layouting will be done within

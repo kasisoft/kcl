@@ -78,9 +78,6 @@ public class PredefinedTest {
    */
   private static final class IsInteger implements Filter<Object> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean accept( Object input ) {
       return input instanceof Integer;
@@ -93,9 +90,6 @@ public class PredefinedTest {
    */
   private static final class IsEven implements Filter<Object> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean accept( Object input ) {
       if( input instanceof Integer ) {

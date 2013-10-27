@@ -51,9 +51,6 @@ public class ZipRunnable extends AbstractRunnable {
     buffer     = null;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void execute() {
     OutputStream    fileout = null;

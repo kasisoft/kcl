@@ -30,9 +30,6 @@ public class I18NFormatter {
     }
   }
         
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return value;

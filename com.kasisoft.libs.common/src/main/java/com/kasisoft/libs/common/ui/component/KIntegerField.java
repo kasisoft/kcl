@@ -78,8 +78,6 @@ public class KIntegerField extends KFilteringTextField {
   }
 
   /**
-   * {@inheritDoc}
-   * 
    * If <code>tooltiptext</code> is null or empty a default tooltip text is generated.
    */
   @Override
@@ -140,9 +138,6 @@ public class KIntegerField extends KFilteringTextField {
     value = newvalue;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void accept( String text ) {
     if( (text.length() == 0) || "-".equals( text ) ) {
@@ -210,9 +205,6 @@ public class KIntegerField extends KFilteringTextField {
     fireChangeEvent( new ChangeEvent( this ) );
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String calculateInsertionString( int offset, String input ) {
     
@@ -277,9 +269,6 @@ public class KIntegerField extends KFilteringTextField {
    */
   private class LocalBehaviour implements ValidationConstraint<String>, DocumentListener {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean check( String input ) {
       if( input.length() == 0 ) {
@@ -293,25 +282,16 @@ public class KIntegerField extends KFilteringTextField {
       }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void changedUpdate( DocumentEvent evt ) {
       valueChanged();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void insertUpdate( DocumentEvent evt ) {
       valueChanged();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void removeUpdate( DocumentEvent evt ) {
       valueChanged();

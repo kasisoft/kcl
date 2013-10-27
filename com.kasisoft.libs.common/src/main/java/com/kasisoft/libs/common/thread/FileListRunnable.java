@@ -195,9 +195,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     return incfiles;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void execute() {
     

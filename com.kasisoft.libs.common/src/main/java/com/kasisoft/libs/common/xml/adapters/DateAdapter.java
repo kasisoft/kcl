@@ -76,17 +76,11 @@ public class DateAdapter extends TypeAdapter<String,Date> {
     formatter = new SimpleDateFormat( format );
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( Date v ) {
     return formatter.format(v);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Date unmarshalImpl( String v ) throws Exception {
     return formatter.parse( v );

@@ -73,9 +73,6 @@ public enum FailureCode {
     return code;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return String.format( "%s[%d]", name(), Integer.valueOf( code ) );

@@ -340,25 +340,16 @@ public class ArrayFunctions {
       index = 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean hasMoreElements() {
       return index < data.length;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean hasNext() {
       return hasMoreElements();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public T nextElement() {
       if( index >= data.length ) {
@@ -369,17 +360,11 @@ public class ArrayFunctions {
       return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public T next() {
       return nextElement();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void remove() {
       throw new UnsupportedOperationException();

@@ -56,8 +56,6 @@ public class KDoubleField extends KFilteringTextField {
   }
 
   /**
-   * {@inheritDoc}
-   * 
    * If <code>tooltiptext</code> is null or empty a default tooltip text is generated.
    */
   @Override
@@ -118,9 +116,6 @@ public class KDoubleField extends KFilteringTextField {
     value = newvalue;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void accept( String text ) {
     try {
@@ -188,9 +183,6 @@ public class KDoubleField extends KFilteringTextField {
     fireChangeEvent( new ChangeEvent( this ) );
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String calculateInsertionString( int offset, String input ) {
     
@@ -239,9 +231,6 @@ public class KDoubleField extends KFilteringTextField {
    */
   private class LocalBehaviour implements ValidationConstraint<String>, DocumentListener {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean check( String input ) {
       if( input.length() == 0 ) {
@@ -255,25 +244,16 @@ public class KDoubleField extends KFilteringTextField {
       }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void changedUpdate( DocumentEvent evt ) {
       valueChanged();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void insertUpdate( DocumentEvent evt ) {
       valueChanged();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void removeUpdate( DocumentEvent evt ) {
       valueChanged();

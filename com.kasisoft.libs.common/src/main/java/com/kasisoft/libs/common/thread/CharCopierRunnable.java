@@ -95,9 +95,6 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
     return Primitive.PChar.getBuffers();
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void execute() {
     

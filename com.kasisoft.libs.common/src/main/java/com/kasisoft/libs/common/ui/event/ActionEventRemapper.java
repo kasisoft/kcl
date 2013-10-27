@@ -29,9 +29,6 @@ public class ActionEventRemapper extends ActionEventDispatcher implements Action
     newsource = source;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void actionPerformed( ActionEvent evt ) {
     fireEvent( new ActionEvent( newsource, evt.getID(), evt.getActionCommand(), evt.getWhen(), evt.getModifiers() ) );

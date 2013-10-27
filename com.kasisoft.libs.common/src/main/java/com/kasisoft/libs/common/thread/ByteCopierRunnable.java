@@ -95,9 +95,6 @@ public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
     return Primitive.PByte.getBuffers();
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void execute() {
     

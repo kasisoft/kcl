@@ -30,9 +30,6 @@ public class WSFocusListener extends FocusAdapter {
     wsproperty = key;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void focusLost( FocusEvent evt ) {
     Component component = evt.getComponent();

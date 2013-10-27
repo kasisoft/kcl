@@ -61,9 +61,6 @@ public class FileAdapter extends TypeAdapter<String,File> {
     canonical = canonicalfiles;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String marshalImpl( File v ) throws Exception {
     if( canonical ) {
@@ -72,9 +69,6 @@ public class FileAdapter extends TypeAdapter<String,File> {
     return v.getPath().replace( '\\', '/' );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public File unmarshalImpl( String v ) throws Exception {
     File result = new File( v.replace( '\\', '/' ).replace( '/', File.separatorChar ) );

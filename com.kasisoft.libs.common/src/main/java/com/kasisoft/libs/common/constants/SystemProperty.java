@@ -160,9 +160,6 @@ public enum SystemProperty {
     return value;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     String result = getValue();

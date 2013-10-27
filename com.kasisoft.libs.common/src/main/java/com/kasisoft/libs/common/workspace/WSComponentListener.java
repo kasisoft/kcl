@@ -28,18 +28,12 @@ public class WSComponentListener extends ComponentAdapter {
     wsproperty = key;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void componentMoved( ComponentEvent evt ) {
     Component component = evt.getComponent();
     Workspace.getInstance().setRectangle( wsproperty, component.getBounds() );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void componentResized( ComponentEvent evt ) {
     Component component = evt.getComponent();

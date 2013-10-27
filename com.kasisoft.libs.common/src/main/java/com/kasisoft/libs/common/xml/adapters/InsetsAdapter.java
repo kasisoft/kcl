@@ -58,9 +58,6 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
     super( handler, defval1, defval2, 4, delim );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SuppressWarnings("deprecation")
   protected Insets unmarshalListImpl( String[] v ) throws Exception {
@@ -71,9 +68,6 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
     return new Insets( top, left, bottom, right );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SuppressWarnings("deprecation")
   protected String marshalImpl( Insets v ) throws Exception {

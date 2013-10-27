@@ -59,9 +59,6 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String marshalImpl( Color v ) {
     return 
@@ -74,9 +71,6 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
       );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected Color unmarshalImpl( String v ) throws Exception {
     if( v.startsWith( "#" ) ) {

@@ -16,9 +16,6 @@ import java.awt.event.*;
  */
 public class ActionEventDispatcher extends AbstractEventDispatcher<ActionListener,ActionEvent> {
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected void invokeEvent( ActionListener listener, ActionEvent event ) {
     listener.actionPerformed( event );
