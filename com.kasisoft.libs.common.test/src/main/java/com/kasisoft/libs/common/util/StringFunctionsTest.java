@@ -20,10 +20,9 @@ import java.util.*;
 /**
  * Tests for the class 'StringFunctions'.
  */
-@Test(groups="all")
 public class StringFunctionsTest {
 
-  @Test
+  @Test(groups="all")
   public void allocateAndReleaseChars() {
     
     char[]  buffer1 = StringFunctions.allocateChars( null );
@@ -88,25 +87,25 @@ public class StringFunctionsTest {
     return result;
   }
 
-  @Test(dataProvider="createIndexOf")
+  @Test(dataProvider="createIndexOf", groups="all")
   public void indexOf1( String text, char[] characters, int offset, int expected ) {
     int index = StringFunctions.indexOf( offset, text, characters );
     Assert.assertEquals( index, expected );
   }
 
-  @Test(dataProvider="createStringIndexOf")
+  @Test(dataProvider="createStringIndexOf", groups="all")
   public void indexOf2( String text, String[] literals, int offset, int expected ) {
     int index = StringFunctions.indexOf( offset, text, literals );
     Assert.assertEquals( index, expected );
   }
 
-  @Test(dataProvider="createLastIndexOf")
+  @Test(dataProvider="createLastIndexOf", groups="all")
   public void lastIndexOf1( String text, char[] characters, int offset, int expected ) {
     int index = StringFunctions.lastIndexOf( offset, text, characters );
     Assert.assertEquals( index, expected );
   }
 
-  @Test(dataProvider="createLastStringIndexOf")
+  @Test(dataProvider="createLastStringIndexOf", groups="all")
   public void lastIndexOf2( String text, String[] literals, int offset, int expected ) {
     int index = StringFunctions.lastIndexOf( offset, text, literals );
     Assert.assertEquals( index, expected );
@@ -128,7 +127,7 @@ public class StringFunctionsTest {
     };
   }
   
-  @Test(dataProvider="createCleanup")
+  @Test(dataProvider="createCleanup", groups="all")
   public void cleanup( String current, String expected ) {
     String result = StringFunctions.cleanup( current );
     Assert.assertEquals( result, expected );
@@ -158,19 +157,19 @@ public class StringFunctionsTest {
     };
   }
 
-  @Test(dataProvider="createContains")
+  @Test(dataProvider="createContains", groups="all")
   public void contains( String text, String[] candidates, boolean contained ) {
     boolean result = StringFunctions.contains( text, candidates );
     Assert.assertEquals( result, contained );
   }
 
-  @Test(dataProvider="createEndsWith")
+  @Test(dataProvider="createEndsWith", groups="all")
   public void endsWith( String text, String[] candidates, boolean contained ) {
     boolean result = StringFunctions.endsWith( text, candidates );
     Assert.assertEquals( result, contained );
   }
 
-  @Test(dataProvider="createStartsWith")
+  @Test(dataProvider="createStartsWith", groups="all")
   public void startsWith( String text, String[] candidates, boolean contained ) {
     boolean result = StringFunctions.startsWith( text, candidates );
     Assert.assertEquals( result, contained );
@@ -185,13 +184,13 @@ public class StringFunctionsTest {
     };
   }
   
-  @Test(dataProvider="createFillString")
+  @Test(dataProvider="createFillString", groups="all")
   public void fillString( int length, char ch, String expected ) {
     String result = StringFunctions.fillString( length, ch );
     Assert.assertEquals( result, expected );
   }
   
-  @Test
+  @Test(groups="all")
   public void replaceMap() {
     Map<String,String> replacements = new Hashtable<String,String>();
     replacements.put( "__name__"    , "Daniel Kasmeroglu" );
@@ -200,7 +199,7 @@ public class StringFunctionsTest {
     Assert.assertEquals( result, "The pseudo company Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]");
   }
 
-  @Test
+  @Test(groups="all")
   public void replaceString() {
     Map<String,String> replacements = new Hashtable<String,String>();
     replacements.put( "__name__"    , "Daniel Kasmeroglu" );
@@ -209,7 +208,7 @@ public class StringFunctionsTest {
     Assert.assertEquals( result, "The pseudo company Kasisoft is driven by __name__ [Kasisoft]");
   }
   
-  @Test
+  @Test(groups="all")
   public void runToString() {
     
     Assert.assertEquals( StringFunctions.toString( (Object) null ), "null" );
@@ -221,7 +220,7 @@ public class StringFunctionsTest {
 
   }
 
-  @Test
+  @Test(groups="all")
   public void concatenate() {
 
     // without delimiter
@@ -242,11 +241,26 @@ public class StringFunctionsTest {
 
   }
   
-  @Test
+  @Test(groups="all")
   public void equals() {
     Assert.assertEquals( StringFunctions.equals( "Alpha", "alpha", false ), false );
     Assert.assertEquals( StringFunctions.equals( "Alpha", "alpha", true  ), true  );
     Assert.assertEquals( StringFunctions.equals( "Alpha", "Alpha", false ), true  );
+  }
+  
+  
+  @Test(dataProvider="createReplaceSuffix", groups="all")
+  public void replaceSuffix( String input, String newsuffix, String expected ) {
+    Assert.assertEquals( StringFunctions.replaceSuffix( input, newsuffix ), expected );
+  }
+
+  @DataProvider(name="createReplaceSuffix")
+  public Object[][] createReplaceSuffix() {
+    return new Object[][] {
+      { "sample"     , "dot" , null         },
+      { "sample."    , "dot" , "sample.dot" },
+      { "sample.pdf" , "dot" , "sample.dot" },
+    };
   }
   
 } /* ENDCLASS */

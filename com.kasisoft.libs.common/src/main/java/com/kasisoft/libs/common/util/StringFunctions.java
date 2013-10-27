@@ -614,4 +614,22 @@ public class StringFunctions {
     }
   }
   
+  /**
+   * Alters the input while exchanging it's suffix.
+   * 
+   * @param input        The input which has to be altered. Maybe <code>null</code>.
+   * @param newsuffix    The new suffix without the dot at the beginning. Neither <code>null</code> nor empty.
+   * 
+   * @return   The altered input. <code>null</code> if there wasn't a replacable suffix.
+   */
+  public static String replaceSuffix( String input, String newsuffix ) {
+    if( input != null ) {
+      int lidx = input.lastIndexOf('.');
+      if( lidx != -1 ) {
+        return String.format( "%s.%s", input.substring( 0, lidx ), newsuffix );
+      }
+    }
+    return null;
+  }
+  
 } /* ENDCLASS */
