@@ -665,6 +665,35 @@ public class MiscFunctions {
   }
 
   /**
+   * Returns <code>true</code> if the supplied year is a leap year.
+   * 
+   * @param year   The year which has to be tested.
+   * 
+   * @return   <code>true</code> <=> The supplied year is a leap year.
+   */
+  public static boolean isLeapYear( int year ) {
+    if( (year % 400) == 0 ) {
+      return true;
+    } else if( (year % 100) == 0 ) {
+      return false;
+    } else {
+      return (year % 4) == 0;
+    }
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied date is a leap year.
+   * 
+   * @param date   The date which has to be tested. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied date is a leap year.
+   */
+  @SuppressWarnings("deprecation")
+  public static boolean isLeapYear( Date date ) {
+    return isLeapYear( date.getYear() + 1900 );
+  }
+  
+  /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */
   private static final class KeyComparator<T extends Comparable> implements Comparator<Map.Entry<T,?>> {

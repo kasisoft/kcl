@@ -313,5 +313,43 @@ public class MiscFunctionsTest {
       Assert.assertEquals( altered.get(i), expected.get(i) );
     }
   }
+  
+  @Test(dataProvider="createIsLeapYearInt")
+  public void isLeapYear( int year, boolean expected ) {
+    Assert.assertEquals( MiscFunctions.isLeapYear( year ), expected );
+  }
+
+  @Test(dataProvider="createIsLeapYearDate")
+  public void isLeapYear( Date year, boolean expected ) {
+    Assert.assertEquals( MiscFunctions.isLeapYear( year ), expected );
+  }
+
+  @DataProvider(name="createIsLeapYearInt")
+  public Object[][] createIsLeapYearInt() {
+    return new Object[][] {
+      { Integer.valueOf( 1900 ), Boolean.FALSE },
+      { Integer.valueOf( 1901 ), Boolean.FALSE },
+      { Integer.valueOf( 1904 ), Boolean.TRUE  },
+      { Integer.valueOf( 2000 ), Boolean.TRUE  },
+      { Integer.valueOf( 2001 ), Boolean.FALSE }
+    };
+  }
+
+  @DataProvider(name="createIsLeapYearDate")
+  public Object[][] createIsLeapYearDate() {
+    return new Object[][] {
+      { createDate( 1900 ), Boolean.FALSE },
+      { createDate( 1901 ), Boolean.FALSE },
+      { createDate( 1904 ), Boolean.TRUE  },
+      { createDate( 2000 ), Boolean.TRUE  },
+      { createDate( 2001 ), Boolean.FALSE }
+    };
+  }
+  
+  private Date createDate( int year ) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set( Calendar.YEAR, year );
+    return calendar.getTime();
+  }
 
 } /* ENDCLASS */
