@@ -300,6 +300,31 @@ public class StringFunctions {
   /**
    * Returns the first index of some character.
    * 
+   * @param first        The first position where to start looking from.
+   * @param input        The String where the characters have to be looked for. Neither <code>null</code> nor empty.
+   * @param characters   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a character has been found (leftmost index) otherwise -1.
+   */
+  public static int indexOf( int first, StringBuilder input, char ... characters ) {
+    int result = Integer.MAX_VALUE;
+    for( int i = 0; i < characters.length; i++ ) {
+      char ch  = characters[i];
+      int  pos = input.indexOf( String.valueOf( ch ), first );
+      if( pos != -1 ) {
+        result = Math.min( result, pos );
+      }
+    }
+    if( result == Integer.MAX_VALUE ) {
+      return -1;
+    } else {
+      return result;
+    }
+  }
+
+  /**
+   * Returns the first index of some character.
+   * 
    * @param first      The first position where to start looking from.
    * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
    * @param literals   A list of characters used to test. Must have a minimum length of 1.
@@ -307,6 +332,31 @@ public class StringFunctions {
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
   public static int indexOf( int first, StringBuffer input, String ... literals ) {
+    int result = Integer.MAX_VALUE;
+    for( int i = 0; i < literals.length; i++ ) {
+      String literal  = literals[i];
+      int    pos      = input.indexOf( literal, first );
+      if( pos != -1 ) {
+        result = Math.min( result, pos );
+      }
+    }
+    if( result == Integer.MAX_VALUE ) {
+      return -1;
+    } else {
+      return result;
+    }
+  }
+
+  /**
+   * Returns the first index of some character.
+   * 
+   * @param first      The first position where to start looking from.
+   * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
+   * @param literals   A list of characters used to test. Must have a minimum length of 1.
+   * 
+   * @return   The index where a literal has been found (leftmost index) otherwise -1.
+   */
+  public static int indexOf( int first, StringBuilder input, String ... literals ) {
     int result = Integer.MAX_VALUE;
     for( int i = 0; i < literals.length; i++ ) {
       String literal  = literals[i];
