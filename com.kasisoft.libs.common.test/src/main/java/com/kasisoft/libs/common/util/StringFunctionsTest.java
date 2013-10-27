@@ -225,6 +225,7 @@ public class StringFunctionsTest {
 
     // without delimiter
     Assert.assertEquals( StringFunctions.concatenate( null ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( null, new String[0] ), "" );
     Assert.assertEquals( StringFunctions.concatenate( null, "A" ), "A" );
     Assert.assertEquals( StringFunctions.concatenate( null, "A", "B" ), "AB" );
     Assert.assertEquals( StringFunctions.concatenate( null, "A", "B", "C" ), "ABC" );
@@ -233,6 +234,7 @@ public class StringFunctionsTest {
 
     // with delimiter
     Assert.assertEquals( StringFunctions.concatenate( "#" ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", new String[0] ), "" );
     Assert.assertEquals( StringFunctions.concatenate( "#", "A" ), "A" );
     Assert.assertEquals( StringFunctions.concatenate( "#", "A", "B" ), "A#B" );
     Assert.assertEquals( StringFunctions.concatenate( "#", "A", "B", "C" ), "A#B#C" );
