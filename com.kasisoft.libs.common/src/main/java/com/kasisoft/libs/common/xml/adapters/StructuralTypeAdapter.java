@@ -8,19 +8,26 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
+import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
+
+import java.util.regex.*;
 
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.
  */
 @SuppressWarnings("deprecation")
-public abstract class StructuralTypeAdapter<T> extends ListTypeAdapter<T> {
+public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
+
+  private String   delimiter;
+  private String   quoted;
+  private int      count;
 
   /**
    * Initialises this adapter with the default delimiter ','.
    */
   public StructuralTypeAdapter( int size ) {
-    super( size );
+    this( null, null, null, size, null );
   }
 
   /**
@@ -30,7 +37,7 @@ public abstract class StructuralTypeAdapter<T> extends ListTypeAdapter<T> {
    *                ',' is used.
    */
   public StructuralTypeAdapter( int size, String delim ) {
-    super( size, delim );
+    this( null, null, null, size, delim );
   }
 
   /**
@@ -41,7 +48,7 @@ public abstract class StructuralTypeAdapter<T> extends ListTypeAdapter<T> {
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
   public StructuralTypeAdapter( SimpleErrorHandler handler, String defval1, T defval2, int size ) {
-    super( handler, defval1, defval2, size );
+    this( handler, defval1, defval2, size, null );
   }
 
   /**
@@ -54,7 +61,46 @@ public abstract class StructuralTypeAdapter<T> extends ListTypeAdapter<T> {
    *                  ',' is used.
    */
   public StructuralTypeAdapter( SimpleErrorHandler handler, String defval1, T defval2, int size, String delim ) {
-    super( handler, defval1, defval2, size, delim );
+    super( handler, defval1, defval2 );
+    delimiter = StringFunctions.cleanup( delim );
+    if( delimiter == null ) {
+      delimiter = ",";
+    }
+    quoted    = Pattern.quote( delimiter );
+    count     = size;
   }
+
+  @Override
+  protected T unmarshalImpl( String v ) throws Exception {
+    String[] parts = v.split( quoted );
+    if( (parts == null) || (parts.length != count) ) {
+      throw new FailureException( FailureCode.ConversionFailure, v );
+    }
+    return unmarshalListImpl( parts );
+  }
+
+  /**
+   * Performs the marshalling based upon the assumptions that each marshalled representatin of the element corresponds
+   * to it's toString outcome.
+   * 
+   * @param elements   The list that has to be marshalled. Not <code>null</code>.
+   * 
+   * @return   The textual representation of the supplied list. Not <code>null</code>.
+   */
+  protected String marshalListImpl( Object ... elements ) {
+    if( elements.length > 0 ) {
+      StringBuilder buffer = new StringBuilder();
+      for( int i = 0; i < elements.length; i++ ) {
+        buffer.append( delimiter );
+        buffer.append( elements[i] );
+      }
+      buffer.delete( 0, delimiter.length() );
+      return buffer.toString();
+    } else {
+      return "";
+    }
+  }
+
+  protected abstract T unmarshalListImpl( String[] v ) throws Exception;
 
 } /* ENDCLASS */
