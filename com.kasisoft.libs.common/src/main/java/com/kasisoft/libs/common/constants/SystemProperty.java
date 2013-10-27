@@ -14,7 +14,10 @@ import java.io.*;
 
 /**
  * Listing of system properties used to be accessed.
+ * 
+ * @deprecated   Use SysProperty instead as this class will be removed with version 1.2+.
  */
+@Deprecated
 public enum SystemProperty {
 
   ClassPath             ( "java.class.path"             , "classpath"   , true  ),
