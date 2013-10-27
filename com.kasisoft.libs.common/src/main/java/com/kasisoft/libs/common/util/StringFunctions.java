@@ -652,5 +652,19 @@ public class StringFunctions {
     return "";
   }
 
+  /**
+   * Returns a limited version of the supplied text.
+   * 
+   * @param text    The text that might require to be limited. Maybe <code>null</code>.
+   * @param limit   The maximum number of characters to be allowed.
+   * 
+   * @return   The limited version of the supplied text. Maybe <code>null</code>.
+   */
+  public static String limit( String text, int limit ) {
+    if( (text != null) && (text.length() > limit) ) {
+      return text.substring( 0, limit );
+    }
+    return text;
+  }
   
 } /* ENDCLASS */

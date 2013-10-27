@@ -284,5 +284,27 @@ public class StringFunctionsTest {
       { Integer.valueOf(2) , "A"  , "AA" },
     };
   }
+
   
+  @Test(dataProvider="createLimit", groups="all")
+  public void limit( String text, int limit, String expected ) {
+    Assert.assertEquals( StringFunctions.limit( text, limit ), expected );
+  }
+  
+  @DataProvider(name="createLimit")
+  public Object[][] createLimit() {
+    return new Object[][] {
+      { null           , Integer.valueOf(0) , null    },
+      { null           , Integer.valueOf(1) , null    },
+      { ""             , Integer.valueOf(0) , ""      },
+      { ""             , Integer.valueOf(1) , ""      },
+      { "A"            , Integer.valueOf(0) , ""      },
+      { "A"            , Integer.valueOf(1) , "A"     },
+      { "A"            , Integer.valueOf(5) , "A"     },
+      { "ABCDEFGHIJK"  , Integer.valueOf(0) , ""      },
+      { "ABCDEFGHIJK"  , Integer.valueOf(1) , "A"     },
+      { "ABCDEFGHIJK"  , Integer.valueOf(5) , "ABCDE" },
+    };
+  }
+
 } /* ENDCLASS */
