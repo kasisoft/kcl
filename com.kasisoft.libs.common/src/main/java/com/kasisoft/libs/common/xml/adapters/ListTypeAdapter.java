@@ -90,7 +90,15 @@ public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
     return unmarshalListImpl( parts );
   }
 
-  protected String marshalListImpl( Object ... elements ) throws Exception {
+  /**
+   * Performs the marshalling based upon the assumptions that each marshalled representatin of the element corresponds
+   * to it's toString outcome.
+   * 
+   * @param elements   The list that has to be marshalled. Not <code>null</code>.
+   * 
+   * @return   The textual representation of the supplied list. Not <code>null</code>.
+   */
+  protected String marshalListImpl( Object ... elements ) {
     if( elements.length > 0 ) {
       StringBuilder buffer = new StringBuilder();
       for( int i = 0; i < elements.length; i++ ) {
