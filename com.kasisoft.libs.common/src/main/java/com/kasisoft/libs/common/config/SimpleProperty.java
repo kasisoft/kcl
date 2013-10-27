@@ -176,6 +176,28 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
     }
     return checkForResult( result );
   }
+  
+  /**
+   * Returns the textual value provides with the supplied properties.
+   * 
+   * @param properties   The properties providing the current settings. Not <code>null</code>.
+   * 
+   * @return   The value if there was one. Maybe <code>null</code>.
+   */
+  public String getTextualValue( Properties properties ) {
+    return getProperty( properties, true, getKey() );
+  }
+
+  /**
+   * Returns the textual value provides with the supplied properties.
+   * 
+   * @param properties   The properties providing the current settings. Not <code>null</code>.
+   * 
+   * @return   The value if there was one. Maybe <code>null</code>.
+   */
+  public String getTextualValue( Map<String,String> properties ) {
+    return getProperty( properties, false, getKey() );
+  }
 
   private T checkForResult( T result ) {
     if( (result == null) && isRequired() ) {

@@ -37,7 +37,7 @@ public enum SystemInfo {
   
   SystemInfo( String oskey, boolean filesystem, String ... varkeys ) {
     key           = oskey;
-    isrunning     = oskey.equals( SystemProperty.OsName.getValue() );
+    isrunning     = oskey.equals( SysProperty.OsName.getValue( System.getProperties() ) );
     casesensitive = filesystem;
     varformats    = varkeys;
   }

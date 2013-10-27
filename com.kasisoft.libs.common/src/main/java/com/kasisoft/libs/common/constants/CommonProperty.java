@@ -26,6 +26,6 @@ public interface CommonProperty {
 
   SimpleProperty<Integer>  BufferCount = new SimpleProperty<Integer> ( "com.kasisoft.libs.common#BUFFERCOUNT", new IntegerAdapter () ).withDefault( Integer.valueOf( 8192 ) );
   SimpleProperty<Integer>  IoRetries   = new SimpleProperty<Integer> ( "com.kasisoft.libs.common#IORETRIES"  , new IntegerAdapter () ).withDefault( Integer.valueOf( 5 ) );
-  SimpleProperty<File>     TempDir     = new SimpleProperty<File>    ( "com.kasisoft.libs.common#TEMPDIR"    , new FileAdapter    () ).withDefault( new File( SystemProperty.TempDir.getValue() ) );
+  SimpleProperty<File>     TempDir     = new SimpleProperty<File>    ( "com.kasisoft.libs.common#TEMPDIR"    , new FileAdapter    () ).withDefault( SysProperty.TempDir.getValue( System.getProperties() ) );
   
 } /* ENDENUM */

@@ -26,6 +26,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
   @Getter private TypeAdapter<String,T>   adapter;
   @Getter private boolean                 required;
   @Getter private String                  description;
+  @Getter private String                  shortkey;
   
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
@@ -61,6 +62,18 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    */
   public C withDescription( String newdescription ) {
     description = StringFunctions.cleanup( newdescription );
+    return (C) this;
+  }
+  
+  /**
+   * Configures the shortkey for this property.
+   * 
+   * @param newshortkey   The new shortkey for this property. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public C withShortkey( String newshortkey ) {
+    shortkey = StringFunctions.cleanup( newshortkey );
     return (C) this;
   }
   

@@ -19,6 +19,7 @@ import java.io.*;
 /**
  * Tests for the enumeration 'SystemProperty'.
  */
+@SuppressWarnings("deprecation")
 @Test(groups="all")
 public class SystemPropertyTest {
 

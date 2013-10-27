@@ -234,7 +234,7 @@ public final class XmlFunctions {
       // a transformer can generate output in different formats, so it doesn't know
       // about the target format which means that we have to alter the pi by our own
       transformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION , "yes" );
-      String xmldecl = String.format( "<?xml version=\"1.0\" encoding=\"%s\"?>%s", encoding.getEncoding(), SystemProperty.LineSeparator.getValue() );
+      String xmldecl = String.format( "<?xml version=\"1.0\" encoding=\"%s\"?>%s", encoding.getEncoding(), SysProperty.LineSeparator.getValue( System.getProperties() ) );
       output.write( encoding.encode( xmldecl ) );
       output.flush();
       transformer.transform( new DOMSource( node ), new StreamResult( output ) );

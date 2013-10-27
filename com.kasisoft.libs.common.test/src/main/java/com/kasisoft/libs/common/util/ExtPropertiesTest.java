@@ -76,7 +76,7 @@ public class ExtPropertiesTest {
       line        = StringFunctions.replace( line, "~", commentintro );
       line        = StringFunctions.replace( line, "=", delimiter );
       buffer.append( line );
-      buffer.append( SystemProperty.LineSeparator );
+      buffer.append( SysProperty.LineSeparator.getValue( System.getProperties() ) );
     }
     ExtProperties result = new ExtProperties( delimiter, commentintro );
     result.setEmptyIsNull( emptyisnull );
@@ -269,7 +269,7 @@ public class ExtPropertiesTest {
     Assert.assertEquals( props.getProperty( "simple.1" ), "A" );
     Assert.assertEquals( props.getProperty( "simple.2" ), "A${}B" );
 
-    String tempval      = SystemProperty.TempDir.getValue();
+    String tempval      = SysProperty.TempDir.getTextualValue( System.getProperties() );
     if( tempval.endsWith( File.separator ) ) {
       tempval = tempval.substring( 0, tempval.length() - File.separator.length() );
     }

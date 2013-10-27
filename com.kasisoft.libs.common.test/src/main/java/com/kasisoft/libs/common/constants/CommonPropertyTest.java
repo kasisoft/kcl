@@ -53,7 +53,7 @@ public class CommonPropertyTest {
     Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties );
     Assert.assertEquals( buffersize, Integer.valueOf(8192) );
     File    tempdir     = CommonProperty.TempDir.getValue( noproperties );
-    Assert.assertEquals( tempdir, new File( SystemProperty.TempDir.getValue() ) );
+    Assert.assertEquals( tempdir, SysProperty.TempDir.getValue( System.getProperties() ) );
   }
 
   @Test

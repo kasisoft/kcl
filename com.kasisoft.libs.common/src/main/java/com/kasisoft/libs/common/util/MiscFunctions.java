@@ -31,7 +31,7 @@ import java.sql.*;
  */
 public class MiscFunctions {
 
-  private static final Map<String,String> REPLACEMENTS = SystemProperty.createReplacementMap( true );
+  private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap( true );
   
   private static final Set<String> TRUEVALUES;
   

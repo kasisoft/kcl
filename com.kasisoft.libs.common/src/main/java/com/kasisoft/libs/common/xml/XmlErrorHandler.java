@@ -55,7 +55,7 @@ public class XmlErrorHandler implements ErrorHandler {
    *           if {@link #hasErrors()}.
    */
   public String getFaultMessage() {
-    String        linesep = SystemProperty.LineSeparator.getValue();
+    String        linesep = SysProperty.LineSeparator.getValue( System.getProperties() );
     StringBuilder buffer  = new StringBuilder();
     for( int i = 0; i < faults.size(); i++ ) {
       buffer.append( faults.get(i).getFaultMessage() );
