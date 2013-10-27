@@ -15,7 +15,7 @@ import java.awt.*;
 /**
  * Adapter used to convert a String into a Point and vice versa.
  */
-public class PointAdapter extends ListTypeAdapter<Point> {
+public class PointAdapter extends StructuralTypeAdapter<Point> {
 
   /**
    * Initialises this adapter with the default delimiter ','.
@@ -62,6 +62,7 @@ public class PointAdapter extends ListTypeAdapter<Point> {
    * {@inheritDoc}
    */
   @Override
+  @SuppressWarnings("deprecation")
   protected Point unmarshalListImpl( String[] v ) throws Exception {
     int x = Integer.parseInt( v[0] );
     int y = Integer.parseInt( v[1] );
@@ -72,6 +73,7 @@ public class PointAdapter extends ListTypeAdapter<Point> {
    * {@inheritDoc}
    */
   @Override
+  @SuppressWarnings("deprecation")
   protected String marshalImpl( Point v ) throws Exception {
     return marshalListImpl(
       Integer.valueOf( v.x ),

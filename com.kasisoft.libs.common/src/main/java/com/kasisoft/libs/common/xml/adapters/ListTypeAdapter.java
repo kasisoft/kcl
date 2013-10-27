@@ -15,7 +15,11 @@ import java.util.regex.*;
 
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.
+ * 
+ * @deprecated Use StructuralTypeAdapter instead of this type (there are no functional changes) as this one will be 
+ *             delete with version 1.2+ .
  */
+@Deprecated
 public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
 
   private String   delimiter;
@@ -24,6 +28,8 @@ public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
   
   /**
    * Initialises this adapter with the default delimiter ','.
+   * 
+   * @param size   The number of textual element establishing a valid structure.
    */
   public ListTypeAdapter( int size ) {
     this( null, null, null, size, null );
@@ -32,6 +38,7 @@ public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
   /**
    * Initialises this adapter with the supplied delimiter.
    * 
+   * @param size    The number of textual element establishing a valid structure.
    * @param delim   The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
    *                ',' is used.
    */
@@ -45,6 +52,7 @@ public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
    * @param handler   A custom error handler. Maybe <code>null</code>.
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
+   * @param size      The number of textual element establishing a valid structure.
    */
   public ListTypeAdapter( SimpleErrorHandler handler, String defval1, T defval2, int size ) {
     this( handler, defval1, defval2, size, null );
@@ -56,6 +64,7 @@ public abstract class ListTypeAdapter<T> extends TypeAdapter<String,T> {
    * @param handler   A custom error handler. Maybe <code>null</code>.
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
+   * @param size      The number of textual element establishing a valid structure.
    * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
    *                  ',' is used.
    */

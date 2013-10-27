@@ -1,6 +1,6 @@
 /**
- * Name........: RectangleAdapter
- * Description.: Adapter used to convert a String into a Rectangle and vice versa. 
+ * Name........: StructuralTypeAdapter
+ * Description.: Adapter used to convert a String into a data structure which consists of a delimited list. 
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
@@ -10,18 +10,17 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
-import java.awt.*;
-
 /**
- * Adapter used to convert a String into a Point and vice versa.
+ * Adapter used to convert a String into a data structure which consists of a delimited list.
  */
-public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
+@SuppressWarnings("deprecation")
+public abstract class StructuralTypeAdapter<T> extends ListTypeAdapter<T> {
 
   /**
    * Initialises this adapter with the default delimiter ','.
    */
-  public RectangleAdapter() {
-    this( null, null, null, null );
+  public StructuralTypeAdapter( int size ) {
+    super( size );
   }
 
   /**
@@ -30,8 +29,8 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
    * @param delim   The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
    *                ',' is used.
    */
-  public RectangleAdapter( String delim ) {
-    this( null, null, null, delim );
+  public StructuralTypeAdapter( int size, String delim ) {
+    super( size, delim );
   }
 
   /**
@@ -41,8 +40,8 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public RectangleAdapter( SimpleErrorHandler handler, String defval1, Rectangle defval2 ) {
-    this( handler, defval1, defval2, null );
+  public StructuralTypeAdapter( SimpleErrorHandler handler, String defval1, T defval2, int size ) {
+    super( handler, defval1, defval2, size );
   }
 
   /**
@@ -54,35 +53,8 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
    * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
    *                  ',' is used.
    */
-  public RectangleAdapter( SimpleErrorHandler handler, String defval1, Rectangle defval2, String delim ) {
-    super( handler, defval1, defval2, 4, delim );
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @SuppressWarnings("deprecation")
-  protected Rectangle unmarshalListImpl( String[] v ) throws Exception {
-    int x = Integer.parseInt( v[0] );
-    int y = Integer.parseInt( v[1] );
-    int w = Integer.parseInt( v[2] );
-    int h = Integer.parseInt( v[3] );
-    return new Rectangle( x, y, w, h );
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @SuppressWarnings("deprecation")
-  protected String marshalImpl( Rectangle v ) throws Exception {
-    return marshalListImpl(
-      Integer.valueOf( v.x      ),
-      Integer.valueOf( v.y      ),
-      Integer.valueOf( v.width  ),
-      Integer.valueOf( v.height )
-    );
+  public StructuralTypeAdapter( SimpleErrorHandler handler, String defval1, T defval2, int size, String delim ) {
+    super( handler, defval1, defval2, size, delim );
   }
 
 } /* ENDCLASS */

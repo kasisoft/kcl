@@ -15,7 +15,7 @@ import java.awt.*;
 /**
  * Adapter used to convert a String into a Insets and vice versa.
  */
-public class InsetsAdapter extends ListTypeAdapter<Insets> {
+public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
 
   /**
    * Initialises this adapter with the default delimiter ','.
@@ -62,6 +62,7 @@ public class InsetsAdapter extends ListTypeAdapter<Insets> {
    * {@inheritDoc}
    */
   @Override
+  @SuppressWarnings("deprecation")
   protected Insets unmarshalListImpl( String[] v ) throws Exception {
     int top     = Integer.parseInt( v[0] );
     int left    = Integer.parseInt( v[1] );
@@ -74,6 +75,7 @@ public class InsetsAdapter extends ListTypeAdapter<Insets> {
    * {@inheritDoc}
    */
   @Override
+  @SuppressWarnings("deprecation")
   protected String marshalImpl( Insets v ) throws Exception {
     return marshalListImpl( 
       Integer.valueOf( v.top    ),
