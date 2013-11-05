@@ -15,6 +15,8 @@ import com.kasisoft.libs.common.constants.*;
  */
 public enum SystemInfo {
   
+  FreeBSD       ( "FreeBSD"       , true  , "$%s", "$(%s)" ),
+  HPUX          ( "HP UX"         , true  , "$%s", "$(%s)" ),
   Sun           ( "SunOS"         , true  , "$%s", "$(%s)" ),
   Solaris       ( "Solaris"       , true  , "$%s", "$(%s)" ),
   Linux         ( "Linux"         , true  , "$%s", "$(%s)" ),
@@ -24,21 +26,25 @@ public enum SystemInfo {
   WindowsNT     ( "Windows NT"    , false , "%%%s%%" ),
   Windows2000   ( "Windows 2000"  , false , "%%%s%%" ),
   WindowsXP     ( "Windows XP"    , false , "%%%s%%" ),
+  WindowsVista  ( "Windows Vista" , false , "%%%s%%" ),
   Windows7      ( "Windows 7"     , false , "%%%s%%" ),
   Amiga         ( "Amiga OS"      , false , "$%s" ),
   Aros          ( "AROS"          , false , "$%s" ),
+  MacOS         ( "Mac OS"        , false , "$%s" ),
   MacOSX        ( "Mac OS X"      , false , "$%s" ),
   Morphos       ( "MorphOS"       , false , "$%s" );
+  
+  private static SystemInfo ACTIVE = null;
   
   private String     key;
   private boolean    isrunning;
   private boolean    casesensitive;
   private String[]   varformats;
   
-  SystemInfo( String oskey, boolean filesystem, String ... varkeys ) {
+  SystemInfo( String oskey, boolean sensitive, String ... varkeys ) {
     key           = oskey;
     isrunning     = oskey.equals( SysProperty.OsName.getValue( System.getProperties() ) );
-    casesensitive = filesystem;
+    casesensitive = sensitive;
     varformats    = varkeys;
   }
   
@@ -170,7 +176,7 @@ public enum SystemInfo {
    * @return  <code>true</code> <=> We're working on a Unix derivative.
    */
   public boolean isUnixLike() {
-    return (this == Linux) || (this == Solaris);
+    return (this == Linux) || (this == Solaris) || (this == FreeBSD) || (this == HPUX);
   }
   
   /**
@@ -182,7 +188,7 @@ public enum SystemInfo {
     return
      ( this == Windows95   ) || ( this == Windows98 ) || ( this == WindowsME ) || 
      ( this == Windows2000 ) || ( this == WindowsNT ) || ( this == WindowsXP ) ||
-     ( this == Windows7    );
+     ( this == WindowsVista) || ( this == Windows7    );
   }
   
   /**
@@ -202,12 +208,17 @@ public enum SystemInfo {
    * @return   The constant used to identify the operating system. Maybe <code>null</code>.
    */
   public static SystemInfo getRunningOS() {
-    for( SystemInfo info : SystemInfo.values() ) {
-      if( info.isActive() ) {
-        return info;
+    synchronized( SystemInfo.class ) {
+      if( ACTIVE == null ) {
+        for( SystemInfo info : SystemInfo.values() ) {
+          if( info.isActive() ) {
+            ACTIVE = info;
+            break;
+          }
+        }
       }
+      return ACTIVE;
     }
-    return null;
   }
   
 } /* ENDENUM */
