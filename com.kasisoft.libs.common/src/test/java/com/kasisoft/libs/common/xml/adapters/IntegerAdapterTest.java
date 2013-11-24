@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Tests for the type 'IntegerAdapter'.
  */
-@Test(groups="all")
 public class IntegerAdapterTest {
 
   private IntegerAdapter adapter = new IntegerAdapter();
@@ -53,17 +52,17 @@ public class IntegerAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Integer expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Integer value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=IllegalArgumentException.class)
+  @Test(dataProvider="createInvalidUnmarshalling", groups="all", expectedExceptions=IllegalArgumentException.class)
   public void invalidUnmarshal( String value, Integer expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
