@@ -19,7 +19,6 @@ import java.io.*;
 /**
  * Collection of testcases for the type 'XmlCatalog'.
  */
-@Test(groups="all")
 public class XmlCatalogTest {
 
   private File    httpxsd;
@@ -34,7 +33,7 @@ public class XmlCatalogTest {
     Assert.assertTrue( xmlxsd  . isFile () );
   }
   
-  @Test
+  @Test(groups="all")
   public void loadResources() throws MalformedURLException {
     
     XmlCatalog catalog1     = new XmlCatalog();
