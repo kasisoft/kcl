@@ -81,7 +81,22 @@ public final class XmlFunctions {
   public static Document readDocument( File file, boolean validate, boolean xmlnamespaces ) throws FailureException {
     return readDocument( file, null, null, null, validate, xmlnamespaces, false );
   }
-  
+
+  /**
+   * Reads the content of the supplied InputStream.
+   * 
+   * @param input           The stream which provides the xml content. Not <code>null</code>.
+   * @param validate        <code>true</code> <=> Validates the document if possible.
+   * @param xmlnamespaces   <code>true</code> <=> Recognize XML namespaces.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( InputStream input, boolean validate, boolean xmlnamespaces ) throws FailureException {
+    return readDocument( input, null, null, null, validate, xmlnamespaces, false );
+  }
+
   /**
    * Reads the content of the supplied File.
    * 
@@ -371,11 +386,48 @@ public final class XmlFunctions {
    * @param nodes   A list of nodes which have to be removed from the DOM tree. Maybe <code>null</code>.
    */
   public static void removeNodes( NodeList nodes ) {
-    if( nodes != null ) {
+    if( (nodes != null) && (nodes.getLength() > 0) ) {
+      Node parent = nodes.item(0).getParentNode();
       for( int i = nodes.getLength() - 1; i >= 0; i-- ) {
         Node current = nodes.item(i);
-        current.getParentNode().removeChild( current );
+        parent.removeChild( current );
       }
+    }
+  }
+  
+  /**
+   * Collects the child nodes from a parent using a specific name.
+   * 
+   * @param parent     The parent node which children have to be returned. Not <code>null</code>.
+   * @param relevant   A list of interesting element names. If <code>null</code> all elements will be returned.
+   * 
+   * @return   A list with all matching elements. Not <code>null</code>.
+   */
+  public static List<Element> getChildElements( Node parent, String ... relevant ) {
+    NodeList childnodes = parent.getChildNodes();
+    if( (childnodes != null) && (childnodes.getLength() > 0) ) {
+      Set<String>   tagnames = MiscFunctions.toSet( relevant );
+      List<Element> result   = new ArrayList<Element>( childnodes.getLength() );
+      for( int i = 0; i < childnodes.getLength(); i++ ) {
+        Node current = childnodes.item(i);
+        if( current.getNodeType() == Node.ELEMENT_NODE ) {
+          Element element = (Element) current;
+          if( tagnames.isEmpty() || contains( tagnames, element.getTagName() ) || contains( tagnames, element.getLocalName() ) ) {
+            result.add( element );
+          }
+        }
+      }
+      return result;
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
+  private static boolean contains( Set<String> set, String candidate ) {
+    if( candidate != null ) {
+      return set.contains( candidate );
+    } else {
+      return false;
     }
   }
   
