@@ -32,7 +32,8 @@ public enum SystemInfo {
   Aros          ( "AROS"          , false , "$%s" ),
   MacOS         ( "Mac OS"        , false , "$%s" ),
   MacOSX        ( "Mac OS X"      , false , "$%s" ),
-  Morphos       ( "MorphOS"       , false , "$%s" );
+  Morphos       ( "MorphOS"       , false , "$%s" ),
+  Unknown       ();
   
   private static SystemInfo ACTIVE = null;
   
@@ -46,6 +47,14 @@ public enum SystemInfo {
     isrunning     = oskey.equals( SysProperty.OsName.getValue( System.getProperties() ) );
     casesensitive = sensitive;
     varformats    = varkeys;
+  }
+  
+  SystemInfo() {
+    key           = SysProperty.OsName.getValue( System.getProperties() );
+    isrunning     = true;
+    // conservative guessing
+    casesensitive = false; 
+    varformats    = new String[] { "$%s" };
   }
   
   /**
@@ -84,7 +93,10 @@ public enum SystemInfo {
    * @param suffix      The potential ending. Neither <code>null</code> nor empty.
    * 
    * @return   <code>true</code> <=> The supplied candidate ends with the specified literal.
+   * 
+   * @deprecated Will be removed with version 1.3+.
    */
+  @Deprecated
   public boolean endsWith( String candidate, String suffix ) {
     if( casesensitive ) {
       return candidate.endsWith( suffix );
@@ -101,7 +113,10 @@ public enum SystemInfo {
    * @param suffix      The potential begin. Neither <code>null</code> nor empty.
    * 
    * @return   <code>true</code> <=> The supplied candidate begins with the specified literal.
+   * 
+   * @deprecated Will be removed with version 1.3+.
    */
+  @Deprecated
   public boolean startsWith( String candidate, String suffix ) {
     if( casesensitive ) {
       return candidate.startsWith( suffix );
@@ -118,7 +133,10 @@ public enum SystemInfo {
    * @param suffix      The potential begin. Neither <code>null</code> nor empty.
    * 
    * @return   <code>true</code> <=> The supplied candidate begins with the specified literal.
+   * 
+   * @deprecated Will be removed with version 1.3+.
    */
+  @Deprecated
   public boolean startsWith( StringBuffer candidate, String suffix ) {
     if( candidate.length() < suffix.length() ) {
       return false;
@@ -139,7 +157,10 @@ public enum SystemInfo {
    * @param suffix      The potential ending. Neither <code>null</code> nor empty.
    * 
    * @return   <code>true</code> <=> The supplied candidate ends with the specified literal.
+   * 
+   * @deprecated Will be removed with version 1.3+.
    */
+  @Deprecated
   public boolean endsWith( StringBuffer candidate, String suffix ) {
     if( candidate.length() < suffix.length() ) {
       return false;
@@ -205,16 +226,19 @@ public enum SystemInfo {
    * <code>null</code> is returned. Check for the property {@link SystemProperty#OsName} to get the actual key for the 
    * running operating system in that case.
    * 
-   * @return   The constant used to identify the operating system. Maybe <code>null</code>.
+   * @return   The constant used to identify the operating system. Not <code>null</code>.
    */
   public static SystemInfo getRunningOS() {
     synchronized( SystemInfo.class ) {
       if( ACTIVE == null ) {
         for( SystemInfo info : SystemInfo.values() ) {
-          if( info.isActive() ) {
+          if( info.isActive() && (info != Unknown) ) {
             ACTIVE = info;
             break;
           }
+        }
+        if( ACTIVE == null ) {
+          ACTIVE = Unknown;
         }
       }
       return ACTIVE;
