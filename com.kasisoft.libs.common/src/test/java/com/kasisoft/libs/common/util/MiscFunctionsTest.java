@@ -306,7 +306,7 @@ public class MiscFunctionsTest {
   
   @Test(dataProvider="createToSet")
   public void toSet( List<String> list, List<String> expected ) {
-    List<String> altered = MiscFunctions.toSet( list );
+    List<String> altered = MiscFunctions.toUniqueList( list );
     Assert.assertNotNull( altered );
     Assert.assertEquals( altered.size(), expected.size() );
     for( int i = 0; i < altered.size(); i++ ) {
