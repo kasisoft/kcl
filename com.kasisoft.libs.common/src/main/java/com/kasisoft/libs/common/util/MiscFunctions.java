@@ -525,7 +525,7 @@ public class MiscFunctions {
    * 
    * @return   The supplied list. Not <code>null</code>.
    */
-  public static <T extends Comparable<T>> List<T> toSet( List<T> list ) {
+  public static <T extends Comparable<T>> List<T> toUniqueList( List<T> list ) {
     Collections.sort( list );
     for( int i = list.size() - 1; i > 0; i-- ) {
       if( list.get(i).compareTo( list.get( i - 1 ) ) == 0 ) {
@@ -533,6 +533,38 @@ public class MiscFunctions {
       }
     }
     return list;
+  }
+  
+  /**
+   * Sorts the supplied list and makes sure that every entry only occures once. 
+   * 
+   * @param list   The list of Comparable instances. This list must support the {@link List#remove(int)} method. 
+   *               Not <code>null</code>.
+   * 
+   * @return   The supplied list. Not <code>null</code>.
+   * 
+   * @deprecated Will be deleted with version 1.3+ and should be replaced by it's renamed variety toUniqueList.
+   */
+  @Deprecated
+  public static <T extends Comparable<T>> List<T> toSet( List<T> list ) {
+    return toUniqueList( list );
+  }
+
+  /**
+   * Creates a set from the supplied elements. 
+   * 
+   * @param elements   The elements that shall be collected within a set. Maybe <code>null</code>.
+   * 
+   * @return   The set created from the supplied elements. Not <code>null</code>.
+   */
+  public static <T> Set<T> toSet( T ... elements ) {
+    Set<T> result = new HashSet<T>();
+    if( elements != null ) {
+      for( int i = 0; i < elements.length; i++ ) {
+        result.add( elements[i] );
+      }
+    }
+    return result;
   }
 
   /**
@@ -677,6 +709,22 @@ public class MiscFunctions {
    */
   public static void close( Connection connection ) {
     close( false, connection );
+  }
+  
+  /**
+   * Small helper which is used to load all SPI services currently available.
+   * 
+   * @param servicetype   The desired service type. Not <code>null</code>
+   * 
+   * @return   A list with all SPI services currently available. Not <code>null</code>.
+   */
+  public static <T> List<T> loadSPIServices( Class<T> servicetype ) {
+    List<T>          result    = new ArrayList<T>();
+    ServiceLoader<T> spiloader = ServiceLoader.load( servicetype );
+    for( T service : spiloader ) {
+      result.add( service );
+    }
+    return result;
   }
 
   /**
