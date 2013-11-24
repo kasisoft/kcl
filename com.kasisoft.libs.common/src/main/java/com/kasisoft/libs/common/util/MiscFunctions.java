@@ -536,21 +536,6 @@ public class MiscFunctions {
   }
   
   /**
-   * Sorts the supplied list and makes sure that every entry only occures once. 
-   * 
-   * @param list   The list of Comparable instances. This list must support the {@link List#remove(int)} method. 
-   *               Not <code>null</code>.
-   * 
-   * @return   The supplied list. Not <code>null</code>.
-   * 
-   * @deprecated Will be deleted with version 1.3+ and should be replaced by it's renamed variety toUniqueList.
-   */
-  @Deprecated
-  public static <T extends Comparable<T>> List<T> toSet( List<T> list ) {
-    return toUniqueList( list );
-  }
-
-  /**
    * Creates a set from the supplied elements. 
    * 
    * @param elements   The elements that shall be collected within a set. Maybe <code>null</code>.
