@@ -23,6 +23,34 @@ public class StringFunctions {
   }
   
   /**
+   * Changes the suffix for the supplied name. If the name doesn't provide a suffix it will be appended.
+   * 
+   * @param name     The name which might be altered. Not <code>null</code>.
+   * @param suffix   The suffix which has to be added (without '.'). Neither <code>null</code> nor empty.
+   * 
+   * @return   The name with the updated suffix. Neither <code>null</code> nor empty.
+   */
+  public static String changeSuffix( String name, String suffix ) {
+    return String.format( "%s.%s", getBasename( name ), suffix );
+  }
+  
+  /**
+   * Returns the basename for the supplied string which means to strip away the suffix if there's one.
+   * 
+   * @param name   The name which might contain a suffix. Not <code>null</code>.
+   * 
+   * @return   The basename without the suffix. Not <code>null</code>.
+   */
+  public static String getBasename( String name ) {
+    int lidx = name.lastIndexOf('.');
+    if( lidx == -1 ) {
+      return name;
+    } else {
+      return name.substring( 0, lidx );
+    }
+  }
+  
+  /**
    * Allocates some character buffer.
    * 
    * @param size   The size of the buffer if set. <code>null</code> means to use a default value.

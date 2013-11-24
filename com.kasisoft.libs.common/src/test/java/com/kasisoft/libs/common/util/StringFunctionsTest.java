@@ -22,6 +22,35 @@ import java.util.*;
  */
 public class StringFunctionsTest {
 
+  @DataProvider(name="createGetBasename")
+  public Object[][] createGetBasename() {
+    return new Object[][] {
+      { "a/b/c/test"     , "a/b/c/test" },  
+      { "a/b/c/test."    , "a/b/c/test" },  
+      { "a/b/c/test.txt" , "a/b/c/test" },  
+    };
+  }
+
+  @Test(dataProvider="createGetBasename", groups="all")
+  public void getBasename( String name, String expected) {
+    Assert.assertEquals( StringFunctions.getBasename( name ), expected );
+  }
+
+  @DataProvider(name="createChangeSuffix")
+  public Object[][] createChangeSuffix() {
+    return new Object[][] {
+      { "a/b/c/test"     , "jpg"  , "a/b/c/test.jpg" },  
+      { "a/b/c/test."    , "jpg"  , "a/b/c/test.jpg" },  
+      { "a/b/c/test.txt" , "jpg"  , "a/b/c/test.jpg" },  
+      { "a/b/c/test.txt" , ".jpg" , "a/b/c/test..jpg" },
+    };
+  }
+
+  @Test(dataProvider="createChangeSuffix", groups="all")
+  public void changeSuffix( String name, String suffix, String expected) {
+    Assert.assertEquals( StringFunctions.changeSuffix( name, suffix ), expected );
+  }
+  
   @Test(groups="all")
   public void allocateAndReleaseChars() {
     
