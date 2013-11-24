@@ -349,6 +349,25 @@ public class IoFunctionsTest {
     Assert.assertEquals( loaded3, lines );
     
   }
+
+  @Test
+  public void readTextAsIs() {
+    
+    StringBuilder builder = new StringBuilder();
+    builder.append( "FRED\n" );
+    builder.append( "FLINTSTONES\r\n\n" );
+    builder.append( "ANIMAL" );
+    builder.append( "IS\n\n" );
+    builder.append( "NAMED\\n" );
+    builder.append( "DINO" );
+    
+    String               text    = builder.toString();
+    ByteArrayInputStream bytein  = new ByteArrayInputStream( Encoding.UTF8.encode( text ) ); 
+    String               current = IoFunctions.readTextAsIs( bytein, Encoding.UTF8 );
+    Assert.assertEquals( current, text );
+    
+  }
+
   
   @Test
   public void listRecursive() {

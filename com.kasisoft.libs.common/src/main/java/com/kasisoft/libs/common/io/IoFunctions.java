@@ -575,6 +575,71 @@ public class IoFunctions {
   }
 
   /**
+   * Loads the textual content from a File. The content will be loaded as is so it's equal to the content on the disk.
+   * 
+   * @param input      The File providing the textual content. Not <code>null</code>.
+   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
+   *                   be used.
+   * 
+   * @return   The complete textual content. Not <code>null</code>.
+   *
+   * @throws FailureException in case of an io error.
+   */
+  public static String readTextAsIs( File input, Encoding encoding ) {
+    byte[] data = loadBytes( input, null );
+    if( encoding == null ) {
+      return Encoding.UTF8.decode( data );
+    } else {
+      return encoding.decode( data );
+    }
+  }
+
+  /**
+   * Loads the textual content from an InputStream. The content will be loaded as is so it's equal to the content supplied
+   * by the InputStream.
+   * 
+   * @param instream   The InputStream providing the textual content. Not <code>null</code>.
+   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
+   *                   be used.
+   * 
+   * @return   The complete textual content. Not <code>null</code>.
+   *
+   * @throws FailureException in case of an io error.
+   */
+  public static String readTextAsIs( InputStream instream, Encoding encoding ) {
+    byte[] data = loadBytes( instream, null );
+    if( encoding == null ) {
+      return Encoding.UTF8.decode( data );
+    } else {
+      return encoding.decode( data );
+    }
+  }
+
+  /**
+   * Loads the textual content from a resource. The content will be loaded as is so it's equal to the content supplied
+   * by the resource.
+   * 
+   * @param resource   The URL of the resource providing the textual content. Not <code>null</code>.
+   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
+   *                   be used.
+   * 
+   * @return   The complete textual content. Not <code>null</code>.
+   *
+   * @throws FailureException in case of an io error.
+   */
+  public static String readTextAsIs( URL resource, Encoding encoding ) {
+    InputStream instream = null;
+      try {
+        instream = resource.openStream();
+        return readTextAsIs( instream, encoding );
+      } catch( IOException ex ) {
+        throw new FailureException( FailureCode.IO, resource.toExternalForm() );
+      } finally {
+        MiscFunctions.close( instream );
+      }
+  }
+
+  /**
    * Skip some bytes within an InputStream.
    * 
    * @param input    The InputStream providing the content. Not <code>null</code>.
