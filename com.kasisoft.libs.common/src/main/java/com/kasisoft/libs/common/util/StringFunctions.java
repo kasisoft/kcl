@@ -630,8 +630,8 @@ public class StringFunctions {
   }
 
   /**
-   * Creates a concatenation of the supplied Strings. This function allows elements to be 
-   * <code>null</code> which means that they're just be ignored.
+   * Creates a concatenation of the supplied Strings. This function allows elements to be <code>null</code> which means
+   * that they're just be ignored.
    * 
    * @param delimiter   A delimiter which might be used. Maybe <code>null</code>.
    * @param args        The list of Strings that has to be concatenated. Maybe <code>null</code>.
@@ -656,7 +656,35 @@ public class StringFunctions {
     }
     return buffer.toString();
   }
-  
+
+  /**
+   * Creates a concatenation of the supplied Strings. This function allows elements to be <code>null</code> which means
+   * that they're just be ignored.
+   * 
+   * @param delimiter   A delimiter which might be used. Maybe <code>null</code>.
+   * @param args        The collection of Strings that has to be concatenated. Maybe <code>null</code>.
+   * 
+   * @return   The concatenated String. Not <code>null</code>.
+   */
+  public static String concatenate( String delimiter, Collection<String> args ) {
+    if( args == null ) {
+      return "";
+    }
+    if( delimiter == null ) {
+      delimiter = "";
+    }
+    StringBuilder buffer = new StringBuilder();
+    for( String arg : args ) {
+      if( (arg != null) && (arg.length() > 0) ) {
+        if( buffer.length() > 0 ) {
+          buffer.append( delimiter );
+        }
+        buffer.append( arg );
+      }
+    }
+    return buffer.toString();
+  }
+
   /**
    * Returns <code>true</code> if both literals are equal. This function allows to ignore the case
    * sensitivity by choice.

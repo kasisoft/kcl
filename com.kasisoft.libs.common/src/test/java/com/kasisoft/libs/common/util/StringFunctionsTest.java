@@ -252,6 +252,8 @@ public class StringFunctionsTest {
   @Test(groups="all")
   public void concatenate() {
 
+    // String array
+    
     // without delimiter
     Assert.assertEquals( StringFunctions.concatenate( null ), "" );
     Assert.assertEquals( StringFunctions.concatenate( null, new String[0] ), "" );
@@ -269,6 +271,26 @@ public class StringFunctionsTest {
     Assert.assertEquals( StringFunctions.concatenate( "#", "A", "B", "C" ), "A#B#C" );
     Assert.assertEquals( StringFunctions.concatenate( "#", "A", null, "C" ), "A#C" );
     Assert.assertEquals( StringFunctions.concatenate( "#", "A", "", "C" ), "A#C" );
+
+    // String collection
+    
+    // without delimiter
+    Assert.assertEquals( StringFunctions.concatenate( null ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( new String[0] ) ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A" ) ), "A" );
+    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", "B" ) ), "AB" );
+    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", "B", "C" ) ), "ABC" );
+    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", null, "C" ) ), "AC" );
+    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", "", "C" ) ), "AC" );
+
+    // with delimiter
+    Assert.assertEquals( StringFunctions.concatenate( "#" ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( new String[0] ) ), "" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A" ) ), "A" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", "B" ) ), "A#B" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", "B", "C" ) ), "A#B#C" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", null, "C" ) ), "A#C" );
+    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", "", "C" ) ), "A#C" );
 
   }
   
