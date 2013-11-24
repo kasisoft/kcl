@@ -199,6 +199,21 @@ public class MiscFunctions {
   }
   
   /**
+   * Copies a small range from a specific array.
+   * 
+   * @param source   The array providing the input data. Not <code>null</code>.
+   * @param offset   The offset of the starting point within the input data. Must be in the range [0..source.length(
+   * @param length   The amount of bytes which have to be copied. Must be greater than 0.
+   * 
+   * @return   A copy of the desired range. Neither <code>null</code> nor empty.
+   */
+  public static byte[] copyRange( byte[] source, int offset, int length ) {
+    byte[] result = new byte[ length ];
+    System.arraycopy( source, offset, result, 0, length );
+    return result;
+  }
+  
+  /**
    * Creates a new byte sequence while inserting one into a data block. If the index is outside of the destination no 
    * insertion takes place.
    * 
