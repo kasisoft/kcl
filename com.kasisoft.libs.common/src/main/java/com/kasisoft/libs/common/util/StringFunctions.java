@@ -9,6 +9,7 @@
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.*;
 
 import java.util.*;
 
@@ -810,4 +811,75 @@ public class StringFunctions {
     }
   }
   
+  /**
+   * Converts all of the supplied Strings into their upper case equivalents. A <code>null</code> valued member is legal
+   * here. Please be aware that passing an array causes an inplace modification of it.
+   * 
+   * @param input   The list of String that shall be upper cased. Maybe <code>null</code>.
+   * 
+   * @return   A list with upper cased String. Maybe <code>null</code>.
+   */
+  public static String[] toUpperCase( String ... input ) {
+    if( input != null ) {
+      for( int i = 0; i < input.length; i++ ) {
+        if( input[i] != null ) {
+          input[i] = input[i].toUpperCase();
+        }
+      }
+    }
+    return input;
+  }
+
+  /**
+   * Converts all of the supplied Strings into their upper lower equivalents. A <code>null</code> valued member is legal
+   * here. Please be aware that passing an array causes an inplace modification of it.
+   * 
+   * @param input   The list of String that shall be lower cased. Maybe <code>null</code>.
+   * 
+   * @return   A list with lower cased String. Maybe <code>null</code>.
+   */
+  public static String[] toLowerCase( String ... input ) {
+    if( input != null ) {
+      for( int i = 0; i < input.length; i++ ) {
+        if( input[i] != null ) {
+          input[i] = input[i].toLowerCase();
+        }
+      }
+    }
+    return input;
+  }
+  
+  /**
+   * Creates a copy of the supplied of Strings.
+   *  
+   * @param input   The input String that should be copied. Maybe <code>null</code>.
+   * 
+   * @return   A copy of the supplied array. Maybe <code>null</code>.
+   */
+  public static String[] duplicate( String ... input ) {
+    String[] result = null;
+    if( input != null ) {
+      result = new String[ input.length ];
+      System.arraycopy( input, 0, result, 0, input.length );
+    }
+    return result;
+  }
+  
+  /**
+   * Returns a list of lines based upon the supplied text.
+   * 
+   * @param text   The text which might contain multiple lines. Not <code>null</code>.
+   * 
+   * @return   A list of lines from the supplied text. Not <code>null</code>.
+   */
+  public static List<String> toLines( String text ) {
+    Reader reader = null;
+    try {
+      reader = new StringReader( text );
+      return IoFunctions.readText( reader );
+    } finally {
+      MiscFunctions.close( reader );
+    }
+  }
+
 } /* ENDCLASS */

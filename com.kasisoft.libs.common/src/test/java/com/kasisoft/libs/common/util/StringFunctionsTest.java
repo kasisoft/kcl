@@ -430,4 +430,54 @@ public class StringFunctionsTest {
     };
   }
 
+  @DataProvider(name="caseChangeData")
+  public Object[][] caseChangeData() {
+    return new Object[][] {
+      { null, null },
+      { new String[] { ""                    }, new String[] { ""                    } },
+      { new String[] { "hello"               }, new String[] { "HELLO"               } },
+      { new String[] { "hello", null, "bibo" }, new String[] { "HELLO", null, "BIBO" } },
+    };
+  }
+
+  @Test(dataProvider="caseChangeData", groups="all")
+  public void toUpperCase( String[] current, String[] expected ) {
+    Assert.assertEquals( StringFunctions.toUpperCase( current ), expected );
+  }
+
+  @Test(dataProvider="caseChangeData", groups="all")
+  public void toLowerCase( String[] expected, String[] current ) {
+    Assert.assertEquals( StringFunctions.toLowerCase( current ), expected );
+  }
+
+  @DataProvider(name="duplicateData")
+  public Object[][] duplicateData() {
+    return new Object[][] {
+      { null },
+      { new String[] { ""                    } },
+      { new String[] { "hello"               } },
+      { new String[] { "hello", null, "BIBO" } },
+    };
+  }
+
+  @Test(dataProvider="duplicateData", groups="all")
+  public void duplicate( String[] input ) {
+    Assert.assertEquals( StringFunctions.duplicate( input ), input );
+  }
+
+  @DataProvider(name="toLinesData")
+  public Object[][] toLinesData() {
+    return new Object[][] {
+      { "", new ArrayList<String>() },
+      { "Hello\r\nWorld", new ArrayList<String>( Arrays.asList( "Hello", "World" ) ) },
+      { "  Hello\r\n\tWorld", new ArrayList<String>( Arrays.asList( "  Hello", "\tWorld" ) ) },
+      { "  Hello\r\n\r\n\tWorld", new ArrayList<String>( Arrays.asList( "  Hello", "", "\tWorld" ) ) },
+    };
+  }
+  
+  @Test(dataProvider="toLinesData", groups="all")
+  public void toLines( String current, List<String> expected ) {
+    Assert.assertEquals( StringFunctions.toLines( current ), expected );
+  }
+  
 } /* ENDCLASS */
