@@ -742,6 +742,39 @@ public class MiscFunctions {
   }
   
   /**
+   * Joins the supplied arrays to a single one. It is legal to supply <code>null</code> values.
+   * 
+   * @param arrays   The arrays that are supplied to be joined. Maybe <code>null</code>.
+   * 
+   * @return   A joined array. Not <code>null</code>.
+   */
+  @SuppressWarnings("null")
+  public static <T> T[] join( T[] ... arrays ) {
+    int length = 0;
+    int j      = -1;
+    if( arrays != null ) {
+      for( int i = arrays.length - 1; i >= 0; i-- ) {
+        if( arrays[i] != null ) {
+          length += arrays[i].length;
+          j       = i;
+        }
+      }
+    }
+    if( length == 0 ) {
+      return (T[]) Arrays.<T>asList().toArray();
+    }
+    T[] result = Arrays.copyOf( arrays[j], length );
+    int offset = arrays[j].length;
+    for( int i = j + 1; i < arrays.length; i++ ) {
+      if( arrays[i] != null ) {
+        System.arraycopy( arrays[i], 0, result, offset, arrays[i].length );
+        offset += arrays[i].length;
+      }
+    }
+    return result;
+  }
+
+  /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */
   private static final class KeyComparator<T extends Comparable> implements Comparator<Map.Entry<T,?>> {
