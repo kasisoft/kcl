@@ -24,7 +24,7 @@ import java.io.*;
  * 
  * @ks.todo [06-Feb-2010:KASI]   Tests for the close methods are still missing.
  */
-@Test(groups="all")
+@Test
 public class IoFunctionsTest {
 
   private File   testdata;
@@ -43,7 +43,7 @@ public class IoFunctionsTest {
     Utilities.createFileSystemStructure( directory );
   }
 
-  @Test
+  @Test(groups="all")
   public void newTempFile() {
     
     File file1 = IoFunctions.newTempFile();
@@ -60,7 +60,7 @@ public class IoFunctionsTest {
     
   }
   
-  @Test
+  @Test(groups="all")
   public void allocateAndRelease() {
     
     Integer defaultsize = CommonProperty.BufferCount.getValue( System.getProperties() );
@@ -88,7 +88,7 @@ public class IoFunctionsTest {
     
   }
 
-  @Test
+  @Test(groups="all")
   public void copyStreams() {
     
     byte[]                data    = "MY DATA".getBytes();
@@ -112,7 +112,7 @@ public class IoFunctionsTest {
 
   }
 
-  @Test
+  @Test(groups="all")
   public void copyFiles() {
     
     File    tempfile1 = Utilities.createRandomBytesFile();
@@ -122,7 +122,7 @@ public class IoFunctionsTest {
     
   }
   
-  @Test
+  @Test(groups="all")
   public void copyDir() {
     
     File tempdir1 = Utilities.createRandomDirectory();
@@ -132,7 +132,7 @@ public class IoFunctionsTest {
     
   }
   
-  @Test
+  @Test(groups="all")
   public void copyReaderToWriter() throws IOException {
     
     char[]           data    = "MY DATA".toCharArray();
@@ -156,7 +156,7 @@ public class IoFunctionsTest {
 
   }
   
-  @Test
+  @Test(groups="all")
   public void loadAndWriteBytes() {
     
     byte[] data     = Utilities.createByteBlock();
@@ -177,7 +177,7 @@ public class IoFunctionsTest {
 
   }
 
-  @Test
+  @Test(groups="all")
   public void loadChars() {
     
     char[] data     = Utilities.createCharacterBlock();
@@ -198,7 +198,7 @@ public class IoFunctionsTest {
 
   }
 
-  @Test
+  @Test(groups="all")
   public void loadTest() {
     
     File          testfile  = new File( testdata, "testfile.txt" );
@@ -240,7 +240,7 @@ public class IoFunctionsTest {
 
   }
   
-  @Test
+  @Test(groups="all")
   public void skip() {
     
     String                str     = "BLA BLUB WAS HERE";
@@ -257,7 +257,7 @@ public class IoFunctionsTest {
     
   }
 
-  @Test
+  @Test(groups="all")
   public void loadFragment() {
     
     String                str       = "BLA BLUB WAS HERE";
@@ -272,7 +272,7 @@ public class IoFunctionsTest {
     
   }
 
-  @Test
+  @Test(groups="all")
   public void isGZIP() {
     
     File  nongzip = new File( testdata, "testfile.txt");
@@ -289,7 +289,7 @@ public class IoFunctionsTest {
 
   }
   
-  @Test
+  @Test(groups="all")
   public void crc32() {
    
     File    testfile  = new File( testdata, "testfile.gz" );
@@ -301,7 +301,7 @@ public class IoFunctionsTest {
     
   }
 
-  @Test
+  @Test(groups="all")
   public void delete() {
     File        tempdir = IoFunctions.newTempFile();
     tempdir.mkdirs();
@@ -312,7 +312,7 @@ public class IoFunctionsTest {
     }
   }
   
-  @Test
+  @Test(groups="all")
   public void writeText() {
     
     List<String> lines = new ArrayList<String>();
@@ -350,7 +350,7 @@ public class IoFunctionsTest {
     
   }
 
-  @Test
+  @Test(groups="all")
   public void readTextAsIs() {
     
     StringBuilder builder = new StringBuilder();
@@ -369,7 +369,7 @@ public class IoFunctionsTest {
   }
 
   
-  @Test
+  @Test(groups="all")
   public void listRecursive() {
     FileFilter filter = new FileFilter() {
       @Override
@@ -392,21 +392,21 @@ public class IoFunctionsTest {
 
   }
   
-  @Test
+  @Test(groups="all")
   public void zip() {
     Assert.assertTrue( IoFunctions.zip( destfile, directory, null ) );
   }
   
-  @Test(dependsOnMethods="zip")
+  @Test(dependsOnMethods="zip",groups="all")
   public void unzip() {
     Assert.assertTrue( IoFunctions.unzip( destfile, unpackeddir, null ) );
   }
 
-  @Test
+  @Test(groups="all")
   public void locateDirectory() throws IOException {
     File dir      = IoFunctions.locateDirectory( Iso3166Test.class );
     File current  = new File( "target/test-classes" );;
     Assert.assertEquals( dir, current.getCanonicalFile() );
   }
-
+  
 } /* ENDCLASS */

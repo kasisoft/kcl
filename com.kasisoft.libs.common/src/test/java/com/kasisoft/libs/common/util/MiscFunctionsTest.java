@@ -127,21 +127,25 @@ public class MiscFunctionsTest {
     };
   }
   
-  @DataProvider(name="createCharIndexOf")
-  public Object[][] createCharIndexOf() {
+  @DataProvider(name="createIndexOf")
+  public Object[][] createIndexOf() {
     return new Object[][] {
-      { "Frog finds the dog".toCharArray(), "ind".toCharArray(), Integer.valueOf(0),   Integer.valueOf(6)   },  
-      { "Frog finds the dog".toCharArray(), "xyz".toCharArray(), Integer.valueOf(0),   Integer.valueOf(-1)  },
-      { "Frog finds the dog".toCharArray(), "ro ".toCharArray(), Integer.valueOf(100), Integer.valueOf(-1)  },
+      { "Frog finds the dog"       , "ind"                 , Integer.valueOf(0)   , Integer.valueOf(6)  },
+      { "Frog finds the dog"       , "xyz"                 , Integer.valueOf(0)   , Integer.valueOf(-1) },
+      { "Frog finds the dog"       , "ro "                 , Integer.valueOf(100) , Integer.valueOf(-1) },
+      { "Frog finds the dog"       , "Frog finds the dog " , Integer.valueOf(0)   , Integer.valueOf(-1) },
+      { "Frog finds finds the dog" , "ind"                 , Integer.valueOf(7)   , Integer.valueOf(12) },
     };
   }
 
-  @DataProvider(name="createByteIndexOf")
-  public Object[][] createByteIndexOf() {
+  @DataProvider(name="createLastIndexOf")
+  public Object[][] createLastIndexOf() {
     return new Object[][] {
-      { "Frog finds the dog".getBytes(), "ind".getBytes(), Integer.valueOf(0),   Integer.valueOf(6)   },  
-      { "Frog finds the dog".getBytes(), "xyz".getBytes(), Integer.valueOf(0),   Integer.valueOf(-1)  },
-      { "Frog finds the dog".getBytes(), "ro ".getBytes(), Integer.valueOf(100), Integer.valueOf(-1)  },
+      { "Frog finds the dog"       , "ind"                 , Integer.valueOf(0)   , Integer.valueOf(6)  },
+      { "Frog finds the dog"       , "xyz"                 , Integer.valueOf(0)   , Integer.valueOf(-1) },
+      { "Frog finds the dog"       , "ro "                 , Integer.valueOf(100) , Integer.valueOf(-1) },
+      { "Frog finds the dog"       , "Frog finds the dog " , Integer.valueOf(0)   , Integer.valueOf(-1) },
+      { "Frog finds finds the dog" , "ind"                 , Integer.valueOf(0)   , Integer.valueOf(12) },
     };
   }
 
@@ -268,15 +272,27 @@ public class MiscFunctionsTest {
     Assert.assertEquals( new String( combined ), expected );
   }
   
-  @Test(dataProvider="createCharIndexOf")
-  public void indexOfChars( char[] buffer, char[] characters, int offset, int expectedindex ) {
-    int index = MiscFunctions.indexOf( buffer, characters, offset );
+  @Test(dataProvider="createIndexOf")
+  public void indexOfChars( String buffer, String characters, int offset, int expectedindex ) {
+    int index = MiscFunctions.indexOf( buffer.toCharArray(), characters.toCharArray(), offset );
     Assert.assertEquals( index, expectedindex );
   }
 
-  @Test(dataProvider="createByteIndexOf")
-  public void indexOfBytes( byte[] buffer, byte[] characters, int offset, int expectedindex ) {
-    int index = MiscFunctions.indexOf( buffer, characters, offset );
+  @Test(dataProvider="createIndexOf")
+  public void indexOfBytes( String buffer, String characters, int offset, int expectedindex ) {
+    int index = MiscFunctions.indexOf( buffer.getBytes(), characters.getBytes(), offset );
+    Assert.assertEquals( index, expectedindex );
+  }
+
+  @Test(dataProvider="createLastIndexOf")
+  public void indexLastOfChars( String buffer, String characters, int offset, int expectedindex ) {
+    int index = MiscFunctions.lastIndexOf( buffer.toCharArray(), characters.toCharArray(), offset );
+    Assert.assertEquals( index, expectedindex );
+  }
+
+  @Test(dataProvider="createLastIndexOf")
+  public void indexLastOfBytes( String buffer, String characters, int offset, int expectedindex ) {
+    int index = MiscFunctions.lastIndexOf( buffer.getBytes(), characters.getBytes(), offset );
     Assert.assertEquals( index, expectedindex );
   }
 

@@ -124,16 +124,64 @@ public class MiscFunctions {
    * @return   The index of the byte sequence or -1 in case there's no sequence.
    */
   public static int indexOf( byte[] buffer, byte[] sequence, int pos ) {
-    if( sequence.length > buffer.length ) {
-      // the sequence doesn't fit, so it's not available
-      return -1;
-    }
     int last = buffer.length - sequence.length;
-    if( pos > last ) {
+    if( (last < 0) || (pos > last) ) {
       // the sequence can't fit completely, so it's not available
       return -1;
     }
     for( int i = pos; i < last; i++ ) {
+      if( buffer[i] == sequence[0] ) {
+        // we're having a possible match, so compare the sequence
+        if( compare( buffer, sequence, i ) ) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Tries to find the last byte sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( byte[] buffer, byte[] sequence, int pos ) {
+    int last = buffer.length - sequence.length;
+    if( (last < 0) || (pos > last) ) {
+      // the sequence doesn't fit, so it's not available
+      return -1;
+    }
+    for( int i = last; i >= pos; i-- ) {
+      if( buffer[i] == sequence[0] ) {
+        // we're having a possible match, so compare the sequence
+        if( compare( buffer, sequence, i ) ) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Tries to find the last character sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The character sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the last character sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( char[] buffer, char[] sequence, int pos ) {
+    int last = buffer.length - sequence.length;
+    if( (last < 0) || (pos > last) ) {
+      // the sequence doesn't fit, so it's not available
+      return -1;
+    }
+    for( int i = last; i >= pos; i-- ) {
       if( buffer[i] == sequence[0] ) {
         // we're having a possible match, so compare the sequence
         if( compare( buffer, sequence, i ) ) {
@@ -154,12 +202,8 @@ public class MiscFunctions {
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
   public static int indexOf( char[] buffer, char[] sequence, int pos ) {
-    if( sequence.length > buffer.length ) {
-      // the sequence doesn't fit, so it's not available
-      return -1;
-    }
     int last = buffer.length - sequence.length;
-    if( pos > last ) {
+    if( (last < 0) || (pos > last) ) {
       // the sequence can't fit completely, so it's not available
       return -1;
     }
@@ -174,6 +218,30 @@ public class MiscFunctions {
     return -1;
   }
   
+  /**
+   * Tries to find the last byte sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( byte[] data, byte[] sequence ) {
+    return lastIndexOf( data, sequence, 0 );
+  }
+
+  /**
+   * Tries to find the last char sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the last char sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( char[] data, char[] sequence ) {
+    return lastIndexOf( data, sequence, 0 );
+  }
+
   /**
    * Tries to find a byte sequence within a data block.
    * 
