@@ -841,6 +841,39 @@ public class MiscFunctions {
     }
     return result;
   }
+  
+  /**
+   * Returns the constructor associated with a specific type.
+   * 
+   * @param type     The type used to access the constructor. Not <code>null</code>. 
+   * @param params   The parameter types for the constructor. Maybe <code>null</code>.
+   * 
+   * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
+   */
+  public static Constructor getConstructor( Class<?> type, Class<?> ... params ) {
+    try {
+      return type.getDeclaredConstructor( params );
+    } catch( Exception ex ) {
+      throw null;
+    }
+  }
+
+  /**
+   * Returns the method associated with a specific type.
+   * 
+   * @param type     The type used to access the method. Not <code>null</code>.
+   * @param name     The name of the method. Neither <code>null</code> nor empty. 
+   * @param params   The parameter types for the method. Maybe <code>null</code>.
+   * 
+   * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
+   */
+  public static Method getMethod( Class<?> type, String name, Class<?> ... params ) {
+    try {
+      return type.getDeclaredMethod( name, params );
+    } catch( Exception ex ) {
+      throw null;
+    }
+  }
 
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.

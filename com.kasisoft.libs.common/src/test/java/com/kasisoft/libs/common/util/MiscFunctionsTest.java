@@ -17,6 +17,8 @@ import org.testng.*;
 
 import java.util.*;
 
+import java.io.*;
+
 /**
  * Test for various functions of the class 'MiscFunctions'.
  */
@@ -383,6 +385,16 @@ public class MiscFunctionsTest {
   @Test(dataProvider="joinData", groups="all")
   public void join( String[][] input, String[] expected ) {
     Assert.assertEquals( MiscFunctions.join( input ), expected );
+  }
+  
+  @Test(groups="all")
+  public void getConstructor() {
+    Assert.assertNotNull( MiscFunctions.getConstructor( ByteArrayOutputStream.class ) );
+  }
+
+  @Test(groups="all")
+  public void getMethod() {
+    Assert.assertNotNull( MiscFunctions.getMethod( ByteArrayOutputStream.class, "reset" ) );
   }
 
 } /* ENDCLASS */
