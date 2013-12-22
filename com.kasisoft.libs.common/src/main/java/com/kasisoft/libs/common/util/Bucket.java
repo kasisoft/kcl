@@ -19,6 +19,15 @@ public class Bucket<T> {
 
   private List<SoftReference<T>>   references;
   private BucketFactory<T>         factory;
+
+  /**
+   * Initializes this bucket for a specific type.
+   * 
+   * @param type   The type that should be used for the creation. Not <code>null</code>.
+   */
+  public Bucket( Class<T> type ) {
+    this( new DefaultBucketFactory<T>( type ) );
+  }
   
   /**
    * Initializes this bucket.

@@ -17,10 +17,9 @@ import junit.framework.*;
 /**
  * Test for the class 'Bucket'.
  */
-@Test(groups="all")
 public class BucketTest {
   
-  @Test
+  @Test(groups="all")
   public void runAllocations() {
     
     Bucket<List<String>> bucket = new Bucket<List<String>>( new ListBucketFactory<String>() );
