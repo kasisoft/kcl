@@ -55,7 +55,127 @@ public class MiscFunctions {
    */
   private MiscFunctions() {
   }
-  
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Byte> asList( byte ... values ) {
+    List<Byte> result = new ArrayList<Byte>( values.length );
+    for( byte v : values ) {
+      result.add( Byte.valueOf(v) );
+    }
+    return result;
+  }
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Short> asList( short ... values ) {
+    List<Short> result = new ArrayList<Short>( values.length );
+    for( short v : values ) {
+      result.add( Short.valueOf(v) );
+    }
+    return result;
+  }
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Integer> asList( int ... values ) {
+    List<Integer> result = new ArrayList<Integer>( values.length );
+    for( int v : values ) {
+      result.add( Integer.valueOf(v) );
+    }
+    return result;
+  }
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Long> asList( long ... values ) {
+    List<Long> result = new ArrayList<Long>( values.length );
+    for( long v : values ) {
+      result.add( Long.valueOf(v) );
+    }
+    return result;
+  }
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Float> asList( float ... values ) {
+    List<Float> result = new ArrayList<Float>( values.length );
+    for( float v : values ) {
+      result.add( Float.valueOf(v) );
+    }
+    return result;
+  }
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Double> asList( double ... values ) {
+    List<Double> result = new ArrayList<Double>( values.length );
+    for( double v : values ) {
+      result.add( Double.valueOf(v) );
+    }
+    return result;
+  }
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Boolean> asList( boolean ... values ) {
+    List<Boolean> result = new ArrayList<Boolean>( values.length );
+    for( boolean v : values ) {
+      result.add( Boolean.valueOf(v) );
+    }
+    return result;
+  }
+
+  /**
+   * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
+   * 
+   * @param values   A list of primitive values. Not <code>null</code>.
+   * 
+   * @return   A list of objects. Not <code>null</code>.
+   */
+  public static List<Character> asList( char ... values ) {
+    List<Character> result = new ArrayList<Character>( values.length );
+    for( char v : values ) {
+      result.add( Character.valueOf(v) );
+    }
+    return result;
+  }
+
   /**
    * Convenience function which waits until the supplied Thread finishes his task or will be interrupted.
    * 
