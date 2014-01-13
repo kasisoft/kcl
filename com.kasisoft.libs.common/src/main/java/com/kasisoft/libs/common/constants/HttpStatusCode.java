@@ -11,7 +11,7 @@ package com.kasisoft.libs.common.constants;
 /**
  * Collection of HTTP stastus codes.
  * 
- * @ks.spec [26-Oct-2013:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
+ * @ks.spec [13-Jan-2014:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
  */
 public enum HttpStatusCode {
 
@@ -51,10 +51,10 @@ public enum HttpStatusCode {
   SeeOther                      ( 303, "See Other"                        ),
   ServiceUnavailable            ( 503, "Service Unavailable"              ),
   SwitchingProtocols            ( 101, "Switching Protocols"              ),
+  TemporaryRedirect             ( 307, "Temporary Redirect"               ),
   Unauthorized                  ( 401, "Unauthorized"                     ),
   UnsupportedMediaType          ( 415, "Unsupported Media Type"           ),
-  UseProxy                      ( 305, "Use Proxy"                        ),
-  TemporaryRedirect             ( 307, "Temporary Redirect"               );
+  UseProxy                      ( 305, "Use Proxy"                        );
   
   private int      code;
   private String   codetext;
@@ -115,10 +115,10 @@ public enum HttpStatusCode {
    */
   public static HttpStatusCode valueByStatusCode( String statuscode ) {
     if( statuscode != null ) {
-      for( HttpStatusCode code : HttpStatusCode.values() ) {
-        if( statuscode.equals( code.codetext ) ) {
-          return code;
-        }
+      try {
+        return valueByStatusCode( Integer.parseInt( statuscode ) );
+      } catch( NumberFormatException ex ) {
+        // cannot be identified, so leave it
       }
     }
     return null;
