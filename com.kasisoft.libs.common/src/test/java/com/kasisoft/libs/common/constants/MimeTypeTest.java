@@ -17,10 +17,9 @@ import java.util.*;
 /**
  * Tests for the enumeration 'MimeType'.
  */
-@Test(groups="all")
 public class MimeTypeTest {
 
-  @Test
+  @Test(groups="all")
   public void simple() {
     Set<MimeType> result = MimeType.valuesBySuffix( "tex" );
     Assert.assertNotNull( result );

@@ -11,11 +11,11 @@ package com.kasisoft.libs.common.constants;
 import java.util.*;
 
 /**
- * @ks.spec [09-Dec-2012:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
+ * @ks.spec [13-Jan-2014:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
  * 
- * Alternate and more official: @source [09-Dec-2012:KASI]   http://www.iana.org/assignments/media-types
+ * Alternate and more official: @ks.spec [13-Jan-2014:KASI]   http://www.iana.org/assignments/media-types
  * 
- * @ks.note [09-Dec-2012:KASI]   Not all types have been used here.
+ * @ks.note [13-Jan-2014:KASI]   Not all types have been used here.
  */
 public enum MimeType {
 
@@ -55,12 +55,27 @@ public enum MimeType {
   Xml                         ( "text/xml"                      , "xml"                               ),  // xml files
   Sgml                        ( "text/x-sgml"                   , "sgm", "sgml"                       );  // SGML-files
 
+  static {
+    for( Map.Entry<String,Set<MimeType>> entry : LocalData.valuebysuffix.entrySet() ) {
+      LocalData.valuebysuffix.put( entry.getKey(), Collections.unmodifiableSet( entry.getValue() ) );
+    }
+  }
+  
   private String         mimetype;
   private List<String>   suffices;
   
   MimeType( String type, String ... suffixlist ) {
     mimetype  = type;
     suffices  = Collections.unmodifiableList( Arrays.asList( suffixlist ) );
+    LocalData.valuebymimetype.put( mimetype, this );
+    for( String suffix : suffices ) {
+      Set<MimeType> set = LocalData.valuebysuffix.get( suffix );
+      if( set == null ) {
+        set = new HashSet<MimeType>();
+        LocalData.valuebysuffix.put( suffix, set );
+      }
+      set.add( this );
+    }
   }
   
   /**
@@ -101,12 +116,7 @@ public enum MimeType {
    * @return   The MimeType if it could be found or <code>null</code>.
    */
   public static MimeType valueByMimeType( String type ) {
-    for( MimeType mime : MimeType.values() ) {
-      if( type.equalsIgnoreCase( mime.mimetype ) ) {
-        return mime;
-      }
-    }
-    return null;
+    return LocalData.valuebymimetype.get( type );
   }
   
   /**
@@ -117,13 +127,18 @@ public enum MimeType {
    * @return   A set of supporting mime types. Not <code>null</code>. [U]
    */
   public static Set<MimeType> valuesBySuffix( String suffix ) {
-    Set<MimeType> result = new HashSet<MimeType>();
-    for( MimeType mime : MimeType.values() ) {
-      if( mime.supportsSuffix( suffix ) ) {
-        result.add( mime );
-      }
+    Set<MimeType> result = LocalData.valuebysuffix.get( suffix.toLowerCase() );
+    if( result == null ) {
+      result = Collections.emptySet();
     }
     return result;
   }
+  
+  private static class LocalData {
+    
+    private static Map<String,MimeType>       valuebymimetype = new Hashtable<String,MimeType>();
+    private static Map<String,Set<MimeType>>  valuebysuffix   = new Hashtable<String,Set<MimeType>>();
+    
+  } /* ENDCLASS */
   
 } /* ENDENUM */

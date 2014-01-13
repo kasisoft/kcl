@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.constants;
 
+import java.util.*;
+
 /**
  * Collection of iso-3166 codes.
  */
@@ -274,6 +276,9 @@ public enum Iso3166 {
     alpha3  = al3;
     alpha2  = al2;
     numeric = value;
+    LocalData . valuebyalpha3 . put( al3, this );
+    LocalData . valuebyalpha2 . put( al2, this );
+    LocalData . valuebynum    . put( Integer.valueOf( value ), this );
   }
   
   /**
@@ -311,12 +316,8 @@ public enum Iso3166 {
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
   public static Iso3166 valueByAlpha3( String alpha3 ) {
-    if( (alpha3 != null) && (alpha3.length() == 3) ) {
-      for( Iso3166 isocode : Iso3166.values() ) {
-        if( isocode.alpha3.equals( alpha3 ) ) {
-          return isocode;
-        }
-      }
+    if( alpha3 != null ) {
+      return LocalData.valuebyalpha3.get( alpha3 );
     }
     return null;
   }
@@ -329,12 +330,8 @@ public enum Iso3166 {
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
   public static Iso3166 valueByAlpha2( String alpha2 ) {
-    if( (alpha2 != null) && (alpha2.length() == 2) ) {
-      for( Iso3166 isocode : Iso3166.values() ) {
-        if( isocode.alpha2.equals( alpha2 ) ) {
-          return isocode;
-        }
-      }
+    if( alpha2 != null ) {
+      return LocalData.valuebyalpha2.get( alpha2 );
     }
     return null;
   }
@@ -347,12 +344,15 @@ public enum Iso3166 {
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
   public static Iso3166 valueByNumerical( int numerical ) {
-    for( Iso3166 isocode : Iso3166.values() ) {
-      if( isocode.numeric == numerical ) {
-        return isocode;
-      }
-    }
-    return null;
+    return LocalData.valuebynum.get( Integer.valueOf( numerical ) );
   }
+  
+  private static class LocalData {
+    
+    private static Map<String,Iso3166>    valuebyalpha2 = new Hashtable<String,Iso3166>();
+    private static Map<String,Iso3166>    valuebyalpha3 = new Hashtable<String,Iso3166>();
+    private static Map<Integer,Iso3166>   valuebynum    = new Hashtable<Integer,Iso3166>();
+    
+  } /* ENDCLASS */
 
 } /* ENDCLASS */
