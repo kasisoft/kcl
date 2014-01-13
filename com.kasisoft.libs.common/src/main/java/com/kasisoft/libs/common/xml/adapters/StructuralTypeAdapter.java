@@ -13,6 +13,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.util.regex.*;
 
+import lombok.*;
+
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.
  */
@@ -71,7 +73,7 @@ public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
   }
 
   @Override
-  protected T unmarshalImpl( String v ) throws Exception {
+  protected T unmarshalImpl( @NonNull String v ) throws Exception {
     String[] parts = v.split( quoted );
     if( (parts == null) || (parts.length != count) ) {
       throw new FailureException( FailureCode.ConversionFailure, v );
@@ -87,7 +89,7 @@ public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
    * 
    * @return   The textual representation of the supplied list. Not <code>null</code>.
    */
-  protected String marshalListImpl( Object ... elements ) {
+  protected String marshalListImpl( @NonNull Object ... elements ) {
     if( elements.length > 0 ) {
       StringBuilder buffer = new StringBuilder();
       for( int i = 0; i < elements.length; i++ ) {

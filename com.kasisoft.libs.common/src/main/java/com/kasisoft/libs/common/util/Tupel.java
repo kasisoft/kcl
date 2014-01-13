@@ -18,7 +18,7 @@ public class Tupel<T> {
   /**
    * Changes the current values.
    * 
-   * @param newvalues   The new values.
+   * @param newvalues   The new values. Maybe <code>null</code>.
    */
   public Tupel( T ... newvalues ) {
     values = newvalues;
@@ -27,7 +27,7 @@ public class Tupel<T> {
   /**
    * Returns the current value. Generally this is the first value {@link #getFirst()}.
    * 
-   * @return   The current value.
+   * @return   The current value. Maybe <code>null</code>.
    */
   public T getValue() {
     return getFirst();
@@ -62,7 +62,7 @@ public class Tupel<T> {
   /**
    * Changes the current values.
    * 
-   * @param newvalues   The new values.
+   * @param newvalues   The new values. Maybe <code>null</code>.
    */
   public void setValues( T ... newvalues ) {
     values = newvalues;
@@ -71,10 +71,32 @@ public class Tupel<T> {
   /**
    * Returns the current values.
    * 
-   * @return   The current values.
+   * @return   The current values. Maybe <code>null</code>.
    */
   public T[] getValues() {
     return values;
+  }
+  
+  /**
+   * Returns the length of this Tupel.
+   * 
+   * @return   The length of this Tupel.
+   */
+  public int getLength() {
+    if( values != null ) {
+      return values.length;
+    } else {
+      return 0;
+    }
+  }
+
+  /**
+   * Returns <code>true</code> if this Tupel doesn't contain anything.
+   * 
+   * @return   <code>true</code> <=> This Tupel doesn't contain anything.
+   */
+  public boolean isEmpty() {
+    return getLength() == 0;
   }
   
 } /* ENDCLASS */

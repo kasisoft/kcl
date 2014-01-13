@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import javax.xml.bind.annotation.adapters.*;
 
+import lombok.*;
+
 /**
  * A simple helper class which allows to use the TypeAdapter implementations in an XML context.
  */
@@ -22,12 +24,12 @@ public class XmlToTypeAdapter<S,T> extends XmlAdapter<S,T>{
   }
   
   @Override
-  public T unmarshal( S v ) throws Exception {
+  public T unmarshal( @NonNull S v ) throws Exception {
     return typeadapter.unmarshal(v);
   }
 
   @Override
-  public S marshal( T v ) throws Exception {
+  public S marshal( @NonNull T v ) throws Exception {
     return typeadapter.marshal(v);
   }
 

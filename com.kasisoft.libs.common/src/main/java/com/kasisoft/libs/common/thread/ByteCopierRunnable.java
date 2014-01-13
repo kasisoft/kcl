@@ -14,6 +14,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * A Runnable which is used to copy data from an InputStream to an OutputStream.
  */
@@ -80,7 +82,7 @@ public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
    * @param from   The InputStream providing the content. Not <code>null</code>.
    * @param to     The OutputStream receiving this content. Not <code>null</code>. 
    */
-  public void configure( InputStream from, OutputStream to ) {
+  public void configure( @NonNull InputStream from, @NonNull OutputStream to ) {
     source      = from;
     destination = to;
     configured  = true;
@@ -143,9 +145,9 @@ public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
   /**
    * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing a FailureException.
    * 
-   * @param ex   The cause of the failure.
+   * @param ex   The cause of the failure. Not <code>null</code>.
    */
-  protected void handleIOFailure( IOException ex ) {
+  protected void handleIOFailure( @NonNull IOException ex ) {
     throw new FailureException( FailureCode.IO, ex );
   }
   

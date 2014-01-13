@@ -24,6 +24,8 @@ import java.net.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Basic data structure used to store entity ids together with the urls.
  */
@@ -80,7 +82,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @throws IOException   Accessing the URL failed for some reason.
    */
-  protected InputStream openStream( URL url ) throws IOException {
+  protected InputStream openStream( @NonNull URL url ) throws IOException {
     return url.openStream();
   }
   
@@ -90,7 +92,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * @param id    The ID used for the resource. Neither <code>null</code> nor empty.
    * @param url   The resource that will be identified through the id. Not <code>null</code>.
    */
-  public synchronized void registerPublicID( String id, URL url ) {
+  public synchronized void registerPublicID( @NonNull String id, @NonNull URL url ) {
     if( ! failures.contains( url ) ) {
       InputStream instream = null;
       try {
@@ -118,7 +120,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @param systemid   The resource which has to be registered. Not <code>null</code>.
    */
-  public synchronized void registerSystemID( URL systemid ) {
+  public synchronized void registerSystemID( @NonNull URL systemid ) {
     if( ! failures.contains( systemid ) ) {
       InputStream instream = null;
       try {
@@ -156,7 +158,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The content if it could be loaded. Maybe <code>null</code>.
    */
-  public synchronized byte[] loadResource( String publicid ) {
+  public synchronized byte[] loadResource( @NonNull String publicid ) {
     return catalogdata.get( publicid );
   }
 
@@ -167,7 +169,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The content if it could be loaded. Maybe <code>null</code>.
    */
-  public synchronized byte[] loadResource( URL resource ) {
+  public synchronized byte[] loadResource( @NonNull URL resource ) {
     if( catalogdata.containsKey( resource ) ) {
       return catalogdata.get( resource );
     } else {

@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.db;
 
 import java.sql.*;
 
+import lombok.*;
+
 /**
  * Simple wrapper for various database types.
  */
@@ -20,7 +22,6 @@ public enum Database {
   hsql        ( "org.hsqldb.jdbcDriver"                         , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" ),
   mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , "SELECT 1" ),
   mysql       ( "com.mysql.jdbc.Driver"                         , "SELECT 1" ),
-  // not available as the underlying db system isn't known here
   odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , null       ),
   oracle      ( "oracle.jdbc.driver.OracleDriver"               , "SELECT 1 FROM DUAL" ),
   postgresql  ( "org.postgresql.Driver"                         , "SELECT 1" ),
@@ -45,6 +46,7 @@ public enum Database {
    */
   public String getAliveQuery() {
     if( this == odbc ) {
+      // not available as the underlying db system isn't known here
       throw new UnsupportedOperationException();
     }
     return alive;
@@ -76,7 +78,7 @@ public enum Database {
    * 
    * @throws SQLException   Something went wrong while accessing the database.
    */
-  public Connection getConnection( String url ) throws SQLException {
+  public Connection getConnection( @NonNull String url ) throws SQLException {
     activate();
     return DriverManager.getConnection( url );
   }
@@ -92,7 +94,7 @@ public enum Database {
    * 
    * @throws SQLException   Something went wrong while accessing the database.
    */
-  public Connection getConnection( String url, String username, String password ) throws SQLException {
+  public Connection getConnection( @NonNull String url, @NonNull String username, String password ) throws SQLException {
     activate();
     return DriverManager.getConnection( url, username, password );
   }

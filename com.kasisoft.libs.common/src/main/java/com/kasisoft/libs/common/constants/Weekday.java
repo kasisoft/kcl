@@ -12,6 +12,8 @@ import java.text.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Constants used to describe a weekday.
  */
@@ -57,7 +59,7 @@ public enum Weekday {
    * @return   A long presentable text for this weekday. Neither <code>null</code> nor empty.
    */
   @SuppressWarnings("deprecation")
-  public String getPresentable( Locale locale ) {
+  public String getPresentable( @NonNull Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "EEEE", locale );
     Date             date      = new Date();
     while( date.getDay() != (jreday - 1) ) {
@@ -83,7 +85,7 @@ public enum Weekday {
    * @return   A short presentable text for this weekday. Neither <code>null</code> nor empty.
    */
   @SuppressWarnings("deprecation")
-  public String getShortPresentable( Locale locale ) {
+  public String getShortPresentable( @NonNull Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "EEE", locale );
     Date             date      = new Date();
     while( date.getDay() != (jreday - 1) ) {
@@ -134,7 +136,7 @@ public enum Weekday {
    * @return   The weekday for the supplied date. <code>null</code> in case the supplied date wasn't valid.
    */
   @SuppressWarnings("deprecation")
-  public static Weekday valueOf( Date date ) {
+  public static Weekday valueOf( @NonNull Date date ) {
     int day = date.getDay() + 1;
     for( Weekday weekday : Weekday.values() ) {
       if( weekday.jreday == day ) {

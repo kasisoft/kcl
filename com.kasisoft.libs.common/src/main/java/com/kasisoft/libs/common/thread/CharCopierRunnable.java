@@ -14,6 +14,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * A Runnable which is used to copy data from a Reader to a Writer.
  */
@@ -80,7 +82,7 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
    * @param from   The Reader providing the content. Not <code>null</code>.
    * @param to     The Writer receiving this content. Not <code>null</code>.
    */
-  public void configure( Reader from, Writer to ) {
+  public void configure( @NonNull Reader from, @NonNull Writer to ) {
     source      = from;
     destination = to;
     configured  = true;
@@ -143,9 +145,9 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
   /**
    * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing a FailureException.
    * 
-   * @param ex   The cause of the failure.
+   * @param ex   The cause of the failure. Not <code>null</code>.
    */
-  protected void handleIOFailure( IOException ex ) {
+  protected void handleIOFailure( @NonNull IOException ex ) {
     throw new FailureException( FailureCode.IO, ex );
   }
   

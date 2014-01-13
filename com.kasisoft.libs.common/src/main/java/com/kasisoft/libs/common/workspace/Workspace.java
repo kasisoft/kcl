@@ -19,6 +19,8 @@ import java.awt.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * The Workspace allows to store various configuration information during the runtime.
  */
@@ -49,7 +51,7 @@ public final class Workspace {
    * 
    * @throws FailureException   Loading failed for some reason.
    */
-  private Workspace( File settings ) throws FailureException {
+  private Workspace( @NonNull File settings ) throws FailureException {
     this();
     settingsfile = settings;
     isnew        = true;
@@ -94,7 +96,7 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
    */
-  public void setString( String property, String value ) {
+  public void setString( @NonNull String property, String value ) {
     properties.setProperty( property, value );
   }
   
@@ -106,7 +108,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public String getString( String property, String defvalue ) {
+  public String getString( @NonNull String property, String defvalue ) {
     return properties.getProperty( property, defvalue );
   }
 
@@ -117,7 +119,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public String getString( String property ) {
+  public String getString( @NonNull String property ) {
     return properties.getProperty( property, null );
   }
 
@@ -127,7 +129,7 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
    */
-  public void setRectangle( String property, Rectangle value ) {
+  public void setRectangle( @NonNull String property, Rectangle value ) {
     set( Rectangle.class, property, value );
   }
   
@@ -139,7 +141,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public Rectangle getRectangle( String property, Rectangle defvalue ) {
+  public Rectangle getRectangle( @NonNull String property, Rectangle defvalue ) {
     return get( Rectangle.class, property, defvalue );
   }
 
@@ -150,7 +152,7 @@ public final class Workspace {
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
    */
-  public Rectangle getRectangle( String property ) {
+  public Rectangle getRectangle( @NonNull String property ) {
     return get( Rectangle.class, property, null );
   }
   
@@ -163,7 +165,7 @@ public final class Workspace {
    * 
    * @return   The typed value. Maybe <code>null</code>.
    */
-  private <T> T get( Class<T> type, String property, T defvalue ) {
+  private <T> T get( @NonNull Class<T> type, @NonNull String property, T defvalue ) {
     TypeAdapter<String,T> adapter = adapters.get( type );
     try {
       String result = properties.getProperty( property );
@@ -185,7 +187,7 @@ public final class Workspace {
    * @param property   The key of the property. Neither <code>null</code> nor empty.
    * @param value      The value which has to be set.
    */
-  private <T> void set( Class<T> type, String property, T value ) {
+  private <T> void set( @NonNull Class<T> type, @NonNull String property, T value ) {
     TypeAdapter<String,T> adapter = adapters.get( type );
     try {
       String strvalue = adapter.marshal( value );

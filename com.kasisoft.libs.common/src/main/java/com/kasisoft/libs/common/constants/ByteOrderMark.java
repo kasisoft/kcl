@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.constants;
 
+import lombok.*;
+
 /**
  * Constants the different byte order marks.
  */
@@ -41,7 +43,7 @@ public enum ByteOrderMark {
    * 
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
-  public boolean startsWith( byte[] data ) {
+  public boolean startsWith( @NonNull byte[] data ) {
     return startsWith( data, 0 );
   }
   
@@ -53,7 +55,7 @@ public enum ByteOrderMark {
    * 
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
-  public boolean startsWith( byte[] data, int offset ) {
+  public boolean startsWith( @NonNull byte[] data, int offset ) {
     for( int i = 0; (i < bomsequence.length) && (offset < data.length); i++, offset++ ) {
       if( data[ offset ] != bomsequence[i] ) {
         return false;
@@ -69,7 +71,7 @@ public enum ByteOrderMark {
    * 
    * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
    */
-  public static ByteOrderMark identify( byte[] data ) {
+  public static ByteOrderMark identify( @NonNull byte[] data ) {
     return identify( data, 0 );
   }
   
@@ -81,7 +83,7 @@ public enum ByteOrderMark {
    * 
    * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
    */
-  public static ByteOrderMark identify( byte[] data, int offset ) {
+  public static ByteOrderMark identify( @NonNull byte[] data, int offset ) {
     ByteOrderMark[] marks = ByteOrderMark.values();
     for( ByteOrderMark mark : marks ) {
       if( mark.startsWith( data, offset ) ) {

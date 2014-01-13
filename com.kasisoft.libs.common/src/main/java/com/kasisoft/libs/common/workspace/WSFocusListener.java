@@ -14,6 +14,8 @@ import java.awt.event.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * A FocusListener implementation which stores the setting of a widget when it looses it's focus.
  */
@@ -26,12 +28,12 @@ public class WSFocusListener extends FocusAdapter {
    * 
    * @param key   The key used to persist the settings. Neither <code>null</code> nor empty.
    */
-  public WSFocusListener( String key ) {
+  public WSFocusListener( @NonNull String key ) {
     wsproperty = key;
   }
   
   @Override
-  public void focusLost( FocusEvent evt ) {
+  public void focusLost( @NonNull FocusEvent evt ) {
     Component component = evt.getComponent();
     if( component instanceof JTextField ) {
       Workspace.getInstance().setString( wsproperty, ((JTextField) component).getText() );

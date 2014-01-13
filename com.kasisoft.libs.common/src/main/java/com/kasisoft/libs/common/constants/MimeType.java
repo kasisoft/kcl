@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.constants;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * @ks.spec [13-Jan-2014:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
  * 
@@ -104,7 +106,7 @@ public enum MimeType {
    * 
    * @return   <code>true</code> <=> The supplied suffix is supported by this mime type.
    */
-  public boolean supportsSuffix( String suffix ) {
+  public boolean supportsSuffix( @NonNull String suffix ) {
     return suffices.contains( suffix.toLowerCase() );
   }
   
@@ -115,7 +117,7 @@ public enum MimeType {
    * 
    * @return   The MimeType if it could be found or <code>null</code>.
    */
-  public static MimeType valueByMimeType( String type ) {
+  public static MimeType valueByMimeType( @NonNull String type ) {
     return LocalData.valuebymimetype.get( type );
   }
   
@@ -126,7 +128,7 @@ public enum MimeType {
    * 
    * @return   A set of supporting mime types. Not <code>null</code>. [U]
    */
-  public static Set<MimeType> valuesBySuffix( String suffix ) {
+  public static Set<MimeType> valuesBySuffix( @NonNull String suffix ) {
     Set<MimeType> result = LocalData.valuebysuffix.get( suffix.toLowerCase() );
     if( result == null ) {
       result = Collections.emptySet();

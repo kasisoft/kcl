@@ -11,6 +11,8 @@ package com.kasisoft.libs.common.util;
 import java.util.*;
 
 import java.lang.ref.*;
+
+import lombok.*;
  
 /**
  * Collector for often used objects like collections, maps etc. .
@@ -25,7 +27,7 @@ public class Bucket<T> {
    * 
    * @param type   The type that should be used for the creation. Not <code>null</code>.
    */
-  public Bucket( Class<T> type ) {
+  public Bucket( @NonNull Class<T> type ) {
     this( new DefaultBucketFactory<T>( type ) );
   }
   
@@ -34,7 +36,7 @@ public class Bucket<T> {
    * 
    * @param bucketfactory   The factory that will be used to create/reset new objects. Not <code>null</code>.
    */
-  public Bucket( BucketFactory<T> bucketfactory ) {
+  public Bucket( @NonNull BucketFactory<T> bucketfactory ) {
     references  = new LinkedList<SoftReference<T>>();
     factory     = bucketfactory;
   }

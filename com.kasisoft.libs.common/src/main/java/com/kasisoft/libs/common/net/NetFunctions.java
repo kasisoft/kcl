@@ -15,6 +15,8 @@ import java.net.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Collection of net related helper functions.
  */
@@ -72,7 +74,7 @@ public class NetFunctions {
    * 
    * @return   <code>true</code> <=> The message could be sent successfully.
    */
-  public static boolean sendMessage( String address, int port, byte[] message ) {
+  public static boolean sendMessage( @NonNull String address, int port, byte[] message ) {
     return sendMessage( address, port, message, null );
   }
 
@@ -86,7 +88,7 @@ public class NetFunctions {
    * 
    * @return   <code>true</code> <=> The message could be sent successfully.
    */
-  public static boolean sendMessage( String address, int port, byte[] message, Integer timeout ) {
+  public static boolean sendMessage( @NonNull String address, int port, byte[] message, Integer timeout ) {
     Socket  socket = null;
     try {
       socket = new Socket( address, port );

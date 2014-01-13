@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * An adapter used to Version into Strings and vice versa.
  */
@@ -109,12 +111,12 @@ public class VersionAdapter extends TypeAdapter<String,Version> {
   }
 
   @Override
-  public String marshalImpl( Version v ) {
+  public String marshalImpl( @NonNull Version v ) {
     return String.valueOf(v);
   }
 
   @Override
-  public Version unmarshalImpl( String v ) throws Exception {
+  public Version unmarshalImpl( @NonNull String v ) throws Exception {
     if( all ) {
       return new Version( v );
     } else {

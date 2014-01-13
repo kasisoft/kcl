@@ -13,6 +13,8 @@ import javax.swing.border.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * The CellBorder is similar to the borders known from spreadsheets where each edge can be selectively enabled.
  */
@@ -26,10 +28,10 @@ public class CellBorder extends LineBorder {
   /**
    * Initialises this border with selectively enabled edges.
    *  
-   * @param color   The Color to be used.
+   * @param color   The Color to be used. Not <code>null</code>.
    * @param edges   The edges, where the order is: top, left, bottom, right. Any additional value is ignored.
    */
-  public CellBorder( Color color, boolean ... edges ) {
+  public CellBorder( @NonNull Color color, boolean ... edges ) {
     super( color );
     setEdges( edges );
   }
@@ -37,11 +39,11 @@ public class CellBorder extends LineBorder {
   /**
    * Initialises this border with selectively enabled edges.
    * 
-   * @param color       The Color to be used.
+   * @param color       The Color to be used. Not <code>null</code>.
    * @param thickness   The thickness of the line. Must be positive.
    * @param edges       The edges, where the order is: top, left, bottom, right. Any additional value is ignored.
    */
-  public CellBorder( Color color, int thickness, boolean ... edges ) {
+  public CellBorder( @NonNull Color color, int thickness, boolean ... edges ) {
     super( color, thickness );
     setEdges( edges );
   }
@@ -73,7 +75,7 @@ public class CellBorder extends LineBorder {
   }
   
   @Override
-  public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+  public void paintBorder( @NonNull Component c, @NonNull Graphics g, int x, int y, int width, int height ) {
     Color oldcolor = g.getColor();
     g.setColor( getLineColor() );
     for( int i = 0; i < getThickness(); i++ ) {

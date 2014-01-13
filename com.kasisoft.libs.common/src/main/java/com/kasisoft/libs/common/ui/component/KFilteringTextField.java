@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.ui.component;
 
 import javax.swing.text.*;
 
+import lombok.*;
+
 /**
  * Textfield variety which simply filters characters, so they cannot be used while entering some input.
  */
@@ -31,7 +33,7 @@ public class KFilteringTextField extends KValidationTextField {
   }
 
   @Override
-  public void setDocument( Document newdocument ) {
+  public void setDocument( @NonNull Document newdocument ) {
     Document olddocument = super.getDocument();
     if( olddocument instanceof AbstractDocument ) {
       ((AbstractDocument) newdocument).setDocumentFilter( filter );
@@ -66,11 +68,11 @@ public class KFilteringTextField extends KValidationTextField {
    * Modifies the supplied String so it won't contain any filtered character anymore.
    * 
    * @param offs    The insertion position.
-   * @param input   The String which might need to be filtered.
+   * @param input   The String which might need to be filtered. Not <code>null</code>.
    * 
    * @return   The cleaned String. Not <code>null</code>.
    */
-  protected String calculateInsertionString( int offs, String input ) {
+  protected String calculateInsertionString( int offs, @NonNull String input ) {
     if( (allowed == null) || (allowed.length() == 0) ) {
       return input;
     }

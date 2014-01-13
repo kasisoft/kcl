@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * Adapter used to convert a String into a Point and vice versa.
  */
@@ -60,7 +62,7 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
 
   @Override
   @SuppressWarnings("deprecation")
-  protected Rectangle unmarshalListImpl( String[] v ) throws Exception {
+  protected Rectangle unmarshalListImpl( @NonNull String[] v ) throws Exception {
     int x = Integer.parseInt( v[0] );
     int y = Integer.parseInt( v[1] );
     int w = Integer.parseInt( v[2] );
@@ -70,7 +72,7 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
 
   @Override
   @SuppressWarnings("deprecation")
-  protected String marshalImpl( Rectangle v ) throws Exception {
+  protected String marshalImpl( @NonNull Rectangle v ) throws Exception {
     return marshalListImpl(
       Integer.valueOf( v.x      ),
       Integer.valueOf( v.y      ),

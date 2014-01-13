@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.util;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Collection of functions useful in conjunction with arrays.
  */
@@ -28,7 +30,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static int maxInt( int ... args ) {
+  public static int maxInt( @NonNull int ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -46,7 +48,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static long maxLong( long ... args ) {
+  public static long maxLong( @NonNull long ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -64,7 +66,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static float maxFloat( float ... args ) {
+  public static float maxFloat( @NonNull float ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -82,7 +84,7 @@ public class ArrayFunctions {
    * 
    * @return   The maximum of all values.
    */
-  public static double maxDouble( double ... args ) {
+  public static double maxDouble( @NonNull double ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -100,7 +102,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static int minInt( int ... args ) {
+  public static int minInt( @NonNull int ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -118,7 +120,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static long minLong( long ... args ) {
+  public static long minLong( @NonNull long ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -136,7 +138,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static float minFloat( float ... args ) {
+  public static float minFloat( @NonNull float ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -154,7 +156,7 @@ public class ArrayFunctions {
    * 
    * @return   The minimum of all values.
    */
-  public static double minDouble( double ... args ) {
+  public static double minDouble( @NonNull double ... args ) {
     if( args.length == 1 ) {
       return args[0];
     }
@@ -172,7 +174,7 @@ public class ArrayFunctions {
    * 
    * @return   The boolean result. Not <code>null</code>.
    */
-  public static Boolean objectAnd( Boolean ... atoms ) {
+  public static Boolean objectAnd( @NonNull Boolean ... atoms ) {
     boolean result = atoms[0].booleanValue();
     for( int i = 0; (i < atoms.length) && result; i++ ) {
       result = result && atoms[i].booleanValue();
@@ -187,7 +189,7 @@ public class ArrayFunctions {
    * 
    * @return   The boolean result. Not <code>null</code>.
    */
-  public static Boolean objectOr( Boolean ... atoms ) {
+  public static Boolean objectOr( @NonNull Boolean ... atoms ) {
     boolean result = atoms[0].booleanValue();
     for( int i = 0; (i < atoms.length) && (! result); i++ ) {
       result = result || atoms[i].booleanValue();
@@ -202,7 +204,7 @@ public class ArrayFunctions {
    * 
    * @return   <code>true</code> <=> Each argument was <code>true</code>.
    */
-  public static boolean and( boolean ... args ) {
+  public static boolean and( @NonNull boolean ... args ) {
     boolean result = args[0];
     for( int i = 1; (i < args.length) && result; i++ ) {
       result = result && args[i];
@@ -217,7 +219,7 @@ public class ArrayFunctions {
    * 
    * @return   <code>true</code> <=> At least one argument was <code>true</code>.
    */
-  public static boolean or( boolean ... args ) {
+  public static boolean or( @NonNull boolean ... args ) {
     boolean result = args[0];
     for( int i = 1; (i < args.length) && (! result); i++ ) {
       result = result || args[i];
@@ -234,7 +236,7 @@ public class ArrayFunctions {
    * 
    * @return   The list that has been supplied. Not <code>null</code>.
    */
-  public static <T> List<T> addAll( List<T> receiver, T ... input ) {
+  public static <T> List<T> addAll( @NonNull List<T> receiver, T ... input ) {
     if( input != null ) {
       for( T object : input ) {
         receiver.add( object );
@@ -246,22 +248,22 @@ public class ArrayFunctions {
   /**
    * Returns an Enumeration which is usable to iterate through the supplied array.
    * 
-   * @param input   The array which should be traversed.
+   * @param input   The array which should be traversed. Not <code>null</code>.
    * 
    * @return   The enumeration which is used to traverse the array.
    */
-  public static <T> Enumeration<T> enumeration( T ... input ) {
+  public static <T> Enumeration<T> enumeration( @NonNull T ... input ) {
     return new ArrayTraversal<T>( input );
   }
 
   /**
    * Returns an Iterator which is usable to iterate through the supplied array.
    * 
-   * @param input   The array which should be traversed.
+   * @param input   The array which should be traversed. Not <code>null</code>.
    * 
    * @return   The Iterator which is used to traverse the array.
    */
-  public static <T> Iterator<T> iterator( T ... input ) {
+  public static <T> Iterator<T> iterator( @NonNull T ... input ) {
     return new ArrayTraversal<T>( input );
   }
 
@@ -272,7 +274,7 @@ public class ArrayFunctions {
    *
    * @return  Sum of these numbers.
    */
-  public static int sum( int ... values ) {
+  public static int sum( @NonNull int ... values ) {
     int result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {
@@ -291,7 +293,7 @@ public class ArrayFunctions {
    *
    * @return  Sum of these numbers.
    */
-  public static double sum( double ... values ) {
+  public static double sum( @NonNull double ... values ) {
     double result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {
@@ -310,7 +312,7 @@ public class ArrayFunctions {
    *
    * @return  Sum of these numbers.
    */
-  public static long sum( long ... values ) {
+  public static long sum( @NonNull long ... values ) {
     long result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {

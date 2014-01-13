@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.sys;
 
 import com.kasisoft.libs.common.constants.*;
 
+import lombok.*;
+
 /**
  * Simple class that provides some system related informations.
  */
@@ -65,7 +67,7 @@ public enum SystemInfo {
    * 
    * @return   The variable keys matching the os. Neither <code>null</code> nor empty.
    */
-  public String[] getVariableKeys( String keyname ) {
+  public String[] getVariableKeys( @NonNull String keyname ) {
     String[] result = new String[ varformats.length ];
     for( int i = 0; i < varformats.length; i++ ) {
       result[i] = String.format( varformats[i], keyname );

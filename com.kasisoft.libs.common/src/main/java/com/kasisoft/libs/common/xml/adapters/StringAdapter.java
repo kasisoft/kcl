@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for String identity.
  */
@@ -35,12 +37,12 @@ public class StringAdapter extends TypeAdapter<String,String> {
   }
 
   @Override
-  public String marshalImpl( String v ) {
+  public String marshalImpl( @NonNull String v ) {
     return v;
   }
 
   @Override
-  public String unmarshalImpl( String v ) {
+  public String unmarshalImpl( @NonNull String v ) {
     return v;
   }
 

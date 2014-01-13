@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * Adapter used to convert a String into a Point and vice versa.
  */
@@ -60,7 +62,7 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
 
   @Override
   @SuppressWarnings("deprecation")
-  protected Point unmarshalListImpl( String[] v ) throws Exception {
+  protected Point unmarshalListImpl( @NonNull String[] v ) throws Exception {
     int x = Integer.parseInt( v[0] );
     int y = Integer.parseInt( v[1] );
     return new Point( x, y );
@@ -68,7 +70,7 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
 
   @Override
   @SuppressWarnings("deprecation")
-  protected String marshalImpl( Point v ) throws Exception {
+  protected String marshalImpl( @NonNull Point v ) throws Exception {
     return marshalListImpl(
       Integer.valueOf( v.x ),
       Integer.valueOf( v.y )

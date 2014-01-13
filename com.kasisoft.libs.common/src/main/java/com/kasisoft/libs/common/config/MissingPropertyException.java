@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.config;
 
+import lombok.*;
+
 /**
  * Exception type that indicates that a required property is missing.
  */
@@ -21,7 +23,7 @@ public class MissingPropertyException extends RuntimeException {
    *  
    * @param propertykey   The property that is missing. Neither <code>null</code> nor empty.
    */
-  public MissingPropertyException( String propertykey ) {
+  public MissingPropertyException( @NonNull String propertykey ) {
     property  = propertykey;
   }
 

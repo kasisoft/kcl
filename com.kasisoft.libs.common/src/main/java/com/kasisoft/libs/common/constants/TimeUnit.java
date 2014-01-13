@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.constants;
 
+import lombok.*;
+
 /**
  * Collection of time units.
  */
@@ -49,11 +51,11 @@ public enum TimeUnit {
    * Converts an amount of units into it's corresponding value for another unit.
    * 
    * @param num     The amount of units to convert.
-   * @param other   The other unit which amount is desired. Must be smaller than the actual one.
+   * @param other   The other unit which amount is desired. Must be smaller than the actual one. Not <code>null</code>.
    * 
    * @return   The corresponding amount in another unit. -1 in case the supplied unit isn't smaller.
    */
-  public int convert( int num, TimeUnit other ) {
+  public int convert( int num, @NonNull TimeUnit other ) {
     if( other.milliseconds < milliseconds ) {
       int ratio = (int) (milliseconds / other.milliseconds);
       return num * ratio;

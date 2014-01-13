@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.thread;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Progress information for file based Runnable implementations.
  */
@@ -33,7 +35,7 @@ public class FileProgress {
    * 
    * @param newfile   The new file. Not <code>null</code>.
    */
-  void setFile( File newfile ) {
+  void setFile( @NonNull File newfile ) {
     file = newfile;
   }
   

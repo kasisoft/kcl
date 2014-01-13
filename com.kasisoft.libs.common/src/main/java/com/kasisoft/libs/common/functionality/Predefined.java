@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.functionality;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Collection of predefined types.
  */
@@ -28,7 +30,7 @@ public class Predefined {
    * 
    * @return   A Filter performing an OR operation on both parameters. Not <code>null</code>.
    */
-  public static <T> Filter<T> or( Filter<T> ... filters ) {
+  public static <T> Filter<T> or( @NonNull Filter<T> ... filters ) {
     return new Or<T>( filters );
   }
 
@@ -39,7 +41,7 @@ public class Predefined {
    * 
    * @return   A Filter performing an AND operation on both parameters. Not <code>null</code>.
    */
-  public static <T> Filter<T> and( Filter<T> ... filters ) {
+  public static <T> Filter<T> and( @NonNull Filter<T> ... filters ) {
     return new And<T>( filters );
   }
 
@@ -50,7 +52,7 @@ public class Predefined {
    * 
    * @return   A Filter performing a NOT operation on the parameters. Not <code>null</code>.
    */
-  public static <T> Filter<T> not( Filter<T> inner ) {
+  public static <T> Filter<T> not( @NonNull Filter<T> inner ) {
     return new Not<T>( inner );
   }
   
@@ -73,7 +75,7 @@ public class Predefined {
    * 
    * @return   A Transform which combines the supplied Transform instances. Not <code>null</code>.
    */
-  public static <S1,S2,S3> Transform<S1,S3> joinTransforms( Transform<S1,S2> t1, Transform<S2,S3> t2 ) {
+  public static <S1,S2,S3> Transform<S1,S3> joinTransforms( @NonNull Transform<S1,S2> t1, @NonNull Transform<S2,S3> t2 ) {
     return new Join<S1,S2,S3>( t1, t2 );
   }
   
@@ -87,7 +89,7 @@ public class Predefined {
    * @return   The Transform instance allowing to transform any kind of type into a String.
    *           Not <code>null</code>.
    */
-  public static <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( Class<K> keyclass, Class<V> valueclass ) {
+  public static <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( @NonNull Class<K> keyclass, @NonNull Class<V> valueclass ) {
     return new KeyToString<K,V>();
   }
 

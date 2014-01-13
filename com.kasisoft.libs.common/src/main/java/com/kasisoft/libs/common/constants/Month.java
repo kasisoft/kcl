@@ -12,6 +12,8 @@ import java.text.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Values to identify a month.
  */
@@ -68,7 +70,7 @@ public enum Month {
    * @return   A long presentable text for this month. Neither <code>null</code> nor empty.
    */
   @SuppressWarnings("deprecation")
-  public String getPresentable( Locale locale ) {
+  public String getPresentable( @NonNull Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "MMMM", locale );
     Date             date      = new Date();
     date.setMonth( jremonth );
@@ -92,7 +94,7 @@ public enum Month {
    * @return   A short presentable text for this month. Neither <code>null</code> nor empty.
    */
   @SuppressWarnings("deprecation")
-  public String getShortPresentable( Locale locale ) {
+  public String getShortPresentable( @NonNull Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "MMM", locale );
     Date             date      = new Date();
     date.setMonth( jremonth );
@@ -247,7 +249,7 @@ public enum Month {
    * @return   The month for the supplied date. 
    */
   @SuppressWarnings("deprecation")
-  public static Month valueOf( Date date ) {
+  public static Month valueOf( @NonNull Date date ) {
     int number = date.getMonth() + 1;
     for( Month month : Month.values() ) {
       if( month.jremonth == number ) {

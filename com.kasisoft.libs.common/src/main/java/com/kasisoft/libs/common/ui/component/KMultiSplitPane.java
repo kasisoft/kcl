@@ -14,6 +14,8 @@ import javax.swing.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * A JSplitPane like variety that supports more than two parts.
  */
@@ -27,7 +29,7 @@ public class KMultiSplitPane extends JPanel {
    * @param orientation   The orientation for the contained fields. Not <code>null</code>.
    * @param count         The number of fields to be provided. Minimum allowed value is 2.
    */
-  public KMultiSplitPane( Orientation orientation, int count ) {
+  public KMultiSplitPane( @NonNull Orientation orientation, int count ) {
     this( orientation, count, false );
   }
   
@@ -39,7 +41,7 @@ public class KMultiSplitPane extends JPanel {
    * @param continuouslayout   <code>true</code> <=> Enable continuous layouting while the divider location is still 
    *                                                 being changed.
    */
-  public KMultiSplitPane( Orientation orientation, int count, boolean continuouslayout ) {
+  public KMultiSplitPane( @NonNull Orientation orientation, int count, boolean continuouslayout ) {
     super( new BorderLayout() );
     chain = new JSplitPane[ count - 1 ];
     for( int i = 0; i < chain.length; i++ ) {
@@ -84,7 +86,7 @@ public class KMultiSplitPane extends JPanel {
    * @param index       The position of the desired field. The value must be within the range {0, {@link #getFieldCount()} - 1} .
    * @param component   The Component which has to be set. Not <code>null</code>.
    */
-  public void setField( int index, Component component ) {
+  public void setField( int index, @NonNull Component component ) {
     if( index >= 0 ) {
       if( index < chain.length ) {
         chain[ index ].setTopComponent( component );

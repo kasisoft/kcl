@@ -311,7 +311,7 @@ public enum Iso3166 {
   /**
    * Returns the iso value for a specific alpha-3 code.
    * 
-   * @param alpha3   The alpha-3 code which value shall be searched for.
+   * @param alpha3   The alpha-3 code which value shall be searched for. Maybe <code>null</code>.
    * 
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */
@@ -325,7 +325,7 @@ public enum Iso3166 {
   /**
    * Returns the iso value for a specific alpha-2 code.
    * 
-   * @param alpha2   The alpha-2 code which value shall be searched for.
+   * @param alpha2   The alpha-2 code which value shall be searched for. Maybe <code>null</code>.
    * 
    * @return   The iso value or <code>null</code> in case the supplied code isn't valid or just not known.
    */

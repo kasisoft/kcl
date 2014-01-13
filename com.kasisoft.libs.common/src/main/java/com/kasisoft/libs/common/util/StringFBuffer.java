@@ -14,6 +14,8 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which means
  * that the original index is calculated beginning from the end of the buffer.
@@ -47,7 +49,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#StringBuffer(String)
    */
-  public StringFBuffer( String str ) {
+  public StringFBuffer( @NonNull String str ) {
     origin    = new StringBuffer( str );
     collector = new ArrayList<String>();
   }
@@ -55,7 +57,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#StringBuffer(CharSequence)
    */
-  public StringFBuffer( CharSequence seq ) {
+  public StringFBuffer( @NonNull CharSequence seq ) {
     origin    = new StringBuffer( seq );
     collector = new ArrayList<String>();
   }
@@ -145,7 +147,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#getChars(int, int, char[], int)
    */
-  public void getChars( int start, int end, char[] destination, int destbegin ) {
+  public void getChars( int start, int end, @NonNull char[] destination, int destbegin ) {
     synchronized( origin ) {
       origin.getChars( adjustIndex( start ), adjustIndex( end ), destination, destbegin );
     }
@@ -163,7 +165,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(Object)
    */
-  public StringFBuffer append( Object obj ) {
+  public StringFBuffer append( @NonNull Object obj ) {
     synchronized( origin ) {
       origin = origin.append( obj );
       return this;
@@ -173,7 +175,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(String) 
    */
-  public StringFBuffer append( String str ) {
+  public StringFBuffer append( @NonNull String str ) {
     synchronized( origin ) {
       origin = origin.append( str );
       return this;
@@ -183,7 +185,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(StringBuffer)
    */
-  public StringFBuffer append( StringBuffer buffer ) {
+  public StringFBuffer append( @NonNull StringBuffer buffer ) {
     synchronized( origin ) {
       origin = origin.append( buffer );
       return this;
@@ -193,7 +195,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(StringBuffer)
    */
-  public StringFBuffer append( StringFBuffer buffer ) {
+  public StringFBuffer append( @NonNull StringFBuffer buffer ) {
     synchronized( origin ) {
       origin = origin.append( buffer.origin );
       return this;
@@ -203,7 +205,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(CharSequence)
    */
-  public StringFBuffer append( CharSequence sequence ) {
+  public StringFBuffer append( @NonNull CharSequence sequence ) {
     synchronized( origin ) {
       origin = origin.append( sequence );
       return this;
@@ -213,7 +215,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(CharSequence, int, int)
    */
-  public StringFBuffer append( CharSequence sequence, int start, int end ) {
+  public StringFBuffer append( @NonNull CharSequence sequence, int start, int end ) {
     synchronized( origin ) {
       origin = origin.append( sequence, start, end );
       return this;
@@ -223,7 +225,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(char[])
    */
-  public StringFBuffer append( char[] charray ) {
+  public StringFBuffer append( @NonNull char[] charray ) {
     synchronized( origin ) {
       origin = origin.append( charray );
       return this;
@@ -233,7 +235,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#append(char[], int, int)
    */
-  public StringFBuffer append( char[] charray, int offset, int length ) {
+  public StringFBuffer append( @NonNull char[] charray, int offset, int length ) {
     synchronized( origin ) {
       origin = origin.append( charray, offset, length );
       return this;
@@ -273,12 +275,12 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * Appends some values using a specific format pattern.
    * 
-   * @param format   The pattern to use.
+   * @param format   The pattern to use. Neither <code>null</code> nor empty.
    * @param args     The arguments for this pattern.
    * 
    * @return   The current buffer.
    */
-  public StringFBuffer appendF( String format, Object ... args ) {
+  public StringFBuffer appendF( @NonNull String format, Object ... args ) {
     return append( String.format( format, args ) );
   }
   
@@ -345,7 +347,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#replace(int, int, String)
    */
-  public StringFBuffer replace( int start, int end, String str ) {
+  public StringFBuffer replace( int start, int end, @NonNull String str ) {
     synchronized( origin ) {
       origin = origin.replace( adjustIndex( start ), adjustIndex( end ), str );
       return this;
@@ -383,7 +385,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#insert(int, char[], int, int)
    */
-  public StringFBuffer insert( int index, char[] charray, int offset, int length ) {
+  public StringFBuffer insert( int index, @NonNull char[] charray, int offset, int length ) {
     synchronized( origin ) {
       origin = origin.insert( adjustIndex( offset ), charray, offset, length );
       return this;
@@ -393,7 +395,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#insert(int, Object)
    */
-  public StringFBuffer insert( int offset, Object obj ) {
+  public StringFBuffer insert( int offset, @NonNull Object obj ) {
     synchronized( origin ) {
       origin = origin.insert( adjustIndex( offset ), obj );
       return this;
@@ -403,7 +405,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#insert(int, String)
    */
-  public StringFBuffer insert( int offset, String value ) {
+  public StringFBuffer insert( int offset, @NonNull String value ) {
     synchronized( origin ) {
       origin = origin.insert( adjustIndex( offset ), value );
       return this;
@@ -414,12 +416,12 @@ public class StringFBuffer implements Serializable, CharSequence {
    * Inserts some values using a specific format pattern.
    * 
    * @param offset   The location where to insert the formatted content.
-   * @param format   The pattern to use.
+   * @param format   The pattern to use. Neither <cdoe>null</code> nor empty.
    * @param args     The arguments for this pattern.
    * 
    * @return   The current buffer.
    */
-  public StringFBuffer insertF( int offset, String format, Object ... args ) {
+  public StringFBuffer insertF( int offset, @NonNull String format, Object ... args ) {
     synchronized( origin ) {
       return insert( adjustIndex( offset ), String.format( format, args ) );
     }
@@ -428,7 +430,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#insert(int, char[])
    */
-  public StringFBuffer insert( int offset, char[] value ) {
+  public StringFBuffer insert( int offset, @NonNull char[] value ) {
     synchronized( origin ) {
       origin = origin.insert( adjustIndex( offset ), value );
       return this;
@@ -438,7 +440,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#insert(int, CharSequence)
    */
-  public StringFBuffer insert( int offset, CharSequence value ) {
+  public StringFBuffer insert( int offset, @NonNull CharSequence value ) {
     synchronized( origin ) {
       origin = origin.insert( adjustIndex( offset ), value );
       return this;
@@ -448,7 +450,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#insert(int, CharSequence, int, int)
    */
-  public StringFBuffer insert( int offset, CharSequence value, int start, int end ) {
+  public StringFBuffer insert( int offset, @NonNull CharSequence value, int start, int end ) {
     synchronized( origin ) {
       origin = origin.insert( adjustIndex( offset ), value, start, end );
       return this;
@@ -518,14 +520,14 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#indexOf(String)
    */
-  public int indexOf( String str ) {
+  public int indexOf( @NonNull String str ) {
     return origin.indexOf( str );
   }
 
   /**
    * @see StringBuffer#indexOf(String, int)
    */
-  public int indexOf( String str, int index ) {
+  public int indexOf( @NonNull String str, int index ) {
     synchronized( origin ) {
       return origin.indexOf( str, adjustIndex( index ) );
     }
@@ -575,14 +577,14 @@ public class StringFBuffer implements Serializable, CharSequence {
   /**
    * @see StringBuffer#lastIndexOf(String)
    */
-  public int lastIndexOf( String str ) {
+  public int lastIndexOf( @NonNull String str ) {
     return origin.lastIndexOf( str );
   }
 
   /**
    * @see StringBuffer#lastIndexOf(String, int)
    */
-  public int lastIndexOf( String str, int index ) {
+  public int lastIndexOf( @NonNull String str, int index ) {
     synchronized( origin ) {
       return origin.lastIndexOf( str, adjustIndex( index ) );
     }
@@ -697,7 +699,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith( String totest ) {
+  public boolean startsWith( @NonNull String totest ) {
     return startsWith( true, totest );
   }
   
@@ -709,7 +711,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith( boolean casesensitive, String totest ) {
+  public boolean startsWith( boolean casesensitive, @NonNull String totest ) {
     synchronized( origin ) {
       if( totest.length() > origin.length() ) {
         return false;
@@ -727,7 +729,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith( String totest ) {
+  public boolean endsWith( @NonNull String totest ) {
     return endsWith( true, totest );
   }
 
@@ -739,7 +741,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith( boolean casesensitive, String totest ) {
+  public boolean endsWith( boolean casesensitive, @NonNull String totest ) {
     synchronized( origin ) {
       if( totest.length() > origin.length() ) {
         return false;
@@ -757,7 +759,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals( String totest ) {
+  public boolean equals( @NonNull String totest ) {
     return equals( true, totest );
   }
   
@@ -769,7 +771,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals( boolean casesensitive, String totest ) {
+  public boolean equals( boolean casesensitive, @NonNull String totest ) {
     return StringFunctions.compare( ! casesensitive, origin.toString(), totest );
   }
 
@@ -780,7 +782,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   The altered input. Not <code>null</code>.
    */
-  public StringFBuffer remove( String toremove ) {
+  public StringFBuffer remove( @NonNull String toremove ) {
     synchronized( origin ) {
       for( int i = length() - 1; i >= 0; i-- ) {
         if( toremove.indexOf( charAt(i) ) != -1 ) {
@@ -800,7 +802,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without the delimiting character. Not <code>null</code>.
    */
-  public String[] split( String delimiters ) {
+  public String[] split( @NonNull String delimiters ) {
     synchronized( origin ) {
       collector.clear();
       StringTokenizer tokenizer = new StringTokenizer( origin.toString(), delimiters, false );
@@ -818,7 +820,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex( String regex ) {
+  public String[] splitRegex( @NonNull String regex ) {
     synchronized( origin ) {
       return splitRegex( Pattern.compile( regex ) );
     }
@@ -831,7 +833,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex( Pattern pattern) {
+  public String[] splitRegex( @NonNull Pattern pattern) {
     synchronized( origin ) {
       collector.clear();
       Matcher matcher = pattern.matcher( origin );
@@ -883,7 +885,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceAll( String regex, String replacement ) {
+  public StringFBuffer replaceAll( @NonNull String regex, @NonNull String replacement ) {
     synchronized( origin ) {
       return replaceAll( Pattern.compile( regex ), replacement );
     }
@@ -898,7 +900,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceAll( Pattern pattern, String replacement ) {
+  public StringFBuffer replaceAll( @NonNull Pattern pattern, @NonNull String replacement ) {
     synchronized( origin ) {
       Matcher     matcher = pattern.matcher( origin );
       List<int[]> matches = new ArrayList<int[]>();
@@ -924,7 +926,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceFirst( String regex, String replacement ) {
+  public StringFBuffer replaceFirst( @NonNull String regex, @NonNull String replacement ) {
     synchronized( origin ) {
       return replaceFirst( Pattern.compile( regex ), replacement );
     }
@@ -938,7 +940,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceFirst( Pattern pattern, String replacement ) {
+  public StringFBuffer replaceFirst( @NonNull Pattern pattern, @NonNull String replacement ) {
     synchronized( origin ) {
       Matcher matcher = pattern.matcher( origin );
       if( matcher.find() ) {
@@ -958,7 +960,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceLast( String regex, String replacement ) {
+  public StringFBuffer replaceLast( @NonNull String regex, @NonNull String replacement ) {
     synchronized( origin ) {
       return replaceLast( Pattern.compile( regex ), replacement );
     }
@@ -972,7 +974,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuffer replaceLast( Pattern pattern, String replacement ) {
+  public StringFBuffer replaceLast( @NonNull Pattern pattern, @NonNull String replacement ) {
     synchronized( origin ) {
       Matcher matcher   = pattern.matcher( origin );
       int     start     = -1;

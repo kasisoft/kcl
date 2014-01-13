@@ -15,6 +15,8 @@ import java.util.regex.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following
  * code segments:
@@ -61,7 +63,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public MapProperty( String property, TypeAdapter<String,T> typeadapter ) {
+  public MapProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
     super( property, typeadapter, false );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
     novalues = Collections.emptyMap();
@@ -75,7 +77,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public MapProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
+  public MapProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
     novalues = Collections.emptyMap();
@@ -102,7 +104,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( Map<String,String> properties, Map<String,T> newvalue ) {
+  public void setValue( @NonNull Map<String,String> properties, @NonNull Map<String,T> newvalue ) {
     removeProperties( properties.keySet() );
     if( newvalue != null ) {
       for( Map.Entry<String,T> entry : newvalue.entrySet() ) {
@@ -118,7 +120,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( Properties properties, Map<String,T> newvalue ) {
+  public void setValue( @NonNull Properties properties, Map<String,T> newvalue ) {
     removeProperties( properties.keySet() );
     if( newvalue != null ) {
       for( Map.Entry<String,T> entry : newvalue.entrySet() ) {
@@ -135,7 +137,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The value if there was one. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( Map<String,String> properties ) {
+  public Map<String,T> getValue( @NonNull Map<String,String> properties ) {
     return getValue( properties, null );
   }
   
@@ -146,7 +148,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The value if there was one. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( Properties properties ) {
+  public Map<String,T> getValue( @NonNull Properties properties ) {
     return getValue( properties, null );
   }
 
@@ -158,7 +160,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( Map<String,String> properties, Map<String,T> defvalue ) {
+  public Map<String,T> getValue( @NonNull Map<String,String> properties, Map<String,T> defvalue ) {
     return getTypedValues( getStringValues( properties ), defvalue );
   }
 
@@ -170,7 +172,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( Properties properties, Map<String,T> defvalue ) {
+  public Map<String,T> getValue( @NonNull Properties properties, Map<String,T> defvalue ) {
     return getTypedValues( getStringValues( properties ), defvalue );
   }
 

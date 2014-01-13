@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * Adapter used to convert a String into a Insets and vice versa.
  */
@@ -60,7 +62,7 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
 
   @Override
   @SuppressWarnings("deprecation")
-  protected Insets unmarshalListImpl( String[] v ) throws Exception {
+  protected Insets unmarshalListImpl( @NonNull String[] v ) throws Exception {
     int top     = Integer.parseInt( v[0] );
     int left    = Integer.parseInt( v[1] );
     int bottom  = Integer.parseInt( v[2] );
@@ -70,7 +72,7 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
 
   @Override
   @SuppressWarnings("deprecation")
-  protected String marshalImpl( Insets v ) throws Exception {
+  protected String marshalImpl( @NonNull Insets v ) throws Exception {
     return marshalListImpl( 
       Integer.valueOf( v.top    ),
       Integer.valueOf( v.left   ),

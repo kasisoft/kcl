@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.sys;
 
 import java.security.*;
 
+import lombok.*;
+
 /**
  * System specific functions.
  */
@@ -22,7 +24,7 @@ public class SystemFunctions {
    * 
    * @return   The exitcode which had been raised.
    */
-  public static int executeWithoutExit( Runnable runnable ) {
+  public static int executeWithoutExit( @NonNull Runnable runnable ) {
     SecurityManager oldsecuritymanager = System.getSecurityManager();
     try {
       CustomSecurityManager sm = new CustomSecurityManager();

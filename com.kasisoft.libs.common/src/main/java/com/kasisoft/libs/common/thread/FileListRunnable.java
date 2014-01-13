@@ -44,7 +44,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   /**
    * Initialises this file lister allowing to collect resources selectively.
    * 
-   * @param files   The list of resources to traverse initially.
+   * @param files   The list of resources to traverse initially. Maybe <code>null</code>.
    */
   public FileListRunnable( File ... files ) {
     incdirs       = true;
@@ -75,7 +75,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   /**
    * Provides an Ant like filesystem pattern which allows to filter directories.
    * 
-   * @param newpattern   The new pattern which allows to filter directories.
+   * @param newpattern   The new pattern which allows to filter directories. Maybe <code>null</code>.
    */
   public void setDirPattern( String newpattern ) {
     if( newpattern != null ) {
@@ -88,7 +88,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   /**
    * Provides an Ant like filesystem pattern which allows to filter files.
    * 
-   * @param newpattern   The new pattern which allows to filter files.
+   * @param newpattern   The new pattern which allows to filter files. Maybe <code>null</code>.
    */
   public void setFilePattern( String newpattern ) {
     if( newpattern != null ) {
@@ -101,7 +101,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   /**
    * Sets the resources which have to be traversed.
    * 
-   * @param files   The list of resources which have to be traversed.
+   * @param files   The list of resources which have to be traversed. Maybe <code>null</code>.
    */
   public void configure( File ... files ) {
     roots       = files;

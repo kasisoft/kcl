@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.net.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for URL types.
  */
@@ -37,12 +39,12 @@ public class URLAdapter extends TypeAdapter<String,URL> {
   }
 
   @Override
-  public String marshalImpl( URL v ) throws Exception {
+  public String marshalImpl( @NonNull URL v ) throws Exception {
     return v.toExternalForm();
   }
 
   @Override
-  public URL unmarshalImpl( String v ) throws Exception {
+  public URL unmarshalImpl( @NonNull String v ) throws Exception {
     return new URL( v );
   }
 

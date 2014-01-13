@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.constants.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Simple class used to provide buffers for temporary use. This is currently a straight forward implementation and not 
  * optimized since I don't expect heavy usage. Next optimisation step would be the use of interval partitioning. 
@@ -27,7 +29,7 @@ public class Buffers<T> {
    * 
    * @param primitive   The primitive type identification. Not <code>null</code>.
    */
-  private Buffers( Primitive primitive ) {
+  private Buffers( @NonNull Primitive primitive ) {
     allocated = new ArrayList<T>();
     type      = primitive;
   }
@@ -89,7 +91,7 @@ public class Buffers<T> {
    * 
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
-  public synchronized void release( T data ) {
+  public synchronized void release( @NonNull T data ) {
     if( allocated.isEmpty() ) {
       allocated.add( data );
     } else {
@@ -118,7 +120,7 @@ public class Buffers<T> {
    *           safely casted to the desired Buffers instance. Not <code>null</code>.
    */
   @SuppressWarnings("unchecked")
-  public static Buffers newBuffers( Primitive primitive ) {
+  public static Buffers newBuffers( @NonNull Primitive primitive ) {
     switch( primitive ) {
     case PBoolean : return new Buffers<boolean[]>( primitive );
     case PByte    : return new Buffers<byte   []>( primitive );

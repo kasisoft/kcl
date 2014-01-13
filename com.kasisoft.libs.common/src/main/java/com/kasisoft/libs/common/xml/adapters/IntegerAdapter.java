@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for integer types.
  */
@@ -38,12 +40,12 @@ public class IntegerAdapter extends TypeAdapter<String,Integer> {
   }
 
   @Override
-  public String marshalImpl( Integer v ) {
+  public String marshalImpl( @NonNull Integer v ) {
     return v.toString();
   }
 
   @Override
-  public Integer unmarshalImpl( String v ) {
+  public Integer unmarshalImpl( @NonNull String v ) {
     if( MAX.equalsIgnoreCase( v ) ) {
       return Integer.valueOf( Integer.MAX_VALUE );
     } else if( MIN.equalsIgnoreCase( v ) ) {

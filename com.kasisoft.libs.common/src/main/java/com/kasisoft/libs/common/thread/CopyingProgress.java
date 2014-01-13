@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.constants.*;
 
+import lombok.*;
+
 /**
  * Progress information for byte/character copying processes.
  */
@@ -33,7 +35,7 @@ public class CopyingProgress {
    * 
    * @param newdatatype   The new datatype of items which are being copied. Not <code>null</code>.
    */
-  void setDatatype( Primitive newdatatype ) {
+  void setDatatype( @NonNull Primitive newdatatype ) {
     datatype = newdatatype;
   }
   

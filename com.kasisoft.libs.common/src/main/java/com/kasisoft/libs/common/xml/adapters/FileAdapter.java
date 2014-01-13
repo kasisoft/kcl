@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for File types.
  */
@@ -62,7 +64,7 @@ public class FileAdapter extends TypeAdapter<String,File> {
   }
   
   @Override
-  public String marshalImpl( File v ) throws Exception {
+  public String marshalImpl( @NonNull File v ) throws Exception {
     if( canonical ) {
       v = v.getCanonicalFile();
     }
@@ -70,7 +72,7 @@ public class FileAdapter extends TypeAdapter<String,File> {
   }
 
   @Override
-  public File unmarshalImpl( String v ) throws Exception {
+  public File unmarshalImpl( @NonNull String v ) throws Exception {
     File result = new File( v.replace( '\\', '/' ).replace( '/', File.separatorChar ) );
     if( canonical ) {
       result = result.getCanonicalFile();

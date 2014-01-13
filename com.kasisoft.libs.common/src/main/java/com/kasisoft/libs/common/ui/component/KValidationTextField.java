@@ -19,6 +19,8 @@ import javax.swing.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * TextField variety which allows to run checks on the entered content and colors the input accordingly.
  */
@@ -42,9 +44,9 @@ public class KValidationTextField extends JTextField implements KValidationCompo
   /**
    * Sets up this validating text field with the supplied content.
    * 
-   * @param content   The content to display initially.
+   * @param content   The content to display initially. Not <code>null</code>.
    */
-  public KValidationTextField( String content ) {
+  public KValidationTextField( @NonNull String content ) {
     super( content );
     commonInit();
   }
@@ -91,12 +93,12 @@ public class KValidationTextField extends JTextField implements KValidationCompo
   }
 
   @Override
-  public void addValidationListener( ValidationListener l ) {
+  public void addValidationListener( @NonNull ValidationListener l ) {
     validationdispatcher.addListener(l);
   }
   
   @Override
-  public void removeValidationListener( ValidationListener l ) {
+  public void removeValidationListener( @NonNull ValidationListener l ) {
     validationdispatcher.removeListener(l);
   }
   
@@ -105,12 +107,12 @@ public class KValidationTextField extends JTextField implements KValidationCompo
    * 
    * @param evt   The ValidityEvent that will be delivered. Not <code>null</code>.
    */
-  protected void fireValidationEvent( ValidationEvent evt ) {
+  protected void fireValidationEvent( @NonNull ValidationEvent evt ) {
     validationdispatcher.fireEvent( evt );
   }
 
   @Override
-  public void setDocument( Document newdocument ) {
+  public void setDocument( @NonNull Document newdocument ) {
     Document olddocument = getDocument();
     if( olddocument != null ) {
       olddocument.removeDocumentListener( localbehaviour );
@@ -131,7 +133,7 @@ public class KValidationTextField extends JTextField implements KValidationCompo
    * 
    * @param newinvalidcolor    The new color for invalid content. Not <code>null</code>.
    */
-  public void setInvalidColor( Color newinvalidcolor ) {
+  public void setInvalidColor( @NonNull Color newinvalidcolor ) {
     invalidcolor = newinvalidcolor;
     if( ! isValid() ) {
       super.setForeground( invalidcolor );
@@ -152,7 +154,7 @@ public class KValidationTextField extends JTextField implements KValidationCompo
    * 
    * @param newvalidcolor   The Color used to visualise valid content. Not <code>null</code>.
    */
-  public void setValidColor( Color newvalidcolor ) {
+  public void setValidColor( @NonNull Color newvalidcolor ) {
     validcolor = newvalidcolor;
     if( isValid() ) {
       super.setForeground( validcolor );
@@ -175,7 +177,7 @@ public class KValidationTextField extends JTextField implements KValidationCompo
    * 
    * @return   <code>true</code> <=> The current input is valid.
    */
-  private boolean calculatedValidity( String text ) {
+  private boolean calculatedValidity( @NonNull String text ) {
     if( validationconstraint == null ) {
       return true;
     }
@@ -206,7 +208,7 @@ public class KValidationTextField extends JTextField implements KValidationCompo
    * 
    * @param text   The valid text. Not <code>null</code>.
    */
-  protected void accept( String text ) {
+  protected void accept( @NonNull String text ) {
   }
   
   /**

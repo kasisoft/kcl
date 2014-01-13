@@ -14,6 +14,8 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * A Runnable implementation used to delete a file.
  */
@@ -30,9 +32,9 @@ public class FileDeleteRunnable extends FileListRunnable {
    * Initialises this Runnable which is used to delete a bunch of filesystem resources.
    * 
    * @param files   The files that has to be deleted. Not <code>null</code> but they files are not required to be 
-   *                existent.
+   *                existent. Not <code>null</code>.
    */
-  public FileDeleteRunnable( File ... files ) {
+  public FileDeleteRunnable( @NonNull File ... files ) {
     super( files );
   }
   

@@ -26,6 +26,8 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.sql.*;
 
+import lombok.*;
+
 /**
  * Collection of various functions.
  */
@@ -63,7 +65,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Byte> asList( byte ... values ) {
+  public static List<Byte> asList( @NonNull byte ... values ) {
     List<Byte> result = new ArrayList<Byte>( values.length );
     for( byte v : values ) {
       result.add( Byte.valueOf(v) );
@@ -78,7 +80,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Short> asList( short ... values ) {
+  public static List<Short> asList( @NonNull short ... values ) {
     List<Short> result = new ArrayList<Short>( values.length );
     for( short v : values ) {
       result.add( Short.valueOf(v) );
@@ -93,7 +95,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Integer> asList( int ... values ) {
+  public static List<Integer> asList( @NonNull int ... values ) {
     List<Integer> result = new ArrayList<Integer>( values.length );
     for( int v : values ) {
       result.add( Integer.valueOf(v) );
@@ -108,7 +110,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Long> asList( long ... values ) {
+  public static List<Long> asList( @NonNull long ... values ) {
     List<Long> result = new ArrayList<Long>( values.length );
     for( long v : values ) {
       result.add( Long.valueOf(v) );
@@ -123,7 +125,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Float> asList( float ... values ) {
+  public static List<Float> asList( @NonNull float ... values ) {
     List<Float> result = new ArrayList<Float>( values.length );
     for( float v : values ) {
       result.add( Float.valueOf(v) );
@@ -138,7 +140,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Double> asList( double ... values ) {
+  public static List<Double> asList( @NonNull double ... values ) {
     List<Double> result = new ArrayList<Double>( values.length );
     for( double v : values ) {
       result.add( Double.valueOf(v) );
@@ -153,7 +155,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Boolean> asList( boolean ... values ) {
+  public static List<Boolean> asList( @NonNull boolean ... values ) {
     List<Boolean> result = new ArrayList<Boolean>( values.length );
     for( boolean v : values ) {
       result.add( Boolean.valueOf(v) );
@@ -168,7 +170,7 @@ public class MiscFunctions {
    * 
    * @return   A list of objects. Not <code>null</code>.
    */
-  public static List<Character> asList( char ... values ) {
+  public static List<Character> asList( @NonNull char ... values ) {
     List<Character> result = new ArrayList<Character>( values.length );
     for( char v : values ) {
       result.add( Character.valueOf(v) );
@@ -199,7 +201,7 @@ public class MiscFunctions {
    * 
    * @return   <code>true</code> <=> The byte sequence is available at the specified offset.
    */
-  public static boolean compare( byte[] data, byte[] tocompare, int offset ) {
+  public static boolean compare( @NonNull byte[] data, @NonNull byte[] tocompare, int offset ) {
     for( int i = 0; i < tocompare.length; i++, offset++ ) {
       if( offset == data.length ) {
         // premature end of the comparison process
@@ -221,7 +223,7 @@ public class MiscFunctions {
    * 
    * @return   <code>true</code> <=> The char sequence is available at the specified offset.
    */
-  public static boolean compare( char[] data, char[] tocompare, int offset ) {
+  public static boolean compare( @NonNull char[] data, @NonNull char[] tocompare, int offset ) {
     for( int i = 0; i < tocompare.length; i++, offset++ ) {
       if( offset == data.length ) {
         // premature end of the comparison process
@@ -243,7 +245,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
    */
-  public static int indexOf( byte[] buffer, byte[] sequence, int pos ) {
+  public static int indexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
     int last = buffer.length - sequence.length;
     if( (last < 0) || (pos > last) ) {
       // the sequence can't fit completely, so it's not available
@@ -269,7 +271,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the last byte sequence or -1 in case there's no sequence.
    */
-  public static int lastIndexOf( byte[] buffer, byte[] sequence, int pos ) {
+  public static int lastIndexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
     int last = buffer.length - sequence.length;
     if( (last < 0) || (pos > last) ) {
       // the sequence doesn't fit, so it's not available
@@ -295,7 +297,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the last character sequence or -1 in case there's no sequence.
    */
-  public static int lastIndexOf( char[] buffer, char[] sequence, int pos ) {
+  public static int lastIndexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
     int last = buffer.length - sequence.length;
     if( (last < 0) || (pos > last) ) {
       // the sequence doesn't fit, so it's not available
@@ -321,7 +323,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
-  public static int indexOf( char[] buffer, char[] sequence, int pos ) {
+  public static int indexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
     int last = buffer.length - sequence.length;
     if( (last < 0) || (pos > last) ) {
       // the sequence can't fit completely, so it's not available
@@ -346,7 +348,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the last byte sequence or -1 in case there's no sequence.
    */
-  public static int lastIndexOf( byte[] data, byte[] sequence ) {
+  public static int lastIndexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
     return lastIndexOf( data, sequence, 0 );
   }
 
@@ -358,7 +360,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the last char sequence or -1 in case there's no sequence.
    */
-  public static int lastIndexOf( char[] data, char[] sequence ) {
+  public static int lastIndexOf( @NonNull char[] data, @NonNull char[] sequence ) {
     return lastIndexOf( data, sequence, 0 );
   }
 
@@ -370,7 +372,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
    */
-  public static int indexOf( byte[] data, byte[] sequence ) {
+  public static int indexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
     return indexOf( data, sequence, 0 );
   }
 
@@ -382,7 +384,7 @@ public class MiscFunctions {
    * 
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
-  public static int indexOf( char[] data, char[] sequence ) {
+  public static int indexOf( @NonNull char[] data, @NonNull char[] sequence ) {
     return indexOf( data, sequence, 0 );
   }
   
@@ -395,7 +397,7 @@ public class MiscFunctions {
    * 
    * @return   A copy of the desired range. Neither <code>null</code> nor empty.
    */
-  public static byte[] copyRange( byte[] source, int offset, int length ) {
+  public static byte[] copyRange( @NonNull byte[] source, int offset, int length ) {
     byte[] result = new byte[ length ];
     System.arraycopy( source, offset, result, 0, length );
     return result;
@@ -411,7 +413,7 @@ public class MiscFunctions {
    * 
    * @return   The modified data block. Not <code>null</code>.
    */
-  public static byte[] insert( byte[] destination, byte[] newsequence, int index ) {
+  public static byte[] insert( @NonNull byte[] destination, @NonNull byte[] newsequence, int index ) {
     if( destination.length == 0 ) {
       return new byte[0];
     }
@@ -441,7 +443,7 @@ public class MiscFunctions {
    * 
    * @return   The modified data block. Not <code>null</code>.
    */
-  public static char[] insert( char[] destination, char[] newsequence, int index ) {
+  public static char[] insert( @NonNull char[] destination, @NonNull char[] newsequence, int index ) {
     if( destination.length == 0 ) {
       return new char[0];
     }
@@ -468,7 +470,7 @@ public class MiscFunctions {
    * 
    * @return   A String with resolved environment variables. Neither <code>null</code> nor empty.
    */
-  public static String expandVariables( String input ) {
+  public static String expandVariables( @NonNull String input ) {
     Map<String, String> variables     = new Hashtable<String, String>();
     Enumeration<?>      propertynames = System.getProperties().propertyNames();
     while( propertynames.hasMoreElements() ) {
@@ -490,7 +492,7 @@ public class MiscFunctions {
    * 
    * @return   The File location which has been evaluated. Not <code>null</code>.
    */
-  public static File expandFileLocation( String format ) {
+  public static File expandFileLocation( @NonNull String format ) {
     return new File( StringFunctions.replace( format, REPLACEMENTS ) );
   }
 
@@ -501,7 +503,7 @@ public class MiscFunctions {
    * 
    * @return   A joined buffer. Not <code>null</code>.
    */
-  public static byte[] joinBuffers( byte[] ... buffers ) {
+  public static byte[] joinBuffers( @NonNull byte[] ... buffers ) {
     int size = 0;
     for( int i = 0; i < buffers.length; i++ ) {
       if( buffers[i] != null ) {
@@ -526,7 +528,7 @@ public class MiscFunctions {
    * 
    * @return   A joined buffer. Not <code>null</code>.
    */
-  public static char[] joinBuffers( char[] ... buffers ) {
+  public static char[] joinBuffers( @NonNull char[] ... buffers ) {
     int size = 0;
     for( int i = 0; i < buffers.length; i++ ) {
       if( buffers[i] != null ) {
@@ -552,7 +554,7 @@ public class MiscFunctions {
    * 
    * @return   The date that has been parsed or <code>null</code> in case of a failure.
    */
-  public static Date parseDate( String value, String ... patterns ) {
+  public static Date parseDate(@NonNull String value, @NonNull String ... patterns ) {
     Date result = null;
     for( int i = 0; i < patterns.length; i++ ) {
       SimpleDateFormat formatter = new SimpleDateFormat( patterns[i] );
@@ -573,7 +575,7 @@ public class MiscFunctions {
    * 
    * @return   The date as a Calendar instance that has been parsed or <code>null</code> in case of a failure.
    */
-  public static Calendar parseCalendar( String value, String ... patterns ) {
+  public static Calendar parseCalendar( @NonNull String value, @NonNull String ... patterns ) {
     Date date = parseDate( value, patterns );
     if( date != null ) {
       Calendar result = Calendar.getInstance();
@@ -592,7 +594,7 @@ public class MiscFunctions {
    * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
    *           <code>false</code> <=> All other cases.
    */
-  public static boolean parseBoolean( String value ) {
+  public static boolean parseBoolean( @NonNull String value ) {
     return TRUEVALUES.contains( value.toLowerCase() );
   }
 
@@ -606,7 +608,7 @@ public class MiscFunctions {
    * 
    * @return   <code>null</code> <=> If the class could not be instantiated otherwise the instance itself.
    */
-  public static Object newInstance( String classname, Object ... args ) {
+  public static Object newInstance( @NonNull String classname, Object ... args ) {
     return newInstance( false, classname, args );
   }
   
@@ -628,7 +630,7 @@ public class MiscFunctions {
    * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> is set to <code>true</code>.
    */
   @SuppressWarnings("unchecked")
-  public static Object newInstance( boolean fail, String classname, Object ... args ) {
+  public static Object newInstance( boolean fail, @NonNull String classname, Object ... args ) {
     try {
       Class clazz = Class.forName( classname );
       if( (args == null) || (args.length == 0) ) {
@@ -665,7 +667,7 @@ public class MiscFunctions {
    * 
    * @return   The Constructor if it could be found. Maybe <code>null</code>.
    */
-  private static Constructor findMatchingConstructor( Constructor[] candidates, Class<?>[] params ) {
+  private static Constructor findMatchingConstructor( @NonNull Constructor[] candidates, @NonNull Class<?>[] params ) {
     for( Constructor constructor : candidates ) {
       Class[] expectedparams = constructor.getParameterTypes();
       if( (expectedparams != null) && (expectedparams.length == params.length) ) {
@@ -701,7 +703,7 @@ public class MiscFunctions {
    * 
    * @param type   The type of the key. Not <code>null</code>.
    */
-  public static <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( Class<T> type ) {
+  public static <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( @NonNull Class<T> type ) {
     return new KeyComparator<T>();
   }
   
@@ -713,7 +715,7 @@ public class MiscFunctions {
    * 
    * @return   The supplied list. Not <code>null</code>.
    */
-  public static <T extends Comparable<T>> List<T> toUniqueList( List<T> list ) {
+  public static <T extends Comparable<T>> List<T> toUniqueList( @NonNull List<T> list ) {
     Collections.sort( list );
     for( int i = list.size() - 1; i > 0; i-- ) {
       if( list.get(i).compareTo( list.get( i - 1 ) ) == 0 ) {
@@ -730,7 +732,7 @@ public class MiscFunctions {
    * 
    * @return   The set created from the supplied elements. Not <code>null</code>.
    */
-  public static <T> Set<T> toSet( T ... elements ) {
+  public static <T> Set<T> toSet( @NonNull T ... elements ) {
     Set<T> result = new HashSet<T>();
     if( elements != null ) {
       for( int i = 0; i < elements.length; i++ ) {
@@ -747,7 +749,7 @@ public class MiscFunctions {
    * 
    * @return   A copy of the supplied instance. <code>null</code> if <code>source</code> was <code>null</code>.
    */
-  public static <T extends Serializable> T clone( T source ) {
+  public static <T extends Serializable> T clone( @NonNull T source ) {
     if( source != null ) {
       ByteArrayOutputStream byteout   = null;
       ObjectOutputStream    objectout = null;
@@ -777,7 +779,7 @@ public class MiscFunctions {
    * 
    * @return   A list of regions providing the positions within the sequence. Not <code>null</code>.
    */
-  public static List<int[]> getRegexRegions( Pattern pattern, String sequence ) {
+  public static List<int[]> getRegexRegions( @NonNull Pattern pattern, @NonNull String sequence ) {
     List<int[]> result  = new ArrayList<int[]>();
     Matcher     matcher = pattern.matcher( sequence );
     while( matcher.find() ) {
@@ -891,7 +893,7 @@ public class MiscFunctions {
    * 
    * @return   A list with all SPI services currently available. Not <code>null</code>.
    */
-  public static <T> List<T> loadSPIServices( Class<T> servicetype ) {
+  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype ) {
     List<T>          result    = new ArrayList<T>();
     ServiceLoader<T> spiloader = ServiceLoader.load( servicetype );
     for( T service : spiloader ) {
@@ -925,7 +927,7 @@ public class MiscFunctions {
    * @return   <code>true</code> <=> The supplied date is a leap year.
    */
   @SuppressWarnings("deprecation")
-  public static boolean isLeapYear( Date date ) {
+  public static boolean isLeapYear( @NonNull Date date ) {
     return isLeapYear( date.getYear() + 1900 );
   }
   
@@ -970,7 +972,7 @@ public class MiscFunctions {
    * 
    * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
    */
-  public static Constructor getConstructor( Class<?> type, Class<?> ... params ) {
+  public static Constructor getConstructor( @NonNull Class<?> type, Class<?> ... params ) {
     try {
       return type.getDeclaredConstructor( params );
     } catch( Exception ex ) {
@@ -987,7 +989,7 @@ public class MiscFunctions {
    * 
    * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
    */
-  public static Method getMethod( Class<?> type, String name, Class<?> ... params ) {
+  public static Method getMethod( @NonNull Class<?> type, @NonNull String name, Class<?> ... params ) {
     try {
       return type.getDeclaredMethod( name, params );
     } catch( Exception ex ) {

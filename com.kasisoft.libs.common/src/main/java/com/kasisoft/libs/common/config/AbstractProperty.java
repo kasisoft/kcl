@@ -35,7 +35,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public AbstractProperty( String property, TypeAdapter<String,T> typeadapter ) {
+  public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
     this( property, typeadapter, false );
   }
   
@@ -47,7 +47,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public AbstractProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
+  public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
     key       = property;
     required  = req;
     adapter   = typeadapter;
@@ -107,7 +107,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * 
    * @return   The property value. Maybe <code>null</code>.
    */
-  protected String getProperty( Object props, boolean properties, String key ) {
+  protected String getProperty( Object props, boolean properties, @NonNull String key ) {
     String result = null;
     if( props != null ) {
       if( properties ) {
@@ -124,7 +124,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * Makes sure that the supplied String is either <code>null</code> or not empty. The text will be trimmed so there 
    * won't be any whitespace at the beginning or the end (except for line delimiters).
    * 
-   * @param input   The String that has to be altered.
+   * @param input   The String that has to be altered. Maybe <code>null</code>.
    * 
    * @return   <code>null</code> or a non-empty String.
    */
@@ -166,7 +166,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param key          The key used to access the value. Neither <code>null</code> nor empty.
    * @param value        The new value for the property. Maybe <code>null</code>.
    */
-  protected void setProperty( Object props, boolean properties, String key, T value ) {
+  protected void setProperty( Object props, boolean properties, @NonNull String key, T value ) {
     if( props != null ) {
       if( value == null ) {
         if( properties ) {

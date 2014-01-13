@@ -14,6 +14,8 @@ import java.util.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * The <code>SmartGridLayout</code> has nearly the same functionality as it's superclass <code>GridLayout</code>. The 
  * only modification is the calculation and layouting algorithm. The <code>GridLayout</code> forces each cell to be 
@@ -240,22 +242,22 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
   }
 
   @Override
-  public Dimension minimumLayoutSize( Container parent ) {
+  public Dimension minimumLayoutSize( @NonNull Container parent ) {
     return calcLayoutSize( SizeType.Minimum, parent );
   }
 
   @Override
-  public Dimension preferredLayoutSize( Container parent ) {
+  public Dimension preferredLayoutSize( @NonNull Container parent ) {
     return calcLayoutSize( SizeType.Preferred, parent );
   }
 
   @Override
-  public Dimension maximumLayoutSize( Container parent ) {
+  public Dimension maximumLayoutSize( @NonNull Container parent ) {
     return calcLayoutSize( SizeType.Maximum, parent );
   }
 
   @Override
-  public void layoutContainer( Container parent ) {
+  public void layoutContainer( @NonNull Container parent ) {
 
     synchronized( parent.getTreeLock() ) {
 
@@ -429,35 +431,35 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
   }
 
   @Override
-  public void addLayoutComponent( String name, Component comp ) {
+  public void addLayoutComponent( @NonNull String name, @NonNull Component comp ) {
   }
 
   @Override
-  public void addLayoutComponent( Component comp, Object constraint ) {
+  public void addLayoutComponent( @NonNull Component comp, @NonNull Object constraint ) {
     if( constraint instanceof Integer ) {
       constraints.put( comp, (Integer) constraint );
     }
   }
 
   @Override
-  public void removeLayoutComponent( Component comp ) {
+  public void removeLayoutComponent( @NonNull Component comp ) {
     if( constraints.containsKey( comp ) ) {
       constraints.remove( comp );
     }
   }
 
   @Override
-  public float getLayoutAlignmentX( Container parent ) {
+  public float getLayoutAlignmentX( @NonNull Container parent ) {
     return 0.5F;
   }
 
   @Override
-  public float getLayoutAlignmentY( Container parent ) {
+  public float getLayoutAlignmentY( @NonNull Container parent ) {
     return 0.5F;
   }
 
   @Override
-  public void invalidateLayout( Container parent ) {
+  public void invalidateLayout( @NonNull Container parent ) {
     // Nothing to do here since we need the available size for calculation, so the layouting will be done within
     // layoutContainer().
   }

@@ -23,6 +23,8 @@ import java.net.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Alternate Properties class. This type has some differences compared to the original one, which are:
  * <ul>
@@ -121,11 +123,11 @@ public class ExtProperties {
     typeadapters        = new Hashtable<String,TypeAdapter>();
   }
   
-  public void registerTypeAdapter( String key, TypeAdapter adapter ) {
+  public void registerTypeAdapter( @NonNull String key, @NonNull TypeAdapter adapter ) {
     typeadapters.put( key, adapter );
   }
   
-  public void unregisterTypeAdapter( String key ) {
+  public void unregisterTypeAdapter( @NonNull String key ) {
     typeadapters.remove( key );
   }
   
@@ -208,9 +210,9 @@ public class ExtProperties {
    * Loads the current properties from a specific File location.
    * 
    * @param input      The source where to load the properties from. Not <code>null</code>.
-   * @param encoding   The encoding to use. Neither <code>null</code> nor empty.
+   * @param encoding   The encoding to use. Maybe <code>null</code>.
    */
-  public synchronized void load( File input, Encoding encoding ) {
+  public synchronized void load( @NonNull File input, Encoding encoding ) {
     lines = IoFunctions.readText( input, encoding );
     processProperties();
   }
@@ -219,9 +221,9 @@ public class ExtProperties {
    * Loads the current properties from a specific File location.
    * 
    * @param input      The source where to load the properties from. Not <code>null</code>.
-   * @param encoding   The encoding to use. Neither <code>null</code> nor empty.
+   * @param encoding   The encoding to use. Maybe <code>null</code>.
    */
-  public synchronized void load( URL input, Encoding encoding ) {
+  public synchronized void load( @NonNull URL input, Encoding encoding ) {
     InputStream instream = null;
     try {
       instream = input.openStream();
@@ -237,9 +239,9 @@ public class ExtProperties {
    * Loads the current properties from an InputStream.
    * 
    * @param input      The source where to load the properties from. Not <code>null</code>.
-   * @param encoding   The encoding to use. Neither <code>null</code> nor empty.
+   * @param encoding   The encoding to use. Maybe <code>null</code>.
    */
-  public synchronized void load( InputStream input, Encoding encoding ) {
+  public synchronized void load( @NonNull InputStream input, Encoding encoding ) {
     lines = IoFunctions.readText( encoding.openReader( input ) );
     processProperties();
   }
@@ -249,7 +251,7 @@ public class ExtProperties {
    * 
    * @param input   The Reader where to load the properties from. Not <code>null</code>.
    */
-  public synchronized void load( Reader input ) {
+  public synchronized void load( @NonNull Reader input ) {
     lines = IoFunctions.readText( input );
     processProperties();
   }
@@ -277,7 +279,7 @@ public class ExtProperties {
    * 
    * @return   The adjusted line (all whitespace stuff is removed there). Neither <code>null</code> nor empty.
    */
-  private String processProperty( String line ) {
+  private String processProperty( @NonNull String line ) {
     String  key   = null;
     String  value = null;
     int     idx   = line.indexOf( delimiter );
@@ -323,7 +325,7 @@ public class ExtProperties {
    * {@link #setIndexedProperty(String, int, String)}, {@link #setAssociatedProperty(String, String, String)}
    * or {@link #setSimpleProperty(String, String)} directly since they are cheaper.
    */
-  public synchronized void setProperty( String key, String value ) {
+  public synchronized void setProperty( @NonNull String key, String value ) {
     if( emptyisnull ) {
       // empty values will be treated as null values
       if ( (value != null) && value.length() == 0 ) {
@@ -353,7 +355,7 @@ public class ExtProperties {
    * @param index    The index to be used.
    * @param value    The value to be set. Maybe <code>null</code>.
    */
-  public synchronized void setIndexedProperty( String key, int index, String value ) {
+  public synchronized void setIndexedProperty( @NonNull String key, int index, String value ) {
     Map<Integer,PropertyValue> values = indexed.get( key );
     if( values == null ) {
       values = new HashMap<Integer,PropertyValue>();
@@ -369,10 +371,10 @@ public class ExtProperties {
    * Sets an associated property.
    * 
    * @param key           The property key itself. Neither <code>null</code> nor empty. 
-   * @param association   The association for this property.
+   * @param association   The association for this property. Not <code>null</code>.
    * @param value         The value to be set. Maybe <code>null</code>.
    */
-  public synchronized void setAssociatedProperty( String key, String association, String value ) {
+  public synchronized void setAssociatedProperty( @NonNull String key, @NonNull String association, String value ) {
     Map<String,PropertyValue> values = associated.get( key );
     if( values == null ) {
       values = new HashMap<String,PropertyValue>();
@@ -389,7 +391,7 @@ public class ExtProperties {
    * @param key     The property key itself. Neither <code>null</code> nor empty.
    * @param value   The value to be set. Maybe <code>null</code>.
    */
-  public synchronized void setSimpleProperty( String key, String value ) {
+  public synchronized void setSimpleProperty( @NonNull String key, String value ) {
     key = key.trim();
     names.add( key );
     simple.put( key, newPropertyValue( this, key, value ) );
@@ -402,7 +404,7 @@ public class ExtProperties {
    * 
    * @return   <code>true</code> <=> The supplied key refers to an indexed property.
    */
-  public synchronized boolean isIndexedProperty( String key ) {
+  public synchronized boolean isIndexedProperty( @NonNull String key ) {
     return indexed.containsKey( key );
   }
   
@@ -413,7 +415,7 @@ public class ExtProperties {
    * 
    * @return   <code>true</code> <=> The supplied key refers to an associative property.
    */
-  public synchronized boolean isAssociatedProperty( String key ) {
+  public synchronized boolean isAssociatedProperty( @NonNull String key ) {
     return associated.containsKey( key );
   }
   
@@ -424,7 +426,7 @@ public class ExtProperties {
    * 
    * @return   <code>true</code> <=> The supplied key refers to a simple property.
    */
-  public synchronized boolean isSimpleProperty( String key ) {
+  public synchronized boolean isSimpleProperty( @NonNull String key ) {
     return simple.containsKey( key );
   }
 
@@ -439,7 +441,7 @@ public class ExtProperties {
    * @return   The list of sorted property values. Maybe <code>null</code> if the property doesn't exist and no default 
    *           values have been provided.
    */
-  public synchronized <T> List<T> getIndexedProperties( String key, List<T> defvalues ) {
+  public synchronized <T> List<T> getIndexedProperties( @NonNull String key, List<T> defvalues ) {
     Map<Integer,PropertyValue> map = indexed.get( key );
     if( map != null ) {
       // get a list of the entries first
@@ -467,7 +469,7 @@ public class ExtProperties {
    * 
    * @return   The indexed value. Maybe <code>null</code> if the value didn't exist.
    */
-  public synchronized String getIndexedProperty( String key, int index ) {
+  public synchronized String getIndexedProperty( @NonNull String key, int index ) {
     return getIndexedProperty( key, index, null );
   }
   
@@ -480,7 +482,7 @@ public class ExtProperties {
    * 
    * @return   The indexed value. Maybe <code>null</code> if the value didn't exist and no default value has been supplied.
    */
-  public synchronized String getIndexedProperty( String key, int index, String defvalue ) {
+  public synchronized String getIndexedProperty( @NonNull String key, int index, String defvalue ) {
     return getIndexedOrAssociatedProperty( key, Integer.valueOf( index ), indexed, defvalue );
   }
 
@@ -496,7 +498,7 @@ public class ExtProperties {
    * @return   The value stored using the associated property. Maybe <code>null</code> if none exists
    *           and no default value has been supplied.
    */
-  public synchronized <T> T getAssociatedProperty( String key, String association, T defvalue ) {
+  public synchronized <T> T getAssociatedProperty( @NonNull String key, @NonNull String association, T defvalue ) {
     return getIndexedOrAssociatedProperty( key, association, associated, defvalue );
   }
 
@@ -535,7 +537,7 @@ public class ExtProperties {
    * @return   The map providing the associated values. <code>null</code> if the default values were <code>null</code>
    *           and there aren't any properties with the supplied key.
    */
-  public synchronized <T> Map<String,T> getAssociatedProperties( String key, Map<String,T> defvalues ) {
+  public synchronized <T> Map<String,T> getAssociatedProperties( @NonNull String key, Map<String,T> defvalues ) {
     Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
       TypeAdapter<String,T>       adapter   = typeadapters.get( key );
@@ -561,7 +563,7 @@ public class ExtProperties {
    * 
    * @return   The value stored using the associated property. Maybe <code>null</code> if none exists.
    */
-  public synchronized <T> T getAssociatedProperty( String key, String association ) {
+  public synchronized <T> T getAssociatedProperty( @NonNull String key, @NonNull String association ) {
     return getAssociatedProperty( key, association, null );
   }
 
@@ -572,7 +574,7 @@ public class ExtProperties {
    * 
    * @return   The property value or <code>null</code> in case it didn't exist.
    */
-  public synchronized <T> T getSimpleProperty( String key ) {
+  public synchronized <T> T getSimpleProperty( @NonNull String key ) {
     return getSimpleProperty( key, null );
   }
   
@@ -584,7 +586,7 @@ public class ExtProperties {
    * 
    * @return   The property value or <code>null</code> in case it didn't exist and no default value has been supplied.
    */
-  public synchronized <T> T getSimpleProperty( String key, T defvalue ) {
+  public synchronized <T> T getSimpleProperty( @NonNull String key, T defvalue ) {
     return getPropertyValue( key, simple.get( key ), defvalue );
   }
   
@@ -599,7 +601,7 @@ public class ExtProperties {
    * @return   Maybe <code>null</code> if neither a PropertyValue nor a non-<code>null</code> default value has been 
    *           provided.
    */
-  private <T> T getPropertyValue( String key, PropertyValue value, T defvalue ) {
+  private <T> T getPropertyValue( @NonNull String key, PropertyValue value, T defvalue ) {
     if( value == null ) {
       return defvalue;
     } else {
@@ -620,7 +622,7 @@ public class ExtProperties {
    * {@link #getIndexedProperty(String, int)}, {@link #getAssociatedProperty(String, String)} or 
    * {@link #getSimpleProperty(String)} directly since they are cheaper.
    */
-  public synchronized String getProperty( String key ) {
+  public synchronized String getProperty( @NonNull String key ) {
     return getProperty( key, null );
   }
   
@@ -631,7 +633,7 @@ public class ExtProperties {
    * {@link #getIndexedProperty(String, int, String)}, {@link #getAssociatedProperty(String, String, String)}
    * or {@link #getSimpleProperty(String, String)} directly since they are cheaper.
    */
-  public synchronized String getProperty( String key, String defvalue ) {
+  public synchronized String getProperty( @NonNull String key, String defvalue ) {
     if( propkeyselector.matcher( key ).matches() ) {
       pair.setValues( splitter.split( key ) );
       try {
@@ -648,9 +650,9 @@ public class ExtProperties {
    * Writes the content of this properties table to the supplied stream.
    * 
    * @param output      The stream to receive the property data. Not <code>null</code>.
-   * @param encoding    The encoding to be used. Not <code>null</code>.
+   * @param encoding    The encoding to be used. Maybe <code>null</code>.
    */
-  public synchronized void store( OutputStream output, Encoding encoding ) {
+  public synchronized void store( @NonNull OutputStream output, Encoding encoding ) {
     storeLines();
     IoFunctions.writeText( output, lines, encoding );
   }
@@ -659,9 +661,9 @@ public class ExtProperties {
    * Writes the content of this properties table to the supplied file.
    * 
    * @param file        The file to receive the property data. Not <code>null</code>.
-   * @param encoding    The encoding to be used. Not <code>null</code>.
+   * @param encoding    The encoding to be used. Maybe <code>null</code>.
    */
-  public synchronized void store( File file, Encoding encoding ) {
+  public synchronized void store( @NonNull File file, Encoding encoding ) {
     storeLines();
     IoFunctions.writeText( file, lines, encoding );
   }
@@ -671,7 +673,7 @@ public class ExtProperties {
    * 
    * @param writer   The writer to receive the property data. Not <code>null</code>.
    */
-  public synchronized void store( Writer writer ) {
+  public synchronized void store( @NonNull Writer writer ) {
     storeLines();
     IoFunctions.writeText( writer, lines );
   }
@@ -770,7 +772,9 @@ public class ExtProperties {
    * @param values     The values providing the map which has to ba applied. Not <code>null</code>.
    * @param type       The type of the keys. Not <code>null</code>.
    */
-  private <T extends Comparable> void applyProperties( List<String> receiver, String key, Map<String,Map<T,PropertyValue>> values, Class<T> type ) {
+  private <T extends Comparable> void applyProperties( 
+    List<String> receiver, String key, Map<String,Map<T,PropertyValue>> values, Class<T> type 
+  ) {
     Map<T,PropertyValue> map = values.get( key );
     if( map == null ) {
       // nothing to be done here
@@ -814,7 +818,7 @@ public class ExtProperties {
    * 
    * @param key   The key of the property to be removed. Neither <code>null</code> nor empty.
    */
-  public synchronized void removeProperty( String key ) {
+  public synchronized void removeProperty( @NonNull String key ) {
     if( propkeyselector.matcher( key ).matches() ) {
       // we've got an indexed/associated property
       pair.setValues( splitter.split( key ) );
@@ -837,7 +841,7 @@ public class ExtProperties {
    * 
    * @param key   The key used to select all indexed properties. Neither <code>null</code> nor empty.
    */
-  public synchronized void removeIndexedProperty( String key ) {
+  public synchronized void removeIndexedProperty( @NonNull String key ) {
     if( indexed.containsKey( key ) ) {
       indexed.remove( key );
       names.remove( key );
@@ -850,7 +854,7 @@ public class ExtProperties {
    * 
    * @param key   The key used to select all associated properties. Neither <code>null</code> nor empty.
    */
-  public synchronized void removeAssociatedProperty( String key ) {
+  public synchronized void removeAssociatedProperty( @NonNull String key ) {
     if( associated.containsKey( key ) ) {
       associated.remove( key );
       names.remove( key );
@@ -863,7 +867,7 @@ public class ExtProperties {
    * @param key     The key used for the indexed properties. Neither <code>null</code> nor empty.
    * @param index   The index used to identify the value which will be removed.
    */
-  public synchronized void removeIndexedProperty( String key, int index ) {
+  public synchronized void removeIndexedProperty( @NonNull String key, int index ) {
     Map<Integer,PropertyValue> map = indexed.get( key );
     if( map != null ) {
       map.remove( Integer.valueOf( index ) );
@@ -880,7 +884,7 @@ public class ExtProperties {
    * @param key           The key used for the associated properties. Neither <code>null</code> nor empty.
    * @param association   The index used to identify the value which will be removed. Neither <code>null</code> nor empty.
    */
-  public synchronized void removeAssociatedProperty( String key, String association ) {
+  public synchronized void removeAssociatedProperty( @NonNull String key, String association ) {
     Map<String,PropertyValue> map = associated.get( key );
     if( map != null ) {
       map.remove( association );
@@ -897,7 +901,7 @@ public class ExtProperties {
    * 
    * @param key   The key used to identify the property. Neither <code>null</code> nor empty.
    */
-  public synchronized void removeSimpleProperty( String key ) {
+  public synchronized void removeSimpleProperty( @NonNull String key ) {
     simple.remove( key );
     names.remove( key );
   }

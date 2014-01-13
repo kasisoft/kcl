@@ -13,6 +13,8 @@ import com.kasisoft.libs.common.base.*;
 
 import java.net.*;
 
+import lombok.*;
+
 /**
  * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 
  * the classpath. This catalog doesn't care about missing resources as they're supposed to be made available afterwards.
@@ -77,7 +79,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * @param publicid        A public id. Maybe <code>null</code>. 
    * @param resource        The resource associated with the id or a system id itself. Neither <code>null</code> nor empty.
    */
-  protected void registerResource( boolean failifmissing, String publicid, String resource ) {
+  protected void registerResource( boolean failifmissing, String publicid, @NonNull String resource ) {
     URL url = getClass().getResource( resource );
     if( url != null ) {
       if( publicid != null ) {

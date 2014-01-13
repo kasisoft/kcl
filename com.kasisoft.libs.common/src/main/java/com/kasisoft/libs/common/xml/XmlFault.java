@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
 
+import lombok.*;
+
 /**
  * Simple datastructure representing a fault within a xml document.
  */
@@ -30,7 +32,7 @@ public class XmlFault {
    * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
    * @param ex          The original exception. Not <code>null</code>.
    */
-  public XmlFault( FaultType faulttype, SAXParseException ex ) {
+  public XmlFault( @NonNull FaultType faulttype, @NonNull SAXParseException ex ) {
     type    = faulttype;
     message = ex.getMessage();
     column  = ex.getColumnNumber();
@@ -43,7 +45,7 @@ public class XmlFault {
    * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
    * @param msg         The original message. Not <code>null</code>.
    */
-  public XmlFault( FaultType faulttype, String msg ) {
+  public XmlFault( @NonNull FaultType faulttype, @NonNull String msg ) {
     type    = faulttype;
     message = msg;
     column  = -1;
@@ -101,7 +103,7 @@ public class XmlFault {
    * 
    * @param newmessage   The new message. Neither <code>null</code> nor empty.
    */
-  public void setMessage( String newmessage ) {
+  public void setMessage( @NonNull String newmessage ) {
     message = newmessage;
   }
   

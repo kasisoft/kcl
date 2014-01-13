@@ -14,6 +14,8 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * A Runnable implementation which is used to load text lines from a Reader.
  */
@@ -45,7 +47,7 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
    *                   {@link List#add(Object)} to be implemented, so you need to pass an apropriate implementation type. 
    *                   Not <code>null</code>.
    */
-  public LineReaderRunnable( Reader input, List<String> receiver ) {
+  public LineReaderRunnable( @NonNull Reader input, @NonNull List<String> receiver ) {
     this();
     configure( input, receiver );
   }
@@ -70,7 +72,7 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
    *                   {@link List#add(Object)} to be implemented, so you need to pass an apropriate implementation type. 
    *                   Not <code>null</code>.
    */
-  public void configure( Reader input, List<String> receiver ) {
+  public void configure( @NonNull Reader input, @NonNull List<String> receiver ) {
     reader        = new BufferedReader( input );
     destination   = receiver;
     configured    = true;
@@ -149,7 +151,7 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
    * 
    * @param ex   The cause of the failure.
    */
-  protected void handleIOFailure( IOException ex ) {
+  protected void handleIOFailure( @NonNull IOException ex ) {
     throw new FailureException( FailureCode.IO, ex );
   }
 

@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * This is an adapter that allows to handle boolean values.
  */
@@ -35,12 +37,12 @@ public class BooleanAdapter extends TypeAdapter<String,Boolean> {
   }
 
   @Override
-  public String marshalImpl( Boolean v ) {
+  public String marshalImpl( @NonNull Boolean v ) {
     return v.toString();
   }
 
   @Override
-  public Boolean unmarshalImpl( String v ) {
+  public Boolean unmarshalImpl( @NonNull String v ) {
     return Boolean.valueOf( MiscFunctions.parseBoolean( v ) );
   }
 

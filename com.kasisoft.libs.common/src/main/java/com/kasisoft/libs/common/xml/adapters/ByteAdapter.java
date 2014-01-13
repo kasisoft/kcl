@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for byte types.
  */
@@ -38,12 +40,12 @@ public class ByteAdapter extends TypeAdapter<String,Byte> {
   }
 
   @Override
-  public String marshalImpl( Byte v ) {
+  public String marshalImpl( @NonNull Byte v ) {
     return v.toString();
   }
 
   @Override
-  public Byte unmarshalImpl( String v ) {
+  public Byte unmarshalImpl( @NonNull String v ) {
     if( MAX.equalsIgnoreCase( v ) ) {
       return Byte.valueOf( Byte.MAX_VALUE );
     } else if( MIN.equalsIgnoreCase( v ) ) {

@@ -18,6 +18,8 @@ import java.awt.*;
 
 import java.lang.reflect.*;
 
+import lombok.*;
+
 /**
  * Adapter used to convert a String into a Color and vice versa.
  */
@@ -60,7 +62,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
   }
 
   @Override
-  protected String marshalImpl( Color v ) {
+  protected String marshalImpl( @NonNull Color v ) {
     return 
       String.format( 
         "#%02x%02x%02x%02x", 
@@ -72,7 +74,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
   }
 
   @Override
-  protected Color unmarshalImpl( String v ) throws Exception {
+  protected Color unmarshalImpl( @NonNull String v ) throws Exception {
     if( v.startsWith( "#" ) ) {
       return unmarshalNumerical( v );
     } else if( v.toLowerCase().startsWith( RGB ) ) {

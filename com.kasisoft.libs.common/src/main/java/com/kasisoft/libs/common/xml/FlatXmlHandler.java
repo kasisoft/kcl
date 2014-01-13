@@ -133,7 +133,7 @@ public class FlatXmlHandler extends DefaultHandler {
   /**
    * Sets the current target which is used to receive the flattened XML structure.
    * 
-   * @param target   The target which is used to receive the flattened XML structure.
+   * @param target   The target which is used to receive the flattened XML structure. Not <code>null</code>.
    */
   public void setTarget( OutputStream target ) {
     dest = target;
@@ -142,8 +142,7 @@ public class FlatXmlHandler extends DefaultHandler {
   /**
    * Writes the supplied content to the OutputStream.
    * 
-   * @param key      A XPATH like key used to address the value.
-   * @param value    The value stored by the key.
+   * @param value    The value stored by the key. Not <code>null</code>.
    * 
    * @throws SAXException   Writing to the target failed for some reason.
    */
@@ -162,7 +161,7 @@ public class FlatXmlHandler extends DefaultHandler {
   /**
    * Creates a simple one line representation of the supplied input.
    * 
-   * @param input   The input which has to be broken on one line.
+   * @param input   The input which has to be broken on one line. Not <code>null</code>.
    * 
    * @return   The input which can be placed on one line.
    */
@@ -179,10 +178,16 @@ public class FlatXmlHandler extends DefaultHandler {
     elements.clear();
     path.setLength(0);
     buffer.setLength(0);
+    if( dest == null ) {
+      dest = System.out;
+    }
   }
 
   @Override
   public void endDocument() throws SAXException {
+    if( dest == System.out ) {
+      dest = null;
+    }
   }
   
   @Override

@@ -11,6 +11,8 @@ package com.kasisoft.libs.common.util;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 
  * can be used for the tokenization process.
@@ -29,7 +31,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param data             The String content that has to be tokenized. Not <code>null</code>.
    * @param delimiters       A list of delimiting literals. Not <code>null</code>.
    */
-  public LiteralTokenizer( String data, String ... delimiters ) {
+  public LiteralTokenizer( @NonNull String data, @NonNull String ... delimiters ) {
     this( data, false, delimiters );
   }
 
@@ -40,7 +42,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param returnliterals   <code>true</code> <=> Return delimiting literals as well.
    * @param delimiters       A list of delimiting literals. Not <code>null</code>.
    */
-  public LiteralTokenizer( String data, boolean returnliterals, String ... delimiters ) {
+  public LiteralTokenizer( @NonNull String data, boolean returnliterals, @NonNull String ... delimiters ) {
     input         = data;
     literals      = delimiters;
     doreturn      = returnliterals;

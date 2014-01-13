@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for short types.
  */
@@ -38,12 +40,12 @@ public class ShortAdapter extends TypeAdapter<String,Short> {
   }
 
   @Override
-  public String marshalImpl( Short v ) {
+  public String marshalImpl( @NonNull Short v ) {
     return v.toString();
   }
 
   @Override
-  public Short unmarshalImpl( String v ) {
+  public Short unmarshalImpl( @NonNull String v ) {
     if( MAX.equalsIgnoreCase( v ) ) {
       return Short.valueOf( Short.MAX_VALUE );
     } else if( MIN.equalsIgnoreCase( v ) ) {

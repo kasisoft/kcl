@@ -14,6 +14,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter implementation which is <code>null</code> safe and allows to convert datatypes if possible. 
  * This adapter is similar to the {@link XmlToTypeAdapter} with the following differences:
@@ -57,7 +59,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
    * @param value   The value which has to be bound. Not <code>null</code>.
    * @param cause   The {@link Exception} indicating the possible cause of error. Not <code>null</code>.
    */
-  protected void failure( Object value, Exception cause ) {
+  protected void failure( @NonNull Object value, @NonNull Exception cause ) {
     if( errhandler != null ) {
       errhandler.failure( value, cause.getLocalizedMessage(), cause );
     }
@@ -70,7 +72,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
    * 
    * @return   The From-Type instance. Maybe <code>null</code>.
    */
-  public final F marshal( T v ) {
+  public final F marshal( @NonNull T v ) {
     if( v != null ) {
       try {
         return marshalImpl( v );
@@ -90,7 +92,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
    * 
    * @return   The From-Type instance. Maybe <code>null</code>.
    */
-  public final F marshalObject( Object v ) {
+  public final F marshalObject( @NonNull Object v ) {
     return marshal( (T) v );
   }
 

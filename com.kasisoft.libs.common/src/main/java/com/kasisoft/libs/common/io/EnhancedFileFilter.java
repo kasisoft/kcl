@@ -13,6 +13,8 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 
  * implementation.
@@ -36,7 +38,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * 
    * @param suffix   The suffix to be used with this filter. Neither <code>null</code> nor empty.
    */
-  public EnhancedFileFilter( String suffix ) {
+  public EnhancedFileFilter( @NonNull String suffix ) {
     super( suffix );
     suffixlist          = new ArrayList<String>();
     excludeddirs        = new HashSet<String>();
@@ -50,7 +52,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * @param suffix              The suffix to be used with this filter. Neither <code>null</code> nor empty.
    * @param filterdescription   The description which will be displayed.
    */
-  public EnhancedFileFilter( String suffix, String filterdescription ) {
+  public EnhancedFileFilter( @NonNull String suffix, String filterdescription ) {
     super( suffix, filterdescription );
     suffixlist          = new ArrayList<String>();
     excludeddirs        = new HashSet<String>();
@@ -64,7 +66,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * @param dirname   The name of a directory which shall be added to the exclusion list. 
    *                  Neither <code>null</code> nor empty.
    */
-  public void addExcludedDir( String dirname ) {
+  public void addExcludedDir( @NonNull String dirname ) {
     synchronized( excludeddirs ) {
       excludeddirs.add( normaliseFilename( dirname ) );
     }
@@ -76,7 +78,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * @param filename   The name of the file which shall be added to the exclusion list.
    *                   Neither <code>null</code> nor empty.
    */
-  public void addExcludedFile( String filename ) {
+  public void addExcludedFile( @NonNull String filename ) {
     synchronized( excludedfiles ) {
       excludedfiles.add( normaliseFilename( filename ) );
     }
@@ -103,7 +105,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * 
    * @param suffix   An additionally supported suffix. Neither <code>null</code> nor empty.
    */
-  public void addSuffix( String suffix ) {
+  public void addSuffix( @NonNull String suffix ) {
     synchronized( suffixlist ) {
       suffixlistasstring  = null;
       suffixlist.add( validateSuffix( suffix ) );
@@ -133,7 +135,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * 
    * @return   <code>true</code> <=> The supplied file has to be excluded from the filtering process.
    */
-  public boolean isExcluded( File file ) {
+  public boolean isExcluded( @NonNull File file ) {
     if( file.isDirectory() ) {
       return excludeddirs.contains( normaliseFilename( file.getName() ) );
     } else if( file.isFile() ) {
@@ -145,7 +147,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
   }
   
   @Override
-  public boolean accept( File file ) {
+  public boolean accept( @NonNull File file ) {
     if( isExcluded( file ) ) {
       return false;
     }

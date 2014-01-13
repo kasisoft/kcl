@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.util;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * ArrayList variety which can handle negative indices. So an index of -1 points to the last element. An index of -2 
  * to it's predecessor and so on.
@@ -35,18 +37,18 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * Constructs this list using given data.
    * 
-   * @param collection   The initial data for this list.
+   * @param collection   The initial data for this list. Not <code>null</code>.
    */
-  public ExtArrayList( Collection<? extends T> collection ) {
+  public ExtArrayList( @NonNull Collection<? extends T> collection ) {
     super( collection );
   }
 
   /**
    * Constructs this list using given data.
    * 
-   * @param items   The initial data for this list.
+   * @param items   The initial data for this list. Not <code>null</code>.
    */
-  public ExtArrayList( T ... items ) {
+  public ExtArrayList( @NonNull T ... items ) {
     super();
     addAll( items );
   }
@@ -66,12 +68,12 @@ public class ExtArrayList<T> extends ArrayList<T> {
   }
 
   @Override
-  public void add( int index, T element ) {
+  public void add( int index, @NonNull T element ) {
     super.add( adjustIndex( index ), element );
   }
 
   @Override
-  public boolean addAll( int index, Collection<? extends T> collection ) {
+  public boolean addAll( int index, @NonNull Collection<? extends T> collection ) {
     return super.addAll( adjustIndex( index ), collection );
   }
 
@@ -79,11 +81,11 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * Inserts all of the elements in the specified array into this list, starting at the specified position.
    *
    * @param index   Index at which to insert the first element from the specified array.
-   * @param items   The data which has to be inserted.
+   * @param items   The data which has to be inserted. Not <code>null</code>.
    * 
    * @return <code>true</code> <=> This list has changed as a result of the call.
    */
-  public boolean addAll( int index, T ... items ) {
+  public boolean addAll( int index, @NonNull T ... items ) {
     index = adjustIndex( index );
     for( T item : items ) {
       super.add( index, item );
@@ -95,11 +97,11 @@ public class ExtArrayList<T> extends ArrayList<T> {
   /**
    * Inserts all of the elements in the specified array into this list, starting at the end.
    *
-   * @param items   The data which has to be inserted.
+   * @param items   The data which has to be inserted. Not <code>null</code>.
    * 
    * @return <code>true</code> <=> This list has changed as a result of the call.
    */
-  public boolean addAll( T ... items ) {
+  public boolean addAll( @NonNull T ... items ) {
     return addAll( size(), items );
   }
   
@@ -119,7 +121,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
   }
 
   @Override
-  public T set( int index, T element ) {
+  public T set( int index, @NonNull T element ) {
     return super.set( adjustIndex( index ), element );
   }
 

@@ -16,6 +16,8 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Convenience class for the Runtime.exec method.
  */
@@ -33,9 +35,9 @@ public class SystemProcess {
   /**
    * Sets up this convenience class to use the supplied executable for the creation of a system process.
    * 
-   * @param exec   The executable to use for the creation of a system process.
+   * @param exec   The executable to use for the creation of a system process. Must be a valid file.
    */
-  public SystemProcess( File exec ) {
+  public SystemProcess( @NonNull File exec ) {
     exception   = null;
     outstream   = null;
     errstream   = null;
@@ -52,7 +54,7 @@ public class SystemProcess {
    * @param key     The name of the variable. Neither <code>null</code> nor empty.
    * @param value   The value of the variable. Not <code>null</code>.
    */
-  public synchronized void addVariable( String key, String value ) {
+  public synchronized void addVariable( @NonNull String key, @NonNull String value ) {
     variables.put( key, value );
   }
   
@@ -62,7 +64,7 @@ public class SystemProcess {
    * @param key   The name of the variable which has to be removed. 
    *              Neither <code>null</code> nor empty.
    */
-  public synchronized void removeVariable( String key ) {
+  public synchronized void removeVariable( @NonNull String key ) {
     variables.remove( key );
   }
   
@@ -87,7 +89,7 @@ public class SystemProcess {
   /**
    * Changes the working directory for the subprocess.
    * 
-   * @param newworkingdir   The new working directory for the subprocess.
+   * @param newworkingdir   The new working directory for the subprocess. Maybe <code>null</code>
    */
   public synchronized void setWorkingDir( File newworkingdir ) {
     workingdir = newworkingdir;
@@ -114,7 +116,7 @@ public class SystemProcess {
   /**
    * Changes the OutputStream used to delegate the output to. The default is <code>System.out</code>.
    * 
-   * @param output   The OutputStream used to delegate the output to.
+   * @param output   The OutputStream used to delegate the output to. Maybe <code>null</code>.
    */
   public synchronized void setOutputStream( OutputStream output ) {
     outstream   = output;
@@ -132,7 +134,7 @@ public class SystemProcess {
   /**
    * Changes the error stream used to delegate the output to. The default is <code>System.err</code>.
    * 
-   * @param output   The error stream used to delegate the output to.
+   * @param output   The error stream used to delegate the output to. Maybe <code>null</code>.
    */
   public synchronized void setErrorStream( OutputStream output ) {
     errstream   = output;
@@ -179,8 +181,7 @@ public class SystemProcess {
   /**
    * Creates a command vector using the supplied arguments.
    * 
-   * @param args
-   *          A list of arguments to be used for the command execution. Maybe <code>null</code>.
+   * @param args   A list of arguments to be used for the command execution. Maybe <code>null</code>.
    *          
    * @return   A command vector providing the executable and all arguments. Not <code>null</code>.
    */
@@ -200,11 +201,11 @@ public class SystemProcess {
    * Runs the system process with the supplied args.
    * 
    * @param args   The arguments used to pass to the system process. If any of these args contains a space or something 
-   *               like that it has to be quoted before.
+   *               like that it has to be quoted before. Not <code>null</code>.
    *               
    * @return  The exitcode from the subprocess or a failure code.
    */
-  public synchronized FailureCode execute( String ... args ) {
+  public synchronized FailureCode execute( @NonNull String ... args ) {
 
     FailureCode result    = FailureCode.Success;
     Thread      outcopier = null;

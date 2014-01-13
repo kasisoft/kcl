@@ -14,6 +14,8 @@ import java.text.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * An adapter used to convert a Date into a String and vice versa.
  */
@@ -77,12 +79,12 @@ public class DateAdapter extends TypeAdapter<String,Date> {
   }
   
   @Override
-  public String marshalImpl( Date v ) {
+  public String marshalImpl( @NonNull Date v ) {
     return formatter.format(v);
   }
 
   @Override
-  public Date unmarshalImpl( String v ) throws Exception {
+  public Date unmarshalImpl( @NonNull String v ) throws Exception {
     return formatter.parse( v );
   }
 

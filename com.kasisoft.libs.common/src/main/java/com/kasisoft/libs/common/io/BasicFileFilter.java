@@ -13,6 +13,8 @@ import com.kasisoft.libs.common.sys.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 
  * implementation.
@@ -27,19 +29,18 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * 
    * @param suffix   The suffix to be used with this filter. Neither <code>null</code> nor empty.
    */
-  public BasicFileFilter( String suffix ) {
-    mainsuffix  = validateSuffix( suffix );
-    description = null;
+  public BasicFileFilter( @NonNull String suffix ) {
+    this( suffix, null );
   }
 
   /**
    * Initialises this filter with the supplied suffix and a description.
    * 
    * @param suffix              The suffix to be used with this filter. Neither <code>null</code> nor empty.
-   * @param filterdescription   The description which will be displayed.
+   * @param filterdescription   The description which will be displayed. Maybe <code>null</code>.
    */
-  public BasicFileFilter( String suffix, String filterdescription ) {
-    this( suffix );
+  public BasicFileFilter( @NonNull String suffix, String filterdescription ) {
+    mainsuffix  = validateSuffix( suffix );
     description = filterdescription;
   }
 
@@ -53,7 +54,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * @return   The suffix if it was correct already or an adjusted pendant. 
    *           Neither <code>null</code> nor empty.
    */
-  protected String validateSuffix( String suffix ) {
+  protected String validateSuffix( @NonNull String suffix ) {
     if( suffix.charAt(0) != '.' ) {
       suffix = String.format( ".%s", suffix );
     }
@@ -70,7 +71,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * 
    * @return   The supplied File or a changed one if it was necessary.
    */
-  public File fixFile( File file ) {
+  public File fixFile( @NonNull File file ) {
     String name = file.getName();
     if( name.endsWith( mainsuffix ) ) {
       // the name is already valid
@@ -85,7 +86,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
   }
 
   @Override
-  public boolean accept( File file ) {
+  public boolean accept( @NonNull File file ) {
     if( ! file.isFile() ) {
       return true;
     }
@@ -101,7 +102,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * 
    * @return   The normalised filename. Neither <code>null</code> nor empty.
    */
-  protected String normaliseFilename( String filename ) {
+  protected String normaliseFilename( @NonNull String filename ) {
     if( SystemInfo.getRunningOS().isCaseSensitiveFS() ) {
       return filename;
     } else {

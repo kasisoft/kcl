@@ -23,8 +23,7 @@ public interface BucketFactory<T> {
   /**
    * Resets the supplied object.
    * 
-   * @param object
-   *          The object that is supposed to be cleared. Not <code>null</code>.
+   * @param object   The object that is supposed to be cleared. Not <code>null</code>.
    *          
    * @return   The supplied object. Not <code>null</code>.
    */

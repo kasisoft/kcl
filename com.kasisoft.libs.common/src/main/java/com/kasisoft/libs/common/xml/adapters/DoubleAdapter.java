@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for double types.
  */
@@ -45,12 +47,12 @@ public class DoubleAdapter extends TypeAdapter<String,Double> {
   }
 
   @Override
-  public String marshalImpl( Double v ) {
+  public String marshalImpl( @NonNull Double v ) {
     return v.toString();
   }
 
   @Override
-  public Double unmarshalImpl( String v ) {
+  public Double unmarshalImpl( @NonNull String v ) {
     if( NAN.equalsIgnoreCase( v ) ) {
       return Double.valueOf( Double.NaN );
     } else if( NEG_INF.equalsIgnoreCase( v ) || NEG_INFINITY.equalsIgnoreCase( v ) ) {

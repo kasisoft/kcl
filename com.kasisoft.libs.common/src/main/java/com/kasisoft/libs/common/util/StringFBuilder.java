@@ -14,6 +14,8 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * StringF(ormatting)Builder  equivalent which supports formatting. This builder also supports negative indices which means
  * that the original index is calculated beginning from the end of the buffer.
@@ -47,7 +49,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#StringBuilder(String)
    */
-  public StringFBuilder( String str ) {
+  public StringFBuilder( @NonNull String str ) {
     origin    = new StringBuilder( str );
     collector = new ArrayList<String>();
   }
@@ -55,7 +57,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#StringBuilder(CharSequence)
    */
-  public StringFBuilder( CharSequence seq ) {
+  public StringFBuilder( @NonNull CharSequence seq ) {
     origin    = new StringBuilder( seq );
     collector = new ArrayList<String>();
   }
@@ -135,7 +137,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#getChars(int, int, char[], int)
    */
-  public void getChars( int start, int end, char[] destination, int destbegin ) {
+  public void getChars( int start, int end, @NonNull char[] destination, int destbegin ) {
     origin.getChars( adjustIndex( start ), adjustIndex( end ), destination, destbegin );
   }
 
@@ -149,7 +151,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(Object)
    */
-  public StringFBuilder append( Object obj ) {
+  public StringFBuilder append( @NonNull Object obj ) {
     origin = origin.append( obj );
     return this;
   }
@@ -157,7 +159,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(String) 
    */
-  public StringFBuilder append( String str ) {
+  public StringFBuilder append( @NonNull String str ) {
     origin = origin.append( str );
     return this;
   }
@@ -165,7 +167,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(StringBuilder)
    */
-  public StringFBuilder append( StringBuffer buffer ) {
+  public StringFBuilder append( @NonNull StringBuffer buffer ) {
     origin = origin.append( buffer );
     return this;
   }
@@ -173,7 +175,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(StringBuilder)
    */
-  public StringFBuilder append( StringFBuilder buffer ) {
+  public StringFBuilder append( @NonNull StringFBuilder buffer ) {
     origin = origin.append( buffer.origin );
     return this;
   }
@@ -181,7 +183,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(CharSequence)
    */
-  public StringFBuilder append( CharSequence sequence ) {
+  public StringFBuilder append( @NonNull CharSequence sequence ) {
     origin = origin.append( sequence );
     return this;
   }
@@ -189,7 +191,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(CharSequence, int, int)
    */
-  public StringFBuilder append( CharSequence sequence, int start, int end ) {
+  public StringFBuilder append( @NonNull CharSequence sequence, int start, int end ) {
     origin = origin.append( sequence, start, end );
     return this;
   }
@@ -197,7 +199,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(char[])
    */
-  public StringFBuilder append( char[] charray ) {
+  public StringFBuilder append( @NonNull char[] charray ) {
     origin = origin.append( charray );
     return this;
   }
@@ -205,7 +207,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#append(char[], int, int)
    */
-  public StringFBuilder append( char[] charray, int offset, int length ) {
+  public StringFBuilder append( @NonNull char[] charray, int offset, int length ) {
     origin = origin.append( charray, offset, length );
     return this;
   }
@@ -237,12 +239,12 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * Appends some values using a specific format pattern.
    * 
-   * @param format   The pattern to use.
+   * @param format   The pattern to use. Neither <code>null</code> nor empty.
    * @param args     The arguments for this pattern.
    * 
    * @return   The current buffer.
    */
-  public StringFBuilder appendF( String format, Object ... args ) {
+  public StringFBuilder appendF( @NonNull String format, Object ... args ) {
     return append( String.format( format, args ) );
   }
   
@@ -297,7 +299,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#replace(int, int, String)
    */
-  public StringFBuilder replace( int start, int end, String str ) {
+  public StringFBuilder replace( int start, int end, @NonNull String str ) {
     origin = origin.replace( adjustIndex( start ), adjustIndex( end ), str );
     return this;
   }
@@ -327,7 +329,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#insert(int, char[], int, int)
    */
-  public StringFBuilder insert( int index, char[] charray, int offset, int length ) {
+  public StringFBuilder insert( int index, @NonNull char[] charray, int offset, int length ) {
     origin = origin.insert( adjustIndex( offset ), charray, offset, length );
     return this;
   }
@@ -335,7 +337,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#insert(int, Object)
    */
-  public StringFBuilder insert( int offset, Object obj ) {
+  public StringFBuilder insert( int offset, @NonNull Object obj ) {
     origin = origin.insert( adjustIndex( offset ), obj );
     return this;
   }
@@ -343,7 +345,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#insert(int, String)
    */
-  public StringFBuilder insert( int offset, String value ) {
+  public StringFBuilder insert( int offset, @NonNull String value ) {
     origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
@@ -352,12 +354,12 @@ public class StringFBuilder implements Serializable, CharSequence {
    * Inserts some values using a specific format pattern.
    * 
    * @param offset   The location where to insert the formatted content.
-   * @param format   The pattern to use.
+   * @param format   The pattern to use. Neither <code>null</code> nor empty.
    * @param args     The arguments for this pattern.
    * 
    * @return   The current buffer.
    */
-  public StringFBuilder insertF( int offset, String format, Object ... args ) {
+  public StringFBuilder insertF( int offset, @NonNull String format, Object ... args ) {
     return insert( adjustIndex( offset ), String.format( format, args ) );
   }
 
@@ -372,7 +374,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#insert(int, CharSequence)
    */
-  public StringFBuilder insert( int offset, CharSequence value ) {
+  public StringFBuilder insert( int offset, @NonNull CharSequence value ) {
     origin = origin.insert( adjustIndex( offset ), value );
     return this;
   }
@@ -380,7 +382,7 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#insert(int, CharSequence, int, int)
    */
-  public StringFBuilder insert( int offset, CharSequence value, int start, int end ) {
+  public StringFBuilder insert( int offset, @NonNull CharSequence value, int start, int end ) {
     origin = origin.insert( adjustIndex( offset ), value, start, end );
     return this;
   }
@@ -436,14 +438,14 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#indexOf(String)
    */
-  public int indexOf( String str ) {
+  public int indexOf( @NonNull String str ) {
     return origin.indexOf( str );
   }
 
   /**
    * @see StringBuilder#indexOf(String, int)
    */
-  public int indexOf( String str, int index ) {
+  public int indexOf( @NonNull String str, int index ) {
     return origin.indexOf( str, adjustIndex( index ) );
   }
 
@@ -489,14 +491,14 @@ public class StringFBuilder implements Serializable, CharSequence {
   /**
    * @see StringBuilder#lastIndexOf(String)
    */
-  public int lastIndexOf( String str ) {
+  public int lastIndexOf( @NonNull String str ) {
     return origin.lastIndexOf( str );
   }
 
   /**
    * @see StringBuilder#lastIndexOf(String, int)
    */
-  public int lastIndexOf( String str, int index ) {
+  public int lastIndexOf( @NonNull String str, int index ) {
     return origin.lastIndexOf( str, adjustIndex( index ) );
   }
 
@@ -599,7 +601,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith( String totest ) {
+  public boolean startsWith( @NonNull String totest ) {
     return startsWith( true, totest );
   }
   
@@ -611,7 +613,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith( boolean casesensitive, String totest ) {
+  public boolean startsWith( boolean casesensitive, @NonNull String totest ) {
     if( totest.length() > origin.length() ) {
       return false;
     } else {
@@ -627,7 +629,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith( String totest ) {
+  public boolean endsWith( @NonNull String totest ) {
     return endsWith( true, totest );
   }
 
@@ -639,7 +641,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith( boolean casesensitive, String totest ) {
+  public boolean endsWith( boolean casesensitive, @NonNull String totest ) {
     if( totest.length() > origin.length() ) {
       return false;
     } else {
@@ -655,7 +657,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals( String totest ) {
+  public boolean equals( @NonNull String totest ) {
     return equals( true, totest );
   }
   
@@ -667,7 +669,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals( boolean casesensitive, String totest ) {
+  public boolean equals( boolean casesensitive, @NonNull String totest ) {
     return StringFunctions.compare( ! casesensitive, origin.toString(), totest );
   }
 
@@ -678,7 +680,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   The altered input. Not <code>null</code>.
    */
-  public StringFBuilder remove( String toremove ) {
+  public StringFBuilder remove( @NonNull String toremove ) {
     for( int i = length() - 1; i >= 0; i-- ) {
       if( toremove.indexOf( charAt(i) ) != -1 ) {
         deleteCharAt(i);
@@ -696,7 +698,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without the delimiting character. Not <code>null</code>.
    */
-  public String[] split( String delimiters ) {
+  public String[] split( @NonNull String delimiters ) {
     collector.clear();
     StringTokenizer tokenizer = new StringTokenizer( origin.toString(), delimiters, false );
     while( tokenizer.hasMoreTokens() ) {
@@ -712,7 +714,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex( String regex ) {
+  public String[] splitRegex( @NonNull String regex ) {
     return splitRegex( Pattern.compile( regex ) );
   }
   
@@ -723,7 +725,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex( Pattern pattern) {
+  public String[] splitRegex( @NonNull Pattern pattern ) {
     collector.clear();
     Matcher matcher = pattern.matcher( origin );
     int     last    = 0;
@@ -771,7 +773,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceAll( String regex, String replacement ) {
+  public StringFBuilder replaceAll( @NonNull String regex, @NonNull String replacement ) {
     return replaceAll( Pattern.compile( regex ), replacement );
   }
   
@@ -784,7 +786,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceAll( Pattern pattern, String replacement ) {
+  public StringFBuilder replaceAll( @NonNull Pattern pattern, @NonNull String replacement ) {
     Matcher     matcher = pattern.matcher( origin );
     List<int[]> matches = new ArrayList<int[]>();
     while( matcher.find() ) {
@@ -808,7 +810,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceFirst( String regex, String replacement ) {
+  public StringFBuilder replaceFirst( @NonNull String regex, @NonNull String replacement ) {
     return replaceFirst( Pattern.compile( regex ), replacement );
   }
   
@@ -820,7 +822,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceFirst( Pattern pattern, String replacement ) {
+  public StringFBuilder replaceFirst( @NonNull Pattern pattern, @NonNull String replacement ) {
     Matcher matcher = pattern.matcher( origin );
     if( matcher.find() ) {
       origin.delete( matcher.start(), matcher.end() );
@@ -838,7 +840,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceLast( String regex, String replacement ) {
+  public StringFBuilder replaceLast( @NonNull String regex, @NonNull String replacement ) {
     return replaceLast( Pattern.compile( regex ), replacement );
   }
   
@@ -850,7 +852,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceLast( Pattern pattern, String replacement ) {
+  public StringFBuilder replaceLast( @NonNull Pattern pattern, @NonNull String replacement ) {
     Matcher matcher   = pattern.matcher( origin );
     int     start     = -1;
     int     end       = -1;

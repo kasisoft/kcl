@@ -14,6 +14,8 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.geom.*;
 
+import lombok.*;
+
 /**
  * The FlowingTitledBorder also allows to display a title where this title is backgrounded by a flow changing one color 
  * to another one.
@@ -38,7 +40,7 @@ public class FlowingTitledBorder extends TitledBorder {
    *
    * @param title   The title the border should display. Neither <code>null</code> nor empty.
    */
-  public FlowingTitledBorder( String title ) {
+  public FlowingTitledBorder( @NonNull String title ) {
     this( title, LEADING, null, Color.black, Color.cyan, Color.white  );
   }
 
@@ -48,7 +50,7 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param title           The title the border should display. Neither <code>null</code> nor empty.
    * @param justification   The justification for the title.
    */
-  public FlowingTitledBorder( String title, int justification ) {
+  public FlowingTitledBorder( @NonNull String title, int justification ) {
     this( title, justification, null, Color.black, Color.cyan, Color.white  );
   }
 
@@ -59,7 +61,7 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param justification   The justification for the title.
    * @param font            The font for rendering the title.
    */
-  public FlowingTitledBorder( String title, int justification, Font font ) {
+  public FlowingTitledBorder( @NonNull String title, int justification, Font font ) {
     this( title, justification, font, Color.black, Color.cyan, Color.white );
   }
 
@@ -74,7 +76,7 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param fromcol         The starting color for the flow.
    * @param tocol           The end color for the flow.
    */
-  public FlowingTitledBorder( String title, int justification, Font font, Color titlecol, Color fromcol, Color tocol ) {
+  public FlowingTitledBorder( @NonNull String title, int justification, Font font, Color titlecol, Color fromcol, Color tocol ) {
     super( new EmptyBorder( 1, 1, 1, 1 ), title, justification, TOP, font, Color.black );
     setFromColor( fromcol );
     setToColor( tocol );
@@ -123,7 +125,7 @@ public class FlowingTitledBorder extends TitledBorder {
   }
 
   @Override
-  public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+  public void paintBorder( @NonNull Component c, @NonNull Graphics g, int x, int y, int width, int height ) {
 
     if( g instanceof Graphics2D ) {
 

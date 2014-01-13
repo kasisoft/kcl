@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.ui;
 
 import java.awt.*;
 import java.awt.geom.*;
+
+import lombok.*;
  
 /**
  * Collection of widely known family names. There's no guarantuee that these Fonts exist on a specific system except for 
@@ -62,7 +64,7 @@ public enum FontFamily {
    * 
    * @return   <code>true</code> <=> This Font family is known to the supplied FontPool instance.
    */
-  public boolean isKnown( FontPool fontpool ) {
+  public boolean isKnown( @NonNull FontPool fontpool ) {
     return fontpool.isKnownFamily( familyname );
   }
   
@@ -71,7 +73,7 @@ public enum FontFamily {
    * 
    * @param fontpool   The FontPool providing the derived Font. Not <code>null</code>.
    */
-  public Font deriveFont( FontPool fontpool, int style, float size ) {
+  public Font deriveFont( @NonNull FontPool fontpool, int style, float size ) {
     if( fontpool.isKnownFamily( familyname ) ) {
       return fontpool.deriveFont( familyname, style, size );
     } else {
@@ -84,7 +86,7 @@ public enum FontFamily {
    * 
    * @param fontpool   The FontPool providing the derived Font. Not <code>null</code>.
    */
-  public Font deriveFont( FontPool fontpool, int style, AffineTransform trans ) {
+  public Font deriveFont( @NonNull FontPool fontpool, int style, @NonNull AffineTransform trans ) {
     if( fontpool.isKnownFamily( familyname ) ) {
       return fontpool.deriveFont( familyname, style, trans );
     } else {
@@ -97,7 +99,7 @@ public enum FontFamily {
    * 
    * @param fontpool   The FontPool providing the derived Font. Not <code>null</code>.
    */
-  public Font deriveFont( FontPool fontpool, float size ) {
+  public Font deriveFont( @NonNull FontPool fontpool, float size ) {
     if( fontpool.isKnownFamily( familyname ) ) {
       return fontpool.deriveFont( familyname, size );
     } else {
@@ -110,7 +112,7 @@ public enum FontFamily {
    * 
    * @param fontpool   The FontPool providing the derived Font. Not <code>null</code>.
    */
-  public Font deriveFont( FontPool fontpool, AffineTransform trans ) {
+  public Font deriveFont( @NonNull FontPool fontpool, @NonNull AffineTransform trans ) {
     if( fontpool.isKnownFamily( familyname ) ) {
       return fontpool.deriveFont( familyname, trans );
     } else {
@@ -123,7 +125,7 @@ public enum FontFamily {
    * 
    * @param fontpool   The FontPool providing the derived Font. Not <code>null</code>.
    */
-  public Font deriveFont( FontPool fontpool, int style ) {
+  public Font deriveFont( @NonNull FontPool fontpool, int style ) {
     if( fontpool.isKnownFamily( familyname ) ) {
       return fontpool.deriveFont( familyname, style );
     } else {
@@ -138,7 +140,7 @@ public enum FontFamily {
    * 
    * @return   The plain Font for this Font family. Not <code>null</code>.
    */
-  public Font getFont( FontPool fontpool ) {
+  public Font getFont( @NonNull FontPool fontpool ) {
     if( fontpool.isKnownFamily( familyname ) ) {
       return fontpool.getFont( familyname );
     } else {

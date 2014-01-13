@@ -15,6 +15,8 @@ import java.util.regex.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following
  * code segments:
@@ -60,7 +62,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public ListProperty( String property, TypeAdapter<String,T> typeadapter ) {
+  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
     super( property, typeadapter, false );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
@@ -73,7 +75,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public ListProperty( String property, TypeAdapter<String,T> typeadapter, boolean req ) {
+  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
@@ -83,7 +85,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * 
    * @param propertykeys   The supplied keys backing the map. Not <code>null</code>.
    */
-  private void removeProperties( Set<?> propertykeys ) {
+  private void removeProperties( @NonNull Set<?> propertykeys ) {
     List<String> toremove = new ArrayList<String>( (Set<String>) propertykeys );
     for( int i = toremove.size() - 1; i >= 0; i-- ) {
       if( ! pattern.matcher( toremove.get(i) ).matches() ) {
@@ -99,7 +101,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( Map<String,String> properties, List<T> newvalue ) {
+  public void setValue( @NonNull Map<String,String> properties, List<T> newvalue ) {
     removeProperties( properties.keySet() );
     if( newvalue != null ) {
       for( int i = 0; i < newvalue.size(); i++ ) {
@@ -115,7 +117,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( Properties properties, List<T> newvalue ) {
+  public void setValue( @NonNull Properties properties, List<T> newvalue ) {
     removeProperties( properties.keySet() );
     if( newvalue != null ) {
       for( int i = 0; i < newvalue.size(); i++ ) {
@@ -132,7 +134,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public List<T> getValue( Map<String,String> properties ) {
+  public List<T> getValue( @NonNull Map<String,String> properties ) {
     return getTypedValues( getStringValues( properties ) );
   }
 
@@ -143,7 +145,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public List<T> getValue( Properties properties ) {
+  public List<T> getValue( @NonNull Properties properties ) {
     return getTypedValues( getStringValues( properties ) );
   }
 

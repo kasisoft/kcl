@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Declarations used to identify primitive types.
  */
@@ -157,7 +159,7 @@ public enum Primitive {
    * 
    * @return   The length of an array instance.
    */
-  public int length( Object arrayobj ) {
+  public int length( @NonNull Object arrayobj ) {
     switch( this ) {
     case PBoolean : return ((boolean []) arrayobj).length;
     case PByte    : return ((byte    []) arrayobj).length;
@@ -178,7 +180,7 @@ public enum Primitive {
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid array type.
    */
-  public static Primitive byArrayType( Object obj ) {
+  public static Primitive byArrayType( @NonNull Object obj ) {
               if( obj instanceof boolean [] )    { return PBoolean;
     } else    if( obj instanceof byte    [] )    { return PByte;
     } else    if( obj instanceof char    [] )    { return PChar;
@@ -197,7 +199,7 @@ public enum Primitive {
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid object type.
    */
-  public static Primitive byObjectType( Object obj ) {
+  public static Primitive byObjectType( @NonNull Object obj ) {
               if( obj instanceof Boolean   )    { return PBoolean;
     } else    if( obj instanceof Byte      )    { return PByte;
     } else    if( obj instanceof Character )    { return PChar;

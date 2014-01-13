@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.base.*;
 
 import java.lang.reflect.*;
 
+import lombok.*;
+
 /**
  * Default implementation of a BucketFactory.
  */
@@ -25,7 +27,7 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
    * 
    * @param type   The type that is used to create entries. Not <code>null</code>.
    */
-  public DefaultBucketFactory( Class<? extends T> type ) {
+  public DefaultBucketFactory( @NonNull Class<? extends T> type ) {
     constructor = MiscFunctions.getConstructor( type );
     reset       = MiscFunctions.getMethod( type, "reset" );
     if( reset == null ) {
@@ -46,7 +48,7 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
   }
 
   @Override
-  public <P extends T> P reset( T object ) {
+  public <P extends T> P reset( @NonNull T object ) {
     try {
       reset.invoke( object );
     } catch( Exception ex ) {

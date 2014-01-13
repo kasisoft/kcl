@@ -12,6 +12,8 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
+import lombok.*;
+
 /**
  * Specialisation of a dispatcher which allows to change the 'source' of an ActionEvent. This listener implementation 
  * is typically used for composite widgets. 
@@ -25,12 +27,12 @@ public class ActionEventRemapper extends ActionEventDispatcher implements Action
    * 
    * @param source   The new source to be used while firing events. Not <code>null</code>.
    */
-  public ActionEventRemapper( JComponent source ) {
+  public ActionEventRemapper( @NonNull JComponent source ) {
     newsource = source;
   }
   
   @Override
-  public void actionPerformed( ActionEvent evt ) {
+  public void actionPerformed( @NonNull ActionEvent evt ) {
     fireEvent( new ActionEvent( newsource, evt.getID(), evt.getActionCommand(), evt.getWhen(), evt.getModifiers() ) );
   }
   

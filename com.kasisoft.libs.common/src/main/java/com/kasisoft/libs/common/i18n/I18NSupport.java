@@ -20,6 +20,8 @@ import java.io.*;
 
 import java.lang.reflect.*;
 
+import lombok.*;
+
 /**
  * A helper which initializes the translations managed by a class. Each translation class is supposed to provide fields
  * with the modifiers <code>public static String</code> and a corresponding <code>I18N</code> annotation.
@@ -145,7 +147,7 @@ public class I18NSupport {
    * 
    * @param clazz   The class that is supposed to be translated. Not <code>null</code>.
    */
-  public static void initialize( Class<?> clazz ) {
+  public static void initialize( @NonNull Class<?> clazz ) {
     initialize( null, clazz );
   }
   
@@ -156,7 +158,7 @@ public class I18NSupport {
    *                 will be used.
    * @param clazz    The class that is supposed to be translated. Not <code>null</code>.
    */
-  public static void initialize( Locale locale, Class<?> clazz ) {
+  public static void initialize( @NonNull Locale locale, @NonNull Class<?> clazz ) {
     
     if( locale == null ) {
       locale = Locale.getDefault();

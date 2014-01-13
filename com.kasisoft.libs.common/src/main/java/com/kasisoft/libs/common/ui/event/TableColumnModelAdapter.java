@@ -10,29 +10,31 @@ package com.kasisoft.libs.common.ui.event;
 
 import javax.swing.event.*;
 
+import lombok.*;
+
 /**
  * Default implementation of TableColumnModelListener.
  */
 public class TableColumnModelAdapter implements TableColumnModelListener {
 
   @Override
-  public void columnAdded( TableColumnModelEvent evt ) {
+  public void columnAdded( @NonNull TableColumnModelEvent evt ) {
   }
 
   @Override
-  public void columnRemoved( TableColumnModelEvent evt ) {
+  public void columnRemoved( @NonNull TableColumnModelEvent evt ) {
   }
 
   @Override
-  public void columnMoved( TableColumnModelEvent evt ) {
+  public void columnMoved( @NonNull TableColumnModelEvent evt ) {
   }
 
   @Override
-  public void columnMarginChanged( ChangeEvent evt ) {
+  public void columnMarginChanged( @NonNull ChangeEvent evt ) {
   }
 
   @Override
-  public void columnSelectionChanged( ListSelectionEvent evt ) {
+  public void columnSelectionChanged( @NonNull ListSelectionEvent evt ) {
   }
 
 } /* ENDCLASS */

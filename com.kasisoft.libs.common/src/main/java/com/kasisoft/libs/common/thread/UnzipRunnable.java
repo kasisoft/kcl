@@ -17,6 +17,8 @@ import java.util.zip.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * A Runnable that is used to perform an unzip process.
  */
@@ -29,22 +31,22 @@ public class UnzipRunnable extends AbstractRunnable {
   /**
    * Initializes this Thread used to unpack a ZIP file.
    * 
-   * @param zipfile   The ZIP file to unpack.
-   * @param destdir   The destination directory.
+   * @param zipfile   The ZIP file to unpack. Not <code>null</code>.
+   * @param destdir   The destination directory. Not <code>null</code>.
    */
-  public UnzipRunnable( File zipfile, File destdir ) {
+  public UnzipRunnable( @NonNull File zipfile, @NonNull File destdir ) {
     this( zipfile, destdir, null );
   }
 
   /**
    * Initializes this Thread used to unpack a ZIP file.
    * 
-   * @param zipfile   The ZIP file to unpack.
-   * @param destdir   The destination directory.
+   * @param zipfile   The ZIP file to unpack. Not <code>null</code>.
+   * @param destdir   The destination directory. Not <code>null</code>.
    * @param size      The size for an internally used buffer. A value of <code>null</code> indicates the use of a default 
    *                  value.
    */
-  public UnzipRunnable( File zipfile, File destdir, Integer size ) {
+  public UnzipRunnable( @NonNull File zipfile, @NonNull File destdir, Integer size ) {
     zip         = zipfile;
     destination = destdir.getAbsoluteFile();
     buffersize  = size;
@@ -104,30 +106,30 @@ public class UnzipRunnable extends AbstractRunnable {
   /**
    * Will be invoked whenever the decompression begins.
    * 
-   * @param name   The name of the zipfile entry.
+   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
    * @param dir    <code>true</code> <=> The entry is a directory.
    * @param size   If this is a file, then this is the uncompressed length of it. A value of -1 indicates that the 
    *               length is not known.
    */
-  protected void onIterationBegin( String name, boolean dir, long size ) {
+  protected void onIterationBegin( @NonNull String name, boolean dir, long size ) {
   }
 
   /**
    * Will be invoked whenever the decompression ends.
    * 
-   * @param name   The name of the zipfile entry.
+   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
    * @param dir    <code>true</code> <=> The entry is a directory.
    * @param size   If this is a file, then this is the uncompressed length of it.
    */
-  protected void onIterationEnd( String name, boolean dir, long size ) {
+  protected void onIterationEnd( @NonNull String name, boolean dir, long size ) {
   }
   
   /**
    * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing an {@link FailureException}.
    * 
-   * @param ex   The cause of the failure.
+   * @param ex   The cause of the failure. Not <code>null</code>.
    */
-  protected void handleIOFailure( IOException ex ) {
+  protected void handleIOFailure( @NonNull IOException ex ) {
     throw new FailureException( FailureCode.IO, ex );
   }
   

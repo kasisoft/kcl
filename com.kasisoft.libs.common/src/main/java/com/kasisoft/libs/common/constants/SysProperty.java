@@ -16,6 +16,8 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Listing of system properties used to be accessed.
  */
@@ -83,7 +85,7 @@ public class SysProperty {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( String format, boolean shortkey ) {
+  public static Map<String,String> createReplacementMap( @NonNull String format, boolean shortkey ) {
     Map<String,String> result = new Hashtable<String,String>();
     for( SimpleProperty sysprop : SysProperty.values() ) {
       String textualvalue = sysprop.getTextualValue( System.getProperties() );

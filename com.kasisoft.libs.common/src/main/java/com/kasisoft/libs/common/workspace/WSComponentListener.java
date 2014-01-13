@@ -12,6 +12,8 @@ import java.awt.event.*;
 
 import java.awt.*;
 
+import lombok.*;
+
 /**
  * A ComponentListener implementation which stores the settings of a Component to the Workspace.
  */
@@ -24,18 +26,18 @@ public class WSComponentListener extends ComponentAdapter {
    * 
    * @param key   The key used to persist the settings. Neither <code>null</code> nor empty.
    */
-  public WSComponentListener( String key ) {
+  public WSComponentListener( @NonNull String key ) {
     wsproperty = key;
   }
   
   @Override
-  public void componentMoved( ComponentEvent evt ) {
+  public void componentMoved( @NonNull ComponentEvent evt ) {
     Component component = evt.getComponent();
     Workspace.getInstance().setRectangle( wsproperty, component.getBounds() );
   }
 
   @Override
-  public void componentResized( ComponentEvent evt ) {
+  public void componentResized( @NonNull ComponentEvent evt ) {
     Component component = evt.getComponent();
     Workspace.getInstance().setRectangle( wsproperty, component.getBounds() );
   }

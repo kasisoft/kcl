@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for long types.
  */
@@ -38,12 +40,12 @@ public class LongAdapter extends TypeAdapter<String,Long> {
   }
 
   @Override
-  public String marshalImpl( Long v ) {
+  public String marshalImpl( @NonNull Long v ) {
     return v.toString();
   }
 
   @Override
-  public Long unmarshalImpl( String v ) {
+  public Long unmarshalImpl( @NonNull String v ) {
     if( MAX.equalsIgnoreCase( v ) ) {
       return Long.valueOf( Long.MAX_VALUE );
     } else if( MIN.equalsIgnoreCase( v ) ) {

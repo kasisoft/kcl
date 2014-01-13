@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.ui.event;
 
+import lombok.*;
+
 /**
  * Basic implementation of a dispatcher for ValidationEvents. Listeners called using this dispatcher will be executed 
  * within the EventDispatchThread.
@@ -15,7 +17,7 @@ package com.kasisoft.libs.common.ui.event;
 public class ValidationEventDispatcher extends AbstractEventDispatcher<ValidationListener,ValidationEvent> {
 
   @Override
-  protected void invokeEvent( ValidationListener listener, ValidationEvent event ) {
+  protected void invokeEvent( @NonNull ValidationListener listener, @NonNull ValidationEvent event ) {
     listener.validationChanged( event );
   }
   

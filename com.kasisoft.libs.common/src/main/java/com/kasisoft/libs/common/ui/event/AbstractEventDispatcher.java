@@ -14,6 +14,8 @@ import javax.swing.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Basic implementation of a dispatcher for various Swing UI events.
  */
@@ -53,7 +55,7 @@ public abstract class AbstractEventDispatcher<L,E> {
    * 
    * @param l   The listener which becomes informed upon fired events. Not <code>null</code>.
    */
-  public synchronized void addListener( L l ) {
+  public synchronized void addListener( @NonNull L l ) {
     listeners.add(l);
   }
   
@@ -62,7 +64,7 @@ public abstract class AbstractEventDispatcher<L,E> {
    * 
    * @param l   The listener that won't be notified anymore. Not <code>null</code>.
    */
-  public synchronized void removeListener( L l ) {
+  public synchronized void removeListener( @NonNull L l ) {
     listeners.remove(l);
   }
 
@@ -71,7 +73,7 @@ public abstract class AbstractEventDispatcher<L,E> {
    * 
    * @param evt   The Event that will be delivered. Not <code>null</code>.
    */
-  public synchronized void fireEvent( final E evt ) {
+  public synchronized void fireEvent( final @NonNull E evt ) {
     if( ! listeners.isEmpty() ) {
       final Object[] ls     = listeners.toArray();
       final Object   source = this;
@@ -99,6 +101,6 @@ public abstract class AbstractEventDispatcher<L,E> {
    * @param listener   The listener that will be notified. Not <code>null</code>.
    * @param event      The event that has been fired. Not <code>null</code>.
    */
-  protected abstract void invokeEvent( L listener, E event );
+  protected abstract void invokeEvent( @NonNull L listener, @NonNull E event );
   
 } /* ENDCLASS */

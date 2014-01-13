@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * A helper which allows to deal with the configuration properties.
  */
@@ -86,7 +88,9 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( Map<String,String> props, String format, String nullvalue, SimpleProperty<?> ... properties ) {
+  public static Map<String,String> createReplacementMap( 
+    Map<String,String> props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
+  ) {
     Map<String,String> result = new HashMap<String,String>();
     for( SimpleProperty<?> property : properties ) {
       String keypattern = String.format( format, property.getKey() );
@@ -108,7 +112,9 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( Properties props, String format, String nullvalue, SimpleProperty<?> ... properties ) {
+  public static Map<String,String> createReplacementMap( 
+    Properties props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
+  ) {
     Map<String,String> result = new HashMap<String,String>();
     for( SimpleProperty<?> property : properties ) {
       String keypattern = String.format( format, property.getKey() );

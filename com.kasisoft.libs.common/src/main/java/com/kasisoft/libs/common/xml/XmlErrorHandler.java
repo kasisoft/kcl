@@ -14,6 +14,8 @@ import org.xml.sax.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Default implementation of an ErrorHandler.
  */
@@ -65,19 +67,19 @@ public class XmlErrorHandler implements ErrorHandler {
   }
   
   @Override
-  public void error( SAXParseException ex ) throws SAXException {
+  public void error( @NonNull SAXParseException ex ) throws SAXException {
     errorcount++;
     faults.add( newFault( XmlFault.FaultType.error, ex ) );
   }
 
   @Override
-  public void fatalError( SAXParseException ex ) throws SAXException {
+  public void fatalError( @NonNull SAXParseException ex ) throws SAXException {
     errorcount++;
     faults.add( newFault( XmlFault.FaultType.fatal, ex ) );
   }
 
   @Override
-  public void warning( SAXParseException ex ) throws SAXException {
+  public void warning( @NonNull SAXParseException ex ) throws SAXException {
     faults.add( newFault( XmlFault.FaultType.warning, ex ) );
   }
 
@@ -89,7 +91,7 @@ public class XmlErrorHandler implements ErrorHandler {
    * 
    * @return   A freshly created error instance. Not <code>null</code>.
    */
-  protected XmlFault newFault( XmlFault.FaultType type, SAXParseException ex ) {
+  protected XmlFault newFault( @NonNull XmlFault.FaultType type, @NonNull SAXParseException ex ) {
     return new XmlFault( type, ex );
   }
   

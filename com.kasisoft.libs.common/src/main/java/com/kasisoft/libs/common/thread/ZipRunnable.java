@@ -16,6 +16,8 @@ import java.util.zip.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * A Runnable that is used to ZIP a directory.
  */
@@ -29,22 +31,22 @@ public class ZipRunnable extends AbstractRunnable {
   /**
    * Configures this Runnable to zip a directory.
    * 
-   * @param zip   The ZIP archive.
-   * @param dir   The directory which shall be zipped.
+   * @param zip   The ZIP archive. Not <code>null</code>.
+   * @param dir   The directory which shall be zipped. Not <code>null</code>.
    */
-  public ZipRunnable( File zip, File dir ) {
+  public ZipRunnable( @NonNull File zip, @NonNull File dir ) {
     this( zip, dir, null );
   }
 
   /**
    * Configures this Runnable to zip a directory.
    * 
-   * @param zip    The ZIP archive.
-   * @param dir    The directory which shall be zipped.
+   * @param zip    The ZIP archive. Not <code>null</code>.
+   * @param dir    The directory which shall be zipped. Not <code>null</code>.
    * @param size   The size used for the internal buffers. A value of <code>null</code> means that the default 
    *               buffersize will be used.
    */
-  public ZipRunnable( File zip, File dir, Integer size ) {
+  public ZipRunnable( @NonNull File zip, @NonNull File dir, Integer size ) {
     zipfile    = zip;
     sourcedir  = dir;
     buffersize = size;
@@ -124,30 +126,30 @@ public class ZipRunnable extends AbstractRunnable {
   /**
    * Provides behaviour for the occurrence of an IOException. Default behaviour is throwing an {@link FailureException}.
    * 
-   * @param ex   The cause of the failure.
+   * @param ex   The cause of the failure. Not <code>null</code>.
    */
-  protected void handleIOFailure( IOException ex ) {
+  protected void handleIOFailure( @NonNull IOException ex ) {
     throw new FailureException( FailureCode.IO, ex );
   }
   
   /**
    * Will be invoked whenever the decompression begins.
    * 
-   * @param name   The name of the zipfile entry.
+   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
    * @param dir    <code>true</code> <=> The entry is a directory.
    * @param size   If this is a file, then this is the uncompressed length of it.
    */
-  protected void onIterationBegin( String name, boolean dir, long size ) {
+  protected void onIterationBegin( @NonNull String name, boolean dir, long size ) {
   }
 
   /**
    * Will be invoked whenever the decompression ends.
    * 
-   * @param name   The name of the zipfile entry.
+   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
    * @param dir    <code>true</code> <=> The entry is a directory.
    * @param size   If this is a file, then this is the uncompressed length of it.
    */
-  protected void onIterationEnd( String name, boolean dir, long size ) {
+  protected void onIterationEnd( @NonNull String name, boolean dir, long size ) {
   }
   
 } /* ENDCLASS */

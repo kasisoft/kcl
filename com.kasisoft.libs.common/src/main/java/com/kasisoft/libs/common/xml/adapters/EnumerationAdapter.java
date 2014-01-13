@@ -13,6 +13,8 @@ import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise 
  * the following constraints:
@@ -36,7 +38,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
    * 
    * @param type   The class of the enumeration which shall be adapted. Not <code>null</code>.
    */
-  public EnumerationAdapter( Class<T> type ) {
+  public EnumerationAdapter( @NonNull Class<T> type ) {
     this( null, null, null, type, false );
   }
 
@@ -46,7 +48,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    * @param caseinsensitive   <code>true</code> <=> Disable case sensitivity.
    */
-  public EnumerationAdapter( Class<T> type, boolean caseinsensitive ) {
+  public EnumerationAdapter( @NonNull Class<T> type, boolean caseinsensitive ) {
     this( null, null, null, type, caseinsensitive );
   }
 
@@ -58,7 +60,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
    * @param defval2           A default value for the target type. Maybe <code>null</code>.
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    */
-  public EnumerationAdapter( SimpleErrorHandler handler, String defval1, T defval2, Class<T> type ) {
+  public EnumerationAdapter( SimpleErrorHandler handler, String defval1, T defval2, @NonNull Class<T> type ) {
     this( handler, defval1, defval2, type, false );
   }
   
@@ -71,7 +73,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    * @param caseinsensitive   <code>true</code> <=> Disable case sensitivity.
    */
-  public EnumerationAdapter( SimpleErrorHandler handler, String defval1, T defval2, Class<T> type, boolean caseinsensitive ) {
+  public EnumerationAdapter( SimpleErrorHandler handler, String defval1, T defval2, @NonNull Class<T> type, boolean caseinsensitive ) {
     super( handler, defval1, defval2 );
     enumtype    = type;
     ignorecase  = caseinsensitive;
@@ -95,12 +97,12 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
   }
   
   @Override
-  public String marshalImpl( T v ) {
+  public String marshalImpl( @NonNull T v ) {
     return v.toString();
   }
 
   @Override
-  public T unmarshalImpl( String v ) {
+  public T unmarshalImpl( @NonNull String v ) {
     if( ignorecase ) {
       v = v.toLowerCase();
     }

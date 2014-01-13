@@ -13,6 +13,8 @@ import com.kasisoft.libs.common.validation.*;
 
 import javax.swing.event.*;
 
+import lombok.*;
+
 /**
  * Field used to support numerical values only.
  */
@@ -71,7 +73,7 @@ public class KDoubleField extends KFilteringTextField {
    * 
    * @param l   The listener which becomes informed upon changes. Not <code>null</code>.
    */
-  public void addChangeListener( ChangeListener l ) {
+  public void addChangeListener( @NonNull ChangeListener l ) {
     changeeventdispatcher.addListener(l);
   }
   
@@ -80,7 +82,7 @@ public class KDoubleField extends KFilteringTextField {
    * 
    * @param l   The listener that won't be notified anymore. Not <code>null</code>.
    */
-  public void removeChangeListener( ChangeListener l ) {
+  public void removeChangeListener( @NonNull ChangeListener l ) {
     changeeventdispatcher.removeListener(l);
   }
 
@@ -89,7 +91,7 @@ public class KDoubleField extends KFilteringTextField {
    * 
    * @param evt   The ChangeEvent that will be delivered. Not <code>null</code>.
    */
-  protected void fireChangeEvent( ChangeEvent evt ) {
+  protected void fireChangeEvent( @NonNull ChangeEvent evt ) {
     changeeventdispatcher.fireEvent( evt );
   }
 
@@ -105,7 +107,7 @@ public class KDoubleField extends KFilteringTextField {
   /**
    * Changes the current numerical value.
    * 
-   * @param newvalue   The new numerical value.
+   * @param newvalue   The new numerical value. Maybe <code>null</code>.
    */
   public void setValue( Double newvalue ) {
     if( newvalue == null ) { 
@@ -117,7 +119,7 @@ public class KDoubleField extends KFilteringTextField {
   }
   
   @Override
-  protected void accept( String text ) {
+  protected void accept( @NonNull String text ) {
     try {
       value = Double.valueOf( text );
     } catch( NumberFormatException ex ) {
@@ -128,7 +130,7 @@ public class KDoubleField extends KFilteringTextField {
   /**
    * Changes the currently allowed minimum value.
    * 
-   * @param newminimum   The new allowed minimum value.
+   * @param newminimum   The new allowed minimum value. Maybe <code>null</code>.
    */
   public void setMinimum( Double newminimum ) {
     if( (newminimum == null) || Double.isNaN( newminimum.doubleValue() ) ) {
@@ -156,7 +158,7 @@ public class KDoubleField extends KFilteringTextField {
   /**
    * Changes the currently allowed maximum value.
    * 
-   * @param newmaximum   The new allowed maximum value.
+   * @param newmaximum   The new allowed maximum value. Maybe <code>null</code>.
    */
   public void setMaximum( Double newmaximum ) {
     if( (newmaximum == null) || Double.isNaN( newmaximum.doubleValue() ) ) {
@@ -184,7 +186,7 @@ public class KDoubleField extends KFilteringTextField {
   }
   
   @Override
-  protected String calculateInsertionString( int offset, String input ) {
+  protected String calculateInsertionString( int offset, @NonNull String input ) {
     
     // just drop unsupported characters
     input = super.calculateInsertionString( offset, input );

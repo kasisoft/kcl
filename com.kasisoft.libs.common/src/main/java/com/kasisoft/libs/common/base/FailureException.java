@@ -26,7 +26,7 @@ public class FailureException extends RuntimeException {
    * @param code    A failure code as described in {@link FailureCode}. Not <code>null</code>.
    * @param cause   The causing exception.
    */
-  public FailureException( FailureCode code, Throwable cause ) {
+  public FailureException( @NonNull FailureCode code, Throwable cause ) {
     super( String.valueOf( code ), cause );
     failurecode = code;
   }
@@ -36,7 +36,7 @@ public class FailureException extends RuntimeException {
    * 
    * @param code   A failure code as described in {@link FailureCode}. Not <code>null</code>.
    */
-  public FailureException( FailureCode code ) {
+  public FailureException( @NonNull FailureCode code ) {
     super( String.valueOf( code ) );
     failurecode = code;
   }
@@ -47,7 +47,7 @@ public class FailureException extends RuntimeException {
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
    * @param message   The error message. Neither <code>null</code> nor empty.
    */
-  public FailureException( FailureCode code, String message ) {
+  public FailureException( @NonNull FailureCode code, @NonNull String message ) {
     super( String.format( "%s: %s", String.valueOf( code ), message ) );
     failurecode = code;
   }

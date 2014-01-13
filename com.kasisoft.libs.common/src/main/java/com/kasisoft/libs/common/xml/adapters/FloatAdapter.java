@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 /**
  * Simple adapter for float types.
  */
@@ -45,12 +47,12 @@ public class FloatAdapter extends TypeAdapter<String,Float> {
   }
 
   @Override
-  public String marshalImpl( Float v ) {
+  public String marshalImpl( @NonNull Float v ) {
     return v.toString();
   }
 
   @Override
-  public Float unmarshalImpl( String v ) {
+  public Float unmarshalImpl( @NonNull String v ) {
     if( NAN.equalsIgnoreCase( v ) ) {
       return Float.valueOf( Float.NaN );
     } else if( NEG_INF.equalsIgnoreCase( v ) || NEG_INFINITY.equalsIgnoreCase( v ) ) {

@@ -18,6 +18,8 @@ import java.awt.image.*;
 
 import java.io.*;
 
+import lombok.*;
+
 /**
  * Several utility functions related to graphical operations.
  */
@@ -36,7 +38,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
-  public static BufferedImage readImage( File file ) {
+  public static BufferedImage readImage( @NonNull File file ) {
     return readImage( false, file );
   }
 
@@ -48,7 +50,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
    */
-  public static BufferedImage readImage( boolean fail, File file ) {
+  public static BufferedImage readImage( boolean fail, @NonNull File file ) {
     try {
       return ImageIO.read( file );
     } catch( IOException ex ) {
@@ -67,7 +69,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
-  public static BufferedImage readImage( URL url ) {
+  public static BufferedImage readImage( @NonNull URL url ) {
     return readImage( false, url );
   }
   
@@ -79,7 +81,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
    */
-  public static BufferedImage readImage( boolean fail, URL url ) {
+  public static BufferedImage readImage( boolean fail, @NonNull URL url ) {
     try {
       return ImageIO.read( url );
     } catch( IOException ex ) {
@@ -98,7 +100,7 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
-  public static BufferedImage readImage( InputStream instream ) {
+  public static BufferedImage readImage( @NonNull InputStream instream ) {
     return readImage( false, instream );
   }
 
@@ -111,7 +113,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource
    *           could not be loaded.
    */
-  public static BufferedImage readImage( boolean fail, InputStream instream ) {
+  public static BufferedImage readImage( boolean fail, @NonNull InputStream instream ) {
     try {
       return ImageIO.read( instream );
     } catch( IOException ex ) {
@@ -132,7 +134,7 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded.
    */
-  public static boolean writeImage( File file, PictureFormat format, BufferedImage image ) {
+  public static boolean writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     return writeImage( false, file, format, image );
   }
 
@@ -147,7 +149,7 @@ public class GraphicsFunctions {
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
    */
-  public static boolean writeImage( boolean fail, File file, PictureFormat format, BufferedImage image ) {
+  public static boolean writeImage( boolean fail, @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     boolean result = false;
     try {
       result = ImageIO.write( image, format.getImageIOFormat(), file );
@@ -171,7 +173,7 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded.
    */
-  public static boolean writeImage( OutputStream outstream, PictureFormat format, BufferedImage image ) {
+  public static boolean writeImage( @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     return writeImage( false, outstream, format, image );
   }
 
@@ -186,7 +188,7 @@ public class GraphicsFunctions {
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
    */
-  public static boolean writeImage( boolean fail, OutputStream outstream, PictureFormat format, BufferedImage image ) {
+  public static boolean writeImage( boolean fail, @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     boolean result = false;
     try {
       result = ImageIO.write( image, format.getImageIOFormat(), outstream );

@@ -16,6 +16,8 @@ import java.util.List;
 import java.awt.*;
 import java.awt.geom.*;
 
+import lombok.*;
+
 /**
  * Simple helper classes used to manage fonts.
  */
@@ -47,7 +49,7 @@ public class FontPool {
    * 
    * @return   <code>true</code> <=> A Font for the supplied family is available.
    */
-  public boolean isKnownFamily( String familyname ) {
+  public boolean isKnownFamily( @NonNull String familyname ) {
     return fonts.containsKey( familyname );
   }
   
@@ -59,7 +61,7 @@ public class FontPool {
    * @return   The Font instance if {@link #isKnownFamily(String)} is <code>true</code> else 
    *           <code>null</code>.
    */
-  public Font getFont( String familyname ) {
+  public Font getFont( @NonNull String familyname ) {
     return fonts.get( familyname );
   }
   
@@ -79,7 +81,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( String familyname, int style, float size ) {
+  public Font deriveFont( @NonNull String familyname, int style, float size ) {
     Font font = fonts.get( familyname );
     return font.deriveFont( style, size );
   }
@@ -89,7 +91,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( String familyname, int style, AffineTransform trans ) {
+  public Font deriveFont( @NonNull String familyname, int style, @NonNull AffineTransform trans ) {
     Font font = fonts.get( familyname );
     return font.deriveFont( style, trans );
   }
@@ -99,7 +101,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( String familyname, float size ) {
+  public Font deriveFont( @NonNull String familyname, float size ) {
     Font font = fonts.get( familyname );
     return font.deriveFont( size );
   }
@@ -109,7 +111,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( String familyname, AffineTransform trans ){
+  public Font deriveFont( @NonNull String familyname, @NonNull AffineTransform trans ){
     Font font = fonts.get( familyname );
     return font.deriveFont( trans );
   }
@@ -119,7 +121,7 @@ public class FontPool {
    * 
    * @param familyname   The family name which Font has to be returned. Neither <code>null</code> nor empty.
    */
-  public Font deriveFont( String familyname, int style ){
+  public Font deriveFont( @NonNull String familyname, int style ){
     Font font = fonts.get( familyname );
     return font.deriveFont( style );
   }

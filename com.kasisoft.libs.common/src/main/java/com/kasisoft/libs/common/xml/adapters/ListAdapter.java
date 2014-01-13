@@ -14,6 +14,8 @@ import java.util.regex.*;
 
 import java.util.*;
 
+import lombok.*;
+
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.
  */
@@ -28,7 +30,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
    * 
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( TypeAdapter<String,T> adapter ) {
+  public ListAdapter( @NonNull TypeAdapter<String,T> adapter ) {
     this( null, null, adapter );
   }
 
@@ -39,7 +41,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
    *                  ',' is used.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( String delim, TypeAdapter<String,T> adapter ) {
+  public ListAdapter( String delim, @NonNull TypeAdapter<String,T> adapter ) {
     this( null, delim, adapter );
   }
 
@@ -49,7 +51,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
    * @param handler   A custom error handler. Maybe <code>null</code>.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( SimpleErrorHandler handler, TypeAdapter<String,T> adapter ) {
+  public ListAdapter( SimpleErrorHandler handler, @NonNull TypeAdapter<String,T> adapter ) {
     this( handler, null, adapter );
   }
 
@@ -61,7 +63,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
    *                  ',' is used.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( SimpleErrorHandler handler, String delim, TypeAdapter<String,T> adapter ) {
+  public ListAdapter( SimpleErrorHandler handler, String delim, @NonNull TypeAdapter<String,T> adapter ) {
     super( handler, "", Collections.<T>emptyList() );
     delimiter = StringFunctions.cleanup( delim );
     if( delimiter == null ) {
@@ -72,7 +74,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
   }
 
   @Override
-  protected List<T> unmarshalImpl( String v ) throws Exception {
+  protected List<T> unmarshalImpl( @NonNull String v ) throws Exception {
     String[] parts = v.split( quoted );
     if( parts == null ) {
       return Collections.<T>emptyList();
@@ -80,7 +82,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
     return unmarshalListImpl( parts );
   }
 
-  protected List<T> unmarshalListImpl( String[] v ) throws Exception {
+  protected List<T> unmarshalListImpl( @NonNull String[] v ) throws Exception {
     List<T> result = new ArrayList<T>();
     for( int i = 0; i < v.length; i++ ) {
       result.add( elementadapter.unmarshal( v[i] ) );
