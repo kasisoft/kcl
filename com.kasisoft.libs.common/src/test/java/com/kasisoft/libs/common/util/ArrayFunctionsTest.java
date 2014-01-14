@@ -93,6 +93,58 @@ public class ArrayFunctionsTest {
 
   }
 
+  @Test(groups="all")
+  public void toObjectArray() {
+    
+    // Boolean
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (boolean[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] {} ), new Boolean[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] { true } ), new Boolean[] { Boolean.TRUE } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] { false, true } ), new Boolean[] { Boolean.FALSE, Boolean.TRUE }  );
+
+    // Char
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (char[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] {} ), new Character[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] { '\n' } ), new Character[] { Character.valueOf('\n') } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] { '\r', '\n' } ), new Character[] { Character.valueOf('\r'), Character.valueOf('\n') }  );
+
+    // Byte
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (byte[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] {} ), new Byte[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] { (byte) 0 } ), new Byte[] { Byte.valueOf((byte) 0) } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] { (byte) 1, (byte) 0 } ), new Byte[] { Byte.valueOf((byte) 1), Byte.valueOf((byte) 0) }  );
+
+    // Short
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (short[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] {} ), new Short[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] { (short) 0 } ), new Short[] { Short.valueOf((short) 0) } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] { (short) 1, (short) 0 } ), new Short[] { Short.valueOf((short) 1), Short.valueOf((short) 0) }  );
+
+    // Integer
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (int[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] {} ), new Integer[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] { 0 } ), new Integer[] { Integer.valueOf(0) } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] { 1, 0 } ), new Integer[] { Integer.valueOf(1), Integer.valueOf(0) }  );
+
+    // Long
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (long[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] {} ), new Long[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] { 0 } ), new Long[] { Long.valueOf(0) } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] { 1, 0 } ), new Long[] { Long.valueOf(1), Long.valueOf(0) }  );
+
+    // Float
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (float[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] {} ), new Float[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] { 0 } ), new Float[] { Float.valueOf(0) } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] { 1, 0 } ), new Float[] { Float.valueOf(1), Float.valueOf(0) }  );
+
+    // Double
+    Assert.assertEquals( ArrayFunctions.toObjectArray( (double[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] {} ), new Double[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] { 0 } ), new Double[] { Double.valueOf(0) } );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] { 1, 0 } ), new Double[] { Double.valueOf(1), Double.valueOf(0) }  );
+
+  }
   
   @SuppressWarnings({ "boxing", "cast" })
   @Test(groups="all")

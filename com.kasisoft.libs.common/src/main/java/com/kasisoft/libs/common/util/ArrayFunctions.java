@@ -24,7 +24,168 @@ public class ArrayFunctions {
    */
   private ArrayFunctions() {
   }
+  
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Boolean[] toObjectArray( boolean[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Boolean[] result = new Boolean[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Boolean.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
 
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Byte[] toObjectArray( byte[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Byte[] result = new Byte[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Byte.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
+  
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Character[] toObjectArray( char[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Character[] result = new Character[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Character.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Short[] toObjectArray( short[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Short[] result = new Short[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Short.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Integer[] toObjectArray( int[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Integer[] result = new Integer[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Integer.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Long[] toObjectArray( long[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Long[] result = new Long[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Long.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Float[] toObjectArray( float[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Float[] result = new Float[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Float.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied primitives into the corresponding object types.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding object types. Maybe <code>null</code>.
+   */
+  public static Double[] toObjectArray( double[] values ) {
+    if( values == null ) {
+      return null;
+    } else {
+      Double[] result = new Double[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = Double.valueOf( values[i] );
+      }
+      return result;
+    }
+  }
+
+//  PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , Boolean   [] . class, 0                   , 0                   ) ,
+//  PByte     ( Byte      . TYPE , Byte      . class , byte    [] . class , Byte      [] . class, Byte    . MIN_VALUE , Byte    . MAX_VALUE ) ,
+//  PChar     ( Character . TYPE , Character . class , char    [] . class , Character [] . class, 0                   , 0                   ) ,
+//  PShort    ( Short     . TYPE , Short     . class , short   [] . class , Short     [] . class, Short   . MIN_VALUE , Short   . MAX_VALUE ) ,
+//  PInt      ( Integer   . TYPE , Integer   . class , int     [] . class , Integer   [] . class, Integer . MIN_VALUE , Integer . MAX_VALUE ) ,
+//  PLong     ( Long      . TYPE , Long      . class , long    [] . class , Long      [] . class, Long    . MIN_VALUE , Long    . MAX_VALUE ) ,
+//  PFloat    ( Float     . TYPE , Float     . class , float   [] . class , Float     [] . class, 0                   , 0                   ) ,
+//  PDouble   ( Double    . TYPE , Double    . class , double  [] . class , Double    [] . class, 0                   , 0                   ) ;
+  
   /**
    * Counts the number of non-<code>null</code> values within the supplied array.
    * 
