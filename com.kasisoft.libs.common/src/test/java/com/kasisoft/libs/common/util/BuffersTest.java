@@ -32,7 +32,7 @@ public class BuffersTest {
 
   @Test(dataProvider="createDataTypes")
   public <T> void runAllocations( T type ) {
-    Primitive  primitive  = Primitive.byArrayType( type );
+    Primitive  primitive  = Primitive.byType( type );
     Assert.assertNotNull( primitive );
     Buffers<T> buffers    = Buffers.newBuffers( primitive );
     T          datablock1 = buffers.allocate();
