@@ -141,6 +141,27 @@ public enum Primitive {
   }
 
   /**
+   * Returns an array of this type consisting of the supplied number of items.
+   * 
+   * @param size   The number of items.
+   * 
+   * @return   The array of the corresponding object type. Not <code>null</code>.
+   */
+  public <T> T newObjectArray( int size ) {
+    switch( this ) {
+    case PBoolean : return (T) new Boolean    [ size ];
+    case PByte    : return (T) new Byte       [ size ];
+    case PChar    : return (T) new Character  [ size ];
+    case PShort   : return (T) new Short      [ size ];
+    case PInt     : return (T) new Integer    [ size ];
+    case PLong    : return (T) new Long       [ size ];
+    case PFloat   : return (T) new Float      [ size ];
+    /* case PDouble: */
+    default       : return (T) new Double     [ size ];
+    }
+  }
+
+  /**
    * Returns the {@link Buffers} instance for this type.
    * 
    * @return   The {@link Buffers} instance for this type. Not <code>null</code>.
@@ -160,16 +181,31 @@ public enum Primitive {
    * @return   The length of an array instance.
    */
   public int length( @NonNull Object arrayobj ) {
-    switch( this ) {
-    case PBoolean : return ((boolean []) arrayobj).length;
-    case PByte    : return ((byte    []) arrayobj).length;
-    case PChar    : return ((char    []) arrayobj).length;
-    case PShort   : return ((short   []) arrayobj).length;
-    case PInt     : return ((int     []) arrayobj).length;
-    case PLong    : return ((long    []) arrayobj).length;
-    case PFloat   : return ((float   []) arrayobj).length;
-      /* case PDouble: */
-    default       : return ((double  []) arrayobj).length;
+    boolean primitivevariety = arrayobj.getClass() == arrayclass;
+    if( primitivevariety ) {
+      switch( this ) {
+      case PBoolean : return ((boolean []) arrayobj).length;
+      case PByte    : return ((byte    []) arrayobj).length;
+      case PChar    : return ((char    []) arrayobj).length;
+      case PShort   : return ((short   []) arrayobj).length;
+      case PInt     : return ((int     []) arrayobj).length;
+      case PLong    : return ((long    []) arrayobj).length;
+      case PFloat   : return ((float   []) arrayobj).length;
+        /* case PDouble: */
+      default       : return ((double  []) arrayobj).length;
+      }
+    } else {
+      switch( this ) {
+      case PBoolean : return ((Boolean    []) arrayobj).length;
+      case PByte    : return ((Byte       []) arrayobj).length;
+      case PChar    : return ((Character  []) arrayobj).length;
+      case PShort   : return ((Short      []) arrayobj).length;
+      case PInt     : return ((Integer    []) arrayobj).length;
+      case PLong    : return ((Long       []) arrayobj).length;
+      case PFloat   : return ((Float      []) arrayobj).length;
+        /* case PDouble: */
+      default       : return ((Double     []) arrayobj).length;
+      }
     }
   }
   
@@ -181,14 +217,15 @@ public enum Primitive {
    * @return   The Primitive constant or <code>null</code> in case of an invalid array type.
    */
   public static Primitive byArrayType( @NonNull Object obj ) {
-              if( obj instanceof boolean [] )    { return PBoolean;
-    } else    if( obj instanceof byte    [] )    { return PByte;
-    } else    if( obj instanceof char    [] )    { return PChar;
-    } else    if( obj instanceof short   [] )    { return PShort;
-    } else    if( obj instanceof int     [] )    { return PInt;
-    } else    if( obj instanceof long    [] )    { return PLong;
-    } else    if( obj instanceof float   [] )    { return PFloat;
-    } else /* if( obj instanceof double  [] ) */ { return PDouble;
+           if( obj instanceof boolean [] ) { return PBoolean;
+    } else if( obj instanceof byte    [] ) { return PByte;
+    } else if( obj instanceof char    [] ) { return PChar;
+    } else if( obj instanceof short   [] ) { return PShort;
+    } else if( obj instanceof int     [] ) { return PInt;
+    } else if( obj instanceof long    [] ) { return PLong;
+    } else if( obj instanceof float   [] ) { return PFloat;
+    } else if( obj instanceof double  [] ) { return PDouble;
+    } else                                 { return null;
     }
   }
   
@@ -200,14 +237,15 @@ public enum Primitive {
    * @return   The Primitive constant or <code>null</code> in case of an invalid object type.
    */
   public static Primitive byObjectType( @NonNull Object obj ) {
-              if( obj instanceof Boolean   )    { return PBoolean;
-    } else    if( obj instanceof Byte      )    { return PByte;
-    } else    if( obj instanceof Character )    { return PChar;
-    } else    if( obj instanceof Short     )    { return PShort;
-    } else    if( obj instanceof Integer   )    { return PInt;
-    } else    if( obj instanceof Long      )    { return PLong;
-    } else    if( obj instanceof Float     )    { return PFloat;
-    } else /* if( obj instanceof Double    ) */ { return PDouble;
+           if( obj instanceof Boolean   ) { return PBoolean;
+    } else if( obj instanceof Byte      ) { return PByte;
+    } else if( obj instanceof Character ) { return PChar;
+    } else if( obj instanceof Short     ) { return PShort;
+    } else if( obj instanceof Integer   ) { return PInt;
+    } else if( obj instanceof Long      ) { return PLong;
+    } else if( obj instanceof Float     ) { return PFloat;
+    } else if( obj instanceof Double    ) { return PDouble;
+    } else                                { return null;
     }
   }
 
