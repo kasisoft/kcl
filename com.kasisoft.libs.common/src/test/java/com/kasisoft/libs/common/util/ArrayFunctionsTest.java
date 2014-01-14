@@ -353,29 +353,29 @@ public class ArrayFunctionsTest {
   
   @Test(groups="all")
   public void sumInt() {
-    Assert.assertEquals( 0, ArrayFunctions.sumInt( (int[]) null ) );
-    Assert.assertEquals( 0, ArrayFunctions.sumInt( new int[0] ) );
-    Assert.assertEquals( 12, ArrayFunctions.sumInt( 12 ) );
-    Assert.assertEquals( 35, ArrayFunctions.sumInt( 12, 23 ) );
-    Assert.assertEquals( 11, ArrayFunctions.sumInt( -12, 23 ) );
+    Assert.assertEquals( ArrayFunctions.sumInt( (int[]) null ), 0 );
+    Assert.assertEquals( ArrayFunctions.sumInt( new int[0] ), 0 );
+    Assert.assertEquals( ArrayFunctions.sumInt( 12 ), 12 );
+    Assert.assertEquals( ArrayFunctions.sumInt( 12, 23 ), 35 );
+    Assert.assertEquals( ArrayFunctions.sumInt( -12, 23 ), 11 );
   }
 
   @Test(groups="all")
   public void sumLong() {
-    Assert.assertEquals( 0, ArrayFunctions.sumLong( (long[]) null ) );
-    Assert.assertEquals( 0, ArrayFunctions.sumLong( new long[0] ) );
-    Assert.assertEquals( 12L, ArrayFunctions.sumLong( 12L ) );
-    Assert.assertEquals( 35L, ArrayFunctions.sumLong( 12L, 23L ) );
-    Assert.assertEquals( 11L, ArrayFunctions.sumLong( -12L, 23L ) );
+    Assert.assertEquals( ArrayFunctions.sumLong( (long[]) null ), 0L );
+    Assert.assertEquals( ArrayFunctions.sumLong( new long[0] ), 0L );
+    Assert.assertEquals( ArrayFunctions.sumLong( 12L ), 12L );
+    Assert.assertEquals( ArrayFunctions.sumLong( 12L, 23L ), 35L );
+    Assert.assertEquals( ArrayFunctions.sumLong( -12L, 23L ), 11L );
   }
 
   @Test(groups="all")
   public void sumDouble() {
-    Assert.assertEquals( 0.0, ArrayFunctions.sumDouble( (double[]) null ) );
-    Assert.assertEquals( 0.0, ArrayFunctions.sumDouble( new double[0] ) );
-    Assert.assertEquals( 12.0, ArrayFunctions.sumDouble( 12.0 ) );
-    Assert.assertEquals( 35.0, ArrayFunctions.sumDouble( 12.0, 23.0 ) );
-    Assert.assertEquals( 11.0, ArrayFunctions.sumDouble( -12.0, 23.0 ) );
+    Assert.assertEquals( ArrayFunctions.sumDouble( (double[]) null ), 0.0 );
+    Assert.assertEquals( ArrayFunctions.sumDouble( new double[0] ), 0.0 );
+    Assert.assertEquals( ArrayFunctions.sumDouble( 12.0 ), 12.0 );
+    Assert.assertEquals( ArrayFunctions.sumDouble( 12.0, 23.0 ), 35.0 );
+    Assert.assertEquals( ArrayFunctions.sumDouble( -12.0, 23.0 ), 11.0 );
   }
 
 } /* ENDCLASS */

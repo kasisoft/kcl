@@ -762,9 +762,7 @@ public class ArrayFunctions {
     int result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {
-        if( values[i] > 0 ) {
-          result += values[i];
-        }
+        result += values[i];
       }
     }
     return result;
@@ -795,9 +793,7 @@ public class ArrayFunctions {
     double result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {
-        if( values[i] > 0 ) {
-          result += values[i];
-        }
+        result += values[i];
       }
     }
     return result;
@@ -828,9 +824,7 @@ public class ArrayFunctions {
     long result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {
-        if( values[i] > 0 ) {
-          result += values[i];
-        }
+        result += values[i];
       }
     }
     return result;
