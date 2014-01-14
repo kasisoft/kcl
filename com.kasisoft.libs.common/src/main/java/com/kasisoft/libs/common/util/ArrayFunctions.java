@@ -736,7 +736,21 @@ public class ArrayFunctions {
   public static <T> Iterator<T> iterator( @NonNull T ... input ) {
     return new ArrayTraversal<T>( input );
   }
-
+  
+  /**
+   * Adds all array entries together.
+   *
+   * @param values  Array of numbers. Maybe <code>null</code>.
+   *
+   * @return  Sum of these numbers.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link #sumInt(int...)} instead. 
+   */
+  @Deprecated
+  public static int sum( int ... values ) {
+    return sumInt( values );
+  }
+  
   /**
    * Adds all array entries together.
    *
@@ -744,7 +758,7 @@ public class ArrayFunctions {
    *
    * @return  Sum of these numbers.
    */
-  public static int sum( @NonNull int ... values ) {
+  public static int sumInt( int ... values ) {
     int result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {
@@ -762,8 +776,22 @@ public class ArrayFunctions {
    * @param values  Array of numbers. Maybe <code>null</code>.
    *
    * @return  Sum of these numbers.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link #sumDouble(double...)} instead.  
    */
-  public static double sum( @NonNull double ... values ) {
+  @Deprecated
+  public static double sum( double ... values ) {
+    return sumDouble( values );
+  }
+  
+  /**
+   * Adds all array entries together.
+   *
+   * @param values  Array of numbers. Maybe <code>null</code>.
+   *
+   * @return  Sum of these numbers.
+   */
+  public static double sumDouble( double ... values ) {
     double result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {
@@ -781,8 +809,22 @@ public class ArrayFunctions {
    * @param values  Array of numbers. Maybe <code>null</code>.
    *
    * @return  Sum of these numbers.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link #sumLong(long...)} instead.  
    */
-  public static long sum( @NonNull long ... values ) {
+  @Deprecated
+  public static long sum( long ... values ) {
+    return sumLong( values );
+  }
+  
+  /**
+   * Adds all array entries together.
+   *
+   * @param values  Array of numbers. Maybe <code>null</code>.
+   *
+   * @return  Sum of these numbers.
+   */
+  public static long sumLong( long ... values ) {
     long result = 0;
     if( (values != null) && (values.length > 0) ) {
       for( int i = 0; i < values.length; i++ ) {

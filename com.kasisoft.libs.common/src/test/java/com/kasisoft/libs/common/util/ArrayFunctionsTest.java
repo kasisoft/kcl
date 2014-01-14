@@ -353,26 +353,26 @@ public class ArrayFunctionsTest {
   
   @Test(groups="all")
   public void sumInt() {
-    Assert.assertEquals( 0, ArrayFunctions.sum( (int[]) null ) );
-    Assert.assertEquals( 0, ArrayFunctions.sum( new int[0] ) );
-    Assert.assertEquals( 12, ArrayFunctions.sum( 12 ) );
-    Assert.assertEquals( 35, ArrayFunctions.sum( 12, 23 ) );
+    Assert.assertEquals( 0, ArrayFunctions.sumInt( (int[]) null ) );
+    Assert.assertEquals( 0, ArrayFunctions.sumInt( new int[0] ) );
+    Assert.assertEquals( 12, ArrayFunctions.sumInt( 12 ) );
+    Assert.assertEquals( 35, ArrayFunctions.sumInt( 12, 23 ) );
   }
 
   @Test(groups="all")
   public void sumLong() {
-    Assert.assertEquals( 0, ArrayFunctions.sum( (long[]) null ) );
-    Assert.assertEquals( 0, ArrayFunctions.sum( new long[0] ) );
-    Assert.assertEquals( 12L, ArrayFunctions.sum( 12L ) );
-    Assert.assertEquals( 35L, ArrayFunctions.sum( 12L, 23L ) );
+    Assert.assertEquals( 0, ArrayFunctions.sumLong( (long[]) null ) );
+    Assert.assertEquals( 0, ArrayFunctions.sumLong( new long[0] ) );
+    Assert.assertEquals( 12L, ArrayFunctions.sumLong( 12L ) );
+    Assert.assertEquals( 35L, ArrayFunctions.sumLong( 12L, 23L ) );
   }
 
   @Test(groups="all")
   public void sumDouble() {
-    Assert.assertEquals( 0.0, ArrayFunctions.sum( (double[]) null ) );
-    Assert.assertEquals( 0.0, ArrayFunctions.sum( new double[0] ) );
-    Assert.assertEquals( 12.0, ArrayFunctions.sum( 12.0 ) );
-    Assert.assertEquals( 35.0, ArrayFunctions.sum( 12.0, 23.0 ) );
+    Assert.assertEquals( 0.0, ArrayFunctions.sumDouble( (double[]) null ) );
+    Assert.assertEquals( 0.0, ArrayFunctions.sumDouble( new double[0] ) );
+    Assert.assertEquals( 12.0, ArrayFunctions.sumDouble( 12.0 ) );
+    Assert.assertEquals( 35.0, ArrayFunctions.sumDouble( 12.0, 23.0 ) );
   }
 
 } /* ENDCLASS */
