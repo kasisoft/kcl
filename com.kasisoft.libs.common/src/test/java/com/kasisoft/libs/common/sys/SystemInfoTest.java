@@ -15,13 +15,14 @@ import org.testng.*;
 /**
  * Tests for the type 'SystemInfo'.
  */
-@Test(groups="all")
+@Test
 public class SystemInfoTest {
 
-  @Test
+  @Test(groups="all")
   public void oneMustBeActive() {
     SystemInfo info = SystemInfo.getRunningOS();
     Assert.assertNotNull( info );
+    Assert.assertNotNull( SystemInfo.ThisMachine );
   }
   
 } /* ENDCLASS */

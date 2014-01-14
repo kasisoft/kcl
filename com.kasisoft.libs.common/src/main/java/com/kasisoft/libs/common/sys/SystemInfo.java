@@ -35,9 +35,26 @@ public enum SystemInfo {
   MacOS         ( "Mac OS"        , false , "$%s" ),
   MacOSX        ( "Mac OS X"      , false , "$%s" ),
   Morphos       ( "MorphOS"       , false , "$%s" ),
-  Unknown       ();
   
-  private static SystemInfo ACTIVE = null;
+  /** @deprecated [15-Jan-2014:KASI]   This value will be removed with release 1.4. Use #This instead. */
+  @Deprecated
+  Unknown       ();
+
+  public static final SystemInfo ThisMachine = SystemInfo.Unknown;
+  
+  static {
+    SystemInfo active = null;
+    for( SystemInfo info : SystemInfo.values() ) {
+      if( info.isrunning && (info != ThisMachine) ) {
+        active = info;
+        break;
+      }
+    }
+    if( active == null ) {
+      active = ThisMachine;
+    }
+    LocalData.active = active;
+  }
   
   private String     key;
   private boolean    isrunning;
@@ -143,20 +160,13 @@ public enum SystemInfo {
    * @return   The constant used to identify the operating system. Not <code>null</code>.
    */
   public static SystemInfo getRunningOS() {
-    synchronized( SystemInfo.class ) {
-      if( ACTIVE == null ) {
-        for( SystemInfo info : SystemInfo.values() ) {
-          if( info.isActive() && (info != Unknown) ) {
-            ACTIVE = info;
-            break;
-          }
-        }
-        if( ACTIVE == null ) {
-          ACTIVE = Unknown;
-        }
-      }
-      return ACTIVE;
-    }
+    return LocalData.active;
   }
+  
+  private static class LocalData {
+    
+    private static SystemInfo   active = null;
+    
+  } /* ENDCLASS */
   
 } /* ENDENUM */
