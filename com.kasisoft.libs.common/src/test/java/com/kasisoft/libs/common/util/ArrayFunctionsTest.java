@@ -98,54 +98,115 @@ public class ArrayFunctionsTest {
     
     // Boolean
     Assert.assertEquals( ArrayFunctions.toObjectArray( (boolean[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] {} ), new Boolean[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] { true } ), new Boolean[] { Boolean.TRUE } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] { false, true } ), new Boolean[] { Boolean.FALSE, Boolean.TRUE }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new boolean[] { false, true } ), new Boolean[] { Boolean.FALSE, Boolean.TRUE } );
 
     // Char
     Assert.assertEquals( ArrayFunctions.toObjectArray( (char[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] {} ), new Character[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] { '\n' } ), new Character[] { Character.valueOf('\n') } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] { '\r', '\n' } ), new Character[] { Character.valueOf('\r'), Character.valueOf('\n') }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new char[] { '\r', '\n' } ), new Character[] { Character.valueOf('\r'), Character.valueOf('\n') } );
 
     // Byte
     Assert.assertEquals( ArrayFunctions.toObjectArray( (byte[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] {} ), new Byte[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] { (byte) 0 } ), new Byte[] { Byte.valueOf((byte) 0) } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] { (byte) 1, (byte) 0 } ), new Byte[] { Byte.valueOf((byte) 1), Byte.valueOf((byte) 0) }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new byte[] { (byte) 1, (byte) 0 } ), new Byte[] { Byte.valueOf((byte) 1), Byte.valueOf((byte) 0) } );
 
     // Short
     Assert.assertEquals( ArrayFunctions.toObjectArray( (short[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] {} ), new Short[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] { (short) 0 } ), new Short[] { Short.valueOf((short) 0) } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] { (short) 1, (short) 0 } ), new Short[] { Short.valueOf((short) 1), Short.valueOf((short) 0) }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new short[] { (short) 1, (short) 0 } ), new Short[] { Short.valueOf((short) 1), Short.valueOf((short) 0) } );
 
     // Integer
     Assert.assertEquals( ArrayFunctions.toObjectArray( (int[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] {} ), new Integer[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] { 0 } ), new Integer[] { Integer.valueOf(0) } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] { 1, 0 } ), new Integer[] { Integer.valueOf(1), Integer.valueOf(0) }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new int[] { 1, 0 } ), new Integer[] { Integer.valueOf(1), Integer.valueOf(0) } );
 
     // Long
     Assert.assertEquals( ArrayFunctions.toObjectArray( (long[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] {} ), new Long[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] { 0 } ), new Long[] { Long.valueOf(0) } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] { 1, 0 } ), new Long[] { Long.valueOf(1), Long.valueOf(0) }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new long[] { 1, 0 } ), new Long[] { Long.valueOf(1), Long.valueOf(0) } );
 
     // Float
     Assert.assertEquals( ArrayFunctions.toObjectArray( (float[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] {} ), new Float[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] { 0 } ), new Float[] { Float.valueOf(0) } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] { 1, 0 } ), new Float[] { Float.valueOf(1), Float.valueOf(0) }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new float[] { 1, 0 } ), new Float[] { Float.valueOf(1), Float.valueOf(0) } );
 
     // Double
     Assert.assertEquals( ArrayFunctions.toObjectArray( (double[]) null ), null );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] {} ), new Double[0] );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] {} ), null );
     Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] { 0 } ), new Double[] { Double.valueOf(0) } );
-    Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] { 1, 0 } ), new Double[] { Double.valueOf(1), Double.valueOf(0) }  );
+    Assert.assertEquals( ArrayFunctions.toObjectArray( new double[] { 1, 0 } ), new Double[] { Double.valueOf(1), Double.valueOf(0) } );
 
   }
-  
+
+  @Test(groups="all")
+  public void toPrimitiveArray() {
+    
+    // Boolean
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Boolean[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Boolean[0] ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Boolean[] { Boolean.TRUE } ), new boolean[] { true } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Boolean[] { Boolean.FALSE, Boolean.TRUE } ), new boolean[] { false, true } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Boolean[] { Boolean.FALSE, null, Boolean.TRUE } ), new boolean[] { false, true } );
+
+    // Char
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Character[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Character[0] ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Character[] { Character.valueOf('\n') } ), new char[] { '\n' } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Character[] { Character.valueOf('\r'), Character.valueOf('\n') } ), new char[] { '\r', '\n' } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Character[] { Character.valueOf('\r'), null, Character.valueOf('\n') } ), new char[] { '\r', '\n' } );
+
+    // Byte
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Byte[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Byte[] {} ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Byte[] { Byte.valueOf((byte) 0) } ), new byte[] { (byte) 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Byte[] { Byte.valueOf((byte) 1), Byte.valueOf((byte) 0) } ), new byte[] { (byte) 1, (byte) 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Byte[] { Byte.valueOf((byte) 1), null, Byte.valueOf((byte) 0) } ), new byte[] { (byte) 1, (byte) 0 } );
+
+    // Short
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Short[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Short[] {} ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Short[] { Short.valueOf((short) 0) } ), new short[] { (short) 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Short[] { Short.valueOf((short) 1), Short.valueOf((short) 0) } ), new short[] { (short) 1, (short) 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Short[] { Short.valueOf((short) 1), null, Short.valueOf((short) 0) } ), new short[] { (short) 1, (short) 0 } );
+
+    // Integer
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Integer[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Integer[] {} ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Integer[] { Integer.valueOf(0) } ), new int[] { 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Integer[] { Integer.valueOf(1), Integer.valueOf(0) } ), new int[] { 1, 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Integer[] { Integer.valueOf(1), null, Integer.valueOf(0) } ), new int[] { 1, 0 } );
+
+    // Long
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Long[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Long[] {} ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Long[] { Long.valueOf(0) } ), new long[] { 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Long[] { Long.valueOf(1), Long.valueOf(0) } ), new long[] { 1, 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Long[] { Long.valueOf(1), null, Long.valueOf(0) } ), new long[] { 1, 0 } );
+
+    // Float
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Float[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Float[] {} ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Float[] { Float.valueOf(0) } ), new float[] { 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Float[] { Float.valueOf(1), Float.valueOf(0) } ), new float[] { 1, 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Float[] { Float.valueOf(1), null, Float.valueOf(0) } ), new float[] { 1, 0 } );
+
+    // Double
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( (Double[]) null ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Double[] {} ), null );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Double[] { Double.valueOf(0) } ), new double[] { 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Double[] { Double.valueOf(1), Double.valueOf(0) } ), new double[] { 1, 0 } );
+    Assert.assertEquals( ArrayFunctions.toPrimitiveArray( new Double[] { Double.valueOf(1), null, Double.valueOf(0) } ), new double[] { 1, 0 } );
+
+  }
+
   @SuppressWarnings({ "boxing", "cast" })
   @Test(groups="all")
   public void max() {

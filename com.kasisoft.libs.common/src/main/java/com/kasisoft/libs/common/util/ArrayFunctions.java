@@ -26,14 +26,15 @@ public class ArrayFunctions {
   }
   
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Boolean[] toObjectArray( boolean[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Boolean[] result = new Boolean[ values.length ];
@@ -45,14 +46,15 @@ public class ArrayFunctions {
   }
 
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Byte[] toObjectArray( byte[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Byte[] result = new Byte[ values.length ];
@@ -64,14 +66,15 @@ public class ArrayFunctions {
   }
   
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Character[] toObjectArray( char[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Character[] result = new Character[ values.length ];
@@ -83,14 +86,15 @@ public class ArrayFunctions {
   }
 
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Short[] toObjectArray( short[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Short[] result = new Short[ values.length ];
@@ -102,14 +106,15 @@ public class ArrayFunctions {
   }
 
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Integer[] toObjectArray( int[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Integer[] result = new Integer[ values.length ];
@@ -121,14 +126,15 @@ public class ArrayFunctions {
   }
 
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Long[] toObjectArray( long[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Long[] result = new Long[ values.length ];
@@ -140,14 +146,15 @@ public class ArrayFunctions {
   }
 
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Float[] toObjectArray( float[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Float[] result = new Float[ values.length ];
@@ -159,14 +166,15 @@ public class ArrayFunctions {
   }
 
   /**
-   * This method casts the supplied primitives into the corresponding object types.
+   * This method casts the supplied primitives into the corresponding object types. Empty arrays will result in 
+   * <code>null</code> return values.
    * 
    * @param values   The primitives which shall be casted. Maybe <code>null</code>.
    * 
    * @return   The corresponding object types. Maybe <code>null</code>.
    */
   public static Double[] toObjectArray( double[] values ) {
-    if( values == null ) {
+    if( (values == null) || (values.length == 0) ) {
       return null;
     } else {
       Double[] result = new Double[ values.length ];
@@ -176,15 +184,174 @@ public class ArrayFunctions {
       return result;
     }
   }
+ 
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static boolean[] toPrimitiveArray( Boolean[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      boolean[] result = new boolean[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].booleanValue();
+      }
+      return result;
+    }
+  }
 
-//  PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , Boolean   [] . class, 0                   , 0                   ) ,
-//  PByte     ( Byte      . TYPE , Byte      . class , byte    [] . class , Byte      [] . class, Byte    . MIN_VALUE , Byte    . MAX_VALUE ) ,
-//  PChar     ( Character . TYPE , Character . class , char    [] . class , Character [] . class, 0                   , 0                   ) ,
-//  PShort    ( Short     . TYPE , Short     . class , short   [] . class , Short     [] . class, Short   . MIN_VALUE , Short   . MAX_VALUE ) ,
-//  PInt      ( Integer   . TYPE , Integer   . class , int     [] . class , Integer   [] . class, Integer . MIN_VALUE , Integer . MAX_VALUE ) ,
-//  PLong     ( Long      . TYPE , Long      . class , long    [] . class , Long      [] . class, Long    . MIN_VALUE , Long    . MAX_VALUE ) ,
-//  PFloat    ( Float     . TYPE , Float     . class , float   [] . class , Float     [] . class, 0                   , 0                   ) ,
-//  PDouble   ( Double    . TYPE , Double    . class , double  [] . class , Double    [] . class, 0                   , 0                   ) ;
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static byte[] toPrimitiveArray( Byte[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      byte[] result = new byte[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].byteValue();
+      }
+      return result;
+    }
+  }
+  
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static char[] toPrimitiveArray( Character[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      char[] result = new char[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].charValue();
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static short[] toPrimitiveArray( Short[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      short[] result = new short[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].shortValue();
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static int[] toPrimitiveArray( Integer[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      int[] result = new int[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].intValue();
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static long[] toPrimitiveArray( Long[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      long[] result = new long[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].longValue();
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static float[] toPrimitiveArray( Float[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      float[] result = new float[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].floatValue();
+      }
+      return result;
+    }
+  }
+
+  /**
+   * This method casts the supplied objects into their corresponding primitive types. <code>null</code> values will be
+   * ignored. If there's no value at all <code>null</code> will be returned.
+   * 
+   * @param values   The primitives which shall be casted. Maybe <code>null</code>.
+   * 
+   * @return   The corresponding primitive types. Maybe <code>null</code>.
+   */
+  public static double[] toPrimitiveArray( Double[] values ) {
+    values = cleanup( values );
+    if( values == null ) {
+      return null;
+    } else {
+      double[] result = new double[ values.length ];
+      for( int i = 0; i < values.length; i++ ) {
+        result[i] = values[i].doubleValue();
+      }
+      return result;
+    }
+  }
   
   /**
    * Counts the number of non-<code>null</code> values within the supplied array.
@@ -208,96 +375,96 @@ public class ArrayFunctions {
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Boolean[] cleanup( @NonNull Boolean ... values ) {
+  public static Boolean[] cleanup( Boolean ... values ) {
     return cleanup( values, Primitive.PBoolean );
   }
 
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Character[] cleanup( @NonNull Character ... values ) {
+  public static Character[] cleanup( Character ... values ) {
     return cleanup( values, Primitive.PChar );
   }
 
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Byte[] cleanup( @NonNull Byte ... values ) {
+  public static Byte[] cleanup( Byte ... values ) {
     return cleanup( values, Primitive.PByte );
   }
 
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Short[] cleanup( @NonNull Short ... values ) {
+  public static Short[] cleanup( Short ... values ) {
     return cleanup( values, Primitive.PShort );
   }
 
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Integer[] cleanup( @NonNull Integer ... values ) {
+  public static Integer[] cleanup( Integer ... values ) {
     return cleanup( values, Primitive.PInt );
   }
 
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Long[] cleanup( @NonNull Long ... values ) {
+  public static Long[] cleanup( Long ... values ) {
     return cleanup( values, Primitive.PLong );
   }
   
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Float[] cleanup( @NonNull Float ... values ) {
+  public static Float[] cleanup( Float ... values ) {
     return cleanup( values, Primitive.PFloat );
   }
 
   /**
    * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
    * 
-   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * @param values   The values that might to be cleaned up. Maybe <code>null</code>.
    * 
    * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
    *           no non-<code>null</code> values.
    */
-  public static Double[] cleanup( @NonNull Double ... values ) {
+  public static Double[] cleanup( Double ... values ) {
     return cleanup( values, Primitive.PDouble );
   }
 
