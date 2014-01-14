@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.util;
 
+import com.kasisoft.libs.common.constants.*;
+
 import java.util.*;
 
 import lombok.*;
@@ -22,7 +24,147 @@ public class ArrayFunctions {
    */
   private ArrayFunctions() {
   }
+
+  /**
+   * Counts the number of non-<code>null</code> values within the supplied array.
+   * 
+   * @param objects   The array which values have to be investigated. Maybe <code>null</code>.
+   * 
+   * @return   The number of non-<code>null</code> values.
+   */
+  public static <T> int nonNullLength( T ... objects ) {
+    int result = 0;
+    if( objects != null ) {
+      for( int i = 0; i < objects.length; i++ ) {
+        if( objects[i] != null ) {
+          result++;
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Boolean[] cleanup( @NonNull Boolean ... values ) {
+    return cleanup( values, Primitive.PBoolean );
+  }
+
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Character[] cleanup( @NonNull Character ... values ) {
+    return cleanup( values, Primitive.PChar );
+  }
+
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Byte[] cleanup( @NonNull Byte ... values ) {
+    return cleanup( values, Primitive.PByte );
+  }
+
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Short[] cleanup( @NonNull Short ... values ) {
+    return cleanup( values, Primitive.PShort );
+  }
+
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Integer[] cleanup( @NonNull Integer ... values ) {
+    return cleanup( values, Primitive.PInt );
+  }
+
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Long[] cleanup( @NonNull Long ... values ) {
+    return cleanup( values, Primitive.PLong );
+  }
   
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Float[] cleanup( @NonNull Float ... values ) {
+    return cleanup( values, Primitive.PFloat );
+  }
+
+  /**
+   * Performs a cleanup for the supplied values which means to get rid of each <code>null</code> elements.
+   * 
+   * @param values   The values that might to be cleaned up. Not <code>null</code>.
+   * 
+   * @return   A cleaned array (the argument if there was no <code>null</code> value) or <code>null</code> if there was
+   *           no non-<code>null</code> values.
+   */
+  public static Double[] cleanup( @NonNull Double ... values ) {
+    return cleanup( values, Primitive.PDouble );
+  }
+
+  /**
+   * A simple helper which removes all <code>null</code> entries from an array.
+   * 
+   * @param input       The input array providing all values. Maybe <code>null</code>.
+   * @param primitive   The object type. Not <code>null</code>.
+   * 
+   * @return   A cleaned up array or <code>null</code>.
+   */
+  private static <T> T[] cleanup( T[] input, Primitive primitive ) {
+    int count = nonNullLength( input );
+    if( count == 0 ) {
+      return null;
+    } else if( count == input.length ) {
+      return input;
+    } else {
+      T[] result = primitive.newObjectArray( count );
+      for( int i = 0, j = 0; i < input.length; i++ ) {
+        if( input[i] != null ) {
+          result[j++] = input[i];
+        }
+      }
+      return result;
+    }
+  }
+
   /**
    * Returns the maximum of the supplied values.
    * 
