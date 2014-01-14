@@ -222,9 +222,12 @@ public enum Primitive {
    * @param obj   An instance of the array. Not <code>null</code>.
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid array type.
+   * 
+   * @deprecated [14-Jan-2014:KASI]   This function will be removed with release 1.4. Use {@link #byType(Object)} instead.
    */
+  @Deprecated
   public static Primitive byArrayType( @NonNull Object obj ) {
-    return LocalData.primitivemap.get( obj.getClass() );
+    return byType( obj );
   }
   
   /**
@@ -233,9 +236,28 @@ public enum Primitive {
    * @param obj   An instance of the object. Not <code>null</code>.
    * 
    * @return   The Primitive constant or <code>null</code> in case of an invalid object type.
+   * 
+   * @deprecated [14-Jan-2014:KASI]   This function will be removed with release 1.4. Use {@link #byType(Object)} instead.
    */
+  @Deprecated
   public static Primitive byObjectType( @NonNull Object obj ) {
-    return LocalData.primitivemap.get( obj.getClass() );
+    return byType( obj );
+  }
+  
+  /**
+   * Delivers the primitive type associated with the supplied object. The supplied object may be an object type, an 
+   * array of the primitive type or an array of the object type.
+   * 
+   * @param obj   The value which primitive equivalent should be returned. Maybe <code>null</code>.
+   * 
+   * @return   The primitive equivalent for the supplied type. Maybe <code>null</code>.
+   */
+  public static Primitive byType( Object obj ) {
+    if( obj == null ) {
+      return null;
+    } else {
+      return LocalData.primitivemap.get( obj.getClass() );
+    }
   }
 
   private static class LocalData {
