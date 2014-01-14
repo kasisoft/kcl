@@ -357,6 +357,7 @@ public class ArrayFunctionsTest {
     Assert.assertEquals( 0, ArrayFunctions.sumInt( new int[0] ) );
     Assert.assertEquals( 12, ArrayFunctions.sumInt( 12 ) );
     Assert.assertEquals( 35, ArrayFunctions.sumInt( 12, 23 ) );
+    Assert.assertEquals( 11, ArrayFunctions.sumInt( -12, 23 ) );
   }
 
   @Test(groups="all")
@@ -365,6 +366,7 @@ public class ArrayFunctionsTest {
     Assert.assertEquals( 0, ArrayFunctions.sumLong( new long[0] ) );
     Assert.assertEquals( 12L, ArrayFunctions.sumLong( 12L ) );
     Assert.assertEquals( 35L, ArrayFunctions.sumLong( 12L, 23L ) );
+    Assert.assertEquals( 11L, ArrayFunctions.sumLong( -12L, 23L ) );
   }
 
   @Test(groups="all")
@@ -373,6 +375,7 @@ public class ArrayFunctionsTest {
     Assert.assertEquals( 0.0, ArrayFunctions.sumDouble( new double[0] ) );
     Assert.assertEquals( 12.0, ArrayFunctions.sumDouble( 12.0 ) );
     Assert.assertEquals( 35.0, ArrayFunctions.sumDouble( 12.0, 23.0 ) );
+    Assert.assertEquals( 11.0, ArrayFunctions.sumDouble( -12.0, 23.0 ) );
   }
 
 } /* ENDCLASS */
