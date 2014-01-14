@@ -10,6 +10,8 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.util.*;
 
+import java.util.*;
+
 import lombok.*;
 
 /**
@@ -17,18 +19,19 @@ import lombok.*;
  */
 public enum Primitive {
 
-  PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , 0                   , 0                   ) ,
-  PByte     ( Byte      . TYPE , Byte      . class , byte    [] . class , Byte    . MIN_VALUE , Byte    . MAX_VALUE ) ,
-  PChar     ( Character . TYPE , Character . class , char    [] . class , 0                   , 0                   ) ,
-  PShort    ( Short     . TYPE , Short     . class , short   [] . class , Short   . MIN_VALUE , Short   . MAX_VALUE ) ,
-  PInt      ( Integer   . TYPE , Integer   . class , int     [] . class , Integer . MIN_VALUE , Integer . MAX_VALUE ) ,
-  PLong     ( Long      . TYPE , Long      . class , long    [] . class , Long    . MIN_VALUE , Long    . MAX_VALUE ) ,
-  PFloat    ( Float     . TYPE , Float     . class , float   [] . class , 0                   , 0                   ) ,
-  PDouble   ( Double    . TYPE , Double    . class , double  [] . class , 0                   , 0                   ) ;
+  PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , Boolean   [] . class, 0                   , 0                   ) ,
+  PByte     ( Byte      . TYPE , Byte      . class , byte    [] . class , Byte      [] . class, Byte    . MIN_VALUE , Byte    . MAX_VALUE ) ,
+  PChar     ( Character . TYPE , Character . class , char    [] . class , Character [] . class, 0                   , 0                   ) ,
+  PShort    ( Short     . TYPE , Short     . class , short   [] . class , Short     [] . class, Short   . MIN_VALUE , Short   . MAX_VALUE ) ,
+  PInt      ( Integer   . TYPE , Integer   . class , int     [] . class , Integer   [] . class, Integer . MIN_VALUE , Integer . MAX_VALUE ) ,
+  PLong     ( Long      . TYPE , Long      . class , long    [] . class , Long      [] . class, Long    . MIN_VALUE , Long    . MAX_VALUE ) ,
+  PFloat    ( Float     . TYPE , Float     . class , float   [] . class , Float     [] . class, 0                   , 0                   ) ,
+  PDouble   ( Double    . TYPE , Double    . class , double  [] . class , Double    [] . class, 0                   , 0                   ) ;
   
   private Class<?>     primitiveclass;
   private Class<?>     arrayclass;
   private Class<?>     clazz;
+  private Class<?>     objectarrayclass;
   private long         min;
   private long         max;
   private Buffers      buffers;
@@ -37,13 +40,14 @@ public enum Primitive {
   /**
    * Sets up this enumeration value.
    * 
-   * @param primitive   The primitive type class. Not <code>null</code>.
-   * @param objclazz    The object type class. Not <code>null</code>.
-   * @param arraytype   The array type class. Not <code>null</code>.
-   * @param minval      The minimum value.
-   * @param maxval      The maximum value.
+   * @param primitive         The primitive type class. Not <code>null</code>.
+   * @param objclazz          The object type class. Not <code>null</code>.
+   * @param arraytype         The array type class. Not <code>null</code>.
+   * @param objectarraytype   The object array type class. Not <code>null</code>. 
+   * @param minval            The minimum value.
+   * @param maxval            The maximum value.
    */
-  Primitive( Class<?> primitive, Class<?> objclazz, Class<?> arraytype, long minval, long maxval ) {
+  Primitive( Class<?> primitive, Class<?> objclazz, Class<?> arraytype, Class<?> objectarraytype, long minval, long maxval ) {
     primitiveclass = primitive;
     clazz          = objclazz;
     arrayclass     = arraytype;
@@ -51,6 +55,10 @@ public enum Primitive {
     max            = maxval;
     buffers        = null;
     minmax         = minval != maxval;
+    LocalData.primitivemap.put( primitive       , this );
+    LocalData.primitivemap.put( objclazz        , this );
+    LocalData.primitivemap.put( arraytype       , this );
+    LocalData.primitivemap.put( objectarraytype , this );
   }
   
   /**
@@ -117,6 +125,15 @@ public enum Primitive {
    */
   public Class<?> getArrayClass() {
     return arrayclass;
+  }
+  
+  /**
+   * Returns the object array class instance.
+   *  
+   * @return   The object array class instance. Not <code>null</code>.
+   */
+  public Class<?> getObjectArrayClass() {
+    return objectarrayclass;
   }
   
   /**
@@ -195,17 +212,7 @@ public enum Primitive {
       default       : return ((double  []) arrayobj).length;
       }
     } else {
-      switch( this ) {
-      case PBoolean : return ((Boolean    []) arrayobj).length;
-      case PByte    : return ((Byte       []) arrayobj).length;
-      case PChar    : return ((Character  []) arrayobj).length;
-      case PShort   : return ((Short      []) arrayobj).length;
-      case PInt     : return ((Integer    []) arrayobj).length;
-      case PLong    : return ((Long       []) arrayobj).length;
-      case PFloat   : return ((Float      []) arrayobj).length;
-        /* case PDouble: */
-      default       : return ((Double     []) arrayobj).length;
-      }
+      return ((Object[]) arrayobj).length;
     }
   }
   
@@ -217,16 +224,7 @@ public enum Primitive {
    * @return   The Primitive constant or <code>null</code> in case of an invalid array type.
    */
   public static Primitive byArrayType( @NonNull Object obj ) {
-           if( obj instanceof boolean [] ) { return PBoolean;
-    } else if( obj instanceof byte    [] ) { return PByte;
-    } else if( obj instanceof char    [] ) { return PChar;
-    } else if( obj instanceof short   [] ) { return PShort;
-    } else if( obj instanceof int     [] ) { return PInt;
-    } else if( obj instanceof long    [] ) { return PLong;
-    } else if( obj instanceof float   [] ) { return PFloat;
-    } else if( obj instanceof double  [] ) { return PDouble;
-    } else                                 { return null;
-    }
+    return LocalData.primitivemap.get( obj.getClass() );
   }
   
   /**
@@ -237,16 +235,13 @@ public enum Primitive {
    * @return   The Primitive constant or <code>null</code> in case of an invalid object type.
    */
   public static Primitive byObjectType( @NonNull Object obj ) {
-           if( obj instanceof Boolean   ) { return PBoolean;
-    } else if( obj instanceof Byte      ) { return PByte;
-    } else if( obj instanceof Character ) { return PChar;
-    } else if( obj instanceof Short     ) { return PShort;
-    } else if( obj instanceof Integer   ) { return PInt;
-    } else if( obj instanceof Long      ) { return PLong;
-    } else if( obj instanceof Float     ) { return PFloat;
-    } else if( obj instanceof Double    ) { return PDouble;
-    } else                                { return null;
-    }
+    return LocalData.primitivemap.get( obj.getClass() );
   }
 
+  private static class LocalData {
+    
+    private static Map<Class<?>,Primitive>   primitivemap = new Hashtable<Class<?>,Primitive>();
+    
+  } /* ENDCLASS */
+  
 } /* ENDENUM */
