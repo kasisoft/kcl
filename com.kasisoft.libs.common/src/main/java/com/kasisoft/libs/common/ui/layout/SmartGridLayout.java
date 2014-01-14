@@ -274,8 +274,8 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
       width      -= columns * super.getHgap();
       height     -= rows    * super.getVgap();
 
-      int swidth  = ArrayFunctions.sum( colwidth );
-      int sheight = ArrayFunctions.sum( rowheight );
+      int swidth  = ArrayFunctions.sumInt( colwidth );
+      int sheight = ArrayFunctions.sumInt( rowheight );
 
       int[] srowheight = new int[ rows    ];
       int[] scolwidth  = new int[ columns ];
@@ -513,9 +513,17 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
           };
         };
       };
+      
+      for( int i = 0; i < colwidth.length; i++ ) {
+        colwidth[i] = Math.max( colwidth[i], 0 );
+      }
 
-      int swidth  = ArrayFunctions.sum( colwidth );
-      int sheight = ArrayFunctions.sum( rowheight );
+      for( int i = 0; i < rowheight.length; i++ ) {
+        rowheight[i] = Math.max( rowheight[i], 0 );
+      }
+
+      int swidth  = ArrayFunctions.sumInt( colwidth );
+      int sheight = ArrayFunctions.sumInt( rowheight );
 
       Dimension result = new Dimension(
         insets.left + insets.right  + swidth  + (rcols - 1) * super.getHgap(),
