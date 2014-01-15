@@ -26,6 +26,56 @@ public class ArrayFunctions {
   }
   
   /**
+   * Joins the supplied buffers.
+   * 
+   * @param buffers   A list of buffers which has to be joined. Not <code>null</code>.
+   * 
+   * @return   A joined buffer. Not <code>null</code>.
+   */
+  public static byte[] joinBuffers( @NonNull byte[] ... buffers ) {
+    int size = 0;
+    for( int i = 0; i < buffers.length; i++ ) {
+      if( buffers[i] != null ) {
+        size += buffers[i].length;
+      }
+    }
+    byte[] result = new byte[ size ];
+    int    offset = 0;
+    for( int i = 0; i < buffers.length; i++ ) {
+      if( buffers[i] != null ) {
+        System.arraycopy( buffers[i], 0, result, offset, buffers[i].length );
+        offset += buffers[i].length;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Joins the supplied buffers.
+   * 
+   * @param buffers   A list of buffers which has to be joined. Not <code>null</code>.
+   * 
+   * @return   A joined buffer. Not <code>null</code>.
+   */
+  public static char[] joinBuffers( @NonNull char[] ... buffers ) {
+    int size = 0;
+    for( int i = 0; i < buffers.length; i++ ) {
+      if( buffers[i] != null ) {
+        size += buffers[i].length;
+      }
+    }
+    char[] result = new char[ size ];
+    int    offset = 0;
+    for( int i = 0; i < buffers.length; i++ ) {
+      if( buffers[i] != null ) {
+        System.arraycopy( buffers[i], 0, result, offset, buffers[i].length );
+        offset += buffers[i].length;
+      }
+    }
+    return result;
+  }
+
+  /**
    * Like {@link Arrays#asList(Object...)} with the difference that these functions create objects from primitives.
    * 
    * @param values   A list of primitive values. Not <code>null</code>.

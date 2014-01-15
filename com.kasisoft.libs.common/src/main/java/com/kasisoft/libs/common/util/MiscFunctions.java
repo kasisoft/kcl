@@ -455,23 +455,12 @@ public class MiscFunctions {
    * @param buffers   A list of buffers which has to be joined. Not <code>null</code>.
    * 
    * @return   A joined buffer. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Please use {@link ArrayFunctions#joinBuffers(byte[])} instead.
    */
+  @Deprecated
   public static byte[] joinBuffers( @NonNull byte[] ... buffers ) {
-    int size = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        size += buffers[i].length;
-      }
-    }
-    byte[] result = new byte[ size ];
-    int    offset = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        System.arraycopy( buffers[i], 0, result, offset, buffers[i].length );
-        offset += buffers[i].length;
-      }
-    }
-    return result;
+    return ArrayFunctions.joinBuffers( buffers );
   }
 
   /**
@@ -480,23 +469,12 @@ public class MiscFunctions {
    * @param buffers   A list of buffers which has to be joined. Not <code>null</code>.
    * 
    * @return   A joined buffer. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Please use {@link ArrayFunctions#joinBuffers(char[])} instead.
    */
+  @Deprecated
   public static char[] joinBuffers( @NonNull char[] ... buffers ) {
-    int size = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        size += buffers[i].length;
-      }
-    }
-    char[] result = new char[ size ];
-    int    offset = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        System.arraycopy( buffers[i], 0, result, offset, buffers[i].length );
-        offset += buffers[i].length;
-      }
-    }
-    return result;
+    return ArrayFunctions.joinBuffers( buffers );
   }
 
   /**

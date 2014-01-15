@@ -37,32 +37,6 @@ public class MiscFunctionsTest {
     return result;
   }
 
-  private char[][] toCharArray( String ... str ) {
-    if( str == null ) {
-      return null;
-    }
-    char[][] result = new char[ str.length ][];
-    for( int i = 0; i < result.length; i++ ) {
-      if( str[i] != null ) {
-        result[i] = str[i].toCharArray();
-      }
-    }
-    return result;
-  }
-
-  private byte[][] toByteArray( String ... str ) {
-    if( str == null ) {
-      return null;
-    }
-    byte[][] result = new byte[ str.length ][];
-    for( int i = 0; i < result.length; i++ ) {
-      if( str[i] != null ) {
-        result[i] = str[i].getBytes();
-      }
-    }
-    return result;
-  }
-
   @SuppressWarnings("deprecation")
   @DataProvider(name="createDateValues")
   public Object[][] createDateValues() {
@@ -86,24 +60,6 @@ public class MiscFunctionsTest {
       { "13-04-2010"    , calendar  },  
       { "13 Apr - 2010" , calendar  },
       { "bla bla"       , null      } 
-    };
-  }
-
-  @DataProvider(name="createCharBuffers")
-  public Object[][] createCharBuffers() {
-    return new Object[][] {
-      { toCharArray( "Hello" ), "Hello" },
-      { toCharArray( "Hello", null, " ", "World" ), "Hello World" },
-      { toCharArray( "Hello", " ", "World" ), "Hello World" },
-    };
-  }
-
-  @DataProvider(name="createByteBuffers")
-  public Object[][] createByteBuffers() {
-    return new Object[][] {
-      { toByteArray( "Hello" ), "Hello" },
-      { toByteArray( "Hello", null, " ", "World" ), "Hello World" },
-      { toByteArray( "Hello", " ", "World" ), "Hello World" },
     };
   }
 
@@ -208,18 +164,6 @@ public class MiscFunctionsTest {
     Assert.assertEquals( outparam.getValue(), Boolean.TRUE );
   }
   
-  @Test(dataProvider="createCharBuffers")
-  public void joinCharBuffers( char[][] buffers, String expected ) {
-    char[] joined = MiscFunctions.joinBuffers( buffers );
-    Assert.assertEquals( new String( joined ), expected );
-  }
-
-  @Test(dataProvider="createByteBuffers")
-  public void joinByteBuffers( byte[][] buffers, String expected ) {
-    byte[] joined = MiscFunctions.joinBuffers( buffers );
-    Assert.assertEquals( new String( joined ), expected );
-  }
-
   @Test(dataProvider="createCharInsertion")
   public void insertChars( char[] dest, char[] insert, int index, String expected ) {
     char[] combined = MiscFunctions.insert( dest, insert, index );
