@@ -991,14 +991,14 @@ public class IoFunctions {
    * 
    * @param file       The destination where to write the content to. Must be writable destination.
    * @param content    The content which has to be stored. Not <code>null</code>.
-   * @param encoding   The encoding to be used for the file.
+   * @param encoding   The encoding to be used for the file. Maybe <code>null</code>.
    * 
    * @throws FailureException if writing the data failed for some reason.
    */
   public static void writeCharacters( @NonNull File file, @NonNull char[] content, Encoding encoding ) {
     Writer writer = null;
     try {
-      writer = encoding.openWriter( file );
+      writer = Encoding.openWriter( file, encoding );
       writeCharacters( writer, content );
     } finally {
       MiscFunctions.close( writer );
