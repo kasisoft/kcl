@@ -87,10 +87,26 @@ public class IoFunctions {
    * @return   The opened {@link InputStream}. Not <code>null</code>.
    */
   public static InputStream newInputStream( @NonNull File file ) {
+    return newInputStream( true, file );
+  }
+
+  /**
+   * Creates an instance of {@link InputStream} and handles potential exceptions if enabled.
+   * 
+   * @param fail   <code>true</code> <=> Generate an exception upon failure or otherwise return <code>null</code>.
+   * @param file   The {@link File} that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
+   */
+  public static InputStream newInputStream( boolean fail, @NonNull File file ) {
     try {
       return new BufferedInputStream( new FileInputStream( file ) );
     } catch( FileNotFoundException ex ) {
-      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
+      if( fail ) {
+        throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
+      } else {
+        return null;
+      }
     }
   }
 
@@ -102,10 +118,26 @@ public class IoFunctions {
    * @return   The opened {@link InputStream}. Not <code>null</code>.
    */
   public static InputStream newInputStream( @NonNull URL url ) {
+    return newInputStream( true, url );
+  }
+
+  /**
+   * Creates an instance of {@link InputStream} and handles potential exceptions if enabled.
+   * 
+   * @param fail   <code>true</code> <=> Generate an exception upon failure or otherwise return <code>null</code>.
+   * @param url    The URL pointing to the resource that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
+   */
+  public static InputStream newInputStream( boolean fail, @NonNull URL url ) {
     try {
       return new BufferedInputStream( url.openStream() );
     } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, url.toExternalForm(), ex );
+      if( fail ) {
+        throw new FailureException( FailureCode.IO, url.toExternalForm(), ex );
+      } else {
+        return null;
+      }
     }
   }
 
@@ -117,13 +149,29 @@ public class IoFunctions {
    * @return   The opened {@link OutputStream}. Not <code>null</code>.
    */
   public static OutputStream newOutputStream( @NonNull File file ) {
+    return newOutputStream( true, file );
+  }
+
+  /**
+   * Creates an instance of {@link OutputStream} and handles potential exceptions if enabled.
+   * 
+   * @param fail   <code>true</code> <=> Generate an exception upon failure or otherwise return <code>null</code>.
+   * @param file   The {@link File} that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link OutputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
+   */
+  public static OutputStream newOutputStream( boolean fail, @NonNull File file ) {
     try {
       return new BufferedOutputStream( new FileOutputStream( file ) );
     } catch( FileNotFoundException ex ) {
-      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
+      if( fail ) {
+        throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
+      } else {
+        return null;
+      }
     }
   }
-
+  
   /**
    * Returns a file for temporary use.
    * 
