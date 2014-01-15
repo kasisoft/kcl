@@ -9,6 +9,9 @@
 package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.ui.*;
+
+import javax.swing.*;
 
 import javax.imageio.*;
 
@@ -141,6 +144,34 @@ public class GraphicsFunctions {
   /**
    * Writes an image supported by the ImageIO subsystem.
    * 
+   * @param file        The resource which has to be saved. Not <code>null</code>.
+   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
+   * @param component   The component that has to be written. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> Saving the image succeeded.
+   */
+  public static boolean writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull JComponent component ) {
+    return writeImage( false, file, format, component );
+  }
+
+  /**
+   * Writes an image supported by the ImageIO subsystem.
+   * 
+   * @param fail     <code>true</code> <=> Cause an exception if the resource could not be written.
+   * @param file     The resource which has to be saved. Not <code>null</code>.
+   * @param format   The desired output format. Must be a raster format. Not <code>null</code>.
+   * @param component   The component that has to be written. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
+   *           an exception will be raised instead.
+   */
+  public static boolean writeImage( boolean fail, @NonNull File file, @NonNull PictureFormat format, @NonNull JComponent component ) {
+    return writeImage( fail, file, format, (BufferedImage) SwingFunctions.createImage( component ) );
+  }
+  
+  /**
+   * Writes an image supported by the ImageIO subsystem.
+   * 
    * @param fail     <code>true</code> <=> Cause an exception if the resource could not be written.
    * @param file     The resource which has to be saved. Not <code>null</code>.
    * @param format   The desired output format. Must be a raster format. Not <code>null</code>.
@@ -177,6 +208,34 @@ public class GraphicsFunctions {
     return writeImage( false, outstream, format, image );
   }
 
+  /**
+   * Writes an image supported by the ImageIO subsystem.
+   * 
+   * @param outstream   The OutputStream which will receive the content. Not <code>null</code>.
+   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
+   * @param component   The component that has to be written. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> Saving the image succeeded.
+   */
+  public static boolean writeImage( @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull JComponent component ) {
+    return writeImage( false, outstream, format, component );
+  }
+  
+  /**
+   * Writes an image supported by the ImageIO subsystem.
+   * 
+   * @param fail        <code>true</code> <=> Cause an exception if the resource could not be written.
+   * @param outstream   The OutputStream which will receive the content. Not <code>null</code>.
+   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
+   * @param component   The component that has to be written. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
+   *           an exception will be raised instead.
+   */
+  public static boolean writeImage( boolean fail, @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull JComponent component ) {
+    return writeImage( fail, outstream, format, (BufferedImage) SwingFunctions.createImage( component ) );
+  }
+  
   /**
    * Writes an image supported by the ImageIO subsystem.
    * 
