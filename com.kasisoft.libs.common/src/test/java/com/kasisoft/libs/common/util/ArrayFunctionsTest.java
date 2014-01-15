@@ -146,6 +146,55 @@ public class ArrayFunctionsTest {
 
   }
 
+  private <T> List<T> list( T ... objects ) {
+    return Arrays.asList( objects );
+  }
+  
+  @Test(groups="all")
+  public void asList() {
+    
+    // Boolean
+    Assert.assertEquals( ArrayFunctions.asList( new boolean[] {} ), new ArrayList<Boolean>() );
+    Assert.assertEquals( ArrayFunctions.asList( new boolean[] { true } ), list( Boolean.TRUE ) );
+    Assert.assertEquals( ArrayFunctions.asList( new boolean[] { false, true } ), list( Boolean.FALSE, Boolean.TRUE ) );
+
+    // Char
+    Assert.assertEquals( ArrayFunctions.asList( new char[] {} ), new ArrayList<Character>() );
+    Assert.assertEquals( ArrayFunctions.asList( new char[] { '\n' } ), list( Character.valueOf('\n') ) );
+    Assert.assertEquals( ArrayFunctions.asList( new char[] { '\r', '\n' } ), list( Character.valueOf('\r'), Character.valueOf('\n') ) );
+
+    // Byte
+    Assert.assertEquals( ArrayFunctions.asList( new byte[] {} ), new ArrayList<Byte>() );
+    Assert.assertEquals( ArrayFunctions.asList( new byte[] { (byte) 0 } ), list( Byte.valueOf((byte) 0) ) );
+    Assert.assertEquals( ArrayFunctions.asList( new byte[] { (byte) 1, (byte) 0 } ), list( Byte.valueOf( (byte) 1), Byte.valueOf( (byte) 0) ) );
+
+    // Short
+    Assert.assertEquals( ArrayFunctions.asList( new short[] {} ), new ArrayList<Short>() );
+    Assert.assertEquals( ArrayFunctions.asList( new short[] { (short) 0 } ), list( Short.valueOf( (short) 0) ) );
+    Assert.assertEquals( ArrayFunctions.asList( new short[] { (short) 1, (short) 0 } ), list( Short.valueOf( (short) 1), Short.valueOf( (short) 0) ) );
+
+    // Integer
+    Assert.assertEquals( ArrayFunctions.asList( new int[] {} ), new ArrayList<Integer>() );
+    Assert.assertEquals( ArrayFunctions.asList( new int[] { 0 } ), list( Integer.valueOf(0) ) );
+    Assert.assertEquals( ArrayFunctions.asList( new int[] { 1, 0 } ), list( Integer.valueOf(1), Integer.valueOf(0) ) );
+
+    // Long
+    Assert.assertEquals( ArrayFunctions.asList( new long[] {} ), new ArrayList<Long>() );
+    Assert.assertEquals( ArrayFunctions.asList( new long[] { 0 } ), list( Long.valueOf(0) ) );
+    Assert.assertEquals( ArrayFunctions.asList( new long[] { 1, 0 } ), list( Long.valueOf(1), Long.valueOf(0) ) );
+
+    // Float
+    Assert.assertEquals( ArrayFunctions.asList( new float[] {} ), new ArrayList<Float>() );
+    Assert.assertEquals( ArrayFunctions.asList( new float[] { 0 } ), list( Float.valueOf(0) ) );
+    Assert.assertEquals( ArrayFunctions.asList( new float[] { 1, 0 } ), list( Float.valueOf(1), Float.valueOf(0) ) );
+
+    // Double
+    Assert.assertEquals( ArrayFunctions.asList( new double[] {} ), new ArrayList<Double>() );
+    Assert.assertEquals( ArrayFunctions.asList( new double[] { 0 } ), list( Double.valueOf(0) ) );
+    Assert.assertEquals( ArrayFunctions.asList( new double[] { 1, 0 } ), list( Double.valueOf(1), Double.valueOf(0) ) );
+
+  }
+
   @Test(groups="all")
   public void toPrimitiveArray() {
     

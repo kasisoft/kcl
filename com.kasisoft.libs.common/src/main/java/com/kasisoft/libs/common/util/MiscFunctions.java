@@ -64,13 +64,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Byte> asList( @NonNull byte ... values ) {
-    List<Byte> result = new ArrayList<Byte>( values.length );
-    for( byte v : values ) {
-      result.add( Byte.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
@@ -79,13 +78,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Short> asList( @NonNull short ... values ) {
-    List<Short> result = new ArrayList<Short>( values.length );
-    for( short v : values ) {
-      result.add( Short.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
@@ -94,13 +92,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Integer> asList( @NonNull int ... values ) {
-    List<Integer> result = new ArrayList<Integer>( values.length );
-    for( int v : values ) {
-      result.add( Integer.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
@@ -109,13 +106,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Long> asList( @NonNull long ... values ) {
-    List<Long> result = new ArrayList<Long>( values.length );
-    for( long v : values ) {
-      result.add( Long.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
@@ -124,13 +120,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Float> asList( @NonNull float ... values ) {
-    List<Float> result = new ArrayList<Float>( values.length );
-    for( float v : values ) {
-      result.add( Float.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
@@ -139,13 +134,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Double> asList( @NonNull double ... values ) {
-    List<Double> result = new ArrayList<Double>( values.length );
-    for( double v : values ) {
-      result.add( Double.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
@@ -154,13 +148,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Boolean> asList( @NonNull boolean ... values ) {
-    List<Boolean> result = new ArrayList<Boolean>( values.length );
-    for( boolean v : values ) {
-      result.add( Boolean.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
@@ -169,13 +162,12 @@ public class MiscFunctions {
    * @param values   A list of primitive values. Not <code>null</code>.
    * 
    * @return   A list of objects. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Replace it by it's equivalend in ArrayFunctions.
    */
+  @Deprecated
   public static List<Character> asList( @NonNull char ... values ) {
-    List<Character> result = new ArrayList<Character>( values.length );
-    for( char v : values ) {
-      result.add( Character.valueOf(v) );
-    }
-    return result;
+    return ArrayFunctions.asList( values );
   }
 
   /**
