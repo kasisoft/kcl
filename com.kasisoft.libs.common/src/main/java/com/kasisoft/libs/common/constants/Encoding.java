@@ -13,6 +13,8 @@ import com.kasisoft.libs.common.io.*;
 
 import java.util.*;
 
+import java.net.*;
+
 import java.io.*;
 
 import lombok.*;
@@ -74,6 +76,19 @@ public final class Encoding {
    */
   public Reader openReader( @NonNull File file ) {
     return openReader( IoFunctions.newInputStream( file ) );
+  }
+
+  /**
+   * Opens a Reader for a specific resource using this encoding.
+   * 
+   * @param url   The url of the resource that has to be opened using this encoding. Must be a valid resource.
+   *  
+   * @return   The reader if the url could be opened. Not <code>null</code>.
+   * 
+   * @throws FailureException if opening the resource failed for some reason.
+   */
+  public Reader openReader( @NonNull URL url ) {
+    return openReader( IoFunctions.newInputStream( url ) );
   }
 
   /**
