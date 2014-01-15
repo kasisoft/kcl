@@ -129,48 +129,6 @@ public class MiscFunctionsTest {
     };
   }
   
-  @DataProvider(name="createIndexOf")
-  public Object[][] createIndexOf() {
-    return new Object[][] {
-      { "Frog finds the dog"       , "ind"                 , Integer.valueOf(0)   , Integer.valueOf(6)  },
-      { "Frog finds the dog"       , "xyz"                 , Integer.valueOf(0)   , Integer.valueOf(-1) },
-      { "Frog finds the dog"       , "ro "                 , Integer.valueOf(100) , Integer.valueOf(-1) },
-      { "Frog finds the dog"       , "Frog finds the dog " , Integer.valueOf(0)   , Integer.valueOf(-1) },
-      { "Frog finds finds the dog" , "ind"                 , Integer.valueOf(7)   , Integer.valueOf(12) },
-    };
-  }
-
-  @DataProvider(name="createLastIndexOf")
-  public Object[][] createLastIndexOf() {
-    return new Object[][] {
-      { "Frog finds the dog"       , "ind"                 , Integer.valueOf(0)   , Integer.valueOf(6)  },
-      { "Frog finds the dog"       , "xyz"                 , Integer.valueOf(0)   , Integer.valueOf(-1) },
-      { "Frog finds the dog"       , "ro "                 , Integer.valueOf(100) , Integer.valueOf(-1) },
-      { "Frog finds the dog"       , "Frog finds the dog " , Integer.valueOf(0)   , Integer.valueOf(-1) },
-      { "Frog finds finds the dog" , "ind"                 , Integer.valueOf(0)   , Integer.valueOf(12) },
-    };
-  }
-
-  @DataProvider(name="createCharComparisons")
-  public Object[][] createCharComparisons() {
-    return new Object[][] {
-      { "Frog finds the dog".toCharArray(), "Frog"   . toCharArray(), Integer.valueOf(0), Boolean.TRUE  },  
-      { "Frog finds the dog".toCharArray(), "finds"  . toCharArray(), Integer.valueOf(5), Boolean.TRUE  },  
-      { "Frog finds the dog".toCharArray(), "Fr og"  . toCharArray(), Integer.valueOf(0), Boolean.FALSE },  
-      { "Frog finds the dog".toCharArray(), "fin ds" . toCharArray(), Integer.valueOf(5), Boolean.FALSE },  
-    };
-  }
-
-  @DataProvider(name="createByteComparisons")
-  public Object[][] createByteComparisons() {
-    return new Object[][] {
-      { "Frog finds the dog".getBytes(), "Frog"   . getBytes(), Integer.valueOf(0), Boolean.TRUE  },  
-      { "Frog finds the dog".getBytes(), "finds"  . getBytes(), Integer.valueOf(5), Boolean.TRUE  },  
-      { "Frog finds the dog".getBytes(), "Fr og"  . getBytes(), Integer.valueOf(0), Boolean.FALSE },  
-      { "Frog finds the dog".getBytes(), "fin ds" . getBytes(), Integer.valueOf(5), Boolean.FALSE },  
-    };
-  }
-
   @DataProvider(name="createToSet")
   public Object[][] createToSet() {
     return new Object[][] {
@@ -274,30 +232,6 @@ public class MiscFunctionsTest {
     Assert.assertEquals( new String( combined ), expected );
   }
   
-  @Test(dataProvider="createIndexOf")
-  public void indexOfChars( String buffer, String characters, int offset, int expectedindex ) {
-    int index = MiscFunctions.indexOf( buffer.toCharArray(), characters.toCharArray(), offset );
-    Assert.assertEquals( index, expectedindex );
-  }
-
-  @Test(dataProvider="createIndexOf")
-  public void indexOfBytes( String buffer, String characters, int offset, int expectedindex ) {
-    int index = MiscFunctions.indexOf( buffer.getBytes(), characters.getBytes(), offset );
-    Assert.assertEquals( index, expectedindex );
-  }
-
-  @Test(dataProvider="createLastIndexOf")
-  public void indexLastOfChars( String buffer, String characters, int offset, int expectedindex ) {
-    int index = MiscFunctions.lastIndexOf( buffer.toCharArray(), characters.toCharArray(), offset );
-    Assert.assertEquals( index, expectedindex );
-  }
-
-  @Test(dataProvider="createLastIndexOf")
-  public void indexLastOfBytes( String buffer, String characters, int offset, int expectedindex ) {
-    int index = MiscFunctions.lastIndexOf( buffer.getBytes(), characters.getBytes(), offset );
-    Assert.assertEquals( index, expectedindex );
-  }
-
   @Test
   public void expandVariables() {
     String template = null;
@@ -308,18 +242,6 @@ public class MiscFunctionsTest {
     }
     String result   = MiscFunctions.expandVariables( template );
     Assert.assertEquals( result, String.format( "The name of the user is: %s !", System.getProperty( "user.name" ) ) );
-  }
-  
-  @Test(dataProvider="createCharComparisons")
-  public void compareChars( char[] buffer, char[] sequence, int offset, boolean expected ) {
-    boolean result = MiscFunctions.compare( buffer, sequence, offset );
-    Assert.assertEquals( result, expected );
-  }
-
-  @Test(dataProvider="createByteComparisons")
-  public void compareBytes( byte[] buffer, byte[] sequence, int offset, boolean expected ) {
-    boolean result = MiscFunctions.compare( buffer, sequence, offset );
-    Assert.assertEquals( result, expected );
   }
   
   @Test(dataProvider="createToSet")

@@ -951,6 +951,202 @@ public class ArrayFunctions {
   }
 
   /**
+   * Tries to find a byte sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the byte sequence or -1 in case there's no sequence.
+   */
+  public static int indexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
+    return indexOf( data, sequence, 0 );
+  }
+
+  /**
+   * Tries to find a byte sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the byte sequence or -1 in case there's no sequence.
+   */
+  public static int indexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
+    int last = buffer.length - sequence.length;
+    if( (last < 0) || (pos > last) ) {
+      // the sequence can't fit completely, so it's not available
+      return -1;
+    }
+    for( int i = pos; i < last; i++ ) {
+      if( buffer[i] == sequence[0] ) {
+        // we're having a possible match, so compare the sequence
+        if( compare( buffer, sequence, i ) ) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+  
+  /**
+   * Tries to find the last byte sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
+    return lastIndexOf( data, sequence, 0 );
+  }
+
+  /**
+   * Tries to find the last byte sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
+    int last = buffer.length - sequence.length;
+    if( (last < 0) || (pos > last) ) {
+      // the sequence doesn't fit, so it's not available
+      return -1;
+    }
+    for( int i = last; i >= pos; i-- ) {
+      if( buffer[i] == sequence[0] ) {
+        // we're having a possible match, so compare the sequence
+        if( compare( buffer, sequence, i ) ) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Returns <code>true</code> if a byte sequence could be found at a specific position.
+   * 
+   * @param data        The data block where to search for. Not <code>null</code>.
+   * @param tocompare   The byte sequence which have to be compared with. Not <code>null</code>.
+   * @param offset      The offset within the data block where the sequence seems to be located.
+   * 
+   * @return   <code>true</code> <=> The byte sequence is available at the specified offset.
+   */
+  public static boolean compare( @NonNull byte[] data, @NonNull byte[] tocompare, int offset ) {
+    for( int i = 0; i < tocompare.length; i++, offset++ ) {
+      if( offset == data.length ) {
+        // premature end of the comparison process
+        return false;
+      }
+      if( data[ offset ] != tocompare[i] ) {
+        return false;
+      }
+    }
+    return true; 
+  }
+  
+  /**
+   * Tries to find a char sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the char sequence or -1 in case there's no sequence.
+   */
+  public static int indexOf( @NonNull char[] data, @NonNull char[] sequence ) {
+    return indexOf( data, sequence, 0 );
+  }
+  
+  /**
+   * Tries to find a char sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the char sequence or -1 in case there's no sequence.
+   */
+  public static int indexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
+    int last = buffer.length - sequence.length;
+    if( (last < 0) || (pos > last) ) {
+      // the sequence can't fit completely, so it's not available
+      return -1;
+    }
+    for( int i = pos; i < last; i++ ) {
+      if( buffer[i] == sequence[0] ) {
+        // we're having a possible match, so compare the sequence
+        if( compare( buffer, sequence, i ) ) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+  
+  /**
+   * Tries to find the last char sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the last char sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( @NonNull char[] data, @NonNull char[] sequence ) {
+    return lastIndexOf( data, sequence, 0 );
+  }
+
+  /**
+   * Tries to find the last character sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The character sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the last character sequence or -1 in case there's no sequence.
+   */
+  public static int lastIndexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
+    int last = buffer.length - sequence.length;
+    if( (last < 0) || (pos > last) ) {
+      // the sequence doesn't fit, so it's not available
+      return -1;
+    }
+    for( int i = last; i >= pos; i-- ) {
+      if( buffer[i] == sequence[0] ) {
+        // we're having a possible match, so compare the sequence
+        if( compare( buffer, sequence, i ) ) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+  
+  /**
+   * Returns true if a char sequence could be found at a specific position.
+   * 
+   * @param data        The data block where to search for. Not <code>null</code>.
+   * @param tocompare   The char sequence which have to be compared with. Not <code>null</code>.
+   * @param offset      The offset within the data block where the sequence seems to be located.
+   * 
+   * @return   <code>true</code> <=> The char sequence is available at the specified offset.
+   */
+  public static boolean compare( @NonNull char[] data, @NonNull char[] tocompare, int offset ) {
+    for( int i = 0; i < tocompare.length; i++, offset++ ) {
+      if( offset == data.length ) {
+        // premature end of the comparison process
+        return false;
+      }
+      if( data[ offset ] != tocompare[i] ) {
+        return false;
+      }
+    }
+    return true; 
+  }
+  
+  /**
    * Implementation of the interfaces Enumeration and Iterator allowing to traverse arrays.
    */
   private static class ArrayTraversal<T> implements Enumeration<T>, Iterator<T> {
