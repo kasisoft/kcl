@@ -51,5 +51,17 @@ public class FailureException extends RuntimeException {
     super( String.format( "%s: %s", String.valueOf( code ), message ) );
     failurecode = code;
   }
+ 
+  /**
+   * Initialises this exception with the appropriate failure information.
+   * 
+   * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
+   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param cause   The causing exception.
+   */
+  public FailureException( @NonNull FailureCode code, @NonNull String message, Throwable cause ) {
+    super( String.format( "%s: %s", String.valueOf( code ), message ), cause );
+    failurecode = code;
+  }
   
 } /* ENDCLASS */

@@ -90,7 +90,7 @@ public class IoFunctions {
     try {
       return new BufferedInputStream( new FileInputStream( file ) );
     } catch( FileNotFoundException ex ) {
-      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath() );
+      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
     }
   }
 
@@ -104,8 +104,8 @@ public class IoFunctions {
   public static InputStream newInputStream( @NonNull URL url ) {
     try {
       return new BufferedInputStream( url.openStream() );
-    } catch( IOException e ) {
-      throw new FailureException( FailureCode.IO, url.toExternalForm() );
+    } catch( IOException ex ) {
+      throw new FailureException( FailureCode.IO, url.toExternalForm(), ex );
     }
   }
 
@@ -120,7 +120,7 @@ public class IoFunctions {
     try {
       return new BufferedOutputStream( new FileOutputStream( file ) );
     } catch( FileNotFoundException ex ) {
-      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath() );
+      throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
     }
   }
 
@@ -625,7 +625,7 @@ public class IoFunctions {
         instream = resource.openStream();
         return readTextAsIs( instream, encoding );
       } catch( IOException ex ) {
-        throw new FailureException( FailureCode.IO, resource.toExternalForm() );
+        throw new FailureException( FailureCode.IO, resource.toExternalForm(), ex );
       } finally {
         MiscFunctions.close( instream );
       }
