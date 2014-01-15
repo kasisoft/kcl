@@ -63,28 +63,6 @@ public class MiscFunctionsTest {
     };
   }
 
-  @DataProvider(name="createCharInsertion")
-  public Object[][] createCharInsertion() {
-    return new Object[][] {
-      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(0), "" },  
-      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(5), "" },  
-      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(0), " small Hello World" },  
-      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(5), "Hello small  World" },  
-      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(50), "Hello World" },  
-    };
-  }
-
-  @DataProvider(name="createByteInsertion")
-  public Object[][] createByteInsertion() {
-    return new Object[][] {
-      { "".getBytes(), "Hello World".getBytes(), Integer.valueOf(0), "" },  
-      { "".getBytes(), "Hello World".getBytes(), Integer.valueOf(5), "" },  
-      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(0), " small Hello World" },  
-      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(5), "Hello small  World" },  
-      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(50), "Hello World" },  
-    };
-  }
-  
   @DataProvider(name="createToSet")
   public Object[][] createToSet() {
     return new Object[][] {
@@ -162,18 +140,6 @@ public class MiscFunctionsTest {
     thread.start();
     MiscFunctions.joinThread( thread );
     Assert.assertEquals( outparam.getValue(), Boolean.TRUE );
-  }
-  
-  @Test(dataProvider="createCharInsertion")
-  public void insertChars( char[] dest, char[] insert, int index, String expected ) {
-    char[] combined = MiscFunctions.insert( dest, insert, index );
-    Assert.assertEquals( new String( combined ), expected );
-  }
-
-  @Test(dataProvider="createByteInsertion")
-  public void insertBytes( byte[] dest, byte[] insert, int index, String expected ) {
-    byte[] combined = MiscFunctions.insert( dest, insert, index );
-    Assert.assertEquals( new String( combined ), expected );
   }
   
   @Test

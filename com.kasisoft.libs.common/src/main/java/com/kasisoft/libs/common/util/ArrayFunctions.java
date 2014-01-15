@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.constants.*;
 
 import java.util.*;
 
+import java.io.*;
+
 import lombok.*;
 
 /**
@@ -23,6 +25,66 @@ public class ArrayFunctions {
    * Prevent instantiation.
    */
   private ArrayFunctions() {
+  }
+  
+  /**
+   * Creates a new byte sequence while inserting one into a data block. If the index is outside of the destination no 
+   * insertion takes place.
+   * 
+   * @param destination   The current data block which will be modified. Not <code>null</code>.
+   * @param newsequence   The byte sequence which has to be inserted. Not <code>null</code>.
+   * @param index         The location where to insert the byte sequence.
+   * 
+   * @return   The modified data block. Not <code>null</code>.
+   */
+  public static byte[] insert( @NonNull byte[] destination, @NonNull byte[] newsequence, int index ) {
+    if( destination.length == 0 ) {
+      return new byte[0];
+    }
+    if( index >= destination.length ) {
+      return Arrays.copyOf( destination, destination.length );
+    }
+    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
+    if( index > 0 ) {
+      byteout.write( destination, 0, index );
+    }
+    if( newsequence.length > 0 ) {
+      byteout.write( newsequence, 0, newsequence.length );
+    }
+    if( index < destination.length ) {
+      byteout.write( destination, index, destination.length - index );
+    }
+    return byteout.toByteArray();
+  }
+
+  /**
+   * Creates a new char sequence while inserting one into a data block. If the index is outside of the destination no 
+   * insertion takes place.
+   * 
+   * @param destination   The current data block which will be modified. Not <code>null</code>.
+   * @param newsequence   The char sequence which has to be inserted. Not <code>null</code>.
+   * @param index         The location where to insert the char sequence.
+   * 
+   * @return   The modified data block. Not <code>null</code>.
+   */
+  public static char[] insert( @NonNull char[] destination, @NonNull char[] newsequence, int index ) {
+    if( destination.length == 0 ) {
+      return new char[0];
+    }
+    if( index >= destination.length ) {
+      return Arrays.copyOf( destination, destination.length );
+    }
+    CharArrayWriter charout = new CharArrayWriter();
+    if( index > 0 ) {
+      charout.write( destination, 0, index );
+    }
+    if( newsequence.length > 0 ) {
+      charout.write( newsequence, 0, newsequence.length );
+    }
+    if( index < destination.length ) {
+      charout.write( destination, index, destination.length - index );
+    }
+    return charout.toCharArray();
   }
   
   /**

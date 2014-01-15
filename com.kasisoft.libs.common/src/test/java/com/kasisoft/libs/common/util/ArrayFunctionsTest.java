@@ -579,4 +579,38 @@ public class ArrayFunctionsTest {
     Assert.assertEquals( new String( joined ), expected );
   }
   
+  @DataProvider(name="createCharInsertion")
+  public Object[][] createCharInsertion() {
+    return new Object[][] {
+      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(0), "" },  
+      { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(5), "" },  
+      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(0), " small Hello World" },  
+      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(5), "Hello small  World" },  
+      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(50), "Hello World" },  
+    };
+  }
+
+  @DataProvider(name="createByteInsertion")
+  public Object[][] createByteInsertion() {
+    return new Object[][] {
+      { "".getBytes(), "Hello World".getBytes(), Integer.valueOf(0), "" },  
+      { "".getBytes(), "Hello World".getBytes(), Integer.valueOf(5), "" },  
+      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(0), " small Hello World" },  
+      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(5), "Hello small  World" },  
+      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(50), "Hello World" },  
+    };
+  }
+  
+  @Test(dataProvider="createCharInsertion")
+  public void insertChars( char[] dest, char[] insert, int index, String expected ) {
+    char[] combined = ArrayFunctions.insert( dest, insert, index );
+    Assert.assertEquals( new String( combined ), expected );
+  }
+
+  @Test(dataProvider="createByteInsertion")
+  public void insertBytes( byte[] dest, byte[] insert, int index, String expected ) {
+    byte[] combined = ArrayFunctions.insert( dest, insert, index );
+    Assert.assertEquals( new String( combined ), expected );
+  }
+  
 } /* ENDCLASS */

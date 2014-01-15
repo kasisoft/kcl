@@ -365,25 +365,12 @@ public class MiscFunctions {
    * @param index         The location where to insert the byte sequence.
    * 
    * @return   The modified data block. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Please use {@link ArrayFunctions#insert(byte[], byte[], int)} instead.
    */
+  @Deprecated
   public static byte[] insert( @NonNull byte[] destination, @NonNull byte[] newsequence, int index ) {
-    if( destination.length == 0 ) {
-      return new byte[0];
-    }
-    if( index >= destination.length ) {
-      return Arrays.copyOf( destination, destination.length );
-    }
-    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-    if( index > 0 ) {
-      byteout.write( destination, 0, index );
-    }
-    if( newsequence.length > 0 ) {
-      byteout.write( newsequence, 0, newsequence.length );
-    }
-    if( index < destination.length ) {
-      byteout.write( destination, index, destination.length - index );
-    }
-    return byteout.toByteArray();
+    return ArrayFunctions.insert( destination, newsequence, index );
   }
 
   /**
@@ -395,25 +382,12 @@ public class MiscFunctions {
    * @param index         The location where to insert the char sequence.
    * 
    * @return   The modified data block. Not <code>null</code>.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Please use {@link ArrayFunctions#insert(char[], char[], int)} instead.
    */
+  @Deprecated
   public static char[] insert( @NonNull char[] destination, @NonNull char[] newsequence, int index ) {
-    if( destination.length == 0 ) {
-      return new char[0];
-    }
-    if( index >= destination.length ) {
-      return Arrays.copyOf( destination, destination.length );
-    }
-    CharArrayWriter charout = new CharArrayWriter();
-    if( index > 0 ) {
-      charout.write( destination, 0, index );
-    }
-    if( newsequence.length > 0 ) {
-      charout.write( newsequence, 0, newsequence.length );
-    }
-    if( index < destination.length ) {
-      charout.write( destination, index, destination.length - index );
-    }
-    return charout.toCharArray();
+    return ArrayFunctions.insert( destination, newsequence, index );
   }
   
   /**
