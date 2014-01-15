@@ -292,23 +292,6 @@ public class MiscFunctionsTest {
     return calendar.getTime();
   }
   
-  @DataProvider(name="joinData")
-  public Object[][] joinData() {
-    return new Object[][] {
-      { new String[][] {}, new String[0] },  
-      { new String[][] { new String[0] }, new String[0] },
-      { new String[][] { new String[0], new String[0] }, new String[0] },
-      { new String[][] { new String[2], new String[0] }, new String[2] },
-      { new String[][] { new String[0], new String[2] }, new String[2] },
-      { new String[][] { new String[] { null }, new String[] { "Hello", null, "World" } }, new String[] { null, "Hello", null, "World" } },
-    };
-  }
-  
-  @Test(dataProvider="joinData", groups="all")
-  public void join( String[][] input, String[] expected ) {
-    Assert.assertEquals( MiscFunctions.join( input ), expected );
-  }
-  
   @Test(groups="all")
   public void getConstructor() {
     Assert.assertNotNull( MiscFunctions.getConstructor( ByteArrayOutputStream.class ) );
