@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.ui;
 
+import java.util.*;
+
 import java.awt.*;
 import java.awt.geom.*;
 
@@ -19,24 +21,43 @@ import lombok.*;
  * 
  * Note: If a Font is not known the Monospaced variety is deliverd since it's definitely existing.
  */
-public enum FontFamily {
+public final class FontFamily {
 
-  Arial              ( "Arial"                ),
-  ArialBlack         ( "Arial Black"          ),
-  CourierNew         ( "Courier New"          ),
-  Dialog             ( "Dialog"               ),
-  DialogInput        ( "DialogInput"          ),
-  LucidaConsole      ( "Lucida Console"       ),
-  LucidaSansUnicode  ( "Lucida Sans Unicode"  ),
-  MicrosoftSansSerif ( "Microsoft Sans Serif" ),
-  Monospaced         ( "Monospaced"           ),
-  SansSerif          ( "SansSerif"            ),
-  Serif              ( "Serif"                ),
-  Symbol             ( "Symbol"               ),
-  Tahoma             ( "Tahoma"               ),
-  TimesNewRoman      ( "Times New Roman"      );
+  public static final FontFamily  Arial;
+  public static final FontFamily  ArialBlack;
+  public static final FontFamily  CourierNew;
+  public static final FontFamily  Dialog;
+  public static final FontFamily  DialogInput;
+  public static final FontFamily  LucidaConsole;
+  public static final FontFamily  LucidaSansUnicode;
+  public static final FontFamily  MicrosoftSansSerif;
+  public static final FontFamily  Monospaced;
+  public static final FontFamily  SansSerif;
+  public static final FontFamily  Serif;
+  public static final FontFamily  Symbol;
+  public static final FontFamily  Tahoma;
+  public static final FontFamily  TimesNewRoman;
   
+  private static final Map<String,FontFamily>   FONTFAMILIES;
   
+  static {
+    FONTFAMILIES        = new Hashtable<String,FontFamily>();
+    Arial               = new FontFamily( "Arial"                );
+    ArialBlack          = new FontFamily( "Arial Black"          );
+    CourierNew          = new FontFamily( "Courier New"          );
+    Dialog              = new FontFamily( "Dialog"               );
+    DialogInput         = new FontFamily( "DialogInput"          );
+    LucidaConsole       = new FontFamily( "Lucida Console"       );
+    LucidaSansUnicode   = new FontFamily( "Lucida Sans Unicode"  );
+    MicrosoftSansSerif  = new FontFamily( "Microsoft Sans Serif" );
+    Monospaced          = new FontFamily( "Monospaced"           );
+    SansSerif           = new FontFamily( "SansSerif"            );
+    Serif               = new FontFamily( "Serif"                );
+    Symbol              = new FontFamily( "Symbol"               );
+    Tahoma              = new FontFamily( "Tahoma"               );
+    TimesNewRoman       = new FontFamily( "Times New Roman"      );
+  }
+
   private String   familyname;
   
   /**
@@ -44,8 +65,9 @@ public enum FontFamily {
    * 
    * @param name   The Font family name. Neither <code>null</code> nor empty.
    */
-  FontFamily( String name ) {
+  public FontFamily( String name ) {
     familyname = name;
+    FONTFAMILIES.put( familyname, this );
   }
 
   /**
@@ -148,6 +170,10 @@ public enum FontFamily {
     }
   }
   
+  public static FontFamily[] values() {
+    return FONTFAMILIES.values().toArray( new FontFamily[ FONTFAMILIES.size() ] );
+  }
+  
   /**
    * Determines the constant value which matches the supplied Font family name.
    * 
@@ -157,7 +183,7 @@ public enum FontFamily {
    */
   public static FontFamily valueByFamilyname( String name ) {
     for( FontFamily fontfamily : FontFamily.values() ) {
-      if( fontfamily.familyname.equals( name ) ) {
+      if( fontfamily.familyname.equalsIgnoreCase( name ) ) {
         return fontfamily;
       }
     }
