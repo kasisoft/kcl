@@ -588,12 +588,7 @@ public class IoFunctions {
    * @throws FailureException in case of an io error.
    */
   public static String readTextAsIs( @NonNull File input, Encoding encoding ) {
-    byte[] data = loadBytes( input, null );
-    if( encoding == null ) {
-      return Encoding.UTF8.decode( data );
-    } else {
-      return encoding.decode( data );
-    }
+    return Encoding.decode( loadBytes( input, null ), encoding );
   }
 
   /**
@@ -609,12 +604,7 @@ public class IoFunctions {
    * @throws FailureException in case of an io error.
    */
   public static String readTextAsIs( @NonNull InputStream instream, Encoding encoding ) {
-    byte[] data = loadBytes( instream, null );
-    if( encoding == null ) {
-      return Encoding.UTF8.decode( data );
-    } else {
-      return encoding.decode( data );
-    }
+    return Encoding.decode( loadBytes( instream, null ), encoding );
   }
 
   /**

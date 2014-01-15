@@ -328,6 +328,38 @@ public final class Encoding {
       return encoding.openPrintStream( outstream );
     }
   }
+  
+  /**
+   * Decodes the binary data.
+   * 
+   * @param data       The binary data. Not <code>null</code>.
+   * @param encoding   The encoding which has to be used. If <code>null</code> the default encoding is used.
+   * 
+   * @return   The decoded String. Not <code>null</code>.
+   */
+  public static String decode( @NonNull byte[] data, Encoding encoding ) {
+    if( encoding == null ) {
+      return getDefault().decode( data );
+    } else {
+      return encoding.decode( data );
+    }
+  }
+
+  /**
+   * Encodes the textual data.
+   * 
+   * @param data       The textual data. Not <code>null</code>.
+   * @param encoding   The encoding which has to be used. If <code>null</code> the default encoding is used.
+   * 
+   * @return   The encoded bytes. Not <code>null</code>.
+   */
+  public static byte[] encode( @NonNull String data, Encoding encoding ) {
+    if( encoding == null ) {
+      return getDefault().encode( data );
+    } else {
+      return encoding.encode( data );
+    }
+  }
 
   public static Encoding[] values() {
     return ENCODINGS.values().toArray( new Encoding[ ENCODINGS.size() ] );
