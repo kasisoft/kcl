@@ -93,5 +93,23 @@ public class ExtArrayListTest {
     Assert.assertEquals( list1.get(6), "" );
     
   }
-  
+
+  @Test
+  public void newListSuppressNull() {
+    
+    ExtArrayList<String> list1 = new ExtArrayList<String>( true );
+    Assert.assertEquals( list1.size(), 0 );
+    
+    ExtArrayList<String> list2 = new ExtArrayList<String>( true, Arrays.asList( "BLA", null, null, "BLUB", null ) );
+    Assert.assertEquals( list2.size(), 2 );
+    Assert.assertEquals( list2.get(0), "BLA" );
+    Assert.assertEquals( list2.get(1), "BLUB" );
+    
+    ExtArrayList<String> list3 = new ExtArrayList<String>( true, "BLA", null, null, "BLUB", null );
+    Assert.assertEquals( list3.size(), 2 );
+    Assert.assertEquals( list3.get(0), "BLA" );
+    Assert.assertEquals( list3.get(1), "BLUB" );
+    
+  }
+
 } /* ENDCLASS */

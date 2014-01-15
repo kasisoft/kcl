@@ -18,11 +18,14 @@ import lombok.*;
  */
 public class ExtArrayList<T> extends ArrayList<T> {
 
+  @Getter
+  private boolean   suppressnull;
+  
   /**
    * Constructs an empty list with an initial capacity of ten.
    */
   public ExtArrayList() {
-    super();
+    this( false );
   }
 
   /**
@@ -31,7 +34,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * @param capacity   The initial capacity for this list.
    */
   public ExtArrayList( int capacity ) {
-    super( capacity );
+    this( false, capacity );
   }
   
   /**
@@ -40,7 +43,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * @param collection   The initial data for this list. Not <code>null</code>.
    */
   public ExtArrayList( @NonNull Collection<? extends T> collection ) {
-    super( collection );
+    this( false, collection );
   }
 
   /**
@@ -49,7 +52,51 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * @param items   The initial data for this list. Not <code>null</code>.
    */
   public ExtArrayList( @NonNull T ... items ) {
+    this( false, items );
+  }
+
+  /**
+   * Constructs an empty list with an initial capacity of ten.
+   * 
+   * @param suppressnull   <code>true</code> <=> Do NOT add <code>null</code> elements.
+   */
+  public ExtArrayList( boolean suppressnull ) {
     super();
+    this.suppressnull = suppressnull;
+  }
+
+  /**
+   * Constructs an empty list with the supplied initial capacity.
+   * 
+   * @param suppressnull   <code>true</code> <=> Do NOT add <code>null</code> elements.
+   * @param capacity       The initial capacity for this list.
+   */
+  public ExtArrayList( boolean suppressnull, int capacity ) {
+    super( capacity );
+    this.suppressnull = suppressnull;
+  }
+  
+  /**
+   * Constructs this list using given data.
+   * 
+   * @param suppressnull   <code>true</code> <=> Do NOT add <code>null</code> elements.
+   * @param collection     The initial data for this list. Not <code>null</code>.
+   */
+  public ExtArrayList( boolean suppressnull, @NonNull Collection<? extends T> collection ) {
+    super( collection.size() );
+    this.suppressnull = suppressnull;
+    addAll( collection );
+  }
+
+  /**
+   * Constructs this list using given data.
+   * 
+   * @param suppressnull   <code>true</code> <=> Do NOT add <code>null</code> elements.
+   * @param items          The initial data for this list. Not <code>null</code>.
+   */
+  public ExtArrayList( boolean suppressnull, @NonNull T ... items ) {
+    super( items.length );
+    this.suppressnull = suppressnull;
     addAll( items );
   }
 
@@ -66,15 +113,34 @@ public class ExtArrayList<T> extends ArrayList<T> {
     }
     return index;
   }
-
-  @Override
-  public void add( int index, @NonNull T element ) {
-    super.add( adjustIndex( index ), element );
+  
+  private boolean isValid( T element ) {
+    return (! suppressnull) || (element != null);
   }
 
   @Override
+  public void add( int index, @NonNull T element ) {
+    if( isValid( element ) ) {
+      super.add( adjustIndex( index ), element );
+    }
+  }
+
+  @Override
+  public boolean addAll( @NonNull Collection<? extends T> collection ) {
+    return addAll( size(), collection );
+  }
+  
+  @Override
   public boolean addAll( int index, @NonNull Collection<? extends T> collection ) {
-    return super.addAll( adjustIndex( index ), collection );
+    int oldcount = size();
+    index        = adjustIndex( index );
+    for( T item : collection ) {
+      if( isValid( item ) ) {
+        super.add( index, item );
+        index++;
+      }
+    }
+    return size() != oldcount;
   }
 
   /**
@@ -86,12 +152,15 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * @return <code>true</code> <=> This list has changed as a result of the call.
    */
   public boolean addAll( int index, @NonNull T ... items ) {
-    index = adjustIndex( index );
+    int oldcount = size();
+    index        = adjustIndex( index );
     for( T item : items ) {
-      super.add( index, item );
-      index++;
+      if( isValid( item ) ) {
+        super.add( index, item );
+        index++;
+      }
     }
-    return false;
+    return size() != oldcount;
   }
   
   /**
