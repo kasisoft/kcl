@@ -348,11 +348,12 @@ public class MiscFunctions {
    * @param length   The amount of bytes which have to be copied. Must be greater than 0.
    * 
    * @return   A copy of the desired range. Neither <code>null</code> nor empty.
+   * 
+   * @deprecated [15-Jan-2014:KASI]   This function will be removed with release 1.4. Please use {@link ArrayFunctions#copyRange(byte[], int, int)} instead.
    */
+  @Deprecated
   public static byte[] copyRange( @NonNull byte[] source, int offset, int length ) {
-    byte[] result = new byte[ length ];
-    System.arraycopy( source, offset, result, 0, length );
-    return result;
+    return ArrayFunctions.copyRange( source, offset, length );
   }
   
   /**

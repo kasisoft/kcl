@@ -1147,6 +1147,36 @@ public class ArrayFunctions {
   }
   
   /**
+   * Copies a small range from a specific array.
+   * 
+   * @param source   The array providing the input data. Not <code>null</code>.
+   * @param offset   The offset of the starting point within the input data. Must be in the range [0..source.length(
+   * @param length   The amount of bytes which have to be copied. Must be greater than 0.
+   * 
+   * @return   A copy of the desired range. Neither <code>null</code> nor empty.
+   */
+  public static byte[] copyRange( @NonNull byte[] source, int offset, int length ) {
+    byte[] result = new byte[ length ];
+    System.arraycopy( source, offset, result, 0, length );
+    return result;
+  }
+
+  /**
+   * Copies a small range from a specific array.
+   * 
+   * @param source   The array providing the input data. Not <code>null</code>.
+   * @param offset   The offset of the starting point within the input data. Must be in the range [0..source.length(
+   * @param length   The amount of bytes which have to be copied. Must be greater than 0.
+   * 
+   * @return   A copy of the desired range. Neither <code>null</code> nor empty.
+   */
+  public static char[] copyRange( @NonNull char[] source, int offset, int length ) {
+    char[] result = new char[ length ];
+    System.arraycopy( source, offset, result, 0, length );
+    return result;
+  }
+
+  /**
    * Implementation of the interfaces Enumeration and Iterator allowing to traverse arrays.
    */
   private static class ArrayTraversal<T> implements Enumeration<T>, Iterator<T> {
