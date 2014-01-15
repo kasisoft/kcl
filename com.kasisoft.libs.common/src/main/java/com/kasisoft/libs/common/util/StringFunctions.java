@@ -9,6 +9,7 @@
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.internal.charsequence.*;
 import com.kasisoft.libs.common.io.*;
 
 import java.util.*;
@@ -18,10 +19,30 @@ import java.io.*;
 import lombok.*;
 
 /**
- * Collection of functions used for String processing.
+ * Collection of functions used for String processing. Whenever an api uses a CharSequence as a type it's safe to
+ * assume that the following types are supported:
+ * 
+ * <ul>
+ *  <li>String</li>
+ *  <li>StringBuilder</li>
+ *  <li>StringBuffer</li>
+ *  <li>StringFBuilder</li>
+ *  <li>StringFBuffer</li>
+ * </ul>
  */
 public class StringFunctions {
 
+  private static final Map<String,CharSequenceFacade>   FACADES;
+  
+  static {
+    FACADES = new Hashtable<String,CharSequenceFacade>();
+    FACADES.put( StringBuffer   . class . getName(), new StringBufferFacade   () );
+    FACADES.put( StringBuilder  . class . getName(), new StringBuilderFacade  () );
+    FACADES.put( String         . class . getName(), new StringFacade         () );
+    FACADES.put( StringFBuffer  . class . getName(), new StringFBufferFacade  () );
+    FACADES.put( StringFBuilder . class . getName(), new StringFBuilderFacade () );
+  }
+  
   private StringFunctions() {
   }
   
@@ -81,7 +102,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (rightmost index) otherwise -1.
    */
-  public static int lastIndexOf( @NonNull String input, @NonNull String ... literals ) {
+  public static <T extends CharSequence> int lastIndexOf( @NonNull T input, @NonNull String ... literals ) {
     return lastIndexOf( input.length(), input, literals );
   }
 
@@ -93,32 +114,8 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
-  public static int lastIndexOf( @NonNull String input, @NonNull char ... characters ) {
+  public static <T extends CharSequence> int lastIndexOf( @NonNull T input, @NonNull char ... characters ) {
     return lastIndexOf( input.length(), input, characters );
-  }
-
-  /**
-   * Returns the last index of some character.
-   * 
-   * @param input        The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param characters   A list of characters used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a character has been found (rightmost index) otherwise -1.
-   */
-  public static int lastIndexOf( @NonNull StringBuffer input, @NonNull char ... characters ) {
-    return lastIndexOf( input.length(), input, characters );
-  }
-
-  /**
-   * Returns the last index of some literal.
-   * 
-   * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param literals   A list of literals used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a literal has been found (rightmost index) otherwise -1.
-   */
-  public static int lastIndexOf( @NonNull StringBuffer input, @NonNull String ... literals ) {
-    return lastIndexOf( input.length(), input, literals );
   }
 
   /**
@@ -130,53 +127,12 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
-  public static int lastIndexOf( int first, @NonNull String input, @NonNull char ... characters ) {
-    int result = -1;
+  public static <T extends CharSequence> int lastIndexOf( int first, @NonNull T input, @NonNull char ... characters ) {
+    CharSequenceFacade<T> facade = getFacade( input );
+    int                   result = -1;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
-      int  pos = input.lastIndexOf( ch, first );
-      if( pos != -1 ) {
-        result = Math.max( result, pos );
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Returns the last index of some literal.
-   * 
-   * @param first      The first position where to start looking from.
-   * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param literals   A list of literals used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a literal has been found (rightmost index) otherwise -1.
-   */
-  public static int lastIndexOf( int first, @NonNull String input, @NonNull String ... literals ) {
-    int result = -1;
-    for( int i = 0; i < literals.length; i++ ) {
-      String literal  = literals[i];
-      int    pos      = input.lastIndexOf( literal, first );
-      if( pos != -1 ) {
-        result = Math.max( result, pos );
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Returns the last index of some character.
-   * 
-   * @param first        The first position where to start looking from.
-   * @param input        The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param characters   A list of characters used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a character has been found (rightmost index) otherwise -1.
-   */
-  public static int lastIndexOf( int first, @NonNull StringBuffer input, @NonNull char ... characters ) {
-    int result = -1;
-    for( int i = 0; i < characters.length; i++ ) {
-      char ch  = characters[i];
-      int  pos = input.lastIndexOf( String.valueOf( ch ), first );
+      int  pos = facade.lastIndexOf( input, ch, first );
       if( pos != -1 ) {
         result = Math.max( result, pos );
       }
@@ -191,13 +147,14 @@ public class StringFunctions {
    * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
    * @param literals   A list of characters used to test. Must have a minimum length of 1.
    * 
-   * @return   The index where a literal has been found (rightmost index) otherwise -1.
+   * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
-  public static int lastIndexOf( int first, @NonNull StringBuffer input, @NonNull String ... literals ) {
-    int result = -1;
+  public static <T extends CharSequence> int lastIndexOf( int first, @NonNull T input, @NonNull String ... literals) {
+    CharSequenceFacade<T> facade = getFacade( input );
+    int                   result = -1;
     for( int i = 0; i < literals.length; i++ ) {
-      String literal  = literals[i];
-      int    pos      = input.lastIndexOf( literal, first );
+      String str = literals[i];
+      int    pos = facade.lastIndexOf( input, str, first );
       if( pos != -1 ) {
         result = Math.max( result, pos );
       }
@@ -213,7 +170,7 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
-  public static int indexOf( @NonNull String input, @NonNull String ... literals ) {
+  public static <T extends CharSequence> int indexOf( @NonNull T input, @NonNull String ... literals ) {
     return indexOf( 0, input, literals );
   }
 
@@ -225,48 +182,25 @@ public class StringFunctions {
    * 
    * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
-  public static int indexOf( @NonNull String input, @NonNull char ... characters ) {
+  public static <T extends CharSequence> int indexOf( @NonNull T input, @NonNull char ... characters ) {
     return indexOf( 0, input, characters );
-  }
-
-  /**
-   * Returns the first index of some character.
-   * 
-   * @param input        The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param characters   A list of characters used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a character has been found (leftmost index) otherwise -1.
-   */
-  public static int indexOf( @NonNull StringBuffer input, @NonNull char ... characters ) {
-    return indexOf( 0, input, characters );
-  }
-
-  /**
-   * Returns the first index of some character.
-   * 
-   * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param literals   A list of literals used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a literal has been found (leftmost index) otherwise -1.
-   */
-  public static int indexOf( @NonNull StringBuffer input, @NonNull String ... literals ) {
-    return indexOf( 0, input, literals );
   }
 
   /**
    * Returns the first index of some character.
    * 
    * @param first        The first position where to start looking from.
-   * @param input        The String where the characters have to be looked for. Neither <code>null</code> nor empty.
+   * @param input        The CharSequence where the characters have to be looked for. Neither <code>null</code> nor empty.
    * @param characters   A list of characters used to test. Must have a minimum length of 1.
    * 
    * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
-  public static int indexOf( int first, @NonNull String input, @NonNull char ... characters ) {
-    int result = Integer.MAX_VALUE;
+  public static <T extends CharSequence> int indexOf( int first, @NonNull T input, @NonNull char ... characters ) {
+    CharSequenceFacade<T> facade = getFacade( input );
+    int                   result = Integer.MAX_VALUE;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
-      int  pos = input.indexOf( ch, first );
+      int  pos = facade.indexOf( input, ch, first );
       if( pos != -1 ) {
         result = Math.min( result, pos );
       }
@@ -277,7 +211,15 @@ public class StringFunctions {
       return result;
     }
   }
-
+  
+  private static <T extends CharSequence> CharSequenceFacade<T> getFacade( @NonNull T input ) {
+    CharSequenceFacade<T> result = FACADES.get( input.getClass().getName() );
+    if( result == null ) {
+      throw new IllegalArgumentException( String.format( "Unsupported CharSequence type '%s'", input.getClass().getName() ) );
+    }
+    return result;
+  }
+  
   /**
    * Returns the first index of some character.
    * 
@@ -287,111 +229,12 @@ public class StringFunctions {
    * 
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
-  public static int indexOf( int first, @NonNull String input, @NonNull String ... literals ) {
-    int result = Integer.MAX_VALUE;
+  public static <T extends CharSequence> int indexOf( int first, @NonNull T input, @NonNull String ... literals ) {
+    CharSequenceFacade<T> facade = getFacade( input );
+    int                   result = Integer.MAX_VALUE;
     for( int i = 0; i < literals.length; i++ ) {
       String literal  = literals[i];
-      int    pos      = input.indexOf( literal, first );
-      if( pos != -1 ) {
-        result = Math.min( result, pos );
-      }
-    }
-    if( result == Integer.MAX_VALUE ) {
-      return -1;
-    } else {
-      return result;
-    }
-  }
-
-  /**
-   * Returns the first index of some character.
-   * 
-   * @param first        The first position where to start looking from.
-   * @param input        The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param characters   A list of characters used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a character has been found (leftmost index) otherwise -1.
-   */
-  public static int indexOf( int first, @NonNull StringBuffer input, @NonNull char ... characters ) {
-    int result = Integer.MAX_VALUE;
-    for( int i = 0; i < characters.length; i++ ) {
-      char ch  = characters[i];
-      int  pos = input.indexOf( String.valueOf( ch ), first );
-      if( pos != -1 ) {
-        result = Math.min( result, pos );
-      }
-    }
-    if( result == Integer.MAX_VALUE ) {
-      return -1;
-    } else {
-      return result;
-    }
-  }
-
-  /**
-   * Returns the first index of some character.
-   * 
-   * @param first        The first position where to start looking from.
-   * @param input        The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param characters   A list of characters used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a character has been found (leftmost index) otherwise -1.
-   */
-  public static int indexOf( int first, @NonNull StringBuilder input, @NonNull char ... characters ) {
-    int result = Integer.MAX_VALUE;
-    for( int i = 0; i < characters.length; i++ ) {
-      char ch  = characters[i];
-      int  pos = input.indexOf( String.valueOf( ch ), first );
-      if( pos != -1 ) {
-        result = Math.min( result, pos );
-      }
-    }
-    if( result == Integer.MAX_VALUE ) {
-      return -1;
-    } else {
-      return result;
-    }
-  }
-
-  /**
-   * Returns the first index of some character.
-   * 
-   * @param first      The first position where to start looking from.
-   * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param literals   A list of characters used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a literal has been found (leftmost index) otherwise -1.
-   */
-  public static int indexOf( int first, @NonNull StringBuffer input, @NonNull String ... literals ) {
-    int result = Integer.MAX_VALUE;
-    for( int i = 0; i < literals.length; i++ ) {
-      String literal  = literals[i];
-      int    pos      = input.indexOf( literal, first );
-      if( pos != -1 ) {
-        result = Math.min( result, pos );
-      }
-    }
-    if( result == Integer.MAX_VALUE ) {
-      return -1;
-    } else {
-      return result;
-    }
-  }
-
-  /**
-   * Returns the first index of some character.
-   * 
-   * @param first      The first position where to start looking from.
-   * @param input      The String where the characters have to be looked for. Neither <code>null</code> nor empty.
-   * @param literals   A list of characters used to test. Must have a minimum length of 1.
-   * 
-   * @return   The index where a literal has been found (leftmost index) otherwise -1.
-   */
-  public static int indexOf( int first, @NonNull StringBuilder input, @NonNull String ... literals ) {
-    int result = Integer.MAX_VALUE;
-    for( int i = 0; i < literals.length; i++ ) {
-      String literal  = literals[i];
-      int    pos      = input.indexOf( literal, first );
+      int    pos      = facade.indexOf( input, literal, first );
       if( pos != -1 ) {
         result = Math.min( result, pos );
       }
@@ -516,11 +359,12 @@ public class StringFunctions {
    * @param search    The partial String to search for. Neither <code>null</code> nor empty.
    * @param replace   The String to replace instead. Not <code>null</code>.
    */
-  public static void replace( @NonNull StringFBuffer buffer, @NonNull String search, @NonNull String replace ) {
-    int index  = buffer.indexOf( search, 0 );
+  public static <T extends CharSequence> void replace( @NonNull T buffer, @NonNull String search, @NonNull String replace ) {
+    CharSequenceFacade<T> facade = getFacade( buffer );
+    int                   index  = facade.indexOf( buffer, search, 0 );
     while( index != -1 ) {
-      buffer.replace( index, index + search.length(), replace );
-      index = buffer.indexOf( search, index + replace.length() );
+      buffer = facade.replace( buffer, index, index + search.length(), replace );
+      index  = facade.indexOf( buffer, search, index + replace.length() );
     }
   }
 
@@ -544,33 +388,35 @@ public class StringFunctions {
    * @param buffer         The buffer which has to be modified in place. Not <code>null</code>.
    * @param replacements   A Map of String's used to run the search replace operation. Not <code>null</code>.
    */
-  public static void replace( @NonNull StringFBuffer buffer, @NonNull Map<String,String> replacements ) {
-    Set<String>   search = replacements.keySet();
-    Tupel<String> key    = new Tupel<String>();
-    int           index  = indexOf( buffer, search, key, 0 );
+  public static <T extends CharSequence> void replace( @NonNull T buffer, @NonNull Map<String,String> replacements ) {
+    CharSequenceFacade<T> facade = getFacade( buffer );
+    Set<String>           search = replacements.keySet();
+    Tupel<String>         key    = new Tupel<String>();
+    int                   index  = indexOf( facade, buffer, search, key, 0 );
     while( index != -1 ) {
       String searchstr  = key.getValue();
       String replacestr = replacements.get( searchstr );
-      buffer.replace( index, index + searchstr.length(), replacestr );
-      index             = indexOf( buffer, search, key, index + replacestr.length() );
+      buffer            = facade.replace( buffer, index, index + searchstr.length(), replacestr );
+      index             = indexOf( facade, buffer, search, key, index + replacestr.length() );
     }
   }
 
   /**
    * Locates the index of the leftmost search string.
    * 
-   * @param input   The StringBuffer where to look at. Not <code>null</code>.
-   * @param keys    All used search strings. Not <code>null</code>.
-   * @param key     Receiver of the String that finally has been found. Not <code>null</code>.
-   * @param start   An initial index.
+   * @param facade   The facade that will be used to access the buffer. Not <code>null</code>.
+   * @param input    The StringBuffer where to look at. Not <code>null</code>.
+   * @param keys     All used search strings. Not <code>null</code>.
+   * @param key      Receiver of the String that finally has been found. Not <code>null</code>.
+   * @param start    An initial index.
    * 
    * @return   The index where a search string has been found or -1 in case none has been found.
    */
-  private static int indexOf( @NonNull StringFBuffer input, @NonNull Set<String> keys, @NonNull Tupel<String> key, int start ) {
+  private static <T extends CharSequence> int indexOf( CharSequenceFacade<T> facade, T input, Set<String> keys, Tupel<String> key, int start ) {
     int result = -1;
     key.setValues( (String[]) null );
     for( String current : keys ) {
-      int pos = input.indexOf( current, start );
+      int pos = facade.indexOf( input, current, start );
       if( pos != -1 ) {
         if( (result == -1) || (pos < result) ) {
           result = pos;
@@ -589,9 +435,10 @@ public class StringFunctions {
    * 
    * @return  true <=> The element which has to be tested is contained.
    */
-  public static boolean contains( @NonNull String test, @NonNull String ... candidates ) {
+  public static <T extends CharSequence> boolean contains( @NonNull T test, @NonNull String ... candidates ) {
+    CharSequenceFacade<T> facade = getFacade( test );
     for( String entry : candidates ) {
-      if( test.contains( entry ) ) {
+      if( facade.contains( test, entry ) ) {
         return true;
       }
     }
@@ -769,11 +616,16 @@ public class StringFunctions {
    * 
    * @return   The limited version of the supplied text. Maybe <code>null</code>.
    */
-  public static String limit( String text, int limit ) {
-    if( (text != null) && (text.length() > limit) ) {
-      return text.substring( 0, limit );
+  public static <T extends CharSequence> String limit( T text, int limit ) {
+    if( text == null ) {
+      return null;
+    } else {
+      CharSequenceFacade<T> facade = getFacade( text );
+      if( facade.length( text ) > limit ) {
+        return facade.substring( text, 0, limit );
+      }
+      return text.toString();
     }
-    return text;
   }
   
   /**
