@@ -10,6 +10,7 @@ package com.kasisoft.libs.common.io;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.datatypes.*;
 import com.kasisoft.libs.common.sys.*;
 import com.kasisoft.libs.common.thread.*;
 import com.kasisoft.libs.common.util.*;
@@ -769,14 +770,39 @@ public class IoFunctions {
       MiscFunctions.close( input );
     }
   }
-  
+
+  /**
+   * Reads some fragment of the supplied input.
+   * 
+   * @param url      The respource providing the content. Not <code>null</code>.
+   * @param offset   The location where to read the data.
+   * @param length   The length of the data that has to be read. 
+   * 
+   * @return   The fragment or at least the beginning part of the desired fragment.
+   * 
+   * @throws FailureException in case the fragment could not be read.
+   */
+  public static byte[] loadFragment( @NonNull URL url, int offset, int length ) {
+    InputStream input = null;
+    try {
+      input = newInputStream( url );
+      return loadFragment( input, offset, length );
+    } finally {
+      MiscFunctions.close( input );
+    }
+  }
+
   /**
    * Returns <code>true</code> if the supplied buffer indicates to be compressed using the popular GZIP algorithm.
    *  
    * @param buffer   The buffer which will be tested. Not <code>null</code>.
    * 
    * @return   <code>true</code> <=> The buffer seems to be compressed using GZIP.
+   * 
+   * @deprecated [16-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link FileTypeManager} instead.
    */
+  @SuppressWarnings("deprecation")
+  @Deprecated
   public static boolean isGZIP( @NonNull byte[] buffer ) {
     return MagicNumber.GZIP.find( buffer );
   }
@@ -789,7 +815,10 @@ public class IoFunctions {
    * @return   <code>true</code> <=> The buffer seems to be compressed using GZIP.
    * 
    * @throws FailureException if loading the header failed for some reason.
+   * 
+   * @deprecated [16-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link FileTypeManager} instead.
    */
+  @Deprecated
   public static boolean isGZIP( @NonNull File file ) {
     byte[] fragment = loadFragment( file, 0, 2 );
     if( fragment.length == 2 ) {

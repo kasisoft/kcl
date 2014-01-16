@@ -272,6 +272,7 @@ public class IoFunctionsTest {
     
   }
 
+  @SuppressWarnings("deprecation")
   @Test(groups="all")
   public void isGZIP() {
     

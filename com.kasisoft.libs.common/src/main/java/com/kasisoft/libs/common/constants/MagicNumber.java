@@ -12,7 +12,10 @@ import java.util.zip.*;
 
 /**
  * Collection of magic numbers/keys.
+ * 
+ * @deprecated [16-Jan-2014:KASI]   Use 
  */
+@Deprecated
 public enum MagicNumber {
 
   GZIP( 0, 2, new GZIPTest() );
@@ -70,6 +73,7 @@ public enum MagicNumber {
   
   private static class GZIPTest implements NumberTest {
     
+    @SuppressWarnings("deprecation")
     @Override
     public boolean test( byte[] data ) {
       return ( ((data[1] << 8) | data[0]) & 0x0000FFFF ) == GZIPInputStream.GZIP_MAGIC;

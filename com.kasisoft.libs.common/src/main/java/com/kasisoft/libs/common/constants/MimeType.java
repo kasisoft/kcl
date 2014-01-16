@@ -21,6 +21,8 @@ import lombok.*;
  */
 public enum MimeType {
 
+  SevenZip                    ( "application/x-7z-compressed"   , "7z"                                ),  // 7z
+  Bzip2                       ( "application/x-bzip"            , "bz2"                               ),  // BZIP 2
   GZip                        ( "application/gzip"              , "gz"                                ),  // GNU Zip
   MicrosoftExcel              ( "application/msexcel"           , "xls", "xla"                        ),  // Microsoft Excel
   MicrosoftHelp               ( "application/mshelp"            , "hlp", "chm"                        ),  // Microsoft help files
