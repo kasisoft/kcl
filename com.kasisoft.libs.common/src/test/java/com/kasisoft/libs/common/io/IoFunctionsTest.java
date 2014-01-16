@@ -404,9 +404,11 @@ public class IoFunctionsTest {
 
   @Test(groups="all")
   public void locateDirectory() throws IOException {
-    File dir      = IoFunctions.locateDirectory( Iso3166Test.class );
-    File current  = new File( "target/test-classes" );;
-    Assert.assertEquals( dir, current.getCanonicalFile() );
+    File dir       = IoFunctions.locateDirectory( Iso3166Test.class );
+    Assert.assertNotNull( dir );
+    File current1  = new File( "target/test-classes" ).getCanonicalFile(); // using maven
+    File current2  = new File( "build/classes/test"  ).getCanonicalFile(); // using gradle
+    Assert.assertTrue( dir.equals( current1 ) || dir.equals( current2 ) );
   }
   
 } /* ENDCLASS */
