@@ -101,6 +101,6 @@ public abstract class AbstractEventDispatcher<L,E> {
    * @param listener   The listener that will be notified. Not <code>null</code>.
    * @param event      The event that has been fired. Not <code>null</code>.
    */
-  protected abstract void invokeEvent( @NonNull L listener, @NonNull E event );
+  protected abstract void invokeEvent( L listener, E event );
   
 } /* ENDCLASS */
