@@ -89,6 +89,9 @@ public class I18NSupport {
     Properties  result      = new Properties();
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
     for( String variant : candidates ) {
+      if( variant == null ) {
+        continue;
+      }
       URL url = classloader.getResource( variant );
       if( url == null ) {
         continue;
@@ -133,7 +136,12 @@ public class I18NSupport {
           if( field.getType() == String.class ) {
             field.set( null, value );
           } else {
-            field.set( null, new I18NFormatter( value ) );
+            I18NFormatter formatter = (I18NFormatter) field.get( null );
+            if( formatter == null ) {
+              formatter = new I18NFormatter( value );
+              field.set( null, formatter );
+            }
+            formatter.setValue( value );
           }
         } catch( Exception ex ) {
           throw new FailureException( FailureCode.Reflections, ex );
@@ -174,11 +182,14 @@ public class I18NSupport {
       base    = clazz.getName().toLowerCase().replace('.','/');
       prefix  = "";
     }
-    String[] candidates = new String[] {
-      String.format( "%s_%s_%s.properties"  , base, locale.getLanguage(), locale.getCountry() ),  // f.e. de_DE
-      String.format( "%s_%s.properties"     , base, locale.getLanguage() ),                       // f.e. de
-      String.format( "%s.properties"        , base ),
-    };
+    
+    String[] candidates = new String[3];
+    String   country = StringFunctions.cleanup( locale.getCountry() );
+    if( country != null ) {
+      candidates[0] = String.format( "%s_%s_%s.properties", base, locale.getLanguage(), country ); // f.e. de_DE
+    }
+    candidates[1] = String.format( "%s_%s.properties", base, locale.getLanguage() ); // f.e. de 
+    candidates[2] = String.format( "%s.properties", base ); 
 
     applyTranslations( prefix, loadTranslations( candidates ), collectFields( clazz ) );
     
