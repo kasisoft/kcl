@@ -130,7 +130,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    */
   private String cleanup( String input ) {
     if( input != null ) {
-      input = trim( input );
+      input = StringFunctions.trim( input, " \t", null );
       if( input.length() == 0 ) {
         input = null;
       }
@@ -138,26 +138,6 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
     return input;
   }
 
-  /**
-   * Like {@link String#trim()} with the difference that line delimiters will be execluded here.
-   * 
-   * @param input   The input that is supposed to be trimmed. Not <code>null</code>.
-   * 
-   * @return   The trimmed input. Not <code>null</code>.
-   */
-  private String trim( String input ) {
-    int    len = input.length();
-    int    st  = 0;
-    char[] val = input.toCharArray();
-    while( (st < len) && (val[st] <= ' ') && (val[st] != '\r') && (val[st] != '\n') ) {
-      st++;
-    }
-    while( (st < len) && (val[len - 1] <= ' ') && (val[st] != '\r') && (val[st] != '\n') ) {
-      len--;
-    }
-    return ((st > 0) || (len < input.length())) ? input.substring( st, len ) : input;
-  }
-  
   /**
    * Changes the value of a property.
    * 

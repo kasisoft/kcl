@@ -99,6 +99,20 @@ public interface CharSequenceFacade<T extends CharSequence> {
    *           Not <code>null</code>.
    */
   T replace( T sequence, int offset, int end, String replacement );
+
+  /**
+   * Trims the supplied sequence.
+   * 
+   * @param sequence      The object which has to be investigated. Not <code>null</code>.
+   * @param chars         The characters that decide whether the trimming shall happend. Neither <code>null</code> nor empty.
+   * @param left          <code>null</code> <=> Trim left and right.
+   *                      <code>true</code> <=> Trim left.
+   *                      <code>false</code> <=> Trim right.
+   *                      
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T trim( T sequence, String chars, Boolean left );
   
 } /* ENDINTERFACE */
 

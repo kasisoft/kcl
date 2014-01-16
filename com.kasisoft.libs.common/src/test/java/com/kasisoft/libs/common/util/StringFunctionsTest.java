@@ -479,4 +479,150 @@ public class StringFunctionsTest {
     Assert.assertEquals( StringFunctions.toLines( current ), expected );
   }
   
+  @DataProvider(name="trimData")
+  public Object[][] trimData() {
+    
+    Object[][] data = new Object[][] {
+        
+      { ""              , " \t\r\n", null, ""       },
+      { " "             , " \t\r\n", null, ""       },
+      { "  "            , " \t\r\n", null, ""       },
+      { "   "           , " \t\r\n", null, ""       },
+      { "Sample   "     , " \t\r\n", null, "Sample" },
+      { "  Sample"      , " \t\r\n", null, "Sample" },
+      { " Sample "      , " \t\r\n", null, "Sample" },
+
+      { "\t"            , " \t\r\n", null, ""       },
+      { "\t\t"          , " \t\r\n", null, ""       },
+      { "\t\t\t"        , " \t\r\n", null, ""       },
+      { "Sample\t\t\t"  , " \t\r\n", null, "Sample" },
+      { "\t\tSample"    , " \t\r\n", null, "Sample" },
+      { "\tSample\t"    , " \t\r\n", null, "Sample" },
+      
+      { "\r"            , " \t\r\n", null, ""       },
+      { "\r\r"          , " \t\r\n", null, ""       },
+      { "\r\r\r"        , " \t\r\n", null, ""       },
+      { "Sample\r\r\r"  , " \t\r\n", null, "Sample" },
+      { "\r\rSample"    , " \t\r\n", null, "Sample" },
+      { "\rSample\r"    , " \t\r\n", null, "Sample" },
+
+      { "\n"            , " \t\r\n", null, ""       },
+      { "\n\n"          , " \t\r\n", null, ""       },
+      { "\n\n\n"        , " \t\r\n", null, ""       },
+      { "Sample\n\n\n"  , " \t\r\n", null, "Sample" },
+      { "\n\nSample"    , " \t\r\n", null, "Sample" },
+      { "\nSample\n"    , " \t\r\n", null, "Sample" },
+
+      { "\n"            , " \t", null, "\n"           },
+      { "\n\n"          , " \t", null, "\n\n"         },
+      { "\n\n\n"        , " \t", null, "\n\n\n"       },
+      { "Sample\n\n\n"  , " \t", null, "Sample\n\n\n" },
+      { "\n\nSample"    , " \t", null, "\n\nSample"   },
+      { "\nSample\n"    , " \t", null, "\nSample\n"   },
+
+      { ""              , " \t\r\n", Boolean.TRUE, ""             },
+      { " "             , " \t\r\n", Boolean.TRUE, ""             },
+      { "  "            , " \t\r\n", Boolean.TRUE, ""             },
+      { "   "           , " \t\r\n", Boolean.TRUE, ""             },
+      { "Sample   "     , " \t\r\n", Boolean.TRUE, "Sample   "    },
+      { "  Sample"      , " \t\r\n", Boolean.TRUE, "Sample"       },
+      { " Sample "      , " \t\r\n", Boolean.TRUE, "Sample "      },
+
+      { "\t"            , " \t\r\n", Boolean.TRUE, ""             },
+      { "\t\t"          , " \t\r\n", Boolean.TRUE, ""             },
+      { "\t\t\t"        , " \t\r\n", Boolean.TRUE, ""             },
+      { "Sample\t\t\t"  , " \t\r\n", Boolean.TRUE, "Sample\t\t\t" },
+      { "\t\tSample"    , " \t\r\n", Boolean.TRUE, "Sample"       },
+      { "\tSample\t"    , " \t\r\n", Boolean.TRUE, "Sample\t"     },
+      
+      { "\r"            , " \t\r\n", Boolean.TRUE, ""             },
+      { "\r\r"          , " \t\r\n", Boolean.TRUE, ""             },
+      { "\r\r\r"        , " \t\r\n", Boolean.TRUE, ""             },
+      { "Sample\r\r\r"  , " \t\r\n", Boolean.TRUE, "Sample\r\r\r" },
+      { "\r\rSample"    , " \t\r\n", Boolean.TRUE, "Sample"       },
+      { "\rSample\r"    , " \t\r\n", Boolean.TRUE, "Sample\r"     },
+
+      { "\n"            , " \t\r\n", Boolean.TRUE, ""             },
+      { "\n\n"          , " \t\r\n", Boolean.TRUE, ""             },
+      { "\n\n\n"        , " \t\r\n", Boolean.TRUE, ""             },
+      { "Sample\n\n\n"  , " \t\r\n", Boolean.TRUE, "Sample\n\n\n" },
+      { "\n\nSample"    , " \t\r\n", Boolean.TRUE, "Sample"       },
+      { "\nSample\n"    , " \t\r\n", Boolean.TRUE, "Sample\n"     },
+
+      { "\n"            , " \t", Boolean.TRUE, "\n"           },
+      { "\n\n"          , " \t", Boolean.TRUE, "\n\n"         },
+      { "\n\n\n"        , " \t", Boolean.TRUE, "\n\n\n"       },
+      { "Sample\n\n\n"  , " \t", Boolean.TRUE, "Sample\n\n\n" },
+      { "\n\nSample"    , " \t", Boolean.TRUE, "\n\nSample"   },
+      { "\nSample\n"    , " \t", Boolean.TRUE, "\nSample\n"   },
+      
+      { ""              , " \t\r\n", Boolean.FALSE, ""             },
+      { " "             , " \t\r\n", Boolean.FALSE, ""             },
+      { "  "            , " \t\r\n", Boolean.FALSE, ""             },
+      { "   "           , " \t\r\n", Boolean.FALSE, ""             },
+      { "Sample   "     , " \t\r\n", Boolean.FALSE, "Sample"       },
+      { "  Sample"      , " \t\r\n", Boolean.FALSE, "  Sample"     },
+      { " Sample "      , " \t\r\n", Boolean.FALSE, " Sample"      },
+
+      { "\t"            , " \t\r\n", Boolean.FALSE, ""             },
+      { "\t\t"          , " \t\r\n", Boolean.FALSE, ""             },
+      { "\t\t\t"        , " \t\r\n", Boolean.FALSE, ""             },
+      { "Sample\t\t\t"  , " \t\r\n", Boolean.FALSE, "Sample"       },
+      { "\t\tSample"    , " \t\r\n", Boolean.FALSE, "\t\tSample"   },
+      { "\tSample\t"    , " \t\r\n", Boolean.FALSE, "\tSample"     },
+      
+      { "\r"            , " \t\r\n", Boolean.FALSE, ""             },
+      { "\r\r"          , " \t\r\n", Boolean.FALSE, ""             },
+      { "\r\r\r"        , " \t\r\n", Boolean.FALSE, ""             },
+      { "Sample\r\r\r"  , " \t\r\n", Boolean.FALSE, "Sample"       },
+      { "\r\rSample"    , " \t\r\n", Boolean.FALSE, "\r\rSample"   },
+      { "\rSample\r"    , " \t\r\n", Boolean.FALSE, "\rSample"     },
+
+      { "\n"            , " \t\r\n", Boolean.FALSE, ""             },
+      { "\n\n"          , " \t\r\n", Boolean.FALSE, ""             },
+      { "\n\n\n"        , " \t\r\n", Boolean.FALSE, ""             },
+      { "Sample\n\n\n"  , " \t\r\n", Boolean.FALSE, "Sample"       },
+      { "\n\nSample"    , " \t\r\n", Boolean.FALSE, "\n\nSample"   },
+      { "\nSample\n"    , " \t\r\n", Boolean.FALSE, "\nSample"     },
+
+      { "\n"            , " \t", Boolean.FALSE, "\n"           },
+      { "\n\n"          , " \t", Boolean.FALSE, "\n\n"         },
+      { "\n\n\n"        , " \t", Boolean.FALSE, "\n\n\n"       },
+      { "Sample\n\n\n"  , " \t", Boolean.FALSE, "Sample\n\n\n" },
+      { "\n\nSample"    , " \t", Boolean.FALSE, "\n\nSample"   },
+      { "\nSample\n"    , " \t", Boolean.FALSE, "\nSample\n"   },
+      
+    };
+    
+    int        count  = 5;
+    Object[][] result = new Object[ data.length * count ][];
+    for( int i = 0; i < data.length; i++ ) {
+      
+      String  str           = (String) data[i][0];
+      int     idx           = i * count;
+      result[ idx + 0 ]     = data[i];
+      
+      result[ idx + 1 ]     = Arrays.copyOf( data[i], data[i].length );
+      result[ idx + 1 ][0]  = new StringBuilder( str );
+
+      result[ idx + 2 ]     = Arrays.copyOf( data[i], data[i].length );
+      result[ idx + 2 ][0]  = new StringBuffer( str );
+
+      result[ idx + 3 ]     = Arrays.copyOf( data[i], data[i].length );
+      result[ idx + 3 ][0]  = new StringFBuilder( str );
+
+      result[ idx + 4 ]     = Arrays.copyOf( data[i], data[i].length );
+      result[ idx + 4 ][0]  = new StringFBuffer( str );
+
+    }
+    
+    return result;
+    
+  }
+  
+  @Test(dataProvider="trimData", groups="all")
+  public void trim( CharSequence current, String chars, Boolean left, String expected ) {
+    Assert.assertEquals( StringFunctions.trim( current, chars, left ).toString(), expected );
+  }
+  
 } /* ENDCLASS */

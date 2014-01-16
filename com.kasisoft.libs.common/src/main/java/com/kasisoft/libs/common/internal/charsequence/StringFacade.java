@@ -55,4 +55,20 @@ public class StringFacade implements CharSequenceFacade<String> {
     return builder.toString();
   }
 
+  @Override
+  public String trim( String sequence, String chars, Boolean left ) {
+    StringBuilder builder = new StringBuilder( sequence );
+    if( (left == null) || left.booleanValue() ) {
+      while( (builder.length() > 0) && (chars.indexOf( builder.charAt(0) ) != -1) ) {
+        builder.deleteCharAt(0);
+      }
+    }
+    if( (left == null) || (! left.booleanValue()) ) {
+      while( (builder.length() > 0) && (chars.indexOf( builder.charAt( builder.length() - 1 ) ) != -1) ) {
+        builder.deleteCharAt( builder.length() - 1 );
+      }
+    }
+    return builder.toString();
+  }
+
 } /* ENDCLASS */

@@ -54,4 +54,19 @@ public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
     return sequence;
   }
 
+  @Override
+  public StringBuilder trim( StringBuilder sequence, String chars, Boolean left ) {
+    if( (left == null) || left.booleanValue() ) {
+      while( (sequence.length() > 0) && (chars.indexOf( sequence.charAt(0) ) != -1) ) {
+        sequence.deleteCharAt(0);
+      }
+    }
+    if( (left == null) || (! left.booleanValue()) ) {
+      while( (sequence.length() > 0) && (chars.indexOf( sequence.charAt( sequence.length() - 1 ) ) != -1) ) {
+        sequence.deleteCharAt( sequence.length() - 1 );
+      }
+    }
+    return sequence;
+  }
+
 } /* ENDCLASS */

@@ -735,5 +735,52 @@ public class StringFunctions {
       MiscFunctions.close( reader );
     }
   }
+  
+  /**
+   * Trims the supplied sequence using the default whitespace characters.
+   * 
+   * @param input   The object which has to be investigated. Not <code>null</code>.
+   *                      
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T trim( @NonNull T input ) {
+    CharSequenceFacade<T> facade = getFacade( input );
+    return facade.trim( input, " \t\r\n", null );
+  }
+  
+  
+  /**
+   * Trims the supplied sequence using the default whitespace characters.
+   * 
+   * @param input   The object which has to be investigated. Not <code>null</code>.
+   * @param left    <code>null</code> <=> Trim left and right.
+   *                <code>true</code> <=> Trim left.
+   *                <code>false</code> <=> Trim right.
+   *                      
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T trim( @NonNull T input, Boolean left ) {
+    CharSequenceFacade<T> facade = getFacade( input );
+    return facade.trim( input, " \t\r\n", left );
+  }
+  
+  /**
+   * Trims the supplied sequence.
+   * 
+   * @param input   The object which has to be investigated. Not <code>null</code>.
+   * @param chars   The characters that decide whether the trimming shall happend. Neither <code>null</code> nor empty.
+   * @param left    <code>null</code> <=> Trim left and right.
+   *                <code>true</code> <=> Trim left.
+   *                <code>false</code> <=> Trim right.
+   *                      
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T trim( @NonNull T input, @NonNull String chars, Boolean left ) {
+    CharSequenceFacade<T> facade = getFacade( input );
+    return facade.trim( input, chars, left );
+  }
 
 } /* ENDCLASS */
