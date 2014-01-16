@@ -316,11 +316,6 @@ public class StringFunctionsTest {
     };
   }
   
-  @Test(dataProvider="createRepeat", groups="all")
-  public void repeat( int n, String text, String expected ) {
-    Assert.assertEquals( StringFunctions.repeat( n, text ), expected );
-  }
-  
   @DataProvider(name="createRepeat")
   public Object[][] createRepeat() {
     return new Object[][] {
@@ -336,6 +331,10 @@ public class StringFunctionsTest {
     };
   }
 
+  @Test(dataProvider="createRepeat", groups="all")
+  public void repeat( int n, String text, String expected ) {
+    Assert.assertEquals( StringFunctions.repeat( n, text ), expected );
+  }
   
   @Test(dataProvider="createLimit", groups="all")
   public void limit( String text, int limit, String expected ) {

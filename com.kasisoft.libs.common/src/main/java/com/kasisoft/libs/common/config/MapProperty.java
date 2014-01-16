@@ -104,7 +104,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( @NonNull Map<String,String> properties, @NonNull Map<String,T> newvalue ) {
+  public void setValue( @NonNull Map<String,String> properties, Map<String,T> newvalue ) {
     removeProperties( properties.keySet() );
     if( newvalue != null ) {
       for( Map.Entry<String,T> entry : newvalue.entrySet() ) {

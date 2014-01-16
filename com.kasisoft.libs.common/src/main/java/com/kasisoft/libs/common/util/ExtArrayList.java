@@ -190,8 +190,12 @@ public class ExtArrayList<T> extends ArrayList<T> {
   }
 
   @Override
-  public T set( int index, @NonNull T element ) {
-    return super.set( adjustIndex( index ), element );
+  public T set( int index, T element ) {
+    if( isValid( element ) ) {
+      return super.set( adjustIndex( index ), element );
+    } else {
+      return super.remove( adjustIndex( index ) );
+    }
   }
 
   @Override

@@ -37,7 +37,7 @@ public class VersionTest {
     };
   }
   
-  @Test(dataProvider="createInvalidVersions", expectedExceptions=ParseException.class, groups="all")
+  @Test(dataProvider="createInvalidVersions", expectedExceptions={ParseException.class, NullPointerException.class}, groups="all")
   public void failingVersions( String version, boolean hasmicro, boolean hasqualifier ) throws Exception {
     new Version( version, hasmicro, hasqualifier );
   }

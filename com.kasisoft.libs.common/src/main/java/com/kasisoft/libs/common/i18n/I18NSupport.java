@@ -158,7 +158,7 @@ public class I18NSupport {
    *                 will be used.
    * @param clazz    The class that is supposed to be translated. Not <code>null</code>.
    */
-  public static void initialize( @NonNull Locale locale, @NonNull Class<?> clazz ) {
+  public static void initialize( Locale locale, @NonNull Class<?> clazz ) {
     
     if( locale == null ) {
       locale = Locale.getDefault();

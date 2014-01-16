@@ -72,7 +72,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
    * 
    * @return   The From-Type instance. Maybe <code>null</code>.
    */
-  public final F marshal( @NonNull T v ) {
+  public final F marshal( T v ) {
     if( v != null ) {
       try {
         return marshalImpl( v );
@@ -92,7 +92,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
    * 
    * @return   The From-Type instance. Maybe <code>null</code>.
    */
-  public final F marshalObject( @NonNull Object v ) {
+  public final F marshalObject( Object v ) {
     return marshal( (T) v );
   }
 

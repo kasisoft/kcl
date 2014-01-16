@@ -67,7 +67,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     filereceiver  . clear();
     progress.setCurrent(0);
     progress.setTotal(0);
-    progress.setFile( null );
     roots       = null;
     configured  = false;
   }

@@ -417,7 +417,7 @@ public class IoFunctions {
    * 
    * @throws FailureException when the copying process fails for some reason.
    */
-  public static byte[] loadBytes( @NonNull InputStream input, @NonNull Integer buffersize ) {
+  public static byte[] loadBytes( @NonNull InputStream input, Integer buffersize ) {
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
     copy( input, byteout, buffersize );
     return byteout.toByteArray();
