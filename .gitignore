@@ -1,5 +1,7 @@
 */target/
+*/build/
 */.settings/
 */.project
 */.classpath
+*/.gradle/
 rebel.xml
