@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.constants.*;
 
 import java.util.*;
 
+import java.lang.ref.*;
+
 import lombok.*;
 
 /**
@@ -21,8 +23,8 @@ import lombok.*;
  */
 public class Buffers<T> {
 
-  private List<T>     allocated;
-  private Primitive   type;
+  private List<SoftReference<T>>   allocated;
+  private Primitive                type;
   
   /**
    * Initialises these instance with the supplied primitive type identification.
@@ -30,7 +32,7 @@ public class Buffers<T> {
    * @param primitive   The primitive type identification. Not <code>null</code>.
    */
   private Buffers( @NonNull Primitive primitive ) {
-    allocated = new ArrayList<T>();
+    allocated = new ArrayList<SoftReference<T>>();
     type      = primitive;
   }
   
@@ -47,8 +49,12 @@ public class Buffers<T> {
     }
     /** @ks.todo [11-Jan-2009:KASI] the access could be improved when the blocks are sorted depending on their length. */ 
     for( int i = 0; i < allocated.size(); i++ ) {
-      if( type.length( allocated.get(i) ) >= size ) {
-        return allocated.remove(i);
+      SoftReference<T> ref = allocated.get(i);
+      if( type.length( ref.get() ) >= size ) {
+        T result = ref.get();
+        ref.clear();
+        allocated.remove( ref );
+        return result;
       }
     }
     return null;
@@ -92,18 +98,19 @@ public class Buffers<T> {
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
   public synchronized void release( @NonNull T data ) {
+    SoftReference<T> ref = new SoftReference<T>( data ); 
     if( allocated.isEmpty() ) {
-      allocated.add( data );
+      allocated.add( ref );
     } else {
-      int last = allocated.size() - 1;
-      if( type.length( allocated.get( last ) ) < type.length( data ) ) {
-        allocated.add( data );
+      int last    = allocated.size() - 1;
+      int length  = type.length( data );
+      if( type.length( allocated.get( last ).get() ) < length ) {
+        allocated.add( ref );
       } else {
-        // the insertion makes sure that the list is always sorted by the size
-        // of the blocks
+        // the insertion makes sure that the list is always sorted by the size of the blocks
         for( int i = 0; i < allocated.size(); i++ ) {
-          if( type.length( allocated.get(i) ) > type.length( data ) ) {
-            allocated.add( i, data );
+          if( type.length( allocated.get(i).get() ) > length ) {
+            allocated.add( i, ref );
             break;
           }
         }
