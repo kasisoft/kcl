@@ -217,34 +217,6 @@ public enum Primitive {
   }
   
   /**
-   * Returns the Primitive identified through it's array type.
-   * 
-   * @param obj   An instance of the array. Not <code>null</code>.
-   * 
-   * @return   The Primitive constant or <code>null</code> in case of an invalid array type.
-   * 
-   * @deprecated [14-Jan-2014:KASI]   This function will be removed with release 1.4. Use {@link #byType(Object)} instead.
-   */
-  @Deprecated
-  public static Primitive byArrayType( @NonNull Object obj ) {
-    return byType( obj );
-  }
-  
-  /**
-   * Returns the Primitive identified through it's object type.
-   * 
-   * @param obj   An instance of the object. Not <code>null</code>.
-   * 
-   * @return   The Primitive constant or <code>null</code> in case of an invalid object type.
-   * 
-   * @deprecated [14-Jan-2014:KASI]   This function will be removed with release 1.4. Use {@link #byType(Object)} instead.
-   */
-  @Deprecated
-  public static Primitive byObjectType( @NonNull Object obj ) {
-    return byType( obj );
-  }
-  
-  /**
    * Delivers the primitive type associated with the supplied object. The supplied object may be an object type, an 
    * array of the primitive type or an array of the object type.
    * 

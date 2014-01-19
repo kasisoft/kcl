@@ -22,7 +22,6 @@ import junit.framework.*;
 /**
  * Tests for the class 'SimpleProperty'.
  */
-@SuppressWarnings("deprecation")
 public class SimplePropertyTest {
 
   private static final SimpleProperty<Color> MyRequiredColor = new SimpleProperty<Color>( "required.color", new ColorAdapter(), true  ); 

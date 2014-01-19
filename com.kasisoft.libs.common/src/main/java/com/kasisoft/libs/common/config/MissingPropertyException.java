@@ -13,7 +13,6 @@ import lombok.*;
 /**
  * Exception type that indicates that a required property is missing.
  */
-@SuppressWarnings("deprecation")
 public class MissingPropertyException extends RuntimeException {
 
   private String   property;

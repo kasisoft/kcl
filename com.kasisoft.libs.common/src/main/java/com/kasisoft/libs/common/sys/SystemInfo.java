@@ -35,12 +35,7 @@ public enum SystemInfo {
   MacOS         ( "Mac OS"        , false , "$%s" ),
   MacOSX        ( "Mac OS X"      , false , "$%s" ),
   Morphos       ( "MorphOS"       , false , "$%s" ),
-  
-  /** @deprecated [15-Jan-2014:KASI]   This value will be removed with release 1.4. Use #This instead. */
-  @Deprecated
-  Unknown       ();
-
-  public static final SystemInfo ThisMachine = SystemInfo.Unknown;
+  ThisMachine   ();
   
   static {
     SystemInfo active = null;

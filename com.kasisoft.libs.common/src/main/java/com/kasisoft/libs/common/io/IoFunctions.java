@@ -10,7 +10,6 @@ package com.kasisoft.libs.common.io;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.io.datatypes.*;
 import com.kasisoft.libs.common.sys.*;
 import com.kasisoft.libs.common.thread.*;
 import com.kasisoft.libs.common.util.*;
@@ -783,42 +782,6 @@ public class IoFunctions {
       return loadFragment( input, offset, length );
     } finally {
       MiscFunctions.close( input );
-    }
-  }
-
-  /**
-   * Returns <code>true</code> if the supplied buffer indicates to be compressed using the popular GZIP algorithm.
-   *  
-   * @param buffer   The buffer which will be tested. Not <code>null</code>.
-   * 
-   * @return   <code>true</code> <=> The buffer seems to be compressed using GZIP.
-   * 
-   * @deprecated [16-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link FileTypeManager} instead.
-   */
-  @SuppressWarnings("deprecation")
-  @Deprecated
-  public static boolean isGZIP( @NonNull byte[] buffer ) {
-    return MagicNumber.GZIP.find( buffer );
-  }
-
-  /**
-   * Returns <code>true</code> if the supplied File indicates to be compressed using the popular GZIP algorithm.
-   *  
-   * @param file   The File that has to be tested. Not <code>null</code>.
-   * 
-   * @return   <code>true</code> <=> The buffer seems to be compressed using GZIP.
-   * 
-   * @throws FailureException if loading the header failed for some reason.
-   * 
-   * @deprecated [16-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link FileTypeManager} instead.
-   */
-  @Deprecated
-  public static boolean isGZIP( @NonNull File file ) {
-    byte[] fragment = loadFragment( file, 0, 2 );
-    if( fragment.length == 2 ) {
-      return isGZIP( fragment );
-    } else {
-      return false;
     }
   }
 

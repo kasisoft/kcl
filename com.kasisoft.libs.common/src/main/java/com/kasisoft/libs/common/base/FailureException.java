@@ -20,63 +20,7 @@ public class FailureException extends RuntimeException {
 
   private FailureCode   failurecode;
   private Object[]      params;
-  
-  /**
-   * Initialises this exception with the appropriate failure information.
-   * 
-   * @param code    A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param cause   The causing exception.
-   * 
-   * @deprecated [19-Jan-2014:KASI]   This constructor will be disabled with release 1.4. Use {@link #newFailureException(FailureCode, Throwable)} instead.
-   */
-  @Deprecated
-  public FailureException( @NonNull FailureCode code, Throwable cause ) {
-    super( createMessage( code, null, null ), cause );
-    failurecode = code;
-  }
 
-  /**
-   * Initialises this exception with the appropriate failure information.
-   * 
-   * @param code   A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * 
-   * @deprecated [19-Jan-2014:KASI]   This constructor will be disabled with release 1.4. Use {@link #newFailureException(FailureCode)} instead.
-   */
-  @Deprecated
-  public FailureException( @NonNull FailureCode code ) {
-    super( createMessage( code, null, null ) );
-    failurecode = code;
-  }
-
-  /**
-   * Initialises this exception with the appropriate failure information.
-   * 
-   * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
-   * 
-   * @deprecated [19-Jan-2014:KASI]   This constructor will be disabled with release 1.4. Use {@link #newFailureException(FailureCode, String)} instead.
-   */
-  @Deprecated
-  public FailureException( @NonNull FailureCode code, @NonNull String message ) {
-    super( createMessage( code, message, null ) );
-    failurecode = code;
-  }
- 
-  /**
-   * Initialises this exception with the appropriate failure information.
-   * 
-   * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
-   * @param cause     The causing exception.
-   * 
-   * @deprecated [19-Jan-2014:KASI]   This constructor will be disabled with release 1.4. Use {@link #newFailureException(FailureCode, String, Throwable)} instead.
-   */
-  @Deprecated
-  public FailureException( @NonNull FailureCode code, @NonNull String message, Throwable cause ) {
-    super( createMessage( code, message, null ), cause );
-    failurecode = code;
-  }
-  
   private FailureException( String message, FailureCode code, Throwable cause, Object[] parameters ) {
     super( message, cause );
     failurecode = code;

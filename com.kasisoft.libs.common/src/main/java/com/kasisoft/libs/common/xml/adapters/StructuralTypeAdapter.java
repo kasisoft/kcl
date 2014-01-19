@@ -18,7 +18,6 @@ import lombok.*;
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.
  */
-@SuppressWarnings("deprecation")
 public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
 
   private String   delimiter;
@@ -76,7 +75,7 @@ public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
   protected T unmarshalImpl( @NonNull String v ) throws Exception {
     String[] parts = v.split( quoted );
     if( (parts == null) || (parts.length != count) ) {
-      throw new FailureException( FailureCode.ConversionFailure, v );
+      throw FailureException.newFailureException( FailureCode.ConversionFailure, v );
     }
     return unmarshalListImpl( parts );
   }

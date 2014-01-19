@@ -975,20 +975,6 @@ public class ArrayFunctions {
    * @param values  Array of numbers. Maybe <code>null</code>.
    *
    * @return  Sum of these numbers.
-   * 
-   * @deprecated [15-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link #sumInt(int...)} instead. 
-   */
-  @Deprecated
-  public static int sum( int ... values ) {
-    return sumInt( values );
-  }
-  
-  /**
-   * Adds all array entries together.
-   *
-   * @param values  Array of numbers. Maybe <code>null</code>.
-   *
-   * @return  Sum of these numbers.
    */
   public static int sumInt( int ... values ) {
     int result = 0;
@@ -1006,20 +992,6 @@ public class ArrayFunctions {
    * @param values  Array of numbers. Maybe <code>null</code>.
    *
    * @return  Sum of these numbers.
-   * 
-   * @deprecated [15-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link #sumDouble(double...)} instead.  
-   */
-  @Deprecated
-  public static double sum( double ... values ) {
-    return sumDouble( values );
-  }
-  
-  /**
-   * Adds all array entries together.
-   *
-   * @param values  Array of numbers. Maybe <code>null</code>.
-   *
-   * @return  Sum of these numbers.
    */
   public static double sumDouble( double ... values ) {
     double result = 0;
@@ -1031,20 +1003,6 @@ public class ArrayFunctions {
     return result;
   }
 
-  /**
-   * Adds all array entries together.
-   *
-   * @param values  Array of numbers. Maybe <code>null</code>.
-   *
-   * @return  Sum of these numbers.
-   * 
-   * @deprecated [15-Jan-2014:KASI]   This method will be removed with release 1.4. Use {@link #sumLong(long...)} instead.  
-   */
-  @Deprecated
-  public static long sum( long ... values ) {
-    return sumLong( values );
-  }
-  
   /**
    * Adds all array entries together.
    *

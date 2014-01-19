@@ -272,24 +272,6 @@ public class IoFunctionsTest {
     
   }
 
-  @SuppressWarnings("deprecation")
-  @Test(groups="all")
-  public void isGZIP() {
-    
-    File  nongzip = new File( testdata, "testfile.txt");
-    File  gzip    = new File( testdata, "testfile.gz");
-    
-    Assert.assertEquals( IoFunctions.isGZIP( nongzip ), false );
-    Assert.assertEquals( IoFunctions.isGZIP( gzip    ), true  );
-    
-    byte[] nongzipdata  = IoFunctions.loadBytes( nongzip  , null );
-    byte[] gzipdata     = IoFunctions.loadBytes( gzip     , null );
-
-    Assert.assertEquals( IoFunctions.isGZIP( nongzipdata ), false );
-    Assert.assertEquals( IoFunctions.isGZIP( gzipdata    ), true  );
-
-  }
-  
   @Test(groups="all")
   public void crc32() {
    

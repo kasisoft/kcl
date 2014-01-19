@@ -61,7 +61,6 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   protected Insets unmarshalListImpl( @NonNull String[] v ) throws Exception {
     int top     = Integer.parseInt( v[0] );
     int left    = Integer.parseInt( v[1] );
@@ -71,7 +70,6 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   protected String marshalImpl( @NonNull Insets v ) throws Exception {
     return marshalListImpl( 
       Integer.valueOf( v.top    ),

@@ -20,7 +20,6 @@ import java.awt.*;
 /**
  * Tests for the type 'ColorAdapter'.
  */
-@Test(groups="all")
 public class ColorAdapterTest {
 
   private SimpleErrorHandler errhandler = new SimpleErrorHandler() {

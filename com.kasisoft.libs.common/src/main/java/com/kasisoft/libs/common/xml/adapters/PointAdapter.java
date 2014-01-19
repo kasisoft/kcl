@@ -61,7 +61,6 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   protected Point unmarshalListImpl( @NonNull String[] v ) throws Exception {
     int x = Integer.parseInt( v[0] );
     int y = Integer.parseInt( v[1] );
@@ -69,7 +68,6 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   protected String marshalImpl( @NonNull Point v ) throws Exception {
     return marshalListImpl(
       Integer.valueOf( v.x ),

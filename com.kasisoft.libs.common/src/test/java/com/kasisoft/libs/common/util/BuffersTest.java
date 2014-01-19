@@ -17,7 +17,6 @@ import org.testng.*;
 /**
  * Test for the class 'Buffers'.
  */
-@Test(groups="all")
 public class BuffersTest {
   
   @DataProvider(name="createDataTypes")

@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Tests for the type 'StringAdapter'.
  */
-@Test(groups="all")
 public class StringAdapterTest {
 
   private StringAdapter adapter = new StringAdapter();

@@ -61,7 +61,6 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   protected Rectangle unmarshalListImpl( @NonNull String[] v ) throws Exception {
     int x = Integer.parseInt( v[0] );
     int y = Integer.parseInt( v[1] );
@@ -71,7 +70,6 @@ public class RectangleAdapter extends StructuralTypeAdapter<Rectangle> {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   protected String marshalImpl( @NonNull Rectangle v ) throws Exception {
     return marshalListImpl(
       Integer.valueOf( v.x      ),

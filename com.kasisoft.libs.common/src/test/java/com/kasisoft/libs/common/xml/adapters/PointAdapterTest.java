@@ -20,7 +20,6 @@ import java.awt.*;
 /**
  * Tests for the type 'PointAdapter'.
  */
-@Test(groups="all")
 public class PointAdapterTest {
 
   private SimpleErrorHandler errhandler = new SimpleErrorHandler() {

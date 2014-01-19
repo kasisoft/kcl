@@ -56,12 +56,6 @@ public class PrimitiveTest {
     return result;
   }
   
-  @SuppressWarnings("deprecation")
-  @Test(dataProvider="createTypes",groups="all")
-  public void byArrayType( Object array, Primitive expected ) {
-    Assert.assertEquals( Primitive.byArrayType( array ), expected );
-  }
-
   @DataProvider(name="createObjectTypes")
   public Object[][] createObjectTypes() {
     return new Object[][] {
@@ -75,12 +69,6 @@ public class PrimitiveTest {
       { Double    . valueOf( Double    . MIN_VALUE ), Primitive . PDouble  },
       { ""                                          , null                 }
     };
-  }
-
-  @SuppressWarnings("deprecation")
-  @Test(dataProvider="createObjectTypes",groups="all")
-  public void byObjectType( Object array, Primitive expected ) {
-    Assert.assertEquals( Primitive.byObjectType( array ), expected );
   }
 
   @DataProvider(name="createAllTypes")
