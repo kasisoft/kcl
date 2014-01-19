@@ -334,7 +334,7 @@ public final class XmlFunctions {
    * 
    * @return The transformer if the stylesheet could be loaded properly. Not <code>null</code>.
    * 
-   * @throws FailureException if loading the stylesheet failed for some reason.
+   * @throws FailureException   If loading the stylesheet failed for some reason.
    */
   public static Transformer newTransformer( @NonNull InputStream xslinstream ) throws FailureException {
     TransformerFactory  factory   = TransformerFactory.newInstance();

@@ -78,6 +78,9 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * @param failifmissing   <code>true</code> <=> Cause an exception in case a resource could not be resolved.
    * @param publicid        A public id. Maybe <code>null</code>. 
    * @param resource        The resource associated with the id or a system id itself. Neither <code>null</code> nor empty.
+   * 
+   * @throws FailureException   If <param>failifmissing</param> was set to <code>true</code> and we couldn't find the
+   *                            desired resource.
    */
   protected void registerResource( boolean failifmissing, String publicid, @NonNull String resource ) {
     URL url = getClass().getResource( resource );

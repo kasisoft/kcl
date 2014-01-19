@@ -82,10 +82,13 @@ public class I18NSupport {
    * Loads all properties matching the current locale (we support different formats).
    * 
    * @param candidates   A list of resource pathes pointing to possible translations. Not <code>null</code>.
+   * @param failonload   <code>true</code> <=> Cause a FailureException if loading a translation failed.
    * 
    * @return   The {@link Properties} instance providing all current translations. Not <code>null</code>.
+   * 
+   * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
    */
-  private static Properties loadTranslations( String[] candidates ) {
+  private static Properties loadTranslations( String[] candidates, boolean failonload ) {
     Properties  result      = new Properties();
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
     for( String variant : candidates ) {
@@ -101,7 +104,9 @@ public class I18NSupport {
         reader = Encoding.UTF8.openReader( url.openStream() );
         result.load( reader );
       } catch( IOException ex ) {
-        throw new FailureException( FailureCode.IO, ex );
+        if( failonload ) {
+          throw new FailureException( FailureCode.IO, ex );
+        }
       } finally {
         MiscFunctions.close( reader );
       }
@@ -143,8 +148,8 @@ public class I18NSupport {
             }
             formatter.setValue( value );
           }
-        } catch( Exception ex ) {
-          throw new FailureException( FailureCode.Reflections, ex );
+        } catch( IllegalAccessException ex ) {
+          // won't happen as the supplied fields are definitely accessible
         }
       }
     }
@@ -154,19 +159,38 @@ public class I18NSupport {
    * Applies all translations to the supplied class using the default locale.
    * 
    * @param clazz   The class that is supposed to be translated. Not <code>null</code>.
+   * 
+   * @throws FailureException   A translation could not be loaded.
    */
   public static void initialize( @NonNull Class<?> clazz ) {
-    initialize( null, clazz );
+    initialize( null, clazz, true );
   }
-  
+
   /**
    * Applies all translations to the supplied class.
    * 
-   * @param locale   The {@link Locale} instance which has to be used. If <code>null</code> {@link Locale#getDefault()}
-   *                 will be used.
-   * @param clazz    The class that is supposed to be translated. Not <code>null</code>.
+   * @param locale      The {@link Locale} instance which has to be used. If <code>null</code> {@link Locale#getDefault()}
+   *                    will be used.
+   * @param clazz       The class that is supposed to be translated. Not <code>null</code>.
+   * @param failonload  <code>true</code> <=> Cause a FailureException if loading a translation failed.
+   * 
+   * @throws FailureException   A translation could not be loaded.
    */
   public static void initialize( Locale locale, @NonNull Class<?> clazz ) {
+    initialize( locale, clazz, true );
+  }
+
+  /**
+   * Applies all translations to the supplied class.
+   * 
+   * @param locale      The {@link Locale} instance which has to be used. If <code>null</code> {@link Locale#getDefault()}
+   *                    will be used.
+   * @param clazz       The class that is supposed to be translated. Not <code>null</code>.
+   * @param failonload  <code>true</code> <=> Cause a FailureException if loading a translation failed.
+   * 
+   * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
+   */
+  public static void initialize( Locale locale, @NonNull Class<?> clazz, boolean failonload ) {
     
     if( locale == null ) {
       locale = Locale.getDefault();
@@ -184,14 +208,14 @@ public class I18NSupport {
     }
     
     String[] candidates = new String[3];
-    String   country = StringFunctions.cleanup( locale.getCountry() );
+    String   country    = StringFunctions.cleanup( locale.getCountry() );
     if( country != null ) {
       candidates[0] = String.format( "%s_%s_%s.properties", base, locale.getLanguage(), country ); // f.e. de_DE
     }
     candidates[1] = String.format( "%s_%s.properties", base, locale.getLanguage() ); // f.e. de 
     candidates[2] = String.format( "%s.properties", base ); 
 
-    applyTranslations( prefix, loadTranslations( candidates ), collectFields( clazz ) );
+    applyTranslations( prefix, loadTranslations( candidates, failonload ), collectFields( clazz ) );
     
   }
 

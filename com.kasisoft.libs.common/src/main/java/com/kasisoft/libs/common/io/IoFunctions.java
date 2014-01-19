@@ -98,6 +98,8 @@ public class IoFunctions {
    * @param file   The {@link File} that will be opened. Not <code>null</code>.
    * 
    * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
+   * 
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static InputStream newInputStream( boolean fail, @NonNull File file ) {
     try {
@@ -129,6 +131,8 @@ public class IoFunctions {
    * @param url    The URL pointing to the resource that will be opened. Not <code>null</code>.
    * 
    * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
+   * 
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static InputStream newInputStream( boolean fail, @NonNull URL url ) {
     try {
@@ -160,6 +164,8 @@ public class IoFunctions {
    * @param file   The {@link File} that will be opened. Not <code>null</code>.
    * 
    * @return   The opened {@link OutputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
+   * 
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static OutputStream newOutputStream( boolean fail, @NonNull File file ) {
     try {
@@ -244,7 +250,7 @@ public class IoFunctions {
    * @param output   The stream receiving the content. Not <code>null</code>.
    * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    *
-   * @throws FailureException whenever the copying failed for some reason.
+   * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
     ByteCopierRunnable runnable = new ByteCopierRunnable( buffer );
@@ -274,7 +280,7 @@ public class IoFunctions {
    * @param output       The stream receiving the content. Not <code>null</code>.
    * @param buffersize   The buffer size to use while copying. Maybe <code>null</code>.
    *
-   * @throws FailureException whenever the copying failed for some reason.
+   * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
     ByteCopierRunnable runnable = new ByteCopierRunnable( buffersize );
@@ -353,7 +359,7 @@ public class IoFunctions {
    * @param output   The writer receiving the content. Not <code>null</code>.
    * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    *
-   * @throws FailureException whenever the copying failed for some reason.
+   * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull Reader input, @NonNull Writer output, char[] buffer ) {
     CharCopierRunnable runnable = new CharCopierRunnable( buffer );
@@ -559,7 +565,7 @@ public class IoFunctions {
    * 
    * @return   A list with the textual content. Not <code>null</code>.
    *
-   * @throws FailureException in case of an io error.
+   * @throws FailureException   In case of an io error.
    */
   public static List<String> readText( @NonNull Reader input, boolean trim, boolean emptylines ) {
     List<String>       result   = new ArrayList<String>();
@@ -686,7 +692,7 @@ public class IoFunctions {
    * @param input    The InputStream providing the content. Not <code>null</code>.
    * @param offset   The location where to read the data.
    * 
-   * @throws FailureException if skipping didn't succeed.
+   * @throws FailureException   If skipping didn't succeed.
    */
   public static void skip( @NonNull InputStream input, int offset ) {
     if( offset > 0 ) {
@@ -706,7 +712,7 @@ public class IoFunctions {
    * @param input    The Reader providing the content. Not <code>null</code>.
    * @param offset   The location where to read the data.
    * 
-   * @throws FailureException if skipping didn't succeed.
+   * @throws FailureException   If skipping didn't succeed.
    */
   public static void skip( @NonNull Reader input, int offset ) {
     if( offset > 0 ) {
@@ -1182,6 +1188,8 @@ public class IoFunctions {
    * Creates a directory.
    * 
    * @param dir   The directory that needs to be created. Not <code>null</code> and must be a valid file.
+   * 
+   * @throws FailureException   The supplied directory cannot be assured to be an existing directory.
    */
   public static void mkdirs( @NonNull File dir ) {
     if( dir.exists() ) {

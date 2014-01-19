@@ -222,6 +222,8 @@ public class ExtProperties {
    * 
    * @param input      The source where to load the properties from. Not <code>null</code>.
    * @param encoding   The encoding to use. Maybe <code>null</code>.
+   * 
+   * @throws FailureException   The resource could not be loaded.
    */
   public synchronized void load( @NonNull URL input, Encoding encoding ) {
     InputStream instream = null;

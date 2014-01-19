@@ -26,6 +26,9 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
    * Initializes this factory using the supplied type.
    * 
    * @param type   The type that is used to create entries. Not <code>null</code>.
+   * 
+   * @throws FailureException   There's neither a default constructor nor a method named <code>reset</code> or
+   *                            <code>clear</code>.
    */
   public DefaultBucketFactory( @NonNull Class<? extends T> type ) {
     constructor = MiscFunctions.getConstructor( type );
@@ -36,6 +39,12 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
     if( (constructor == null) || (reset == null) ) {
       throw new FailureException( FailureCode.Reflections );
     }
+    try {
+      T probe = (T) constructor.newInstance();
+      reset.invoke( probe );
+    } catch( Exception ex ) {
+      throw new FailureException( FailureCode.Reflections, ex );
+    }
   }
   
   @Override
@@ -43,7 +52,8 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
     try {
       return (P) constructor.newInstance();
     } catch( Exception ex ) {
-      throw new FailureException( FailureCode.Reflections, ex );
+      // won't happen as we've checked that within the constructor
+      return null;
     }
   }
 
@@ -51,10 +61,11 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
   public <P extends T> P reset( @NonNull T object ) {
     try {
       reset.invoke( object );
+      return (P) object;
     } catch( Exception ex ) {
-      throw new FailureException( FailureCode.Reflections, ex );
+      // won't happen as we've checked that within the constructor
+      return null;
     }
-    return (P) object;
   }
 
 } /* ENDCLASS */

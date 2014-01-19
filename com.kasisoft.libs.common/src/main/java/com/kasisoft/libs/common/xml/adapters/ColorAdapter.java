@@ -108,7 +108,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
    * 
    * @return   The Color if it could be converted. Not <code>null</code>.
    * 
-   * @throws Exception   The conversion failed for some reason.
+   * @throws FailureException   The conversion failed for some reason.
    */
   private Color unmarshalArguments( String v ) throws Exception {
     String part = StringFunctions.cleanup( v.substring( RGB.length() ) );
@@ -135,7 +135,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
    * 
    * @return   The corresponding Color instance. Not <code>null</code>.
    * 
-   * @throws Exception   The conversion failed for some reason.
+   * @throws FailureException   The conversion failed for some reason.
    */
   private Color unmarshalNumerical( String v ) throws Exception {
     if( v.length() == 7 ) {

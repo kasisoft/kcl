@@ -48,7 +48,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
    *                  implementation can be found this could cause a FailureException.
    *                                
-   * @throws FailureException if <code>lsaware = true</code> and no DOMImplementationLS could be found.
+   * @throws FailureException   If <code>lsaware = true</code> and no DOMImplementationLS could be found.
    */
   public XmlCatalog( boolean lsaware ) {
     

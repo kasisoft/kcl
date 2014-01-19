@@ -52,6 +52,8 @@ public class GraphicsFunctions {
    * @param file   The resource which has to be loaded. Must be a valid file.
    * 
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
+   * 
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static BufferedImage readImage( boolean fail, @NonNull File file ) {
     try {
@@ -83,6 +85,8 @@ public class GraphicsFunctions {
    * @param url    The resource which has to be loaded. Not <code>null</code>.
    * 
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
+   * 
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static BufferedImage readImage( boolean fail, @NonNull URL url ) {
     try {
@@ -115,6 +119,8 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource
    *           could not be loaded.
+   *           
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static BufferedImage readImage( boolean fail, @NonNull InputStream instream ) {
     try {
@@ -179,6 +185,8 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
+   *           
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static boolean writeImage( boolean fail, @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     boolean result = false;
@@ -246,6 +254,8 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
+   *           
+   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static boolean writeImage( boolean fail, @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     boolean result = false;
