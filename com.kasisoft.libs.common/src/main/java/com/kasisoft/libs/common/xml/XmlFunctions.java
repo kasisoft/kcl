@@ -184,18 +184,18 @@ public final class XmlFunctions {
         document = docbuilder.parse( input );
       }
       if( (newhandler != null) && newhandler.hasErrors() ) {
-        throw new FailureException( FailureCode.XmlFailure, newhandler.getFaultMessage() ); 
+        throw FailureException.newFailureException( FailureCode.XmlFailure, newhandler.getFaultMessage() ); 
       }
       return document;
     } catch( ParserConfigurationException ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
+      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
     } catch( SAXParseException             ex ) {
       XmlFault fault = new XmlFault( XmlFault.FaultType.fatal, ex );
-      throw new FailureException( FailureCode.XmlFailure, fault.getFaultMessage() );
+      throw FailureException.newFailureException( FailureCode.XmlFailure, fault.getFaultMessage() );
     } catch( SAXException                  ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
+      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
     } catch( IOException                   ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, ex );
     }
   }
   
@@ -256,11 +256,11 @@ public final class XmlFunctions {
       output.flush();
       transformer.transform( new DOMSource( node ), new StreamResult( output ) );
     } catch( IOException                       ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, ex );
     } catch( TransformerConfigurationException ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
+      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
     } catch( TransformerException ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
+      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
     }
   }
   
@@ -320,7 +320,7 @@ public final class XmlFunctions {
       instream = resource.openStream();
       return newTransformer( instream );
     } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, null, ex, resource );
     } finally {
       MiscFunctions.close( instream );
     }
@@ -341,7 +341,7 @@ public final class XmlFunctions {
     try {
       return factory.newTransformer( new StreamSource( xslinstream ) );
     } catch( TransformerConfigurationException ex ) {
-      throw new FailureException( FailureCode.XmlFailure, ex );
+      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
     }
   }
 

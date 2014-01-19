@@ -231,7 +231,7 @@ public class ExtProperties {
       instream = input.openStream();
       load( instream, encoding );
     } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, ex );
     } finally {
       MiscFunctions.close( instream );
     }

@@ -152,7 +152,7 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
    * @param ex   The cause of the failure.
    */
   protected void handleIOFailure( @NonNull IOException ex ) {
-    throw new FailureException( FailureCode.IO, ex );
+    throw FailureException.newFailureException( FailureCode.IO, ex );
   }
 
 } /* ENDCLASS */

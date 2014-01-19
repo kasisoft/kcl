@@ -105,11 +105,7 @@ public class IoFunctions {
     try {
       return new BufferedInputStream( new FileInputStream( file ) );
     } catch( FileNotFoundException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
-      } else {
-        return null;
-      }
+      return FailureException.raiseIf( fail, FailureCode.FileNotFound, ex, file );
     }
   }
 
@@ -138,11 +134,7 @@ public class IoFunctions {
     try {
       return new BufferedInputStream( url.openStream() );
     } catch( IOException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.IO, url.toExternalForm(), ex );
-      } else {
-        return null;
-      }
+      return FailureException.raiseIf( fail, FailureCode.IO, ex, url );
     }
   }
 
@@ -171,11 +163,7 @@ public class IoFunctions {
     try {
       return new BufferedOutputStream( new FileOutputStream( file ) );
     } catch( FileNotFoundException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.FileNotFound, file.getAbsolutePath(), ex );
-      } else {
-        return null;
-      }
+      return FailureException.raiseIf( fail, FailureCode.FileNotFound, ex, file );
     }
   }
   
@@ -257,7 +245,7 @@ public class IoFunctions {
     runnable.configure( input, output );
     runnable.run();
     if( ! runnable.hasCompleted() ) {
-      throw new FailureException( FailureCode.IO );
+      throw FailureException.newFailureException( FailureCode.IO );
     }
   }
 
@@ -287,7 +275,7 @@ public class IoFunctions {
     runnable.configure( input, output );
     runnable.run();
     if( ! runnable.hasCompleted() ) {
-      throw new FailureException( FailureCode.IO );
+      throw FailureException.newFailureException( FailureCode.IO );
     }
   }
 
@@ -366,7 +354,7 @@ public class IoFunctions {
     runnable.configure( input, output );
     runnable.run();
     if( ! runnable.hasCompleted() ) {
-      throw new FailureException( FailureCode.IO );
+      throw FailureException.newFailureException( FailureCode.IO );
     }
   }
 
@@ -396,7 +384,7 @@ public class IoFunctions {
     runnable.configure( input, output );
     runnable.run();
     if( ! runnable.hasCompleted() ) {
-      throw new FailureException( FailureCode.IO );
+      throw FailureException.newFailureException( FailureCode.IO );
     }
   }
 
@@ -574,7 +562,7 @@ public class IoFunctions {
     runnable.setEmptyLines( emptylines );
     runnable.run();
     if( ! runnable.hasCompleted() ) {
-      throw new FailureException( FailureCode.IO );
+      throw FailureException.newFailureException( FailureCode.IO );
     }
     return result;
   }
@@ -680,7 +668,7 @@ public class IoFunctions {
         instream = resource.openStream();
         return readTextAsIs( instream, encoding );
       } catch( IOException ex ) {
-        throw new FailureException( FailureCode.IO, resource.toExternalForm(), ex );
+        throw FailureException.newFailureException( FailureCode.IO, null, null, resource );
       } finally {
         MiscFunctions.close( instream );
       }
@@ -698,10 +686,10 @@ public class IoFunctions {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
-          throw new FailureException( FailureCode.Skip );
+          throw FailureException.newFailureException( FailureCode.Skip );
         }
       } catch( IOException ex ) {
-        throw new FailureException( FailureCode.IO, ex );
+        throw FailureException.newFailureException( FailureCode.IO, ex );
       }
     }
   }
@@ -718,10 +706,10 @@ public class IoFunctions {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
-          throw new FailureException( FailureCode.Skip );
+          throw FailureException.newFailureException( FailureCode.Skip );
         }
       } catch( IOException ex ) {
-        throw new FailureException( FailureCode.IO, ex );
+        throw FailureException.newFailureException( FailureCode.IO, ex );
       }
     }
   }
@@ -750,7 +738,7 @@ public class IoFunctions {
         return NO_DATA;
       }
     } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, ex );
     } finally {
       Primitive.PByte.<byte[]>getBuffers().release( buffer );
     }
@@ -857,7 +845,7 @@ public class IoFunctions {
         read = instream.read( buffer );
       }
     } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, ex );
     } finally {
       releaseBytes( buffer );
     }
@@ -1055,7 +1043,7 @@ public class IoFunctions {
     try {
       outstream.write( content );
     } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, ex );
     }
   }
   
@@ -1090,7 +1078,7 @@ public class IoFunctions {
     try {
       writer.write( content );
     } catch( IOException ex ) {
-      throw new FailureException( FailureCode.IO, ex );
+      throw FailureException.newFailureException( FailureCode.IO, ex );
     }
   }
   
@@ -1194,13 +1182,40 @@ public class IoFunctions {
   public static void mkdirs( @NonNull File dir ) {
     if( dir.exists() ) {
       if( ! dir.isDirectory() ) {
-        throw new FailureException( FailureCode.CreateDirectory );
+        throw FailureException.newFailureException( FailureCode.CreateDirectory, null, null, dir );
       }
     } else {
       if( ! dir.mkdirs() ) {
-        throw new FailureException( FailureCode.CreateDirectory );
+        throw FailureException.newFailureException( FailureCode.CreateDirectory, null, null, dir );
       }
     }
   }
-  
+
+  /**
+   * Creates a directory.
+   * 
+   * @param fail   <code>true</code> <=> Cause an exception if the directory creation failed.
+   * @param dir    The directory that needs to be created. Not <code>null</code> and must be a valid file.
+   * 
+   * @return   <code>true</code> <=> The creation of the directory succeeded.
+   * 
+   * @throws FailureException   The supplied directory cannot be assured to be an existing directory.
+   */
+  public static boolean mkdirs( boolean fail, @NonNull File dir ) {
+    boolean result = true;
+    if( dir.exists() ) {
+      if( ! dir.isDirectory() ) {
+        result = false;
+      }
+    } else {
+      if( ! dir.mkdirs() ) {
+        result = false;
+      }
+    }
+    if( ! result ) {
+      return FailureException.raiseIf( fail, Boolean.FALSE, FailureCode.CreateDirectory, dir ).booleanValue();
+    }
+    return result;
+  }
+
 } /* ENDCLASS */

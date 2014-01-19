@@ -107,7 +107,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
       v = v.toLowerCase();
     }
     if( ! values.containsKey( v ) ) {
-      throw new FailureException( FailureCode.ConversionFailure, String.format( "%s != {%s}", v, allowed ) );
+      throw FailureException.newFailureException( FailureCode.ConversionFailure, String.format( "%s != {%s}", v, allowed ) );
     }
     return values.get( v );
   }

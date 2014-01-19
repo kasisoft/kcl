@@ -59,11 +59,7 @@ public class GraphicsFunctions {
     try {
       return ImageIO.read( file );
     } catch( IOException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.IO, ex );
-      } else {
-        return null;
-      }
+      return FailureException.raiseIf( fail, FailureCode.IO, ex, file );
     }
   }
 
@@ -92,11 +88,7 @@ public class GraphicsFunctions {
     try {
       return ImageIO.read( url );
     } catch( IOException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.IO, ex );
-      } else {
-        return null;
-      }
+      return FailureException.raiseIf( fail, FailureCode.IO, ex, url );
     }
   }
 
@@ -126,11 +118,7 @@ public class GraphicsFunctions {
     try {
       return ImageIO.read( instream );
     } catch( IOException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.IO, ex );
-      } else {
-        return null;
-      }
+      return FailureException.raiseIf( fail, FailureCode.IO, ex );
     }
   }
 
@@ -189,18 +177,16 @@ public class GraphicsFunctions {
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static boolean writeImage( boolean fail, @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    boolean result = false;
     try {
-      result = ImageIO.write( image, format.getImageIOFormat(), file );
-    } catch( IOException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.IO, ex );
+      if( ImageIO.write( image, format.getImageIOFormat(), file ) ) {
+        return true;
+      } else {
+        return FailureException.raiseIf( fail, Boolean.FALSE, FailureCode.IO, (Throwable) null, file, format ).booleanValue();
+        
       }
+    } catch( IOException ex ) {
+      return FailureException.raiseIf( fail, Boolean.FALSE, FailureCode.IO, ex, file, format ).booleanValue();
     }
-    if( (! result) && fail ) {
-      throw new FailureException( FailureCode.IO );
-    }
-    return result;
   }
 
   /**
@@ -258,18 +244,15 @@ public class GraphicsFunctions {
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
    */
   public static boolean writeImage( boolean fail, @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    boolean result = false;
     try {
-      result = ImageIO.write( image, format.getImageIOFormat(), outstream );
-    } catch( IOException ex ) {
-      if( fail ) {
-        throw new FailureException( FailureCode.IO, ex );
+      if( ImageIO.write( image, format.getImageIOFormat(), outstream ) ) {
+        return true;
+      } else {
+        return FailureException.raiseIf( fail, Boolean.FALSE, FailureCode.IO, (Throwable) null, format ).booleanValue();
       }
+    } catch( IOException ex ) {
+      return FailureException.raiseIf( fail, Boolean.FALSE, FailureCode.IO, ex, format ).booleanValue();
     }
-    if( (! result) && fail ) {
-      throw new FailureException( FailureCode.IO );
-    }
-    return result;
   }
   
 } /* ENDCLASS */

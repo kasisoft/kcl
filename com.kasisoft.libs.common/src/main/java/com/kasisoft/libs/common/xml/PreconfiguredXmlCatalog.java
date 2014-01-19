@@ -90,8 +90,8 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
       } else {
         registerSystemID( url );
       }
-    } else if( failifmissing ) {
-      throw new FailureException( FailureCode.MissingResource, resource );
+    } else {
+      FailureException.raiseIf( failifmissing, FailureCode.MissingResource, null, resource );
     }
   }
 

@@ -104,9 +104,7 @@ public class I18NSupport {
         reader = Encoding.UTF8.openReader( url.openStream() );
         result.load( reader );
       } catch( IOException ex ) {
-        if( failonload ) {
-          throw new FailureException( FailureCode.IO, ex );
-        }
+        FailureException.raiseIf( failonload, FailureCode.IO, ex, url );
       } finally {
         MiscFunctions.close( reader );
       }

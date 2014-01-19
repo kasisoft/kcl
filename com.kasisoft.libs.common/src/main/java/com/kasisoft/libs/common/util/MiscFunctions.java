@@ -553,14 +553,13 @@ public class MiscFunctions {
           if( constructor != null ) {
             return constructor.newInstance( args );
           } else {
-            reflectionFailure( fail, ex );
+            return FailureException.raiseIf( fail, FailureCode.Reflections, ex, classname );
           }
         }
       }
     } catch( Exception ex ) { 
-      reflectionFailure( fail, ex );
+      return FailureException.raiseIf( fail, FailureCode.Reflections, ex, classname );
     }
-    return null;
   }
 
   /**
@@ -589,18 +588,6 @@ public class MiscFunctions {
       }
     }
     return null;
-  }
-  
-  /**
-   * Causes an exception if desired.
-   * 
-   * @param fail    <code>true</code> <=> An exception has to be thrown.
-   * @param cause   The cause of the failure. Not <code>null</code>.
-   */
-  private static void reflectionFailure( boolean fail, Exception cause ) {
-    if( fail ) {
-      throw new FailureException( FailureCode.Reflections, cause );
-    }
   }
   
   /**
@@ -706,9 +693,7 @@ public class MiscFunctions {
       try {
         socket.close();
       } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
+        FailureException.raiseIf( fail, FailureCode.Close, ex );
       }
     }
   }
@@ -726,9 +711,7 @@ public class MiscFunctions {
       try {
         socket.close();
       } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
+        FailureException.raiseIf( fail, FailureCode.Close, ex );
       }
     }
   }
@@ -746,9 +729,7 @@ public class MiscFunctions {
       try {
         closeable.close();
       } catch( IOException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
+        FailureException.raiseIf( fail, FailureCode.Close, ex );
       }
     }
   }
@@ -775,9 +756,7 @@ public class MiscFunctions {
       try {
         connection.close();
       } catch( SQLException ex ) {
-        if( fail ) {
-          throw new FailureException( FailureCode.Close, ex );
-        }
+        FailureException.raiseIf( fail, FailureCode.Close, ex );
       }
     }
   }

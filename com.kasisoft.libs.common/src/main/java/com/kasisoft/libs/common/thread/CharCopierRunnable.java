@@ -148,7 +148,7 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
    * @param ex   The cause of the failure. Not <code>null</code>.
    */
   protected void handleIOFailure( @NonNull IOException ex ) {
-    throw new FailureException( FailureCode.IO, ex );
+    throw FailureException.newFailureException( FailureCode.IO, ex );
   }
   
 } /* ENDCLASS */
