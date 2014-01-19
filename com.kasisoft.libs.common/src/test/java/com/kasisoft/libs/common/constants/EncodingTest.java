@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Tests for the constants 'Encoding'.
  */
-@Test(groups="all")
 public class EncodingTest {
 
   @DataProvider(name="createData")
@@ -28,18 +27,18 @@ public class EncodingTest {
     };
   };
   
-  @Test(dataProvider="createData")
+  @Test(dataProvider="createData", groups="all")
   public void performEncoding( String literal, Encoding encoding, byte[] bytes ) {
     byte[] encoded = encoding.encode( literal );
     Assert.assertEquals( encoded, bytes );
   }
   
-  @Test
+  @Test(groups="all")
   public void values() {
     Assert.assertNotNull( Encoding.values() );
   }
 
-  @Test
+  @Test(groups="all")
   public void getDefault() {
     Assert.assertNotNull( Encoding.getDefault() );
   }
@@ -55,7 +54,7 @@ public class EncodingTest {
     };
   }
 
-  @Test(dataProvider="valueByNameData")
+  @Test(dataProvider="valueByNameData", groups="all")
   public void valueByName( String name, Encoding expected ) {
     Assert.assertEquals( Encoding.valueByName( name ), expected );
   }
