@@ -21,7 +21,6 @@ import java.io.*;
 /**
  * Tests for the enumeration 'CommonProperty'.
  */
-@Test(groups="all")
 public class CommonPropertyTest {
 
   private Properties   properties;
@@ -46,7 +45,7 @@ public class CommonPropertyTest {
     return result;
   }
 
-  @Test
+  @Test(groups="all")
   public void checkMissingProperties() {
     Integer ioretries   = CommonProperty.IoRetries.getValue( noproperties );
     Assert.assertEquals( ioretries, Integer.valueOf(5) );
@@ -56,7 +55,7 @@ public class CommonPropertyTest {
     Assert.assertEquals( tempdir, SysProperty.TempDir.getValue( System.getProperties() ) );
   }
 
-  @Test
+  @Test(groups="all")
   public void checkAvailableProperties() {
     Integer ioretries   = CommonProperty.IoRetries.getValue( properties );
     Assert.assertEquals( ioretries, Integer.valueOf(20) );
@@ -66,7 +65,7 @@ public class CommonPropertyTest {
     Assert.assertEquals( tempdir, new File( "D:/temp".replace( '/', File.separatorChar ) ) );
   }
 
-  @Test(dataProvider="createProperties", expectedExceptions={ClassCastException.class})
+  @Test(dataProvider="createProperties", expectedExceptions={ClassCastException.class}, groups="all")
   public void invalidUsedProperties( SimpleProperty<Float> property ) {
     @SuppressWarnings("unused")
     Float floatvalue = property.getValue( System.getProperties() );

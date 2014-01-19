@@ -17,7 +17,6 @@ import org.testng.*;
 /**
  * Tests for the type 'DoubleAdapter'.
  */
-@Test(groups="all")
 public class DoubleAdapterTest {
 
   private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
@@ -77,17 +76,17 @@ public class DoubleAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Double expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Double value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=NumberFormatException.class)
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=NumberFormatException.class, groups="all")
   public void invalidUnmarshal( String value, Double expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }

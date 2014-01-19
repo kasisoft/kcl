@@ -38,12 +38,12 @@ public class StringAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, String expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( String value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

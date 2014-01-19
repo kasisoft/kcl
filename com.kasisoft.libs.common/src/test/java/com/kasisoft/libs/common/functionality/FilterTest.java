@@ -55,26 +55,26 @@ public class FilterTest {
     };
   }
 
-  @Test(expectedExceptions={NullPointerException.class,ArrayIndexOutOfBoundsException.class},dataProvider="invalidUses")
+  @Test(expectedExceptions={NullPointerException.class,ArrayIndexOutOfBoundsException.class}, dataProvider="invalidUses", groups="all")
   public void invalidUse( Filter<Integer> filter, List<Integer> list ) {
     FuFunctions.filter( filter, list );
   }
   
-  @Test
+  @Test(groups="all")
   public void filterEmpty() {
     List<Integer> result = FuFunctions.filter( filter, new ArrayList<Integer>() );
     Assert.assertNotNull( result );
     Assert.assertTrue( result.isEmpty() );
   }
   
-  @Test(dataProvider="createForOne")
+  @Test(dataProvider="createForOne", groups="all")
   public void filterOne( Integer expectedsize, List<Integer> values ) {
     List<Integer> result = FuFunctions.filter( filter, values );
     Assert.assertNotNull( result );
     Assert.assertEquals( result.size(), expectedsize.intValue() );
   }
   
-  @Test(dataProvider="createForMultiple")
+  @Test(dataProvider="createForMultiple", groups="all")
   public void filterMultiple( Integer expectedsize, List<Integer> values ) {
     List<Integer> result = FuFunctions.filter( filter, values );
     Assert.assertNotNull( result );

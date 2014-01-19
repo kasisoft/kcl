@@ -17,7 +17,6 @@ import java.io.*;
 /**
  * Test for the class 'CharCopierRunnable'.
  */
-@Test(groups="all")
 public class CharCopierRunnableTest {
 
   private char[] createRandomBlock( int size ) {
@@ -46,7 +45,7 @@ public class CharCopierRunnableTest {
     return result;
   }
   
-  @Test(dataProvider="createDataBlocks")
+  @Test(dataProvider="createDataBlocks", groups="all")
   public void copyRunnable( char[] data, Integer buffersize ) {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
@@ -57,7 +56,7 @@ public class CharCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
-  @Test(dataProvider="createDataBlocks")
+  @Test(dataProvider="createDataBlocks", groups="all")
   public void copyThread( char[] data, Integer buffersize ) throws InterruptedException {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
@@ -70,7 +69,7 @@ public class CharCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
-  @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class})
+  @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class}, groups="all")
   public void copyFailingRunnable( char[] data, Integer buffersize ) {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();
@@ -88,7 +87,7 @@ public class CharCopierRunnableTest {
     Assert.fail();
   }
 
-  @Test(dataProvider="createDataBlocks")
+  @Test(dataProvider="createDataBlocks", groups="all")
   public void copyFailingThread( char[] data, Integer buffersize ) throws InterruptedException {
     CharArrayReader    charin   = new CharArrayReader( data );
     CharArrayWriter    charout  = new CharArrayWriter();

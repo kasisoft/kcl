@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * Tests for the type 'DateAdapter'.
  */
-@Test(groups="all")
 @SuppressWarnings("deprecation")
 public class DateAdapterTest {
 
@@ -41,12 +40,12 @@ public class DateAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Date expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Date value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

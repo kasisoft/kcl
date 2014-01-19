@@ -92,36 +92,36 @@ public class MiscFunctionsTest {
     };
   }
   
-  @Test(dataProvider="createDateValues")
+  @Test(dataProvider="createDateValues", groups="all")
   public void parseDate( String datevalue, Date expected ) {
     Date currentdate = MiscFunctions.parseDate( datevalue, DATEPATTERNS );
     Assert.assertEquals( currentdate, expected );
   }
 
-  @Test(dataProvider="createCalendarValues")
+  @Test(dataProvider="createCalendarValues", groups="all")
   public void parseCalendar( String datevalue, Calendar expected ) {
     Calendar currentdate = MiscFunctions.parseCalendar( datevalue, DATEPATTERNS );
     Assert.assertEquals( currentdate, expected );
   }
 
-  @Test(dataProvider="createParseBoolean")
+  @Test(dataProvider="createParseBoolean", groups="all")
   public void parseBoolean( String value, Boolean expected ) {
     Assert.assertEquals( MiscFunctions.parseBoolean( value ), expected.booleanValue() );
   }
   
-  @Test
+  @Test(groups="all")
   public void newInstance() {
     Object object = MiscFunctions.newInstance( false, String.class.getName(), "Frosch".getBytes() );
     Assert.assertEquals( object, "Frosch" );
   }
 
-  @Test(expectedExceptions={FailureException.class})
+  @Test(expectedExceptions={FailureException.class}, groups="all")
   public void newInstanceFailure() {
     MiscFunctions.newInstance( true, String.class.getName(), new float[12] );
     Assert.fail();
   }
 
-  @Test
+  @Test(groups="all")
   public void joinThread() {
     final Tupel<Boolean> outparam = new Tupel<Boolean>( Boolean.FALSE );
     Runnable runnable = new Runnable() {
@@ -142,7 +142,7 @@ public class MiscFunctionsTest {
     Assert.assertEquals( outparam.getValue(), Boolean.TRUE );
   }
   
-  @Test
+  @Test(groups="all")
   public void expandVariables() {
     String template = null;
     if( SystemInfo.getRunningOS().isUnixLike() ) {
@@ -154,7 +154,7 @@ public class MiscFunctionsTest {
     Assert.assertEquals( result, String.format( "The name of the user is: %s !", System.getProperty( "user.name" ) ) );
   }
   
-  @Test(dataProvider="createToSet")
+  @Test(dataProvider="createToSet", groups="all")
   public void toSet( List<String> list, List<String> expected ) {
     List<String> altered = MiscFunctions.toUniqueList( list );
     Assert.assertNotNull( altered );
@@ -164,12 +164,12 @@ public class MiscFunctionsTest {
     }
   }
   
-  @Test(dataProvider="createIsLeapYearInt")
+  @Test(dataProvider="createIsLeapYearInt", groups="all")
   public void isLeapYear( int year, boolean expected ) {
     Assert.assertEquals( MiscFunctions.isLeapYear( year ), expected );
   }
 
-  @Test(dataProvider="createIsLeapYearDate")
+  @Test(dataProvider="createIsLeapYearDate", groups="all")
   public void isLeapYear( Date year, boolean expected ) {
     Assert.assertEquals( MiscFunctions.isLeapYear( year ), expected );
   }

@@ -17,7 +17,6 @@ import java.io.*;
 /**
  * Test for the class 'ByteCopierRunnable'.
  */
-@Test(groups="all")
 public class ByteCopierRunnableTest {
 
   private byte[] createRandomBlock( int size ) {
@@ -42,7 +41,7 @@ public class ByteCopierRunnableTest {
     return result;
   }
   
-  @Test(dataProvider="createDataBlocks")
+  @Test(dataProvider="createDataBlocks", groups="all")
   public void copyRunnable( byte[] data, Integer buffersize ) {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
@@ -53,7 +52,7 @@ public class ByteCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
-  @Test(dataProvider="createDataBlocks")
+  @Test(dataProvider="createDataBlocks", groups="all")
   public void copyThread( byte[] data, Integer buffersize ) throws InterruptedException {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
@@ -66,7 +65,7 @@ public class ByteCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
-  @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class})
+  @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class}, groups="all")
   public void copyFailingRunnable( byte[] data, Integer buffersize ) {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
@@ -84,7 +83,7 @@ public class ByteCopierRunnableTest {
     Assert.fail();
   }
 
-  @Test(dataProvider="createDataBlocks")
+  @Test(dataProvider="createDataBlocks", groups="all")
   public void copyFailingThread( byte[] data, Integer buffersize ) throws InterruptedException {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout   = new ByteArrayOutputStream();

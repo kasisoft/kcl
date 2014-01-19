@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * Testcases for the class 'LiteralTokenizer'.
  */
-@Test(groups="all")
 public class LiteralTokenizerTest {
 
   @DataProvider(name="tokenizeDataProvider")
@@ -50,7 +49,7 @@ public class LiteralTokenizerTest {
     
   }
   
-  @Test(dataProvider="tokenizeDataProvider")
+  @Test(dataProvider="tokenizeDataProvider", groups="all")
   public void tokenize( String input, boolean returndelimiters, String[] expected ) {
     LiteralTokenizer tokenizer = new LiteralTokenizer( input, returndelimiters, "@PART@", "@FLUPPE@" );
     List<String>     tokens    = new ArrayList<String>();

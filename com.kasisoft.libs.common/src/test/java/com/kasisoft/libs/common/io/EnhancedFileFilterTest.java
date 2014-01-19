@@ -21,7 +21,6 @@ import java.io.*;
 /**
  * Test for the 'EnhancedFileFilter'.
  */
-@Test(groups="all")
 public class EnhancedFileFilterTest {
 
   private File                 testdata;
@@ -43,7 +42,7 @@ public class EnhancedFileFilterTest {
     };
   }
   
-  @Test(dataProvider="listingData")
+  @Test(dataProvider="listingData", groups="all")
   public void listTest( String dir, List<String> childdirs ) {
     File    file  = new File( testdata, dir );
     File[]  files = file.listFiles( filter );

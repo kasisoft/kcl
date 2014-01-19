@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * Tests for the class 'Predefined'.
  */
-@Test(groups="all")
 public class PredefinedTest {
 
   private Filter<Object>   integerfilter;
@@ -52,21 +51,21 @@ public class PredefinedTest {
     };
   }
 
-  @Test(dataProvider="createAndValues")
+  @Test(dataProvider="createAndValues", groups="all")
   public void filterAnd( List<Object> objects, List<Object> expected ) {
     Filter<Object> filter = Predefined.and( integerfilter, isevenfilter );
     List<Object>   result = FuFunctions.filter( filter, objects );
     Assert.assertEquals( result, expected );
   }
 
-  @Test(dataProvider="createOrValues")
+  @Test(dataProvider="createOrValues", groups="all")
   public void filterOr( List<Object> objects, List<Object> expected ) {
     Filter<Object> filter = Predefined.or( integerfilter, isevenfilter );
     List<Object>   result = FuFunctions.filter( filter, objects );
     Assert.assertEquals( result, expected );
   }
 
-  @Test(dataProvider="createNotValues")
+  @Test(dataProvider="createNotValues", groups="all")
   public void filterNot( List<Object> objects, List<Object> expected ) {
     Filter<Object> filter = Predefined.not( integerfilter );
     List<Object>   result = FuFunctions.filter( filter, objects );

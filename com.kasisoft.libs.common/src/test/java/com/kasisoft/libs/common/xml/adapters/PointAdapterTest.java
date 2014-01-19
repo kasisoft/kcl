@@ -65,17 +65,17 @@ public class PointAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Point expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class,NumberFormatException.class})
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class,NumberFormatException.class}, groups="all")
   public void invalidUnmarshal( String value, Point expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Point value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

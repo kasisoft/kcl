@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * Testcases for the class 'ArrayFunctions'.
  */
-@Test
 public class ArrayFunctionsTest {
 
   @Test(groups="all")

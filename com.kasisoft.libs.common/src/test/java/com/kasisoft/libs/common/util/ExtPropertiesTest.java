@@ -23,7 +23,7 @@ import java.io.*;
 /**
  * Tests for the type 'ExtProperties'.
  */
-@Test(groups="all",sequential=true)
+@Test(sequential=true)
 public class ExtPropertiesTest {
 
   private File   simplefile;
@@ -84,7 +84,7 @@ public class ExtPropertiesTest {
     return result;
   }
   
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void basicAccess( String delimiter, String commentintro ) {
     
     ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
@@ -122,7 +122,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void checkSortings( String delimiter, String commentintro ) {
     
     ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
@@ -136,7 +136,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void specificRemovals( String delimiter, String commentintro ) {
 
     ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
@@ -183,7 +183,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void removeAllIndexed( String delimiter, String commentintro ) {
 
     ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
@@ -222,7 +222,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void removeAllAssociated( String delimiter, String commentintro ) {
 
     ExtProperties props = setupContent( simplefile, delimiter, commentintro, false );
@@ -261,7 +261,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void checkEvaluated( String delimiter, String commentintro ) {
 
     ExtProperties props = setupContent( evaluationfile, delimiter, commentintro, false );
@@ -290,7 +290,7 @@ public class ExtPropertiesTest {
     
   }
   
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void checkNameTraversal( String delimiter, String commentintro ) {
     
     ExtProperties       simpleprops = setupContent( simplefile, delimiter, commentintro, false );
@@ -334,7 +334,7 @@ public class ExtPropertiesTest {
 
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void loadAndStore( String delimiter, String commentintro ) {
     
     // load/reload with simple.properties
@@ -367,7 +367,7 @@ public class ExtPropertiesTest {
 
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void ipBasicAccess( String delimiter, String commentintro ) {
     
     ExtProperties           props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -383,7 +383,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void ipBasicSingleAccess( String delimiter, String commentintro ) {
     
     ExtProperties           props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -395,7 +395,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void ipRemoveComplete( String delimiter, String commentintro ) {
     
     ExtProperties props = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -409,7 +409,7 @@ public class ExtPropertiesTest {
   }
 
   @SuppressWarnings("deprecation")
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void ipSpecificlyTypedAccess( String delimiter, String commentintro ) {
     
     ExtProperties         props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -426,7 +426,7 @@ public class ExtPropertiesTest {
     
   }
   
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void apBasicAccess( String delimiter, String commentintro ) {
     
     ExtProperties               props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -447,7 +447,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void apBasicSingleAccess( String delimiter, String commentintro ) {
     
     ExtProperties               props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -459,7 +459,7 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void apRemoveComplete( String delimiter, String commentintro ) {
     
     ExtProperties               props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -473,7 +473,7 @@ public class ExtPropertiesTest {
   }
 
   @SuppressWarnings("deprecation")
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void apSpecificlyTypedAccess( String delimiter, String commentintro ) {
     
     ExtProperties             props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -494,13 +494,13 @@ public class ExtPropertiesTest {
     
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void spBasicAccess( String delimiter, String commentintro ) {
     ExtProperties           props     = setupContent( evaluationfile, delimiter, commentintro, true );
     Assert.assertEquals( props.getSimpleProperty( "simple" ), "glow" );
   }
 
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void spRemoveComplete( String delimiter, String commentintro ) {
     
     ExtProperties          props     = setupContent( evaluationfile, delimiter, commentintro, true );
@@ -514,7 +514,7 @@ public class ExtPropertiesTest {
   }
 
   @SuppressWarnings("deprecation")
-  @Test(dataProvider="createConfigs")
+  @Test(dataProvider="createConfigs", groups="all")
   public void spSpecificlyTypedAccess( String delimiter, String commentintro ) {
     
     ExtProperties        props        = setupContent( evaluationfile, delimiter, commentintro, true );

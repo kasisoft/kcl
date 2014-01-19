@@ -24,7 +24,6 @@ import java.io.*;
 /**
  * Tests for the utility class 'GraphicsFunctions'.
  */
-@Test(groups="all")
 public class GraphicsFunctionsTest implements FilenameFilter {
   
   private File     images;
@@ -61,7 +60,7 @@ public class GraphicsFunctionsTest implements FilenameFilter {
     return name.startsWith( "sample" );
   }
 
-  @Test(dataProvider="createOutputFormats")
+  @Test(dataProvider="createOutputFormats", groups="all")
   public void convert( PictureFormat outformat ) {
     File tempdir = IoFunctions.newTempFile();
     tempdir.mkdirs();

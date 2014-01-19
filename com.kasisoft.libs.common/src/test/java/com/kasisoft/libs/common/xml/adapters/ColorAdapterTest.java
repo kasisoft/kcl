@@ -78,17 +78,17 @@ public class ColorAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Color expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class, NumberFormatException.class})
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class, NumberFormatException.class}, groups="all")
   public void invalidUnmarshal( String value, Color expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Color value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

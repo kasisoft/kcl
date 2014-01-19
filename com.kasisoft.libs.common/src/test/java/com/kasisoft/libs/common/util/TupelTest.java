@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Tests for the class 'Tupel'.
  */
-@Test(groups="all")
 public class TupelTest {
 
   private Tupel<String> newTupel( String ... args ) {
@@ -34,7 +33,7 @@ public class TupelTest {
     };
   }
   
-  @Test(dataProvider="createTupelData")
+  @Test(dataProvider="createTupelData", groups="all")
   public void processTupels( Tupel<String> tupel, String first, String last ) {
     Assert.assertEquals( tupel.getValue(), first );
     Assert.assertEquals( tupel.getFirst(), first );

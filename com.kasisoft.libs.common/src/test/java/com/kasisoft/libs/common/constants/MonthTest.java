@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Tests for the class 'Month'.
  */
-@Test(groups="all")
 public class MonthTest {
 
   @DataProvider(name="checkMonth")
@@ -55,13 +54,13 @@ public class MonthTest {
     };
   }
 
-  @Test(dataProvider="checkMonth")
+  @Test(dataProvider="checkMonth", groups="all")
   public void checkMonth( Month month, int daycount, int year, Weekday weekday ) { 
     Assert.assertEquals( month.getDayCount( year ), daycount );
     Assert.assertEquals( month.getFirstWeekday( year ), weekday );
   }
   
-  @Test(dataProvider="monthNavigation")
+  @Test(dataProvider="monthNavigation", groups="all")
   public void monthNavigation( Month current, Month before, Month after ) {
     Assert.assertEquals( before , current.previous() );
     Assert.assertEquals( after  , current.next()     );

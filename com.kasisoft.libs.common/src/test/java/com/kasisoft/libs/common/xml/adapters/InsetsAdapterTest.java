@@ -20,7 +20,6 @@ import java.awt.*;
 /**
  * Tests for the type 'InsetsAdapter'.
  */
-@Test(groups="all")
 public class InsetsAdapterTest {
 
   private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
@@ -66,17 +65,17 @@ public class InsetsAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Insets expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class,NumberFormatException.class})
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class,NumberFormatException.class}, groups="all")
   public void invalidUnmarshal( String value, Insets expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Insets value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

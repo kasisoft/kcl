@@ -19,7 +19,6 @@ import java.net.*;
 /**
  * Tests for the type 'URLAdapter'.
  */
-@Test(groups="all")
 public class URLAdapterTest {
 
   private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
@@ -60,17 +59,17 @@ public class URLAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, URL expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=RuntimeException.class)
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=RuntimeException.class, groups="all")
   public void invalidUnmarshal( String value, URL expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( URL value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

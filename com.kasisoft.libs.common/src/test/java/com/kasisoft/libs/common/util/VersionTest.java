@@ -19,7 +19,6 @@ import java.util.*;
 /**
  * Tests for the class 'Version'.
  */
-@Test
 public class VersionTest {
 
   @DataProvider(name="createInvalidVersions")

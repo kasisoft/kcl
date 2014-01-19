@@ -18,7 +18,6 @@ import org.testng.*;
 /**
  * Tests for the type 'EnumerationAdapter'.
  */
-@Test(groups="all")
 public class EnumerationAdapterTest {
 
   private static enum LordOfTheRings {
@@ -71,17 +70,17 @@ public class EnumerationAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, LordOfTheRings expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=FailureException.class)
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=FailureException.class, groups="all")
   public void invalidUnmarshal( String value, LordOfTheRings expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
 
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( LordOfTheRings value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

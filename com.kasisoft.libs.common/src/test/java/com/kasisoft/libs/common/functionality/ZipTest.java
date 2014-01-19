@@ -20,7 +20,6 @@ import java.awt.*;
 /**
  * A test for the interface 'Zip'.
  */
-@Test(groups="all")
 public class ZipTest {
 
   private static final String KEY_RED     = "red";
@@ -64,12 +63,12 @@ public class ZipTest {
     };
   }
   
-  @Test(dataProvider="invalidUses",expectedExceptions={NullPointerException.class})
+  @Test(dataProvider="invalidUses",expectedExceptions={NullPointerException.class}, groups="all")
   public void invalidUse( Zip<Color,Font,Map<String,Object>> zipfunction, List<Color> colors, List<Font> fonts ) {
     FuFunctions.zip( zipfunction, colors, fonts );
   }
   
-  @Test(dataProvider="createData")
+  @Test(dataProvider="createData", groups="all")
   public void verifyStyles( List<Color> colors, List<Font> fonts ) {
     List<Map<String, Object>> stylemaps = FuFunctions.zip( zipfunction, colors, fonts );
     Assert.assertNotNull( stylemaps );

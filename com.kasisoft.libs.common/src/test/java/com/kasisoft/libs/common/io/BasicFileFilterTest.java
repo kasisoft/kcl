@@ -21,7 +21,6 @@ import java.io.*;
 /**
  * Test for the 'BasicFileFilter'.
  */
-@Test(groups="all")
 public class BasicFileFilterTest {
 
   private File              testdata;
@@ -42,7 +41,7 @@ public class BasicFileFilterTest {
     };
   }
   
-  @Test(dataProvider="listingData")
+  @Test(dataProvider="listingData", groups="all")
   public void listTest( String dir, List<String> childdirs ) {
     File    file  = new File( testdata, dir );
     File[]  files = file.listFiles( filter );

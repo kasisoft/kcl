@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Testcase for the class 'StringFBuffer'.
  */
-@Test(groups="all")
 public class StringFBufferTest {
 
   @DataProvider(name="dataStringBuffers")
@@ -27,48 +26,48 @@ public class StringFBufferTest {
     };
   }
   
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void appendF( StringFBuffer buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
     Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
   }
   
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void charAt( StringFBuffer buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
     Assert.assertEquals( buffer.charAt(0)  , 'M' );
     Assert.assertEquals( buffer.charAt(-1) , '!' );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void substring( StringFBuffer buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
     Assert.assertEquals( buffer.substring( 0, 2 )  , "My" );
     Assert.assertEquals( buffer.substring( -10 ) , "Not 0x11 !" );
   }
   
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void trimLeading( StringFBuffer buffer ) {
     buffer.appendF( "\r\n   My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
     buffer.trimLeading();
     Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void trimTrailing( StringFBuffer buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf( 17 ) );
     buffer.trimTrailing();
     Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void trim( StringFBuffer buffer ) {
     buffer.appendF( "\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf( 17 ) );
     buffer.trim();
     Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
   }
   
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void endsWith( StringFBuffer buffer ) {
     buffer.appendF( "The frog is here !" );
     Assert.assertTrue  ( buffer.endsWith( true  , "here !" ) );
@@ -80,7 +79,7 @@ public class StringFBufferTest {
     Assert.assertFalse ( buffer.endsWith( false , "The frog is here ! Oops !" ) );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void startsWith( StringFBuffer buffer ) {
     buffer.appendF( "The frog is here !" );
     Assert.assertTrue  ( buffer.startsWith( true  , "The" ) );
@@ -92,7 +91,7 @@ public class StringFBufferTest {
     Assert.assertFalse ( buffer.startsWith( false , "The frog is here ! Oops !" ) );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void equals( StringFBuffer buffer ) {
     buffer.appendF( "The frog is here !" );
     Assert.assertTrue  ( buffer.equals( true  , "The frog is here !" ) );
@@ -102,20 +101,20 @@ public class StringFBufferTest {
     Assert.assertFalse ( buffer.equals( "THE FROG IS HERE !" ) );
   }
   
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void remove( StringFBuffer buffer ) {
     buffer.appendF( "Moloko was a great band !" );
     Assert.assertEquals( buffer.remove( "oa" ).toString(), "Mlk ws  gret bnd !" );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void reverse( StringFBuffer buffer ) {
     buffer.append( "The frog is here !" );
     buffer.reverse();
     Assert.assertEquals( buffer.toString(), "! ereh si gorf ehT" );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void indexOf( StringFBuffer buffer ) {
     buffer.append( "The frog is here !" );
     Assert.assertEquals( buffer.indexOf( "frog"    ),  4 );
@@ -127,7 +126,7 @@ public class StringFBufferTest {
     Assert.assertEquals( buffer.indexOf( "co", "Flansch" ), -1 );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void lastIndexOf( StringFBuffer buffer ) {
     buffer.append( "The frog is here !" );
     Assert.assertEquals( buffer.lastIndexOf( "frog"    ),  4 );
@@ -138,13 +137,13 @@ public class StringFBufferTest {
     Assert.assertEquals( buffer.lastIndexOf( "Flansch"    ), -1 );
   }
   
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void replace( StringFBuffer buffer ) {
     buffer.append( "The frog is here !" );
     Assert.assertEquals( buffer.replace( 'e', 'a' ).toString(), "Tha frog is hara !" );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void split( StringFBuffer buffer ) {
     
     buffer.append( "This was my 3 birthday on the 2 street." );
@@ -163,7 +162,7 @@ public class StringFBufferTest {
     Assert.assertEquals( parts.length, 0 );
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void splitRegex( StringFBuffer buffer ) {
     
     buffer.append( "This was my 3 birthday on the 2 street." );
@@ -183,7 +182,7 @@ public class StringFBufferTest {
     
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void replaceAll( StringFBuffer buffer ) {
     
     buffer.append( "This was my 3 birthday on the 2 street." );
@@ -202,7 +201,7 @@ public class StringFBufferTest {
     
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void replaceFirst( StringFBuffer buffer ) {
     
     buffer.append( "This was my 3 birthday on the 2 street." );
@@ -216,7 +215,7 @@ public class StringFBufferTest {
     
   }
 
-  @Test(dataProvider="dataStringBuffers")
+  @Test(dataProvider="dataStringBuffers", groups="all")
   public void replaceLast( StringFBuffer buffer ) {
     
     buffer.append( "This was my 3 birthday on the 2 street." );

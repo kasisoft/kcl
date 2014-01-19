@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * A test for the interface 'Reduce'.
  */
-@Test(groups="all")
 public class ReduceTest {
 
   private Sum   reducefunction;
@@ -64,12 +63,12 @@ public class ReduceTest {
     };
   }
   
-  @Test(dataProvider="invalidUses",expectedExceptions={NullPointerException.class})
+  @Test(dataProvider="invalidUses",expectedExceptions={NullPointerException.class}, groups="all")
   public void invalidUse( Reduce<Byte,Integer> reduce, List<Byte> list, Integer initial ) {
     FuFunctions.reduce( reduce, list, initial );
   }
   
-  @Test(dataProvider="createValues")
+  @Test(dataProvider="createValues", groups="all")
   public void sumValues( List<Byte> list, Integer expected ) {
     Integer result = FuFunctions.reduce( reducefunction, list, Integer.valueOf(0) );
     Assert.assertNotNull( result );

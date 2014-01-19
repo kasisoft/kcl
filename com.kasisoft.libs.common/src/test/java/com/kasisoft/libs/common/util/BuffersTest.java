@@ -30,7 +30,7 @@ public class BuffersTest {
     return result;
   }
 
-  @Test(dataProvider="createDataTypes")
+  @Test(dataProvider="createDataTypes", groups="all")
   public <T> void runAllocations( T type ) {
     Primitive  primitive  = Primitive.byType( type );
     Assert.assertNotNull( primitive );

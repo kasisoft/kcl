@@ -19,7 +19,6 @@ import java.text.*;
 /**
  * Tests for the type 'VersionAdapter'.
  */
-@Test(groups="all")
 public class VersionAdapterTest {
 
   private VersionAdapter adapter = new VersionAdapter( true, true );
@@ -44,12 +43,12 @@ public class VersionAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Version expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Version value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

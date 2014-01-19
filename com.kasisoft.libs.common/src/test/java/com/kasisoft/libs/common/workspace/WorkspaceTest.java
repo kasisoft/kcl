@@ -19,7 +19,6 @@ import java.io.*;
 /**
  * Tests for the class 'Workspace'.
  */
-@Test(groups="all")
 public class WorkspaceTest {
 
   @DataProvider(name="workspaces")
@@ -30,13 +29,13 @@ public class WorkspaceTest {
     };
   }
   
-  @Test(dataProvider="workspaces")
+  @Test(dataProvider="workspaces", groups="all")
   public void getAndSetString( Workspace workspace ) {
     workspace.setString( "bibo", "frog" );
     Assert.assertEquals( workspace.getString( "bibo", null ), "frog" );
   }
 
-  @Test(dataProvider="workspaces")
+  @Test(dataProvider="workspaces", groups="all")
   public void getAndSetRectangle( Workspace workspace ) {
     workspace.setRectangle( "component", new Rectangle( 40, 40, 300, 120 ) );
     Assert.assertEquals( workspace.getRectangle( "component", null ), new Rectangle( 40, 40, 300, 120 ) );

@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Tests for the type 'BooleanAdapter'.
  */
-@Test(groups="all")
 public class BooleanAdapterTest {
 
   private BooleanAdapter adapter = new BooleanAdapter();
@@ -49,12 +48,12 @@ public class BooleanAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, Boolean expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( Boolean value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

@@ -15,7 +15,6 @@ import org.testng.*;
 /**
  * Tests for the constants 'HttpStatusCode'.
  */
-@Test(groups="all")
 public class HttpStatusCodeTest {
 
   @DataProvider(name="createData")
@@ -29,7 +28,7 @@ public class HttpStatusCodeTest {
     return result;
   };
   
-  @Test(dataProvider="createData")
+  @Test(dataProvider="createData", groups="all")
   public void valueByText( String textualcode, HttpStatusCode code ) {
     Assert.assertEquals( HttpStatusCode.valueByStatusCode( textualcode ), code );
   }

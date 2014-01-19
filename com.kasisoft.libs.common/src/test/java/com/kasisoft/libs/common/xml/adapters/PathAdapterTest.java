@@ -19,7 +19,6 @@ import java.io.*;
 /**
  * Tests for the type 'PathAdapter'.
  */
-@Test(groups="all")
 public class PathAdapterTest {
 
   private PathAdapter adapter = new PathAdapter( ";", false );
@@ -65,12 +64,12 @@ public class PathAdapterTest {
   }
   
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, List<File> expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( List<File> value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }

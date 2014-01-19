@@ -19,7 +19,6 @@ import java.util.*;
 /**
  * A test for the interface 'Transform'.
  */
-@Test(groups="all")
 public class TransformTest {
 
   private Wrapper   wrapper;
@@ -37,12 +36,12 @@ public class TransformTest {
     };
   }
   
-  @Test(dataProvider="invalidUses", expectedExceptions={NullPointerException.class})
+  @Test(dataProvider="invalidUses", expectedExceptions={NullPointerException.class}, groups="all")
   public void invalidUse( Transform<Integer,Integer> transform, List<Integer> list ) {
     FuFunctions.map( transform, list );
   }
   
-  @Test
+  @Test(groups="all")
   public void runWrapper() {
     List<List<Integer>> result = FuFunctions.map( wrapper, Utilities.intsToList( 3 ) );
     Assert.assertNotNull( result );

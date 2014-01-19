@@ -17,7 +17,6 @@ import java.io.*;
 /**
  * Tests for the type 'FileAdapter'.
  */
-@Test(groups="all")
 public class FileAdapterTest {
 
   private FileAdapter adapter = new FileAdapter();
@@ -42,12 +41,12 @@ public class FileAdapterTest {
     };
   }
 
-  @Test(dataProvider="createUnmarshalling")
+  @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, File expected ) throws Exception {
     Assert.assertEquals( adapter.unmarshal( value ), expected );
   }
   
-  @Test(dataProvider="createMarshalling")
+  @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( File value, String expected ) throws Exception {
     Assert.assertEquals( adapter.marshal( value ), expected );
   }
