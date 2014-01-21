@@ -17,10 +17,9 @@ import java.util.*;
 /**
  * Tests for the type 'ExtArrayList'.
  */
-@Test(groups="all")
 public class ExtArrayListTest {
 
-  @Test
+  @Test(groups="all")
   public void newList() {
     
     ExtArrayList<String> list1 = new ExtArrayList<String>();
@@ -38,7 +37,7 @@ public class ExtArrayListTest {
     
   }
   
-  @Test
+  @Test(groups="all")
   public void add() {
     
     ExtArrayList<String> list1 = new ExtArrayList<String>();
@@ -65,7 +64,29 @@ public class ExtArrayListTest {
 
   }
   
-  @Test
+  @Test(groups="all")
+  public void addSuppressNull() {
+    
+    ExtArrayList<String> list = new ExtArrayList<String>( true );
+    list.addAll( Arrays.asList( "BLA", "BLUB" ) );
+    list.add( null );
+
+    Assert.assertEquals( list.size(), 2 );
+    
+  }
+  
+  @Test(groups="all")
+  public void setSuppressNull() {
+    
+    ExtArrayList<String> list = new ExtArrayList<String>( true );
+    list.addAll( Arrays.asList( "BLA", "BLUB" ) );
+    list.set( 0, null );
+
+    Assert.assertEquals( list.size(), 1 );
+    
+  }
+  
+  @Test(groups="all")
   public void sublist() {
     
     ExtArrayList<String> list1 = new ExtArrayList<String>( "BLA", "BLUB", "BLAU", "KRAUT", "FROG" );
@@ -78,7 +99,7 @@ public class ExtArrayListTest {
 
   }
   
-  @Test
+  @Test(groups="all")
   public void trim() {
     
     ExtArrayList<String> list1 = new ExtArrayList<String>( null, null, null, "BLA", "BLUB", "BLAU", "KRAUT", "FROG", null, "", null );
@@ -94,7 +115,7 @@ public class ExtArrayListTest {
     
   }
 
-  @Test
+  @Test(groups="all")
   public void newListSuppressNull() {
     
     ExtArrayList<String> list1 = new ExtArrayList<String>( true );
