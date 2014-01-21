@@ -119,7 +119,16 @@ public class ExtArrayList<T> extends ArrayList<T> {
   }
 
   @Override
-  public void add( int index, @NonNull T element ) {
+  public boolean add( T element ) {
+    if( isValid( element ) ) {
+      return super.add( element );
+    } else {
+      return false;
+    }
+  }
+  
+  @Override
+  public void add( int index, T element ) {
     if( isValid( element ) ) {
       super.add( adjustIndex( index ), element );
     }
