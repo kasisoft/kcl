@@ -270,6 +270,22 @@ public class MiscFunctions {
     }
     return list;
   }
+
+  /**
+   * Creates a list of <param>count</param> elements while repeating the supplied one.
+   * 
+   * @param count     The number of elements that shall be created.
+   * @param element   The element that shall be repeated. Maybe <code>null</code>.
+   * 
+   * @return   A list with the supplied amount of elements. Not <code>null</code>.
+   */
+  public static <T> List<T> repeat( int count, T element ) {
+    List<T> result = new ArrayList<T>( count );
+    for( int i = 0; i < count; i++ ) {
+      result.add( element );
+    }
+    return result;
+  }
   
   /**
    * Creates a set from the supplied elements. 

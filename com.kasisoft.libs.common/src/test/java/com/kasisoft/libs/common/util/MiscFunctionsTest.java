@@ -210,5 +210,25 @@ public class MiscFunctionsTest {
   public void getMethod() {
     Assert.assertNotNull( MiscFunctions.getMethod( ByteArrayOutputStream.class, "reset" ) );
   }
+  
+  @DataProvider(name="repeatData")
+  public Object[][] repeatData() {
+    return new Object[][] {
+        { Integer.valueOf(0), null, Arrays.asList() },  
+        { Integer.valueOf(1), null, Arrays.asList( new Object[] { null } ) },
+        { Integer.valueOf(5), null, Arrays.asList( null, null, null, null, null ) },
+      { Integer.valueOf(0), "Dodo", Arrays.asList() },  
+      { Integer.valueOf(1), "Dodo", Arrays.asList( "Dodo" ) },
+      { Integer.valueOf(5), "Dodo", Arrays.asList( "Dodo", "Dodo", "Dodo", "Dodo", "Dodo" ) },
+    };
+  }
+  
+  @Test(dataProvider="repeatData", groups="all")
+  public <T> void repeat( int count, T element, List<T> expected ) {
+    List<T> actual = MiscFunctions.repeat( count, element );
+    Assert.assertNotNull( actual );
+    Assert.assertEquals( actual.size(), count );
+    Assert.assertEquals( actual, expected );
+  }
 
 } /* ENDCLASS */
