@@ -48,9 +48,9 @@ public class NetFunctionsTest {
     Thread.sleep( 3000 );
     t2.join();
     long   after  = System.currentTimeMillis();
-    long   diff   = after - before;
+    long   diff   = after - before; 
     Assert.assertTrue( diff >= TimeUnit.Second.amount( 30 ) );
-    Assert.assertTrue( diff <= TimeUnit.Second.amount( 32 ) );
+    Assert.assertTrue( diff <= TimeUnit.Second.amount( 35 ) );
     
   }
   
