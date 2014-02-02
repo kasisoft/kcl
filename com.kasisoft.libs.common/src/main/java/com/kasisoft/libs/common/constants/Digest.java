@@ -84,11 +84,25 @@ public final class Digest {
    * @return   The hash value. Neither <code>null</code> nor empty.
    */
   public byte[] digest( @NonNull byte[] ... data ) {
+    return digest( 1, data );
+  }
+
+  /**
+   * Processes the supplied data blocks in order to calculate a hash.
+   *
+   * @param count   The number of times used to run the digestion.
+   * @param data    The data used to be digested. Not <code>null</code>.
+   * 
+   * @return   The hash value. Neither <code>null</code> nor empty.
+   */
+  public byte[] digest( int count, @NonNull byte[] ... data ) {
     MessageDigest digest = null;
     try {
       digest = bucket.allocate();
-      for( int i = 0; i < data.length; i++ ) {
-        digest.update( data[i] );
+      for( int i = 0; i < count; i++ ) {
+        for( int j = 0; j < data.length; j++ ) {
+          digest.update( data[j] );
+        }
       }
       byte[] result = digest.digest();
       return result;
@@ -96,7 +110,7 @@ public final class Digest {
       bucket.free( digest );
     }
   }
-  
+
   public static Digest[] values() {
     return DIGESTS.values().toArray( new Digest[ DIGESTS.size() ] );
   }
