@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.util.*;
 
+import java.util.regex.*;
+
 import java.util.*;
 
 import lombok.*;
@@ -47,73 +49,124 @@ public class ConfigurationHelper {
   }
   
   /**
-   * Creates a replacement map used to substitute properties.
+   * Creates a copy of the supplied map while quoting the keys in order to be useful in conjunction with regular 
+   * expressions.
    * 
-   * @param props        The properties providing the current configuration. Maybe <code>null</code>.
-   * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
-   *
-   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
-   */
-  public static Map<String,String> createReplacementMap( Map<String,String> props, SimpleProperty<?> ... properties ) {
-    return createReplacementMap( props, "%%%s%%", "", properties );
-  }
-
-  /**
-   * Creates a replacement map used to substitute properties.
+   * @param replacementmap   The map which serves as the input. Not <code>null</code>.
    * 
-   * @param props        The properties providing the current configuration. Maybe <code>null</code>.
-   * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
-   *
-   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   * @return   A map of replacements with regex quoted keys. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( Properties props, SimpleProperty<?> ... properties ) {
-    return createReplacementMap( props, "%%%s%%", "", properties );
-  }
-
-  /**
-   * Creates a replacement map used to substitute properties.
-   * 
-   * @param props        The properties providing the current configuration. Maybe <code>null</code>.
-   * @param format       A formatting String with one %s format code. This is used in order to support various key 
-   *                     formats. Neither <code>null</code> nor empty.
-   * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
-   *                     Not <code>null</code>.
-   * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
-   *
-   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
-   */
-  public static Map<String,String> createReplacementMap( 
-    Map<String,String> props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
-  ) {
-    Map<String,String> result = new HashMap<String,String>();
-    for( SimpleProperty<?> property : properties ) {
-      String keypattern = String.format( format, property.getKey() );
-      String value      = getValueAsText( property, props, nullvalue );
-      result.put( keypattern, value );
+  public static Map<String,String> quoteKeys( @NonNull Map<String,String> replacementmap ) {
+    Map<String,String> result = new Hashtable<>();
+    for( Map.Entry<String,String> entry : replacementmap.entrySet() ) {
+      result.put( Pattern.quote( entry.getKey() ), entry.getValue() );
     }
     return result;
   }
+  
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param props        The properties providing the current configuration. Not <code>null</code>.
+   * @param properties   The properties that shall be returned in the replacement map. 
+   *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
+   *                     allowed to be <code>null</code> in this case).
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  public static Map<String,String> createReplacementMap( @NonNull Map<String,String> props, SimpleProperty<?> ... properties ) {
+    return createReplacementMapImpl( props, "%%%s%%", "", properties );
+  }
 
   /**
    * Creates a replacement map used to substitute properties.
    * 
-   * @param props        The properties providing the current configuration. Maybe <code>null</code>.
+   * @param props        The properties providing the current configuration. Not <code>null</code>.
+   * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
+   *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
+   *                     allowed to be <code>null</code> in this case).
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  public static Map<String,String> createReplacementMap( @NonNull Properties props, SimpleProperty<?> ... properties ) {
+    return createReplacementMapImpl( props, "%%%s%%", "", properties );
+  }
+
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param props        The properties providing the current configuration. Not <code>null</code>.
    * @param format       A formatting String with one %s format code. This is used in order to support various key 
    *                     formats. Neither <code>null</code> nor empty.
    * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
    *                     Not <code>null</code>.
    * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
+   *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
+   *                     allowed to be <code>null</code> in this case).
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap( 
-    Properties props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
+    @NonNull Map<String,String> props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
   ) {
-    Map<String,String> result = new HashMap<String,String>();
-    for( SimpleProperty<?> property : properties ) {
-      String keypattern = String.format( format, property.getKey() );
-      String value      = getValueAsText( property, props, nullvalue );
-      result.put( keypattern, value );
+    return createReplacementMapImpl( props, format, nullvalue, properties );
+  }
+
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param props        The properties providing the current configuration. Not <code>null</code>.
+   * @param format       A formatting String with one %s format code. This is used in order to support various key 
+   *                     formats. Neither <code>null</code> nor empty.
+   * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
+   *                     Not <code>null</code>.
+   * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
+   *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
+   *                     allowed to be <code>null</code> in this case).
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  public static Map<String,String> createReplacementMap( 
+    @NonNull Properties props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
+  ) {
+    return createReplacementMapImpl( props, format, nullvalue, properties );
+  }
+
+  /**
+   * Creates a replacement map used to substitute properties.
+   * 
+   * @param props        The properties providing the current configuration. Not <code>null</code>.
+   * @param format       A formatting String with one %s format code. This is used in order to support various key 
+   *                     formats. Neither <code>null</code> nor empty.
+   * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
+   *                     Not <code>null</code>.
+   * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
+   *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
+   *                     allowed to be <code>null</code> in this case).
+   *
+   * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   */
+  private static Map<String,String> createReplacementMapImpl( 
+    Map props, String format, String nullvalue, SimpleProperty<?> ... properties 
+  ) {
+    Map<String,String> result = new HashMap<>();
+    if( (properties == null) || (properties.length == 0) ) {
+      // process all properties (if the type is a map it must provide String values !)
+      for( Object keyobj : props.keySet() ) {
+        String keypattern = String.format( format, keyobj );
+        String value      = StringFunctions.cleanup( (String) props.get( keyobj ) );
+        if( value == null ) {
+          value = nullvalue;
+        }
+        result.put( keypattern, value );
+      }
+    } else {
+      // process simple properties
+      for( SimpleProperty<?> property : properties ) {
+        String keypattern = String.format( format, property.getKey() );
+        String value      = getValueAsText( property, props, nullvalue );
+        result.put( keypattern, value );
+      }
     }
     return result;
   }
@@ -127,40 +180,21 @@ public class ConfigurationHelper {
    * 
    * @return   The textual value of this property. Maybe <code>null</code> if <param>nullvalue</param> was.
    */
-  private static <T> String getValueAsText( SimpleProperty<T> property, Map<String,String> properties, String nullvalue ) {
-    T value = null;
-    try {
-      value = property.getValue( properties );
-    } catch( MissingPropertyException ex ) {
-      // legal case for a required but missing property, so value stays null
-    }
+  private static <T> String getValueAsText( SimpleProperty<T> property, Map properties, String nullvalue ) {
+    T value = getValue( properties, property );
     if( value == null ) {
       return nullvalue;
     } else {
       return property.getAdapter().marshal( value );
     }
   }
-
-  /**
-   * Small helper function which always delivers a property value as a text.
-   * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
-   * @param nullvalue    A specific value which has to be delivered in case of a <code>null</code> value. 
-   *                     Maybe <code>null</code>.
-   * 
-   * @return   The textual value of this property. Maybe <code>null</code> if <param>nullvalue</param> was.
-   */
-  private static <T> String getValueAsText( SimpleProperty<T> property, Properties properties, String nullvalue ) {
-    T value = null;
+  
+  private static <T> T getValue( Map properties, SimpleProperty<T> property ) {
     try {
-      value = property.getValue( properties );
+      return property.getValue( properties );
     } catch( MissingPropertyException ex ) {
       // legal case for a required but missing property, so value stays null
-    }
-    if( value == null ) {
-      return nullvalue;
-    } else {
-      return property.getAdapter().marshal( value );
+      return null;
     }
   }
 

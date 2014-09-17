@@ -17,7 +17,8 @@ public class ConfigurationHelperTest {
   
   private SimpleProperty<String>   property1;
   private SimpleProperty<String>   property2;
-  private Map<String,String>       properties;
+  private Map<String,String>       map;
+  private Properties               properties;
   
   @BeforeClass
   private void setup() {
@@ -25,14 +26,36 @@ public class ConfigurationHelperTest {
     property1 = new SimpleProperty<>( "simple.property1", new StringAdapter(), false );
     property2 = new SimpleProperty<>( "simple.property2", new StringAdapter(), false );
     
-    properties   = new Hashtable<>();
+    map   = new Hashtable<>();
+    property2.setValue( map, "gollum" );
+    map.put( "unknown.property", "unknown value" );
+
+    properties = new Properties();
     property2.setValue( properties, "gollum" );
-    properties.put( "unknown.property", "unknown value" );
+    properties.setProperty( "unknown.property", "unknown value" );
     
   }
   
   @Test(groups="all")
-  public void createReplacementMap() {
+  public void createReplacementMapForMap() {
+    
+    Map<String,String> replacements = ConfigurationHelper.createReplacementMap( map, "${%s}", "<null>", property1, property2 );
+    Assert.assertNotNull( replacements );
+    Assert.assertEquals( replacements.size(), 2 );
+    
+    String key1 = String.format( "${%s}", property1.getKey() );
+    String key2 = String.format( "${%s}", property2.getKey() );
+    
+    Assert.assertTrue( replacements.containsKey( key1 ) );
+    Assert.assertTrue( replacements.containsKey( key2 ) );
+    
+    Assert.assertEquals( replacements.get( key1 ), "<null>" );
+    Assert.assertEquals( replacements.get( key2 ), "gollum" );
+    
+  }
+
+  @Test(groups="all")
+  public void createReplacementMapForProperties() {
     
     Map<String,String> replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>", property1, property2 );
     Assert.assertNotNull( replacements );
@@ -48,5 +71,58 @@ public class ConfigurationHelperTest {
     Assert.assertEquals( replacements.get( key2 ), "gollum" );
     
   }
-  
+
+  @Test(groups="all")
+  public void createReplacementMapForAllInMap() {
+    
+    Map<String,String> replacements = ConfigurationHelper.createReplacementMap( map, "${%s}", "<null>" );
+    Assert.assertNotNull( replacements );
+    Assert.assertEquals( replacements.size(), 2 );
+    
+    String key2 = String.format( "${%s}", property2.getKey() );
+    String key3 = "${unknown.property}";
+    
+    Assert.assertTrue( replacements.containsKey( key2 ) );
+    Assert.assertTrue( replacements.containsKey( key3 ) );
+    
+    Assert.assertEquals( replacements.get( key2 ), "gollum" );
+    Assert.assertEquals( replacements.get( key3 ), "unknown value" );
+    
+  }
+
+  @Test(groups="all")
+  public void createReplacementMapForAllInProperties() {
+    
+    Map<String,String> replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>" );
+    Assert.assertNotNull( replacements );
+    Assert.assertEquals( replacements.size(), 2 );
+    
+    String key2 = String.format( "${%s}", property2.getKey() );
+    String key3 = "${unknown.property}";
+    
+    Assert.assertTrue( replacements.containsKey( key2 ) );
+    Assert.assertTrue( replacements.containsKey( key3 ) );
+    
+    Assert.assertEquals( replacements.get( key2 ), "gollum" );
+    Assert.assertEquals( replacements.get( key3 ), "unknown value" );
+    
+  }
+
+  @Test(groups="all")
+  public void quoteKeys() {
+    
+    Map<String,String> replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>" );
+    replacements                    = ConfigurationHelper.quoteKeys( replacements );
+    
+    Assert.assertNotNull( replacements );
+    Assert.assertEquals( replacements.size(), 2 );
+    
+    String key2 = String.format( "\\Q${%s}\\E", property2.getKey() );
+    String key3 = "\\Q${unknown.property}\\E";
+    
+    Assert.assertTrue( replacements.containsKey( key2 ) );
+    Assert.assertTrue( replacements.containsKey( key3 ) );
+    
+  }
+
 } /* ENDCLASS */
