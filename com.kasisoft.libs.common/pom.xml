@@ -32,9 +32,9 @@
   </organization>
   
   <scm>
-    <url>https://kasisoft.com/gitlab/public/projects/opensource/com-kasisoft-libs-common</url>
-    <connection>scm:git:https://kasisoft.com/gitlab/opensource/com-kasisoft-libs-common.git</connection>
-    <developerConnection>scm:git:https://kasisoft.com/gitlab/opensource/com-kasisoft-libs-common.git</developerConnection>
+    <url>https://kasisoft.com/stash/projects/LIBS/repos/kasisoft-common</url>
+    <connection>scm:git:ssh://daniel.kasmeroglu@kasisoft.com:7999/libs/kasisoft-common.git</connection>
+    <developerConnection>scm:git:ssh://daniel.kasmeroglu@kasisoft.com:7999/libs/kasisoft-common.git</developerConnection>
   </scm>
   
   <issueManagement>
@@ -57,7 +57,7 @@
   
   <properties>
   
-    <java.version>1.6</java.version>
+    <java.version>1.7</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
