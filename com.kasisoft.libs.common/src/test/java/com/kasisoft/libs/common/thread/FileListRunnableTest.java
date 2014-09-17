@@ -16,10 +16,9 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Test(groups="all")
 public class FileListRunnableTest {
   
-  @Test
+  @Test(groups="all")
   public void listFiles() throws InterruptedException {
     File                tempdir   = IoFunctions.newTempFile( "temp-", null );
     tempdir.mkdirs();

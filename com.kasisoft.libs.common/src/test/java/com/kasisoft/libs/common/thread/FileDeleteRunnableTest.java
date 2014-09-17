@@ -14,10 +14,9 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Test(groups="all")
 public class FileDeleteRunnableTest {
   
-  @Test
+  @Test(groups="all")
   public void deleteFiles() throws InterruptedException {
     File                tempdir   = IoFunctions.newTempFile( "temp-", null );
     tempdir.mkdirs();
