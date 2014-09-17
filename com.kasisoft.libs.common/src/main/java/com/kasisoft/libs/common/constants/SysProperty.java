@@ -41,21 +41,21 @@ public class SysProperty {
    */
   public static SimpleProperty[] values() {
     return new SimpleProperty[] {
-        ClassPath             ,
-        ClassVersion          ,
-        EndorsedDirs          ,
-        ExtDirs               ,
-        FileEncoding          ,
-        JavaHome              ,
-        JavaVersion           ,
-        LineSeparator         ,
-        OsName                ,
-        Path                  ,
-        RuntimeVersion        ,
-        SpecificationVersion  ,
-        TempDir               ,
-        UserDir               ,
-        UserHome              
+      ClassPath             ,
+      ClassVersion          ,
+      EndorsedDirs          ,
+      ExtDirs               ,
+      FileEncoding          ,
+      JavaHome              ,
+      JavaVersion           ,
+      LineSeparator         ,
+      OsName                ,
+      Path                  ,
+      RuntimeVersion        ,
+      SpecificationVersion  ,
+      TempDir               ,
+      UserDir               ,
+      UserHome              
     };
   }
   
