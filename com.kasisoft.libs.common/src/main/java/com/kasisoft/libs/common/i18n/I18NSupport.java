@@ -82,25 +82,27 @@ public class I18NSupport {
    * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
    */
   private static Properties loadTranslations( String[] candidates, boolean failonload ) {
+    
     Properties  result      = new Properties();
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+    
     for( String variant : candidates ) {
+      
       if( variant == null ) {
         continue;
       }
+      
       URL url = classloader.getResource( variant );
       if( url == null ) {
         continue;
       }
-      Reader reader  = null;
-      try {
-        reader = Encoding.UTF8.openReader( url.openStream() );
+      
+      try( Reader reader = Encoding.UTF8.openReader( url.openStream() ) ) {
         result.load( reader );
       } catch( IOException ex ) {
         FailureException.raiseIf( failonload, FailureCode.IO, ex, url );
-      } finally {
-        MiscFunctions.close( reader );
       }
+      
     }
     return result;
   }

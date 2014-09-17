@@ -656,15 +656,11 @@ public class IoFunctions {
    * @throws FailureException in case of an io error.
    */
   public static String readTextAsIs( @NonNull URL resource, Encoding encoding ) {
-    InputStream instream = null;
-      try {
-        instream = resource.openStream();
-        return readTextAsIs( instream, encoding );
-      } catch( IOException ex ) {
-        throw FailureException.newFailureException( FailureCode.IO, null, null, resource );
-      } finally {
-        MiscFunctions.close( instream );
-      }
+    try( InputStream instream = resource.openStream() ) {
+      return readTextAsIs( instream, encoding );
+    } catch( IOException ex ) {
+      throw FailureException.newFailureException( FailureCode.IO, null, null, resource );
+    }
   }
 
   /**

@@ -2,7 +2,6 @@ package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.util.*;
 
 import java.util.zip.*;
 
@@ -49,12 +48,8 @@ public class ZipRunnable extends AbstractRunnable {
   
   @Override
   protected void execute() {
-    OutputStream    fileout = null;
-    ZipOutputStream zipout  = null;
-    try {
-      buffer  = IoFunctions.allocateBytes( buffersize );
-      fileout = IoFunctions.newOutputStream ( zipfile );
-      zipout  = new ZipOutputStream  ( fileout );
+    try( ZipOutputStream zipout = new ZipOutputStream( IoFunctions.newOutputStream( zipfile ) ) ) {
+      buffer = IoFunctions.allocateBytes( buffersize );
       zipout.setMethod( ZipOutputStream.DEFLATED );
       zipout.setLevel(9);
       packDir( zipout, "", sourcedir );
@@ -62,8 +57,6 @@ public class ZipRunnable extends AbstractRunnable {
       handleIOFailure( ex );
     } finally {
       IoFunctions.releaseBytes( buffer );
-      MiscFunctions.close( zipout  );
-      MiscFunctions.close( fileout );
       buffer = null;
     }
   }
@@ -105,15 +98,11 @@ public class ZipRunnable extends AbstractRunnable {
    * @throws IOException   Some IO operation failed.
    */
   private void packFile( ZipOutputStream zipout, String relative, File file ) throws IOException {
-    InputStream input = null;
-    try {
-      input           = IoFunctions.newInputStream( file );
+    try( InputStream input = IoFunctions.newInputStream( file ) ) {
       ZipEntry zentry = new ZipEntry( relative );
       zipout.putNextEntry( zentry );
       IoFunctions.copy( input, zipout, buffer );
       zipout.closeEntry();
-    } finally {
-      MiscFunctions.close( input );
     }
   }
   

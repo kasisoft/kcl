@@ -220,14 +220,10 @@ public class ExtProperties {
    * @throws FailureException   The resource could not be loaded.
    */
   public synchronized void load( @NonNull URL input, Encoding encoding ) {
-    InputStream instream = null;
-    try {
-      instream = input.openStream();
+    try( InputStream instream = input.openStream() ) {
       load( instream, encoding );
     } catch( IOException ex ) {
       throw FailureException.newFailureException( FailureCode.IO, ex );
-    } finally {
-      MiscFunctions.close( instream );
     }
   }
 

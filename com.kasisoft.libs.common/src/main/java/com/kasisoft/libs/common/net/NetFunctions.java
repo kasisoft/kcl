@@ -1,7 +1,6 @@
 package com.kasisoft.libs.common.net;
 
 import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.util.*;
 
 import java.net.*;
 
@@ -42,20 +41,15 @@ public class NetFunctions {
    * @return   The message that has been transferred. <code>null</code> means that an exception has been raised.
    */
   public static byte[] waitForMessage( int port, Integer timeout ) {
-    ServerSocket socket = null;
-    Socket       client = null;
-    try {
-      socket = new ServerSocket( port );
+    try( ServerSocket socket = new ServerSocket( port ) ) {
       if( timeout != null ) {
         socket.setSoTimeout( timeout.intValue() );
       }
-      client = socket.accept();
-      return IoFunctions.loadBytes( client.getInputStream(), null );
+      try( Socket client = socket.accept() ) {
+        return IoFunctions.loadBytes( client.getInputStream(), null );
+      }
     } catch( IOException ex ) {
       return null;
-    } finally {
-      MiscFunctions.close( true, client );
-      MiscFunctions.close( true, socket );
     }
   }
 
@@ -83,9 +77,7 @@ public class NetFunctions {
    * @return   <code>true</code> <=> The message could be sent successfully.
    */
   public static boolean sendMessage( @NonNull String address, int port, byte[] message, Integer timeout ) {
-    Socket  socket = null;
-    try {
-      socket = new Socket( address, port );
+    try( Socket socket = new Socket( address, port ) ) {
       if( timeout != null ) {
         socket.setSoTimeout( timeout.intValue() );
       }
@@ -95,8 +87,6 @@ public class NetFunctions {
       return true;
     } catch( IOException ex ) {
       return false;
-    } finally {
-      MiscFunctions.close( true, socket );
     }
   }
 

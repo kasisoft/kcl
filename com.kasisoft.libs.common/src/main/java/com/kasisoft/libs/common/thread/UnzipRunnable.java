@@ -2,7 +2,6 @@ package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
 import java.util.zip.*;
@@ -74,15 +73,11 @@ public class UnzipRunnable extends AbstractRunnable {
           IoFunctions.mkdirs( file.getParentFile() );
         }
         
-        OutputStream outstream = null;
-        InputStream  instream  = null;
-        try {
-          outstream = IoFunctions.newOutputStream( file );
-          instream  = zipfile.getInputStream( entry );
+        try(
+          OutputStream outstream = IoFunctions.newOutputStream( file );
+          InputStream  instream  = zipfile.getInputStream( entry );
+        ) {
           IoFunctions.copy( instream, outstream, buffer );
-        } finally {
-          MiscFunctions.close( instream  );
-          MiscFunctions.close( outstream );
         }
         
         onIterationEnd( entry.getName(), false, file.length() );
