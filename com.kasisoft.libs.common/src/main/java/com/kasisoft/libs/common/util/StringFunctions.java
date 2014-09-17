@@ -26,17 +26,6 @@ import lombok.*;
  */
 public class StringFunctions {
 
-  private static final Map<String,CharSequenceFacade>   FACADES;
-  
-  static {
-    FACADES = new Hashtable<String,CharSequenceFacade>();
-    FACADES.put( StringBuffer   . class . getName(), new StringBufferFacade   () );
-    FACADES.put( StringBuilder  . class . getName(), new StringBuilderFacade  () );
-    FACADES.put( String         . class . getName(), new StringFacade         () );
-    FACADES.put( StringFBuffer  . class . getName(), new StringFBufferFacade  () );
-    FACADES.put( StringFBuilder . class . getName(), new StringFBuilderFacade () );
-  }
-  
   private StringFunctions() {
   }
   
@@ -122,7 +111,7 @@ public class StringFunctions {
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
   public static <T extends CharSequence> int lastIndexOf( int first, @NonNull T input, @NonNull char ... characters ) {
-    CharSequenceFacade<T> facade = getFacade( input );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     int                   result = -1;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
@@ -144,7 +133,7 @@ public class StringFunctions {
    * @return   The index where a character has been found (rightmost index) otherwise -1.
    */
   public static <T extends CharSequence> int lastIndexOf( int first, @NonNull T input, @NonNull String ... literals) {
-    CharSequenceFacade<T> facade = getFacade( input );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     int                   result = -1;
     for( int i = 0; i < literals.length; i++ ) {
       String str = literals[i];
@@ -190,7 +179,7 @@ public class StringFunctions {
    * @return   The index where a character has been found (leftmost index) otherwise -1.
    */
   public static <T extends CharSequence> int indexOf( int first, @NonNull T input, @NonNull char ... characters ) {
-    CharSequenceFacade<T> facade = getFacade( input );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     int                   result = Integer.MAX_VALUE;
     for( int i = 0; i < characters.length; i++ ) {
       char ch  = characters[i];
@@ -206,14 +195,6 @@ public class StringFunctions {
     }
   }
   
-  private static <T extends CharSequence> CharSequenceFacade<T> getFacade( @NonNull T input ) {
-    CharSequenceFacade<T> result = FACADES.get( input.getClass().getName() );
-    if( result == null ) {
-      throw new IllegalArgumentException( String.format( "Unsupported CharSequence type '%s'", input.getClass().getName() ) );
-    }
-    return result;
-  }
-  
   /**
    * Returns the first index of some character.
    * 
@@ -224,7 +205,7 @@ public class StringFunctions {
    * @return   The index where a literal has been found (leftmost index) otherwise -1.
    */
   public static <T extends CharSequence> int indexOf( int first, @NonNull T input, @NonNull String ... literals ) {
-    CharSequenceFacade<T> facade = getFacade( input );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     int                   result = Integer.MAX_VALUE;
     for( int i = 0; i < literals.length; i++ ) {
       String literal  = literals[i];
@@ -354,7 +335,7 @@ public class StringFunctions {
    * @param replace   The String to replace instead. Not <code>null</code>.
    */
   public static <T extends CharSequence> void replace( @NonNull T buffer, @NonNull String search, @NonNull String replace ) {
-    CharSequenceFacade<T> facade = getFacade( buffer );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( buffer );
     int                   index  = facade.indexOf( buffer, search, 0 );
     while( index != -1 ) {
       buffer = facade.replace( buffer, index, index + search.length(), replace );
@@ -383,7 +364,7 @@ public class StringFunctions {
    * @param replacements   A Map of String's used to run the search replace operation. Not <code>null</code>.
    */
   public static <T extends CharSequence> void replace( @NonNull T buffer, @NonNull Map<String,String> replacements ) {
-    CharSequenceFacade<T> facade = getFacade( buffer );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( buffer );
     Set<String>           search = replacements.keySet();
     Tupel<String>         key    = new Tupel<String>();
     int                   index  = indexOf( facade, buffer, search, key, 0 );
@@ -430,7 +411,7 @@ public class StringFunctions {
    * @return  true <=> The element which has to be tested is contained.
    */
   public static <T extends CharSequence> boolean contains( @NonNull T test, @NonNull String ... candidates ) {
-    CharSequenceFacade<T> facade = getFacade( test );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( test );
     for( String entry : candidates ) {
       if( facade.contains( test, entry ) ) {
         return true;
@@ -614,7 +595,7 @@ public class StringFunctions {
     if( text == null ) {
       return null;
     } else {
-      CharSequenceFacade<T> facade = getFacade( text );
+      CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( text );
       if( facade.length( text ) > limit ) {
         return facade.substring( text, 0, limit );
       }
@@ -739,7 +720,7 @@ public class StringFunctions {
    *           Not <code>null</code>.
    */
   public static <T extends CharSequence> T trim( @NonNull T input ) {
-    CharSequenceFacade<T> facade = getFacade( input );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     return facade.trim( input, " \t\r\n", null );
   }
   
@@ -756,7 +737,7 @@ public class StringFunctions {
    *           Not <code>null</code>.
    */
   public static <T extends CharSequence> T trim( @NonNull T input, Boolean left ) {
-    CharSequenceFacade<T> facade = getFacade( input );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     return facade.trim( input, " \t\r\n", left );
   }
   
@@ -773,7 +754,7 @@ public class StringFunctions {
    *           Not <code>null</code>.
    */
   public static <T extends CharSequence> T trim( @NonNull T input, @NonNull String chars, Boolean left ) {
-    CharSequenceFacade<T> facade = getFacade( input );
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     return facade.trim( input, chars, left );
   }
 
