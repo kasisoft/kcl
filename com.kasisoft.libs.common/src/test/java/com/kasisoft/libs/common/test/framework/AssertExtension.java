@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.test.framework;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.io.*;
 
 import org.testng.*;
 
@@ -17,7 +17,7 @@ import java.io.*;
 public class AssertExtension {
  
   @SuppressWarnings("null")
-  static public void assertEquals(final File actual, final File expected ) {
+  public static void assertEquals(final File actual, final File expected ) {
     if(expected == actual) {
       return;
     }
@@ -49,8 +49,8 @@ public class AssertExtension {
         Assert.fail("actual File is supposed to denote a file .");
       }
       Assert.assertEquals(canactual.length(), canexpected.length());
-      byte[] expecteddata = loadFile(canexpected);
-      byte[] actualdata   = loadFile(canactual);
+      byte[] expecteddata = IoFunctions.loadBytes( canexpected, null );
+      byte[] actualdata   = IoFunctions.loadBytes( canactual, null );
       Assert.assertEquals(actualdata, expecteddata);
     } else {
       if(canactual.isFile()) {
@@ -70,21 +70,5 @@ public class AssertExtension {
       }
     }
   }
-  
-  private static byte[] loadFile(File file) {
-    byte[]      result   = new byte[ (int) file.length() ];
-    InputStream instream = null;
-    try {
-      instream = new FileInputStream( file );
-      if(instream.read(result) != result.length) {
-        Assert.fail("Couldn't read data from file '" + file + "' !");
-      }
-    } catch( IOException ex ) {
-      Assert.fail("File loading fails. Cause: " + ex.getMessage());
-    } finally {
-      MiscFunctions.close( instream );
-    }
-    return result;
-  }
 
-}
+} /* ENDCLASS */
