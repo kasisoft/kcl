@@ -39,6 +39,7 @@ public class SystemProcessTest {
       path = "bin/testprocess.win32.exe";
     }
     exefile       = new File( dir, path );
+    exefile.setExecutable( true );
     Assert.assertTrue( exefile.canExecute() );
     byteout       = new ByteArrayOutputStream();
     byteerr       = new ByteArrayOutputStream();
