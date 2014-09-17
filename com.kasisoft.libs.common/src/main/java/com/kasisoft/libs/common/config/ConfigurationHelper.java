@@ -56,10 +56,10 @@ public class ConfigurationHelper {
    * 
    * @return   A map of replacements with regex quoted keys. Not <code>null</code>.
    */
-  public static Map<String,String> quoteKeys( @NonNull Map<String,String> replacementmap ) {
-    Map<String,String> result = new Hashtable<>();
+  public static Map<Pattern,String> quoteKeys( @NonNull Map<String,String> replacementmap ) {
+    Map<Pattern,String> result = new HashMap<>();
     for( Map.Entry<String,String> entry : replacementmap.entrySet() ) {
-      result.put( Pattern.quote( entry.getKey() ), entry.getValue() );
+      result.put( Pattern.compile( Pattern.quote( entry.getKey() ) ), entry.getValue() );
     }
     return result;
   }
@@ -75,7 +75,7 @@ public class ConfigurationHelper {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap( @NonNull Map<String,String> props, SimpleProperty<?> ... properties ) {
-    return createReplacementMapImpl( props, "%%%s%%", "", properties );
+    return createReplacementMapImpl( props, "%%%s%%", null, properties );
   }
 
   /**
@@ -89,7 +89,7 @@ public class ConfigurationHelper {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap( @NonNull Properties props, SimpleProperty<?> ... properties ) {
-    return createReplacementMapImpl( props, "%%%s%%", "", properties );
+    return createReplacementMapImpl( props, "%%%s%%", null, properties );
   }
 
   /**
@@ -99,7 +99,7 @@ public class ConfigurationHelper {
    * @param format       A formatting String with one %s format code. This is used in order to support various key 
    *                     formats. Neither <code>null</code> nor empty.
    * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
-   *                     Not <code>null</code>.
+   *                     Maybe <code>null</code>.
    * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
    *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
    *                     allowed to be <code>null</code> in this case).
@@ -107,7 +107,7 @@ public class ConfigurationHelper {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap( 
-    @NonNull Map<String,String> props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
+    @NonNull Map<String,String> props, @NonNull String format, String nullvalue, SimpleProperty<?> ... properties 
   ) {
     return createReplacementMapImpl( props, format, nullvalue, properties );
   }
@@ -119,7 +119,7 @@ public class ConfigurationHelper {
    * @param format       A formatting String with one %s format code. This is used in order to support various key 
    *                     formats. Neither <code>null</code> nor empty.
    * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
-   *                     Not <code>null</code>.
+   *                     Maybe <code>null</code>.
    * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
    *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
    *                     allowed to be <code>null</code> in this case).
@@ -127,7 +127,7 @@ public class ConfigurationHelper {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap( 
-    @NonNull Properties props, @NonNull String format, @NonNull String nullvalue, SimpleProperty<?> ... properties 
+    @NonNull Properties props, @NonNull String format, String nullvalue, SimpleProperty<?> ... properties 
   ) {
     return createReplacementMapImpl( props, format, nullvalue, properties );
   }
@@ -139,7 +139,7 @@ public class ConfigurationHelper {
    * @param format       A formatting String with one %s format code. This is used in order to support various key 
    *                     formats. Neither <code>null</code> nor empty.
    * @param nullvalue    The textual value which has to be used when a null value has been encountered. 
-   *                     Not <code>null</code>.
+   *                     Maybe <code>null</code>.
    * @param properties   The properties that shall be returned in the replacement map. Maybe <code>null</code>.
    *                     If <code>null</code> all properties of <param>props</param> will be used (obviously it's not
    *                     allowed to be <code>null</code> in this case).

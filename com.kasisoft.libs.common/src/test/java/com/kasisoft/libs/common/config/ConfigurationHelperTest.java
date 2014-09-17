@@ -6,6 +6,8 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import java.util.regex.*;
+
 import java.util.*;
 
 /**
@@ -111,17 +113,22 @@ public class ConfigurationHelperTest {
   @Test(groups="all")
   public void quoteKeys() {
     
-    Map<String,String> replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>" );
-    replacements                    = ConfigurationHelper.quoteKeys( replacements );
+    Map<String,String>  replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>" );
+    Map<Pattern,String> patterns     = ConfigurationHelper.quoteKeys( replacements );
     
-    Assert.assertNotNull( replacements );
-    Assert.assertEquals( replacements.size(), 2 );
+    Assert.assertNotNull( patterns );
+    Assert.assertEquals( patterns.size(), 2 );
     
     String key2 = String.format( "\\Q${%s}\\E", property2.getKey() );
     String key3 = "\\Q${unknown.property}\\E";
+
+    Set<String> patternstr = new HashSet<>();
+    for( Pattern pattern : patterns.keySet() ) {
+      patternstr.add( pattern.pattern() );
+    }
     
-    Assert.assertTrue( replacements.containsKey( key2 ) );
-    Assert.assertTrue( replacements.containsKey( key3 ) );
+    Assert.assertTrue( patternstr.contains( key2 ) );
+    Assert.assertTrue( patternstr.contains( key3 ) );
     
   }
 
