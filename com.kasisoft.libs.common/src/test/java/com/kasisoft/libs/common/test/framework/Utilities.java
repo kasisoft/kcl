@@ -8,10 +8,7 @@
  */
 package com.kasisoft.libs.common.test.framework;
 
-import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -108,13 +105,6 @@ public class Utilities {
     }
   }
 
-  public static File createRandomCharacterFile() {
-    File    result  = IoFunctions.newTempFile();
-    char[]  data    = createCharacterBlock();
-    IoFunctions.writeCharacters( result, data, Encoding.getDefault() );
-    return result;
-  }
-
   public static String[] toArray( String ... args ) {
     return Arrays.copyOf( args, args.length );
   }
@@ -133,18 +123,6 @@ public class Utilities {
       result.add( Integer.valueOf( value ) );
     }
     return result;
-  }
-  
-  public static byte[] join( byte[] ... segments ) {
-    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-    for( byte[] segment : segments ) {
-      try {
-        byteout.write( segment );
-      } catch( IOException ex ) {
-        Assert.fail( ex.getMessage() );
-      }
-    }
-    return byteout.toByteArray();
   }
   
 } /* ENDCLASS */
