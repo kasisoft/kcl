@@ -12,12 +12,12 @@ import com.kasisoft.libs.common.xml.adapters.*;
 
 import org.testng.annotations.Test;
 
+import org.testng.*;
+
 import java.util.*;
 import java.util.List;
 
 import java.awt.*;
-
-import junit.framework.*;
 
 /**
  * Tests for the class 'ListProperty'.

@@ -10,9 +10,9 @@ package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.Test;
 
-import java.io.*;
+import org.testng.*;
 
-import junit.framework.*;
+import java.io.*;
 
 /**
  * Test for the class 'DefaultBucketFactory'.

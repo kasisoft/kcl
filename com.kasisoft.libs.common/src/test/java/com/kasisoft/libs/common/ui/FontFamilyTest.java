@@ -9,9 +9,8 @@
 package com.kasisoft.libs.common.ui;
 
 import org.testng.annotations.*;
-import org.testng.annotations.Test;
 
-import org.junit.*;
+import org.testng.*;
 
 public class FontFamilyTest {
 

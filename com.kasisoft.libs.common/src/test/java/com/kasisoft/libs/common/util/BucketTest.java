@@ -10,9 +10,9 @@ package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.Test;
 
-import java.util.*;
+import org.testng.*;
 
-import junit.framework.*;
+import java.util.*;
 
 /**
  * Test for the class 'Bucket'.
