@@ -18,4 +18,11 @@ public @interface I18N {
    */
   String value();
   
+  /**
+   * Returns a key which would override the field derived key name.
+   * 
+   * @return   A key which would override the field derived key name. Neither <code>null</code> nor empty.
+   */
+  String key() default "";
+  
 } /* ENDANNOTATION */

@@ -115,33 +115,72 @@ public class I18NSupport {
    */
   private static void applyTranslations( String prefix, Properties translations, Map<String, Field> fields ) {
     for( Map.Entry<String, Field> entry : fields.entrySet() ) {
-      String key      = entry.getKey();
-      String property = String.format( "%s%s", prefix, key );
+      
       Field  field    = entry.getValue();
-      String value    = null;
-      if( translations.containsKey( property ) ) {
-        value = translations.getProperty( property );
-      } else {
-        I18N i18ndefault = field.getAnnotation( I18N.class );
-        if( i18ndefault != null ) {
-          value = i18ndefault.value();
+      I18N   i18n     = field.getAnnotation( I18N.class );
+      String property = null;
+      
+      // check whether the key is being overridden
+      if( i18n != null ) {
+        String key = StringFunctions.cleanup( i18n.key() );
+        if( key != null ) {
+          property  = key;
         }
       }
-      if( value != null ) {
-        try {
-          if( field.getType() == String.class ) {
-            field.set( null, value );
-          } else {
-            I18NFormatter formatter = (I18NFormatter) field.get( null );
-            if( formatter == null ) {
-              formatter = new I18NFormatter( value );
-              field.set( null, formatter );
-            }
-            formatter.setValue( value );
+      
+      // use the default key mechanism
+      if( property == null ) {
+        property = String.format( "%s%s", prefix, entry.getKey() );
+      }
+      
+      applyFieldValue( field, extractValue( translations, i18n, property ) );
+      
+    }
+    
+  }
+
+  /**
+   * Returns the value from the available translations or the default.
+   * 
+   * @param translations   The currently available translations. Not <code>null</code>.
+   * @param i18n           The annotation which might provide a default value. Maybe <code>null</code>.
+   * @param property       The property which identifies the field. Neither <code>null</code> nor empty.
+   * 
+   * @return   The value associated with the property. Maybe <code>null</code>.
+   */
+  private static String extractValue( Properties translations, I18N i18n, String property ) {
+    String result = null;
+    if( translations.containsKey( property ) ) {
+      result = translations.getProperty( property );
+    } else {
+      if( i18n != null ) {
+        result = i18n.value();
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Applies the supplied value to the corresponding field.
+   * 
+   * @param field   The field which is supposed to be edited. Not <code>null</code>.
+   * @param value   The value which has to be set. Either <code>null</code> or not empty.
+   */
+  private static void applyFieldValue( Field field, String value ) {
+    if( value != null ) {
+      try {
+        if( field.getType() == String.class ) {
+          field.set( null, value );
+        } else {
+          I18NFormatter formatter = (I18NFormatter) field.get( null );
+          if( formatter == null ) {
+            formatter = new I18NFormatter( value );
+            field.set( null, formatter );
           }
-        } catch( IllegalAccessException ex ) {
-          // won't happen as the supplied fields are definitely accessible
+          formatter.setValue( value );
         }
+      } catch( IllegalAccessException ex ) {
+        // won't happen as the supplied fields are definitely accessible
       }
     }
   }

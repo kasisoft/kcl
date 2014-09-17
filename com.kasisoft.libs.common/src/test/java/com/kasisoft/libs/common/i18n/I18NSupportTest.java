@@ -64,6 +64,7 @@ public class I18NSupportTest {
     Assert.assertEquals( Messages5.m3, "Translation.3" );
     Assert.assertEquals( Messages5.m4, "correct"       );
     Assert.assertEquals( Messages5.m5.format( "Huppi" ), "Der Text war 'Huppi'" );
+    Assert.assertEquals( Messages5.m6, "Gollum"        );
     
     // change the language
     I18NSupport.initialize( Locale.US, Messages5.class );
@@ -74,6 +75,7 @@ public class I18NSupportTest {
     Assert.assertEquals( Messages5.m3, "Translation.3" );
     Assert.assertEquals( Messages5.m4, "correct"       );
     Assert.assertEquals( Messages5.m5.format( "Huppi" ), "The us text was 'Huppi'" );
+    Assert.assertEquals( Messages5.m6, "Gollum"        );
 
   }
 
