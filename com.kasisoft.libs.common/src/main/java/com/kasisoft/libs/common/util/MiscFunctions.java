@@ -451,6 +451,27 @@ public class MiscFunctions {
   }
 
   /**
+   * Small helper which is used to load all SPI services currently available.
+   * 
+   * @param servicetype     The desired service type. Not <code>null</code>
+   * @param configuration   A configuration to be used for {@link Configurable} instances. Not <code>null</code>.
+   * 
+   * @return   A list with all SPI services currently available. Not <code>null</code>.
+   * 
+   * @throws Exception in case one SPI could not be configured properly.
+   */
+  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype, @NonNull Properties configuration ) throws Exception {
+    List<T> result = loadSPIServices( servicetype );
+    for( int i = result.size() - 1; i >= 0; i-- ) {
+      T element = result.get(i);
+      if( element instanceof Configurable ) {
+        ((Configurable) element).configure( configuration );
+      }
+    }
+    return result;
+  }
+
+  /**
    * Returns <code>true</code> if the supplied year is a leap year.
    * 
    * @param year   The year which has to be tested.
