@@ -82,7 +82,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * @param suppressnull   <code>true</code> <=> Do NOT add <code>null</code> elements.
    * @param collection     The initial data for this list. Not <code>null</code>.
    */
-  public ExtArrayList( boolean suppressnull, @NonNull Collection<? extends T> collection ) {
+  public ExtArrayList( boolean suppressnull, Collection<? extends T> collection ) {
     super( collection.size() );
     this.suppressnull = suppressnull;
     addAll( collection );
@@ -94,7 +94,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * @param suppressnull   <code>true</code> <=> Do NOT add <code>null</code> elements.
    * @param items          The initial data for this list. Not <code>null</code>.
    */
-  public ExtArrayList( boolean suppressnull, @NonNull T ... items ) {
+  public ExtArrayList( boolean suppressnull, T ... items ) {
     super( items.length );
     this.suppressnull = suppressnull;
     addAll( items );

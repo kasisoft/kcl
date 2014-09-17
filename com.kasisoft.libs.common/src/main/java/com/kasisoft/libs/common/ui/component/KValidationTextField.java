@@ -112,7 +112,7 @@ public class KValidationTextField extends JTextField implements KValidationCompo
   }
 
   @Override
-  public void setDocument( @NonNull Document newdocument ) {
+  public void setDocument( Document newdocument ) {
     Document olddocument = getDocument();
     if( olddocument != null ) {
       olddocument.removeDocumentListener( localbehaviour );

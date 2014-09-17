@@ -32,7 +32,7 @@ public class SwingFunctions {
    * 
    * @return   The popup menu itself or <code>null</code> in case there's no enabled element.
    */
-  public static JPopupMenu createPopupMenu( @NonNull JMenuItem ... menuitems ) {
+  public static JPopupMenu createPopupMenu( JMenuItem ... menuitems ) {
     if( (menuitems == null) || (menuitems.length == 0) ) {
       return null;
     }

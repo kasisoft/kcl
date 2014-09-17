@@ -294,7 +294,7 @@ public class MiscFunctions {
    * 
    * @return   The set created from the supplied elements. Not <code>null</code>.
    */
-  public static <T> Set<T> toSet( @NonNull T ... elements ) {
+  public static <T> Set<T> toSet( T ... elements ) {
     Set<T> result = new HashSet<T>();
     if( elements != null ) {
       for( int i = 0; i < elements.length; i++ ) {
@@ -311,7 +311,7 @@ public class MiscFunctions {
    * 
    * @return   A copy of the supplied instance. <code>null</code> if <code>source</code> was <code>null</code>.
    */
-  public static <T extends Serializable> T clone( @NonNull T source ) {
+  public static <T extends Serializable> T clone( T source ) {
     if( source != null ) {
       ByteArrayOutputStream byteout   = null;
       ObjectOutputStream    objectout = null;
