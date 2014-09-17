@@ -1,12 +1,3 @@
-/**
- * Name........: PreconfiguredXmlCatalog
- * Description.: Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which 
- *               should be on the classpath.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.base.*;
@@ -18,6 +9,8 @@ import lombok.*;
 /**
  * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 
  * the classpath. This catalog doesn't care about missing resources as they're supposed to be made available afterwards.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: ZipRunnable
- * Description.: A Runnable that is used to ZIP a directory.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
@@ -20,6 +12,8 @@ import lombok.*;
 
 /**
  * A Runnable that is used to ZIP a directory.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ZipRunnable extends AbstractRunnable {
 

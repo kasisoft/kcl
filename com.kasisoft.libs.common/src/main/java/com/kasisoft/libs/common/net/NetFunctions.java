@@ -1,11 +1,3 @@
-/**
- * Name........: NetFunctions
- * Description.: Collection of net related helper functions.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.net;
 
 import com.kasisoft.libs.common.io.*;
@@ -19,6 +11,8 @@ import lombok.*;
 
 /**
  * Collection of net related helper functions.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class NetFunctions {
 

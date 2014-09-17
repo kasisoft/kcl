@@ -1,11 +1,3 @@
-/**
- * Name........: SysPropertyTest
- * Description.: Tests for the enumeration 'SysProperty'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.config.*;
@@ -21,6 +13,8 @@ import java.io.*;
 
 /**
  * Tests for the enumeration 'SysProperty'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SysPropertyTest {
 

@@ -1,17 +1,11 @@
-/**
- * Name........: Iso3166
- * Description.: Collection of iso-3166 codes. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import java.util.*;
 
 /**
  * Collection of iso-3166 codes.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Iso3166 {
 

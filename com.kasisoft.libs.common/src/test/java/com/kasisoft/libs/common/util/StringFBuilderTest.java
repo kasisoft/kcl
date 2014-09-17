@@ -1,11 +1,3 @@
-/**
- * Name........: StringFBuilderTest
- * Description.: Testcase for the class 'StringFBuilder'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Testcase for the class 'StringFBuilder'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFBuilderTest {
 

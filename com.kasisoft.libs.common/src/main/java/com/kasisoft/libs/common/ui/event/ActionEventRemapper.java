@@ -1,11 +1,3 @@
-/**
- * Name........: ActionEventRemapper
- * Description.: Specialisation of a dispatcher which allows to change the 'source' of an ActionEvent. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.event;
 
 import javax.swing.*;
@@ -17,6 +9,8 @@ import lombok.*;
 /**
  * Specialisation of a dispatcher which allows to change the 'source' of an ActionEvent. This listener implementation 
  * is typically used for composite widgets. 
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ActionEventRemapper extends ActionEventDispatcher implements ActionListener {
 

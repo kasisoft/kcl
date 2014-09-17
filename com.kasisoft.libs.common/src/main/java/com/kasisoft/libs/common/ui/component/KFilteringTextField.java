@@ -1,11 +1,3 @@
-/**
- * Name........: KFilteringTextField
- * Description.: Textfield variety which simply filters characters, so they cannot be used while entering some input. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.component;
 
 import javax.swing.text.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Textfield variety which simply filters characters, so they cannot be used while entering some input.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class KFilteringTextField extends KValidationTextField {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: FlatXmlHandler
- * Description.: Simple handler which allows to create flat representations of a XML document.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: Daniel.Kasmeroglu@Kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.constants.*;
@@ -23,6 +15,8 @@ import java.io.*;
  * DefaultHandler used in conjunction with the SAX Parser. An OutputStream must be supplied in order to generate the 
  * output. The OutputStream must be set each time this handler is used since it will be discarded from the handler after 
  * a conversion has taken place.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FlatXmlHandler extends DefaultHandler {
 

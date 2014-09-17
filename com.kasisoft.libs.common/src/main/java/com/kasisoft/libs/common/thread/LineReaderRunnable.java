@@ -1,11 +1,3 @@
-/**
- * Name........: LineReaderRunnable
- * Description.: A Runnable implementation which is used to load text lines from a Reader.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * A Runnable implementation which is used to load text lines from a Reader.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
 

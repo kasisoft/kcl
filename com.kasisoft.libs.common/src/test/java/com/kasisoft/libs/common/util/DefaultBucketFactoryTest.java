@@ -1,11 +1,3 @@
-/**
- * Name........: DefaultBucketFactoryTest
- * Description.: Test for the class 'DefaultBucketFactory'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.Test;
@@ -16,6 +8,8 @@ import java.io.*;
 
 /**
  * Test for the class 'DefaultBucketFactory'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DefaultBucketFactoryTest {
 

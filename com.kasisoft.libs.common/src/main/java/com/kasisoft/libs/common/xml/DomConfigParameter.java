@@ -1,11 +1,3 @@
-/**
- * Name........: DomConfigParameter
- * Description.: Collection of parameters for the DOMConfiguration.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import org.w3c.dom.*;
@@ -15,6 +7,8 @@ import org.w3c.dom.*;
  * 
  * {@link "http://xerces.apache.org/xerces2-j/javadocs/api/org/w3c/dom/ls/LSSerializer.html"} [19-Oct-2012:KASI]
  * {@link "http://download.oracle.com/javase/1.5.0/docs/api/org/w3c/dom/DOMConfiguration.html"} [19-Oct-2012:KASI]
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum DomConfigParameter {
 

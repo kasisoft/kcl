@@ -1,12 +1,3 @@
-/**
- * Name........: FailureException
- * Description.: Specialisation of the RuntimeException which provides a numerical code which allows to handle this 
- *               exception in a more apropriate way than checking it's message.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.base;
 
 import lombok.*;
@@ -14,6 +5,8 @@ import lombok.*;
 /**
  * Specialisation of the RuntimeException which provides a numerical code which allows to handle this exception in a 
  * more apropriate way than checking it's message.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Getter
 public class FailureException extends RuntimeException {

@@ -1,11 +1,3 @@
-/**
- * Name........: FileAdapter
- * Description.: Simple adapter for File types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * Simple adapter for File types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileAdapter extends TypeAdapter<String,File> {
 

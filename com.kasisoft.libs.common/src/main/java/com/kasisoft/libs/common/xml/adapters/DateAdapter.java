@@ -1,11 +1,3 @@
-/**
- * Name........: DateAdapter
- * Description.: An adapter used to convert a Date into a String and vice versa.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * An adapter used to convert a Date into a String and vice versa.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DateAdapter extends TypeAdapter<String,Date> {
 

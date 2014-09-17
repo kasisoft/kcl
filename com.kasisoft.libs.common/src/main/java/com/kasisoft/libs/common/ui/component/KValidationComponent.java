@@ -1,17 +1,11 @@
-/**
- * Name........: KValidationComponent
- * Description.: This interface is used to identify widgets where the input is allowed to be temporarily invalid. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.ui.event.*;
 
 /**
  * This interface is used to identify widgets where the input is allowed to be temporarily invalid. 
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface KValidationComponent {
 

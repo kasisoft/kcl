@@ -1,11 +1,3 @@
-/**
- * Name........: WSComponentListener
- * Description.: A ComponentListener implementation which stores the settings of a Component to the Workspace.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.workspace;
 
 import java.awt.event.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * A ComponentListener implementation which stores the settings of a Component to the Workspace.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class WSComponentListener extends ComponentAdapter {
 

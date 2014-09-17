@@ -1,11 +1,3 @@
-/**
- * Name........: ZipTest
- * Description.: A test for the interface 'Zip'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 import org.testng.annotations.*;
@@ -19,6 +11,8 @@ import java.awt.*;
 
 /**
  * A test for the interface 'Zip'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ZipTest {
 

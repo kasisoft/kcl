@@ -1,11 +1,3 @@
-/**
- * Name........: Buffers
- * Description.: Simple class used to provide buffers for temporary use. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
@@ -20,6 +12,8 @@ import lombok.*;
  * Simple class used to provide buffers for temporary use. This is currently a straight forward implementation and not 
  * optimized since I don't expect heavy usage. Next optimisation step would be the use of interval partitioning. 
  * Nevertheless this type provides buffers meant to be reused especially in multi-threading environments.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Buffers<T> {
 

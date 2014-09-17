@@ -1,15 +1,9 @@
-/**
- * Name........: StringBuilderFacade
- * Description.: Facade for StringBuilder.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.internal.charsequence;
 
 /**
  * Facade for StringBuilder.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
 

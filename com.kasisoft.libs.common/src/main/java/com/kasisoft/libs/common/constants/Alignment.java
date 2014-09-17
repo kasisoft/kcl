@@ -1,17 +1,11 @@
-/**
- * Name........: Alignment
- * Description.: Values to specify an alignment. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import javax.swing.*;
 
 /**
  * Values to specify an alignment.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Alignment {
 

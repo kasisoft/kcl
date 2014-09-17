@@ -1,11 +1,3 @@
-/**
- * Name........: DigestTest
- * Description.: Tests for the constants 'Digest'. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Tests for the constants 'Digest'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DigestTest {
 

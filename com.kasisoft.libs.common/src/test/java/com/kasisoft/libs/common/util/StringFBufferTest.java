@@ -1,11 +1,3 @@
-/**
- * Name........: StringFBufferTest
- * Description.: Testcase for the class 'StringFBuffer'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Testcase for the class 'StringFBuffer'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFBufferTest {
 

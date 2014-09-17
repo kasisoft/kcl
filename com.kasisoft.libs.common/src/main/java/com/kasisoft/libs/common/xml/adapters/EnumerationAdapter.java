@@ -1,11 +1,3 @@
-/**
- * Name........: EnumerationAdapter
- * Description.: An enumeration adapter allows to bind literals against an enumeration type. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.base.*;
@@ -25,6 +17,7 @@ import lombok.*;
  *   means that the result of the toString() implementation is relevant here.</li>
  * </ul>
  * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
 

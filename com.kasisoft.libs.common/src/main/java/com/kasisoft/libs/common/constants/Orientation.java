@@ -1,17 +1,11 @@
-/**
- * Name........: Orientation
- * Description.: Constants used to specify orientations for various purposes.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import javax.swing.*;
 
 /**
  * Constants used to specify orientations for various purposes.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Orientation {
   

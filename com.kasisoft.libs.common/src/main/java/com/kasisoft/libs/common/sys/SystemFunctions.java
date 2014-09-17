@@ -1,11 +1,3 @@
-/**
- * Name........: SystemFunctions
- * Description.: System specific functions.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.sys;
 
 import java.security.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * System specific functions.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SystemFunctions {
 

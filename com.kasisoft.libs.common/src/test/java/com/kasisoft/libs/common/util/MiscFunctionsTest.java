@@ -1,11 +1,3 @@
-/**
- * Name........: MiscFunctionsTest
- * Description.: Test for various functions of the class 'MiscFunctions'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
@@ -21,6 +13,8 @@ import java.io.*;
 
 /**
  * Test for various functions of the class 'MiscFunctions'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MiscFunctionsTest {
 

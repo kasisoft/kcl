@@ -1,11 +1,3 @@
-/**
- * Name........: CommonProperty
- * Description.: Listing of library related properties used to be accessed.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.config.*;
@@ -21,6 +13,7 @@ import java.io.*;
  *    
  * F.e. <code>com.kasisoft.libs.common#IORETRIES</code>
  * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface CommonProperty {
 

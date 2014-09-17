@@ -1,11 +1,3 @@
-/**
- * Name........: LiteralTokenizerTest
- * Description.: Testcases for the class 'LiteralTokenizer'. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.*;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * Testcases for the class 'LiteralTokenizer'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class LiteralTokenizerTest {
 

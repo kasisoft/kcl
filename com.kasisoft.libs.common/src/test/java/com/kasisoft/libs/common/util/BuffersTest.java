@@ -1,11 +1,3 @@
-/**
- * Name........: BuffersTest
- * Description.: Test for the class 'Buffers'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
@@ -16,6 +8,8 @@ import org.testng.*;
 
 /**
  * Test for the class 'Buffers'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BuffersTest {
   

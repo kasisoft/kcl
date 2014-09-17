@@ -1,11 +1,3 @@
-/**
- * Name........: SysProperty
- * Description.: Listing of system properties used to be accessed.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.config.*;
@@ -20,6 +12,8 @@ import lombok.*;
 
 /**
  * Listing of system properties used to be accessed.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SysProperty {
 

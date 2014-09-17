@@ -1,11 +1,3 @@
-/**
- * Name........: IoFunctionsTest
- * Description.: Tests for the class 'IoFunctions'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.io;
 
 import com.kasisoft.libs.common.constants.*;
@@ -23,6 +15,8 @@ import java.io.*;
  * Tests for the class 'IoFunctions'.
  * 
  * @ks.todo [06-Feb-2010:KASI]   Tests for the close methods are still missing.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test
 public class IoFunctionsTest {

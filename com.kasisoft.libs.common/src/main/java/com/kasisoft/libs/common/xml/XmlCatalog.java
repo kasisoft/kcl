@@ -1,11 +1,3 @@
-/**
- * Name........: XmlCatalog
- * Description.: Basic data structure used to store entity ids together with the urls. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.base.*;
@@ -28,6 +20,8 @@ import lombok.*;
 
 /**
  * Basic data structure used to store entity ids together with the urls.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver {
 

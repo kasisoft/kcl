@@ -1,11 +1,3 @@
-/**
- * Name........: SimplePropertyTest
- * Description.: Tests for the class 'SimpleProperty'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.xml.adapters.*;
@@ -20,6 +12,8 @@ import java.awt.*;
 
 /**
  * Tests for the class 'SimpleProperty'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SimplePropertyTest {
 

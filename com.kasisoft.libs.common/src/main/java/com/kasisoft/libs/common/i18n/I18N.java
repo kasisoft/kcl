@@ -1,17 +1,11 @@
-/**
- * Name........: I18N
- * Description.: A simple annotation providing a default value for a translatable constant.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.i18n;
 
 import java.lang.annotation.*;
 
 /**
  * A simple annotation providing a default value for a translatable constant.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

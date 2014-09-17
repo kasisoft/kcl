@@ -1,11 +1,3 @@
-/**
- * Name........: EnumerationAdapterTest
- * Description.: Tests for the type 'EnumerationAdapter'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.base.*;
@@ -17,6 +9,8 @@ import org.testng.*;
 
 /**
  * Tests for the type 'EnumerationAdapter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class EnumerationAdapterTest {
 

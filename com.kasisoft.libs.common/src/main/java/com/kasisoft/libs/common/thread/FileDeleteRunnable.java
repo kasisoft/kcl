@@ -1,11 +1,3 @@
-/**
- * Name........: FileDeleteRunnable
- * Description.: A Runnable implementation used to delete a file.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.constants.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * A Runnable implementation used to delete a file.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileDeleteRunnable extends FileListRunnable {
 

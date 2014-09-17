@@ -1,11 +1,3 @@
-/**
- * Name........: StringFunctionsTest
- * Description.: Tests for the class 'StringFunctions'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
@@ -19,6 +11,8 @@ import java.util.*;
 
 /**
  * Tests for the class 'StringFunctions'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFunctionsTest {
 

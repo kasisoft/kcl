@@ -1,11 +1,3 @@
-/**
- * Name........: GraphicsFunctions
- * Description.: Several utility functions related to graphical operations.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.base.*;
@@ -25,6 +17,8 @@ import lombok.*;
 
 /**
  * Several utility functions related to graphical operations.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class GraphicsFunctions {
 

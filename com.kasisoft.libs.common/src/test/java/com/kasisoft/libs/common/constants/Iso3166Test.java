@@ -1,11 +1,3 @@
-/**
- * Name........: Iso3166Test
- * Description.: Test for the constants 'Iso3166'. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Test for the constants 'Iso3166'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Iso3166Test {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: PredefinedTest
- * Description.: Tests for the class 'Predefined'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 import org.testng.annotations.*;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * Tests for the class 'Predefined'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PredefinedTest {
 

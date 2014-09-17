@@ -1,11 +1,3 @@
-/**
- * Name........: SmartGridLayout
- * Description.: Specification of GridLayout which allows rows and columns to have different sizes.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.layout;
 
 import com.kasisoft.libs.common.util.*;
@@ -23,6 +15,8 @@ import lombok.*;
  * Therefore this <code>LayoutManager</code> allows each row and column to have different sizes. The width for a column 
  * depends on the widest <code>Component</code> in this column, where the height depends on the largest 
  * <code>Component</code> in a row.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SmartGridLayout extends GridLayout implements LayoutManager2 {
 

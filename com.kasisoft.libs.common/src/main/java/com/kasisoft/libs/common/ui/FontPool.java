@@ -1,11 +1,3 @@
-/**
- * Name........: FontPool
- * Description.: Simple helper classes used to manage fonts. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui;
 
 import com.kasisoft.libs.common.util.*;
@@ -20,6 +12,8 @@ import lombok.*;
 
 /**
  * Simple helper classes used to manage fonts.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FontPool {
 

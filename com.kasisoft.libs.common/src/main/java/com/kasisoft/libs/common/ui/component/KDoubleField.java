@@ -1,11 +1,3 @@
-/**
- * Name........: KDoubleField
- * Description.: Field used to support numerical values only.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.ui.event.*;
@@ -17,6 +9,8 @@ import lombok.*;
 
 /**
  * Field used to support numerical values only.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class KDoubleField extends KFilteringTextField {
 

@@ -1,17 +1,11 @@
-/**
- * Name........: MissingPropertyException
- * Description.: Exception type that indicates that a required property is missing. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.config;
 
 import lombok.*;
 
 /**
  * Exception type that indicates that a required property is missing.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MissingPropertyException extends RuntimeException {
 

@@ -1,17 +1,11 @@
-/**
- * Name........: TimeUnit
- * Description.: Collection of time units. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import lombok.*;
 
 /**
  * Collection of time units.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum TimeUnit {
 

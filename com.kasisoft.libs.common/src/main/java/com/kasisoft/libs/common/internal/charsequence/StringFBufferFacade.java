@@ -1,17 +1,11 @@
-/**
- * Name........: StringFBufferFacade
- * Description.: Facade for StringFBuffer.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.internal.charsequence;
 
 import com.kasisoft.libs.common.util.*;
 
 /**
  * Facade for StringFBuffer.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
 

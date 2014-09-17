@@ -1,17 +1,11 @@
-/**
- * Name........: ByteOrderMark
- * Description.: Constants representing the different byte order marks.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import lombok.*;
 
 /**
  * Constants the different byte order marks.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum ByteOrderMark {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: ByteCopierRunnableTest
- * Description.: Test for the class 'ByteCopierRunnable'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import org.testng.annotations.*;
@@ -16,6 +8,8 @@ import java.io.*;
 
 /**
  * Test for the class 'ByteCopierRunnable'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ByteCopierRunnableTest {
 

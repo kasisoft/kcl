@@ -1,11 +1,3 @@
-/**
- * Name........: CommonPropertyTest
- * Description.: Tests for the enumeration 'CommonProperty'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.config.*;
@@ -20,6 +12,8 @@ import java.io.*;
 
 /**
  * Tests for the enumeration 'CommonProperty'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class CommonPropertyTest {
 

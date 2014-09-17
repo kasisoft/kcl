@@ -1,11 +1,3 @@
-/**
- * Name........: Bzip2FileType
- * Description.: FileType for 'bzip2' files.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.internal.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
@@ -14,6 +6,8 @@ import com.kasisoft.libs.common.util.*;
 
 /**
  * FileType for 'bzip2' files.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Bzip2FileType implements FileType {
 

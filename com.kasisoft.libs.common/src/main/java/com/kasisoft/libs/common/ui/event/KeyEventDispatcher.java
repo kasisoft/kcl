@@ -1,11 +1,3 @@
-/**
- * Name........: KeyEventDispatcher
- * Description.: Basic implementation of a dispatcher for KeyEvent's. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.event;
 
 import java.awt.event.*;
@@ -15,6 +7,8 @@ import lombok.*;
 /**
  * Basic implementation of a dispatcher for KeyEvent's. Listeners called using this dispatcher will be executed within 
  * the EventDispatchThread.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class KeyEventDispatcher extends AbstractEventDispatcher<KeyListener,KeyEvent> {
 

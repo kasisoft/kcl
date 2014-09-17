@@ -1,11 +1,3 @@
-/**
- * Name........: TransformTest
- * Description.: A test for the interface 'Transform'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 import com.kasisoft.libs.common.test.framework.*;
@@ -18,6 +10,8 @@ import java.util.*;
 
 /**
  * A test for the interface 'Transform'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class TransformTest {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: XmlCatalogTest
- * Description.: Collection of testcases for the type 'XmlCatalog'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.test.framework.*;
@@ -20,6 +12,8 @@ import java.io.*;
 
 /**
  * Collection of testcases for the type 'XmlCatalog'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlCatalogTest {
 

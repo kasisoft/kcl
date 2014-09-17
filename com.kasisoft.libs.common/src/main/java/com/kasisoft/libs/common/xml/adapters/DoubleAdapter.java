@@ -1,11 +1,3 @@
-/**
- * Name........: DoubleAdapter
- * Description.: Simple adapter for double types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Simple adapter for double types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DoubleAdapter extends TypeAdapter<String,Double> {
 

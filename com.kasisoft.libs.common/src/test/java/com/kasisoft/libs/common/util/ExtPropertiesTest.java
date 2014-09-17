@@ -1,11 +1,3 @@
-/**
- * Name........: ExtPropertiesTest
- * Description.: Tests for the type 'ExtProperties'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
@@ -23,6 +15,8 @@ import java.io.*;
 
 /**
  * Tests for the type 'ExtProperties'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(sequential=true)
 public class ExtPropertiesTest {

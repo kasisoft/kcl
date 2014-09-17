@@ -1,11 +1,3 @@
-/**
- * Name........: XmlFault
- * Description.: Simple datastructure representing a fault within a xml document. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Simple datastructure representing a fault within a xml document.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlFault {
   

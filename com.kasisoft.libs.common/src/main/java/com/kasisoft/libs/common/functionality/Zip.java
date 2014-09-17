@@ -1,15 +1,9 @@
-/**
- * Name........: Zip
- * Description.: Combines two elements to a single new one. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 /**
  * Combines two elements to a single new one.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface Zip<L,R,V> {
 

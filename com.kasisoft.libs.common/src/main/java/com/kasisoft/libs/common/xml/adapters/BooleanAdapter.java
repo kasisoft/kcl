@@ -1,11 +1,3 @@
-/**
- * Name........: BooleanAdapter
- * Description.: This is an adapter that allows to handle boolean values.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * This is an adapter that allows to handle boolean values.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BooleanAdapter extends TypeAdapter<String,Boolean> {
 

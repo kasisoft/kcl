@@ -1,11 +1,3 @@
-/**
- * Name........: ExtProperties
- * Description.: Alternate Properties class. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 
@@ -42,6 +34,8 @@ import lombok.*;
  *   <li><code>${env:PATH}</code> delivers the full path.</li>
  *   <li><code>${sys:line.separator}</code> delivers the line separator.</li>
  * </ul>
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ExtProperties {
   

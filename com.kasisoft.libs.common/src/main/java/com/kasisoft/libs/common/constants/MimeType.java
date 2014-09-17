@@ -1,11 +1,3 @@
-/**
- * Name........: MimeType
- * Description.: Collection of mime types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import java.util.*;
@@ -18,6 +10,8 @@ import lombok.*;
  * Alternate and more official: @ks.spec [13-Jan-2014:KASI]   http://www.iana.org/assignments/media-types
  * 
  * @ks.note [13-Jan-2014:KASI]   Not all types have been used here.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum MimeType {
 

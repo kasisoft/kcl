@@ -1,11 +1,3 @@
-/**
- * Name........: FileProgress
- * Description.: Progress information for file based Runnable implementations.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import java.io.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Progress information for file based Runnable implementations.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileProgress {
   

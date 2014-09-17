@@ -1,11 +1,3 @@
-/**
- * Name........: TableColumnModelAdapter
- * Description.: Default implementation of TableColumnModelListener. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.event;
 
 import javax.swing.event.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Default implementation of TableColumnModelListener.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class TableColumnModelAdapter implements TableColumnModelListener {
 

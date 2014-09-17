@@ -1,11 +1,3 @@
-/**
- * Name........: WSFocusListener
- * Description.: A FocusListener implementation which stores the setting of a widget when it looses it's focus.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.workspace;
 
 import javax.swing.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * A FocusListener implementation which stores the setting of a widget when it looses it's focus.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class WSFocusListener extends FocusAdapter {
 

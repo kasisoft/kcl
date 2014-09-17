@@ -1,11 +1,3 @@
-/**
- * Name........: Workspace
- * Description.: The Workspace allows to store various configuration information during the runtime.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.workspace;
 
 import com.kasisoft.libs.common.base.*;
@@ -23,6 +15,8 @@ import lombok.*;
 
 /**
  * The Workspace allows to store various configuration information during the runtime.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public final class Workspace {
 

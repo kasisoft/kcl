@@ -1,11 +1,3 @@
-/**
- * Name........: MapPropertyTest
- * Description.: Tests for the class 'MapProperty'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.xml.adapters.*;
@@ -20,6 +12,8 @@ import java.awt.*;
 
 /**
  * Tests for the class 'MapProperty'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MapPropertyTest {
 

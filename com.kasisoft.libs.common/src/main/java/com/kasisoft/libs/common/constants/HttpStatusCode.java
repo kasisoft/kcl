@@ -1,17 +1,11 @@
-/**
- * Name........: HttpStatusCode
- * Description.: Collection of HTTP stastus codes.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 /**
  * Collection of HTTP stastus codes.
  * 
  * @ks.spec [13-Jan-2014:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum HttpStatusCode {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: XmlToTypeAdapter
- * Description.: A simple helper class which allows to use the TypeAdapter implementations in an XML context.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import javax.xml.bind.annotation.adapters.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * A simple helper class which allows to use the TypeAdapter implementations in an XML context.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlToTypeAdapter<S,T> extends XmlAdapter<S,T>{
 

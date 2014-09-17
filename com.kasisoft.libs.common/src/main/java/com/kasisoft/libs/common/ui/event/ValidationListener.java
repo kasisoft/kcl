@@ -1,17 +1,11 @@
-/**
- * Name........: ValidationListener
- * Description.: Each implementor can handle validity changes of some input.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.event;
 
 import java.util.*;
 
 /**
  * Each implementor can handle validation changes of some input.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface ValidationListener extends EventListener {
 

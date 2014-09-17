@@ -1,11 +1,3 @@
-/**
- * Name........: URLAdapter
- * Description.: Simple adapter for URL types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * Simple adapter for URI types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class URIAdapter extends TypeAdapter<String,URI> {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: MapProperty
- * Description.: This type allows to easily make use of typed properties.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.util.*;
@@ -48,6 +40,8 @@ import lombok.*;
  * 
  * If the {@link TypeAdapter} instance shall generate an exception it's advisable to make use of the 
  * {@link MissingPropertyException}.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty> {
 

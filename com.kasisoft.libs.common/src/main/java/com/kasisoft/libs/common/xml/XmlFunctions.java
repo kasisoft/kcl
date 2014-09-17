@@ -1,11 +1,3 @@
-/**
- * Name........: XmlFunctions
- * Description.: Collection of xml related functions.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.base.*;
@@ -33,6 +25,8 @@ import lombok.*;
 
 /**
  * Collection of xml related functions.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public final class XmlFunctions {
 

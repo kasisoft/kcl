@@ -1,11 +1,3 @@
-/**
- * Name........: StringFBuilder
- * Description.: StringBuilder equivalent which supports formatting.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import java.util.regex.*;
@@ -19,6 +11,8 @@ import lombok.*;
 /**
  * StringF(ormatting)Builder  equivalent which supports formatting. This builder also supports negative indices which means
  * that the original index is calculated beginning from the end of the buffer.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFBuilder implements Serializable, CharSequence {
 

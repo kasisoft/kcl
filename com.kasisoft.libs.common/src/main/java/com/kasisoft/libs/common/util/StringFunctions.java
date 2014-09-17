@@ -1,11 +1,3 @@
-/**
- * Name........: StringFunctions
- * Description.: Collection of functions used for String processing.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
@@ -29,6 +21,8 @@ import lombok.*;
  *  <li>StringFBuilder</li>
  *  <li>StringFBuffer</li>
  * </ul>
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFunctions {
 

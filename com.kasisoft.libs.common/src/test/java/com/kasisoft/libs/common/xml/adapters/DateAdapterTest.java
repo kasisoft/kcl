@@ -1,11 +1,3 @@
-/**
- * Name........: DateAdapterTest
- * Description.: Tests for the type 'DateAdapter'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import org.testng.annotations.*;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * Tests for the type 'DateAdapter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @SuppressWarnings("deprecation")
 public class DateAdapterTest {

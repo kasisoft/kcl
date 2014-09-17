@@ -1,15 +1,9 @@
-/**
- * Name........: BucketFactory
- * Description.: Factory implementation used to fill up the Bucket. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 /**
  * Factory implementation used to fill up the Bucket.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface BucketFactory<T> {
 

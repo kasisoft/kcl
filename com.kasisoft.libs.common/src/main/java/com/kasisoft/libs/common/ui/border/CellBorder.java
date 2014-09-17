@@ -1,12 +1,3 @@
-/**
- * Name........: CellBorder
- * Description.: The CellBorder is similar to the borders known from spreadsheets where each edge can be selectively 
- *               enabled. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.border;
 
 import javax.swing.border.*;
@@ -17,6 +8,8 @@ import lombok.*;
 
 /**
  * The CellBorder is similar to the borders known from spreadsheets where each edge can be selectively enabled.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class CellBorder extends LineBorder {
 

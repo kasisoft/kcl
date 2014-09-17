@@ -1,11 +1,3 @@
-/**
- * Name........: RectangleAdapterTest
- * Description.: Tests for the type 'RectangleAdapter'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.base.*;
@@ -19,6 +11,8 @@ import java.awt.*;
 
 /**
  * Tests for the type 'RectangleAdapter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class RectangleAdapterTest {
 

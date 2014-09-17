@@ -1,11 +1,3 @@
-/**
- * Name........: NetFunctionsTest
- * Description.: Testcases for the class 'NetFunctions'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.net;
 
 import com.kasisoft.libs.common.constants.*;
@@ -16,6 +8,8 @@ import org.testng.*;
 
 /**
  * Testcases for the class 'NetFunctions'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
 public class NetFunctionsTest {

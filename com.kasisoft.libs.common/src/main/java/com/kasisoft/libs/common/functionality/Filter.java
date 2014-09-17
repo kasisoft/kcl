@@ -1,15 +1,9 @@
-/**
- * Name........: Filter
- * Description.: Implementors are capable to decide whether an element can be accepted or not. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 /**
  * Implementors are capable to decide whether an element can be accepted or not.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface Filter<T> {
 

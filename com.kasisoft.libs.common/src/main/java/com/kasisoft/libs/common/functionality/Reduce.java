@@ -1,15 +1,9 @@
-/**
- * Name........: Reduce
- * Description.: Reduces an input together with a current element. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 /**
  * Reduces an input together with a current element.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface Reduce<F,T> {
 

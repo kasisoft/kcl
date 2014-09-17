@@ -1,15 +1,9 @@
-/**
- * Name........: Tupel
- * Description.: Simple class used to work as a container (f.e. out-parameters).
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Tupel<T> {
 

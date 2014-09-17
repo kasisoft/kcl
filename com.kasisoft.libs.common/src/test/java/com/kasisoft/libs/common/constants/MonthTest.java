@@ -1,11 +1,3 @@
-/**
- * Name........: MonthTest
- * Description.: Tests for the class 'Month'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Tests for the class 'Month'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MonthTest {
 

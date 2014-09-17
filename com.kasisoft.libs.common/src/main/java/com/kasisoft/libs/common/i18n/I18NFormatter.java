@@ -1,17 +1,11 @@
-/**
- * Name........: I18NFormatter
- * Description.: Helper which provides formatting capabilities to a translation.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.i18n;
 
 import lombok.*;
 
 /**
  * Helper which provides formatting capabilities to a translation.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @AllArgsConstructor
 @Data

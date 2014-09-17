@@ -1,11 +1,3 @@
-/**
- * Name........: TimeUnitTest
- * Description.: Tests for the class 'TimeUnit'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Tests for the class 'TimeUnit'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
 public class TimeUnitTest {

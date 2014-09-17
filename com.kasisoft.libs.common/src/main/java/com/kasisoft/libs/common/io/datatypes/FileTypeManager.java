@@ -1,11 +1,3 @@
-/**
- * Name........: FileTypeManager
- * Description.: Management for file type recognizers.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.io.*;
@@ -21,6 +13,8 @@ import lombok.*;
 
 /**
  * Management for file type recognizers.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileTypeManager {
 

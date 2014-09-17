@@ -1,15 +1,9 @@
-/**
- * Name........: CharSequenceFacade
- * Description.: A simple facade which is used to handle commonly used CharSequence types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.internal.charsequence;
 
 /**
  * A simple facade which is used to handle commonly used CharSequence types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface CharSequenceFacade<T extends CharSequence> {
   

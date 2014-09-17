@@ -1,11 +1,3 @@
-/**
- * Name........: ByteCopierRunnable
- * Description.: A Runnable which is used to copy data from an InputStream to an OutputStream. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * A Runnable which is used to copy data from an InputStream to an OutputStream.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
 

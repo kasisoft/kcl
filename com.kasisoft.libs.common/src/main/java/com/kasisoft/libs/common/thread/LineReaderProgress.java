@@ -1,15 +1,9 @@
-/**
- * Name........: LineReaderProgress
- * Description.: Progress information for the line reading Runnable. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 /**
  * Progress information for the line reading Runnable.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class LineReaderProgress {
 

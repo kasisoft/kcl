@@ -1,11 +1,3 @@
-/**
- * Name........: StructuralTypeAdapter
- * Description.: Adapter used to convert a String into a data structure which consists of a delimited list. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.base.*;
@@ -17,6 +9,8 @@ import lombok.*;
 
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
 

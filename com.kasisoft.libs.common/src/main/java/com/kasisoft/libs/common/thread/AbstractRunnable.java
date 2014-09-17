@@ -1,15 +1,9 @@
-/**
- * Name........: AbstractRunnable
- * Description.: Basic implementation for a Runnable.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 /**
  * Basic implementation for a Runnable.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public abstract class AbstractRunnable<T> implements Runnable {
 

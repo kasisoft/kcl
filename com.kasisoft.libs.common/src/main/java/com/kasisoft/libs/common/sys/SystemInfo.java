@@ -1,11 +1,3 @@
-/**
- * Name........: SystemInfo
- * Description.: Simple class that provides some system related informations.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.sys;
 
 import com.kasisoft.libs.common.constants.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Simple class that provides some system related informations.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum SystemInfo {
   

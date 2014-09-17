@@ -1,15 +1,9 @@
-/**
- * Name........: StringFacade
- * Description.: Facade for String.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.internal.charsequence;
 
 /**
  * Facade for String.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFacade implements CharSequenceFacade<String> {
 

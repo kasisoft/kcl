@@ -1,11 +1,3 @@
-/**
- * Name........: FlatXmlHandlerTest
- * Description.: Collection of testcases for the type 'FlatXmlHandler'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.constants.*;
@@ -24,6 +16,8 @@ import java.io.*;
 
 /**
  * Collection of testcases for the type 'FlatXmlHandler'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FlatXmlHandlerTest {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: XmlFunctionsTest
- * Description.: Tests for the class 'XmlFunctions'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.base.*;
@@ -27,6 +19,8 @@ import java.io.*;
 
 /**
  * Tests for the class 'XmlFunctions'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
 public class XmlFunctionsTest {

@@ -1,12 +1,3 @@
-/**
- * Name........: LiteralTokenizer
- * Description.: This tokenizer operates similar to the well known StringTokenizer class with the distinction that a 
- *               complete literal can be used for the tokenization process. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import java.util.*;
@@ -16,6 +7,8 @@ import lombok.*;
 /**
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 
  * can be used for the tokenization process.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class LiteralTokenizer implements Enumeration<String> {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: CopyingProgress
- * Description.: Progress information for byte/character copying processes. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.constants.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Progress information for byte/character copying processes.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class CopyingProgress {
 

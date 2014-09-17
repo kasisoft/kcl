@@ -1,11 +1,3 @@
-/**
- * Name........: I18NSupportTest
- * Description.: Tests for the i18n class 'I18NSupport'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.i18n;
 
 import org.testng.annotations.Test;
@@ -18,6 +10,8 @@ import java.util.*;
  * Tests for the i18n class 'I18NSupport'.
  * 
  * Requires the default locale to be Locale#GERMANY.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class I18NSupportTest {
 

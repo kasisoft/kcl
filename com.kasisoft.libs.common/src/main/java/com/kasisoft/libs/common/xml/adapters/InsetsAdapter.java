@@ -1,11 +1,3 @@
-/**
- * Name........: InsetsAdapter
- * Description.: Adapter used to convert a String into a Insets and vice versa. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * Adapter used to convert a String into a Insets and vice versa.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
 

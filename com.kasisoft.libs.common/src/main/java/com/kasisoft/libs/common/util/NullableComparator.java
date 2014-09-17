@@ -1,11 +1,3 @@
-/**
- * Name........: NullableComparator
- * Description.: A Comparator implementation that is capable to handle <code>null</code> values.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import java.util.*;
@@ -14,6 +6,8 @@ import java.util.*;
  * A Comparator implementation that is capable to handle <code>null</code> values. The default implementation which
  * doesn't use a {@link Comparator} expects the generic type <code>T</code> to be an extension of {@link Comparable}.
  * Otherwise this implementation will cause a {@link ClassCastException} while being used.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class NullableComparator<T> implements Comparator<T> {
 

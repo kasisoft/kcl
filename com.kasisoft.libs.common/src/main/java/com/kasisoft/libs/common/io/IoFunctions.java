@@ -1,11 +1,3 @@
-/**
- * Name........: IoFunctions
- * Description.: Collection of functions used for IO operations. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.io;
 
 import com.kasisoft.libs.common.base.*;
@@ -27,6 +19,8 @@ import lombok.*;
 
 /**
  * Collection of functions used for IO operations.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class IoFunctions {
 

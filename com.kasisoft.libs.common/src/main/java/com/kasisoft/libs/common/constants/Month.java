@@ -1,11 +1,3 @@
-/**
- * Name........: Month
- * Description.: Values to identify a month. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import java.text.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * Values to identify a month.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Month {
 

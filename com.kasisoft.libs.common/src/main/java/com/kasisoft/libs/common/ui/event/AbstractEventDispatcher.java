@@ -1,11 +1,3 @@
-/**
- * Name........: AbstractEventDispatcher
- * Description.: Basic implementation of a dispatcher for various Swing UI events. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.event;
 
 import com.kasisoft.libs.common.util.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * Basic implementation of a dispatcher for various Swing UI events.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public abstract class AbstractEventDispatcher<L,E> {
 

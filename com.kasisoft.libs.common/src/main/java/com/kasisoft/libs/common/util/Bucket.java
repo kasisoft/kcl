@@ -1,11 +1,3 @@
-/**
- * Name........: Bucket
- * Description.: Collector for often used objects like collections, maps etc.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import java.util.*;
@@ -16,6 +8,8 @@ import lombok.*;
  
 /**
  * Collector for often used objects like collections, maps etc. .
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Bucket<T> {
 

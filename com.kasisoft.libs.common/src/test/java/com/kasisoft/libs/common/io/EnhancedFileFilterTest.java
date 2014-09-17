@@ -1,11 +1,3 @@
-/**
- * Name........: EnhancedFileFilterTest
- * Description.: Test for the 'EnhancedFileFilter'. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.io;
 
 import com.kasisoft.libs.common.test.framework.*;
@@ -20,6 +12,8 @@ import java.io.*;
 
 /**
  * Test for the 'EnhancedFileFilter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class EnhancedFileFilterTest {
 

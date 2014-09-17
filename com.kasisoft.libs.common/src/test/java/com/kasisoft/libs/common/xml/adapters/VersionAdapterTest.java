@@ -1,11 +1,3 @@
-/**
- * Name........: VersionAdapterTest
- * Description.: Tests for the type 'VersionAdapter'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -18,6 +10,8 @@ import java.text.*;
 
 /**
  * Tests for the type 'VersionAdapter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class VersionAdapterTest {
 

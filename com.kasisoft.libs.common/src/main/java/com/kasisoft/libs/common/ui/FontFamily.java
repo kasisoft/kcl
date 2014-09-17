@@ -1,11 +1,3 @@
-/**
- * Name........: FontFamily
- * Description.: Collection of widely known family names. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui;
 
 import java.util.*;
@@ -20,6 +12,8 @@ import lombok.*;
  * {@link #SansSerif}, {@link #Serif} and {@link #Monospaced} which is guaranteed by the java api.
  * 
  * Note: If a Font is not known the Monospaced variety is deliverd since it's definitely existing.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public final class FontFamily {
 

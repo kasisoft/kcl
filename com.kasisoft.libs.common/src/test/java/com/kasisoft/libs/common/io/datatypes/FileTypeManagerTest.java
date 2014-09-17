@@ -1,11 +1,3 @@
-/**
- * Name........: FileTypeManagerTest
- * Description.: Tests for the class 'FileTypeManager'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.io.*;
@@ -18,6 +10,8 @@ import java.net.*;
 
 /**
  * Tests for the class 'FileTypeManager'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileTypeManagerTest {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: SystemFunctionsTest
- * Description.: Test for the class 'SystemFunctions'. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.sys;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Test for the class 'SystemFunctions'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SystemFunctionsTest {
 

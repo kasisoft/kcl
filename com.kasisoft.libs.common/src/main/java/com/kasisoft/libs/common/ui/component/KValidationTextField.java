@@ -1,11 +1,3 @@
-/**
- * Name........: KValidatingTextField
- * Description.: TextField variety which allows to run checks on the entered content and colors the input accordingly.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.ui.event.*;
@@ -23,6 +15,8 @@ import lombok.*;
 
 /**
  * TextField variety which allows to run checks on the entered content and colors the input accordingly.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class KValidationTextField extends JTextField implements KValidationComponent {
 

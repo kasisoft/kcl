@@ -1,11 +1,3 @@
-/**
- * Name........: Database
- * Description.: Simple wrapper for various database types. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.db;
 
 import java.sql.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Simple wrapper for various database types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Database {
 

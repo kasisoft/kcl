@@ -1,11 +1,3 @@
-/**
- * Name........: ConfigurationHelper
- * Description.: A helper which allows to deal with the configuration properties. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.util.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * A helper which allows to deal with the configuration properties.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ConfigurationHelper {
 

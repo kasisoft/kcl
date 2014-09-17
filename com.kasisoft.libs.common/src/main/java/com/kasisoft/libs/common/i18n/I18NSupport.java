@@ -1,11 +1,3 @@
-/**
- * Name........: I18NSupport
- * Description.: A helper which initializes the translations managed by a class.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.i18n;
 
 import com.kasisoft.libs.common.base.*;
@@ -40,6 +32,7 @@ import lombok.*;
  * }
  * </pre>
  * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class I18NSupport {
 

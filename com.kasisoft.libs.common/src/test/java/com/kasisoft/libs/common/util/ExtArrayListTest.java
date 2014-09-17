@@ -1,11 +1,3 @@
-/**
- * Name........: ExtArrayListTest
- * Description.: Tests for the type 'ExtArrayList'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.*;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * Tests for the type 'ExtArrayList'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ExtArrayListTest {
 

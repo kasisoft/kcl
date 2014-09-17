@@ -1,11 +1,3 @@
-/**
- * Name........: FileAdapterTest
- * Description.: Tests for the type 'FileAdapter'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.test.framework.*;
@@ -18,6 +10,8 @@ import java.io.*;
 
 /**
  * Tests for the type 'FileAdapter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileAdapterTest {
 

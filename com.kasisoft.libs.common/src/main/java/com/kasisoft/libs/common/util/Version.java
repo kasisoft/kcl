@@ -1,11 +1,3 @@
-/**
- * Name........: Version
- * Description.: A simple descriptional datastructure for a version.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import java.text.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * A simple descriptional datastructure for a version.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @EqualsAndHashCode(of="text")
 public class Version implements Comparable<Version> {

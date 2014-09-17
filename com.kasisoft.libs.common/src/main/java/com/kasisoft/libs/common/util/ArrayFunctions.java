@@ -1,11 +1,3 @@
-/**
- * Name........: ArrayFunctions
- * Description.: Collection of functions useful in conjunction with arrays. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * Collection of functions useful in conjunction with arrays.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ArrayFunctions {
 

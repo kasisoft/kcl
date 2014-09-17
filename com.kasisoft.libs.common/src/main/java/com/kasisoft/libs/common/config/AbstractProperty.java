@@ -1,11 +1,3 @@
-/**
- * Name........: AbstractProperty
- * Description.: Base type which allows to realize typed property values.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.util.*;
@@ -17,6 +9,8 @@ import lombok.*;
 
 /**
  * Base type which allows to realize typed property values.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @ToString
 @EqualsAndHashCode(of={"key"})

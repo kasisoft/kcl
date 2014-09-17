@@ -1,11 +1,3 @@
-/**
- * Name........: BucketFactories
- * Description.: Helpers generating BucketFactory instances for widely used types. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import java.util.*;
@@ -14,6 +6,8 @@ import java.io.*;
 
 /**
  * Helpers generating BucketFactory instances for widely used types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BucketFactories {
 

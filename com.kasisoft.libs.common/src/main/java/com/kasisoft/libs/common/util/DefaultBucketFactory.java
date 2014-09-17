@@ -1,11 +1,3 @@
-/**
- * Name........: DefaultBucketFactory
- * Description.: Default implementation of a BucketFactory. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * Default implementation of a BucketFactory.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DefaultBucketFactory<T> implements BucketFactory<T> {
 

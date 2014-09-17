@@ -1,11 +1,3 @@
-/**
- * Name........: Primitive
- * Description.: Declarations used to identify primitive types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.util.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * Declarations used to identify primitive types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Primitive {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: Weekday
- * Description.: Constants used to describe a weekday. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import java.text.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * Constants used to describe a weekday.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Weekday {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: Utilities
- * Description.: Collection of utility functions.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.test.framework;
 
 import com.kasisoft.libs.common.io.*;
@@ -20,6 +12,8 @@ import java.io.*;
 
 /**
  * Collection of utility functions.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Utilities {
   

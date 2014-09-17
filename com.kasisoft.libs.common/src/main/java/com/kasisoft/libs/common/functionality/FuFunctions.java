@@ -1,11 +1,3 @@
-/**
- * Name........: FuFunctions
- * Description.: Helper functions to perform operations similar to the functional paradigm.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 import java.util.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Helper functions to perform operations similar to the functional paradigm.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FuFunctions {
 

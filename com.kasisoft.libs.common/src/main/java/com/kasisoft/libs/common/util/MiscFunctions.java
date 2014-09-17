@@ -1,11 +1,3 @@
-/**
- * Name........: MiscFunctions
- * Description.: Collection of various functions. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
@@ -30,6 +22,8 @@ import lombok.*;
 
 /**
  * Collection of various functions.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MiscFunctions {
 

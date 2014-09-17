@@ -1,11 +1,3 @@
-/**
- * Name........: GraphicsFunctionsTest
- * Description.: Tests for the utility class 'GraphicsFunctions'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.io.*;
@@ -24,6 +16,8 @@ import java.io.*;
 
 /**
  * Tests for the utility class 'GraphicsFunctions'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class GraphicsFunctionsTest implements FilenameFilter {
   

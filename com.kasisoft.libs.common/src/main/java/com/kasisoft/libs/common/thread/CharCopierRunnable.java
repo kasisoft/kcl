@@ -1,11 +1,3 @@
-/**
- * Name........: CharCopierRunnable
- * Description.: A Runnable which is used to copy data from a Reader to a Writer. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
@@ -18,6 +10,8 @@ import lombok.*;
 
 /**
  * A Runnable which is used to copy data from a Reader to a Writer.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
 

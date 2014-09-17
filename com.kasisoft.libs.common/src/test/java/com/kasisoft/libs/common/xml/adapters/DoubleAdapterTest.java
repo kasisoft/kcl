@@ -1,11 +1,3 @@
-/**
- * Name........: DoubleAdapterTest
- * Description.: Tests for the type 'DoubleAdapter'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -16,6 +8,8 @@ import org.testng.*;
 
 /**
  * Tests for the type 'DoubleAdapter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DoubleAdapterTest {
 

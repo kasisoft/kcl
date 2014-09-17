@@ -1,11 +1,3 @@
-/**
- * Name........: FileListRunnableTest
- * Description.: Test for the class 'FileListRunnable'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.io.*;
@@ -21,6 +13,8 @@ import java.io.*;
 
 /**
  * Test for the class 'FileListRunnable'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
 public class FileListRunnableTest {

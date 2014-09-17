@@ -1,11 +1,3 @@
-/**
- * Name........: Encoding
- * Description.: Collection of supported encodings.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.base.*;
@@ -21,6 +13,8 @@ import lombok.*;
 
 /**
  * Collection of supported encodings.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public final class Encoding {
   

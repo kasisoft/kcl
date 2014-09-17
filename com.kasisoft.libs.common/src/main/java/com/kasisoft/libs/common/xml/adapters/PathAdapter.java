@@ -1,11 +1,3 @@
-/**
- * Name........: PathAdapter
- * Description.: An adapter for file pathes.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -14,6 +6,8 @@ import java.io.*;
 
 /**
  * An adapter for file pathes.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PathAdapter extends ListAdapter<File> {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: VersionTest
- * Description.: Tests for the class 'Version'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.*;
@@ -18,6 +10,8 @@ import java.util.*;
 
 /**
  * Tests for the class 'Version'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class VersionTest {
 

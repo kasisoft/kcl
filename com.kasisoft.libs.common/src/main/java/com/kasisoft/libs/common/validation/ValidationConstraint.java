@@ -1,15 +1,9 @@
-/**
- * Name........: ValidationConstraint
- * Description.: Each implementor is used to check the validity of some input.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.validation;
 
 /**
  * Each implementor is used to check the validity of some input.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface ValidationConstraint<T> {
 

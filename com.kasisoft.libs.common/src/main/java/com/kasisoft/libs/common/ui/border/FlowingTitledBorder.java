@@ -1,11 +1,3 @@
-/**
- * Name........: FlowingTitledBorder
- * Description.: An alternative titled border which has a different look while the background shows a color flow.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.border;
 
 import javax.swing.*;
@@ -19,6 +11,8 @@ import lombok.*;
 /**
  * The FlowingTitledBorder also allows to display a title where this title is backgrounded by a flow changing one color 
  * to another one.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FlowingTitledBorder extends TitledBorder {
 

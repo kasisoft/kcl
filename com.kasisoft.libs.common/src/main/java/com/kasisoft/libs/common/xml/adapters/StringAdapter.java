@@ -1,11 +1,3 @@
-/**
- * Name........: StringAdapter
- * Description.: Simple adapter for String identity.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Simple adapter for String identity.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringAdapter extends TypeAdapter<String,String> {
 

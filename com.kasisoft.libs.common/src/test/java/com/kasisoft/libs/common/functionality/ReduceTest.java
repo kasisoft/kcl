@@ -1,11 +1,3 @@
-/**
- * Name........: ReduceTest
- * Description.: A test for the interface 'Reduce'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 import org.testng.annotations.*;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * A test for the interface 'Reduce'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ReduceTest {
 

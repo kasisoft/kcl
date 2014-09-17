@@ -1,15 +1,9 @@
-/**
- * Name........: FailureCode
- * Description.: Collection of failure codes.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.base;
 
 /**
  * Collection of failure codes.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum FailureCode {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: ArrayFunctionsTest
- * Description.: Testcases for the class 'ArrayFunctions'. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.*;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * Testcases for the class 'ArrayFunctions'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ArrayFunctionsTest {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: SystemProcess
- * Description.: Convenience class for the Runtime.exec method.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.sys;
 
 import com.kasisoft.libs.common.base.*;
@@ -20,6 +12,8 @@ import lombok.*;
 
 /**
  * Convenience class for the Runtime.exec method.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SystemProcess {
 

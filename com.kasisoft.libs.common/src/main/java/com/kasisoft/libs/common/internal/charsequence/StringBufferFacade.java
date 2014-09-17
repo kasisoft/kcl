@@ -1,15 +1,9 @@
-/**
- * Name........: StringBufferFacade
- * Description.: Facade for StringBuffer.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.internal.charsequence;
 
 /**
  * Facade for StringBuffer.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
 

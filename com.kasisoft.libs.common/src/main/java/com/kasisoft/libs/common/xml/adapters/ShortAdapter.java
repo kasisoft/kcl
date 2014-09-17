@@ -1,11 +1,3 @@
-/**
- * Name........: ShortAdapter
- * Description.: Simple adapter for short types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Simple adapter for short types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ShortAdapter extends TypeAdapter<String,Short> {
 

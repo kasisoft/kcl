@@ -1,11 +1,3 @@
-/**
- * Name........: Predefined
- * Description.: Collection of predefined types.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.functionality;
 
 import java.util.*;
@@ -14,6 +6,8 @@ import lombok.*;
 
 /**
  * Collection of predefined types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Predefined {
 

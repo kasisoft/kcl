@@ -1,17 +1,11 @@
-/**
- * Name........: I18NBasename
- * Description.: A simple annotation providing the resource for the translations.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.i18n;
 
 import java.lang.annotation.*;
 
 /**
  * A simple annotation providing the resource for the translations.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

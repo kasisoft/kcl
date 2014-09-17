@@ -1,12 +1,3 @@
-/**
- * Name........: TypAdapter
- * Description.: Simple adapter implementation which is <code>null</code> safe and allows to convert datatypes if
- *               possible.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.functionality.*;
@@ -25,6 +16,8 @@ import lombok.*;
  * other cases default values will be delivered.</li>
  * <li>This adapter assumes that <code>null</code> will always be mapped to <code>null</code> and vice versa.</li>
  * </ul>
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public abstract class TypeAdapter<F,T> implements Transform<F,T> {
 

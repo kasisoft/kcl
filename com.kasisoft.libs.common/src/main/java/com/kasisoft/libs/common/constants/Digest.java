@@ -1,11 +1,3 @@
-/**
- * Name........: Digest
- * Description.: Collection of supported MessageDigest implementations.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.base.*;
@@ -19,6 +11,8 @@ import lombok.*;
 
 /**
  * Collection of supported MessageDigest implementations.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public final class Digest {
   

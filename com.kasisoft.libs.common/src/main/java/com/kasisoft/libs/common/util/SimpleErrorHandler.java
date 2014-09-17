@@ -1,15 +1,9 @@
-/**
- * Name........: SimpleErrorHandler
- * Description.: Each implementor is supposed to delegate an issue that might have happened.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 /**
  * Each implementor is supposed to delegate an issue that might have happened.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface SimpleErrorHandler {
 

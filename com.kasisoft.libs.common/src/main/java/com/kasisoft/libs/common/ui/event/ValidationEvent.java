@@ -1,11 +1,3 @@
-/**
- * Name........: ValidationEvent
- * Description.: This event informs about the validation of a component. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui.event;
 
 import javax.swing.*;
@@ -16,6 +8,8 @@ import lombok.*;
 
 /**
  * This event informs about the validation of a component.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ValidationEvent extends EventObject {
 

@@ -1,11 +1,3 @@
-/**
- * Name........: WorkspaceTest
- * Description.: Tests for the class 'Workspace'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.workspace;
 
 import org.testng.annotations.*;
@@ -18,6 +10,8 @@ import java.io.*;
 
 /**
  * Tests for the class 'Workspace'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class WorkspaceTest {
 

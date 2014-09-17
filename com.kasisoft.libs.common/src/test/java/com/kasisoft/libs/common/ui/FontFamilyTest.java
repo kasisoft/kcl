@@ -1,17 +1,14 @@
-/**
- * Name........: FontFamilyTest
- * Description.: Test for the class 'FontFamily'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.ui;
 
 import org.testng.annotations.*;
 
 import org.testng.*;
 
+/**
+ * Test for the class 'FontFamily'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
+ */
 public class FontFamilyTest {
 
   @DataProvider(name="valueByNameData")

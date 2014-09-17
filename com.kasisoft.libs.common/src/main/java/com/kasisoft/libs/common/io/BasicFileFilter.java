@@ -1,12 +1,3 @@
-/**
- * Name........: BasicFileFilter
- * Description.: FileFilter implementation which is capable to be used with the standard File class as well as with the 
- *               JFileChooser implementation. 
- * Author......: Daniel Kasmeroglu1
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.io;
 
 import com.kasisoft.libs.common.sys.*;
@@ -18,6 +9,8 @@ import lombok.*;
 /**
  * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 
  * implementation.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BasicFileFilter extends javax.swing.filechooser.FileFilter implements FileFilter {
 

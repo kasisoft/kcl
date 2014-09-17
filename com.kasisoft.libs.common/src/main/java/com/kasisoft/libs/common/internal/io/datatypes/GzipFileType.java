@@ -1,11 +1,3 @@
-/**
- * Name........: GzipFileType
- * Description.: FileType for 'gzip' files.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.internal.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
@@ -15,6 +7,8 @@ import java.util.zip.*;
 
 /**
  * FileType for 'gzip' files.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class GzipFileType implements FileType {
 

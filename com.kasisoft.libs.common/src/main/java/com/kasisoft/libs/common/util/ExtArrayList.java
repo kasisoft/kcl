@@ -1,11 +1,3 @@
-/**
- * Name........: ExtArrayList
- * Description.: ArrayList variety which can handle negative indices. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import java.util.*;
@@ -15,6 +7,8 @@ import lombok.*;
 /**
  * ArrayList variety which can handle negative indices. So an index of -1 points to the last element. An index of -2 
  * to it's predecessor and so on.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ExtArrayList<T> extends ArrayList<T> {
 

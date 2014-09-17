@@ -1,17 +1,11 @@
-/**
- * Name........: PictureFormat
- * Description.: Collection of constants used to identify image formats.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.constants.*;
 
 /**
  * Collection of constants used to identify image formats.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum PictureFormat {
 

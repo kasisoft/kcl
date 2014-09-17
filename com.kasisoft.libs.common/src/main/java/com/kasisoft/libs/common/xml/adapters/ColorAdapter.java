@@ -1,11 +1,3 @@
-/**
- * Name........: ColorAdapter
- * Description.: Adapter used to convert a String into a Color and vice versa. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 
@@ -22,6 +14,8 @@ import lombok.*;
 
 /**
  * Adapter used to convert a String into a Color and vice versa.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ColorAdapter extends TypeAdapter<String,Color> {
 

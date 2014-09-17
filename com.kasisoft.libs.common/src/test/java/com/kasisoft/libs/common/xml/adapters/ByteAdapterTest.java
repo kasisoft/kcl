@@ -1,11 +1,3 @@
-/**
- * Name........: ByteAdapterTest
- * Description.: Tests for the type 'ByteAdapter'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.xml.adapters;
 
 import org.testng.annotations.*;
@@ -14,6 +6,8 @@ import org.testng.*;
 
 /**
  * Tests for the type 'ByteAdapter'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ByteAdapterTest {
 

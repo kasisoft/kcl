@@ -1,11 +1,3 @@
-/**
- * Name........: BucketTest
- * Description.: Test for the class 'Bucket'.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.libs.common.util;
 
 import org.testng.annotations.Test;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * Test for the class 'Bucket'.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BucketTest {
   
