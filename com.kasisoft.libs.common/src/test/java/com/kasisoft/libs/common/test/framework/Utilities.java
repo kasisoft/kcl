@@ -19,6 +19,10 @@ import java.io.*;
  */
 public class Utilities {
   
+  public static File getTestdataDir() {
+    return new File( "testdata" );
+  }
+  
   public static List<File> createFileSystemStructure( File basedir ) {
     List<File>    result    = new ArrayList<File>();
     int           count     = Math.max( (int) (Math.random() * 1000), 50 );

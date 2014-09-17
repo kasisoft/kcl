@@ -10,6 +10,7 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.test.framework.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import org.testng.annotations.*;
@@ -31,7 +32,7 @@ public class ExtPropertiesTest {
   
   @BeforeTest
   public void init() {
-    File dir        = new File( "testdata" );
+    File dir        = Utilities.getTestdataDir();
     simplefile      = new File( dir, "props/simple.properties"     );
     evaluationfile  = new File( dir, "props/evaluation.properties" );
     Assert.assertTrue( simplefile     . isFile() );

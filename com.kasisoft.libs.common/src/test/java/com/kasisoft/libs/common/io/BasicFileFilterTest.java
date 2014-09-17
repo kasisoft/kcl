@@ -28,7 +28,7 @@ public class BasicFileFilterTest {
   
   @BeforeTest
   public void setup() {
-    testdata  = new File( "testdata" );
+    testdata  = Utilities.getTestdataDir();
     filter    = new BasicFileFilter( ".txt" );
   }
   

@@ -9,6 +9,8 @@
 package com.kasisoft.libs.common.sys;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -29,7 +31,7 @@ public class SystemProcessTest {
   @BeforeTest
   public void setup() {
     exefile        = null;
-    File   dir     = new File( "testdata" );
+    File   dir     = Utilities.getTestdataDir();
     String path    = null;
     if( SystemInfo.getRunningOS().isUnixLike() ) {
       path = "bin/testprocess.unix.exe";

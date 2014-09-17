@@ -34,7 +34,7 @@ public class IoFunctionsTest {
   
   @BeforeTest
   public void setup() {
-    testdata      = new File( "testdata" );
+    testdata      = Utilities.getTestdataDir();
     destfile      = IoFunctions.newTempFile( "file-", ".zip" );
     directory     = IoFunctions.newTempFile( "temp-" );
     directory.mkdirs();

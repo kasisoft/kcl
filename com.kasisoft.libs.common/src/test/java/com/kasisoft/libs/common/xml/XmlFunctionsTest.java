@@ -11,6 +11,8 @@ package com.kasisoft.libs.common.xml;
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -36,7 +38,7 @@ public class XmlFunctionsTest {
   
   @BeforeTest
   public void setup() {
-    File testdata = new File( "testdata" );
+    File testdata = Utilities.getTestdataDir();
     simplexml     = new File( testdata, "simple.xml" );
     simplexsl     = new File( testdata, "simple.xsl" );
     testfile      = new File( testdata, "testfile.gz" );

@@ -28,7 +28,7 @@ public class EnhancedFileFilterTest {
   
   @BeforeTest
   public void setup() {
-    testdata  = new File( "testdata" );
+    testdata  = Utilities.getTestdataDir();
     filter    = new EnhancedFileFilter( ".txt" );
     filter.addDefaultExcludes();
   }

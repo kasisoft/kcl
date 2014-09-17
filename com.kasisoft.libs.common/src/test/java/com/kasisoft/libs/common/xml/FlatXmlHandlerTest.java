@@ -10,6 +10,7 @@ package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
 
@@ -30,7 +31,7 @@ public class FlatXmlHandlerTest {
   
   @BeforeTest
   public void setup() {
-    File testdata = new File( "testdata" );
+    File testdata = Utilities.getTestdataDir();
     simplexml     = new File( testdata, "simple.xml" );
     Assert.assertTrue( simplexml.isFile() );
   }
