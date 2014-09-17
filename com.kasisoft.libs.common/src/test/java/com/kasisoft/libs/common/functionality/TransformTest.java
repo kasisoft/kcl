@@ -51,7 +51,7 @@ public class TransformTest {
 
     @Override
     public List<Integer> map( Integer input ) {
-      List<Integer> result = new ArrayList<Integer>();
+      List<Integer> result = new ArrayList<>();
       result.add( input );
       return result;
     }

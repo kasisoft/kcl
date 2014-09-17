@@ -33,7 +33,7 @@ public class MiscFunctions {
   
   static {
     
-    TRUEVALUES  = new HashSet<String>();
+    TRUEVALUES  = new HashSet<>();
     
     TRUEVALUES  . add( "true"   );
     TRUEVALUES  . add( "ja"     );
@@ -74,7 +74,7 @@ public class MiscFunctions {
    * @return   A String with resolved environment variables. Neither <code>null</code> nor empty.
    */
   public static String expandVariables( @NonNull String input ) {
-    Map<String, String> variables     = new Hashtable<String, String>();
+    Map<String, String> variables     = new Hashtable<>();
     Enumeration<?>      propertynames = System.getProperties().propertyNames();
     while( propertynames.hasMoreElements() ) {
       String    key   = (String) propertynames.nextElement();
@@ -244,7 +244,7 @@ public class MiscFunctions {
    * @param type   The type of the key. Not <code>null</code>.
    */
   public static <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( @NonNull Class<T> type ) {
-    return new KeyComparator<T>();
+    return new KeyComparator<>();
   }
   
   /**
@@ -274,7 +274,7 @@ public class MiscFunctions {
    * @return   A list with the supplied amount of elements. Not <code>null</code>.
    */
   public static <T> List<T> repeat( int count, T element ) {
-    List<T> result = new ArrayList<T>( count );
+    List<T> result = new ArrayList<>( count );
     for( int i = 0; i < count; i++ ) {
       result.add( element );
     }
@@ -289,7 +289,7 @@ public class MiscFunctions {
    * @return   The set created from the supplied elements. Not <code>null</code>.
    */
   public static <T> Set<T> toSet( T ... elements ) {
-    Set<T> result = new HashSet<T>();
+    Set<T> result = new HashSet<>();
     if( elements != null ) {
       for( int i = 0; i < elements.length; i++ ) {
         result.add( elements[i] );
@@ -336,7 +336,7 @@ public class MiscFunctions {
    * @return   A list of regions providing the positions within the sequence. Not <code>null</code>.
    */
   public static List<int[]> getRegexRegions( @NonNull Pattern pattern, @NonNull String sequence ) {
-    List<int[]> result  = new ArrayList<int[]>();
+    List<int[]> result  = new ArrayList<>();
     Matcher     matcher = pattern.matcher( sequence );
     while( matcher.find() ) {
       result.add( new int[] { matcher.start(), matcher.end() } );
@@ -442,7 +442,7 @@ public class MiscFunctions {
    * @return   A list with all SPI services currently available. Not <code>null</code>.
    */
   public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype ) {
-    List<T>          result    = new ArrayList<T>();
+    List<T>          result    = new ArrayList<>();
     ServiceLoader<T> spiloader = ServiceLoader.load( servicetype );
     for( T service : spiloader ) {
       result.add( service );

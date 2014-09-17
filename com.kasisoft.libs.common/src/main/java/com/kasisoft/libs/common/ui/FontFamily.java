@@ -35,7 +35,7 @@ public final class FontFamily {
   private static final Map<String,FontFamily>   FONTFAMILIES;
   
   static {
-    FONTFAMILIES        = new Hashtable<String,FontFamily>();
+    FONTFAMILIES        = new Hashtable<>();
     Arial               = new FontFamily( "Arial"                );
     ArialBlack          = new FontFamily( "Arial Black"          );
     CourierNew          = new FontFamily( "Courier New"          );

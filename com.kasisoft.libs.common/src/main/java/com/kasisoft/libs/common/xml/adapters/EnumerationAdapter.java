@@ -70,7 +70,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
     super( handler, defval1, defval2 );
     enumtype    = type;
     ignorecase  = caseinsensitive;
-    values      = new Hashtable<String,T>();
+    values      = new Hashtable<>();
     allowed     = "";
     T[] enums   = enumtype.getEnumConstants();
     if( (enums != null) && (enums.length > 0) ) {

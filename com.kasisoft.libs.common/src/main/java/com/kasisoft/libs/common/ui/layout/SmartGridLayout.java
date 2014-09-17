@@ -157,7 +157,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    */
   public SmartGridLayout( boolean forceexp ) {
     super( 1, 0, 0, 0 );
-    constraints = new HashMap<Component,Integer>(7);
+    constraints = new HashMap<>(7);
     expansion   = forceexp;
   }
 
@@ -186,7 +186,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    */
   public SmartGridLayout( int rows, int cols, boolean forceexp ) {
     super( rows, cols );
-    constraints = new HashMap<Component,Integer>(7);
+    constraints = new HashMap<>(7);
     expansion   = forceexp;
   }
 
@@ -231,7 +231,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    */
   public SmartGridLayout( int rows, int cols, int hgap, int vgap, boolean forceexp ) {
     super( rows, cols, hgap, vgap );
-    constraints = new HashMap<Component,Integer>(7);
+    constraints = new HashMap<>(7);
     expansion   = forceexp;
   }
 
@@ -604,7 +604,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    */
   private static Component[][] createGrid( Container parent, int cols, int rows ) {
 
-    ArrayList<Component> resultlist = new ArrayList<Component>(7);
+    ArrayList<Component> resultlist = new ArrayList<>(7);
     boolean[]            colmask    = new boolean[ cols ];
     boolean[]            rowmask    = new boolean[ rows ];
 

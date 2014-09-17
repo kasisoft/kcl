@@ -102,7 +102,7 @@ public class ExtPropertiesTest {
     Assert.assertEquals( props.getIndexedProperty( "class", 50 ), "java.util.ArrayList" );
     Assert.assertEquals( props.getIndexedProperty( "class", 99 ), null                  );
     
-    Set<String>         expected = new HashSet<String>();
+    Set<String>         expected = new HashSet<>();
     expected.add( "simple_property" );
     expected.add( "simple.property" );
     expected.add( "simple_property_with_value" );
@@ -164,7 +164,7 @@ public class ExtPropertiesTest {
     Assert.assertEquals( props.getIndexedProperty( "class", 50 ), "java.util.ArrayList" );
     Assert.assertEquals( props.getIndexedProperty( "class", 99 ), null                  );
     
-    Set<String>         expected = new HashSet<String>();
+    Set<String>         expected = new HashSet<>();
     expected.add( "simple_property" );
     expected.add( "simple.property" );
     expected.add( "simple.property_with_value" );
@@ -203,7 +203,7 @@ public class ExtPropertiesTest {
     Assert.assertEquals( props.getIndexedProperty( "class", 50 ), null );
     Assert.assertEquals( props.getIndexedProperty( "class", 99 ), null );
     
-    Set<String>         expected = new HashSet<String>();
+    Set<String>         expected = new HashSet<>();
     expected.add( "simple_property" );
     expected.add( "simple.property" );
     expected.add( "simple_property_with_value" );
@@ -242,7 +242,7 @@ public class ExtPropertiesTest {
     Assert.assertEquals( props.getIndexedProperty( "class", 50 ), "java.util.ArrayList" );
     Assert.assertEquals( props.getIndexedProperty( "class", 99 ), null                  );
     
-    Set<String> expected = new HashSet<String>();
+    Set<String> expected = new HashSet<>();
     expected.add( "simple_property" );
     expected.add( "simple.property" );
     expected.add( "simple_property_with_value" );
@@ -290,7 +290,7 @@ public class ExtPropertiesTest {
     
     ExtProperties       simpleprops = setupContent( simplefile, delimiter, commentintro, false );
     Enumeration<String> names       = simpleprops.propertyNames();
-    Set<String>         set         = new HashSet<String>();
+    Set<String>         set         = new HashSet<>();
     while( names.hasMoreElements() ) {
       set.add( names.nextElement() );
     }

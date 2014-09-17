@@ -23,7 +23,7 @@ public class XmlErrorHandler implements ErrorHandler {
    */
   public XmlErrorHandler() {
     errorcount    = 0;
-    faults        = new ArrayList<XmlFault>();
+    faults        = new ArrayList<>();
   }
   
   /**

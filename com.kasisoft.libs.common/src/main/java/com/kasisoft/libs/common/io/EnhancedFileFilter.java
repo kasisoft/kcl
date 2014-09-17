@@ -33,9 +33,9 @@ public class EnhancedFileFilter extends BasicFileFilter {
    */
   public EnhancedFileFilter( @NonNull String suffix ) {
     super( suffix );
-    suffixlist          = new ArrayList<String>();
-    excludeddirs        = new HashSet<String>();
-    excludedfiles       = new HashSet<String>();
+    suffixlist          = new ArrayList<>();
+    excludeddirs        = new HashSet<>();
+    excludedfiles       = new HashSet<>();
     suffixlistasstring  = null;
   }
 
@@ -47,9 +47,9 @@ public class EnhancedFileFilter extends BasicFileFilter {
    */
   public EnhancedFileFilter( @NonNull String suffix, String filterdescription ) {
     super( suffix, filterdescription );
-    suffixlist          = new ArrayList<String>();
-    excludeddirs        = new HashSet<String>();
-    excludedfiles       = new HashSet<String>();
+    suffixlist          = new ArrayList<>();
+    excludeddirs        = new HashSet<>();
+    excludedfiles       = new HashSet<>();
     suffixlistasstring  = null;
   }
   

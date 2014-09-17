@@ -549,7 +549,7 @@ public class IoFunctions {
    * @throws FailureException   In case of an io error.
    */
   public static List<String> readText( @NonNull Reader input, boolean trim, boolean emptylines ) {
-    List<String>       result   = new ArrayList<String>();
+    List<String>       result   = new ArrayList<>();
     LineReaderRunnable runnable = new LineReaderRunnable( input, result );
     runnable.setTrim( trim );
     runnable.setEmptyLines( emptylines );

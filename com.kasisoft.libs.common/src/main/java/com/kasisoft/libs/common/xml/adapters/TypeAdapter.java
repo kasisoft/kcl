@@ -94,7 +94,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
    */
   public List<F> marshal( List<T> v ) {
     if( v != null ) {
-      List<F> result = new ArrayList<F>();
+      List<F> result = new ArrayList<>();
       for( int i = 0; i < v.size(); i++ ) {
         result.add( marshal( v.get(i) ) );
       }
@@ -127,7 +127,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
    */
   public List<T> unmarshal( List<F> v ) {
     if( v != null ) {
-      List<T> result = new ArrayList<T>( v.size() );
+      List<T> result = new ArrayList<>( v.size() );
       for( int i = 0; i < v.size(); i++ ) {
         result.add( map( v.get(i) ) );
       }

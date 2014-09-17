@@ -84,7 +84,7 @@ public class SysPropertyTest {
   }
   
   private <T> List<T> asList( T ... elements ) {
-    List<T> result = new ArrayList<T>();
+    List<T> result = new ArrayList<>();
     for( int i = 0; i < elements.length; i++ ) {
       result.add( elements[i] );
     }

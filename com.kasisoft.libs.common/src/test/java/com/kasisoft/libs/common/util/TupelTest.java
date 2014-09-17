@@ -12,7 +12,7 @@ import org.testng.*;
 public class TupelTest {
 
   private Tupel<String> newTupel( String ... args ) {
-    Tupel<String> result = new Tupel<String>();
+    Tupel<String> result = new Tupel<>();
     result.setValues( args );
     return result;
   }

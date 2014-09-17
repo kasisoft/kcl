@@ -228,7 +228,7 @@ public enum Primitive {
 
   private static class LocalData {
     
-    private static Map<Class<?>,Primitive>   primitivemap = new Hashtable<Class<?>,Primitive>();
+    private static Map<Class<?>,Primitive>   primitivemap = new Hashtable<>();
     
   } /* ENDCLASS */
   

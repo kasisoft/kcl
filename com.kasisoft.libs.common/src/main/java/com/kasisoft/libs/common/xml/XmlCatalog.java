@@ -46,8 +46,8 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    */
   public XmlCatalog( boolean lsaware ) {
     
-    catalogdata = new Hashtable<String,byte[]>();
-    failures    = new HashSet<URL>();
+    catalogdata = new Hashtable<>();
+    failures    = new HashSet<>();
     domimpl     = null;
     
     if( lsaware ) {

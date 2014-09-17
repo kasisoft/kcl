@@ -52,7 +52,7 @@ public class PathAdapterTest {
   }
   
   private List<File> asList( File ... files ) {
-    ArrayList<File> result = new ArrayList<File>();
+    ArrayList<File> result = new ArrayList<>();
     if( files != null ) {
       for( int i = 0; i < files.length; i++ ) {
         result.add( files[i] );

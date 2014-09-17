@@ -16,7 +16,7 @@ public class DefaultBucketFactoryTest {
   @Test(groups="all")
   public void runAllocations() throws Exception {
     
-    Bucket<ByteArrayOutputStream> bucket = new Bucket<ByteArrayOutputStream>( new DefaultBucketFactory<ByteArrayOutputStream>( ByteArrayOutputStream.class ) );
+    Bucket<ByteArrayOutputStream> bucket = new Bucket<>( new DefaultBucketFactory<ByteArrayOutputStream>( ByteArrayOutputStream.class ) );
 
     Assert.assertEquals( 0, bucket.getSize() );
     

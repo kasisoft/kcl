@@ -29,7 +29,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer() {
     origin    = new StringBuffer();
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -37,7 +37,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer( int capacity ) {
     origin    = new StringBuffer( capacity );
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -45,7 +45,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer( @NonNull String str ) {
     origin    = new StringBuffer( str );
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -53,7 +53,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer( @NonNull CharSequence seq ) {
     origin    = new StringBuffer( seq );
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -897,7 +897,7 @@ public class StringFBuffer implements Serializable, CharSequence {
   public StringFBuffer replaceAll( @NonNull Pattern pattern, @NonNull String replacement ) {
     synchronized( origin ) {
       Matcher     matcher = pattern.matcher( origin );
-      List<int[]> matches = new ArrayList<int[]>();
+      List<int[]> matches = new ArrayList<>();
       while( matcher.find() ) {
         matches.add( new int[] { matcher.start(), matcher.end() } );
       }

@@ -24,8 +24,8 @@ public class ConfigurationHelper {
    */
   public static String help( AbstractProperty<?,?,?> ... properties ) {
     StringFBuffer                       buffer = new StringFBuffer();
-    Map<String,AbstractProperty<?,?,?>> map    = new Hashtable<String,AbstractProperty<?,?,?>>();
-    List<String>                        keys   = new ArrayList<String>();
+    Map<String,AbstractProperty<?,?,?>> map    = new Hashtable<>();
+    List<String>                        keys   = new ArrayList<>();
     if( properties != null ) {
       for( AbstractProperty<?,?,?> property : properties ) {
         keys.add( property.getKey() );

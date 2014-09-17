@@ -35,7 +35,7 @@ public class EnumerationAdapterTest {
     
   };
 
-  private EnumerationAdapter<LordOfTheRings> adapter = new EnumerationAdapter<LordOfTheRings>( errhandler, null, null, LordOfTheRings.class, true );
+  private EnumerationAdapter<LordOfTheRings> adapter = new EnumerationAdapter<>( errhandler, null, null, LordOfTheRings.class, true );
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

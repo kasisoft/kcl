@@ -37,7 +37,7 @@ public class FlatXmlHandler extends DefaultHandler {
    */
   public FlatXmlHandler() {
     super();
-    elements   = new Stack<String>();
+    elements   = new Stack<>();
     path       = new StringFBuilder();
     buffer     = new StringBuilder();
     dest       = null;

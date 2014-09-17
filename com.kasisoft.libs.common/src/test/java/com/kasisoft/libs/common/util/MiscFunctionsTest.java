@@ -23,7 +23,7 @@ public class MiscFunctionsTest {
   };
   
   private <T> List<T> toList( T ... args ) {
-    List<T> result = new ArrayList<T>();
+    List<T> result = new ArrayList<>();
     for( T arg : args ) {
       result.add( arg );
     }
@@ -116,7 +116,7 @@ public class MiscFunctionsTest {
 
   @Test(groups="all")
   public void joinThread() {
-    final Tupel<Boolean> outparam = new Tupel<Boolean>( Boolean.FALSE );
+    final Tupel<Boolean> outparam = new Tupel<>( Boolean.FALSE );
     Runnable runnable = new Runnable() {
       @Override
       public void run() {

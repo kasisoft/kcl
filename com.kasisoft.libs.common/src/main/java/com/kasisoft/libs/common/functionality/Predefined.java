@@ -25,7 +25,7 @@ public class Predefined {
    * @return   A Filter performing an OR operation on both parameters. Not <code>null</code>.
    */
   public static <T> Filter<T> or( @NonNull Filter<T> ... filters ) {
-    return new Or<T>( filters );
+    return new Or<>( filters );
   }
 
   /**
@@ -36,7 +36,7 @@ public class Predefined {
    * @return   A Filter performing an AND operation on both parameters. Not <code>null</code>.
    */
   public static <T> Filter<T> and( @NonNull Filter<T> ... filters ) {
-    return new And<T>( filters );
+    return new And<>( filters );
   }
 
   /**
@@ -47,7 +47,7 @@ public class Predefined {
    * @return   A Filter performing a NOT operation on the parameters. Not <code>null</code>.
    */
   public static <T> Filter<T> not( @NonNull Filter<T> inner ) {
-    return new Not<T>( inner );
+    return new Not<>( inner );
   }
   
   /**
@@ -58,7 +58,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static <T> Transform<T,String> toStringTransform() {
-    return new ToString<T>();
+    return new ToString<>();
   }
 
   /**
@@ -70,7 +70,7 @@ public class Predefined {
    * @return   A Transform which combines the supplied Transform instances. Not <code>null</code>.
    */
   public static <S1,S2,S3> Transform<S1,S3> joinTransforms( @NonNull Transform<S1,S2> t1, @NonNull Transform<S2,S3> t2 ) {
-    return new Join<S1,S2,S3>( t1, t2 );
+    return new Join<>( t1, t2 );
   }
   
   /**
@@ -84,7 +84,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static <K,V> Transform<Map.Entry<K,V>,String> toStringKeyTransform( @NonNull Class<K> keyclass, @NonNull Class<V> valueclass ) {
-    return new KeyToString<K,V>();
+    return new KeyToString<>();
   }
 
   /**
@@ -95,7 +95,7 @@ public class Predefined {
    *           Not <code>null</code>.
    */
   public static <K,V> Transform<Map.Entry<K,V>,String> toStringValueTransform() {
-    return new ValueToString<K,V>();
+    return new ValueToString<>();
   }
 
   /** 

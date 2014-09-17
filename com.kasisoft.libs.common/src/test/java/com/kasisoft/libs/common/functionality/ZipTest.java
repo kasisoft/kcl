@@ -33,8 +33,8 @@ public class ZipTest {
   @DataProvider(name="createData")
   public Object[][] createData() {
     
-    List<Color> colors = new ArrayList<Color>();
-    List<Font>  fonts  = new ArrayList<Font>();
+    List<Color> colors = new ArrayList<>();
+    List<Font>  fonts  = new ArrayList<>();
     
     colors.add( Color.red  );
     colors.add( Color.blue );
@@ -112,7 +112,7 @@ public class ZipTest {
         style.append( "plain" );
       }
 
-      Map result = new Hashtable<String,Object>();
+      Map result = new Hashtable<>();
       result.put( KEY_RED       , Integer.valueOf( color.getRed   () ) );
       result.put( KEY_GREEN     , Integer.valueOf( color.getGreen () ) );
       result.put( KEY_BLUE      , Integer.valueOf( color.getBlue  () ) );

@@ -16,7 +16,7 @@ public class CharSequenceFacades {
   private static final Map<String,CharSequenceFacade>   FACADES;
   
   static {
-    FACADES = new Hashtable<String,CharSequenceFacade>();
+    FACADES = new Hashtable<>();
     FACADES.put( StringBuffer   . class . getName(), new StringBufferFacade   () );
     FACADES.put( StringBuilder  . class . getName(), new StringBuilderFacade  () );
     FACADES.put( String         . class . getName(), new StringFacade         () );

@@ -30,7 +30,7 @@ public final class Digest {
   private static final Map<String,Digest>   DIGESTS;
   
   static {
-    DIGESTS   = new Hashtable<String,Digest>();
+    DIGESTS   = new Hashtable<>();
     MD2       = new Digest( "MD2"     );
     MD5       = new Digest( "MD5"     );
     SHA1      = new Digest( "SHA-1"   );
@@ -57,7 +57,7 @@ public final class Digest {
       throw FailureException.newFailureException( FailureCode.Reflections, null, ex, algorithm );
     }
     name   = algorithm;
-    bucket = new Bucket<MessageDigest>( new DigestFactory( name ) );
+    bucket = new Bucket<>( new DigestFactory( name ) );
     DIGESTS.put( algorithm, this );
   }
   

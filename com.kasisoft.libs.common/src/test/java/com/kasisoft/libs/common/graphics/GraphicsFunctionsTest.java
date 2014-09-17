@@ -35,7 +35,7 @@ public class GraphicsFunctionsTest implements FilenameFilter {
   
   @DataProvider(name="createOutputFormats")
   public Object[][] createOutputFormats() {
-    List<PictureFormat> formats = new ArrayList<PictureFormat>();
+    List<PictureFormat> formats = new ArrayList<>();
     for( PictureFormat format : PictureFormat.values() ) {
       if( format.isRasterFormat() ) {
         if( (format != PictureFormat.Jpeg) || (! SystemInfo.getRunningOS().isUnixLike()) ) {

@@ -17,8 +17,8 @@ import java.awt.*;
  */
 public class SimplePropertyTest {
 
-  private static final SimpleProperty<Color> MyRequiredColor = new SimpleProperty<Color>( "required.color", new ColorAdapter(), true  ); 
-  private static final SimpleProperty<Color> MyOptionalColor = new SimpleProperty<Color>( "optional.color", new ColorAdapter(), false );
+  private static final SimpleProperty<Color> MyRequiredColor = new SimpleProperty<>( "required.color", new ColorAdapter(), true  ); 
+  private static final SimpleProperty<Color> MyOptionalColor = new SimpleProperty<>( "optional.color", new ColorAdapter(), false );
   
   @DataProvider(name="roundtripData")
   public Object[][] roundtripData() {
@@ -57,7 +57,7 @@ public class SimplePropertyTest {
   @Test(dataProvider="roundtripData",groups="all")
   public void roundtripMapForRequired( Color color ) {
     
-    Map<String,String> properties = new Hashtable<String,String>();
+    Map<String,String> properties = new Hashtable<>();
 
     // set and get the color
     MyRequiredColor.setValue( properties, color );
@@ -102,7 +102,7 @@ public class SimplePropertyTest {
   @Test(dataProvider="roundtripData",groups="all")
   public void roundtripMapForOptional( Color color ) {
     
-    Map<String,String> properties = new Hashtable<String,String>();
+    Map<String,String> properties = new Hashtable<>();
 
     // set and get the color
     MyOptionalColor.setValue( properties, color );

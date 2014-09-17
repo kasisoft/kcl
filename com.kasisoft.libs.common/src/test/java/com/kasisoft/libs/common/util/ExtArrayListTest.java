@@ -16,15 +16,15 @@ public class ExtArrayListTest {
   @Test(groups="all")
   public void newList() {
     
-    ExtArrayList<String> list1 = new ExtArrayList<String>();
+    ExtArrayList<String> list1 = new ExtArrayList<>();
     Assert.assertEquals( list1.size(), 0 );
     
-    ExtArrayList<String> list2 = new ExtArrayList<String>( Arrays.asList( "BLA", "BLUB" ) );
+    ExtArrayList<String> list2 = new ExtArrayList<>( Arrays.asList( "BLA", "BLUB" ) );
     Assert.assertEquals( list2.size(), 2 );
     Assert.assertEquals( list2.get(0), "BLA" );
     Assert.assertEquals( list2.get(1), "BLUB" );
     
-    ExtArrayList<String> list3 = new ExtArrayList<String>( "BLA", "BLUB" );
+    ExtArrayList<String> list3 = new ExtArrayList<>( "BLA", "BLUB" );
     Assert.assertEquals( list3.size(), 2 );
     Assert.assertEquals( list3.get(0), "BLA" );
     Assert.assertEquals( list3.get(1), "BLUB" );
@@ -34,7 +34,7 @@ public class ExtArrayListTest {
   @Test(groups="all")
   public void add() {
     
-    ExtArrayList<String> list1 = new ExtArrayList<String>();
+    ExtArrayList<String> list1 = new ExtArrayList<>();
     list1.add( "BLA" );
     
     list1.add( 0, "BLUB" );
@@ -61,7 +61,7 @@ public class ExtArrayListTest {
   @Test(groups="all")
   public void addSuppressNull() {
     
-    ExtArrayList<String> list = new ExtArrayList<String>( true );
+    ExtArrayList<String> list = new ExtArrayList<>( true );
     list.addAll( Arrays.asList( "BLA", "BLUB" ) );
     list.add( null );
 
@@ -72,7 +72,7 @@ public class ExtArrayListTest {
   @Test(groups="all")
   public void setSuppressNull() {
     
-    ExtArrayList<String> list = new ExtArrayList<String>( true );
+    ExtArrayList<String> list = new ExtArrayList<>( true );
     list.addAll( Arrays.asList( "BLA", "BLUB" ) );
     list.set( 0, null );
 
@@ -83,7 +83,7 @@ public class ExtArrayListTest {
   @Test(groups="all")
   public void sublist() {
     
-    ExtArrayList<String> list1 = new ExtArrayList<String>( "BLA", "BLUB", "BLAU", "KRAUT", "FROG" );
+    ExtArrayList<String> list1 = new ExtArrayList<>( "BLA", "BLUB", "BLAU", "KRAUT", "FROG" );
     List<String>         list2 = list1.subList( 1, -1 );
     Assert.assertNotNull( list2 );
     Assert.assertEquals( list2.size(), 3 );
@@ -96,7 +96,7 @@ public class ExtArrayListTest {
   @Test(groups="all")
   public void trim() {
     
-    ExtArrayList<String> list1 = new ExtArrayList<String>( null, null, null, "BLA", "BLUB", "BLAU", "KRAUT", "FROG", null, "", null );
+    ExtArrayList<String> list1 = new ExtArrayList<>( null, null, null, "BLA", "BLUB", "BLAU", "KRAUT", "FROG", null, "", null );
     list1.trim();
     Assert.assertEquals( list1.size(), 7 );
     Assert.assertEquals( list1.get(0), "BLA" );
@@ -112,10 +112,10 @@ public class ExtArrayListTest {
   @Test(groups="all")
   public void newListSuppressNull() {
     
-    ExtArrayList<String> list1 = new ExtArrayList<String>( true );
+    ExtArrayList<String> list1 = new ExtArrayList<>( true );
     Assert.assertEquals( list1.size(), 0 );
     
-    ExtArrayList<String> list2 = new ExtArrayList<String>( true, Arrays.asList( "BLA", null, null, "BLUB", null ) );
+    ExtArrayList<String> list2 = new ExtArrayList<>( true, Arrays.asList( "BLA", null, null, "BLUB", null ) );
     Assert.assertEquals( list2.size(), 2 );
     Assert.assertEquals( list2.get(0), "BLA" );
     Assert.assertEquals( list2.get(1), "BLUB" );

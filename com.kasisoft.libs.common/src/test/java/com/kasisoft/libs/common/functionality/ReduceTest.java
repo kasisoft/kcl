@@ -26,7 +26,7 @@ public class ReduceTest {
   }
   
   private List<Byte> toList( int n ) {
-    List<Byte> result = new ArrayList<Byte>();
+    List<Byte> result = new ArrayList<>();
     if( n > 0 ) {
       for( int i = 1; i <= n; i++ ) {
         result.add( Byte.valueOf( (byte) i ) );

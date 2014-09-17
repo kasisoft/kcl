@@ -25,7 +25,7 @@ public class FontPool {
    */
   public FontPool() {
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment(); 
-    fonts                   = new Hashtable<String,Font>();
+    fonts                   = new Hashtable<>();
     familynames             = ArrayFunctions.addAll( new ArrayList<String>(), env.getAvailableFontFamilyNames() );
     Font[] fontlist         = env.getAllFonts();
     for( int i = 0; i < fontlist.length; i++ ) {

@@ -47,8 +47,8 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     filepattern   = null;
     dirpattern    = null;
     progress      = new FileProgress();
-    dirreceiver   = new ProtectableList<File>();
-    filereceiver  = new ProtectableList<File>();
+    dirreceiver   = new ProtectableList<>();
+    filereceiver  = new ProtectableList<>();
     reset();
     configure( files );
   }
@@ -110,7 +110,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
    * @return   A list of all files collected by this runnable. Not <code>null</code>.
    */
   public List<File> getAllFiles() {
-    List<File> result = new ArrayList<File>();
+    List<File> result = new ArrayList<>();
     result.addAll( dirreceiver  );
     result.addAll( filereceiver );
     return result;
@@ -122,7 +122,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
    * @return   A list of files collected by this runnable. Not <code>null</code>.
    */
   public List<File> getFiles() {
-    return new ArrayList<File>( filereceiver );
+    return new ArrayList<>( filereceiver );
   }
 
   /**
@@ -131,7 +131,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
    * @return   A list of directories collected by this runnable. Not <code>null</code>.
    */
   public List<File> getDirectories() {
-    return new ArrayList<File>( dirreceiver );
+    return new ArrayList<>( dirreceiver );
   }
 
   /**

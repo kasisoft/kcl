@@ -26,7 +26,7 @@ public class Buffers<T> {
    * @param primitive   The primitive type identification. Not <code>null</code>.
    */
   private Buffers( @NonNull Primitive primitive ) {
-    allocated = new ArrayList<SoftReference<T>>();
+    allocated = new ArrayList<>();
     type      = primitive;
   }
   
@@ -92,7 +92,7 @@ public class Buffers<T> {
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
   public synchronized void release( @NonNull T data ) {
-    SoftReference<T> ref = new SoftReference<T>( data ); 
+    SoftReference<T> ref = new SoftReference<>( data ); 
     if( allocated.isEmpty() ) {
       allocated.add( ref );
     } else {

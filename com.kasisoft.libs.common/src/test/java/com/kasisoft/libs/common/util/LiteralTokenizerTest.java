@@ -46,7 +46,7 @@ public class LiteralTokenizerTest {
   @Test(dataProvider="tokenizeDataProvider", groups="all")
   public void tokenize( String input, boolean returndelimiters, String[] expected ) {
     LiteralTokenizer tokenizer = new LiteralTokenizer( input, returndelimiters, "@PART@", "@FLUPPE@" );
-    List<String>     tokens    = new ArrayList<String>();
+    List<String>     tokens    = new ArrayList<>();
     while( tokenizer.hasMoreElements() ) {
       tokens.add( tokenizer.nextElement() );
     }

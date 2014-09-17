@@ -17,7 +17,7 @@ import lombok.*;
  * interface MyProperties {
  *   
  *   ...
- *   MapProperty<URL> Website = new MapProperty<URL>( "website", new URLAdapter() );
+ *   MapProperty<URL> Website = new MapProperty<>( "website", new URLAdapter() );
  *   ...
  *   
  * }
@@ -83,7 +83,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param propertykeys   The supplied keys backing the map. Not <code>null</code>.
    */
   private void removeProperties( Set<?> propertykeys ) {
-    List<String> toremove = new ArrayList<String>( (Set<String>) propertykeys );
+    List<String> toremove = new ArrayList<>( (Set<String>) propertykeys );
     for( int i = toremove.size() - 1; i >= 0; i-- ) {
       if( ! pattern.matcher( toremove.get(i) ).matches() ) {
         toremove.remove(i);
@@ -178,7 +178,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The textual value providing the value. Maybe <code>null</code>. 
    */
   private Map<String,String> getStringValues( Map<String,String> properties ) {
-    Map<String,String> result = new HashMap<String,String>();
+    Map<String,String> result = new HashMap<>();
     for( Map.Entry<String,String> entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( entry.getKey() );
       if( matcher.matches() ) {
@@ -197,7 +197,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The textual value providing the value. Maybe <code>null</code>. 
    */
   private Map<String,String> getStringValues( Properties properties ) {
-    Map<String,String> result = new HashMap<String,String>();
+    Map<String,String> result = new HashMap<>();
     for( Map.Entry<Object,Object> entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
       if( matcher.matches() ) {
@@ -217,7 +217,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The typed values. Not <code>null</code>.
    */
   private Map<String,T> getTypedValues( Map<String,String> values, Map<String,T> defvalues ) {
-    Map<String,T> result = new HashMap<String,T>();
+    Map<String,T> result = new HashMap<>();
     if( defvalues == null ) {
       defvalues = novalues;
     } else {

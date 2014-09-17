@@ -17,8 +17,8 @@ import java.awt.*;
  */
 public class MapPropertyTest {
 
-  private static final MapProperty<Color> ColorsRequired = new MapProperty<Color>( "color.required", new ColorAdapter(), true  ); 
-  private static final MapProperty<Color> ColorsOptional = new MapProperty<Color>( "color.optional", new ColorAdapter(), false );
+  private static final MapProperty<Color> ColorsRequired = new MapProperty<>( "color.required", new ColorAdapter(), true  ); 
+  private static final MapProperty<Color> ColorsOptional = new MapProperty<>( "color.optional", new ColorAdapter(), false );
   
   @Test(groups="all")
   public void roundtripPropertiesForRequired() {
@@ -49,7 +49,7 @@ public class MapPropertyTest {
   @Test(groups="all")
   public void roundtripMapForRequired() {
     
-    Map<String,String> properties = new Hashtable<String,String>();
+    Map<String,String> properties = new Hashtable<>();
 
     Map<String,Color> value = createValues();
     
@@ -98,7 +98,7 @@ public class MapPropertyTest {
   @Test(groups="all")
   public void roundtripMapOptional() {
     
-    Map<String,String> properties = new Hashtable<String,String>();
+    Map<String,String> properties = new Hashtable<>();
 
     Map<String,Color> value = createValues();
     
@@ -119,7 +119,7 @@ public class MapPropertyTest {
   }
 
   private Map<String,Color> createValues() {
-    Map<String,Color> result = new Hashtable<String,Color>();
+    Map<String,Color> result = new Hashtable<>();
     result.put( "green"  , Color.green  );
     result.put( "blue"   , Color.blue   );
     result.put( "yellow" , Color.yellow );

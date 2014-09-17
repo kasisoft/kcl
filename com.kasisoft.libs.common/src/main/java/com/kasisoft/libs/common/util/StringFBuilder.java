@@ -29,7 +29,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    */
   public StringFBuilder() {
     origin    = new StringBuilder();
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -37,7 +37,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    */
   public StringFBuilder( int capacity ) {
     origin    = new StringBuilder( capacity );
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -45,7 +45,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    */
   public StringFBuilder( @NonNull String str ) {
     origin    = new StringBuilder( str );
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -53,7 +53,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    */
   public StringFBuilder( @NonNull CharSequence seq ) {
     origin    = new StringBuilder( seq );
-    collector = new ArrayList<String>();
+    collector = new ArrayList<>();
   }
 
   /**
@@ -782,7 +782,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    */
   public StringFBuilder replaceAll( @NonNull Pattern pattern, @NonNull String replacement ) {
     Matcher     matcher = pattern.matcher( origin );
-    List<int[]> matches = new ArrayList<int[]>();
+    List<int[]> matches = new ArrayList<>();
     while( matcher.find() ) {
       matches.add( new int[] { matcher.start(), matcher.end() } );
     }

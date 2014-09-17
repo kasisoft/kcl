@@ -17,22 +17,22 @@ import lombok.*;
  */
 public class SysProperty {
 
-  public static final SimpleProperty<List<File>> ClassPath             = new SimpleProperty<List<File>> ( "java.class.path"             , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "classpath" );
-  public static final SimpleProperty<Double>     ClassVersion          = new SimpleProperty<Double>     ( "java.class.version"          , new DoubleAdapter() ).withShortkey( "classver" );
-  public static final SimpleProperty<List<File>> EndorsedDirs          = new SimpleProperty<List<File>> ( "java.endorsed.dirs"          , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "endorsed" );
-  public static final SimpleProperty<List<File>> ExtDirs               = new SimpleProperty<List<File>> ( "java.ext.dirs"               , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "extdirs" );
-  public static final SimpleProperty<String>     FileEncoding          = new SimpleProperty<String>     ( "file.encoding"               , new StringAdapter() ).withShortkey( "encoding" );
-  public static final SimpleProperty<String>     FileSeparator         = new SimpleProperty<String>     ( "file.separator"              , new StringAdapter() ).withShortkey( "filesep" );
-  public static final SimpleProperty<File>       JavaHome              = new SimpleProperty<File>       ( "java.home"                   , new FileAdapter( true ) ).withShortkey( "jre" );
-  public static final SimpleProperty<Version>    JavaVersion           = new SimpleProperty<Version>    ( "java.version"                , new VersionAdapter( true ) ).withShortkey( "javaver" );
-  public static final SimpleProperty<String>     LineSeparator         = new SimpleProperty<String>     ( "line.separator"              , new StringAdapter() ).withShortkey( "linesep" );
-  public static final SimpleProperty<String>     OsName                = new SimpleProperty<String>     ( "os.name"                     , new StringAdapter() ).withShortkey( "os"  );
-  public static final SimpleProperty<List<File>> Path                  = new SimpleProperty<List<File>> ( "java.library.path"           , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "path" );
-  public static final SimpleProperty<Version>    RuntimeVersion        = new SimpleProperty<Version>    ( "java.runtime.version"        , new VersionAdapter( true ) ).withShortkey( "runtimever" );
-  public static final SimpleProperty<Version>    SpecificationVersion  = new SimpleProperty<Version>    ( "java.specification.version"  , new VersionAdapter( true ) ).withShortkey( "specver" );
-  public static final SimpleProperty<File>       TempDir               = new SimpleProperty<File>       ( "java.io.tmpdir"              , new FileAdapter( true ) ).withShortkey( "temp" );
-  public static final SimpleProperty<File>       UserDir               = new SimpleProperty<File>       ( "user.dir"                    , new FileAdapter( true ) ).withShortkey( "pwd" );
-  public static final SimpleProperty<File>       UserHome              = new SimpleProperty<File>       ( "user.home"                   , new FileAdapter( true ) ).withShortkey( "home" );
+  public static final SimpleProperty<List<File>> ClassPath             = new SimpleProperty<> ( "java.class.path"             , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "classpath" );
+  public static final SimpleProperty<Double>     ClassVersion          = new SimpleProperty<> ( "java.class.version"          , new DoubleAdapter() ).withShortkey( "classver" );
+  public static final SimpleProperty<List<File>> EndorsedDirs          = new SimpleProperty<> ( "java.endorsed.dirs"          , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "endorsed" );
+  public static final SimpleProperty<List<File>> ExtDirs               = new SimpleProperty<> ( "java.ext.dirs"               , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "extdirs" );
+  public static final SimpleProperty<String>     FileEncoding          = new SimpleProperty<> ( "file.encoding"               , new StringAdapter() ).withShortkey( "encoding" );
+  public static final SimpleProperty<String>     FileSeparator         = new SimpleProperty<> ( "file.separator"              , new StringAdapter() ).withShortkey( "filesep" );
+  public static final SimpleProperty<File>       JavaHome              = new SimpleProperty<> ( "java.home"                   , new FileAdapter( true ) ).withShortkey( "jre" );
+  public static final SimpleProperty<Version>    JavaVersion           = new SimpleProperty<> ( "java.version"                , new VersionAdapter( true ) ).withShortkey( "javaver" );
+  public static final SimpleProperty<String>     LineSeparator         = new SimpleProperty<> ( "line.separator"              , new StringAdapter() ).withShortkey( "linesep" );
+  public static final SimpleProperty<String>     OsName                = new SimpleProperty<> ( "os.name"                     , new StringAdapter() ).withShortkey( "os"  );
+  public static final SimpleProperty<List<File>> Path                  = new SimpleProperty<> ( "java.library.path"           , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "path" );
+  public static final SimpleProperty<Version>    RuntimeVersion        = new SimpleProperty<> ( "java.runtime.version"        , new VersionAdapter( true ) ).withShortkey( "runtimever" );
+  public static final SimpleProperty<Version>    SpecificationVersion  = new SimpleProperty<> ( "java.specification.version"  , new VersionAdapter( true ) ).withShortkey( "specver" );
+  public static final SimpleProperty<File>       TempDir               = new SimpleProperty<> ( "java.io.tmpdir"              , new FileAdapter( true ) ).withShortkey( "temp" );
+  public static final SimpleProperty<File>       UserDir               = new SimpleProperty<> ( "user.dir"                    , new FileAdapter( true ) ).withShortkey( "pwd" );
+  public static final SimpleProperty<File>       UserHome              = new SimpleProperty<> ( "user.home"                   , new FileAdapter( true ) ).withShortkey( "home" );
   
   /**
    * Returns a list of all currently supported system properties.

@@ -20,7 +20,7 @@ public class NullableComparatorTest {
   
   @BeforeMethod
   public void setup() {
-    data      = new ExtArrayList<Integer>();
+    data      = new ExtArrayList<>();
     int nulls = 0;
     while( nulls < NULLCOUNT ) {
       int irand = (int) Math.random() * 1000;

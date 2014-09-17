@@ -366,7 +366,7 @@ public class StringFunctions {
   public static <T extends CharSequence> void replace( @NonNull T buffer, @NonNull Map<String,String> replacements ) {
     CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( buffer );
     Set<String>           search = replacements.keySet();
-    Tupel<String>         key    = new Tupel<String>();
+    Tupel<String>         key    = new Tupel<>();
     int                   index  = indexOf( facade, buffer, search, key, 0 );
     while( index != -1 ) {
       String searchstr  = key.getValue();

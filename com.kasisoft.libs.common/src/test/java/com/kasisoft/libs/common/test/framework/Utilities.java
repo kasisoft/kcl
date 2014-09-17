@@ -45,9 +45,9 @@ public class Utilities {
   }
 
   public static List<File> createFileSystemStructure( File basedir ) {
-    List<File>    result    = new ArrayList<File>();
+    List<File>    result    = new ArrayList<>();
     int           count     = Math.max( (int) (Math.random() * 1000), 50 );
-    List<String>  filenames = new LinkedList<String>();
+    List<String>  filenames = new LinkedList<>();
     for( int i = 0; i < count; i++ ) {
       filenames.add( String.format( "file%04d", Integer.valueOf(i) ) );
     }
@@ -135,7 +135,7 @@ public class Utilities {
   }
   
   public static <T> List<T> toList( T ... args ) {
-    List<T> result = new ArrayList<T>();
+    List<T> result = new ArrayList<>();
     for( int i = 0; i < args.length; i++ ) {
       result.add( args[i] );
     }
@@ -143,7 +143,7 @@ public class Utilities {
   }
   
   public static List<Integer> intsToList( int ... args ) {
-    List<Integer> result = new ArrayList<Integer>();
+    List<Integer> result = new ArrayList<>();
     for( int value : args ) {
       result.add( Integer.valueOf( value ) );
     }

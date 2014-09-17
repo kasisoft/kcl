@@ -338,7 +338,7 @@ public class ArrayFunctionsTest {
   @Test(groups="all")
   public void addAll() {
     
-    List<Boolean> receiver = new ArrayList<Boolean>();
+    List<Boolean> receiver = new ArrayList<>();
     ArrayFunctions.addAll( receiver, Boolean.TRUE );
     
     Assert.assertEquals( receiver.size(), 1 );
@@ -357,7 +357,7 @@ public class ArrayFunctionsTest {
   public void enumeration() {
 
     String        str   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    List<String>  list  = new ArrayList<String>();
+    List<String>  list  = new ArrayList<>();
     for( int i = 0; i < str.length(); i++ ) {
       list.add( String.valueOf( str.charAt(i) ) );
     }
@@ -377,7 +377,7 @@ public class ArrayFunctionsTest {
   public void iterator() {
 
     String        str   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    List<String>  list  = new ArrayList<String>();
+    List<String>  list  = new ArrayList<>();
     for( int i = 0; i < str.length(); i++ ) {
       list.add( String.valueOf( str.charAt(i) ) );
     }

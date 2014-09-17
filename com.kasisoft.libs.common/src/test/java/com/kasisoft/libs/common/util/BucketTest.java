@@ -16,7 +16,7 @@ public class BucketTest {
   @Test(groups="all")
   public void runAllocations() {
     
-    Bucket<List<String>> bucket = new Bucket<List<String>>( new ListBucketFactory<String>() );
+    Bucket<List<String>> bucket = new Bucket<>( new ListBucketFactory<String>() );
 
     Assert.assertEquals( 0, bucket.getSize() );
     
@@ -41,7 +41,7 @@ public class BucketTest {
 
     @Override
     public <P extends List<T>> P create() {
-      return (P) new ArrayList<T>();
+      return (P) new ArrayList<>();
     }
 
     @Override

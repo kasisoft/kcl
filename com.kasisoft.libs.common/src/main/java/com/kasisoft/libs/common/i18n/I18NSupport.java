@@ -61,7 +61,7 @@ public class I18NSupport {
    * @return   A mapping between field names and the corresponding {@link Field} instances. Not <code>null</code>.
    */
   private static Map<String,Field> collectFields( Class<?> clazz ) {
-    Map<String,Field> result = new Hashtable<String,Field>();
+    Map<String,Field> result = new Hashtable<>();
     Field[]           fields = clazz.getDeclaredFields();
     for( Field field : fields ) {
       if( isTranslationField( field ) ) {

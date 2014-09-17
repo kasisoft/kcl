@@ -69,7 +69,7 @@ public enum MimeType {
     for( String suffix : suffices ) {
       Set<MimeType> set = LocalData.valuebysuffix.get( suffix );
       if( set == null ) {
-        set = new HashSet<MimeType>();
+        set = new HashSet<>();
         LocalData.valuebysuffix.put( suffix, set );
       }
       set.add( this );
@@ -134,8 +134,8 @@ public enum MimeType {
   
   private static class LocalData {
     
-    private static Map<String,MimeType>       valuebymimetype = new Hashtable<String,MimeType>();
-    private static Map<String,Set<MimeType>>  valuebysuffix   = new Hashtable<String,Set<MimeType>>();
+    private static Map<String,MimeType>       valuebymimetype = new Hashtable<>();
+    private static Map<String,Set<MimeType>>  valuebysuffix   = new Hashtable<>();
     
   } /* ENDCLASS */
   

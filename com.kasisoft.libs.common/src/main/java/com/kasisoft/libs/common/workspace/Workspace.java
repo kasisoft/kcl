@@ -34,7 +34,7 @@ public final class Workspace {
     settingsfile  = null;
     isnew         = false;
     properties    = new ExtProperties();
-    adapters      = new Hashtable<Class<?>,TypeAdapter>();
+    adapters      = new Hashtable<>();
     adapters.put( Rectangle.class, new RectangleAdapter( ":" ) );
   }
   

@@ -292,7 +292,7 @@ public class IoFunctionsTest {
   @Test(groups="all")
   public void writeText() {
     
-    List<String> lines = new ArrayList<String>();
+    List<String> lines = new ArrayList<>();
     lines.add( "FRED" );
     lines.add( "FLINTSTONES" );
     lines.add( "ANIMAL" );

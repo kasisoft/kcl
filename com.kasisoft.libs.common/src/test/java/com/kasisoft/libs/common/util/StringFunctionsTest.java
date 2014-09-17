@@ -215,7 +215,7 @@ public class StringFunctionsTest {
   
   @Test(groups="all")
   public void replaceMap() {
-    Map<String,String> replacements = new Hashtable<String,String>();
+    Map<String,String> replacements = new Hashtable<>();
     replacements.put( "__name__"    , "Daniel Kasmeroglu" );
     replacements.put( "__company__" , "Kasisoft"          );
     String result = StringFunctions.replace( "The pseudo company __company__ is driven by __name__ [__company__]", replacements );
@@ -224,7 +224,7 @@ public class StringFunctionsTest {
 
   @Test(groups="all")
   public void replaceString() {
-    Map<String,String> replacements = new Hashtable<String,String>();
+    Map<String,String> replacements = new Hashtable<>();
     replacements.put( "__name__"    , "Daniel Kasmeroglu" );
     replacements.put( "__company__" , "Kasisoft"          );
     String result = StringFunctions.replace( "The pseudo company __company__ is driven by __name__ [__company__]", "__company__", "Kasisoft" );

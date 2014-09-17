@@ -18,8 +18,8 @@ import java.awt.*;
  */
 public class ListPropertyTest {
 
-  private static final ListProperty<Color> ColorsRequired = new ListProperty<Color>( "color.required", new ColorAdapter(), true  ); 
-  private static final ListProperty<Color> ColorsOptional = new ListProperty<Color>( "color.optional", new ColorAdapter(), false );
+  private static final ListProperty<Color> ColorsRequired = new ListProperty<>( "color.required", new ColorAdapter(), true  ); 
+  private static final ListProperty<Color> ColorsOptional = new ListProperty<>( "color.optional", new ColorAdapter(), false );
   
   @Test(groups="all")
   public void roundtripPropertiesForRequired() {
@@ -46,7 +46,7 @@ public class ListPropertyTest {
   @Test(groups="all")
   public void roundtripMapForRequired() {
     
-    Map<String,String> properties = new Hashtable<String,String>();
+    Map<String,String> properties = new Hashtable<>();
 
     List<Color> value = createValues();
     
@@ -87,7 +87,7 @@ public class ListPropertyTest {
   @Test(groups="all")
   public void roundtripMapOptional() {
     
-    Map<String,String> properties = new Hashtable<String,String>();
+    Map<String,String> properties = new Hashtable<>();
 
     List<Color> value = createValues();
     
@@ -104,7 +104,7 @@ public class ListPropertyTest {
   }
 
   private List<Color> createValues() {
-    List<Color> result = new ArrayList<Color>();
+    List<Color> result = new ArrayList<>();
     result.add( Color.green  );
     result.add( Color.blue   );
     result.add( Color.yellow );

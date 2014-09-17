@@ -77,7 +77,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
   }
 
   protected List<T> unmarshalListImpl( @NonNull String[] v ) throws Exception {
-    List<T> result = new ArrayList<T>();
+    List<T> result = new ArrayList<>();
     for( int i = 0; i < v.length; i++ ) {
       result.add( elementadapter.unmarshal( v[i] ) );
     }

@@ -17,7 +17,7 @@ import lombok.*;
  * interface MyProperties {
  *   
  *   ...
- *   ListProperty<URL> Website = new ListProperty<URL>( "website", new URLAdapter() );
+ *   ListProperty<URL> Website = new ListProperty<>( "website", new URLAdapter() );
  *   ...
  *   
  * }
@@ -80,7 +80,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param propertykeys   The supplied keys backing the map. Not <code>null</code>.
    */
   private void removeProperties( @NonNull Set<?> propertykeys ) {
-    List<String> toremove = new ArrayList<String>( (Set<String>) propertykeys );
+    List<String> toremove = new ArrayList<>( (Set<String>) propertykeys );
     for( int i = toremove.size() - 1; i >= 0; i-- ) {
       if( ! pattern.matcher( toremove.get(i) ).matches() ) {
         toremove.remove(i);
@@ -151,7 +151,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The textual value providing the value. Maybe <code>null</code>. 
    */
   private List<String> getStringValues( Map<String,String> properties ) {
-    Map<Integer,String> result = new Hashtable<Integer,String>();
+    Map<Integer,String> result = new Hashtable<>();
     for( Map.Entry<String,String> entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( entry.getKey() );
       if( matcher.matches() ) {
@@ -159,9 +159,9 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
         result.put( index, StringFunctions.cleanup( entry.getValue() ) );
       }
     }
-    List<Integer> sorted = new ArrayList<Integer>( result.keySet() );
+    List<Integer> sorted = new ArrayList<>( result.keySet() );
     Collections.sort( sorted );
-    List<String>  list   = new ArrayList<String>();
+    List<String>  list   = new ArrayList<>();
     for( int i = 0; i < sorted.size(); i++ ) {
       list.add( result.get( sorted.get(i) ) );
     }
@@ -176,7 +176,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The textual value providing the value. Maybe <code>null</code>. 
    */
   private List<String> getStringValues( Properties properties ) {
-    Map<Integer,String> result = new Hashtable<Integer,String>();
+    Map<Integer,String> result = new Hashtable<>();
     for( Map.Entry<Object,Object> entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
       if( matcher.matches() ) {
@@ -184,9 +184,9 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
         result.put( index, StringFunctions.cleanup( (String) entry.getValue() ) );
       }
     }
-    List<Integer> sorted = new ArrayList<Integer>( result.keySet() );
+    List<Integer> sorted = new ArrayList<>( result.keySet() );
     Collections.sort( sorted );
-    List<String>  list   = new ArrayList<String>();
+    List<String>  list   = new ArrayList<>();
     for( int i = 0; i < sorted.size(); i++ ) {
       list.add( result.get( sorted.get(i) ) );
     }

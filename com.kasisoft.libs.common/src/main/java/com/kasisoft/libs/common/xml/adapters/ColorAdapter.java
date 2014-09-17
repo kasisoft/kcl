@@ -42,7 +42,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
    */
   public ColorAdapter( SimpleErrorHandler handler, String defval1, Color defval2 ) {
     super( handler, defval1, defval2 );
-    colors          = new Hashtable<String,Color>();
+    colors          = new Hashtable<>();
     Field[] fields  = Color.class.getFields();
     for( Field field : fields ) {
       try {

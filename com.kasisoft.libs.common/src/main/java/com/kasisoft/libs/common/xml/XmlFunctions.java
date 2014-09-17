@@ -30,8 +30,8 @@ import lombok.*;
  */
 public final class XmlFunctions {
 
-  private static final Map<String, String> XML2NORMAL = new Hashtable<String, String>();
-  private static final Map<String, String> NORMAL2XML = new Hashtable<String, String>();
+  private static final Map<String, String> XML2NORMAL = new Hashtable<>();
+  private static final Map<String, String> NORMAL2XML = new Hashtable<>();
   
   static {
     
@@ -403,7 +403,7 @@ public final class XmlFunctions {
     NodeList childnodes = parent.getChildNodes();
     if( (childnodes != null) && (childnodes.getLength() > 0) ) {
       Set<String>   tagnames = MiscFunctions.toSet( relevant );
-      List<Element> result   = new ArrayList<Element>( childnodes.getLength() );
+      List<Element> result   = new ArrayList<>( childnodes.getLength() );
       for( int i = 0; i < childnodes.getLength(); i++ ) {
         Node current = childnodes.item(i);
         if( current.getNodeType() == Node.ELEMENT_NODE ) {

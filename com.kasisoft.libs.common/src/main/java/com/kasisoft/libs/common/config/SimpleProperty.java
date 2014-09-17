@@ -14,7 +14,7 @@ import lombok.*;
  * interface MyProperties {
  *   
  *   ...
- *   SimpleProperty<URL> Website = new SimpleProperty<URL>( "website", new URLAdapter() );
+ *   SimpleProperty<URL> Website = new SimpleProperty<>( "website", new URLAdapter() );
  *   ...
  *   
  * }

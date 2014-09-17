@@ -22,7 +22,7 @@ public class Bucket<T> {
    * @param type   The type that should be used for the creation. Not <code>null</code>.
    */
   public Bucket( @NonNull Class<T> type ) {
-    this( new DefaultBucketFactory<T>( type ) );
+    this( new DefaultBucketFactory<>( type ) );
   }
   
   /**
@@ -31,7 +31,7 @@ public class Bucket<T> {
    * @param bucketfactory   The factory that will be used to create/reset new objects. Not <code>null</code>.
    */
   public Bucket( @NonNull BucketFactory<T> bucketfactory ) {
-    references  = new LinkedList<SoftReference<T>>();
+    references  = new LinkedList<>();
     factory     = bucketfactory;
   }
   
@@ -72,7 +72,7 @@ public class Bucket<T> {
    */
   public void free( T object ) {
     synchronized( references ) {
-      references.add( new SoftReference<T>( factory.reset( object ) ) );
+      references.add( new SoftReference<>( factory.reset( object ) ) );
     }
   }
 

@@ -139,7 +139,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Byte> asList( @NonNull byte ... values ) {
-    List<Byte> result = new ArrayList<Byte>( values.length );
+    List<Byte> result = new ArrayList<>( values.length );
     for( byte v : values ) {
       result.add( Byte.valueOf(v) );
     }
@@ -154,7 +154,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Short> asList( @NonNull short ... values ) {
-    List<Short> result = new ArrayList<Short>( values.length );
+    List<Short> result = new ArrayList<>( values.length );
     for( short v : values ) {
       result.add( Short.valueOf(v) );
     }
@@ -169,7 +169,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Integer> asList( @NonNull int ... values ) {
-    List<Integer> result = new ArrayList<Integer>( values.length );
+    List<Integer> result = new ArrayList<>( values.length );
     for( int v : values ) {
       result.add( Integer.valueOf(v) );
     }
@@ -184,7 +184,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Long> asList( @NonNull long ... values ) {
-    List<Long> result = new ArrayList<Long>( values.length );
+    List<Long> result = new ArrayList<>( values.length );
     for( long v : values ) {
       result.add( Long.valueOf(v) );
     }
@@ -199,7 +199,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Float> asList( @NonNull float ... values ) {
-    List<Float> result = new ArrayList<Float>( values.length );
+    List<Float> result = new ArrayList<>( values.length );
     for( float v : values ) {
       result.add( Float.valueOf(v) );
     }
@@ -214,7 +214,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Double> asList( @NonNull double ... values ) {
-    List<Double> result = new ArrayList<Double>( values.length );
+    List<Double> result = new ArrayList<>( values.length );
     for( double v : values ) {
       result.add( Double.valueOf(v) );
     }
@@ -229,7 +229,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Boolean> asList( @NonNull boolean ... values ) {
-    List<Boolean> result = new ArrayList<Boolean>( values.length );
+    List<Boolean> result = new ArrayList<>( values.length );
     for( boolean v : values ) {
       result.add( Boolean.valueOf(v) );
     }
@@ -244,7 +244,7 @@ public class ArrayFunctions {
    * @return   A list of objects. Not <code>null</code>.
    */
   public static List<Character> asList( @NonNull char ... values ) {
-    List<Character> result = new ArrayList<Character>( values.length );
+    List<Character> result = new ArrayList<>( values.length );
     for( char v : values ) {
       result.add( Character.valueOf(v) );
     }
@@ -949,7 +949,7 @@ public class ArrayFunctions {
    * @return   The enumeration which is used to traverse the array.
    */
   public static <T> Enumeration<T> enumeration( @NonNull T ... input ) {
-    return new ArrayTraversal<T>( input );
+    return new ArrayTraversal<>( input );
   }
 
   /**
@@ -960,7 +960,7 @@ public class ArrayFunctions {
    * @return   The Iterator which is used to traverse the array.
    */
   public static <T> Iterator<T> iterator( @NonNull T ... input ) {
-    return new ArrayTraversal<T>( input );
+    return new ArrayTraversal<>( input );
   }
   
   /**

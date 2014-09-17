@@ -100,7 +100,7 @@ public class VersionTest {
   }
   
   private List<Version> asList( Version ... versions ) {
-    List<Version> result = new ArrayList<Version>();
+    List<Version> result = new ArrayList<>();
     for( int i = 0; i < versions.length; i++ ) {
       result.add( versions[i] );
     }

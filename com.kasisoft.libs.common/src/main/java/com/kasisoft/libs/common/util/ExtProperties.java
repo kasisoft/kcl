@@ -106,15 +106,15 @@ public class ExtProperties {
     propkeyselector     = Pattern.compile( "^\\s*[\\w\\.]+\\s*\\[\\s*[\\w\\.]+\\s*\\]\\s*$" );
     splitter            = Pattern.compile( "[\\s\\[\\]]+" );
     emptyisnull         = false;
-    names               = new HashSet<String>();
-    indexed             = new Hashtable<String,Map<Integer,PropertyValue>>();
-    associated          = new Hashtable<String,Map<String,PropertyValue>>();
-    simple              = new HashMap<String,PropertyValue>();
-    lines               = new ArrayList<String>();
-    pair                = new Tupel<String>();
+    names               = new HashSet<>();
+    indexed             = new Hashtable<>();
+    associated          = new Hashtable<>();
+    simple              = new HashMap<>();
+    lines               = new ArrayList<>();
+    pair                = new Tupel<>();
     generalreplacements = setupGeneralReplacements();
     handler             = null;
-    typeadapters        = new Hashtable<String,TypeAdapter>();
+    typeadapters        = new Hashtable<>();
   }
   
   public void registerTypeAdapter( @NonNull String key, @NonNull TypeAdapter adapter ) {
@@ -132,7 +132,7 @@ public class ExtProperties {
    */
   private Map<String,String> setupGeneralReplacements() {
     
-    Map<String,String> result       = new Hashtable<String,String>();
+    Map<String,String> result       = new Hashtable<>();
     
     // record the env entries
     Map<String,String> environment  = System.getenv();
@@ -350,7 +350,7 @@ public class ExtProperties {
   public synchronized void setIndexedProperty( @NonNull String key, int index, String value ) {
     Map<Integer,PropertyValue> values = indexed.get( key );
     if( values == null ) {
-      values = new HashMap<Integer,PropertyValue>();
+      values = new HashMap<>();
       indexed.put( key, values );
     }
     Integer indexobj = Integer.valueOf( index );
@@ -369,7 +369,7 @@ public class ExtProperties {
   public synchronized void setAssociatedProperty( @NonNull String key, @NonNull String association, String value ) {
     Map<String,PropertyValue> values = associated.get( key );
     if( values == null ) {
-      values = new HashMap<String,PropertyValue>();
+      values = new HashMap<>();
       associated.put( key, values );
     }
     String keyname = String.format( formatter, key, association, "", "" );
@@ -437,7 +437,7 @@ public class ExtProperties {
     Map<Integer,PropertyValue> map = indexed.get( key );
     if( map != null ) {
       // get a list of the entries first
-      List<Map.Entry<Integer,PropertyValue>> values = new ArrayList<Map.Entry<Integer,PropertyValue>>( map.entrySet() );
+      List<Map.Entry<Integer,PropertyValue>> values = new ArrayList<>( map.entrySet() );
       // now sort them according to the indexes
       Collections.sort( values, MiscFunctions.newKeyComparator( Integer.class ) );
       // now map them, since we're only interested in the values
@@ -675,10 +675,10 @@ public class ExtProperties {
    */
   private void storeLines() {
     
-    List<String> newlines = new ArrayList<String>();
+    List<String> newlines = new ArrayList<>();
     
     // these are the property names currently available
-    Set<String>  undone   = new HashSet<String>( names );
+    Set<String>  undone   = new HashSet<>( names );
     for( int i = 0; i < lines.size(); i++ ) {
       
       String line = lines.get(i);
@@ -772,7 +772,7 @@ public class ExtProperties {
       // nothing to be done here
       return;
     }
-    List<Map.Entry<T,PropertyValue>> list = new ArrayList<Map.Entry<T,PropertyValue>>( map.entrySet() );
+    List<Map.Entry<T,PropertyValue>> list = new ArrayList<>( map.entrySet() );
     Collections.sort( list, MiscFunctions.newKeyComparator( type ) );
     for( int i = 0; i < list.size(); i++ ) {
       PropertyValue value = list.get(i).getValue();
@@ -949,7 +949,7 @@ public class ExtProperties {
       if( delete ) {
         // each resolved property value goes into this map. the first resolving starts the
         // process. this is necessary to prevent endless loop due to cyclic references
-        pthis.propertyvalues = new HashMap<String,String>();
+        pthis.propertyvalues = new HashMap<>();
       }
       // originally set the identity value so '${bla}' would be substituted by '${bla}' in each
       // triggered call.
