@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
+import com.kasisoft.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -23,21 +25,23 @@ public class FileAdapterTest {
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {
+    String path = Utilities.getTestdataDir().getAbsolutePath().replace( '\\', '/' );
     return new Object[][] {
-      { null                 , null                            },
-      { "testdata\\http.xsd" , new File( "testdata/http.xsd" ) },
-      { "testdata/http.xsd"  , new File( "testdata/http.xsd" ) },
-      { "testdata\\bibo.txt" , new File( "testdata/bibo.txt" ) },
-      { "testdata/bibo.txt"  , new File( "testdata/bibo.txt" ) },
+      { null                                   , null                                   },
+      { String.format( "%s\\http.xsd" , path ) , Utilities.getTestdataDir( "http.xsd" ) },
+      { String.format( "%s/http.xsd"  , path ) , Utilities.getTestdataDir( "http.xsd" ) },
+      { String.format( "%s\\bibo.txt" , path ) , Utilities.getTestdataDir( "bibo.txt" ) },
+      { String.format( "%s/bibo.txt"  , path ) , Utilities.getTestdataDir( "bibo.txt" ) },
     };
   }
 
   @DataProvider(name="createMarshalling")
   public Object[][] createMarshalling() {
+    String path = Utilities.getTestdataDir().getAbsolutePath().replace( '\\', '/' );
     return new Object[][] {
-      { null                            , null               },
-      { new File( "testdata/http.xsd" ) , "testdata/http.xsd" },
-      { new File( "testdata/bibo.txt" ) , "testdata/bibo.txt" },
+      { null                                   , null                                 },
+      { Utilities.getTestdataDir( "http.xsd" ) , String.format( "%s/http.xsd", path ) },
+      { Utilities.getTestdataDir( "bibo.txt" ) , String.format( "%s/bibo.txt", path ) },
     };
   }
 

@@ -10,6 +10,7 @@ package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.sys.*;
+import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
 
@@ -31,7 +32,7 @@ public class GraphicsFunctionsTest implements FilenameFilter {
   
   @BeforeTest
   public void setup() {
-    images          = new File( "testdata/images" );
+    images          = Utilities.getTestdataDir( "images" );
     Assert.assertTrue( images.isDirectory() );
     inputfiles      = images.listFiles( this );
     Assert.assertNotNull( inputfiles );

@@ -8,6 +8,8 @@
  */
 package com.kasisoft.libs.common.xml.adapters;
 
+import com.kasisoft.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
 import org.testng.*;
@@ -25,19 +27,20 @@ public class PathAdapterTest {
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {
+    String path = Utilities.getTestdataDir().getAbsolutePath().replace( '\\', '/' );
     return new Object[][] {
-      { null                 , null                            },
-      { "testdata\\http.xsd" , asList( new File( "testdata/http.xsd" ) ) },
-      { "testdata/http.xsd"  , asList( new File( "testdata/http.xsd" ) ) },
-      { "testdata\\bibo.txt" , asList( new File( "testdata/bibo.txt" ) ) },
-      { "testdata/bibo.txt"  , asList( new File( "testdata/bibo.txt" ) ) },
+      { null                                   , null                                             },
+      { String.format( "%s\\http.xsd" , path ) , asList( Utilities.getTestdataDir( "http.xsd" ) ) },
+      { String.format( "%s/http.xsd"  , path ) , asList( Utilities.getTestdataDir( "http.xsd" ) ) },
+      { String.format( "%s\\bibo.txt" , path ) , asList( Utilities.getTestdataDir( "bibo.txt" ) ) },
+      { String.format( "%s/bibo.txt"  , path ) , asList( Utilities.getTestdataDir( "bibo.txt" ) ) },
       { 
-        "testdata\\http.xsd;testdata/http.xsd;testdata\\bibo.txt;testdata/bibo.txt", 
+        String.format( "%s\\http.xsd;%s/http.xsd;%s\\bibo.txt;%s/bibo.txt", path, path, path, path ), 
         asList( 
-          new File( "testdata/http.xsd" ),
-          new File( "testdata/http.xsd" ),
-          new File( "testdata/bibo.txt" ), 
-          new File( "testdata/bibo.txt" )
+          Utilities.getTestdataDir( "http.xsd" ),
+          Utilities.getTestdataDir( "http.xsd" ),
+          Utilities.getTestdataDir( "bibo.txt" ), 
+          Utilities.getTestdataDir( "bibo.txt" )
         ) 
       },
     };
@@ -45,11 +48,12 @@ public class PathAdapterTest {
 
   @DataProvider(name="createMarshalling")
   public Object[][] createMarshalling() {
+    String path = Utilities.getTestdataDir().getAbsolutePath().replace( '\\', '/' );
     return new Object[][] {
       { null                                       , null               },
-      { asList( new File( "testdata/http.xsd"  ) ) , "testdata/http.xsd" },
-      { asList( new File( "testdata\\bibo.txt" ) ) , "testdata/bibo.txt" },
-      { asList( new File( "testdata\\bibo.txt" ),  new File( "testdata/http.xsd" ) ), "testdata/bibo.txt;testdata/http.xsd" },
+      { asList( Utilities.getTestdataDir( "http.xsd" ) ) , path + "/http.xsd" },
+      { asList( Utilities.getTestdataDir( "bibo.txt" ) ) , path + "/bibo.txt" },
+      { asList( Utilities.getTestdataDir( "bibo.txt" ),  Utilities.getTestdataDir( "http.xsd" ) ), String.format( "%s/bibo.txt;%s/http.xsd", path, path ) },
     };
   }
   

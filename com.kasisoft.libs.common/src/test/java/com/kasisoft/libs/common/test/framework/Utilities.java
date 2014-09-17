@@ -10,7 +10,11 @@ package com.kasisoft.libs.common.test.framework;
 
 import com.kasisoft.libs.common.io.*;
 
+import org.testng.*;
+
 import java.util.*;
+
+import java.net.*;
 
 import java.io.*;
 
@@ -19,10 +23,33 @@ import java.io.*;
  */
 public class Utilities {
   
+  @SuppressWarnings("null")
   public static File getTestdataDir() {
-    return new File( "testdata" );
+    URL location = null;
+    try {
+      Enumeration<URL> locations = Utilities.class.getClassLoader().getResources( "testdata" );
+      while( locations.hasMoreElements() ) {
+        location = locations.nextElement();
+        break;
+      }
+      Assert.assertNotNull( location );
+      return new File( location.toURI() );
+    } catch( Exception ex ) {
+      Assert.fail( ex.getLocalizedMessage(), ex );
+      return null;
+    }
   }
-  
+
+  public static File getTestdataDir( String path ) {
+    File dir = getTestdataDir();
+    try {
+      return new File( dir, path );
+    } catch( Exception ex ) {
+      Assert.fail( ex.getLocalizedMessage(), ex );
+      return null;
+    }
+  }
+
   public static List<File> createFileSystemStructure( File basedir ) {
     List<File>    result    = new ArrayList<File>();
     int           count     = Math.max( (int) (Math.random() * 1000), 50 );
