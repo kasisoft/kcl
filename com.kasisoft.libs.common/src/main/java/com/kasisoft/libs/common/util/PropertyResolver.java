@@ -36,7 +36,11 @@ public class PropertyResolver {
     resolveddata  = new HashMap<>();
   }
 
-  public String getProperty( @NonNull String key ) {
+  public synchronized String[] getPropertyNames() {
+    return data.keySet().toArray( new String[ data.size() ] );
+  }
+  
+  public synchronized String getProperty( @NonNull String key ) {
     if( resolveddata.containsKey( key ) ) {
       return resolveddata.get( key );
     }
@@ -45,29 +49,44 @@ public class PropertyResolver {
     return result;
   }
   
-  public PropertyResolver withFormat( @NonNull String newformat ) {
+  public synchronized String getProperty( @NonNull String key, String defvalue ) {
+    String result = getProperty( key );
+    if( result == null ) {
+      result = defvalue;
+    }
+    return result;
+  }
+  
+  public synchronized void setProperty( @NonNull String key, String value ) {
+    if( resolveddata.containsKey( key ) ) {
+      resolveddata.remove( key );
+    }
+    data.put( key, value );
+  }
+  
+  public synchronized PropertyResolver withFormat( @NonNull String newformat ) {
     format = newformat;
     resolveddata.clear();
     return this;
   }
   
-  public PropertyResolver withSystemSubstitutions() {
+  public synchronized PropertyResolver withSystemSubstitutions() {
     return withSubstitutions( System.getProperties() );
   }
 
-  public PropertyResolver withSubstitutions( @NonNull Properties properties ) {
+  public synchronized PropertyResolver withSubstitutions( @NonNull Properties properties ) {
     substitutions = ConfigurationHelper.quoteKeys( ConfigurationHelper.createReplacementMap( properties, format, null ) );
     resolveddata.clear();
     return this;
   }
 
-  public PropertyResolver withSubstitutions( @NonNull Map<String,String> properties ) {
+  public synchronized PropertyResolver withSubstitutions( @NonNull Map<String,String> properties ) {
     substitutions = ConfigurationHelper.quoteKeys( ConfigurationHelper.createReplacementMap( properties, format, null ) );
     resolveddata.clear();
     return this;
   }
 
-  public PropertyResolver load( @NonNull String resourcepath ) throws IOException {
+  public synchronized PropertyResolver load( @NonNull String resourcepath ) throws IOException {
     Enumeration<URL> resources = classloader.getResources( resourcepath );
     while( resources.hasMoreElements() ) {
       URL resource = resources.nextElement();
@@ -76,12 +95,12 @@ public class PropertyResolver {
     return this;
   }
   
-  public PropertyResolver load( @NonNull File file ) throws IOException {
+  public synchronized PropertyResolver load( @NonNull File file ) throws IOException {
     loadSetting( file.toURI().toURL() );
     return this;
   }
 
-  public PropertyResolver load( @NonNull Properties properties ) {
+  public synchronized PropertyResolver load( @NonNull Properties properties ) {
     putResolvedProperties( properties );
     return this;
   }
