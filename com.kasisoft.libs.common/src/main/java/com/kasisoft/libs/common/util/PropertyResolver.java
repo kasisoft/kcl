@@ -101,7 +101,7 @@ public class PropertyResolver {
   }
 
   public synchronized PropertyResolver load( @NonNull Properties properties ) {
-    putResolvedProperties( properties );
+    putProperties( properties );
     return this;
   }
 
@@ -110,10 +110,10 @@ public class PropertyResolver {
     try( Reader reader   = Encoding.UTF8.openReader( resource ) ) {
       newprops.load( reader );
     }
-    putResolvedProperties( newprops );
+    putProperties( newprops );
   }
   
-  private void putResolvedProperties( Properties properties ) {
+  private void putProperties( Properties properties ) {
     Enumeration<String> names = (Enumeration<String>) properties.propertyNames();
     while( names.hasMoreElements() ) {
       String name = names.nextElement();
