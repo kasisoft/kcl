@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.util;
 
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.constants.*;
 
 import org.testng.annotations.*;
@@ -42,6 +44,24 @@ public class PropertyResolverTest {
   }
 
   @Test(groups="all")
+  public void resolveFromMap() {
+    
+    Map<String,String>  properties   = new HashMap<>();
+    
+    Properties          sysprops     = System.getProperties();
+    
+    String     firstname    = (String) sysprops.propertyNames().nextElement();
+    String     originalval  = String.format( "BEGIN-${%s}-END", firstname );
+    properties.put( "property", originalval );
+    
+    resolver.load( properties );
+    
+    String     resolvedval  = String.format( "BEGIN-%s-END", System.getProperty( firstname ) );
+    Assert.assertEquals( resolver.getProperty( "property" ), resolvedval );
+    
+  }
+
+  @Test(groups="all")
   public void resolveFromClasspathResource() throws Exception {
     
     resolver.load( "propertyresolver.properties" );
@@ -51,6 +71,10 @@ public class PropertyResolverTest {
     
     Assert.assertEquals( resolver.getProperty( "my_file_encoding" ), resolvedval );
     
+    assertNull( resolver.getProperty( "unavailable_value" ) );
+    
   }
+  
+  
 
 } /* ENDCLASS */
