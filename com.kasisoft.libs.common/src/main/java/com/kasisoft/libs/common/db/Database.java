@@ -21,6 +21,7 @@ public enum Database {
   postgresql  ( "org.postgresql.Driver"                         , "SELECT 1" ),
   sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1" );
 
+  @Getter
   private String    driver;
   private boolean   active;
   private String    alive;
