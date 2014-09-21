@@ -470,6 +470,22 @@ public class MiscFunctions {
     }
     return result;
   }
+  
+  public static <T> List<T> createGuards( @NonNull List<T> list, Class<T> guardingclass ) {
+    List<T> result = new ArrayList<>();
+    if( ! list.isEmpty() ) {
+      try {
+        T              first       = list.get(0);
+        Constructor<T> constructor = guardingclass.getConstructor( first.getClass() );
+        for( T element : list ) {
+          result.add( constructor.newInstance( element ) );
+        }
+      } catch( NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex ) {
+        throw FailureException.newFailureException( FailureCode.Reflections, ex );
+      }
+    }
+    return result;
+  }
 
   /**
    * Returns <code>true</code> if the supplied year is a leap year.
