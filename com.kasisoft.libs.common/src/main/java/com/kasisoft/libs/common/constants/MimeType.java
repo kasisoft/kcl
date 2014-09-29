@@ -5,11 +5,12 @@ import java.util.*;
 import lombok.*;
 
 /**
- * @ks.spec [13-Jan-2014:KASI]   http://de.selfhtml.org/diverses/mimetypen.htm
+ * @ks.spec [30-Sep-2014:KASI]    http://de.selfhtml.org/diverses/mimetypen.htm
+ * @ks.spec [30-Sep-2014:KASI]    http://www.ietf.org/rfc/rfc4627.txt
  * 
- * Alternate and more official: @ks.spec [13-Jan-2014:KASI]   http://www.iana.org/assignments/media-types
+ * Alternate and more official: @ks.spec [30-Jan-2014:KASI]   http://www.iana.org/assignments/media-types
  * 
- * @ks.note [13-Jan-2014:KASI]   Not all types have been used here.
+ * @ks.note [30-Sep-2014:KASI]   Not all types have been used here.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
@@ -51,7 +52,8 @@ public enum MimeType {
   MicrosoftRTF                ( "text/rtf"                      , "rtf"                               ),  // Microsoft RTF
   TabSeparatedValues          ( "text/tab-separated-values"     , "tsv"                               ),  // tabulator-separated files
   Xml                         ( "text/xml"                      , "xml"                               ),  // xml files
-  Sgml                        ( "text/x-sgml"                   , "sgm", "sgml"                       );  // SGML-files
+  Sgml                        ( "text/x-sgml"                   , "sgm", "sgml"                       ),  // SGML-files
+  Json                        ( "application/json"              , "json"                              );  // JSON-files
 
   static {
     for( Map.Entry<String,Set<MimeType>> entry : LocalData.valuebysuffix.entrySet() ) {
