@@ -380,12 +380,11 @@
     </plugins>
   </reporting>
   
-  <!--
   <distributionManagement>
     <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <id>kasisoft-snapshots</id>
+      <name>kasisoft-snapshots</name>
+      <url>https://kasisoft.com/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
     <repository>
       <id>sonatype-nexus-staging</id>
@@ -393,6 +392,5 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-  -->
   
 </project>
