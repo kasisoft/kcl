@@ -36,7 +36,11 @@ import lombok.*;
  * </ul>
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [06-Oct-2014:KASI]   This class will be removed in favor of the property handling of the 
+ *                                  <code>config</code> package.
  */
+@Deprecated
 public class ExtProperties {
   
   private static final String PREFIX_ENV    = "env:";
@@ -1011,6 +1015,7 @@ public class ExtProperties {
       
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public String toString() {
       return evaluate();
