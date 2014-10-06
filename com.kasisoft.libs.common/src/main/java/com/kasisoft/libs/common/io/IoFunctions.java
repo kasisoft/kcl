@@ -252,7 +252,7 @@ public class IoFunctions {
         if( read > 0 ) {
           output.write( data, 0, read );
         }
-        read = input.read( buffer );
+        read = input.read( data );
       }
     } catch( IOException ex ) {
       throw FailureException.newFailureException( FailureCode.IO, ex );
