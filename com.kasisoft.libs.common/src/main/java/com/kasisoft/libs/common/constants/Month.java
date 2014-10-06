@@ -37,7 +37,7 @@ public enum Month {
   /**
    * Initialises this constant.
    * 
-   * @param jre     The month contstant within the JRE.
+   * @param jre     The month constant within the JRE.
    * @param days    The number of days.
    */
   Month( int jre, int days ) {
