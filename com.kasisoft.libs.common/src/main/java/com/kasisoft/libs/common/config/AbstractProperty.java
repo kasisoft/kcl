@@ -20,6 +20,11 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
   @Getter private TypeAdapter<String,T>   adapter;
   @Getter private boolean                 required;
   @Getter private String                  description;
+  
+  /**
+   * @deprecated [06-Oct-2014:KASI]   This key abbreviation will be removed without a substitute starting with version 1.5 .
+   */
+  @Deprecated
   @Getter private String                  shortkey;
   
   /**
@@ -65,7 +70,10 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param newshortkey   The new shortkey for this property. Maybe <code>null</code>.
    * 
    * @return   this
+   * 
+   * @deprecated [06-Oct-2014:KASI]   Will be removed without a substitute beginning with version 1.5.
    */
+  @Deprecated
   public C withShortkey( String newshortkey ) {
     shortkey = StringFunctions.cleanup( newshortkey );
     return (C) this;
@@ -100,20 +108,30 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param key          The key used to access the value. Neither <code>null</code> nor empty.
    * 
    * @return   The property value. Maybe <code>null</code>.
+   * 
+   * @deprecated [06-Oct-2014:KASI]   Will be removed with version 1.5.
    */
+  @Deprecated
   protected String getProperty( Object props, boolean properties, @NonNull String key ) {
+    return getProperty( (Map<?,?>) props, key );
+  }
+
+  /**
+   * Returns the value of a property.
+   * 
+   * @param props        The properties instance. Maybe <code>null</code>.
+   * @param key          The key used to access the value. Neither <code>null</code> nor empty.
+   * 
+   * @return   The property value. Maybe <code>null</code>.
+   */
+  protected String getProperty( Map<?,?> props, @NonNull String key ) {
     String result = null;
     if( props != null ) {
-      if( properties ) {
-        result = ((Properties) props).getProperty( key );
-      } else {
-        result = ((Map<String,String>) props).get( key );
-      }
-      result = cleanup( result );
+      result = cleanup( (String) props.get( key ) );
     }
     return result;
   }
-  
+
   /**
    * Makes sure that the supplied String is either <code>null</code> or not empty. The text will be trimmed so there 
    * won't be any whitespace at the beginning or the end (except for line delimiters).
@@ -122,7 +140,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * 
    * @return   <code>null</code> or a non-empty String.
    */
-  private String cleanup( String input ) {
+  protected String cleanup( String input ) {
     if( input != null ) {
       input = StringFunctions.trim( input, " \t", null );
       if( input.length() == 0 ) {
@@ -139,21 +157,27 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param properties   <code>true</code> <=> We're dealing with a Properties type here. 
    * @param key          The key used to access the value. Neither <code>null</code> nor empty.
    * @param value        The new value for the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [06-Oct-2014:KASI]   Will be removed with version 1.5+.
    */
+  @Deprecated
   protected void setProperty( Object props, boolean properties, @NonNull String key, T value ) {
+    setProperty( (Map) props, key, value );
+  }
+
+  /**
+   * Changes the value of a property.
+   * 
+   * @param props   The properties instance. Maybe <code>null</code>.
+   * @param key     The key used to access the value. Neither <code>null</code> nor empty.
+   * @param value   The new value for the property. Maybe <code>null</code>.
+   */
+  protected void setProperty( Map props, @NonNull String key, T value ) {
     if( props != null ) {
       if( value == null ) {
-        if( properties ) {
-          ((Properties) props).remove( key );
-        } else {
-          ((Map<String,String>) props).remove( key );
-        }
+        props.remove( key );
       } else {
-        if( properties ) {
-          ((Properties) props).setProperty( key, getAdapter().marshal( value ) );
-        } else {
-          ((Map<String,String>) props).put( key, getAdapter().marshal( value ) );
-        }
+        props.put( key, getAdapter().marshal( value ) );
       }
     }
   }
