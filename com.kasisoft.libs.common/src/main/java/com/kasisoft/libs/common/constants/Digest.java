@@ -17,7 +17,7 @@ import lombok.*;
 public final class Digest {
   
   /**
-   * @ks.spec [19-Jan-2014:KASI]   http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest
+   * @ks.spec [06-Oct-2014:KASI]   http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest
    */
   
   public static final Digest   MD2;

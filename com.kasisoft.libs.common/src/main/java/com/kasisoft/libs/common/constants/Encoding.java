@@ -19,7 +19,7 @@ import lombok.*;
 public final class Encoding {
   
   /**
-   * @ks.spec [14-Jan-2014:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
+   * @ks.spec [06-Oct-2014:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
    */
   
   public static final Encoding ASCII;

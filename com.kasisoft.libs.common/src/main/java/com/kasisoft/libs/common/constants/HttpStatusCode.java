@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.constants;
 /**
  * Collection of HTTP stastus codes.
  * 
- * @ks.spec [13-Jan-2014:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
+ * @ks.spec [06-Oct-2014:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
