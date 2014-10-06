@@ -210,7 +210,11 @@ public class IoFunctions {
    * @param size   The size of the buffer if set. <code>null</code> means to use a default value.
    * 
    * @return   The buffer itself. Not <code>null</code>.
+   * 
+   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5 and should be replaced by the 
+   *                                  corresponding implementation.
    */
+  @Deprecated
   public static byte[] allocateBytes( Integer size ) {
     return Primitive.PByte.<byte[]>getBuffers().allocate( size );
   }
@@ -219,7 +223,11 @@ public class IoFunctions {
    * Releases the supplied buffer so it can be reused later.
    * 
    * @param buffer   The buffer which has to be released. Not <code>null</code>.
+   * 
+   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5 and should be replaced by the 
+   *                                  corresponding implementation.
    */
+  @Deprecated
   public static void releaseBytes( @NonNull byte[] buffer ) {
     Primitive.PByte.<byte[]>getBuffers().release( buffer );
   }
@@ -234,11 +242,23 @@ public class IoFunctions {
    * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
-    ByteCopierRunnable runnable = new ByteCopierRunnable( buffer );
-    runnable.configure( input, output );
-    runnable.run();
-    if( ! runnable.hasCompleted() ) {
-      throw FailureException.newFailureException( FailureCode.IO );
+    byte[] data = buffer;
+    if( buffer == null ) {
+      data = allocateBytes( null );
+    }
+    try {
+      int read = input.read( data );
+      while( read != -1 ) {
+        if( read > 0 ) {
+          output.write( data, 0, read );
+        }
+        read = input.read( buffer );
+      }
+    } catch( IOException ex ) {
+      throw FailureException.newFailureException( FailureCode.IO, ex );
+    }
+    if( buffer == null ) {
+      releaseBytes( data );
     }
   }
 
@@ -264,12 +284,9 @@ public class IoFunctions {
    * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
-    ByteCopierRunnable runnable = new ByteCopierRunnable( buffersize );
-    runnable.configure( input, output );
-    runnable.run();
-    if( ! runnable.hasCompleted() ) {
-      throw FailureException.newFailureException( FailureCode.IO );
-    }
+    byte[] buffer = allocateBytes( buffersize );
+    copy( input, output, buffer );
+    releaseBytes( buffer );
   }
 
   /**
@@ -343,11 +360,23 @@ public class IoFunctions {
    * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull Reader input, @NonNull Writer output, char[] buffer ) {
-    CharCopierRunnable runnable = new CharCopierRunnable( buffer );
-    runnable.configure( input, output );
-    runnable.run();
-    if( ! runnable.hasCompleted() ) {
-      throw FailureException.newFailureException( FailureCode.IO );
+    char[] data = buffer;
+    if( buffer == null ) {
+      data = (char[]) Primitive.PChar.getBuffers().allocate();
+    }
+    try {
+      int read = input.read( data );
+      while( read != -1 ) {
+        if( read > 0 ) {
+          output.write( data, 0, read );
+        }
+        read = input.read( data );
+      }
+    } catch( IOException ex ) {
+      throw FailureException.newFailureException( FailureCode.IO, ex );
+    }
+    if( buffer == null ) {
+      Primitive.PChar.getBuffers().release( data );
     }
   }
 
@@ -373,12 +402,9 @@ public class IoFunctions {
    * @throws FailureException whenever the copying failed for some reason.
    */
   public static void copy( @NonNull Reader input, @NonNull Writer output, Integer buffersize ) {
-    CharCopierRunnable runnable = new CharCopierRunnable( buffersize );
-    runnable.configure( input, output );
-    runnable.run();
-    if( ! runnable.hasCompleted() ) {
-      throw FailureException.newFailureException( FailureCode.IO );
-    }
+    char[] buffer = (char[]) Primitive.PChar.getBuffers().allocate( buffersize );
+    copy( input, output, buffer );
+    Primitive.PChar.getBuffers().release( buffer );
   }
 
   /**
