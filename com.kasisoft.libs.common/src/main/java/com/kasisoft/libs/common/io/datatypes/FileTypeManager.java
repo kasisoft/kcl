@@ -26,14 +26,7 @@ public class FileTypeManager {
    */
   public FileTypeManager() {
     recognizers = MiscFunctions.loadSPIServices( FileType.class );
-    Collections.sort( recognizers, new Comparator<FileType>() {
-      @Override
-      public int compare( FileType f1, FileType f2 ) {
-        Integer i1 = Integer.valueOf( f1.getMinSize());
-        Integer i2 = Integer.valueOf( f2.getMinSize() );
-        return i2.compareTo(i1);
-      }
-    });
+    Collections.sort( recognizers, new FileTypeBySizeComparator() );
     if( ! recognizers.isEmpty() ) {
       maxspace = recognizers.get(0).getMinSize();
     } else {
@@ -95,5 +88,16 @@ public class FileTypeManager {
     }
     return null;
   }
+  
+  private static class FileTypeBySizeComparator implements Comparator<FileType> {
+
+    @Override
+    public int compare( FileType f1, FileType f2 ) {
+      Integer i1 = Integer.valueOf( f1.getMinSize());
+      Integer i2 = Integer.valueOf( f2.getMinSize() );
+      return i2.compareTo(i1);
+    }
+    
+  } /* ENDCLASS */
   
 } /* ENDCLASS */
