@@ -59,6 +59,7 @@ public class ByteCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
+  @SuppressWarnings("deprecation") 
   @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class}, groups="all")
   public void copyFailingRunnable( byte[] data, Integer buffersize ) {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
@@ -77,6 +78,7 @@ public class ByteCopierRunnableTest {
     Assert.fail();
   }
 
+  @SuppressWarnings("deprecation") 
   @Test(dataProvider="createDataBlocks", groups="all")
   public void copyFailingThread( byte[] data, Integer buffersize ) throws InterruptedException {
     ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );

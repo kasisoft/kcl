@@ -63,6 +63,7 @@ public class CharCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
+  @SuppressWarnings("deprecation") 
   @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class}, groups="all")
   public void copyFailingRunnable( char[] data, Integer buffersize ) {
     CharArrayReader    charin   = new CharArrayReader( data );
@@ -81,6 +82,7 @@ public class CharCopierRunnableTest {
     Assert.fail();
   }
 
+  @SuppressWarnings("deprecation") 
   @Test(dataProvider="createDataBlocks", groups="all")
   public void copyFailingThread( char[] data, Integer buffersize ) throws InterruptedException {
     CharArrayReader    charin   = new CharArrayReader( data );
