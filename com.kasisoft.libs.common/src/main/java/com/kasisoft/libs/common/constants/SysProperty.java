@@ -76,9 +76,12 @@ public class SysProperty {
    * @param format     A formatting String with one %s format code. This is used in order to support various key 
    *                   formats. Neither <code>null</code> nor empty.
    * @param shortkey   <code>true</code> <=> Use the short key representation to create the key.
+   *                   @deprecated [06-Oct-2014:KASI]   The <param>shortkey</param> will be dropped beginning with 
+   *                                                    version 1.5.
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
+  @Deprecated
   public static Map<String,String> createReplacementMap( @NonNull String format, boolean shortkey ) {
     Map<String,String> result = new Hashtable<String,String>();
     for( SimpleProperty sysprop : SysProperty.values() ) {
