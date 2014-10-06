@@ -17,21 +17,52 @@ import lombok.*;
  */
 public class SysProperty {
 
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<List<File>> ClassPath             = new SimpleProperty<> ( "java.class.path"             , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "classpath" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<Double>     ClassVersion          = new SimpleProperty<> ( "java.class.version"          , new DoubleAdapter() ).withShortkey( "classver" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<List<File>> EndorsedDirs          = new SimpleProperty<> ( "java.endorsed.dirs"          , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "endorsed" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<List<File>> ExtDirs               = new SimpleProperty<> ( "java.ext.dirs"               , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "extdirs" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<String>     FileEncoding          = new SimpleProperty<> ( "file.encoding"               , new StringAdapter() ).withShortkey( "encoding" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<String>     FileSeparator         = new SimpleProperty<> ( "file.separator"              , new StringAdapter() ).withShortkey( "filesep" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<File>       JavaHome              = new SimpleProperty<> ( "java.home"                   , new FileAdapter( true ) ).withShortkey( "jre" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<Version>    JavaVersion           = new SimpleProperty<> ( "java.version"                , new VersionAdapter( true ) ).withShortkey( "javaver" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<String>     LineSeparator         = new SimpleProperty<> ( "line.separator"              , new StringAdapter() ).withShortkey( "linesep" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<String>     OsName                = new SimpleProperty<> ( "os.name"                     , new StringAdapter() ).withShortkey( "os"  );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<List<File>> Path                  = new SimpleProperty<> ( "java.library.path"           , new PathAdapter( File.pathSeparator, true ) ).withShortkey( "path" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<Version>    RuntimeVersion        = new SimpleProperty<> ( "java.runtime.version"        , new VersionAdapter( true ) ).withShortkey( "runtimever" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<Version>    SpecificationVersion  = new SimpleProperty<> ( "java.specification.version"  , new VersionAdapter( true ) ).withShortkey( "specver" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<File>       TempDir               = new SimpleProperty<> ( "java.io.tmpdir"              , new FileAdapter( true ) ).withShortkey( "temp" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<File>       UserDir               = new SimpleProperty<> ( "user.dir"                    , new FileAdapter( true ) ).withShortkey( "pwd" );
+
+  @SuppressWarnings("deprecation")
   public static final SimpleProperty<File>       UserHome              = new SimpleProperty<> ( "user.home"                   , new FileAdapter( true ) ).withShortkey( "home" );
   
   /**
@@ -81,6 +112,7 @@ public class SysProperty {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
+  @SuppressWarnings("deprecation")
   @Deprecated
   public static Map<String,String> createReplacementMap( @NonNull String format, boolean shortkey ) {
     Map<String,String> result = new Hashtable<String,String>();
