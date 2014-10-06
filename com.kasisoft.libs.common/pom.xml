@@ -322,8 +322,15 @@
             </property>
           </properties>
           <systemPropertyVariables>
-            <java.io.tmpdir>${java.io.tmpdir}</java.io.tmpdir>
+            <java.io.tmpdir>/opsi</java.io.tmpdir>
+            <TMP>/apsi</TMP>
+            <TEMP>/upsi</TEMP>
           </systemPropertyVariables>
+          <environmentVariables>
+            <java.io.tmpdir>/lpsi</java.io.tmpdir>
+            <TMP>/jpsi</TMP>
+            <TEMP>/kpsi</TEMP>
+          </environmentVariables>
         </configuration>
       </plugin>
       
