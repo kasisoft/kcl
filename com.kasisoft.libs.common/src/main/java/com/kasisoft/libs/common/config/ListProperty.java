@@ -96,13 +96,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
   public void setValue( @NonNull Map<String,String> properties, List<T> newvalue ) {
-    removeProperties( properties.keySet() );
-    if( newvalue != null ) {
-      for( int i = 0; i < newvalue.size(); i++ ) {
-        String key = String.format( "%s[%s]", getKey(), Integer.valueOf(i) );
-        setProperty( properties, false, key, newvalue.get(i) );
-      }
-    }
+    setValueImpl( properties, newvalue );
   }
 
   /**
@@ -112,15 +106,25 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
   public void setValue( @NonNull Properties properties, List<T> newvalue ) {
-    removeProperties( properties.keySet() );
+    setValueImpl( properties, newvalue );
+  }
+
+  /**
+   * Applies the supplied values to the properties.
+   * 
+   * @param props       The properties instance that will be updated. Not <code>null</code>.
+   * @param newvalue    The new value to be set. Maybe <code>null</code>.
+   */
+  private void setValueImpl( Map props, List<T> newvalue ) {
+    removeProperties( props.keySet() );
     if( newvalue != null ) {
       for( int i = 0; i < newvalue.size(); i++ ) {
         String key = String.format( "%s[%s]", getKey(), Integer.valueOf(i) );
-        setProperty( properties, true, key, newvalue.get(i) );
+        setProperty( props, key, newvalue.get(i) );
       }
     }
   }
-
+  
   /**
    * Returns the current value provided by the supplied properties.
    * 
@@ -129,7 +133,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public List<T> getValue( @NonNull Map<String,String> properties ) {
-    return getTypedValues( getStringValues( properties ) );
+    return getTypedValues( getValues( properties ) );
   }
 
   /**
@@ -140,44 +144,19 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public List<T> getValue( @NonNull Properties properties ) {
-    return getTypedValues( getStringValues( properties ) );
+    return getTypedValues( getValues( properties ) );
   }
 
   /**
-   * Returns the textual value provided by the supplied properties (falls back to the system properties).
+   * Returns the list values provided with the supplied map.
    * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
+   * @param map   The map which provides the properties. Not <code>null</code>.
    * 
-   * @return   The textual value providing the value. Maybe <code>null</code>. 
+   * @return  The list values. Not <code>null</code>.
    */
-  private List<String> getStringValues( Map<String,String> properties ) {
+  private List<String> getValues( Map<?,?> map ) {
     Map<Integer,String> result = new Hashtable<>();
-    for( Map.Entry<String,String> entry : properties.entrySet() ) {
-      Matcher matcher = pattern.matcher( entry.getKey() );
-      if( matcher.matches() ) {
-        Integer index = Integer.valueOf( matcher.group(2) );
-        result.put( index, StringFunctions.cleanup( entry.getValue() ) );
-      }
-    }
-    List<Integer> sorted = new ArrayList<>( result.keySet() );
-    Collections.sort( sorted );
-    List<String>  list   = new ArrayList<>();
-    for( int i = 0; i < sorted.size(); i++ ) {
-      list.add( result.get( sorted.get(i) ) );
-    }
-    return list;
-  }
-
-  /**
-   * Returns the textual value provided by the supplied properties (falls back to the system properties).
-   * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
-   * 
-   * @return   The textual value providing the value. Maybe <code>null</code>. 
-   */
-  private List<String> getStringValues( Properties properties ) {
-    Map<Integer,String> result = new Hashtable<>();
-    for( Map.Entry<Object,Object> entry : properties.entrySet() ) {
+    for( Map.Entry entry : map.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
       if( matcher.matches() ) {
         Integer index = Integer.valueOf( matcher.group(2) );

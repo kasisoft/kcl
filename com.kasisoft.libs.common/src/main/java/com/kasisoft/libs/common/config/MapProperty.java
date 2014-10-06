@@ -99,13 +99,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
   public void setValue( @NonNull Map<String,String> properties, Map<String,T> newvalue ) {
-    removeProperties( properties.keySet() );
-    if( newvalue != null ) {
-      for( Map.Entry<String,T> entry : newvalue.entrySet() ) {
-        String key = String.format( "%s[%s]", getKey(), entry.getKey() );
-        setProperty( properties, false, key, entry.getValue() );
-      }
-    }
+    setValueImpl( properties, newvalue );
   }
 
   /**
@@ -115,15 +109,19 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
   public void setValue( @NonNull Properties properties, Map<String,T> newvalue ) {
-    removeProperties( properties.keySet() );
+    setValueImpl( properties, newvalue );
+  }
+
+  private void setValueImpl( Map props, Map<String,T> newvalue ) {
+    removeProperties( props.keySet() );
     if( newvalue != null ) {
       for( Map.Entry<String,T> entry : newvalue.entrySet() ) {
         String key = String.format( "%s[%s]", getKey(), entry.getKey() );
-        setProperty( properties, true, key, entry.getValue() );
+        setProperty( props, key, entry.getValue() );
       }
     }
   }
-
+  
   /**
    * Returns the current value provided by the supplied properties.
    * 
@@ -155,7 +153,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public Map<String,T> getValue( @NonNull Map<String,String> properties, Map<String,T> defvalue ) {
-    return getTypedValues( getStringValues( properties ), defvalue );
+    return getTypedValues( getValues( properties ), defvalue );
   }
 
   /**
@@ -167,38 +165,19 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public Map<String,T> getValue( @NonNull Properties properties, Map<String,T> defvalue ) {
-    return getTypedValues( getStringValues( properties ), defvalue );
+    return getTypedValues( getValues( properties ), defvalue );
   }
 
   /**
-   * Returns the textual value provided by the supplied properties (falls back to the system properties).
+   * Returns the map value provided by the supplied properties.
    * 
    * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
    * 
-   * @return   The textual value providing the value. Maybe <code>null</code>. 
+   * @return   The map value providing the content. Not <code>null</code>. 
    */
-  private Map<String,String> getStringValues( Map<String,String> properties ) {
+  private Map<String,String> getValues( Map<?,?> properties ) {
     Map<String,String> result = new HashMap<>();
-    for( Map.Entry<String,String> entry : properties.entrySet() ) {
-      Matcher matcher = pattern.matcher( entry.getKey() );
-      if( matcher.matches() ) {
-        String key  = matcher.group(2);
-        result.put( key, StringFunctions.cleanup( entry.getValue() ) );
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Returns the textual value provided by the supplied properties (falls back to the system properties).
-   * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
-   * 
-   * @return   The textual value providing the value. Maybe <code>null</code>. 
-   */
-  private Map<String,String> getStringValues( Properties properties ) {
-    Map<String,String> result = new HashMap<>();
-    for( Map.Entry<Object,Object> entry : properties.entrySet() ) {
+    for( Map.Entry entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
       if( matcher.matches() ) {
         String key  = matcher.group(2);

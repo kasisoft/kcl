@@ -106,7 +106,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
   public void setValue( @NonNull Map<String,String> properties, T newvalue ) {
-    setProperty( properties, false, getKey(), newvalue );
+    setProperty( properties, getKey(), newvalue );
   }
 
   /**
@@ -116,7 +116,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
   public void setValue( @NonNull Properties properties, T newvalue ) {
-    setProperty( properties, true, getKey(), newvalue );
+    setProperty( properties, getKey(), newvalue );
   }
 
   /**
@@ -127,7 +127,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( @NonNull Map<String,String> properties ) {
-    return checkForResult( getTypedValue( getProperty( properties, false, getKey() ), getDefaultValue() ) );
+    return checkForResult( getTypedValue( getProperty( properties, getKey() ), getDefaultValue() ) );
   }
   
   /**
@@ -138,7 +138,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( @NonNull Properties properties ) {
-    return checkForResult( getTypedValue( getProperty( properties, true, getKey() ), getDefaultValue() ) );
+    return checkForResult( getTypedValue( getProperty( properties, getKey() ), getDefaultValue() ) );
   }
 
   /**
@@ -150,11 +150,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( @NonNull Map<String,String> properties, T defvalue ) {
-    T result = getTypedValue( getProperty( properties, false, getKey() ), defvalue );
-    if( result == null ) {
-      result = getDefaultValue();
-    }
-    return checkForResult( result );
+    return getValueImpl( properties, defvalue );
   }
   
   /**
@@ -166,7 +162,11 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public T getValue( @NonNull Properties properties, T defvalue ) {
-    T result = getTypedValue( getProperty( properties, true, getKey() ), defvalue );
+    return getValueImpl( properties, defvalue );
+  }
+  
+  private T getValueImpl( Map properties, T defvalue ) {
+    T result = getTypedValue( getProperty( properties, getKey() ), defvalue );
     if( result == null ) {
       result = getDefaultValue();
     }
@@ -181,7 +181,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one. Maybe <code>null</code>.
    */
   public String getTextualValue( @NonNull Properties properties ) {
-    return getProperty( properties, true, getKey() );
+    return getProperty( properties, getKey() );
   }
 
   /**
@@ -192,7 +192,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   The value if there was one. Maybe <code>null</code>.
    */
   public String getTextualValue( @NonNull Map<String,String> properties ) {
-    return getProperty( properties, false, getKey() );
+    return getProperty( properties, getKey() );
   }
 
   private T checkForResult( T result ) {
