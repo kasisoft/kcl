@@ -16,7 +16,7 @@
   <version>1.4-SNAPSHOT</version>
 
   <name>KCL :: Kasisoft Common Library</name>
-  <url>https://kasisoft.com/software/kasisoftcommon.html</url>
+  <!-- url>https://kasisoft.com/software/kasisoftcommon.html</url -->
   <description>Collection of general purpose functionalities.</description>
   
   <licenses>
@@ -33,8 +33,8 @@
   
   <scm>
     <url>https://kasisoft.com/stash/projects/LIBS/repos/kasisoft-common</url>
-    <connection>scm:git:ssh://daniel.kasmeroglu@kasisoft.com:7999/libs/kasisoft-common.git</connection>
-    <developerConnection>scm:git:ssh://daniel.kasmeroglu@kasisoft.com:7999/libs/kasisoft-common.git</developerConnection>
+    <connection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</connection>
+    <developerConnection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</developerConnection>
   </scm>
   
   <issueManagement>
@@ -44,7 +44,7 @@
   
   <ciManagement>
     <system>Jenkins</system>
-    <url>https://kasisoft.com/jenkins/job/kasisoftcommon/</url>
+    <url>https://kasisoft.com/ci/job/libs.kasisoftcommon/</url>
   </ciManagement>
   
   <developers>
@@ -381,16 +381,19 @@
   </reporting>
   
   <distributionManagement>
+  
     <snapshotRepository>
       <id>kasisoft-snapshots</id>
       <name>kasisoft-snapshots</name>
       <url>https://kasisoft.com/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
+    
     <repository>
       <id>sonatype-nexus-staging</id>
       <name>Nexus Release Repository</name>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
+    
   </distributionManagement>
   
 </project>
