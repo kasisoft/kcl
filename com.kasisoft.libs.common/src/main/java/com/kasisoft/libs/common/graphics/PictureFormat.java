@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.constants.*;
 
+import lombok.*;
+
 /**
  * Collection of constants used to identify image formats.
  * 
@@ -16,23 +18,16 @@ public enum PictureFormat {
   Ps      ( false , MimeType.Postscript             , null  ),
   Svg     ( false , MimeType.Svg                    , null  );
   
-  private boolean    raster;
-  private MimeType   mimetype;
+  @Getter
+  private boolean    rasterFormat;
+  private MimeType   mimeType;
+  
   private String     imageio;
   
   PictureFormat( boolean israster, MimeType mime, String iioname ) {
-    raster    = israster;
-    mimetype  = mime;
-    imageio   = iioname;
-  }
-  
-  /**
-   * Returns <code>true</code> if this format is a raster format.
-   * 
-   * @return   <code>true</code> <=> This format is a raster format.
-   */
-  public boolean isRasterFormat() {
-    return raster;
+    rasterFormat  = israster;
+    mimeType      = mime;
+    imageio       = iioname;
   }
   
   /**
@@ -41,7 +36,7 @@ public enum PictureFormat {
    * @return   The mime type associated with this picture format. Not <code>null</code>.
    */
   public MimeType getMimeType() {
-    return mimetype;
+    return mimeType;
   }
   
   /**
