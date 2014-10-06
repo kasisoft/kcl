@@ -224,7 +224,11 @@ public final class Encoding {
    * Returns the default encoding.
    * 
    * @return   The default encoding. Not <code>null</code>.
+   * 
+   * @deprecated   [06-Oct-2014:KASI]   This function will be removed with version 1.5+. It shall be substituted by the
+   *                                    value UTF8.
    */
+  @Deprecated
   public static Encoding getDefault() {
     return UTF8;
   }
@@ -241,7 +245,7 @@ public final class Encoding {
    */
   public static Reader openReader( @NonNull File file, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().openReader( file );
+      return UTF8.openReader( file );
     } else {
       return encoding.openReader( file );
     }
