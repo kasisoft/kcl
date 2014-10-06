@@ -170,17 +170,17 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
   /**
    * Returns the map value provided by the supplied properties.
    * 
-   * @param properties   The properties providing the current configuration. Maybe <code>null</code>.
+   * @param map   The properties providing the current configuration. Maybe <code>null</code>.
    * 
    * @return   The map value providing the content. Not <code>null</code>. 
    */
-  private Map<String,String> getValueImpl( Map<?,?> properties ) {
+  private Map<String,String> getValueImpl( Map<?,?> map ) {
     Map<String,String> result = new Hashtable<>();
-    for( Map.Entry entry : properties.entrySet() ) {
-      Matcher matcher = pattern.matcher( (String) entry.getKey() );
+    for( Object propkey : map.keySet() ) {
+      Matcher matcher = pattern.matcher( (String) propkey );
       if( matcher.matches() ) {
         String key    = matcher.group(2);
-        String value  = cleanup( (String) entry.getValue() );
+        String value  = getProperty( map, (String) propkey );
         if( value != null ) {
           result.put( key, value );
         }

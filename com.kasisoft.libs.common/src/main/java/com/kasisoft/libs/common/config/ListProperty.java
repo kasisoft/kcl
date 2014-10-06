@@ -155,11 +155,11 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    */
   private List<String> getValueImpl( Map<?,?> map ) {
     Map<Integer,String> result = new Hashtable<>();
-    for( Map.Entry entry : map.entrySet() ) {
-      Matcher matcher = pattern.matcher( (String) entry.getKey() );
+    for( Object propkey : map.keySet() ) {
+      Matcher matcher = pattern.matcher( (String) propkey );
       if( matcher.matches() ) {
         Integer index = Integer.valueOf( matcher.group(2) );
-        String  value = cleanup( (String) entry.getValue() );
+        String  value = getProperty( map, (String) propkey );
         if( value != null ) {
           result.put( index, value );
         }
