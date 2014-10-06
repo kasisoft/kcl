@@ -229,7 +229,7 @@ public final class XmlFunctions {
     TransformerFactory factory = TransformerFactory.newInstance();
     try {
       if( encoding == null ) {
-        encoding = Encoding.getDefault();
+        encoding = Encoding.UTF8;
       }
       String      method      = "xml";
       Document    document    = node.getOwnerDocument();

@@ -32,11 +32,6 @@ public class EncodingTest {
     Assert.assertNotNull( Encoding.values() );
   }
 
-  @Test(groups="all")
-  public void getDefault() {
-    Assert.assertNotNull( Encoding.getDefault() );
-  }
-
   @DataProvider(name="valueByNameData")
   public Object[][] valueByNameData() {
     return new Object[][] {

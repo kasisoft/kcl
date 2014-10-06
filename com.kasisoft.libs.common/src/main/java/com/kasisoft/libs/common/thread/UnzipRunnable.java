@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
 
 import java.util.*;
@@ -48,7 +49,7 @@ public class UnzipRunnable extends AbstractRunnable {
   @Override
   protected void execute() {
     
-    byte[] buffer  = IoFunctions.allocateBytes( buffersize );
+    byte[] buffer  = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
     ZipFile zipfile = null;
     try {
 
@@ -87,7 +88,7 @@ public class UnzipRunnable extends AbstractRunnable {
     } catch( IOException  ex ) {
       handleIOFailure( ex );
     } finally {
-      IoFunctions.releaseBytes( buffer );
+      Primitive.PByte.<byte[]>getBuffers().release( buffer );
     }
     
   }

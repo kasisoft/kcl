@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
 
 import java.util.zip.*;
@@ -49,14 +50,14 @@ public class ZipRunnable extends AbstractRunnable {
   @Override
   protected void execute() {
     try( ZipOutputStream zipout = new ZipOutputStream( IoFunctions.newOutputStream( zipfile ) ) ) {
-      buffer = IoFunctions.allocateBytes( buffersize );
+      buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
       zipout.setMethod( ZipOutputStream.DEFLATED );
       zipout.setLevel(9);
       packDir( zipout, "", sourcedir );
     } catch( IOException ex ) {
       handleIOFailure( ex );
     } finally {
-      IoFunctions.releaseBytes( buffer );
+      Primitive.PByte.<byte[]>getBuffers().release( buffer );
       buffer = null;
     }
   }

@@ -58,25 +58,25 @@ public class IoFunctionsTest {
   public void allocateAndRelease() {
     
     Integer defaultsize = CommonProperty.BufferCount.getValue( System.getProperties() );
-    byte[]  data1       = IoFunctions.allocateBytes( null );
+    byte[]  data1       = Primitive.PByte.<byte[]>getBuffers().allocate( null );
     Assert.assertNotNull( data1 );
     Assert.assertTrue( data1.length >= defaultsize.intValue() );
 
-    IoFunctions.releaseBytes( data1 );
-    IoFunctions.releaseBytes( data1 ); // just to be sure that double release won't do any bad
+    Primitive.PByte.<byte[]>getBuffers().release( data1 );
+    Primitive.PByte.<byte[]>getBuffers().release( data1 ); // just to be sure that double release won't do any bad
     
-    byte[]  data2       = IoFunctions.allocateBytes( null );
+    byte[]  data2       = Primitive.PByte.<byte[]>getBuffers().allocate( null );
     Assert.assertNotNull( data2 );
     Assert.assertEquals( data2, data1 );
 
-    byte[]  data3       = IoFunctions.allocateBytes( Integer.valueOf( 8192 ) );
+    byte[]  data3       = Primitive.PByte.<byte[]>getBuffers().allocate( Integer.valueOf( 8192 ) );
     Assert.assertNotNull( data3 );
     Assert.assertTrue( data3.length >= 8192 );
 
-    IoFunctions.releaseBytes( data3 );
-    IoFunctions.releaseBytes( data3 ); // just to be sure that double release won't do any bad
+    Primitive.PByte.<byte[]>getBuffers().release( data3 );
+    Primitive.PByte.<byte[]>getBuffers().release( data3 ); // just to be sure that double release won't do any bad
 
-    byte[]  data4       = IoFunctions.allocateBytes( Integer.valueOf( 8192 ) );
+    byte[]  data4       = Primitive.PByte.<byte[]>getBuffers().allocate( Integer.valueOf( 8192 ) );
     Assert.assertNotNull( data4 );
     Assert.assertEquals( data4, data3 );
     
@@ -176,12 +176,12 @@ public class IoFunctionsTest {
     
     char[] data     = Utilities.createCharacterBlock();
     File   tempfile = IoFunctions.newTempFile();
-    IoFunctions.writeCharacters( tempfile, data, Encoding.getDefault() );
+    IoFunctions.writeCharacters( tempfile, data, Encoding.UTF8 );
     
-    char[] loaded1  = IoFunctions.loadChars( tempfile, null, Encoding.getDefault() );
+    char[] loaded1  = IoFunctions.loadChars( tempfile, null, Encoding.UTF8 );
     Assert.assertEquals( loaded1, data );
 
-    char[] loaded2  = IoFunctions.loadChars( tempfile, Integer.valueOf( 1024 ), Encoding.getDefault() );
+    char[] loaded2  = IoFunctions.loadChars( tempfile, Integer.valueOf( 1024 ), Encoding.UTF8 );
     Assert.assertEquals( loaded2, data );
 
     char[] loaded3  = IoFunctions.loadChars( new CharArrayReader( data ), null );
