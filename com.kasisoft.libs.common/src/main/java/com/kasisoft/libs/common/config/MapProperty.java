@@ -1,6 +1,5 @@
 package com.kasisoft.libs.common.config;
 
-import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.regex.*;
@@ -180,8 +179,11 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
     for( Map.Entry entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
       if( matcher.matches() ) {
-        String key  = matcher.group(2);
-        result.put( key, StringFunctions.cleanup( (String) entry.getValue() ) );
+        String key    = matcher.group(2);
+        String value  = cleanup( (String) entry.getValue() );
+        if( value != null ) {
+          result.put( key, value );
+        }
       }
     }
     return result;

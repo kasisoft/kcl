@@ -1,6 +1,5 @@
 package com.kasisoft.libs.common.config;
 
-import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.regex.*;
@@ -160,7 +159,10 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
       if( matcher.matches() ) {
         Integer index = Integer.valueOf( matcher.group(2) );
-        result.put( index, StringFunctions.cleanup( (String) entry.getValue() ) );
+        String  value = cleanup( (String) entry.getValue() );
+        if( value != null ) {
+          result.put( index, value );
+        }
       }
     }
     List<Integer> sorted = new ArrayList<>( result.keySet() );
