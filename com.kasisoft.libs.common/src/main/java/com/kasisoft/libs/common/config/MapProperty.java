@@ -153,7 +153,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public Map<String,T> getValue( @NonNull Map<String,String> properties, Map<String,T> defvalue ) {
-    return getTypedValues( getValues( properties ), defvalue );
+    return getTypedValues( getValueImpl( properties ), defvalue );
   }
 
   /**
@@ -165,7 +165,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public Map<String,T> getValue( @NonNull Properties properties, Map<String,T> defvalue ) {
-    return getTypedValues( getValues( properties ), defvalue );
+    return getTypedValues( getValueImpl( properties ), defvalue );
   }
 
   /**
@@ -175,7 +175,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The map value providing the content. Not <code>null</code>. 
    */
-  private Map<String,String> getValues( Map<?,?> properties ) {
+  private Map<String,String> getValueImpl( Map<?,?> properties ) {
     Map<String,String> result = new Hashtable<>();
     for( Map.Entry entry : properties.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );

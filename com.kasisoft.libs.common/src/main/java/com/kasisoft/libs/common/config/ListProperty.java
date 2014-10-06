@@ -133,7 +133,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public List<T> getValue( @NonNull Map<String,String> properties ) {
-    return getTypedValues( getValues( properties ) );
+    return getTypedValues( getValueImpl( properties ) );
   }
 
   /**
@@ -144,7 +144,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public List<T> getValue( @NonNull Properties properties ) {
-    return getTypedValues( getValues( properties ) );
+    return getTypedValues( getValueImpl( properties ) );
   }
 
   /**
@@ -154,7 +154,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * 
    * @return  The list values. Not <code>null</code>.
    */
-  private List<String> getValues( Map<?,?> map ) {
+  private List<String> getValueImpl( Map<?,?> map ) {
     Map<Integer,String> result = new Hashtable<>();
     for( Map.Entry entry : map.entrySet() ) {
       Matcher matcher = pattern.matcher( (String) entry.getKey() );
