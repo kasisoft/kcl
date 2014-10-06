@@ -8,7 +8,10 @@ import lombok.*;
  * Progress information for byte/character copying processes.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [06-Oct-2014:KASI]   This progress instance will be dropped with 1.5+.
  */
+@Deprecated
 public class CopyingProgress {
 
   private int         total;

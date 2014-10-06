@@ -13,6 +13,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
 
   private InputStream       source;
@@ -91,6 +92,7 @@ public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
     return Primitive.PByte.getBuffers();
   }
   
+  @SuppressWarnings("deprecation")
   @Override
   protected void execute() {
     

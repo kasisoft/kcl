@@ -100,7 +100,10 @@ public class UnzipRunnable extends AbstractRunnable {
    * @param dir    <code>true</code> <=> The entry is a directory.
    * @param size   If this is a file, then this is the uncompressed length of it. A value of -1 indicates that the 
    *               length is not known.
+   *               
+   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5+.
    */
+  @Deprecated
   protected void onIterationBegin( @NonNull String name, boolean dir, long size ) {
   }
 
@@ -110,7 +113,10 @@ public class UnzipRunnable extends AbstractRunnable {
    * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
    * @param dir    <code>true</code> <=> The entry is a directory.
    * @param size   If this is a file, then this is the uncompressed length of it.
+   * 
+   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5+.
    */
+  @Deprecated
   protected void onIterationEnd( @NonNull String name, boolean dir, long size ) {
   }
   

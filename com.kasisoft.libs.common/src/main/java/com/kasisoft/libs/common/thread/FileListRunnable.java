@@ -13,6 +13,7 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 public class FileListRunnable extends AbstractRunnable<FileProgress> {
 
   private static final File[] EMPTY_LIST = new File[0];
@@ -188,6 +189,7 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     return incfiles;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   protected void execute() {
     

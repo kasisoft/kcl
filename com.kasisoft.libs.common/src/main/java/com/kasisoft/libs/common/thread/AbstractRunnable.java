@@ -26,7 +26,10 @@ public abstract class AbstractRunnable<T> implements Runnable {
    * that the information will often be ignored, so this mechanism is the cheaper one.
    * 
    * @param progressinfo   The current progress information.
+   * 
+   * @deprecated [06-Oct-2014:KASI]   The progress support will be dropped with 1.5+
    */
+  @Deprecated
   protected void progress( T progressinfo ) {
   }
   

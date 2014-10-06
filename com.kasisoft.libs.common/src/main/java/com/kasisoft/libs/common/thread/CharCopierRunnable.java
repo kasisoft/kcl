@@ -13,6 +13,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
 
   private Reader            source;
@@ -91,6 +92,7 @@ public class CharCopierRunnable extends AbstractRunnable<CopyingProgress> {
     return Primitive.PChar.getBuffers();
   }
   
+  @SuppressWarnings("deprecation")
   @Override
   protected void execute() {
     

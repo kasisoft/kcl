@@ -13,6 +13,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
 
   private BufferedReader       reader;

@@ -4,7 +4,10 @@ package com.kasisoft.libs.common.thread;
  * Progress information for the line reading Runnable.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [06-Oct-2014:KASI]   This progress instance will be dropped with 1.5+.
  */
+@Deprecated
 public class LineReaderProgress {
 
   private int   total;
