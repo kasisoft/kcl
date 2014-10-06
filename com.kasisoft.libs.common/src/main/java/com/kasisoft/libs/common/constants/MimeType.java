@@ -8,7 +8,7 @@ import lombok.*;
  * @ks.spec [30-Sep-2014:KASI]    http://de.selfhtml.org/diverses/mimetypen.htm
  * @ks.spec [30-Sep-2014:KASI]    http://www.ietf.org/rfc/rfc4627.txt
  * 
- * Alternate and more official: @ks.spec [30-Jan-2014:KASI]   http://www.iana.org/assignments/media-types
+ * Alternate and more official: @ks.spec [06-Oct-2014:KASI]   http://www.iana.org/assignments/media-types
  * 
  * @ks.note [30-Sep-2014:KASI]   Not all types have been used here.
  * 
@@ -16,44 +16,44 @@ import lombok.*;
  */
 public enum MimeType {
 
-  SevenZip                    ( "application/x-7z-compressed"   , "7z"                                ),  // 7z
+  AdobePdf                    ( "application/pdf"               , "pdf"                               ),  // Adobe PDF
+  Bitmap                      ( "image/bmp"                     , "bmp"                               ),  // BMP-Files
   Bzip2                       ( "application/x-bzip"            , "bz2"                               ),  // BZIP 2
+  CascadingStylesheet         ( "text/css"                      , "css"                               ),  // cascading stylesheets
+  CommaSeparatedValues        ( "text/comma-separated-values"   , "csv"                               ),  // comma separated values
+  Dvi                         ( "application/x-dvi"             , "dvi"                               ),  // DVI
+  EncapsulatedPostscript      ( "application/eps"               , "eps"                               ),  // Encapsulated Postscript
+  Gif                         ( "image/gif"                     , "gif"                               ),  // GIF-Files
+  GnuTar                      ( "application/x-gtar"            , "gtar"                              ),  // GNU Tar
   GZip                        ( "application/gzip"              , "gz"                                ),  // GNU Zip
+  Html                        ( "text/html"                     , "htm", "html", "shtml"              ),  // HTML files
+  Icon                        ( "image/x-icon"                  , "ico"                               ),  // Icon-Files
+  Javascript                  ( "text/javascript"               , "js"                                ),  // JavaScript-Files
+  Jpeg                        ( "image/jpeg"                    , "jpeg", "jpg", "jpe"                ),  // JPEG-Files
+  Json                        ( "application/json"              , "json"                              ),  // JSON-files
+  LaTeX                       ( "application/x-latex"           , "latex", "tex"                      ),  // LaTeX
   MicrosoftExcel              ( "application/msexcel"           , "xls", "xla"                        ),  // Microsoft Excel
   MicrosoftHelp               ( "application/mshelp"            , "hlp", "chm"                        ),  // Microsoft help files
   MicrosoftPowerpoint         ( "application/mspowerpoint"      , "ppt", "ppz", "pps", "pot"          ),  // Microsoft Powerpoint
+  MicrosoftRTF                ( "text/rtf"                      , "rtf"                               ),  // Microsoft RTF
   MicrosoftWord               ( "application/msword"            , "doc", "dot"                        ),  // Microsoft Word
   OctetStream                 ( "application/octet-stream"      , "bin", "exe", "com", "dll", "class" ),  // Executable
-  AdobePdf                    ( "application/pdf"               , "pdf"                               ),  // Adobe PDF
-  EncapsulatedPostscript      ( "application/eps"               , "eps"                               ),  // Encapsulated Postscript
-  Postscript                  ( "application/postscript"        , "ai", "eps", "ps"                   ),  // Adobe Postscript
-  XhtmlXml                    ( "application/xhtml+xml"         , "htm", "html", "shtml", "xhtml"     ),  // XHTML
-  ZLib                        ( "application/x-compress"        , "z"                                 ),  // ZLib compressed files 
-  Dvi                         ( "application/x-dvi"             , "dvi"                               ),  // DVI
-  GnuTar                      ( "application/x-gtar"            , "gtar"                              ),  // GNU Tar
   Php                         ( "application/x-httpd-php"       , "php", "phtml"                      ),  // PHP
-  LaTeX                       ( "application/x-latex"           , "latex", "tex"                      ),  // LaTeX
+  Plaintext                   ( "text/plain"                    , "txt", "text"                       ),  // plain text files
+  Png                         ( "image/png"                     , "png"                               ),  // PNG-Files
+  Postscript                  ( "application/postscript"        , "ai", "eps", "ps"                   ),  // Adobe Postscript
+  SevenZip                    ( "application/x-7z-compressed"   , "7z"                                ),  // 7z
+  Sgml                        ( "text/x-sgml"                   , "sgm", "sgml"                       ),  // SGML-files
+  Svg                         ( "image/svg+xml"                 , "svg"                               ),  // Scalable vector graphics
+  TabSeparatedValues          ( "text/tab-separated-values"     , "tsv"                               ),  // tabulator-separated files
   Tar                         ( "application/x-tar"             , "tar"                               ),  // Tape-Archive
   TeX                         ( "application/x-tex"             , "tex"                               ),  // TeX
-  Zip                         ( "application/zip"               , "zip"                               ),  // ZIP archives
-  Wave                        ( "audio/x-wav"                   , "wav"                               ),  // WAV-Files
-  Bitmap                      ( "image/bmp"                     , "bmp"                               ),  // BMP-Files
-  Gif                         ( "image/gif"                     , "gif"                               ),  // GIF-Files
-  Jpeg                        ( "image/jpeg"                    , "jpeg", "jpg", "jpe"                ),  // JPEG-Files
-  Png                         ( "image/png"                     , "png"                               ),  // PNG-Files
   Tiff                        ( "image/tiff"                    , "tiff", "tif"                       ),  // TIFF-Files
-  Icon                        ( "image/x-icon"                  , "ico"                               ),  // Icon-Files
-  Svg                         ( "image/svg+xml"                 , "svg"                               ),  // Scalable vector graphics
-  CommaSeparatedValues        ( "text/comma-separated-values"   , "csv"                               ),  // comma separated values
-  CascadingStylesheet         ( "text/css"                      , "css"                               ),  // cascading stylesheets
-  Html                        ( "text/html"                     , "htm", "html", "shtml"              ),  // HTML files
-  Javascript                  ( "text/javascript"               , "js"                                ),  // JavaScript-Files
-  Plaintext                   ( "text/plain"                    , "txt", "text"                       ),  // plain text files
-  MicrosoftRTF                ( "text/rtf"                      , "rtf"                               ),  // Microsoft RTF
-  TabSeparatedValues          ( "text/tab-separated-values"     , "tsv"                               ),  // tabulator-separated files
+  Wave                        ( "audio/x-wav"                   , "wav"                               ),  // WAV-Files
+  XhtmlXml                    ( "application/xhtml+xml"         , "htm", "html", "shtml", "xhtml"     ),  // XHTML
   Xml                         ( "text/xml"                      , "xml"                               ),  // xml files
-  Sgml                        ( "text/x-sgml"                   , "sgm", "sgml"                       ),  // SGML-files
-  Json                        ( "application/json"              , "json"                              );  // JSON-files
+  Zip                         ( "application/zip"               , "zip"                               ),  // ZIP archives
+  ZLib                        ( "application/x-compress"        , "z"                                 );  // ZLib compressed files 
 
   static {
     for( Map.Entry<String,Set<MimeType>> entry : LocalData.valuebysuffix.entrySet() ) {
