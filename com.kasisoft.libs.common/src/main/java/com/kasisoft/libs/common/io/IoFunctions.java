@@ -205,34 +205,6 @@ public class IoFunctions {
   }
 
   /**
-   * Allocates some byte buffer.
-   * 
-   * @param size   The size of the buffer if set. <code>null</code> means to use a default value.
-   * 
-   * @return   The buffer itself. Not <code>null</code>.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5 and should be replaced by the 
-   *                                  corresponding implementation.
-   */
-  @Deprecated
-  public static byte[] allocateBytes( Integer size ) {
-    return Primitive.PByte.<byte[]>getBuffers().allocate( size );
-  }
-
-  /**
-   * Releases the supplied buffer so it can be reused later.
-   * 
-   * @param buffer   The buffer which has to be released. Not <code>null</code>.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5 and should be replaced by the 
-   *                                  corresponding implementation.
-   */
-  @Deprecated
-  public static void releaseBytes( @NonNull byte[] buffer ) {
-    Primitive.PByte.<byte[]>getBuffers().release( buffer );
-  }
-
-  /**
    * Copies some content from an InputStream to an OutputStream.
    * 
    * @param input    The stream providing the content. Not <code>null</code>.
@@ -244,7 +216,7 @@ public class IoFunctions {
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
     byte[] data = buffer;
     if( buffer == null ) {
-      data = allocateBytes( null );
+      data = Primitive.PByte.<byte[]>getBuffers().allocate( null );
     }
     try {
       int read = input.read( data );
@@ -258,7 +230,7 @@ public class IoFunctions {
       throw FailureException.newFailureException( FailureCode.IO, ex );
     }
     if( buffer == null ) {
-      releaseBytes( data );
+      Primitive.PByte.<byte[]>getBuffers().release( data );
     }
   }
 
@@ -284,9 +256,9 @@ public class IoFunctions {
    * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
-    byte[] buffer = allocateBytes( buffersize );
+    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
     copy( input, output, buffer );
-    releaseBytes( buffer );
+    Primitive.PByte.<byte[]>getBuffers().release( buffer );
   }
 
   /**
@@ -814,7 +786,7 @@ public class IoFunctions {
    */
   public static long crc32( @NonNull InputStream instream, CRC32 crc, Integer buffersize ) {
     crc           = crc == null ? new CRC32() : crc;
-    byte[] buffer = allocateBytes( buffersize );
+    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
     try {
       int read = instream.read( buffer );
       while( read != -1 ) {
@@ -826,7 +798,7 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw FailureException.newFailureException( FailureCode.IO, ex );
     } finally {
-      releaseBytes( buffer );
+      Primitive.PByte.<byte[]>getBuffers().release( buffer );
     }
     return crc.getValue();
   }

@@ -63,43 +63,4 @@ public class CharCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
-  @SuppressWarnings("deprecation") 
-  @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class}, groups="all")
-  public void copyFailingRunnable( char[] data, Integer buffersize ) {
-    CharArrayReader    charin   = new CharArrayReader( data );
-    CharArrayWriter    charout  = new CharArrayWriter();
-    CharCopierRunnable runnable = new CharCopierRunnable( buffersize ) {
-      @Override
-      protected void progress( CopyingProgress progress ) {
-        if( progress.getCurrent() > 10 ) {
-          throw new RuntimeException();
-        }
-      }
-    };
-    runnable.configure( charin, charout );
-    runnable.run();
-    // should not be reached as an exception is expected to occure
-    Assert.fail();
-  }
-
-  @SuppressWarnings("deprecation") 
-  @Test(dataProvider="createDataBlocks", groups="all")
-  public void copyFailingThread( char[] data, Integer buffersize ) throws InterruptedException {
-    CharArrayReader    charin   = new CharArrayReader( data );
-    CharArrayWriter    charout  = new CharArrayWriter();
-    CharCopierRunnable runnable = new CharCopierRunnable( buffersize ) {
-      @Override
-      protected void progress( CopyingProgress progress ) {
-        if( progress.getCurrent() > 10 ) {
-          throw new RuntimeException();
-        }
-      }
-    };
-    runnable.configure( charin, charout );
-    Thread thread = new Thread( runnable );
-    thread.start();
-    thread.join();
-    Assert.assertNotSame( charout.toCharArray(), data );
-  }
-
 } /* ENDCLASS */

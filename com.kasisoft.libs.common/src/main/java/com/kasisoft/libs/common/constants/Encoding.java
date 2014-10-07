@@ -221,19 +221,6 @@ public final class Encoding {
   }
   
   /**
-   * Returns the default encoding.
-   * 
-   * @return   The default encoding. Not <code>null</code>.
-   * 
-   * @deprecated   [06-Oct-2014:KASI]   This function will be removed with version 1.5+. It shall be substituted by the
-   *                                    value UTF8.
-   */
-  @Deprecated
-  public static Encoding getDefault() {
-    return UTF8;
-  }
-  
-  /**
    * Opens a Reader for a specific file using this encoding.
    * 
    * @param file       The file that has to be opened using this encoding. Must be a valid file.
@@ -263,7 +250,7 @@ public final class Encoding {
    */
   public static Reader openReader( @NonNull InputStream instream, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().openReader( instream );
+      return UTF8.openReader( instream );
     } else {
       return encoding.openReader( instream );
     }
@@ -281,7 +268,7 @@ public final class Encoding {
    */
   public static Writer openWriter( @NonNull File file, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().openWriter( file );
+      return UTF8.openWriter( file );
     } else {
       return encoding.openWriter( file );
     }
@@ -299,7 +286,7 @@ public final class Encoding {
    */
   public static Writer openWriter( @NonNull OutputStream outstream, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().openWriter( outstream );
+      return UTF8.openWriter( outstream );
     } else {
       return encoding.openWriter( outstream );
     }
@@ -317,7 +304,7 @@ public final class Encoding {
    */
   public static PrintStream openPrintStream( @NonNull File file, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().openPrintStream( file );
+      return UTF8.openPrintStream( file );
     } else {
       return encoding.openPrintStream( file );
     }
@@ -336,7 +323,7 @@ public final class Encoding {
    */
   public static PrintStream openPrintStream( @NonNull OutputStream outstream, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().openPrintStream( outstream );
+      return UTF8.openPrintStream( outstream );
     } else {
       return encoding.openPrintStream( outstream );
     }
@@ -352,7 +339,7 @@ public final class Encoding {
    */
   public static String decode( @NonNull byte[] data, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().decode( data );
+      return UTF8.decode( data );
     } else {
       return encoding.decode( data );
     }
@@ -368,7 +355,7 @@ public final class Encoding {
    */
   public static byte[] encode( @NonNull String data, Encoding encoding ) {
     if( encoding == null ) {
-      return getDefault().encode( data );
+      return UTF8.encode( data );
     } else {
       return encoding.encode( data );
     }

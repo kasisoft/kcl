@@ -27,7 +27,7 @@ import lombok.*;
  */
 public class MiscFunctions {
 
-  private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap( true );
+  private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
   
   private static final Set<String> TRUEVALUES;
   
@@ -182,7 +182,6 @@ public class MiscFunctions {
    *           
    * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> is set to <code>true</code>.
    */
-  @SuppressWarnings("unchecked")
   public static Object newInstance( boolean fail, @NonNull String classname, Object ... args ) {
     try {
       Class clazz = Class.forName( classname );

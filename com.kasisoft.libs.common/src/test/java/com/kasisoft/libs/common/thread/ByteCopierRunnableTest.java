@@ -59,43 +59,4 @@ public class ByteCopierRunnableTest {
     Assert.assertEquals( copied, data );
   }
 
-  @SuppressWarnings("deprecation") 
-  @Test(dataProvider="createDataBlocks", expectedExceptions={RuntimeException.class}, groups="all")
-  public void copyFailingRunnable( byte[] data, Integer buffersize ) {
-    ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
-    ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-    ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize ) {
-      @Override
-      protected void progress( CopyingProgress progress ) {
-        if( progress.getCurrent() > 10 ) {
-          throw new RuntimeException();
-        }
-      }
-    };
-    runnable.configure( bytein, byteout );
-    runnable.run();
-    // should not be reached as an exception is expected to occure
-    Assert.fail();
-  }
-
-  @SuppressWarnings("deprecation") 
-  @Test(dataProvider="createDataBlocks", groups="all")
-  public void copyFailingThread( byte[] data, Integer buffersize ) throws InterruptedException {
-    ByteArrayInputStream  bytein    = new ByteArrayInputStream( data );
-    ByteArrayOutputStream byteout   = new ByteArrayOutputStream();
-    ByteCopierRunnable    runnable  = new ByteCopierRunnable( buffersize ) {
-      @Override
-      protected void progress( CopyingProgress progress ) {
-        if( progress.getCurrent() > 10 ) {
-          throw new RuntimeException();
-        }
-      }
-    };
-    runnable.configure( bytein, byteout );
-    Thread thread = new Thread( runnable );
-    thread.start();
-    thread.join();
-    Assert.assertNotSame( byteout.toByteArray(), data );
-  }
-
 } /* ENDCLASS */

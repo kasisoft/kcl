@@ -59,13 +59,10 @@ public class UnzipRunnable extends AbstractRunnable {
         
         ZipEntry entry  = entries.nextElement();
         
-        onIterationBegin( entry.getName(), entry.isDirectory(), entry.getSize() );
-        
         File     file   = new File( destination, entry.getName() );
         
         if( entry.isDirectory() ) {
           IoFunctions.mkdirs( file );
-          onIterationEnd( entry.getName(), true, 0L );
           continue;
         }
         
@@ -81,8 +78,6 @@ public class UnzipRunnable extends AbstractRunnable {
           IoFunctions.copy( instream, outstream, buffer );
         }
         
-        onIterationEnd( entry.getName(), false, file.length() );
-        
       }
       
     } catch( IOException  ex ) {
@@ -91,33 +86,6 @@ public class UnzipRunnable extends AbstractRunnable {
       Primitive.PByte.<byte[]>getBuffers().release( buffer );
     }
     
-  }
-  
-  /**
-   * Will be invoked whenever the decompression begins.
-   * 
-   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
-   * @param dir    <code>true</code> <=> The entry is a directory.
-   * @param size   If this is a file, then this is the uncompressed length of it. A value of -1 indicates that the 
-   *               length is not known.
-   *               
-   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5+.
-   */
-  @Deprecated
-  protected void onIterationBegin( @NonNull String name, boolean dir, long size ) {
-  }
-
-  /**
-   * Will be invoked whenever the decompression ends.
-   * 
-   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
-   * @param dir    <code>true</code> <=> The entry is a directory.
-   * @param size   If this is a file, then this is the uncompressed length of it.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5+.
-   */
-  @Deprecated
-  protected void onIterationEnd( @NonNull String name, boolean dir, long size ) {
   }
   
   /**

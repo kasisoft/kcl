@@ -78,14 +78,11 @@ public class ZipRunnable extends AbstractRunnable {
     }
     for( int i = 0; (i < entries.length) && (! Thread.currentThread().isInterrupted()); i++ ) {
       String path   = relative + entries[i].getName();
-      long   length = entries[i].isDirectory() ? 0 : entries[i].length();
-      onIterationBegin( path, entries[i].isDirectory(), length );
       if( entries[i].isDirectory() ) {
         packDir( zipout, path, entries[i] );
       } else {
         packFile( zipout, path, entries[i] );
       }
-      onIterationEnd( path, entries[i].isDirectory(), length );
     }
   }
 
@@ -114,32 +111,6 @@ public class ZipRunnable extends AbstractRunnable {
    */
   protected void handleIOFailure( @NonNull IOException ex ) {
     throw FailureException.newFailureException( FailureCode.IO, ex );
-  }
-  
-  /**
-   * Will be invoked whenever the decompression begins.
-   * 
-   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
-   * @param dir    <code>true</code> <=> The entry is a directory.
-   * @param size   If this is a file, then this is the uncompressed length of it.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5+.
-   */
-  @Deprecated
-  protected void onIterationBegin( @NonNull String name, boolean dir, long size ) {
-  }
-
-  /**
-   * Will be invoked whenever the decompression ends.
-   * 
-   * @param name   The name of the zipfile entry. Neither <code>null</code> nor empty.
-   * @param dir    <code>true</code> <=> The entry is a directory.
-   * @param size   If this is a file, then this is the uncompressed length of it.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   This function will be removed with version 1.5+.
-   */
-  @Deprecated
-  protected void onIterationEnd( @NonNull String name, boolean dir, long size ) {
   }
   
 } /* ENDCLASS */

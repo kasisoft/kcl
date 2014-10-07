@@ -23,12 +23,6 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
           private PropertiesConfig        propertiesConfig;
   
   /**
-   * @deprecated [06-Oct-2014:KASI]   This key abbreviation will be removed without a substitute starting with version 1.5 .
-   */
-  @Deprecated
-  @Getter private String                  shortkey;
-  
-  /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
    * creates optional properties.
    *   
@@ -79,21 +73,6 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
   }
   
   /**
-   * Configures the shortkey for this property.
-   * 
-   * @param newshortkey   The new shortkey for this property. Maybe <code>null</code>.
-   * 
-   * @return   this
-   * 
-   * @deprecated [06-Oct-2014:KASI]   Will be removed without a substitute beginning with version 1.5.
-   */
-  @Deprecated
-  public C withShortkey( String newshortkey ) {
-    shortkey = StringFunctions.cleanup( newshortkey );
-    return (C) this;
-  }
-  
-  /**
    * Delivers the typed value provided by it's textual representation.
    * 
    * @param value             The current textual presentation. Maybe <code>null</code>.
@@ -114,22 +93,6 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
     return result;
   }
   
-  /**
-   * Returns the value of a property.
-   * 
-   * @param props        The properties instance. Maybe <code>null</code>.
-   * @param properties   <code>true</code> <=> We're dealing with a Properties type here. 
-   * @param key          The key used to access the value. Neither <code>null</code> nor empty.
-   * 
-   * @return   The property value. Maybe <code>null</code>.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   Will be removed with version 1.5.
-   */
-  @Deprecated
-  protected String getProperty( Object props, boolean properties, @NonNull String key ) {
-    return getProperty( (Map<?,?>) props, key );
-  }
-
   /**
    * Returns the value of a property.
    * 
@@ -167,21 +130,6 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
     return input;
   }
   
-  /**
-   * Changes the value of a property.
-   * 
-   * @param props        The properties instance. Maybe <code>null</code>.
-   * @param properties   <code>true</code> <=> We're dealing with a Properties type here. 
-   * @param key          The key used to access the value. Neither <code>null</code> nor empty.
-   * @param value        The new value for the property. Maybe <code>null</code>.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   Will be removed with version 1.5+.
-   */
-  @Deprecated
-  protected void setProperty( Object props, boolean properties, @NonNull String key, T value ) {
-    setProperty( (Map) props, key, value );
-  }
-
   /**
    * Changes the value of a property.
    * 

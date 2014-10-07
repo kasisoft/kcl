@@ -13,8 +13,7 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
-public class FileListRunnable extends AbstractRunnable<FileProgress> {
+public class FileListRunnable extends AbstractRunnable {
 
   private static final File[] EMPTY_LIST = new File[0];
   
@@ -24,7 +23,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   private ProtectableList<File>   dirreceiver;
   private ProtectableList<File>   filereceiver;
   private File[]                  roots;
-  private FileProgress            progress;
   private boolean                 configured;
   private Pattern                 filepattern;
   private Pattern                 dirpattern;
@@ -47,7 +45,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     filter        = null;
     filepattern   = null;
     dirpattern    = null;
-    progress      = new FileProgress();
     dirreceiver   = new ProtectableList<>();
     filereceiver  = new ProtectableList<>();
     reset();
@@ -60,8 +57,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
   private void reset() {
     dirreceiver   . clear();
     filereceiver  . clear();
-    progress.setCurrent(0);
-    progress.setTotal(0);
     roots       = null;
     configured  = false;
   }
@@ -189,7 +184,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     return incfiles;
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   protected void execute() {
     
@@ -197,9 +191,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
       return;
     }
 
-    progress.setTotal(-1);
-    progress( progress );
-    
     // we're using write protected lists depending on the current settings
     filereceiver.protect  = ! incfiles;
     dirreceiver.protect   = ! incdirs;
@@ -251,10 +242,8 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
     path.append( current.getName() );
     if( accept( current, path ) ) {
       if( current.isFile() ) {
-        progressUpdate( current );
         files.add( current );
       } else if( current.isDirectory() ) {
-        progressUpdate( current );
         dirs.add( current );
         path.append( "/" );
         iterateDir( files, dirs, path, current );
@@ -288,17 +277,6 @@ public class FileListRunnable extends AbstractRunnable<FileProgress> {
       }
     }
     return result;
-  }
-  
-  /**
-   * Performs a small update for the supplied resource.
-   * 
-   * @param file   The resource that is currently being processed. Not <code>null</code>.
-   */
-  private void progressUpdate( File file ) {
-    progress.setFile( file );
-    progress.setCurrent( progress.getCurrent() + 1 );
-    progress( progress );
   }
   
   private static class ProtectableList<T> extends ArrayList<T> {

@@ -13,12 +13,10 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
-public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
+public class LineReaderRunnable extends AbstractRunnable {
 
   private BufferedReader       reader;
   private List<String>         destination;
-  private LineReaderProgress   progress;
   private boolean              configured;
   
   private boolean              trim;
@@ -28,7 +26,6 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
    * Initialises this Runnable aimed to copy the content from a Reader into a list.
    */
   public LineReaderRunnable() {
-    progress    = new LineReaderProgress();
     trim        = false;
     emptylines  = true;
     reset();
@@ -52,8 +49,6 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
    * {@link #configure(Reader, List)}.
    */
   private void reset() {
-    progress.setTotal(0);
-    progress.setCurrent(0);
     reader      = null;
     destination = null;
     configured  = false;
@@ -114,9 +109,6 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
     if( configured ) {
       try {
         
-        progress.setTotal(-1);
-        progress( progress );
-        
         String line     = reader.readLine();
         while( line != null ) {
           
@@ -127,9 +119,6 @@ public class LineReaderRunnable extends AbstractRunnable<LineReaderProgress> {
           if( (line.length() > 0) || emptylines ) {
             destination.add( line );
           }
-          
-          progress.setCurrent( progress.getCurrent() + 1 );
-          progress( progress );
           
           line = reader.readLine();
         }

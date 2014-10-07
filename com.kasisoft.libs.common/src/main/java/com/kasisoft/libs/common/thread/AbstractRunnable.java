@@ -5,7 +5,7 @@ package com.kasisoft.libs.common.thread;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public abstract class AbstractRunnable<T> implements Runnable {
+public abstract class AbstractRunnable implements Runnable {
 
   private boolean   stopped;
   private boolean   completed;
@@ -21,18 +21,6 @@ public abstract class AbstractRunnable<T> implements Runnable {
     }
   }
 
-  /**
-   * Maybe used in order to provide progress information. A listener concept would also be a possibility but I suspect 
-   * that the information will often be ignored, so this mechanism is the cheaper one.
-   * 
-   * @param progressinfo   The current progress information.
-   * 
-   * @deprecated [06-Oct-2014:KASI]   The progress support will be dropped with 1.5+
-   */
-  @Deprecated
-  protected void progress( T progressinfo ) {
-  }
-  
   /**
    * Returns <code>true</code> if the process has been completed.
    * 

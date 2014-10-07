@@ -13,13 +13,11 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
-public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
+public class ByteCopierRunnable extends AbstractRunnable {
 
   private InputStream       source;
   private OutputStream      destination;
   private boolean           configured;
-  private CopyingProgress   progress;
   
   private byte[]            buffer;
   private boolean           owned;
@@ -63,12 +61,6 @@ public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
     configured  = false;
     source      = null;
     destination = null;
-    if( progress == null ) {
-      progress = new CopyingProgress();
-    }
-    progress.setDatatype( Primitive.PByte );
-    progress.setTotal(0);
-    progress.setCurrent(0);
   }
   
   /**
@@ -92,7 +84,6 @@ public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
     return Primitive.PByte.getBuffers();
   }
   
-  @SuppressWarnings("deprecation")
   @Override
   protected void execute() {
     
@@ -106,20 +97,11 @@ public class ByteCopierRunnable extends AbstractRunnable<CopyingProgress> {
         buffer  = getBuffers().allocate( size );
       }
       
-      progress.setTotal(-1);
-      progress( progress );
-      
       int read = source.read( buffer );
       while( (! isStopped()) && (read != -1) ) {
         
         if( read > 0 ) {
-          
           destination.write( buffer, 0, read );
-         
-          // update the written amount
-          progress.setCurrent( progress.getCurrent() + read );
-          progress( progress );
-
         }
         
         read = source.read( buffer );
