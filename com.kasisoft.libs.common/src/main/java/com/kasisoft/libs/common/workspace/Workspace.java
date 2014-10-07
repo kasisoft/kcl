@@ -2,7 +2,6 @@ package com.kasisoft.libs.common.workspace;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.*;
@@ -23,7 +22,7 @@ public final class Workspace {
   private static Workspace       instance = null;
   
   private File                        settingsfile;
-  private ExtProperties               properties;
+  private Properties                  properties;
   private boolean                     isnew;
   private Map<Class<?>,TypeAdapter>   adapters;
   
@@ -33,7 +32,7 @@ public final class Workspace {
   private Workspace() {
     settingsfile  = null;
     isnew         = false;
-    properties    = new ExtProperties();
+    properties    = new Properties();
     adapters      = new Hashtable<>();
     adapters.put( Rectangle.class, new RectangleAdapter( ":" ) );
   }
@@ -71,7 +70,11 @@ public final class Workspace {
    * @throws FailureException   Saving the settings failed.
    */
   public synchronized void saveSettings() throws FailureException {
-    properties.store( settingsfile, Encoding.UTF8 );
+    try( Writer writer = Encoding.UTF8.openWriter( settingsfile ) ) {
+      properties.store( writer, null );
+    } catch( IOException ex ) {
+      throw FailureException.newFailureException( FailureCode.IO, ex );
+    }
     isnew  = false;
   }
   
@@ -81,7 +84,11 @@ public final class Workspace {
    * @throws FailureException   Loading the settings failed.
    */
   private void loadSettings() throws FailureException {
-    properties.load( settingsfile, Encoding.UTF8 );
+    try( Reader reader = Encoding.UTF8.openReader( settingsfile ) ) {
+      properties.load( reader );
+    } catch( IOException ex ) {
+      throw FailureException.newFailureException( FailureCode.IO, ex );
+    }
   }
   
   /**
@@ -167,9 +174,7 @@ public final class Workspace {
         return adapter.unmarshal( result );
       }
     } catch( Exception ex ) {
-      if( properties.getErrorHandler() != null ) {
-        properties.getErrorHandler().failure( this, ex.getMessage(), ex );
-      }
+      // ignored
     }
     return defvalue;
   }
@@ -187,9 +192,7 @@ public final class Workspace {
       String strvalue = adapter.marshal( value );
       properties.setProperty( property, strvalue );
     } catch( Exception ex ) {
-      if( properties.getErrorHandler() != null ) {
-        properties.getErrorHandler().failure( this, ex.getMessage(), ex );
-      }
+      // ignored
     }
   }
 
