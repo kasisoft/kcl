@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.config;
 
+import static com.kasisoft.libs.common.internal.Messages.*;
+
 import com.kasisoft.libs.common.util.*;
 
 import java.util.regex.*;
@@ -39,11 +41,12 @@ public class ConfigurationHelper {
     for( String key : keys ) {
       AbstractProperty<?,?,?> property = map.get( key );
       buffer.appendF( "%s ", key );
-      buffer.appendF( "(%s) ", property.isRequired() ? "mandatory" : "optional" );
+      buffer.appendF( "(%s) ", property.isRequired() ? label_mandatory : label_optional );
       if( property instanceof SimpleProperty ) {
         SimpleProperty simpleproperty = (SimpleProperty) property;
         if( simpleproperty.getDefaultValue() != null ) {
-          buffer.appendF( "(default=%s) ", simpleproperty.getDefaultValue() );
+          buffer.append( format_default.format( simpleproperty.getDefaultValue() ) );
+          buffer.append( " " );
         }
       }
       buffer.appendF( ": %s\n", property.getDescription() != null ? property.getDescription() : "" );

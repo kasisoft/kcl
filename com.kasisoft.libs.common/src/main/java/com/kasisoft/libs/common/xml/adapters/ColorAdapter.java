@@ -1,5 +1,6 @@
 package com.kasisoft.libs.common.xml.adapters;
 
+import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
@@ -18,8 +19,6 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ColorAdapter extends TypeAdapter<String,Color> {
-
-  private static final String MSG_INVALIDCOLOR  = "%s is not a valid Color";
 
   private static final String RGB = "rgb";
   
@@ -92,7 +91,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
     if( colors.containsKey( lower ) ) {
       return colors.get( lower );
     }
-    throw FailureException.newFailureException( FailureCode.ConversionFailure, String.format( MSG_INVALIDCOLOR, v ) );
+    throw FailureException.newFailureException( FailureCode.ConversionFailure, invalid_color.format( v ) );
   }
   
   /**
@@ -119,7 +118,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
         }
       }
     }
-    throw FailureException.newFailureException( FailureCode.ConversionFailure, String.format( MSG_INVALIDCOLOR, v ) );
+    throw FailureException.newFailureException( FailureCode.ConversionFailure, invalid_color.format( v ) );
   }
 
   /**
@@ -146,7 +145,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
       String blue   = v.substring( 7, 9 );
       return new Color( Integer.parseInt( red, 16 ), Integer.parseInt( green, 16 ), Integer.parseInt( blue, 16 ), Integer.parseInt( alpha, 16 ) );
     } else {
-      throw FailureException.newFailureException( FailureCode.ConversionFailure, String.format( MSG_INVALIDCOLOR, v ) );
+      throw FailureException.newFailureException( FailureCode.ConversionFailure, invalid_color.format( v ) );
     }
   }
   
