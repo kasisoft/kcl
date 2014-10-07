@@ -15,6 +15,9 @@ import lombok.*;
  */
 public class ConfigurationHelper {
 
+  private static final String PREFIX_ENV    = "env:";
+  private static final String PREFIX_SYS    = "sys:";  
+
   /**
    * Returns a simple help text about the supplied properties.
    * 
@@ -169,6 +172,45 @@ public class ConfigurationHelper {
       }
     }
     return result;
+  }
+  
+  /**
+   * Creates a map with variable settings from the current system environment.
+   * 
+   * @return   A map with variable settings from the current system environment. Not <code>null</code>.
+   */
+  public static Map<String,String> createReplacementMap() {
+    return createReplacementMap( "%%%s%%" );
+  }
+  
+  /**
+   * Creates a map with variable settings from the current system environment.
+   * 
+   * @param varformatter    The formatter for the generation of properties. Neither <code>null</code> nor empty.
+   * 
+   * @return   A map with variable settings from the current system environment. Not <code>null</code>.
+   */
+  public static Map<String,String> createReplacementMap( @NonNull String varformatter ) {
+    
+    Map<String,String> result       = new Hashtable<>();
+    
+    // record the env entries
+    Map<String,String> environment  = System.getenv();
+    for( Map.Entry<String,String> env : environment.entrySet() ) {
+      result.put( String.format( varformatter, String.format( "%s%s", PREFIX_ENV, env.getKey() ) ), env.getValue() );
+    }
+    
+    // record the system properties
+    Properties          sysprops    = System.getProperties();
+    Enumeration<String> names       = (Enumeration<String>) sysprops.propertyNames();
+    while( names.hasMoreElements() ) {
+      String key    = names.nextElement();
+      String value  = sysprops.getProperty( key );
+      result.put( String.format( varformatter, String.format( "%s%s", PREFIX_SYS, key ) ), value );
+    }
+    
+    return result;
+    
   }
 
   /**
