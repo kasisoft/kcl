@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.spi.*;
 
 import java.util.*;
 
@@ -25,7 +25,7 @@ public class FileTypeManager {
    * Initializes this management type while looking for all SPI declarations.
    */
   public FileTypeManager() {
-    recognizers = MiscFunctions.loadSPIServices( FileType.class );
+    recognizers = SPIFunctions.loadSPIServices( FileType.class );
     Collections.sort( recognizers, new FileTypeBySizeComparator() );
     if( ! recognizers.isEmpty() ) {
       maxspace = recognizers.get(0).getMinSize();
