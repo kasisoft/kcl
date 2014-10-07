@@ -1,5 +1,9 @@
 package com.kasisoft.libs.common.config;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import org.testng.annotations.*;
@@ -117,6 +121,23 @@ public class SimplePropertyTest {
     // get the color while providing a default value
     value = MyOptionalColor.getValue( properties, Color.white );
     Assert.assertEquals( Color.white, value );
+    
+  }
+  
+  @Test(groups="all")
+  public void withResolving() {
+    
+    PropertiesConfig        config   = new PropertiesConfig( "${%s}", true );
+    SimpleProperty<String>  property = new SimpleProperty<>( "sample", new StringAdapter() ).withConfig( config );
+    
+    Map<String,String> properties = new Hashtable<>();
+    properties.put( "sample", "_${sys:java.io.tmpdir}_" );
+
+    String read    = property.getValue( properties );
+    assertThat( read, is( notNullValue() ) );
+    
+    String tempdir = SysProperty.TempDir.getTextualValue( System.getProperties() );
+    assertThat( read, is( String.format( "_%s_", tempdir ) ) );
     
   }
   

@@ -20,6 +20,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
   @Getter private TypeAdapter<String,T>   adapter;
   @Getter private boolean                 required;
   @Getter private String                  description;
+          private PropertiesConfig        propertiesConfig;
   
   /**
    * @deprecated [06-Oct-2014:KASI]   This key abbreviation will be removed without a substitute starting with version 1.5 .
@@ -47,9 +48,10 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    *                                            to be <code>null</code>.
    */
   public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
-    key       = property;
-    required  = req;
-    adapter   = typeadapter;
+    key               = property;
+    required          = req;
+    adapter           = typeadapter;
+    propertiesConfig  = null;
   }
   
   /**
@@ -61,6 +63,18 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    */
   public C withDescription( String newdescription ) {
     description = StringFunctions.cleanup( newdescription );
+    return (C) this;
+  }
+  
+  /**
+   * Provides a configuration for the property value handling.
+   * 
+   * @param config   The new configuration for the property value handling. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public C withConfig( PropertiesConfig config ) {
+    propertiesConfig = config;
     return (C) this;
   }
   
@@ -119,8 +133,8 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
   /**
    * Returns the value of a property.
    * 
-   * @param props        The properties instance. Maybe <code>null</code>.
-   * @param key          The key used to access the value. Neither <code>null</code> nor empty.
+   * @param props   The properties instance. Maybe <code>null</code>.
+   * @param key     The key used to access the value. Neither <code>null</code> nor empty.
    * 
    * @return   The property value. Maybe <code>null</code>.
    */
@@ -128,6 +142,9 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
     String result = null;
     if( props != null ) {
       result = cleanup( (String) props.get( key ) );
+    }
+    if( (result != null) && (propertiesConfig != null) ) {
+      result = propertiesConfig.resolve( result );
     }
     return result;
   }
@@ -149,7 +166,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
     }
     return input;
   }
-
+  
   /**
    * Changes the value of a property.
    * 
