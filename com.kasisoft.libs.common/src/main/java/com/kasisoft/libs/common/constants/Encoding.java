@@ -16,6 +16,8 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@EqualsAndHashCode(of = "encoding")
+@ToString(of = "encoding")
 public final class Encoding {
   
   /**
