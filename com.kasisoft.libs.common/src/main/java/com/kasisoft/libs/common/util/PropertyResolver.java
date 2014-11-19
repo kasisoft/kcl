@@ -160,7 +160,7 @@ public class PropertyResolver {
    * @return   this
    */
   public synchronized PropertyResolver withSubstitution( @NonNull String key, @NonNull String replacement ) {
-    substitutions.put( Pattern.compile( Pattern.quote( key ) ), replacement );
+    substitutions.put( Pattern.compile( Pattern.quote( String.format( format, key ) ) ), replacement );
     return this;
   }
   
@@ -273,10 +273,38 @@ public class PropertyResolver {
     if( (value != null) && (value.length() > 0) && (! substitutions.isEmpty()) ) {
       for( Map.Entry<Pattern,String> replacement : substitutions.entrySet() ) {
         Matcher matcher = replacement.getKey().matcher( value );
-        value = matcher.replaceAll( replacement.getValue() );
+        value = replaceAll( matcher, value, replacement.getValue() );
       }
     }
     return StringFunctions.cleanup( value );
+  }
+  
+  /**
+   * Performs a plain replacement of all occurrences.
+   * 
+   * @param matcher       The regex matcher to be used for the replacement. Not <code>null</code>.
+   * @param value         The current value of the property. Not <code>null</code>.
+   * @param replacement   The replacing String. Not <code>null</code>.
+   * 
+   * @return   The substituted value. Not <code>null</code>.
+   */
+  private String replaceAll( Matcher matcher, String value, String replacement ) {
+    StringBuilder builder   = new StringBuilder();
+    int           laststart = 0;
+    while( matcher.find() ) {
+      int start = matcher.start();
+      int end   = matcher.end();
+      if( start > laststart ) {
+        builder.append( value.substring( laststart, start ) );
+      }
+      builder.append( replacement );
+      laststart = end;
+    }
+    
+    if( laststart < value.length() ) {
+      builder.append( value.substring( laststart ) );
+    }
+    return builder.toString();
   }
   
 } /* ENDCLASS */
