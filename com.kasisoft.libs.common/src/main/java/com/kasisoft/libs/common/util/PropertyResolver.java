@@ -152,6 +152,19 @@ public class PropertyResolver {
   }
 
   /**
+   * Adds a single substitution to this instance.
+   * 
+   * @param key           The key to be used for the substitutions. Neither <code>null</code> nor empty.
+   * @param replacement   The replacement string. Not <code>null</code>. 
+   * 
+   * @return   this
+   */
+  public synchronized PropertyResolver withSubstitution( @NonNull String key, @NonNull String replacement ) {
+    substitutions.put( Pattern.compile( Pattern.quote( key ) ), replacement );
+    return this;
+  }
+  
+  /**
    * Loads all properties located in the resources of the supplied path.
    * 
    * @param resourcepath   A classpath location. Neither <code>null</code> nor empty.

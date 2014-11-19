@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.util;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.constants.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -23,6 +23,7 @@ public class PropertyResolverTest {
   private void setup() {
     resolver = new PropertyResolver();
     resolver.withSystemSubstitutions();
+    resolver.withSubstitution( "mykey", "problematic_replacement\\" );
   }
 
   @Test(groups="all")
@@ -39,7 +40,7 @@ public class PropertyResolverTest {
     resolver.load( properties );
     
     String     resolvedval  = String.format( "BEGIN-%s-END", System.getProperty( firstname ) );
-    Assert.assertEquals( resolver.getProperty( "property" ), resolvedval );
+    assertThat( resolver.getProperty( "property" ), is( resolvedval ) );
     
   }
 
@@ -57,7 +58,7 @@ public class PropertyResolverTest {
     resolver.load( properties );
     
     String     resolvedval  = String.format( "BEGIN-%s-END", System.getProperty( firstname ) );
-    Assert.assertEquals( resolver.getProperty( "property" ), resolvedval );
+    assertThat( resolver.getProperty( "property" ), is( resolvedval ) );
     
   }
 
@@ -69,12 +70,12 @@ public class PropertyResolverTest {
     String encoding    = SysProperty.FileEncoding.getValue( System.getProperties() );
     String resolvedval = String.format( "ENCODING: %s", encoding );
     
-    Assert.assertEquals( resolver.getProperty( "my_file_encoding" ), resolvedval );
+    assertThat( resolver.getProperty( "my_file_encoding" ), is( resolvedval ) );
     
     assertNull( resolver.getProperty( "unavailable_value" ) );
     
+    assertThat( resolver.getProperty( "myvariable" ), is( "-problematic_replacement\\-" ) );
+    
   }
-  
-  
 
 } /* ENDCLASS */
