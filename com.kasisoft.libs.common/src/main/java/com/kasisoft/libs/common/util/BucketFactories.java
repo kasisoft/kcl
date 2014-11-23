@@ -126,17 +126,83 @@ public class BucketFactories {
    * 
    * @return   A new factory for {@link ArrayList}. Not <code>null</code>.
    */
-  public static BucketFactory<ArrayList> newArrayListFactory() {
-    return new BucketFactory<ArrayList>() {
+  public static <T> BucketFactory<ArrayList<T>> newArrayListFactory() {
+    return new BucketFactory<ArrayList<T>>() {
 
       @Override
-      public ArrayList create() {
-        return new ArrayList();
+      public ArrayList<T> create() {
+        return new ArrayList<T>();
       }
 
       @Override
-      public ArrayList reset( ArrayList object ) {
+      public ArrayList<T> reset( ArrayList object ) {
         object.clear();
+        return object;
+      }
+      
+    };
+  }
+
+  /**
+   * Creates a new factory for {@link Vector}.
+   * 
+   * @return   A new factory for {@link Vector}. Not <code>null</code>.
+   */
+  public static <T> BucketFactory<Vector<T>> newVectorFactory() {
+    return new BucketFactory<Vector<T>>() {
+
+      @Override
+      public Vector<T> create() {
+        return new Vector<T>();
+      }
+
+      @Override
+      public Vector<T> reset( Vector object ) {
+        object.clear();
+        return object;
+      }
+      
+    };
+  }
+
+  /**
+   * Creates a new factory for {@link StringWriter}.
+   * 
+   * @return   A new factory for {@link StringWriter}. Not <code>null</code>.
+   */
+  public static BucketFactory<StringWriter> newStringWriterFactory() {
+    return new BucketFactory<StringWriter>() {
+
+      @Override
+      public StringWriter create() {
+        return new StringWriter();
+      }
+
+      @Override
+      public StringWriter reset( StringWriter object ) {
+        object.getBuffer().setLength(0);
+        return object;
+      }
+      
+    };
+  }
+  
+  /**
+   * Creates a new factory for {@link CharArrayWriter}.
+   * 
+   * @return   A new factory for {@link CharArrayWriter}. Not <code>null</code>.
+   */
+  public static BucketFactory<CharArrayWriter> newCharArrayWriterFactory() {
+    return new BucketFactory<CharArrayWriter>() {
+
+      @Override
+      public CharArrayWriter create() {
+        return new CharArrayWriter();
+      }
+
+      @Override
+      public CharArrayWriter reset( CharArrayWriter object ) {
+        object.reset();
         return object;
       }
       
