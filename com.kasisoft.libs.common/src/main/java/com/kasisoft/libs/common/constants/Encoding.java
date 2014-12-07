@@ -9,6 +9,8 @@ import java.net.*;
 
 import java.io.*;
 
+import java.nio.charset.*;
+
 import lombok.*;
 
 /**
@@ -21,7 +23,7 @@ import lombok.*;
 public final class Encoding {
   
   /**
-   * @ks.spec [06-Oct-2014:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
+   * @ks.spec [07-Dec-2014:KASI]   http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html
    */
   
   public static final Encoding ASCII;
@@ -43,9 +45,20 @@ public final class Encoding {
     ISO88591    = new Encoding( "ISO-8859-1"  , false , null                  );
   }
   
+  /** Neither <code>null</code> nor empty. */
+  @Getter
   private String          encoding;
-  private boolean         bom;
-  private ByteOrderMark   byteordermark;
+  
+  @Getter
+  private boolean         bomRequired;
+  
+  /** Maybe <code>null</code> */
+  @Getter
+  private ByteOrderMark   byteOrderMark;
+  
+  /** Not <code>null</code> */
+  @Getter
+  private Charset         charset;
   
   /**
    * Initializes this Encoding instance for a specific character set.
@@ -56,8 +69,9 @@ public final class Encoding {
    */
   public Encoding( @NonNull String key, boolean requiresbom, ByteOrderMark mark ) {
     encoding      = key;
-    bom           = requiresbom;
-    byteordermark = mark;
+    bomRequired   = requiresbom;
+    byteOrderMark = mark;
+    charset       = Charset.forName( key );
     ENCODINGS.put( key, this );
   }
   
@@ -161,35 +175,6 @@ public final class Encoding {
     }
   }
 
-  /**
-   * Returns the Byte Order Mark associated with this character set encoding. The result maybe <code>null</code> (f.e. 
-   * byte character sets).
-   * 
-   * @return   The Byte Order Mark associated with this character set encoding. Maybe <code>null</code>.
-   */
-  public ByteOrderMark getByteOrderMark() {
-    return byteordermark;
-  }
-  
-  /**
-   * Returns <code>true</code> if the BOM (byte order mark) is required. If it's not required the BOM might still be 
-   * there.
-   * 
-   * @return   <code>true</code> <=> The BOM is required.
-   */
-  public boolean isBOMRequired() {
-    return bom;
-  }
-  
-  /**
-   * Returns the encoding as used within the JRE.
-   * 
-   * @return   The encoding as used within the JRE. Neither <code>null</code> nor empty.
-   */
-  public String getEncoding() {
-    return encoding;
-  }
-  
   /**
    * Encodes the supplied text.
    * 
