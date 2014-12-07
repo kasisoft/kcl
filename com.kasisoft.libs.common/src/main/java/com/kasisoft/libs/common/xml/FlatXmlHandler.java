@@ -10,6 +10,9 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Simple converter which allows to create flat representations of a XML document. This converter simply implements a 
  * DefaultHandler used in conjunction with the SAX Parser. An OutputStream must be supplied in order to generate the 
@@ -18,19 +21,25 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FlatXmlHandler extends DefaultHandler {
 
-  private Stack<String>    elements;
-  private StringFBuilder   path;
+  Stack<String>                   elements;
+  StringFBuilder                  path;
+  StringBuilder                   buffer;
+  Encoding                        encoding;
   
-  private StringBuilder    buffer;
-  private OutputStream     dest;
+  /** Not <code>null</code>. */
+          @Setter OutputStream    target;
 
-  private boolean          trimvalues;
-  private boolean          escaping;
-  private boolean          attributes;
-  private String           newline;
-  private Encoding         encoding;
+  /** Not <code>null</code>. */
+  @Getter         String          newline;
+  
+  @Getter @Setter boolean         trimValues;
+  @Getter @Setter boolean         escaping;
+  @Getter @Setter boolean         attributes;
+  
+  
   
   /**
    * Initialises this generator. An instance may be used multiple times.
@@ -40,39 +49,12 @@ public class FlatXmlHandler extends DefaultHandler {
     elements   = new Stack<>();
     path       = new StringFBuilder();
     buffer     = new StringBuilder();
-    dest       = null;
-    trimvalues = true;
+    target       = null;
+    trimValues = true;
     attributes = true;
     escaping   = true;
     newline    = SysProperty.LineSeparator.getValue( System.getProperties(), "\n" );
     encoding   = Encoding.UTF8;
-  }
-  
-  /**
-   * Returns <code>true</code> if attributes will be written, too.
-   * 
-   * @return   <code>true</code> <=> Attributes will be written, too.
-   */
-  public boolean isAttributes() {
-    return attributes;
-  }
-  
-  /**
-   * Enables/disables the generation of attribute values.
-   * 
-   * @param enable   <code>true</code> <=> Enables the generation of attribute values.
-   */
-  public void setAttributes( boolean enable ) {
-    attributes = enable;
-  }
-  
-  /**
-   * Returns the line separator sequence. Default is System.getProperty( 'line.separator' ).
-   * 
-   * @return   The line separator sequence. Not <code>null</code>.
-   */
-  public String getNewline() {
-    return newline;
   }
   
   /**
@@ -88,52 +70,6 @@ public class FlatXmlHandler extends DefaultHandler {
   }
   
   /**
-   * Returns <code>true</code> if line separators will be escaped so the output values won't contain
-   * line separators anymore. Default is <code>true</code>.
-   * 
-   * @return   <code>true</code> <=> The line separators will be escaped.
-   */
-  public boolean isEscaping() {
-    return escaping;
-  }
-  
-  /**
-   * Enables/disables escaping of line separators within values.
-   * 
-   * @param enable   <code>true</code> <=> The line separators in values shall be escaped.
-   */
-  public void setEscaping( boolean enable ) {
-    escaping = enable;
-  }
-
-  /**
-   * Returns <code>true</code> if values will be trimmed. Default is <code>true</code>.
-   * 
-   * @return   <code>true</code> <=> Values will be trimmed.
-   */
-  public boolean isTrimValues() {
-    return trimvalues;
-  }
-  
-  /**
-   * Enables/disables the trimming of values.
-   * 
-   * @param enable   <code>true</code> <=> Values will be trimmed.
-   */
-  public void setTrimValues( boolean enable ) {
-    trimvalues = enable;
-  }
-  
-  /**
-   * Sets the current target which is used to receive the flattened XML structure.
-   * 
-   * @param target   The target which is used to receive the flattened XML structure. Not <code>null</code>.
-   */
-  public void setTarget( OutputStream target ) {
-    dest = target;
-  }
-  
-  /**
    * Writes the supplied content to the OutputStream.
    * 
    * @param value    The value stored by the key. Not <code>null</code>.
@@ -141,12 +77,12 @@ public class FlatXmlHandler extends DefaultHandler {
    * @throws SAXException   Writing to the target failed for some reason.
    */
   private void write( String value ) throws SAXException {
-    if( trimvalues ) {
+    if( trimValues ) {
       value = value.trim();
     }
     try {
       String text = String.format( "%s=%s%s", path.toString(), escape( value ), newline );
-      dest.write( encoding.encode( text ) );
+      target.write( encoding.encode( text ) );
     } catch( IOException ex ) {
       throw new SAXException(ex);
     }
@@ -172,15 +108,15 @@ public class FlatXmlHandler extends DefaultHandler {
     elements.clear();
     path.setLength(0);
     buffer.setLength(0);
-    if( dest == null ) {
-      dest = System.out;
+    if( target == null ) {
+      target = System.out;
     }
   }
 
   @Override
   public void endDocument() throws SAXException {
-    if( dest == System.out ) {
-      dest = null;
+    if( target == System.out ) {
+      target = null;
     }
   }
   

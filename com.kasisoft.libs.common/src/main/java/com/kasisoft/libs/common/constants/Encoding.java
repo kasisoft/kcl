@@ -12,6 +12,7 @@ import java.io.*;
 import java.nio.charset.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Collection of supported encodings.
@@ -20,6 +21,7 @@ import lombok.*;
  */
 @EqualsAndHashCode(of = "encoding")
 @ToString(of = "encoding")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Encoding {
   
   /**
@@ -46,19 +48,15 @@ public final class Encoding {
   }
   
   /** Neither <code>null</code> nor empty. */
-  @Getter
-  private String          encoding;
+  @Getter String          encoding;
   
-  @Getter
-  private boolean         bomRequired;
+  @Getter boolean         bomRequired;
   
   /** Maybe <code>null</code> */
-  @Getter
-  private ByteOrderMark   byteOrderMark;
+  @Getter ByteOrderMark   byteOrderMark;
   
   /** Not <code>null</code> */
-  @Getter
-  private Charset         charset;
+  @Getter Charset         charset;
   
   /**
    * Initializes this Encoding instance for a specific character set.

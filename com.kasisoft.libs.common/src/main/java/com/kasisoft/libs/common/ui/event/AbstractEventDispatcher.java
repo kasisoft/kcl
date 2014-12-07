@@ -7,16 +7,18 @@ import javax.swing.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Basic implementation of a dispatcher for various Swing UI events.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractEventDispatcher<L,E> {
 
-  private Set<L>               listeners;
-  private SimpleErrorHandler   errorhandler;
+  Set<L>               listeners;
+  SimpleErrorHandler   errorhandler;
   
   /**
    * Initialises this dispatcher to deliver Swing UI events.

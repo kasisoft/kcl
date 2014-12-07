@@ -1,13 +1,18 @@
 package com.kasisoft.libs.common.util;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Simple class used to work as a container (f.e. out-parameters).
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tupel<T> {
 
-  private T[]   values;
+  /** Maybe <code>null</code>. */
+  @Getter T[]   values;
   
   /**
    * Changes the current values.
@@ -60,15 +65,6 @@ public class Tupel<T> {
    */
   public void setValues( T ... newvalues ) {
     values = newvalues;
-  }
-  
-  /**
-   * Returns the current values.
-   * 
-   * @return   The current values. Maybe <code>null</code>.
-   */
-  public T[] getValues() {
-    return values;
   }
   
   /**

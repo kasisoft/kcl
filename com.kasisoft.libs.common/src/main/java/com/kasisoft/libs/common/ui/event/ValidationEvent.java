@@ -5,15 +5,17 @@ import javax.swing.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * This event informs about the validation of a component.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ValidationEvent extends EventObject {
 
-  private boolean   valid;
+  @Getter boolean   valid;
 
   /**
    * Sets up this event used to deliver information regarding the validty of some input.
@@ -24,15 +26,6 @@ public class ValidationEvent extends EventObject {
   public ValidationEvent( @NonNull JComponent source, boolean isvalid ) {
     super( source );
     valid = isvalid;
-  }
-
-  /**
-   * Returns <code>true</code> if the validity of the component has been approoved.
-   * 
-   * @return  <code>true</code> <=> The validity of the component has been approved.
-   */
-  public boolean isValid() {
-    return valid;
   }
 
   /**

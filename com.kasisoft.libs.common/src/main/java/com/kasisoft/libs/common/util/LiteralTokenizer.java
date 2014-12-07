@@ -3,6 +3,7 @@ package com.kasisoft.libs.common.util;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 
@@ -10,13 +11,14 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LiteralTokenizer implements Enumeration<String> {
 
-  private int        pos;
-  private String[]   literals;
-  private String     input;
-  private boolean    doreturn;
-  private String     next;
+  int        pos;
+  String[]   literals;
+  String     input;
+  boolean    doreturn;
+  String     next;
   
   /**
    * Prepares this tokenizer to operate using delimiting literals.

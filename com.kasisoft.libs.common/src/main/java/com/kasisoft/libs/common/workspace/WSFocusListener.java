@@ -7,15 +7,17 @@ import java.awt.event.*;
 import java.awt.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A FocusListener implementation which stores the setting of a widget when it looses it's focus.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class WSFocusListener extends FocusAdapter {
 
-  private String   wsproperty;
+  String   wsproperty;
   
   /**
    * Sets up this listener using the supplied key allowing to access the Workspace.

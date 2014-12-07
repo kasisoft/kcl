@@ -7,21 +7,23 @@ import com.kasisoft.libs.common.util.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A Runnable which is used to copy data from an InputStream to an OutputStream.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ByteCopierRunnable extends AbstractRunnable {
 
-  private InputStream       source;
-  private OutputStream      destination;
-  private boolean           configured;
+  InputStream     source;
+  OutputStream    destination;
+  boolean         configured;
   
-  private byte[]            buffer;
-  private boolean           owned;
-  private Integer           size;
+  byte[]          buffer;
+  boolean         owned;
+  Integer         size;
   
   /**
    * Initialises this Runnable implementation using a locally allocated buffer of a default size.

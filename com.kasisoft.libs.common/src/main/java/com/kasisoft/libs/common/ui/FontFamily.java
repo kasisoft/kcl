@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import lombok.*;
+import lombok.experimental.*;
  
 /**
  * Collection of widely known family names. There's no guarantuee that these Fonts exist on a specific system except for 
@@ -15,6 +16,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class FontFamily {
 
   public static final FontFamily  Arial;
@@ -52,7 +54,8 @@ public final class FontFamily {
     TimesNewRoman       = new FontFamily( "Times New Roman"      );
   }
 
-  private String   familyname;
+  /** Neither <code>null</code> nor empty. */
+  @Getter String   familyname;
   
   /**
    * Initialises this value with the supplied Font family name.
@@ -64,15 +67,6 @@ public final class FontFamily {
     FONTFAMILIES.put( familyname, this );
   }
 
-  /**
-   * Returns the name of the Font family.
-   * 
-   * @return   The name of the Font family. Neither <code>null</code> nor empty.
-   */
-  public String getFamilyname() {
-    return familyname;
-  }
-  
   /**
    * Returns <code>true</code> if this Font family is known to the supplied pool.
    * 

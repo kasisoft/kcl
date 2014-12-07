@@ -5,15 +5,17 @@ import java.awt.event.*;
 import java.awt.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A ComponentListener implementation which stores the settings of a Component to the Workspace.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class WSComponentListener extends ComponentAdapter {
 
-  private String   wsproperty;
+  String   wsproperty;
   
   /**
    * Sets up this listener using the supplied key allowing to access the Workspace.

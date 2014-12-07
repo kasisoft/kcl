@@ -7,27 +7,29 @@ import java.util.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A Runnable implementation which is used to load text lines from a Reader.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LineReaderRunnable extends AbstractRunnable {
 
-  private BufferedReader       reader;
-  private List<String>         destination;
-  private boolean              configured;
+  BufferedReader            reader;
+  List<String>              destination;
+  boolean                   configured;
   
-  private boolean              trim;
-  private boolean              emptylines;
+  @Getter @Setter boolean   trim;
+  @Getter @Setter boolean   emptyLines;
   
   /**
    * Initialises this Runnable aimed to copy the content from a Reader into a list.
    */
   public LineReaderRunnable() {
     trim        = false;
-    emptylines  = true;
+    emptyLines  = true;
     reset();
   }
 
@@ -68,42 +70,6 @@ public class LineReaderRunnable extends AbstractRunnable {
     configured    = true;
   }
   
-  /**
-   * Enables/disables trimming of single lines.
-   * 
-   * @param enable   <code>true</code> <=> Lines shall be trimmed.
-   */
-  public void setTrim( boolean enable ) {
-    trim = enable;
-  }
-  
-  /**
-   * Returns <code>true</code> if lines will be trimmed.
-   * 
-   * @return   <code>true</code> <=> Lines will be trimmed.
-   */
-  public boolean isTrim() {
-    return trim;
-  }
-  
-  /**
-   * Returns <code>true</code> if empty lines shall be read, too.
-   * 
-   * @param enable   <code>true</code> <=> Empty lines shall be read, too.s
-   */
-  public void setEmptyLines( boolean enable ) {
-    emptylines = enable;
-  }
-  
-  /**
-   * Returns <code>true</code> if empty lines shall be read.
-   * 
-   * @return   <code>true</code> <=> Empty lines shall be read.
-   */
-  public boolean isEmptyLines() {
-    return emptylines;
-  }
-  
   @Override
   public void execute() {
     if( configured ) {
@@ -116,7 +82,7 @@ public class LineReaderRunnable extends AbstractRunnable {
             line = line.trim();
           }
           
-          if( (line.length() > 0) || emptylines ) {
+          if( (line.length() > 0) || emptyLines ) {
             destination.add( line );
           }
           

@@ -5,16 +5,18 @@ import java.util.*;
 import java.lang.ref.*;
 
 import lombok.*;
+import lombok.experimental.*;
  
 /**
  * Collector for often used objects like collections, maps etc. .
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bucket<T> {
 
-  private List<SoftReference<T>>   references;
-  private BucketFactory<T>         factory;
+  List<SoftReference<T>>   references;
+  BucketFactory<T>         factory;
 
   /**
    * Initializes this bucket for a specific type.

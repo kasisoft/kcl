@@ -14,21 +14,23 @@ import java.awt.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * The Workspace allows to store various configuration information during the runtime.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Workspace {
 
-  private static Workspace       instance = null;
+  static Workspace       instance = null;
   
-  private File                        settingsfile;
-  private Properties                  properties;
-  private boolean                     isnew;
-  private Map<Class<?>,TypeAdapter>   adapters;
-  private ShutdownWorkspace           shutdown;
+  File                        settingsfile;
+  Properties                  properties;
+  boolean                     isnew;
+  Map<Class<?>,TypeAdapter>   adapters;
+  ShutdownWorkspace           shutdown;
   
   /**
    * Initialises this workspace used for temporary savings.

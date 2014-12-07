@@ -2,29 +2,24 @@ package com.kasisoft.libs.common.constants;
 
 import javax.swing.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Constants used to specify orientations for various purposes.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Orientation {
   
   Horizontal ( JSplitPane.HORIZONTAL_SPLIT ),
   Vertical   ( JSplitPane.VERTICAL_SPLIT   );
   
-  private int   orientation;
+  @Getter int   splitPaneOrientation;
   
   Orientation( int splitpane ) {
-    orientation = splitpane;
-  }
-
-  /**
-   * Returns the orientation for a JSplitPane.
-   * 
-   * @return   The orientation for a JSplitPane.
-   */
-  public int getSplitPaneOrientation() {
-    return orientation;
+    splitPaneOrientation = splitpane;
   }
   
 } /* ENDENUM */

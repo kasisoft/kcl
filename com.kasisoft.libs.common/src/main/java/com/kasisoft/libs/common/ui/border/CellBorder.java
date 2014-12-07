@@ -5,18 +5,20 @@ import javax.swing.border.*;
 import java.awt.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * The CellBorder is similar to the borders known from spreadsheets where each edge can be selectively enabled.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CellBorder extends LineBorder {
 
-  private boolean   left;
-  private boolean   right;
-  private boolean   top;
-  private boolean   bottom;
+  boolean   left;
+  boolean   right;
+  boolean   top;
+  boolean   bottom;
 
   /**
    * Initialises this border with selectively enabled edges.

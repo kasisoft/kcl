@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * The FlowingTitledBorder also allows to display a title where this title is backgrounded by a flow changing one color 
@@ -14,13 +15,17 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FlowingTitledBorder extends TitledBorder {
 
   private static final String KEY_FROMCOLOR = "FlowingTitledBorder.fromColor" ;
   private static final String KEY_TOCOLOR   = "FlowingTitledBorder.toColor"   ;
 
-  private Color   fromcolor;
-  private Color   tocolor;
+  /** Not <code>null</code>. */
+  @Getter Color   fromColor;
+  
+  /** Not <code>null</code>. */
+  @Getter Color   toColor;
 
   /**
    * Creates a FlowingTitledBorder instance without some textual content.
@@ -77,32 +82,14 @@ public class FlowingTitledBorder extends TitledBorder {
   }
 
   /**
-   * Returns the starting color for the background flow.
-   * 
-   * @return   The starting color for the background flow. Not <code>null</code>.
-   */
-  public Color getFromColor() {
-    return fromcolor;
-  }
-
-  /**
-   * Returns the ending color for the background flow.
-   * 
-   * @return   The ending color for the background flow. Not <code>null</code>.
-   */
-  public Color getToColor() {
-    return tocolor;
-  }
-
-  /**
    * Sets the ending color for the background flow.
    *
    * @param tocol   The color the flow should end with.
    */
   public void setToColor( Color tocol ) {
-    tocolor = tocol;
+    toColor = tocol;
     if( tocol == null ) {
-      tocolor = UIManager.getColor( KEY_TOCOLOR );
+      toColor = UIManager.getColor( KEY_TOCOLOR );
     }
   }
 
@@ -112,9 +99,9 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param fromcol   The color the flow should start with.
    */
   public void setFromColor( Color fromcol ) {
-    fromcolor = fromcol;
+    fromColor = fromcol;
     if( fromcol == null ) {
-      fromcolor = UIManager.getColor( KEY_FROMCOLOR );
+      fromColor = UIManager.getColor( KEY_FROMCOLOR );
     }
   }
 
@@ -135,7 +122,7 @@ public class FlowingTitledBorder extends TitledBorder {
       Rectangle2D   rect  = new Rectangle2D.Float( fx1, fy1, fw, fh );
 
       // This Paint makes the flow
-      GradientPaint gp    = new GradientPaint( fx1, fy1, fromcolor, fx2, fy2, tocolor, false );
+      GradientPaint gp    = new GradientPaint( fx1, fy1, fromColor, fx2, fy2, toColor, false );
 
       // The paint requires such a Graphics instance
       Graphics2D    g2d   = (Graphics2D) g;

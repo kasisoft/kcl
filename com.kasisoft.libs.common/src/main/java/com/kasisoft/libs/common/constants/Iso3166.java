@@ -2,11 +2,15 @@ package com.kasisoft.libs.common.constants;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Collection of iso-3166 codes.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Iso3166 {
 
   Afghanistan                          ( "AFG", "AF",   4 ),
@@ -255,9 +259,13 @@ public enum Iso3166 {
   Zambia                               ( "ZMB", "ZM", 894 ),
   Zimbabwe                             ( "ZWE", "ZW", 716 );
   
-  private String   alpha3; 
-  private String   alpha2;
-  private int      numeric;
+  /** Not <code>null</code>. length() == 3. */
+  @Getter String   alpha3; 
+  
+  /** Not <code>null</code>. length() == 2. */
+  @Getter String   alpha2;
+  
+  @Getter int      numerical;
   
   /**
    * Initialises this constant.
@@ -267,9 +275,9 @@ public enum Iso3166 {
    * @param value     The numeric calue for this constant.
    */
   Iso3166( String al3, String al2, int value ) {
-    alpha3  = al3;
-    alpha2  = al2;
-    numeric = value;
+    alpha3    = al3;
+    alpha2    = al2;
+    numerical = value;
     LocalData . valuebyalpha3 . put( al3, this );
     LocalData . valuebyalpha2 . put( al2, this );
     LocalData . valuebynum    . put( Integer.valueOf( value ), this );
@@ -279,7 +287,10 @@ public enum Iso3166 {
    * Returns the alpha-3 code for this value.
    * 
    * @return   The alpha-3 code for this value. Not <code>null</code>. result.length() == 3.
+   * 
+   * @deprecated [07-Dec-2014:KASI]   Use {@link #getAlpha3()} instead.
    */
+  @Deprecated
   public String alpha3() {
     return alpha3;
   }
@@ -288,7 +299,10 @@ public enum Iso3166 {
    * Returns the alpha-2 code for this value.
    * 
    * @return   The alpha-2 code for this value. Not <code>null</code>. result.length() == 2.
+   * 
+   * @deprecated [07-Dec-2014:KASI]   Use {@link #getAlpha2()} instead.
    */
+  @Deprecated
   public String alpha2() {
     return alpha2;
   }
@@ -297,9 +311,12 @@ public enum Iso3166 {
    * Returns the numerical code for this value.
    * 
    * @return   The numerical code for this value.
+   * 
+   * @deprecated [07-Dec-2014:KASI]   Use {@link #getNumerical()} instead.
    */
+  @Deprecated
   public int numerical() {
-    return numeric;
+    return numerical;
   }
   
   /**

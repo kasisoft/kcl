@@ -3,17 +3,19 @@ package com.kasisoft.libs.common.ui.component;
 import javax.swing.text.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Textfield variety which simply filters characters, so they cannot be used while entering some input.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KFilteringTextField extends KValidationTextField {
 
-  private String          allowed;
-  private StringBuilder   buffer;
-  private CustomFilter    filter;
+  @Getter String    allowed;
+  StringBuilder     buffer;
+  CustomFilter      filter;
   
   /**
    * Sets up this field to filter some content.
@@ -36,15 +38,6 @@ public class KFilteringTextField extends KValidationTextField {
     if( newdocument instanceof AbstractDocument ) {
       ((AbstractDocument) newdocument).setDocumentFilter( filter );
     }
-  }
-
-  /**
-   * Returns a list of allowed characters.
-   * 
-   * @return   A list of allowed characters.
-   */
-  public String getAllowed() {
-    return allowed;
   }
 
   /**

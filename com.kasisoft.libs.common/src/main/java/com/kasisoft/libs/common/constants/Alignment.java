@@ -2,18 +2,22 @@ package com.kasisoft.libs.common.constants;
 
 import javax.swing.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Values to specify an alignment.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Alignment {
 
   Left   ( SwingConstants.LEFT   ) ,
   Center ( SwingConstants.CENTER ) ,
   Right  ( SwingConstants.RIGHT  ) ;
   
-  private int  xalignment;
+  @Getter int  alignmentX;
   
   /**
    * Sets up this constant with an alignment value that is used for swing components. 
@@ -21,16 +25,7 @@ public enum Alignment {
    * @param value   An alignment value that is used for swing components.
    */
   Alignment( int value ) {
-    xalignment = value;
-  }
-  
-  /**
-   * Returns the alignment value that is used for swing components.
-   *  
-   * @return   The alignment value that is used for swing components.
-   */
-  public int getAlignmentX() {
-    return xalignment;
+    alignmentX = value;
   }
   
 } /* ENDENUM */

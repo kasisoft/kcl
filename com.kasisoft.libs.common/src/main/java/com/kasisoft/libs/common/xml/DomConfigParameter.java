@@ -2,6 +2,9 @@ package com.kasisoft.libs.common.xml;
 
 import org.w3c.dom.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Collection of parameters for the {@link DOMConfiguration} .
  * 
@@ -10,6 +13,7 @@ import org.w3c.dom.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum DomConfigParameter {
 
   CanonicalForm                         ( "canonical-form"                            , false ),
@@ -35,21 +39,12 @@ public enum DomConfigParameter {
   Wellformed                            ( "well-formed"                               , false ),
   XmlDeclaration                        ( "xml-declaration"                           , true  );
 
-  private String    key;
-  private boolean   xerces;
+          String    key;
+  @Getter boolean   xerces;
   
   DomConfigParameter( String param, boolean isxerces ) {
     key    = param;
     xerces = isxerces;
-  }
-  
-  /**
-   * Returns <code>true</code> if this parameter is not necessarily available as it's supported by Xerces.
-   * 
-   * @return   <code>true</code> <=> This parameter is not necessarily available as it's supported by Xerces.
-   */
-  public boolean isXerces() {
-    return xerces;
   }
   
   /**

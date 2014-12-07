@@ -3,15 +3,17 @@ package com.kasisoft.libs.common.workspace;
 import javax.swing.event.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A basic ChangeListener implementation which stores the settings of a source object to the Workspace.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class WSChangeListener<T> implements ChangeListener {
 
-  private String   wsproperty;
+  String   wsproperty;
   
   /**
    * Sets up this listener using the supplied key allowing to access the Workspace.

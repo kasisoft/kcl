@@ -7,6 +7,7 @@ import java.util.regex.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following
@@ -42,11 +43,12 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
 
   private static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
 
-  private Pattern   pattern;
+  Pattern   pattern;
   
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor

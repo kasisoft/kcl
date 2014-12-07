@@ -3,12 +3,14 @@ package com.kasisoft.libs.common.sys;
 import com.kasisoft.libs.common.constants.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple class that provides some system related informations.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum SystemInfo {
   
   FreeBSD       ( "FreeBSD"       , true  , "$%s", "$(%s)" ),
@@ -34,7 +36,7 @@ public enum SystemInfo {
   static {
     SystemInfo active = null;
     for( SystemInfo info : SystemInfo.values() ) {
-      if( info.isrunning && (info != ThisMachine) ) {
+      if( info.active && (info != ThisMachine) ) {
         active = info;
         break;
       }
@@ -45,24 +47,26 @@ public enum SystemInfo {
     LocalData.active = active;
   }
   
-  private String     key;
-  private boolean    isrunning;
-  private boolean    casesensitive;
-  private String[]   varformats;
+  /** Neither <code>null</code> nor empty. */
+  @Getter String     key;
+  @Getter boolean    active;
+  @Getter boolean    caseSensitiveFS;
+  
+          String[]   varformats;
   
   SystemInfo( String oskey, boolean sensitive, String ... varkeys ) {
-    key           = oskey;
-    isrunning     = oskey.equals( SysProperty.OsName.getValue( System.getProperties() ) );
-    casesensitive = sensitive;
-    varformats    = varkeys;
+    key             = oskey;
+    active          = oskey.equals( SysProperty.OsName.getValue( System.getProperties() ) );
+    caseSensitiveFS = sensitive;
+    varformats      = varkeys;
   }
   
   SystemInfo() {
-    key           = SysProperty.OsName.getValue( System.getProperties() );
-    isrunning     = true;
+    key             = SysProperty.OsName.getValue( System.getProperties() );
+    active          = true;
     // conservative guessing
-    casesensitive = false; 
-    varformats    = new String[] { "$%s" };
+    caseSensitiveFS = false; 
+    varformats      = new String[] { "$%s" };
   }
   
   /**
@@ -79,36 +83,6 @@ public enum SystemInfo {
       result[i] = String.format( varformats[i], keyname );
     }
     return result;
-  }
-  
-  /**
-   * Returns <code>true</code> if the filesystem is case sensitive.
-   * 
-   * @ks.note [09-Dec-2012:KASI]   This information is just a close guess. Case sensitivity of a filesystem might as well 
-   *                               depend on the technical specifications of the filesystem itself.
-   * 
-   * @return   <code>true</code> <=> The filesystem is case sensitive.
-   */
-  public boolean isCaseSensitiveFS() {
-    return casesensitive;
-  }
-
-  /**
-   * Returns <code>true</code> if this operating system is currently active.
-   * 
-   * @return   <code>true</code> <=> This operating system is currently active.
-   */
-  public boolean isActive() {
-    return isrunning;
-  }
-
-  /**
-   * Returns the key used to identify the operating system.
-   * 
-   * @return   The key used to identify the operating system. Neither <code>null</code> nor empty.
-   */
-  public String getKey() {
-    return key;
   }
   
   /**

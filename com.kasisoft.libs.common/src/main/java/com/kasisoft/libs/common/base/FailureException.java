@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.base;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Specialisation of the RuntimeException which provides a numerical code which allows to handle this exception in a 
@@ -8,11 +9,11 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Getter
+@Getter @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FailureException extends RuntimeException {
 
-  private FailureCode   failurecode;
-  private Object[]      params;
+  FailureCode   failurecode;
+  Object[]      params;
 
   private FailureException( String message, FailureCode code, Throwable cause, Object[] parameters ) {
     super( message, cause );

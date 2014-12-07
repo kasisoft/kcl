@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.constants;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Constants the different byte order marks.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ByteOrderMark {
 
   UTF8    ( new byte[] { (byte) 0xef, (byte) 0xbb, (byte) 0xbf } ) ,
@@ -15,21 +17,13 @@ public enum ByteOrderMark {
   UTF32BE ( new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff } ),
   UTF32LE ( new byte[] { (byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00 } );
   
-  private byte[]   bomsequence;
+  /** Not <code>null</code>. */
+  @Getter byte[]   BOM;
   
   ByteOrderMark( byte[] sequence ) {
-    bomsequence = sequence;
+    BOM = sequence;
   }
   
-  /**
-   * Returns the byte order mark allowing to identify the character encoding.
-   * 
-   * @return   The byte order mark allowing to identify the character encoding. Not <code>null</code>.
-   */
-  public byte[] getBOM() {
-    return bomsequence;
-  }
-
   /**
    * Returns <code>true</code> if the supplied data starts with this BOM.
    * 
@@ -50,8 +44,8 @@ public enum ByteOrderMark {
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
   public boolean startsWith( @NonNull byte[] data, int offset ) {
-    for( int i = 0; (i < bomsequence.length) && (offset < data.length); i++, offset++ ) {
-      if( data[ offset ] != bomsequence[i] ) {
+    for( int i = 0; (i < BOM.length) && (offset < data.length); i++, offset++ ) {
+      if( data[ offset ] != BOM[i] ) {
         return false;
       }
     }

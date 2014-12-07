@@ -5,12 +5,14 @@ import com.kasisoft.libs.common.util.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Declarations used to identify primitive types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Primitive {
 
   PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , Boolean   [] . class, 0                   , 0                   ) ,
@@ -22,14 +24,23 @@ public enum Primitive {
   PFloat    ( Float     . TYPE , Float     . class , float   [] . class , Float     [] . class, 0                   , 0                   ) ,
   PDouble   ( Double    . TYPE , Double    . class , double  [] . class , Double    [] . class, 0                   , 0                   ) ;
   
-  private Class<?>     primitiveclass;
-  private Class<?>     arrayclass;
-  private Class<?>     clazz;
-  private Class<?>     objectarrayclass;
-  private long         min;
-  private long         max;
-  private Buffers      buffers;
-  private boolean      minmax;
+  /** Not <code>null</code>. */
+  @Getter Class<?>    primitiveClass;
+  
+  /** Not <code>null</code>. */
+  @Getter Class<?>    arrayClass;
+  
+  /** Not <code>null</code>. */
+  @Getter Class<?>    objectClass;
+  
+  /** Not <code>null</code>. */
+  @Getter Class<?>    objectArrayClass;
+  
+  @Getter long        min;
+  @Getter long        max;
+  
+  Buffers             buffers;
+  boolean             supportsMinMax;
   
   /**
    * Sets up this enumeration value.
@@ -42,13 +53,14 @@ public enum Primitive {
    * @param maxval            The maximum value.
    */
   Primitive( Class<?> primitive, Class<?> objclazz, Class<?> arraytype, Class<?> objectarraytype, long minval, long maxval ) {
-    primitiveclass = primitive;
-    clazz          = objclazz;
-    arrayclass     = arraytype;
-    min            = minval;
-    max            = maxval;
-    buffers        = null;
-    minmax         = minval != maxval;
+    primitiveClass    = primitive;
+    objectClass       = objclazz;
+    objectArrayClass  = objectarraytype;
+    arrayClass        = arraytype;
+    min               = minval;
+    max               = maxval;
+    buffers           = null;
+    supportsMinMax    = minval != maxval;
     LocalData.primitivemap.put( primitive       , this );
     LocalData.primitivemap.put( objclazz        , this );
     LocalData.primitivemap.put( arraytype       , this );
@@ -61,25 +73,7 @@ public enum Primitive {
    * @return   <code>true</code> <=> Using {@link #getMin()} and {@link #getMax()} is supported.
    */
   public boolean supportsMinMax() {
-    return minmax;
-  }
-  
-  /**
-   * Returns the minimum value for this type. Not supported for PChar, PBoolean, PFloat and PDouble.
-   * 
-   * @return   The minimum value for this type.
-   */
-  public long getMin() {
-    return min;
-  }
-  
-  /**
-   * Returns the maximum value for this type. Not supported for PChar, PBoolean, PFloat and PDouble.
-   * 
-   * @return   The maximum value for this type.
-   */
-  public long getMax() {
-    return max;
+    return supportsMinMax;
   }
   
   /**
@@ -92,42 +86,6 @@ public enum Primitive {
       return 0;
     }
     return 2 * max + 1;
-  }
-  
-  /**
-   * Returns the primitive class instance.
-   * 
-   * @return   The primitive class instance. Not <code>null</code>.
-   */
-  public Class<?> getPrimitiveClass() {
-    return primitiveclass;
-  }
-  
-  /**
-   * Returns the object class instance.
-   * 
-   * @return   The object class instance. Not <code>null</code>.
-   */
-  public Class<?> getObjectClass() {
-    return clazz;
-  }
-  
-  /**
-   * Returns the array class instance.
-   * 
-   * @return   The array class instance. Not <code>null</code>.
-   */
-  public Class<?> getArrayClass() {
-    return arrayclass;
-  }
-  
-  /**
-   * Returns the object array class instance.
-   *  
-   * @return   The object array class instance. Not <code>null</code>.
-   */
-  public Class<?> getObjectArrayClass() {
-    return objectarrayclass;
   }
   
   /**
@@ -192,7 +150,7 @@ public enum Primitive {
    * @return   The length of an array instance.
    */
   public int length( @NonNull Object arrayobj ) {
-    boolean primitivevariety = arrayobj.getClass() == arrayclass;
+    boolean primitivevariety = arrayobj.getClass() == arrayClass;
     if( primitivevariety ) {
       switch( this ) {
       case PBoolean : return ((boolean []) arrayobj).length;

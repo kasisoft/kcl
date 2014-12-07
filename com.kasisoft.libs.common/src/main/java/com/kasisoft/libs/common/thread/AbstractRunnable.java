@@ -1,14 +1,18 @@
 package com.kasisoft.libs.common.thread;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Basic implementation for a Runnable.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractRunnable implements Runnable {
 
-  private boolean   stopped;
-  private boolean   completed;
+  boolean   stopped;
+  boolean   completed;
   
   @Override
   public final void run() {

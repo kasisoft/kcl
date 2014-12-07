@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Specialisation of a dispatcher which allows to change the 'source' of an ActionEvent. This listener implementation 
@@ -12,9 +13,10 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ActionEventRemapper extends ActionEventDispatcher implements ActionListener {
 
-  private JComponent   newsource;
+  JComponent   newsource;
 
   /**
    * Initialises this mapper for the supplied alternative source.

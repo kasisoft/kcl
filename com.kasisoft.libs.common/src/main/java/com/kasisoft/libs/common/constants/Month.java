@@ -5,12 +5,14 @@ import java.text.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Values to identify a month.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Month {
 
   January     ( Calendar.JANUARY   , 31 ),
@@ -29,10 +31,16 @@ public enum Month {
   @SuppressWarnings("deprecation")
   private static final int CURRENTYEAR = (new Date()).getYear() + 1900;
   
-  private int      daycount;
-  private int      jremonth;
-  private String   presentable;
-  private String   shortpresentable;
+  int      daycount;
+  
+  /** @see java.util.Calendar */
+  @Getter int      jreMonth;
+  
+  /** Neither <code>null</code> nor empty. */
+  @Getter String   presentable;
+  
+  /** Neither <code>null</code> nor empty. */
+  @Getter String   shortPresentable;
   
   /**
    * Initialises this constant.
@@ -41,19 +49,10 @@ public enum Month {
    * @param days    The number of days.
    */
   Month( int jre, int days ) {
-    jremonth         = jre;
+    jreMonth         = jre;
     daycount         = days;
     presentable      = getPresentable( Locale.getDefault() );
-    shortpresentable = getShortPresentable( Locale.getDefault() );
-  }
-  
-  /**
-   * Returns a long presentable text for this month.
-   * 
-   * @return   A long presentable text for this month. Neither <code>null</code> nor empty.
-   */
-  public String getPresentable() {
-    return presentable;
+    shortPresentable = getShortPresentable( Locale.getDefault() );
   }
   
   /**
@@ -67,19 +66,10 @@ public enum Month {
   public String getPresentable( @NonNull Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "MMMM", locale );
     Date             date      = new Date();
-    date.setMonth( jremonth );
+    date.setMonth( jreMonth );
     return formatter.format( date );
   }
 
-  /**
-   * Returns a short presentable text for this month.
-   * 
-   * @return   A short presentable text for this month. Neither <code>null</code> nor empty.
-   */
-  public String getShortPresentable() {
-    return shortpresentable;
-  }
-  
   /**
    * Returns a short presentable text for this month.
    *
@@ -91,7 +81,7 @@ public enum Month {
   public String getShortPresentable( @NonNull Locale locale ) {
     SimpleDateFormat formatter = new SimpleDateFormat( "MMM", locale );
     Date             date      = new Date();
-    date.setMonth( jremonth );
+    date.setMonth( jreMonth );
     return formatter.format( date );
   }
 
@@ -101,16 +91,7 @@ public enum Month {
    * @return   The numbering within a year. [ 1 .. result .. 12 ]
    */
   public int getNumber() {
-    return jremonth + 1;
-  }
-  
-  /**
-   * Returns the jre constant value for this month (@see Calendar).
-   * 
-   * @return   The jre constant value for this month.
-   */
-  public int getJreMonth() {
-    return jremonth;
+    return jreMonth + 1;
   }
   
   /**
@@ -208,7 +189,7 @@ public enum Month {
    */
   @SuppressWarnings("deprecation")
   public Weekday getFirstWeekday( int year ) {
-    return Weekday.valueOf( new Date( year - 1900, jremonth, 1 ) );
+    return Weekday.valueOf( new Date( year - 1900, jreMonth, 1 ) );
   }
   
   /**
@@ -232,7 +213,7 @@ public enum Month {
    */
   @SuppressWarnings("deprecation")
   public Weekday getWeekday( int year, int day ) {
-    return Weekday.valueOf( new Date( year - 1900, jremonth, day ) );
+    return Weekday.valueOf( new Date( year - 1900, jreMonth, day ) );
   }
   
   /**
@@ -246,7 +227,7 @@ public enum Month {
   public static Month valueOf( @NonNull Date date ) {
     int number = date.getMonth() + 1;
     for( Month month : Month.values() ) {
-      if( month.jremonth == number ) {
+      if( month.jreMonth == number ) {
         return month;
       }
     } 
@@ -262,7 +243,7 @@ public enum Month {
    */
   public static Month valueOf( int jremonth ) {
     for( Month month : Month.values() ) {
-      if( month.jremonth == jremonth ) {
+      if( month.jreMonth == jremonth ) {
         return month;
       }
     } 

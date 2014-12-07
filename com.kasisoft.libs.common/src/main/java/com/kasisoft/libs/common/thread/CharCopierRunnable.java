@@ -7,21 +7,23 @@ import com.kasisoft.libs.common.util.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A Runnable which is used to copy data from a Reader to a Writer.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CharCopierRunnable extends AbstractRunnable {
 
-  private Reader            source;
-  private Writer            destination;
-  private boolean           configured;
+  Reader    source;
+  Writer    destination;
+  boolean   configured;
   
-  private char[]            buffer;
-  private boolean           owned;
-  private Integer           size;
+  char[]    buffer;
+  boolean   owned;
+  Integer   size;
   
   /**
    * Initialises this Runnable implementation using a locally allocated buffer of a default size.

@@ -8,24 +8,29 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Implementation allowing to traverse a directory structure.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileListRunnable extends AbstractRunnable {
 
-  private static final File[] EMPTY_LIST = new File[0];
+  static final File[] EMPTY_LIST = new File[0];
   
-  private boolean                 incdirs;
-  private boolean                 incfiles;
-  private FileFilter              filter;
-  private ProtectableList<File>   dirreceiver;
-  private ProtectableList<File>   filereceiver;
-  private File[]                  roots;
-  private boolean                 configured;
-  private Pattern                 filepattern;
-  private Pattern                 dirpattern;
+  @Getter @Setter boolean       includeDirs;
+  @Getter @Setter boolean       includeFiles;
+  @Getter @Setter FileFilter    filter;
+  
+  ProtectableList<File>         dirreceiver;
+  ProtectableList<File>         filereceiver;
+  File[]                        roots;
+  boolean                       configured;
+  Pattern                       filepattern;
+  Pattern                       dirpattern;
 
   /**
    * Initialises this file lister allowing to collect resources selectively.
@@ -40,8 +45,8 @@ public class FileListRunnable extends AbstractRunnable {
    * @param files   The list of resources to traverse initially. Maybe <code>null</code>.
    */
   public FileListRunnable( File ... files ) {
-    incdirs       = true;
-    incfiles      = true;
+    includeDirs       = true;
+    includeFiles      = true;
     filter        = null;
     filepattern   = null;
     dirpattern    = null;
@@ -130,60 +135,6 @@ public class FileListRunnable extends AbstractRunnable {
     return new ArrayList<>( dirreceiver );
   }
 
-  /**
-   * Changes the filter that has to be used.
-   * 
-   * @param newfilter   The new filter that has to be used. Maybe <code>null</code>.
-   */
-  public void setFilter( FileFilter newfilter ) {
-    filter = newfilter;
-  }
-  
-  /**
-   * Returns the current filter that will be used for the traversal.
-   * 
-   * @return   The current filter that will be used for the traversal. Maybe <code>null</code>.
-   */
-  public FileFilter getFilter() {
-    return filter;
-  }
-  
-  /**
-   * Enables the inclusion of directories.
-   * 
-   * @param enable   <code>true</code> <=> Enable the inclusion of directories.
-   */
-  public void setIncludeDirs( boolean enable ) {
-    incdirs = enable;
-  }
-  
-  /**
-   * Returns <code>true</code> if inclusion of directories is enabled.
-   * 
-   * @return   <code>true</code> <=> Inclusion of directories is enabled.
-   */
-  public boolean isIncludeDirs() {
-    return incdirs;
-  }
-  
-  /**
-   * Enables the inclusion of files.
-   * 
-   * @param enable   <code>true</code> <=> Enable the inclusion of files.
-   */
-  public void setIncludeFiles( boolean enable ) {
-    incfiles = enable;
-  }
-  
-  /**
-   * Returns <code>true</code> if inclusion of files is enabled.
-   * 
-   * @return   <code>true</code> <=> Inclusion of files is enabled.
-   */
-  public boolean isIncludeFiles() {
-    return incfiles;
-  }
-
   @Override
   protected void execute() {
     
@@ -192,8 +143,8 @@ public class FileListRunnable extends AbstractRunnable {
     }
 
     // we're using write protected lists depending on the current settings
-    filereceiver.protect  = ! incfiles;
-    dirreceiver.protect   = ! incdirs;
+    filereceiver.protect  = ! includeFiles;
+    dirreceiver.protect   = ! includeDirs;
     
     StringBuilder buffer = new StringBuilder();
     for( File resource : roots ) {

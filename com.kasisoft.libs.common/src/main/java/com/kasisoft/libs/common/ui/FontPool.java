@@ -9,16 +9,18 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple helper classes used to manage fonts.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FontPool {
 
-  private Map<String,Font>   fonts;
-  private List<String>       familynames;
+  Map<String,Font>   fonts;
+  List<String>       familynames;
   
   /**
    * Initialises this pool of Fonts.

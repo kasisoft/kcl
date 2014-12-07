@@ -3,22 +3,27 @@ package com.kasisoft.libs.common.xml;
 import org.xml.sax.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple datastructure representing a fault within a xml document.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlFault {
   
   public static enum FaultType {
     warning, error, fatal;
   }
 
-  private FaultType   type;
-  private String      message;
-  private int         column;
-  private int         line;
+                  FaultType   type;
+  
+  @Getter @Setter int         line;
+  @Getter @Setter int         column;
+  
+  /** Neither <code>null</code> nor empty. */
+  @Getter @Setter String      message;
   
   /**
    * Initialises this datastructure from the supplied exception.
@@ -83,58 +88,4 @@ public class XmlFault {
     return type == FaultType.fatal;
   }
 
-  /**
-   * Returns the failure message.
-   * 
-   * @return   The failure message. Neither <code>null</code> nor empty.
-   */
-  public String getMessage() {
-    return message;
-  }
-  
-  /**
-   * Changes the current message.
-   * 
-   * @param newmessage   The new message. Neither <code>null</code> nor empty.
-   */
-  public void setMessage( @NonNull String newmessage ) {
-    message = newmessage;
-  }
-  
-  /**
-   * Returns the conflicting column number.
-   * 
-   * @return   The conflicting column number.
-   */
-  public int getColumn() {
-    return column;
-  }
-  
-  /**
-   * Changes the current column information.
-   * 
-   * @param newcolumn   The new column.
-   */
-  public void setColumn( int newcolumn ) {
-    column = newcolumn;
-  }
-
-  /**
-   * Returns the conflicting line number.
-   * 
-   * @return   The conflicting line number.
-   */
-  public int getLine() {
-    return line;
-  }
-  
-  /**
-   * Changes the current line information.
-   * 
-   * @param newline   The new line information.
-   */
-  public void setLine( int newline ) {
-    line = newline;
-  }
-  
 } /* ENDCLASS */

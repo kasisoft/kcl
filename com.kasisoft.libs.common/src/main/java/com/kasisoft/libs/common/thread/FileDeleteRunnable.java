@@ -13,14 +13,8 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@NoArgsConstructor
 public class FileDeleteRunnable extends FileListRunnable {
-
-  /**
-   * Initialises this Runnable which is used to delete a bunch of filesystem resources.
-   */
-  public FileDeleteRunnable() {
-    super();
-  }
 
   /**
    * Initialises this Runnable which is used to delete a bunch of filesystem resources.

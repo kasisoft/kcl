@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.constants;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Collection of time units.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum TimeUnit {
 
   Millisecond  (                   1 ),
@@ -15,19 +17,10 @@ public enum TimeUnit {
   Hour         (      60 * 60 * 1000 ),
   Day          ( 24 * 60 * 60 * 1000 );
   
-  private long milliseconds;
+  @Getter long milliseconds;
   
   TimeUnit( long millis ) {
     milliseconds = millis;
-  }
-  
-  /**
-   * Returns the number of milliseconds used to represent this time unit.
-   * 
-   * @return   The number of milliseconds used to represent this time unit.
-   */
-  public long getMilliseconds() {
-    return milliseconds;
   }
   
   /**

@@ -9,22 +9,32 @@ import java.util.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Convenience class for the Runtime.exec method.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SystemProcess {
 
-  private OutputStream         outstream;
-  private OutputStream         errstream;
-  private Exception            exception;
-  private File                 executable;
-  private File                 workingdir;
-  private boolean              environment;
-  private Map<String,String>   variables;
-  private int                  returncode;
+  /** Maybe <code>null</code>. */
+  @Getter OutputStream         outputStream;
+  
+  /** Maybe <code>null</code>. */
+  @Getter OutputStream         errorStream;
+  
+  @Getter Exception            exception;
+  @Getter File                 executable;
+  
+  /** Maybe <code>null</code>. */
+  @Getter File                 workingDir;
+  
+  @Getter boolean              inheritEnvironment;
+  @Getter int                  returncode;
+
+          Map<String,String>   variables;
   
   /**
    * Sets up this convenience class to use the supplied executable for the creation of a system process.
@@ -32,14 +42,14 @@ public class SystemProcess {
    * @param exec   The executable to use for the creation of a system process. Must be a valid file.
    */
   public SystemProcess( @NonNull File exec ) {
-    exception   = null;
-    outstream   = null;
-    errstream   = null;
-    environment = true;
-    executable  = exec;
-    workingdir  = null;
-    returncode  = 0;
-    variables   = new Hashtable<>();
+    exception           = null;
+    outputStream        = null;
+    errorStream         = null;
+    inheritEnvironment  = true;
+    executable          = exec;
+    workingDir          = null;
+    returncode          = 0;
+    variables           = new Hashtable<>();
   }
 
   /**
@@ -68,43 +78,16 @@ public class SystemProcess {
    * @param useenvironment   <code>true</code> <=> The current environment will be inherited by the subprocess.
    */
   public synchronized void setInheritEnvironment( boolean useenvironment ) {
-    environment = useenvironment;
+    inheritEnvironment = useenvironment;
   }
   
-  /**
-   * Returns <code>true</code> if the subprocess inherits the environment.
-   * 
-   * @return   <code>true</code> <=> The subprocess inherits the environment.
-   */
-  public boolean isInheritEnvironment() {
-    return environment;
-  }
-
   /**
    * Changes the working directory for the subprocess.
    * 
    * @param newworkingdir   The new working directory for the subprocess. Maybe <code>null</code>
    */
   public synchronized void setWorkingDir( File newworkingdir ) {
-    workingdir = newworkingdir;
-  }
-
-  /**
-   * Returns the working directory used for the subprocess. Maybe <code>null</code>.
-   * 
-   * @return   The working directory used for the subprocess. Maybe <code>null</code>.
-   */
-  public File getWorkingDir() {
-    return workingdir;
-  }
-  
-  /**
-   * Returns the executable used to run the system process.
-   * 
-   * @return   The executable used to run the system process.
-   */
-  public File getExecutable() {
-    return executable;
+    workingDir = newworkingdir;
   }
 
   /**
@@ -113,16 +96,7 @@ public class SystemProcess {
    * @param output   The OutputStream used to delegate the output to. Maybe <code>null</code>.
    */
   public synchronized void setOutputStream( OutputStream output ) {
-    outstream   = output;
-  }
-
-  /**
-   * Returns the OutputStream used to delegate the output to.
-   * 
-   * @return   The OutputStream used to delegate the output to. Maybe <code>null</code>.
-   */
-  public OutputStream getOutputStream() {
-    return outstream;
+    outputStream   = output;
   }
 
   /**
@@ -131,25 +105,7 @@ public class SystemProcess {
    * @param output   The error stream used to delegate the output to. Maybe <code>null</code>.
    */
   public synchronized void setErrorStream( OutputStream output ) {
-    errstream   = output;
-  }
-
-  /**
-   * Returns the error stream used to delegate the output to.
-   * 
-   * @return   The error stream used to delegate the output to. Maybe <code>null</code>.
-   */
-  public OutputStream getErrorStream() {
-    return errstream;
-  }
-
-  /**
-   * Returns the Exception that came up while the process has been executed.
-   * 
-   * @return   The Exception that came up while the process has been executed.
-   */
-  public Exception getException() {
-    return exception;
+    errorStream   = output;
   }
 
   /**
@@ -159,7 +115,7 @@ public class SystemProcess {
    */
   private String[] createEnvironment() {
     String[] result = null;
-    if( environment ) {
+    if( inheritEnvironment ) {
       if( ! variables.isEmpty() ) {
         // if we don't have an extension we can use the value 'null' to indicate that
         // the current environment has to be inherited. in the other case we must create
@@ -209,10 +165,10 @@ public class SystemProcess {
     
     try {
 
-      Process process = Runtime.getRuntime().exec( createCommandVector( args ), createEnvironment(), workingdir );
+      Process process = Runtime.getRuntime().exec( createCommandVector( args ), createEnvironment(), workingDir );
 
-      OutputStream out = outstream != null ? outstream : System.out;
-      OutputStream err = errstream != null ? errstream : System.err;
+      OutputStream out = outputStream != null ? outputStream : System.out;
+      OutputStream err = errorStream != null ? errorStream : System.err;
       
       ByteCopierRunnable outrunnable = new ByteCopierRunnable(); 
       ByteCopierRunnable errrunnable = new ByteCopierRunnable(); 
@@ -239,15 +195,6 @@ public class SystemProcess {
 
     return result;
 
-  }
-  
-  /**
-   * Returns the returncode supplied by the last command execution.
-   * 
-   * @return   The returncode supplied by the last command execution.
-   */
-  public int getReturncode() {
-    return returncode;
   }
   
   /**

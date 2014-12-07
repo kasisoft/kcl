@@ -9,18 +9,20 @@ import java.util.zip.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A Runnable that is used to ZIP a directory.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ZipRunnable extends AbstractRunnable {
 
-  private File      zipfile;
-  private File      sourcedir;
-  private Integer   buffersize;
-  private byte[]    buffer;
+  File      zipfile;
+  File      sourcedir;
+  Integer   buffersize;
+  byte[]    buffer;
 
   /**
    * Configures this Runnable to zip a directory.

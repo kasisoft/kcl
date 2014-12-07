@@ -17,17 +17,19 @@ import java.net.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Basic data structure used to store entity ids together with the urls.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver {
 
-  private Map<String,byte[]>    catalogdata;
-  private Set<URL>              failures;
-  private DOMImplementationLS   domimpl;
+  Map<String,byte[]>    catalogdata;
+  Set<URL>              failures;
+  DOMImplementationLS   domimpl;
   
   /**
    * Initialises this catalog.

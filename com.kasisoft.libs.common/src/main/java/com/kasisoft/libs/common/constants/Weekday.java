@@ -5,12 +5,14 @@ import java.text.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Constants used to describe a weekday.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Weekday {
 
   Monday    ( Calendar.MONDAY    ) ,
@@ -21,9 +23,13 @@ public enum Weekday {
   Saturday  ( Calendar.SATURDAY  ) ,
   Sunday    ( Calendar.SUNDAY    ) ;
   
-  private int      jreday;
-  private String   presentable;
-  private String   shortpresentable;
+  int              jreday;
+  
+  /** Neither <code>null</code> nor empty. */
+  @Getter String   presentable;
+  
+  /** Neither <code>null</code> nor empty. */
+  @Getter String   shortPresentable;
   
   /**
    * Sets up this constant with the supplied index within a week.
@@ -33,16 +39,7 @@ public enum Weekday {
   Weekday( int jre ) {
     jreday           = jre;
     presentable      = getPresentable( Locale.getDefault() );
-    shortpresentable = getShortPresentable( Locale.getDefault() );
-  }
-  
-  /**
-   * Returns a long presentable text for this weekday.
-   * 
-   * @return   A long presentable text for this weekday. Neither <code>null</code> nor empty.
-   */
-  public String getPresentable() {
-    return presentable;
+    shortPresentable = getShortPresentable( Locale.getDefault() );
   }
   
   /**
@@ -62,15 +59,6 @@ public enum Weekday {
     return formatter.format( date );
   }
 
-  /**
-   * Returns a short presentable text for this weekday.
-   * 
-   * @return   A short presentable text for this weekday. Neither <code>null</code> nor empty.
-   */
-  public String getShortPresentable() {
-    return shortpresentable;
-  }
-  
   /**
    * Returns a short presentable text for this weekday.
    *

@@ -6,19 +6,24 @@ import com.kasisoft.libs.common.validation.*;
 import javax.swing.event.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Field used to support numerical values only.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KDoubleField extends KFilteringTextField {
 
-  private double                  minimum;
-  private double                  maximum;
-  private Double                  value;
-  private StringBuilder           buffer;
-  private ChangeEventDispatcher   changeeventdispatcher;
+  @Getter double                  minimum;
+  @Getter double                  maximum;
+  
+  /** Non <code>null</code> if valid. */
+  @Getter Double                  value;
+  
+  StringBuilder                   buffer;
+  ChangeEventDispatcher           changeeventdispatcher;
   
   /**
    * Sets up this field allowing to enter numerical values.
@@ -90,15 +95,6 @@ public class KDoubleField extends KFilteringTextField {
   }
 
   /**
-   * Returns the numerical value currently stored in this widget only in case it's valid.
-   * 
-   * @return   The numerical value currently stored in this widget. Non <code>null</code> if valid.
-   */
-  public Double getValue() {
-    return value;
-  }
-
-  /**
    * Changes the current numerical value.
    * 
    * @param newvalue   The new numerical value. Maybe <code>null</code>.
@@ -141,15 +137,6 @@ public class KDoubleField extends KFilteringTextField {
   }
 
   /**
-   * Returns the currently allowed minimum value.
-   * 
-   * @return   The currently allowed minimum value.
-   */
-  public double getMinimum() {
-    return minimum;
-  }
-  
-  /**
    * Changes the currently allowed maximum value.
    * 
    * @param newmaximum   The new allowed maximum value. Maybe <code>null</code>.
@@ -161,15 +148,6 @@ public class KDoubleField extends KFilteringTextField {
       maximum = newmaximum.intValue();
     }
     validityCheck();
-  }
-
-  /**
-   * Returns the currently allowed maximum value.
-   * 
-   * @return   The currently allowed maximum value.
-   */
-  public double getMaximum() {
-    return maximum;
   }
 
   /**

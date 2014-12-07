@@ -2,6 +2,9 @@ package com.kasisoft.libs.common.util;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * A Comparator implementation that is capable to handle <code>null</code> values. The default implementation which
  * doesn't use a {@link Comparator} expects the generic type <code>T</code> to be an extension of {@link Comparable}.
@@ -9,9 +12,10 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class NullableComparator<T> implements Comparator<T> {
 
-  private Comparator<T>   delegate;
+  Comparator<T>   delegate;
   
   /**
    * Initialises this Comparator instance totally relying on the Comparable implementation.

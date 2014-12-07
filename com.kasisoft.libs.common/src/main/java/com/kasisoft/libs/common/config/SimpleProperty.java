@@ -5,6 +5,7 @@ import com.kasisoft.libs.common.xml.adapters.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following
@@ -40,9 +41,11 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
 
-  private T   defaultvalue;
+  /** Maybe <code>null</code>. */
+  @Getter T   defaultValue;
 
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
@@ -75,7 +78,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @return   this
    */
   public SimpleProperty<T> withDefault( T defvalue ) {
-    defaultvalue = defvalue;
+    defaultValue = defvalue;
     return this;
   }
   
@@ -90,15 +93,6 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
     return withDefault( getAdapter().unmarshal( defvalue ) );
   }
 
-  /**
-   * Returns the currently set default value. 
-   * 
-   * @return   The currently set default value. Maybe <code>null</code>.
-   */
-  public T getDefaultValue() {
-    return defaultvalue;
-  }
-  
   /**
    * Applies the supplied value to the given properties.
    * 

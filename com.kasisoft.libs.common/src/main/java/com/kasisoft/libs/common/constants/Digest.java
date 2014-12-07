@@ -8,16 +8,18 @@ import java.security.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Collection of supported MessageDigest implementations.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Digest {
   
   /**
-   * @ks.spec [06-Oct-2014:KASI]   http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest
+   * @ks.spec [07-Dec-2014:KASI]   http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest
    */
   
   public static final Digest   MD2;
@@ -39,8 +41,10 @@ public final class Digest {
     SHA512    = new Digest( "SHA-512" );
   }
   
-  private String                  name;
-  private Bucket<MessageDigest>   bucket;
+  /** Neither <code>null</code> nor empty. */
+  @Getter String          algorithm;
+  
+  Bucket<MessageDigest>   bucket;
 
   
   /**
@@ -56,18 +60,9 @@ public final class Digest {
     } catch( NoSuchAlgorithmException ex ) {
       throw FailureException.newFailureException( FailureCode.Reflections, null, ex, algorithm );
     }
-    name   = algorithm;
-    bucket = new Bucket<>( new DigestFactory( name ) );
+    this.algorithm  = algorithm;
+    bucket          = new Bucket<>( new DigestFactory( algorithm ) );
     DIGESTS.put( algorithm, this );
-  }
-  
-  /**
-   * Returns the name of the algorithm.
-   * 
-   * @return   The name of the algorithm. Neither <code>null</code> nor empty.
-   */
-  public String getAlgorithm() {
-    return name;
   }
   
   /**
@@ -120,7 +115,7 @@ public final class Digest {
    */
   public static Digest valueByName( @NonNull String name ) {
     for( Digest digest : Digest.values() ) {
-      if( digest.name.equalsIgnoreCase( name ) ) {
+      if( digest.algorithm.equalsIgnoreCase( name ) ) {
         return digest;
       }
     }

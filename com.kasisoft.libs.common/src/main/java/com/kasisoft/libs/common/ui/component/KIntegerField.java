@@ -7,19 +7,24 @@ import com.kasisoft.libs.common.validation.*;
 import javax.swing.event.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Field used to support numerical values only.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KIntegerField extends KFilteringTextField {
 
-  private long                    minimum;
-  private long                    maximum;
-  private Long                    value;
-  private StringBuilder           buffer;
-  private ChangeEventDispatcher   changeeventdispatcher;
+  @Getter long                    minimum;
+  @Getter long                    maximum;
+  
+  /** Non <code>null</code> if valid. */
+  @Getter Long                    value;
+  
+  StringBuilder                   buffer;
+  ChangeEventDispatcher           changeeventdispatcher;
   
   /**
    * Sets up this field allowing to enter numerical values.
@@ -112,15 +117,6 @@ public class KIntegerField extends KFilteringTextField {
   }
 
   /**
-   * Returns the numerical value currently stored in this widget only in case it's valid.
-   * 
-   * @return   The numerical value currently stored in this widget. Non <code>null</code> if valid.
-   */
-  public Long getValue() {
-    return value;
-  }
-
-  /**
    * Changes the current numerical value.
    * 
    * @param newvalue   The new numerical value. Maybe <code>null</code>.
@@ -163,15 +159,6 @@ public class KIntegerField extends KFilteringTextField {
   }
 
   /**
-   * Returns the currently allowed minimum value.
-   * 
-   * @return   The currently allowed minimum value.
-   */
-  public long getMinimum() {
-    return minimum;
-  }
-  
-  /**
    * Changes the currently allowed maximum value.
    * 
    * @param newmaximum   The new allowed maximum value. Maybe <code>null</code>.
@@ -183,15 +170,6 @@ public class KIntegerField extends KFilteringTextField {
       maximum = newmaximum.intValue();
     }
     validityCheck();
-  }
-
-  /**
-   * Returns the currently allowed maximum value.
-   * 
-   * @return   The currently allowed maximum value.
-   */
-  public long getMaximum() {
-    return maximum;
   }
 
   /**

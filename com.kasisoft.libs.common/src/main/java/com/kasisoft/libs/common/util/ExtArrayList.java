@@ -3,6 +3,7 @@ package com.kasisoft.libs.common.util;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * ArrayList variety which can handle negative indices. So an index of -1 points to the last element. An index of -2 
@@ -10,10 +11,11 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ExtArrayList<T> extends ArrayList<T> {
 
   @Getter
-  private boolean   suppressnull;
+  boolean   suppressnull;
   
   /**
    * Constructs an empty list with an initial capacity of ten.

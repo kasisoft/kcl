@@ -7,6 +7,7 @@ import java.util.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which means
@@ -14,15 +15,16 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class StringFBuffer implements Serializable, CharSequence {
 
   static final long serialVersionUID = 0x7ABEDA21D57AD988L;
   
   // only used for temporary purposes
-  private transient List<String>   collector;
+  transient List<String>   collector;
   
   // the original implementation
-  private           StringBuffer   origin;
+  StringBuffer   origin;
   
   /**
    * @see StringBuffer#StringBuffer()

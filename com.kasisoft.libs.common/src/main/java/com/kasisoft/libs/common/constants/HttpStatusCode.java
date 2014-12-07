@@ -1,12 +1,16 @@
 package com.kasisoft.libs.common.constants;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Collection of HTTP stastus codes.
  * 
- * @ks.spec [06-Oct-2014:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
+ * @ks.spec [07-Dec-2014:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum HttpStatusCode {
 
   Accepted                      ( 202, "Accepted"                         ),
@@ -50,33 +54,18 @@ public enum HttpStatusCode {
   UnsupportedMediaType          ( 415, "Unsupported Media Type"           ),
   UseProxy                      ( 305, "Use Proxy"                        );
   
-  private int      code;
-  private String   codetext;
-  private String   name;
+  @Getter int      code;
+  
+  /** Neither <code>null</code> nor empty. */
+  @Getter String   textualCode;
+  
+  @Getter String   name;
   
   
   HttpStatusCode( int statuscode, String text ) {
-    name      = text;
-    code      = statuscode;
-    codetext  = String.valueOf( code );
-  }
-  
-  /**
-   * Returns the numerical code for this instance.
-   * 
-   * @return   The numercial code for this instance.
-   */
-  public int getCode() {
-    return code;
-  }
-  
-  /**
-   * Returns the textual code for this instance.
-   * 
-   * @return   The textual code for this instance. Neither <code>null</code> nor empty.
-   */
-  public String getTextualCode() {
-    return codetext;
+    name        = text;
+    code        = statuscode;
+    textualCode = String.valueOf( code );
   }
   
   @Override

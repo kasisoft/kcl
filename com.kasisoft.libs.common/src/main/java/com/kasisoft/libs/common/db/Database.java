@@ -3,12 +3,14 @@ package com.kasisoft.libs.common.db;
 import java.sql.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple wrapper for various database types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Database {
 
   derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1" ),
@@ -21,15 +23,16 @@ public enum Database {
   postgresql  ( "org.postgresql.Driver"                         , "SELECT 1" ),
   sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1" );
 
-  @Getter
-  private String    driver;
-  private boolean   active;
-  private String    alive;
+  @Getter 
+  String    driver;
+  
+  boolean   active;
+  String    aliveQuery;
 
   Database( String driverclass, String query ) {
-    driver  = driverclass;
-    active  = false;
-    alive   = query;
+    driver      = driverclass;
+    active      = false;
+    aliveQuery  = query;
   }
 
   /**
@@ -44,7 +47,7 @@ public enum Database {
       // not available as the underlying db system isn't known here
       throw new UnsupportedOperationException();
     }
-    return alive;
+    return aliveQuery;
   }
   
   /**

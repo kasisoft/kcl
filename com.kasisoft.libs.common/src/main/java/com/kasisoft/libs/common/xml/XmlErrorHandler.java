@@ -7,23 +7,25 @@ import org.xml.sax.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Default implementation of an ErrorHandler.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlErrorHandler implements ErrorHandler {
 
-  private int               errorcount;
-  private List<XmlFault>    faults;
+  int              errorcount;
+  List<XmlFault>   faults;
   
   /**
    * Initialises this basic error handler.
    */
   public XmlErrorHandler() {
-    errorcount    = 0;
-    faults        = new ArrayList<>();
+    errorcount  = 0;
+    faults      = new ArrayList<>();
   }
   
   /**

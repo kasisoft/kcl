@@ -7,6 +7,7 @@ import java.util.*;
 import java.awt.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * The <code>SmartGridLayout</code> has nearly the same functionality as it's superclass <code>GridLayout</code>. The 
@@ -18,23 +19,24 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SmartGridLayout extends GridLayout implements LayoutManager2 {
 
-  private static final int MASK_MINWIDTH        = 0x08; // %001000
-  private static final int MASK_MAXWIDTH        = 0x10; // %010000
-  private static final int MASK_PREFWIDTH       = 0x18; // %011000
-  private static final int MASK_UNLIMITEDWIDTH  = 0x20; // %100000
+  static final int MASK_MINWIDTH        = 0x08; // %001000
+  static final int MASK_MAXWIDTH        = 0x10; // %010000
+  static final int MASK_PREFWIDTH       = 0x18; // %011000
+  static final int MASK_UNLIMITEDWIDTH  = 0x20; // %100000
 
-  private static final int MASK_MINHEIGHT       = 0x01; // %000001
-  private static final int MASK_MAXHEIGHT       = 0x02; // %000010
-  private static final int MASK_PREFHEIGHT      = 0x03; // %000011
-  private static final int MASK_UNLIMITEDHEIGHT = 0x04; // %000100
+  static final int MASK_MINHEIGHT       = 0x01; // %000001
+  static final int MASK_MAXHEIGHT       = 0x02; // %000010
+  static final int MASK_PREFHEIGHT      = 0x03; // %000011
+  static final int MASK_UNLIMITEDHEIGHT = 0x04; // %000100
 
-  private static final int MASK_WIDTH           = 0x38; // %111000
-  private static final int MASK_HEIGHT          = 0x07; // %000111
+  static final int MASK_WIDTH           = 0x38; // %111000
+  static final int MASK_HEIGHT          = 0x07; // %000111
 
   // Internal constants for controlling purposes
-  private static enum SizeType {
+  static enum SizeType {
     Minimum,
     Preferred,
     Maximum
@@ -114,26 +116,26 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
 
 
   // The grid which holds all components.
-  private Component[][]            grid;
+  Component[][]            grid;
 
   // Keeps a map of pairs (Component,Integer{Constraint}) where a constraint must be one of the constants defined above.
-  private Map<Component,Integer>   constraints ;
+  Map<Component,Integer>   constraints ;
 
   // This array is valid after the call of {@link calcLayoutSize( int, Container ) calcLayoutSize} until an additional 
   // object is added.
-  private int[]                    colwidth;
+  int[]                    colwidth;
 
   // This array is valid after the call of {@link calcLayoutSize( int, Container ) calcLayoutSize} until an additional 
   // object is added. It corresponds to colwidth but holds the maximum widths of each column.
-  private int[]                    maxwidth;
+  int[]                    maxwidth;
   
   // This array is valid after the call of {@link calcLayoutSize( int, Container ) calcLayoutSize} until an additional 
   // object will be added.
-  private int[]                    rowheight;
+  int[]                    rowheight;
 
   // This array is valid after the call of {@link calcLayoutSize( int, Container ) calcLayoutSize} until an additional 
   // object is added. It corresponds to colheight but holds the maximum heights of each column.
-  private int[]                    maxheight;
+  int[]                    maxheight;
 
   // This property specifies whether objects will be expandable or not. Due to the fact that a component may get more 
   // space than it's needed it got two options:
@@ -141,7 +143,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
   //   1. The object will be forced to consume the provided space (value = true).
   //   2. The object will be placed in the middle of the provided space (value = false).
   //
-  private boolean                  expansion;
+  boolean                  expansion;
 
   /**
    * Simple constructor which defines a grid where each row contains one column.

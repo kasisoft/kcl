@@ -3,28 +3,22 @@ package com.kasisoft.libs.common.util;
 import java.text.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A simple descriptional datastructure for a version.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@EqualsAndHashCode(of="text")
+@EqualsAndHashCode(of = "text")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Version implements Comparable<Version> {
 
-  @Getter
-  private int       major;
-  
-  @Getter
-  private int       minor;
-  
-  @Getter
-  private Integer   micro;
-  
-  @Getter
-  private String    qualifier;
-
-  private String    text;
+  @Getter int       major;
+  @Getter int       minor;
+  @Getter Integer   micro;
+  @Getter String    qualifier;
+          String    text;
 
   /**
    * Sets up this version with the supplied settings.

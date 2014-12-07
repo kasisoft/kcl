@@ -12,18 +12,20 @@ import java.awt.event.*;
 import java.awt.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A JSplitPane like variety that supports more than two parts.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KMultiSplitPane extends JPanel {
 
-  private JSplitPane[]            chain;
-  private JPanel[]                panels;
-  private Component[]             components;
-  private ChangeEventDispatcher   changeeventdispatcher;
+  JSplitPane[]            chain;
+  JPanel[]                panels;
+  Component[]             components;
+  ChangeEventDispatcher   changeeventdispatcher;
   
   /**
    * Initialises this instance without continuous layouting.
@@ -194,10 +196,10 @@ public class KMultiSplitPane extends JPanel {
     panels[ index ].add( component, BorderLayout.CENTER );
   }
   
-  @AllArgsConstructor
+  @AllArgsConstructor @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class LocalComponentListener implements ComponentListener {
     
-    private KMultiSplitPane   owner;
+    KMultiSplitPane   owner;
     
     @Override
     public void componentResized( ComponentEvent e ) {

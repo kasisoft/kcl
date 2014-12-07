@@ -3,6 +3,7 @@ package com.kasisoft.libs.common.constants;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * @ks.spec [30-Sep-2014:KASI]    http://de.selfhtml.org/diverses/mimetypen.htm
@@ -14,6 +15,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum MimeType {
 
   AdobePdf                    ( "application/pdf"               , "pdf"                               ),  // Adobe PDF
@@ -61,13 +63,16 @@ public enum MimeType {
     }
   }
   
-  private String         mimetype;
-  private List<String>   suffices;
+  /** Neither <code>null</code> nor empty. */
+  @Getter String         mimeType;
+  
+  /** Not <code>null</code>. */
+  @Getter List<String>   suffices;
   
   MimeType( String type, String ... suffixlist ) {
-    mimetype  = type;
+    mimeType  = type;
     suffices  = Collections.unmodifiableList( Arrays.asList( suffixlist ) );
-    LocalData.valuebymimetype.put( mimetype, this );
+    LocalData.valuebymimetype.put( mimeType, this );
     for( String suffix : suffices ) {
       Set<MimeType> set = LocalData.valuebysuffix.get( suffix );
       if( set == null ) {
@@ -76,25 +81,6 @@ public enum MimeType {
       }
       set.add( this );
     }
-  }
-  
-  /**
-   * Returns the mime type as it appears in internet related messages/documents.
-   * 
-   * @return   The mime type as it appears in internet related messages/documents. Neither <code>null</code> nor empty.
-   */
-  public String getMimeType() {
-    return mimetype;
-  }
-  
-  /**
-   * Returns a list of suffices supported by this mime type. The suffices don't contain the dot
-   * and are all lowercase.
-   * 
-   * @return   A list of suffices supported by this mime type. Not <code>null</code>.
-   */
-  public List<String> getSuffices() {
-    return suffices;
   }
   
   /**

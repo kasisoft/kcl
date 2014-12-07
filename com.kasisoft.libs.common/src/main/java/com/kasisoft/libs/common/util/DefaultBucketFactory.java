@@ -5,16 +5,18 @@ import com.kasisoft.libs.common.base.*;
 import java.lang.reflect.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Default implementation of a BucketFactory.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DefaultBucketFactory<T> implements BucketFactory<T> {
 
-  private Constructor   constructor;
-  private Method        reset;
+  Constructor   constructor;
+  Method        reset;
   
   /**
    * Initializes this factory using the supplied type.

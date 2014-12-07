@@ -10,17 +10,19 @@ import java.util.zip.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A Runnable that is used to perform an unzip process.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UnzipRunnable extends AbstractRunnable {
 
-  private File      zip;
-  private File      destination;
-  private Integer   buffersize;
+  File      zip;
+  File      destination;
+  Integer   buffersize;
 
   /**
    * Initializes this Thread used to unpack a ZIP file.

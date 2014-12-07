@@ -12,19 +12,21 @@ import java.net.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Helper class which allows to resolve properties from the classpath.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PropertyResolver {
 
-  private Map<Pattern,String>   substitutions;
-  private ClassLoader           classloader;
-  private String                format;
-  private Map<String,String>    data;
-  private Map<String,String>    resolveddata;
+  Map<Pattern,String>   substitutions;
+  ClassLoader           classloader;
+  String                format;
+  Map<String,String>    data;
+  Map<String,String>    resolveddata;
 
   /**
    * Creates a new resolver using the system ClassLoader.

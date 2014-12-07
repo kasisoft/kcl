@@ -6,21 +6,22 @@ import com.kasisoft.libs.common.xml.adapters.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Base type which allows to realize typed property values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@ToString
+@ToString @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of={"key"})
 public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
 
-  @Getter private String                  key;
-  @Getter private TypeAdapter<String,T>   adapter;
-  @Getter private boolean                 required;
-  @Getter private String                  description;
-          private PropertiesConfig        propertiesConfig;
+  @Getter String                  key;
+  @Getter TypeAdapter<String,T>   adapter;
+  @Getter boolean                 required;
+  @Getter String                  description;
+          PropertiesConfig        propertiesConfig;
   
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor

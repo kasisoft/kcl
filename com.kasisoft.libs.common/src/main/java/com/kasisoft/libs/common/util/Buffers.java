@@ -7,6 +7,7 @@ import java.util.*;
 import java.lang.ref.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple class used to provide buffers for temporary use. This is currently a straight forward implementation and not 
@@ -15,10 +16,11 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Buffers<T> {
 
-  private List<SoftReference<T>>   allocated;
-  private Primitive                type;
+  List<SoftReference<T>>   allocated;
+  Primitive                type;
   
   /**
    * Initialises these instance with the supplied primitive type identification.

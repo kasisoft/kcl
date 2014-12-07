@@ -5,6 +5,7 @@ import com.kasisoft.libs.common.util.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 
 /**
@@ -12,11 +13,12 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PropertiesConfig {
 
-  private String               varFormatter;
-  private boolean              resolve;
-  private Map<String,String>   replacements;
+  String               varFormatter;
+  boolean              resolve;
+  Map<String,String>   replacements;
   
   public PropertiesConfig( String newvarformatter, boolean newresolve ) {
     varFormatter  = newvarformatter;
