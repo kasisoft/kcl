@@ -56,5 +56,21 @@ public enum TimeUnit {
     }
     return -1;
   }
-  
+
+  /**
+   * Converts an amount of units into it's corresponding value for another unit.
+   * 
+   * @param num     The amount of units to convert.
+   * @param other   The other unit which amount is desired. Must be smaller than the actual one. Not <code>null</code>.
+   * 
+   * @return   The corresponding amount in another unit. -1 in case the supplied unit isn't smaller.
+   */
+  public long convert( long num, @NonNull TimeUnit other ) {
+    if( other.milliseconds < milliseconds ) {
+      long ratio = milliseconds / other.milliseconds;
+      return num * ratio;
+    }
+    return -1;
+  }
+
 } /* ENDENUM */
