@@ -26,7 +26,7 @@ public class Iso3166Test {
     Iso3166[]   values = Iso3166.values();
     Object[][]  result = new Object[ values.length ][];
     for( int i = 0; i < values.length; i++ ) {
-      result[i] = new Object[] { values[i], values[i].alpha2() };
+      result[i] = new Object[] { values[i], values[i].getAlpha2() };
     }
     return result;
   }
@@ -36,7 +36,7 @@ public class Iso3166Test {
     Iso3166[]   values = Iso3166.values();
     Object[][]  result = new Object[ values.length ][];
     for( int i = 0; i < values.length; i++ ) {
-      result[i] = new Object[] { values[i], values[i].alpha3() };
+      result[i] = new Object[] { values[i], values[i].getAlpha3() };
     }
     return result;
   }
@@ -46,17 +46,17 @@ public class Iso3166Test {
     Iso3166[]   values = Iso3166.values();
     Object[][]  result = new Object[ values.length ][];
     for( int i = 0; i < values.length; i++ ) {
-      result[i] = new Object[] { values[i], Integer.valueOf( values[i].numerical() ) };
+      result[i] = new Object[] { values[i], Integer.valueOf( values[i].getNumerical() ) };
     }
     return result;
   }
 
   @Test(dataProvider="createValues",groups="all")
   public void validCode( Iso3166 value ) {
-    Assert.assertNotNull( value.alpha2() );
-    Assert.assertNotNull( value.alpha3() );
-    Assert.assertEquals( value.alpha2().length(), 2 );
-    Assert.assertEquals( value.alpha3().length(), 3 );
+    Assert.assertNotNull( value.getAlpha2() );
+    Assert.assertNotNull( value.getAlpha3() );
+    Assert.assertEquals( value.getAlpha2().length(), 2 );
+    Assert.assertEquals( value.getAlpha3().length(), 3 );
   }
 
   @Test(dataProvider="createAlpha2",groups="all")
