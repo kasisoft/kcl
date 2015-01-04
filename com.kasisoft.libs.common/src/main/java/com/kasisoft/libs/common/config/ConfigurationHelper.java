@@ -236,7 +236,7 @@ public class ConfigurationHelper {
   
   private static <T> T getValue( Map properties, SimpleProperty<T> property ) {
     try {
-      return property.getValue( properties );
+      return (T) property.getValue( properties );
     } catch( MissingPropertyException ex ) {
       // legal case for a required but missing property, so value stays null
       return null;
