@@ -45,9 +45,9 @@ public class FailureException extends RuntimeException {
    * Initialises this exception with the appropriate failure information.
    * 
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param message   The error message. Maybe <code>null</code>.
    */
-  public static FailureException newFailureException( @NonNull FailureCode code, @NonNull String message ) {
+  public static FailureException newFailureException( @NonNull FailureCode code, String message ) {
     return new FailureException( createMessage( code, message, null ), code, null, null );
   }
  
@@ -55,10 +55,10 @@ public class FailureException extends RuntimeException {
    * Initialises this exception with the appropriate failure information.
    * 
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param message   The error message. Maybe <code>null</code>.
    * @param cause     The causing exception.
    */
-  public static FailureException newFailureException( @NonNull FailureCode code, @NonNull String message, Throwable cause ) {
+  public static FailureException newFailureException( @NonNull FailureCode code, String message, Throwable cause ) {
     return new FailureException( createMessage( code, message, null ), code, cause, null );
   }
 
@@ -66,11 +66,11 @@ public class FailureException extends RuntimeException {
    * Initialises this exception with the appropriate failure information.
    * 
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param message   The error message. Maybe <code>null</code>.
    * @param cause     The causing exception.
    * @param params    Optional parameters which have been involved in the cause of the exception. Maybe <code>null</code>.
    */
-  public static FailureException newFailureException( @NonNull FailureCode code, @NonNull String message, Throwable cause, Object ... params ) {
+  public static FailureException newFailureException( @NonNull FailureCode code, String message, Throwable cause, Object ... params ) {
     return new FailureException( createMessage( code, message, params ), code, cause, params );
   }
 
@@ -172,9 +172,9 @@ public class FailureException extends RuntimeException {
    * @param enabled   <code>true</code> <=> Raise the exception.
    * @param result    The result that shall be returned. Maybe <code>null</code>.
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param message   The error message. Maybe <code>null</code>.
    */
-  public static <T> T raiseIf( boolean enabled, T result, @NonNull FailureCode code, @NonNull String message ) {
+  public static <T> T raiseIf( boolean enabled, T result, @NonNull FailureCode code, String message ) {
     return raiseIf( enabled, result, code, message, null, (Object[]) null );
   }
 
@@ -183,9 +183,9 @@ public class FailureException extends RuntimeException {
    * 
    * @param enabled   <code>true</code> <=> Raise the exception.
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param message   The error message. Maybe <code>null</code>.
    */
-  public static <T> T raiseIf( boolean enabled, @NonNull FailureCode code, @NonNull String message ) {
+  public static <T> T raiseIf( boolean enabled, @NonNull FailureCode code, String message ) {
     return raiseIf( enabled, null, code, message, null, (Object[]) null );
   }
 
@@ -195,10 +195,10 @@ public class FailureException extends RuntimeException {
    * @param enabled   <code>true</code> <=> Raise the exception.
    * @param result    The result that shall be returned. Maybe <code>null</code>.
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param message   The error message. Maybe <code>null</code>.
    * @param params    Optional parameters which have been involved in the cause of the exception. Maybe <code>null</code>.
    */
-  public static <T> T raiseIf( boolean enabled, T result, @NonNull FailureCode code, @NonNull String message, Object ... params ) {
+  public static <T> T raiseIf( boolean enabled, T result, @NonNull FailureCode code, String message, Object ... params ) {
     return raiseIf( enabled, result, code, message, null, params );
   }
 
@@ -207,10 +207,10 @@ public class FailureException extends RuntimeException {
    * 
    * @param enabled   <code>true</code> <=> Raise the exception.
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
-   * @param message   The error message. Neither <code>null</code> nor empty.
+   * @param message   The error message. Maybe <code>null</code>.
    * @param params    Optional parameters which have been involved in the cause of the exception. Maybe <code>null</code>.
    */
-  public static <T> T raiseIf( boolean enabled, @NonNull FailureCode code, @NonNull String message, Object ... params ) {
+  public static <T> T raiseIf( boolean enabled, @NonNull FailureCode code, String message, Object ... params ) {
     return raiseIf( enabled, null, code, message, null, params );
   }
 
