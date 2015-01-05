@@ -19,8 +19,9 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Buffers<T> {
 
-  List<SoftReference<T>>   allocated;
-  Primitive                type;
+  List<SoftReference<T>>        allocated;
+  Primitive                     type;
+  Comparator<SoftReference<T>>  comparator0;
   
   /**
    * Initialises these instance with the supplied primitive type identification.
@@ -28,8 +29,30 @@ public class Buffers<T> {
    * @param primitive   The primitive type identification. Not <code>null</code>.
    */
   private Buffers( @NonNull Primitive primitive ) {
-    allocated = new ArrayList<>();
-    type      = primitive;
+    allocated   = new ArrayList<>();
+    type        = primitive;
+    comparator0 = new Comparator<SoftReference<T>>() {
+
+      @Override
+      public int compare( SoftReference<T> o1, SoftReference<T> o2 ) {
+        int l1 = length( o1 );
+        int l2 = length( o2 );
+        if( (l1 == 0) || (l2 == 0) ) {
+          // this element have been cleared by the GC so return 0 in order to sustain the current position
+          return 0;
+        }
+        return l1 - l2;
+      }
+      
+    };
+  }
+  
+  private void cleanup() {
+    for( int i = allocated.size() - 1; i >= 0; i-- ) {
+      if( allocated.get(i).get() == null ) {
+        allocated.remove(i);
+      }
+    }
   }
   
   /**
@@ -43,11 +66,11 @@ public class Buffers<T> {
     if( allocated.isEmpty() ) {
       return null;
     }
-    /** @ks.todo [11-Jan-2009:KASI] the access could be improved when the blocks are sorted depending on their length. */ 
+    cleanup();
     for( int i = 0; i < allocated.size(); i++ ) {
-      SoftReference<T> ref = allocated.get(i);
-      if( type.length( ref.get() ) >= size ) {
-        T result = ref.get();
+      SoftReference<T> ref    = allocated.get(i);
+      T                result = ref.get();
+      if( length( ref ) >= size ) {
         ref.clear();
         allocated.remove( ref );
         return result;
@@ -94,23 +117,25 @@ public class Buffers<T> {
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
   public synchronized void release( @NonNull T data ) {
-    SoftReference<T> ref = new SoftReference<>( data ); 
+    cleanup();
+    SoftReference<T> newref = new SoftReference<>( data ); 
     if( allocated.isEmpty() ) {
-      allocated.add( ref );
+      allocated.add( newref );
     } else {
-      int last    = allocated.size() - 1;
-      int length  = type.length( data );
-      if( type.length( allocated.get( last ).get() ) < length ) {
-        allocated.add( ref );
-      } else {
-        // the insertion makes sure that the list is always sorted by the size of the blocks
-        for( int i = 0; i < allocated.size(); i++ ) {
-          if( type.length( allocated.get(i).get() ) > length ) {
-            allocated.add( i, ref );
-            break;
-          }
-        }
+      int pos = Collections.binarySearch( allocated, newref, comparator0 );
+      if( pos < 0 ) {
+        pos = -(pos + 1);
       }
+      allocated.add( pos, newref );
+    }
+  }
+  
+  private int length( SoftReference<T> data ) {
+    T content = data.get();
+    if( content != null ) {
+      return type.length( content );
+    } else {
+      return 0;
     }
   }
   
