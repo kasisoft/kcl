@@ -1131,14 +1131,11 @@ public class IoFunctions {
    * @throws FailureException   The supplied directory cannot be assured to be an existing directory.
    */
   public static void mkdirs( @NonNull File dir ) {
-    if( dir.exists() ) {
-      if( ! dir.isDirectory() ) {
-        throw FailureException.newFailureException( FailureCode.CreateDirectory, null, null, dir );
-      }
-    } else {
-      if( ! dir.mkdirs() ) {
-        throw FailureException.newFailureException( FailureCode.CreateDirectory, null, null, dir );
-      }
+    if( ! dir.exists() ) {
+      dir.mkdirs();
+    }
+    if( ! dir.isDirectory() ) {
+      throw FailureException.newFailureException( FailureCode.CreateDirectory, null, null, dir );
     }
   }
 
@@ -1153,20 +1150,10 @@ public class IoFunctions {
    * @throws FailureException   The supplied directory cannot be assured to be an existing directory.
    */
   public static boolean mkdirs( boolean fail, @NonNull File dir ) {
-    boolean result = true;
-    if( dir.exists() ) {
-      if( ! dir.isDirectory() ) {
-        result = false;
-      }
-    } else {
-      if( ! dir.mkdirs() ) {
-        result = false;
-      }
+    if( ! dir.exists() ) {
+      dir.mkdirs();
     }
-    if( ! result ) {
-      return FailureException.raiseIf( fail, Boolean.FALSE, FailureCode.CreateDirectory, dir ).booleanValue();
-    }
-    return result;
+    return FailureException.raiseIf( fail, Boolean.valueOf( dir.isDirectory() ), FailureCode.CreateDirectory, dir ).booleanValue();
   }
 
 } /* ENDCLASS */
