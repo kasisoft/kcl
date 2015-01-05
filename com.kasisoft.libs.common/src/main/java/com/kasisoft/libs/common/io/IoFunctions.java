@@ -1093,33 +1093,32 @@ public class IoFunctions {
     return runnable.hasCompleted();
   }
 
-  public static boolean gzip( @NonNull File file ) {
+  public static File gzip( @NonNull File file ) {
     File gzfile = new File( file.getParentFile(), String.format( "%s.gz", file.getName() ) );
     try( 
-      GZIPOutputStream outstream = new GZIPOutputStream( new BufferedOutputStream( new FileOutputStream( gzfile ) ) );
-      InputStream      filein    = new BufferedInputStream( new FileInputStream( file ) );
+      GZIPOutputStream outstream = new GZIPOutputStream( new FileOutputStream( gzfile ) );
+      InputStream      filein    = new FileInputStream( file );
     ) {
       copy( filein, outstream );
-      outstream.finish();
-      return true;
+      return gzfile;
     } catch( IOException ex ) {
-      return false;
+      return null;
     }
   }
 
-  public static boolean ungzip( @NonNull File gzfile ) {
+  public static File ungzip( @NonNull File gzfile ) {
     if( ! gzfile.getName().endsWith( ".gz" ) ) {
-      return false;
+      return null;
     }
     File file = new File( gzfile.getParentFile(), gzfile.getName().substring( 0, gzfile.getName().length() - ".gz".length() ) );
     try( 
-      OutputStream outstream = new BufferedOutputStream( new FileOutputStream( gzfile ) );
-      InputStream  filein    = new GZIPInputStream( new BufferedInputStream( new FileInputStream( file ) ) );
+      OutputStream outstream = new FileOutputStream( file );
+      InputStream  filein    = new GZIPInputStream( new FileInputStream( gzfile ) );
     ) {
       copy( filein, outstream );
-      return true;
+      return file;
     } catch( IOException ex ) {
-      return false;
+      return null;
     }
   }
 
