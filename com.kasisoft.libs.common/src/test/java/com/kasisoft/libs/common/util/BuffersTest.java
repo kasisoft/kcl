@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.util;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.constants.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 /**
  * Test for the class 'Buffers'.
@@ -25,20 +27,26 @@ public class BuffersTest {
 
   @Test(dataProvider="createDataTypes", groups="all")
   public <T> void runAllocations( T type ) {
+    
     Primitive  primitive  = Primitive.byType( type );
-    Assert.assertNotNull( primitive );
+    assertThat( primitive, is( notNullValue() ) );
+    
+    Integer    count      = CommonProperty.BufferCount.getValue( System.getProperties() );
+    
     Buffers<T> buffers    = Buffers.newBuffers( primitive );
     T          datablock1 = buffers.allocate();
-    Assert.assertNotNull( datablock1 );
-    Integer    count      = CommonProperty.BufferCount.getValue( System.getProperties() );
-    Assert.assertTrue( primitive.length( datablock1 ) >= count.intValue() );
+    assertThat( datablock1, is( notNullValue() ) );
+    assertTrue( primitive.length( datablock1 ) >= count.intValue() );
+    
     T          datablock2 = buffers.allocate( null );
-    Assert.assertNotNull( datablock2 );
-    Assert.assertTrue( primitive.length( datablock2 ) >= count.intValue() );
+    assertThat( datablock2, is( notNullValue() ) );
+    assertTrue( primitive.length( datablock2 ) >= count.intValue() );
+    
     T          datablock3 = buffers.allocate( Integer.valueOf( 100 ) );
-    Assert.assertNotNull( datablock3 );
-    Assert.assertTrue( primitive.length( datablock3 ) >= 100 );
-    Assert.assertTrue( primitive.length( datablock3 ) < count.intValue() );
+    assertThat( datablock3, is( notNullValue() ) );
+    assertTrue( primitive.length( datablock3 ) >= 100 );
+    assertTrue( primitive.length( datablock3 ) < count.intValue() );
+    
   }
   
 } /* ENDCLASS */
