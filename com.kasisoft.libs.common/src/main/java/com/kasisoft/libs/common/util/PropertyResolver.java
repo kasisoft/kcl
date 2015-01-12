@@ -176,9 +176,18 @@ public class PropertyResolver {
    * @throws IOException   Loading failed for some reason.
    */
   public synchronized PropertyResolver load( @NonNull String resourcepath ) throws IOException {
+    List<URL>        postponed = new ArrayList<>();
     Enumeration<URL> resources = classloader.getResources( resourcepath );
     while( resources.hasMoreElements() ) {
-      URL resource = resources.nextElement();
+      URL    resource = resources.nextElement();
+      String external = resource.toExternalForm();
+      if( external.indexOf( "/test/" ) != -1 ) {
+        postponed.add( resource );
+      } else {
+        loadSetting( resource );
+      }
+    }
+    for( URL resource : postponed ) {
       loadSetting( resource );
     }
     return this;
