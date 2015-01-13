@@ -10,6 +10,7 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@ToString(of = "name")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum HttpStatusCode {
 
@@ -66,11 +67,6 @@ public enum HttpStatusCode {
     name        = text;
     code        = statuscode;
     textualCode = String.valueOf( code );
-  }
-  
-  @Override
-  public String toString() {
-    return name;
   }
   
   /**
