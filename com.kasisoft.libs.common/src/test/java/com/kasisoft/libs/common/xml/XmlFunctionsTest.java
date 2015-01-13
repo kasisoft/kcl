@@ -1,13 +1,15 @@
 package com.kasisoft.libs.common.xml;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import org.w3c.dom.*;
 
@@ -51,25 +53,25 @@ public class XmlFunctionsTest {
   @Test
   public void readDocument() {
     Document document = XmlFunctions.readDocument( simplexml, false, true );
-    Assert.assertNotNull( document );
-    Assert.assertNotNull( document.getDocumentElement() );
-    Assert.assertEquals( document.getDocumentElement().getTagName(), "bookstore" );
+    assertThat( document, is( notNullValue() ) );
+    assertThat( document.getDocumentElement(), is( notNullValue() ) );
+    assertThat( document.getDocumentElement().getTagName(), is( "bookstore" ) );
   }
 
   @Test(dependsOnMethods="readDocument")
   public void writeDocument() {
     Document document = XmlFunctions.readDocument( simplexml, false, true );
     XmlFunctions.writeDocument( tempfile, document, Encoding.ISO88591 );
-    Assert.assertTrue( tempfile.isFile() );
+    assertTrue( tempfile.isFile() );
     Document reloaded = XmlFunctions.readDocument( tempfile, false, true );
-    Assert.assertNotNull( reloaded );
-    Assert.assertNotNull( reloaded.getDocumentElement() );
-    Assert.assertEquals( reloaded.getDocumentElement().getTagName(), "bookstore" );
+    assertThat( reloaded, is( notNullValue() ) );
+    assertThat( reloaded.getDocumentElement(), is( notNullValue() ) );
+    assertThat( reloaded.getDocumentElement().getTagName(), is( "bookstore" ) );
     NodeList children = reloaded.getDocumentElement().getElementsByTagName( "title" );
-    Assert.assertNotNull( children );
-    Assert.assertEquals( children.getLength(), 1 );
+    assertNotNull( children );
+    assertThat( children.getLength(), is(1) );
     Element title = (Element) children.item(0);
-    Assert.assertEquals( getText( title ), "Blöde Schuhe" );
+    assertThat( getText( title ), is( "Blöde Schuhe" ) );
   }
 
   private String getText( Element element ) {
@@ -89,16 +91,16 @@ public class XmlFunctionsTest {
   @Test
   public void encodeAndDecodeString() {
     String encoded = XmlFunctions.encodeString( "<Bla\nBlub\r\n>" );
-    Assert.assertEquals( encoded, "&lt;Bla&#10;Blub&#13;&#10;&gt;" );
+    assertThat( encoded, is( "&lt;Bla&#10;Blub&#13;&#10;&gt;" ) );
     String decoded = XmlFunctions.decodeString( encoded );
-    Assert.assertEquals( decoded, "<Bla\nBlub\r\n>" );
+    assertThat( decoded, is( "<Bla\nBlub\r\n>" ) );
   }
 
   @Test(dependsOnMethods="readDocument")
   public void newTransformer() throws TransformerException {
     
     Transformer           transformer = XmlFunctions.newTransformer( simplexsl );
-    Assert.assertNotNull( transformer );
+    assertNotNull( transformer );
     
     Document              document    = XmlFunctions.readDocument( simplexml, false, true );
     ByteArrayOutputStream byteout     = new ByteArrayOutputStream();
@@ -106,7 +108,7 @@ public class XmlFunctionsTest {
     transformer.transform( new DOMSource( document ), streamres );
     
     String                str         = Encoding.ISO88591.decode( byteout.toByteArray() );
-    Assert.assertEquals( str, "Blöde Schuhe" );
+    assertThat( str, is( "Blöde Schuhe" ) );
     
   }
   

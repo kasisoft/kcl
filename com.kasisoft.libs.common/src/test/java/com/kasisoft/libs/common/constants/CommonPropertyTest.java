@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.constants;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.config.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -46,28 +48,28 @@ public class CommonPropertyTest {
   @Test(groups="all")
   public void checkMissingProperties() {
     Integer ioretries   = CommonProperty.IoRetries.getValue( noproperties );
-    Assert.assertEquals( ioretries, Integer.valueOf(5) );
+    assertThat( ioretries, is( Integer.valueOf(5) ) );
     Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties );
-    Assert.assertEquals( buffersize, Integer.valueOf(8192) );
+    assertThat( buffersize, is( Integer.valueOf(8192) ) );
     File    tempdir     = CommonProperty.TempDir.getValue( noproperties );
-    Assert.assertEquals( tempdir, SysProperty.TempDir.getValue( System.getProperties() ) );
+    assertThat( tempdir, is( SysProperty.TempDir.getValue( System.getProperties() ) ) );
   }
 
   @Test(groups="all")
   public void checkAvailableProperties() {
     Integer ioretries   = CommonProperty.IoRetries.getValue( properties );
-    Assert.assertEquals( ioretries, Integer.valueOf(20) );
+    assertThat( ioretries, is( Integer.valueOf(20) ) );
     Integer buffersize  = CommonProperty.BufferCount.getValue( properties );
-    Assert.assertEquals( buffersize, Integer.valueOf(8192) );
+    assertThat( buffersize, is( Integer.valueOf(8192) ) );
     File    tempdir     = CommonProperty.TempDir.getValue( properties );
-    Assert.assertEquals( tempdir, new File( "D:/temp".replace( '/', File.separatorChar ) ) );
+    assertThat( tempdir, is( new File( "D:/temp".replace( '/', File.separatorChar ) ) ) );
   }
 
   @Test(dataProvider="createProperties", expectedExceptions={ClassCastException.class}, groups="all")
   public void invalidUsedProperties( SimpleProperty<Float> property ) {
     @SuppressWarnings("unused")
     Float floatvalue = property.getValue( System.getProperties() );
-    Assert.fail( "This part should never be executed." );
+    fail( "This part should never be executed." );
   }
 
 } /* ENDCLASS */

@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.graphics;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.sys.*;
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -31,10 +33,10 @@ public class GraphicsFunctionsTest implements FilenameFilter {
   @BeforeTest
   public void setup() {
     images          = Utilities.getTestdataDir( "images" );
-    Assert.assertTrue( images.isDirectory() );
+    assertTrue( images.isDirectory() );
     inputfiles      = images.listFiles( this );
-    Assert.assertNotNull( inputfiles );
-    Assert.assertTrue( inputfiles.length > 0 );
+    assertThat( inputfiles, is( notNullValue() ) );
+    assertTrue( inputfiles.length > 0 );
   }
   
   @DataProvider(name="createOutputFormats")
@@ -47,7 +49,7 @@ public class GraphicsFunctionsTest implements FilenameFilter {
         }
       }
     }
-    Object[][]      result  = new Object[ formats.size() ][1];
+    Object[][] result  = new Object[ formats.size() ][1];
     for( int i = 0; i < formats.size(); i++ ) {
       result[i][0] = formats.get(i);
     }
@@ -63,13 +65,13 @@ public class GraphicsFunctionsTest implements FilenameFilter {
   public void convert( PictureFormat outformat ) {
     File tempdir = IoFunctions.newTempFile();
     tempdir.mkdirs();
-    Assert.assertTrue( tempdir.isDirectory() );
+    assertTrue( tempdir.isDirectory() );
     for( File inputfile : inputfiles ) {
       BufferedImage image     = GraphicsFunctions.readImage( inputfile );
-      Assert.assertNotNull( image );
+      assertThat( image, is( notNullValue() ) );
       File          destfile  = new File( tempdir, inputfile.getName() + "." + outformat.getMimeType().getSuffices().get(0) );
       boolean       success   = GraphicsFunctions.writeImage( destfile, outformat, image );
-      Assert.assertTrue( success );
+      assertTrue( success );
     }
   }
   

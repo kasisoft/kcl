@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the constants 'Encoding'.
@@ -24,12 +25,12 @@ public class EncodingTest {
   @Test(dataProvider="createData", groups="all")
   public void performEncoding( String literal, Encoding encoding, byte[] bytes ) {
     byte[] encoded = encoding.encode( literal );
-    Assert.assertEquals( encoded, bytes );
+    assertThat( encoded, is( bytes ) );
   }
   
   @Test(groups="all")
   public void values() {
-    Assert.assertNotNull( Encoding.values() );
+    assertThat( Encoding.values(), is( notNullValue() ) );
   }
 
   @DataProvider(name="valueByNameData")
@@ -45,7 +46,7 @@ public class EncodingTest {
 
   @Test(dataProvider="valueByNameData", groups="all")
   public void valueByName( String name, Encoding expected ) {
-    Assert.assertEquals( Encoding.valueByName( name ), expected );
+    assertThat( Encoding.valueByName( name ), is( expected ) );
   }
   
 } /* ENDCLASS */

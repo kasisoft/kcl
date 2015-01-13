@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.thread;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 import java.io.*;
 
@@ -43,7 +44,7 @@ public class ByteCopierRunnableTest {
     runnable.configure( bytein, byteout );
     runnable.run();
     byte[] copied = byteout.toByteArray();
-    Assert.assertEquals( copied, data );
+    assertThat( copied, is( data ) );
   }
 
   @Test(dataProvider="createDataBlocks", groups="all")
@@ -56,7 +57,7 @@ public class ByteCopierRunnableTest {
     thread.start();
     thread.join();
     byte[] copied = byteout.toByteArray();
-    Assert.assertEquals( copied, data );
+    assertThat( copied, is( data ) );
   }
 
 } /* ENDCLASS */

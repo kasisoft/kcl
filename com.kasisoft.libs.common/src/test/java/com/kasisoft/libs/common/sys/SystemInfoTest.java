@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.sys;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the type 'SystemInfo'.
@@ -15,8 +16,8 @@ public class SystemInfoTest {
   @Test(groups="all")
   public void oneMustBeActive() {
     SystemInfo info = SystemInfo.getRunningOS();
-    Assert.assertNotNull( info );
-    Assert.assertNotNull( SystemInfo.ThisMachine );
+    assertThat( info, is( notNullValue() ) );
+    assertThat( SystemInfo.ThisMachine, is( notNullValue() ) );
   }
   
 } /* ENDCLASS */

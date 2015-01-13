@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.io;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -43,8 +44,8 @@ public class BasicFileFilterTest {
   public void listTest( String dir, List<String> childdirs ) {
     File    file  = new File( testdata, dir );
     File[]  files = file.listFiles( filter );
-    Assert.assertNotNull( files );
-    Assert.assertEquals( files.length, childdirs.size() );
+    assertThat( files, is( notNullValue() ) );
+    assertThat( files.length, is( childdirs.size() ) );
     List<String> expected = new ArrayList<>();
     List<String> actual   = new ArrayList<>();
     for( int i = 0; i < files.length; i++ ) {
@@ -55,7 +56,7 @@ public class BasicFileFilterTest {
     Collections.sort( actual   );
     Collections.sort( expected );
     for( int i = 0; i < actual.size(); i++ ) {
-      Assert.assertEquals( actual.get(i), expected.get(i) );
+      assertThat( actual.get(i), is( expected.get(i) ) );
     }
   }
   

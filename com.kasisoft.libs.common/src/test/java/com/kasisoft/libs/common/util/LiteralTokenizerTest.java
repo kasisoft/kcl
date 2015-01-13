@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 import java.util.*;
 
@@ -44,13 +45,13 @@ public class LiteralTokenizerTest {
   }
   
   @Test(dataProvider="tokenizeDataProvider", groups="all")
-  public void tokenize( String input, boolean returndelimiters, String[] expected ) {
+  public void tokenize( String input, boolean returndelimiters, Object[] expected ) {
     LiteralTokenizer tokenizer = new LiteralTokenizer( input, returndelimiters, "@PART@", "@FLUPPE@" );
     List<String>     tokens    = new ArrayList<>();
     while( tokenizer.hasMoreElements() ) {
       tokens.add( tokenizer.nextElement() );
     }
-    Assert.assertEquals( tokens.toArray(), expected );
+    assertThat( tokens.toArray(), is( expected ) );
   }
 
 } /* ENDCLASS */

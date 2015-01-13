@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 import java.util.*;
 
@@ -17,17 +18,17 @@ public class ExtArrayListTest {
   public void newList() {
     
     ExtArrayList<String> list1 = new ExtArrayList<>();
-    Assert.assertEquals( list1.size(), 0 );
+    assertThat( list1.size(), is(0) );
     
     ExtArrayList<String> list2 = new ExtArrayList<>( Arrays.asList( "BLA", "BLUB" ) );
-    Assert.assertEquals( list2.size(), 2 );
-    Assert.assertEquals( list2.get(0), "BLA" );
-    Assert.assertEquals( list2.get(1), "BLUB" );
+    assertThat( list2.size(), is(2) );
+    assertThat( list2.get(0), is( "BLA"  ) );
+    assertThat( list2.get(1), is( "BLUB" ) );
     
     ExtArrayList<String> list3 = new ExtArrayList<>( "BLA", "BLUB" );
-    Assert.assertEquals( list3.size(), 2 );
-    Assert.assertEquals( list3.get(0), "BLA" );
-    Assert.assertEquals( list3.get(1), "BLUB" );
+    assertThat( list3.size(), is(2) );
+    assertThat( list3.get(0), is( "BLA"  ) );
+    assertThat( list3.get(1), is( "BLUB" ) );
     
   }
   
@@ -38,23 +39,23 @@ public class ExtArrayListTest {
     list1.add( "BLA" );
     
     list1.add( 0, "BLUB" );
-    Assert.assertEquals( list1.size(), 2 );
-    Assert.assertEquals( list1.get(0), "BLUB" );
-    Assert.assertEquals( list1.get(1), "BLA" );
+    assertThat( list1.size(), is(2) );
+    assertThat( list1.get(0), is( "BLUB" ) );
+    assertThat( list1.get(1), is( "BLA"  ) );
     
     list1.add( -1, "FROG" );
-    Assert.assertEquals( list1.size(), 3 );
-    Assert.assertEquals( list1.get(0), "BLUB" );
-    Assert.assertEquals( list1.get(1), "FROG" );
-    Assert.assertEquals( list1.get(2), "BLA" );
+    assertThat( list1.size(), is(3) );
+    assertThat( list1.get(0), is( "BLUB" ) );
+    assertThat( list1.get(1), is( "FROG" ) );
+    assertThat( list1.get(2), is( "BLA"  ) );
 
     list1.addAll( -1, "BLAU", "KRAUT" );
-    Assert.assertEquals( list1.size(), 5 );
-    Assert.assertEquals( list1.get(0), "BLUB" );
-    Assert.assertEquals( list1.get(1), "FROG" );
-    Assert.assertEquals( list1.get(2), "BLAU" );
-    Assert.assertEquals( list1.get(3), "KRAUT" );
-    Assert.assertEquals( list1.get(4), "BLA" );
+    assertThat( list1.size(), is( 5 ) );
+    assertThat( list1.get(0), is( "BLUB"  ) );
+    assertThat( list1.get(1), is( "FROG"  ) );
+    assertThat( list1.get(2), is( "BLAU"  ) );
+    assertThat( list1.get(3), is( "KRAUT" ) );
+    assertThat( list1.get(4), is( "BLA"   ) );
 
   }
   
@@ -65,7 +66,7 @@ public class ExtArrayListTest {
     list.addAll( Arrays.asList( "BLA", "BLUB" ) );
     list.add( null );
 
-    Assert.assertEquals( list.size(), 2 );
+    assertThat( list.size(), is( 2 ) );
     
   }
   
@@ -76,7 +77,7 @@ public class ExtArrayListTest {
     list.addAll( Arrays.asList( "BLA", "BLUB" ) );
     list.set( 0, null );
 
-    Assert.assertEquals( list.size(), 1 );
+    assertThat( list.size(), is( 1 ) );
     
   }
   
@@ -85,11 +86,11 @@ public class ExtArrayListTest {
     
     ExtArrayList<String> list1 = new ExtArrayList<>( "BLA", "BLUB", "BLAU", "KRAUT", "FROG" );
     List<String>         list2 = list1.subList( 1, -1 );
-    Assert.assertNotNull( list2 );
-    Assert.assertEquals( list2.size(), 3 );
-    Assert.assertEquals( list2.get(0), "BLUB" );
-    Assert.assertEquals( list2.get(1), "BLAU" );
-    Assert.assertEquals( list2.get(2), "KRAUT" );
+    assertThat( list2, is( notNullValue() ) );
+    assertThat( list2.size(), is( 3 ) );
+    assertThat( list2.get(0), is( "BLUB"  ) );
+    assertThat( list2.get(1), is( "BLAU"  ) );
+    assertThat( list2.get(2), is( "KRAUT" ) );
 
   }
   
@@ -98,14 +99,14 @@ public class ExtArrayListTest {
     
     ExtArrayList<String> list1 = new ExtArrayList<>( null, null, null, "BLA", "BLUB", "BLAU", "KRAUT", "FROG", null, "", null );
     list1.trim();
-    Assert.assertEquals( list1.size(), 7 );
-    Assert.assertEquals( list1.get(0), "BLA" );
-    Assert.assertEquals( list1.get(1), "BLUB" );
-    Assert.assertEquals( list1.get(2), "BLAU" );
-    Assert.assertEquals( list1.get(3), "KRAUT" );
-    Assert.assertEquals( list1.get(4), "FROG" );
-    Assert.assertNull( list1.get(5) );
-    Assert.assertEquals( list1.get(6), "" );
+    assertThat( list1.size(), is( 7 ) );
+    assertThat( list1.get(0), is( "BLA"   ) );
+    assertThat( list1.get(1), is( "BLUB"  ) );
+    assertThat( list1.get(2), is( "BLAU"  ) );
+    assertThat( list1.get(3), is( "KRAUT" ) );
+    assertThat( list1.get(4), is( "FROG"  ) );
+    assertThat( list1.get(5), is( nullValue() ) );
+    assertThat( list1.get(6), is( "" ) );
     
   }
 
@@ -113,17 +114,17 @@ public class ExtArrayListTest {
   public void newListSuppressNull() {
     
     ExtArrayList<String> list1 = new ExtArrayList<>( true );
-    Assert.assertEquals( list1.size(), 0 );
+    assertThat( list1.size(), is( 0 ) );
     
     ExtArrayList<String> list2 = new ExtArrayList<>( true, Arrays.asList( "BLA", null, null, "BLUB", null ) );
-    Assert.assertEquals( list2.size(), 2 );
-    Assert.assertEquals( list2.get(0), "BLA" );
-    Assert.assertEquals( list2.get(1), "BLUB" );
+    assertThat( list2.size(), is( 2 ) );
+    assertThat( list2.get(0), is( "BLA"  ) );
+    assertThat( list2.get(1), is( "BLUB" ) );
     
     ExtArrayList<String> list3 = new ExtArrayList<String>( true, "BLA", null, null, "BLUB", null );
-    Assert.assertEquals( list3.size(), 2 );
-    Assert.assertEquals( list3.get(0), "BLA" );
-    Assert.assertEquals( list3.get(1), "BLUB" );
+    assertThat( list3.size(), is( 2 ) );
+    assertThat( list3.get(0), is( "BLA"  ) );
+    assertThat( list3.get(1), is( "BLUB" ) );
     
   }
 

@@ -1,11 +1,13 @@
 package com.kasisoft.libs.common.thread;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -28,11 +30,11 @@ public class FileListRunnableTest {
     Thread              thread    = new Thread( runnable );
     thread.start();
     thread.join();
-    Assert.assertTrue( runnable.hasCompleted() );
+    assertTrue( runnable.hasCompleted() );
     List<File> files = runnable.getAllFiles();
-    Assert.assertEquals( files.size(), created.size() );
+    assertThat( files.size(), is( created.size() ) );
     Collections.sort( files );
-    Assert.assertEquals( files, created );
+    assertThat( files, is( created ) );
   }
   
 } /* ENDCLASS */

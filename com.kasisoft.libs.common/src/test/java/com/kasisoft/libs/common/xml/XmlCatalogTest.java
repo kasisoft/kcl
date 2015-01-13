@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.xml;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.net.*;
 
@@ -29,8 +31,8 @@ public class XmlCatalogTest {
     File testdata = Utilities.getTestdataDir();
     httpxsd       = new File( testdata, "http.xsd" );
     xmlxsd        = new File( testdata, "xml.xsd" );
-    Assert.assertTrue( httpxsd . isFile () );
-    Assert.assertTrue( xmlxsd  . isFile () );
+    assertTrue( httpxsd . isFile () );
+    assertTrue( xmlxsd  . isFile () );
   }
   
   @Test(groups="all")
@@ -38,23 +40,23 @@ public class XmlCatalogTest {
     
     XmlCatalog catalog1     = new XmlCatalog();
     URL        xmlschemadtd = getClass().getResource( "/dtds/XMLSchema.dtd" ); 
-    Assert.assertNotNull( xmlschemadtd );
+    assertThat( xmlschemadtd, is( notNullValue() ) );
     catalog1.registerPublicID( "-//W3C//DTD XMLSCHEMA 200102//EN", xmlschemadtd );
     byte[]     content1     = catalog1.loadResource( "-//W3C//DTD XMLSCHEMA 200102//EN" );
-    Assert.assertNotNull( content1 );
+    assertThat( content1, is( notNullValue() ) );
     
     XmlCatalog catalog2     = new XmlCatalog();
     catalog2.registerSystemID( xmlschemadtd );
     byte[]     content2     = catalog2.loadResource( xmlschemadtd );
-    Assert.assertNotNull( content2 );
+    assertThat( content2, is( notNullValue() ) );
 
     XmlCatalog catalog3     = new XmlCatalog();
     catalog3.registerSystemID( httpxsd.toURI().toURL() );
     catalog3.registerSystemID( xmlxsd.toURI().toURL() );
     byte[]     content3     = catalog3.loadResource( httpxsd.toURI().toURL() );
-    Assert.assertNotNull( content3 );
+    assertThat( content3, is( notNullValue() ) );
     byte[]     content4     = catalog3.loadResource( xmlxsd.toURI().toURL() );
-    Assert.assertNotNull( content4 );
+    assertThat( content4, is( notNullValue() ) );
 
   }
   

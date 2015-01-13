@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.ui;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Test for the class 'FontFamily'.
@@ -25,7 +26,7 @@ public class FontFamilyTest {
   
   @Test(dataProvider="valueByNameData",groups="all")
   public void valueByName( String name, FontFamily expected ) {
-    Assert.assertEquals( expected, FontFamily.valueByFamilyname( name ) );
+    assertThat( expected, is( FontFamily.valueByFamilyname( name ) ) );
   }
   
 } /* ENDCLASS */

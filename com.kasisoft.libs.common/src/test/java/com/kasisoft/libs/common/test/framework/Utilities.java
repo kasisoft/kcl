@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.test.framework;
 
-import com.kasisoft.libs.common.io.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.*;
+import com.kasisoft.libs.common.io.*;
 
 import java.util.*;
 
@@ -26,10 +28,10 @@ public class Utilities {
         location = locations.nextElement();
         break;
       }
-      Assert.assertNotNull( location );
+      assertThat( location, is( notNullValue() ) );
       return new File( location.toURI() );
     } catch( Exception ex ) {
-      Assert.fail( ex.getLocalizedMessage(), ex );
+      fail( ex.getLocalizedMessage(), ex );
       return null;
     }
   }
@@ -39,7 +41,7 @@ public class Utilities {
     try {
       return new File( dir, path );
     } catch( Exception ex ) {
-      Assert.fail( ex.getLocalizedMessage(), ex );
+      fail( ex.getLocalizedMessage(), ex );
       return null;
     }
   }

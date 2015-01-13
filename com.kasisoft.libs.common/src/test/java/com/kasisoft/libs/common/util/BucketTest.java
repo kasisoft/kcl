@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.Test;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.*;
+import org.testng.annotations.Test;
 
 import java.util.*;
 
@@ -18,7 +20,7 @@ public class BucketTest {
     
     Bucket<List<String>> bucket = new Bucket<>( new ListBucketFactory<String>() );
 
-    Assert.assertEquals( 0, bucket.getSize() );
+    assertThat( 0, is( bucket.getSize() ) );
     
     List<String>       list1  = bucket.allocate();
     list1.add( "List-1" );
@@ -30,10 +32,10 @@ public class BucketTest {
     list3.add( "List-3" );
 
     bucket.free( list1 );
-    Assert.assertEquals( 1, bucket.getSize() );
+    assertThat( 1, is( bucket.getSize() ) );
     
     List<String>       list4  = bucket.allocate();
-    Assert.assertTrue( list4.isEmpty() );
+    assertTrue( list4.isEmpty() );
     
   }
   

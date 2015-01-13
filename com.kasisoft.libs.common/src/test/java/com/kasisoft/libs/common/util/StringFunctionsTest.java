@@ -1,11 +1,13 @@
 package com.kasisoft.libs.common.util;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -27,7 +29,7 @@ public class StringFunctionsTest {
 
   @Test(dataProvider="createGetBasename", groups="all")
   public void getBasename( String name, String expected) {
-    Assert.assertEquals( StringFunctions.getBasename( name ), expected );
+    assertThat( StringFunctions.getBasename( name ), is( expected ) );
   }
 
   @DataProvider(name="createChangeSuffix")
@@ -42,7 +44,7 @@ public class StringFunctionsTest {
 
   @Test(dataProvider="createChangeSuffix", groups="all")
   public void changeSuffix( String name, String suffix, String expected) {
-    Assert.assertEquals( StringFunctions.changeSuffix( name, suffix ), expected );
+    assertThat( StringFunctions.changeSuffix( name, suffix ), is( expected ) );
   }
   
   @Test(groups="all")
@@ -50,11 +52,11 @@ public class StringFunctionsTest {
     
     char[]  buffer1 = StringFunctions.allocateChars( null );
     Integer count   = CommonProperty.BufferCount.getValue( System.getProperties() );
-    Assert.assertTrue( buffer1.length >= count.intValue() );
+    assertTrue( buffer1.length >= count.intValue() );
     
     Integer size    = Integer.valueOf( 4552 );
     char[]  buffer2 = StringFunctions.allocateChars( size );
-    Assert.assertTrue( buffer2.length >= size.intValue() );
+    assertTrue( buffer2.length >= size.intValue() );
     
     StringFunctions.releaseChars( buffer1 );
     StringFunctions.releaseChars( buffer2 );
@@ -113,25 +115,25 @@ public class StringFunctionsTest {
   @Test(dataProvider="createIndexOf", groups="all")
   public void indexOf1( String text, char[] characters, int offset, int expected ) {
     int index = StringFunctions.indexOf( offset, text, characters );
-    Assert.assertEquals( index, expected );
+    assertThat( index, is( expected ) );
   }
 
   @Test(dataProvider="createStringIndexOf", groups="all")
   public void indexOf2( String text, String[] literals, int offset, int expected ) {
     int index = StringFunctions.indexOf( offset, text, literals );
-    Assert.assertEquals( index, expected );
+    assertThat( index, is( expected ) );
   }
 
   @Test(dataProvider="createLastIndexOf", groups="all")
   public void lastIndexOf1( String text, char[] characters, int offset, int expected ) {
     int index = StringFunctions.lastIndexOf( offset, text, characters );
-    Assert.assertEquals( index, expected );
+    assertThat( index, is( expected ) );
   }
 
   @Test(dataProvider="createLastStringIndexOf", groups="all")
   public void lastIndexOf2( String text, String[] literals, int offset, int expected ) {
     int index = StringFunctions.lastIndexOf( offset, text, literals );
-    Assert.assertEquals( index, expected );
+    assertThat( index, is( expected ) );
   }
 
   @DataProvider(name="createCleanup")
@@ -153,7 +155,7 @@ public class StringFunctionsTest {
   @Test(dataProvider="createCleanup", groups="all")
   public void cleanup( String current, String expected ) {
     String result = StringFunctions.cleanup( current );
-    Assert.assertEquals( result, expected );
+    assertThat( result, is( expected ) );
   }
   
   @DataProvider(name="createContains")
@@ -183,19 +185,19 @@ public class StringFunctionsTest {
   @Test(dataProvider="createContains", groups="all")
   public void contains( String text, String[] candidates, boolean contained ) {
     boolean result = StringFunctions.contains( text, candidates );
-    Assert.assertEquals( result, contained );
+    assertThat( result, is( contained ) );
   }
 
   @Test(dataProvider="createEndsWith", groups="all")
   public void endsWith( String text, String[] candidates, boolean contained ) {
     boolean result = StringFunctions.endsWith( text, candidates );
-    Assert.assertEquals( result, contained );
+    assertThat( result, is( contained ) );
   }
 
   @Test(dataProvider="createStartsWith", groups="all")
   public void startsWith( String text, String[] candidates, boolean contained ) {
     boolean result = StringFunctions.startsWith( text, candidates );
-    Assert.assertEquals( result, contained );
+    assertThat( result, is( contained ) );
   }
 
   @DataProvider(name="createFillString")
@@ -210,7 +212,7 @@ public class StringFunctionsTest {
   @Test(dataProvider="createFillString", groups="all")
   public void fillString( int length, char ch, String expected ) {
     String result = StringFunctions.fillString( length, ch );
-    Assert.assertEquals( result, expected );
+    assertThat( result, is( expected ) );
   }
   
   @Test(groups="all")
@@ -219,7 +221,7 @@ public class StringFunctionsTest {
     replacements.put( "__name__"    , "Daniel Kasmeroglu" );
     replacements.put( "__company__" , "Kasisoft"          );
     String result = StringFunctions.replace( "The pseudo company __company__ is driven by __name__ [__company__]", replacements );
-    Assert.assertEquals( result, "The pseudo company Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]");
+    assertThat( result, is( "The pseudo company Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]" ) );
   }
 
   @Test(groups="all")
@@ -228,18 +230,18 @@ public class StringFunctionsTest {
     replacements.put( "__name__"    , "Daniel Kasmeroglu" );
     replacements.put( "__company__" , "Kasisoft"          );
     String result = StringFunctions.replace( "The pseudo company __company__ is driven by __name__ [__company__]", "__company__", "Kasisoft" );
-    Assert.assertEquals( result, "The pseudo company Kasisoft is driven by __name__ [Kasisoft]");
+    assertThat( result, is( "The pseudo company Kasisoft is driven by __name__ [Kasisoft]" ) );
   }
   
   @Test(groups="all")
   public void runToString() {
     
-    Assert.assertEquals( StringFunctions.toString( (Object) null ), "null" );
-    Assert.assertEquals( StringFunctions.toString( (Throwable) null ), "null" );
-    Assert.assertEquals( StringFunctions.toString( (Object[]) null ), "null" );
+    assertThat( StringFunctions.toString( (Object) null ), is( "null" ) );
+    assertThat( StringFunctions.toString( (Throwable) null ), is( "null" ) );
+    assertThat( StringFunctions.toString( (Object[]) null ), is( "null" ) );
 
-    Assert.assertEquals( StringFunctions.toString( Integer.valueOf(17) ), "17" );
-    Assert.assertEquals( StringFunctions.toString( new Object[] { null, Integer.valueOf(29), "Biscuit" } ), "null,29,Biscuit" );
+    assertThat( StringFunctions.toString( Integer.valueOf(17) ), is( "17" ) );
+    assertThat( StringFunctions.toString( new Object[] { null, Integer.valueOf(29), "Biscuit" } ), is( "null,29,Biscuit" ) );
 
   }
 
@@ -249,56 +251,56 @@ public class StringFunctionsTest {
     // String array
     
     // without delimiter
-    Assert.assertEquals( StringFunctions.concatenate( null ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( null, new String[0] ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( null, "A" ), "A" );
-    Assert.assertEquals( StringFunctions.concatenate( null, "A", "B" ), "AB" );
-    Assert.assertEquals( StringFunctions.concatenate( null, "A", "B", "C" ), "ABC" );
-    Assert.assertEquals( StringFunctions.concatenate( null, "A", null, "C" ), "AC" );
-    Assert.assertEquals( StringFunctions.concatenate( null, "A", "", "C" ), "AC" );
+    assertThat( StringFunctions.concatenate( null ), is( "" ) );
+    assertThat( StringFunctions.concatenate( null, new String[0] ), is( "" ) );
+    assertThat( StringFunctions.concatenate( null, "A" ), is( "A" ) );
+    assertThat( StringFunctions.concatenate( null, "A", "B" ), is( "AB" ) );
+    assertThat( StringFunctions.concatenate( null, "A", "B", "C" ), is( "ABC" ) );
+    assertThat( StringFunctions.concatenate( null, "A", null, "C" ), is( "AC" ) );
+    assertThat( StringFunctions.concatenate( null, "A", "", "C" ), is( "AC" ) );
 
     // with delimiter
-    Assert.assertEquals( StringFunctions.concatenate( "#" ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", new String[0] ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", "A" ), "A" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", "A", "B" ), "A#B" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", "A", "B", "C" ), "A#B#C" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", "A", null, "C" ), "A#C" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", "A", "", "C" ), "A#C" );
+    assertThat( StringFunctions.concatenate( "#" ), is( "" ) );
+    assertThat( StringFunctions.concatenate( "#", new String[0] ), is( "" ) );
+    assertThat( StringFunctions.concatenate( "#", "A" ), is( "A" ) );
+    assertThat( StringFunctions.concatenate( "#", "A", "B" ), is( "A#B" ) );
+    assertThat( StringFunctions.concatenate( "#", "A", "B", "C" ), is( "A#B#C" ) );
+    assertThat( StringFunctions.concatenate( "#", "A", null, "C" ), is( "A#C" ) );
+    assertThat( StringFunctions.concatenate( "#", "A", "", "C" ), is( "A#C" ) );
 
     // String collection
     
     // without delimiter
-    Assert.assertEquals( StringFunctions.concatenate( null ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( new String[0] ) ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A" ) ), "A" );
-    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", "B" ) ), "AB" );
-    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", "B", "C" ) ), "ABC" );
-    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", null, "C" ) ), "AC" );
-    Assert.assertEquals( StringFunctions.concatenate( null, Arrays.asList( "A", "", "C" ) ), "AC" );
+    assertThat( StringFunctions.concatenate( null ), is( "" ) );
+    assertThat( StringFunctions.concatenate( null, Arrays.asList( new String[0] ) ), is( "" ) );
+    assertThat( StringFunctions.concatenate( null, Arrays.asList( "A" ) ), is( "A" ) );
+    assertThat( StringFunctions.concatenate( null, Arrays.asList( "A", "B" ) ), is( "AB" ) );
+    assertThat( StringFunctions.concatenate( null, Arrays.asList( "A", "B", "C" ) ), is( "ABC" ) );
+    assertThat( StringFunctions.concatenate( null, Arrays.asList( "A", null, "C" ) ), is( "AC" ) );
+    assertThat( StringFunctions.concatenate( null, Arrays.asList( "A", "", "C" ) ), is( "AC" ) );
 
     // with delimiter
-    Assert.assertEquals( StringFunctions.concatenate( "#" ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( new String[0] ) ), "" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A" ) ), "A" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", "B" ) ), "A#B" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", "B", "C" ) ), "A#B#C" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", null, "C" ) ), "A#C" );
-    Assert.assertEquals( StringFunctions.concatenate( "#", Arrays.asList( "A", "", "C" ) ), "A#C" );
+    assertThat( StringFunctions.concatenate( "#" ), is( "" ) );
+    assertThat( StringFunctions.concatenate( "#", Arrays.asList( new String[0] ) ), is( "" ) );
+    assertThat( StringFunctions.concatenate( "#", Arrays.asList( "A" ) ), is( "A" ) );
+    assertThat( StringFunctions.concatenate( "#", Arrays.asList( "A", "B" ) ), is( "A#B" ) );
+    assertThat( StringFunctions.concatenate( "#", Arrays.asList( "A", "B", "C" ) ), is( "A#B#C" ) );
+    assertThat( StringFunctions.concatenate( "#", Arrays.asList( "A", null, "C" ) ), is( "A#C" ) );
+    assertThat( StringFunctions.concatenate( "#", Arrays.asList( "A", "", "C" ) ), is( "A#C" ) );
 
   }
   
   @Test(groups="all")
   public void equals() {
-    Assert.assertEquals( StringFunctions.equals( "Alpha", "alpha", false ), false );
-    Assert.assertEquals( StringFunctions.equals( "Alpha", "alpha", true  ), true  );
-    Assert.assertEquals( StringFunctions.equals( "Alpha", "Alpha", false ), true  );
+    assertFalse( StringFunctions.equals( "Alpha", "alpha", false ) );
+    assertTrue( StringFunctions.equals( "Alpha", "alpha", true  ) );
+    assertTrue( StringFunctions.equals( "Alpha", "Alpha", false ) );
   }
   
   
   @Test(dataProvider="createReplaceSuffix", groups="all")
   public void replaceSuffix( String input, String newsuffix, String expected ) {
-    Assert.assertEquals( StringFunctions.replaceSuffix( input, newsuffix ), expected );
+    assertThat( StringFunctions.replaceSuffix( input, newsuffix ), is( expected ) );
   }
 
   @DataProvider(name="createReplaceSuffix")
@@ -327,12 +329,12 @@ public class StringFunctionsTest {
 
   @Test(dataProvider="createRepeat", groups="all")
   public void repeat( int n, String text, String expected ) {
-    Assert.assertEquals( StringFunctions.repeat( n, text ), expected );
+    assertThat( StringFunctions.repeat( n, text ), is( expected ) );
   }
   
   @Test(dataProvider="createLimit", groups="all")
   public void limit( String text, int limit, String expected ) {
-    Assert.assertEquals( StringFunctions.limit( text, limit ), expected );
+    assertThat( StringFunctions.limit( text, limit ), is( expected ) );
   }
   
   @DataProvider(name="createLimit")
@@ -353,7 +355,7 @@ public class StringFunctionsTest {
 
   @Test(dataProvider="createPadding", groups="all")
   public void padding( String text, int limit, char padding, boolean left, String expected ) {
-    Assert.assertEquals( StringFunctions.padding( text, limit, padding, left ), expected );
+    assertThat( StringFunctions.padding( text, limit, padding, left ), is( expected ) );
   }
   
   @DataProvider(name="createPadding")
@@ -389,7 +391,7 @@ public class StringFunctionsTest {
 
   @Test(dataProvider="createPaddingNoChar", groups="all")
   public void padding( String text, int limit, boolean left, String expected ) {
-    Assert.assertEquals( StringFunctions.padding( text, limit, left ), expected );
+    assertThat( StringFunctions.padding( text, limit, left ), is( expected ) );
   }
   
   @DataProvider(name="createPaddingNoChar")
@@ -435,12 +437,12 @@ public class StringFunctionsTest {
 
   @Test(dataProvider="caseChangeData", groups="all")
   public void toUpperCase( String[] current, String[] expected ) {
-    Assert.assertEquals( StringFunctions.toUpperCase( current ), expected );
+    assertThat( StringFunctions.toUpperCase( current ), is( expected ) );
   }
 
   @Test(dataProvider="caseChangeData", groups="all")
   public void toLowerCase( String[] expected, String[] current ) {
-    Assert.assertEquals( StringFunctions.toLowerCase( current ), expected );
+    assertThat( StringFunctions.toLowerCase( current ), is( expected ) );
   }
 
   @DataProvider(name="duplicateData")
@@ -455,7 +457,7 @@ public class StringFunctionsTest {
 
   @Test(dataProvider="duplicateData", groups="all")
   public void duplicate( String[] input ) {
-    Assert.assertEquals( StringFunctions.duplicate( input ), input );
+    assertThat( StringFunctions.duplicate( input ), is( input ) );
   }
 
   @DataProvider(name="toLinesData")
@@ -470,7 +472,7 @@ public class StringFunctionsTest {
   
   @Test(dataProvider="toLinesData", groups="all")
   public void toLines( String current, List<String> expected ) {
-    Assert.assertEquals( StringFunctions.toLines( current ), expected );
+    assertThat( StringFunctions.toLines( current ), is( expected ) );
   }
   
   @DataProvider(name="trimData")
@@ -616,7 +618,7 @@ public class StringFunctionsTest {
   
   @Test(dataProvider="trimData", groups="all")
   public void trim( CharSequence current, String chars, Boolean left, String expected ) {
-    Assert.assertEquals( StringFunctions.trim( current, chars, left ).toString(), expected );
+    assertThat( StringFunctions.trim( current, chars, left ).toString(), is( expected ) );
   }
   
 } /* ENDCLASS */

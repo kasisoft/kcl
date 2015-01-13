@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.config;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.regex.*;
 
@@ -46,17 +48,17 @@ public class ConfigurationHelperTest {
   public void createReplacementMapForMap() {
     
     Map<String,String> replacements = ConfigurationHelper.createReplacementMap( map, "${%s}", "<null>", property1, property2 );
-    Assert.assertNotNull( replacements );
-    Assert.assertEquals( replacements.size(), 2 );
+    assertThat( replacements, is( notNullValue() ) );
+    assertThat( replacements.size(), is(2) );
     
     String key1 = String.format( "${%s}", property1.getKey() );
     String key2 = String.format( "${%s}", property2.getKey() );
     
-    Assert.assertTrue( replacements.containsKey( key1 ) );
-    Assert.assertTrue( replacements.containsKey( key2 ) );
+    assertTrue( replacements.containsKey( key1 ) );
+    assertTrue( replacements.containsKey( key2 ) );
     
-    Assert.assertEquals( replacements.get( key1 ), "<null>" );
-    Assert.assertEquals( replacements.get( key2 ), "gollum" );
+    assertThat( replacements.get( key1 ), is( "<null>" ) );
+    assertThat( replacements.get( key2 ), is( "gollum" ) );
     
   }
 
@@ -64,17 +66,17 @@ public class ConfigurationHelperTest {
   public void createReplacementMapForProperties() {
     
     Map<String,String> replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>", property1, property2 );
-    Assert.assertNotNull( replacements );
-    Assert.assertEquals( replacements.size(), 2 );
+    assertThat( replacements, is( notNullValue() ) );
+    assertThat( replacements.size(), is(2) );
     
     String key1 = String.format( "${%s}", property1.getKey() );
     String key2 = String.format( "${%s}", property2.getKey() );
     
-    Assert.assertTrue( replacements.containsKey( key1 ) );
-    Assert.assertTrue( replacements.containsKey( key2 ) );
+    assertTrue( replacements.containsKey( key1 ) );
+    assertTrue( replacements.containsKey( key2 ) );
     
-    Assert.assertEquals( replacements.get( key1 ), "<null>" );
-    Assert.assertEquals( replacements.get( key2 ), "gollum" );
+    assertThat( replacements.get( key1 ), is( "<null>" ) );
+    assertThat( replacements.get( key2 ), is( "gollum" ) );
     
   }
 
@@ -82,17 +84,17 @@ public class ConfigurationHelperTest {
   public void createReplacementMapForAllInMap() {
     
     Map<String,String> replacements = ConfigurationHelper.createReplacementMap( map, "${%s}", "<null>" );
-    Assert.assertNotNull( replacements );
-    Assert.assertEquals( replacements.size(), 2 );
+    assertThat( replacements, is( notNullValue() ) );
+    assertThat( replacements.size(), is(2) );
     
     String key2 = String.format( "${%s}", property2.getKey() );
     String key3 = "${unknown.property}";
     
-    Assert.assertTrue( replacements.containsKey( key2 ) );
-    Assert.assertTrue( replacements.containsKey( key3 ) );
+    assertTrue( replacements.containsKey( key2 ) );
+    assertTrue( replacements.containsKey( key3 ) );
     
-    Assert.assertEquals( replacements.get( key2 ), "gollum" );
-    Assert.assertEquals( replacements.get( key3 ), "unknown value" );
+    assertThat( replacements.get( key2 ), is( "gollum" ) );
+    assertThat( replacements.get( key3 ), is( "unknown value" ) );
     
   }
 
@@ -100,17 +102,17 @@ public class ConfigurationHelperTest {
   public void createReplacementMapForAllInProperties() {
     
     Map<String,String> replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>" );
-    Assert.assertNotNull( replacements );
-    Assert.assertEquals( replacements.size(), 2 );
+    assertThat( replacements, is( notNullValue() ) );
+    assertThat( replacements.size(), is(2) );
     
     String key2 = String.format( "${%s}", property2.getKey() );
     String key3 = "${unknown.property}";
     
-    Assert.assertTrue( replacements.containsKey( key2 ) );
-    Assert.assertTrue( replacements.containsKey( key3 ) );
+    assertTrue( replacements.containsKey( key2 ) );
+    assertTrue( replacements.containsKey( key3 ) );
     
-    Assert.assertEquals( replacements.get( key2 ), "gollum" );
-    Assert.assertEquals( replacements.get( key3 ), "unknown value" );
+    assertThat( replacements.get( key2 ), is( "gollum" ) );
+    assertThat( replacements.get( key3 ), is( "unknown value" ) );
     
   }
 
@@ -120,8 +122,8 @@ public class ConfigurationHelperTest {
     Map<String,String>  replacements = ConfigurationHelper.createReplacementMap( properties, "${%s}", "<null>" );
     Map<Pattern,String> patterns     = ConfigurationHelper.quoteKeys( replacements );
     
-    Assert.assertNotNull( patterns );
-    Assert.assertEquals( patterns.size(), 2 );
+    assertThat( patterns, is( notNullValue() ) );
+    assertThat( patterns.size(), is(2) );
     
     String key2 = String.format( "\\Q${%s}\\E", property2.getKey() );
     String key3 = "\\Q${unknown.property}\\E";
@@ -131,8 +133,8 @@ public class ConfigurationHelperTest {
       patternstr.add( pattern.pattern() );
     }
     
-    Assert.assertTrue( patternstr.contains( key2 ) );
-    Assert.assertTrue( patternstr.contains( key3 ) );
+    assertTrue( patternstr.contains( key2 ) );
+    assertTrue( patternstr.contains( key3 ) );
     
   }
 

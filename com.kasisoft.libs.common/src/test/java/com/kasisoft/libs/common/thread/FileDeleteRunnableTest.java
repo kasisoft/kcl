@@ -1,11 +1,13 @@
 package com.kasisoft.libs.common.thread;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.io.*;
 
@@ -25,10 +27,10 @@ public class FileDeleteRunnableTest {
     Thread              thread    = new Thread( runnable );
     thread.start();
     thread.join();
-    Assert.assertTrue( runnable.hasCompleted() );
+    assertTrue( runnable.hasCompleted() );
     File[] children = tempdir.listFiles();
-    Assert.assertNotNull( children );
-    Assert.assertEquals( children.length, 0 );
+    assertThat( children, is( notNullValue() ) );
+    assertThat( children.length, is(0) );
   }
   
 } /* ENDCLASS */

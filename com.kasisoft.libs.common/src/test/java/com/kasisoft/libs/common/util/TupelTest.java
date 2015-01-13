@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the class 'Tupel'.
@@ -29,9 +30,9 @@ public class TupelTest {
   
   @Test(dataProvider="createTupelData", groups="all")
   public void processTupels( Tupel<String> tupel, String first, String last ) {
-    Assert.assertEquals( tupel.getValue(), first );
-    Assert.assertEquals( tupel.getFirst(), first );
-    Assert.assertEquals( tupel.getLast(), last );
+    assertThat( tupel.getValue(), is( first ) );
+    assertThat( tupel.getFirst(), is( first ) );
+    assertThat( tupel.getLast(), is( last ) );
   }
   
 } /* ENDCLASS */

@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.i18n;
 
-import org.testng.annotations.Test;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.Test;
 
 import java.util.*;
 
@@ -17,65 +18,65 @@ public class I18NSupportTest {
 
   @Test(groups="all")
   public void correctMessages1() {
-    Assert.assertEquals( Messages1.m0, "Default.0"     );
-    Assert.assertEquals( Messages1.m1, "Translation.1" );
-    Assert.assertEquals( Messages1.m2, "Translation.2" );
-    Assert.assertEquals( Messages1.m3, "Translation.3" );
-    Assert.assertEquals( Messages1.m4, "correct"       );
+    assertThat( Messages1.m0, is( "Default.0"     ) );
+    assertThat( Messages1.m1, is( "Translation.1" ) );
+    assertThat( Messages1.m2, is( "Translation.2" ) );
+    assertThat( Messages1.m3, is( "Translation.3" ) );
+    assertThat( Messages1.m4, is( "correct"       ) );
   }
 
   @Test(groups="all")
   public void correctMessages2() {
-    Assert.assertEquals( Messages2.m0, "Default.0"     );
-    Assert.assertEquals( Messages2.m1, "Translation.1" );
-    Assert.assertEquals( Messages2.m2, "Translation.2" );
-    Assert.assertEquals( Messages2.m3, "Translation.3" );
-    Assert.assertEquals( Messages2.m4, "correct"       );
+    assertThat( Messages2.m0, is( "Default.0"     ) );
+    assertThat( Messages2.m1, is( "Translation.1" ) );
+    assertThat( Messages2.m2, is( "Translation.2" ) );
+    assertThat( Messages2.m3, is( "Translation.3" ) );
+    assertThat( Messages2.m4, is( "correct"       ) );
   }
 
   @Test(groups="all")
   public void correctMessages3() {
-    Assert.assertEquals( Messages3.m0, "Default.0"     );
-    Assert.assertEquals( Messages3.m1, "Translation.1" );
-    Assert.assertEquals( Messages3.m2, "Translation.2" );
-    Assert.assertEquals( Messages3.m3, "Translation.3" );
-    Assert.assertEquals( Messages3.m4, "correct"       );
+    assertThat( Messages3.m0, is( "Default.0"     ) );
+    assertThat( Messages3.m1, is( "Translation.1" ) );
+    assertThat( Messages3.m2, is( "Translation.2" ) );
+    assertThat( Messages3.m3, is( "Translation.3" ) );
+    assertThat( Messages3.m4, is( "correct"       ) );
   }
 
   @Test(groups="all")
   public void correctMessages4() {
     
-    Assert.assertEquals( Messages4.m0, "Default.0" );
-    Assert.assertEquals( Messages4.m1, "Default.1" );
-    Assert.assertEquals( Messages4.m3, "Default.3" );
-    Assert.assertEquals( Messages4.m4, "Default.4" );
+    assertThat( Messages4.m0, is( "Default.0" ) );
+    assertThat( Messages4.m1, is( "Default.1" ) );
+    assertThat( Messages4.m3, is( "Default.3" ) );
+    assertThat( Messages4.m4, is( "Default.4" ) );
     
-    Assert.assertEquals( Messages4.m2.toString(), "Default.%s.2" );
-    Assert.assertEquals( Messages4.m2.format( "test" ), "Default.test.2" );
+    assertThat( Messages4.m2.toString()       , is( "Default.%s.2"   ) );
+    assertThat( Messages4.m2.format( "test" ) , is( "Default.test.2" ) );
     
   }
 
   @Test(groups="all")
   public void correctMessages5() {
     
-    Assert.assertEquals( Messages5.m0, "Default.0"     );
-    Assert.assertEquals( Messages5.m1, "Übersetzung.1" );
-    Assert.assertEquals( Messages5.m2, "Übersetzung.2" );
-    Assert.assertEquals( Messages5.m3, "Translation.3" );
-    Assert.assertEquals( Messages5.m4, "correct"       );
-    Assert.assertEquals( Messages5.m5.format( "Huppi" ), "Der Text war 'Huppi'" );
-    Assert.assertEquals( Messages5.m6, "Gollum"        );
+    assertThat( Messages5.m0, is( "Default.0"     ) );
+    assertThat( Messages5.m1, is( "Übersetzung.1" ) );
+    assertThat( Messages5.m2, is( "Übersetzung.2" ) );
+    assertThat( Messages5.m3, is( "Translation.3" ) );
+    assertThat( Messages5.m4, is( "correct"       ) );
+    assertThat( Messages5.m5.format( "Huppi" ), is( "Der Text war 'Huppi'" ) );
+    assertThat( Messages5.m6, is( "Gollum"        ) );
     
     // change the language
     I18NSupport.initialize( Locale.US, Messages5.class );
 
-    Assert.assertEquals( Messages5.m0, "Default.0"     );
-    Assert.assertEquals( Messages5.m1, "Translation.1" );
-    Assert.assertEquals( Messages5.m2, "Translation.2" );
-    Assert.assertEquals( Messages5.m3, "Translation.3" );
-    Assert.assertEquals( Messages5.m4, "correct"       );
-    Assert.assertEquals( Messages5.m5.format( "Huppi" ), "The us text was 'Huppi'" );
-    Assert.assertEquals( Messages5.m6, "Gollum"        );
+    assertThat( Messages5.m0, is( "Default.0"     ) );
+    assertThat( Messages5.m1, is( "Translation.1" ) );
+    assertThat( Messages5.m2, is( "Translation.2" ) );
+    assertThat( Messages5.m3, is( "Translation.3" ) );
+    assertThat( Messages5.m4, is( "correct"       ) );
+    assertThat( Messages5.m5.format( "Huppi" ), is( "The us text was 'Huppi'" ) );
+    assertThat( Messages5.m6, is( "Gollum"        ) );
 
   }
 

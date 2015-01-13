@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Testcase for the class 'StringFBuilder'.
@@ -23,118 +25,118 @@ public class StringFBuilderTest {
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void appendF( StringFBuilder buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
-    Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
+    assertThat( buffer.toString(), is( "My test is this: Hello World ! Not 0x11 !" ) );
   }
   
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void charAt( StringFBuilder buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
-    Assert.assertEquals( buffer.charAt(0)  , 'M' );
-    Assert.assertEquals( buffer.charAt(-1) , '!' );
+    assertThat( buffer.charAt(0)  , is( 'M' ) );
+    assertThat( buffer.charAt(-1) , is( '!' ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void substring( StringFBuilder buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
-    Assert.assertEquals( buffer.substring( 0, 2 )  , "My" );
-    Assert.assertEquals( buffer.substring( -10 ) , "Not 0x11 !" );
+    assertThat( buffer.substring( 0, 2 ) , is( "My" ) );
+    assertThat( buffer.substring( -10 ) , is( "Not 0x11 !" ) );
   }
   
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void trimLeading( StringFBuilder buffer ) {
     buffer.appendF( "\r\n   My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf( 17 ) );
     buffer.trimLeading();
-    Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
+    assertThat( buffer.toString(), is( "My test is this: Hello World ! Not 0x11 !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void trimTrailing( StringFBuilder buffer ) {
     buffer.appendF( "My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf( 17 ) );
     buffer.trimTrailing();
-    Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
+    assertThat( buffer.toString(), is( "My test is this: Hello World ! Not 0x11 !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void trim( StringFBuilder buffer ) {
     buffer.appendF( "\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf( 17 ) );
     buffer.trim();
-    Assert.assertEquals( buffer.toString(), "My test is this: Hello World ! Not 0x11 !" );
+    assertThat( buffer.toString(), is( "My test is this: Hello World ! Not 0x11 !" ) );
   }
   
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void endsWith( StringFBuilder buffer ) {
     buffer.appendF( "The frog is here !" );
-    Assert.assertTrue  ( buffer.endsWith( true  , "here !" ) );
-    Assert.assertFalse ( buffer.endsWith( true  , "HERE !" ) );
-    Assert.assertTrue  ( buffer.endsWith( false , "HERE !" ) );
-    Assert.assertTrue  ( buffer.endsWith( "here !" ) );
-    Assert.assertFalse ( buffer.endsWith( "HERE !" ) );
-    Assert.assertFalse ( buffer.endsWith( true  , "The frog is here ! Oops !" ) );
-    Assert.assertFalse ( buffer.endsWith( false , "The frog is here ! Oops !" ) );
+    assertTrue  ( buffer.endsWith( true  , "here !" ) );
+    assertFalse ( buffer.endsWith( true  , "HERE !" ) );
+    assertTrue  ( buffer.endsWith( false , "HERE !" ) );
+    assertTrue  ( buffer.endsWith( "here !" ) );
+    assertFalse ( buffer.endsWith( "HERE !" ) );
+    assertFalse ( buffer.endsWith( true  , "The frog is here ! Oops !" ) );
+    assertFalse ( buffer.endsWith( false , "The frog is here ! Oops !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void startsWith( StringFBuilder buffer ) {
     buffer.appendF( "The frog is here !" );
-    Assert.assertTrue  ( buffer.startsWith( true  , "The" ) );
-    Assert.assertFalse ( buffer.startsWith( true  , "THE" ) );
-    Assert.assertTrue  ( buffer.startsWith( false , "THE" ) );
-    Assert.assertTrue  ( buffer.startsWith( "The" ) );
-    Assert.assertFalse ( buffer.startsWith( "THE" ) );
-    Assert.assertFalse ( buffer.startsWith( true  , "The frog is here ! Oops !" ) );
-    Assert.assertFalse ( buffer.startsWith( false , "The frog is here ! Oops !" ) );
+    assertTrue  ( buffer.startsWith( true  , "The" ) );
+    assertFalse ( buffer.startsWith( true  , "THE" ) );
+    assertTrue  ( buffer.startsWith( false , "THE" ) );
+    assertTrue  ( buffer.startsWith( "The" ) );
+    assertFalse ( buffer.startsWith( "THE" ) );
+    assertFalse ( buffer.startsWith( true  , "The frog is here ! Oops !" ) );
+    assertFalse ( buffer.startsWith( false , "The frog is here ! Oops !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void equals( StringFBuilder buffer ) {
     buffer.appendF( "The frog is here !" );
-    Assert.assertTrue  ( buffer.equals( true  , "The frog is here !" ) );
-    Assert.assertFalse ( buffer.equals( true  , "THE FROG IS HERE !" ) );
-    Assert.assertTrue  ( buffer.equals( false , "THE FROG IS HERE !" ) );
-    Assert.assertTrue  ( buffer.equals( "The frog is here !" ) );
-    Assert.assertFalse ( buffer.equals( "THE FROG IS HERE !" ) );
+    assertTrue  ( buffer.equals( true  , "The frog is here !" ) );
+    assertFalse ( buffer.equals( true  , "THE FROG IS HERE !" ) );
+    assertTrue  ( buffer.equals( false , "THE FROG IS HERE !" ) );
+    assertTrue  ( buffer.equals( "The frog is here !" ) );
+    assertFalse ( buffer.equals( "THE FROG IS HERE !" ) );
   }
   
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void remove( StringFBuilder buffer ) {
     buffer.appendF( "Moloko was a great band !" );
-    Assert.assertEquals( buffer.remove( "oa" ).toString(), "Mlk ws  gret bnd !" );
+    assertThat( buffer.remove( "oa" ).toString(), is( "Mlk ws  gret bnd !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void reverse( StringFBuilder buffer ) {
     buffer.append( "The frog is here !" );
     buffer.reverse();
-    Assert.assertEquals( buffer.toString(), "! ereh si gorf ehT" );
+    assertThat( buffer.toString(), is( "! ereh si gorf ehT" ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void indexOf( StringFBuilder buffer ) {
     buffer.append( "The frog is here !" );
-    Assert.assertEquals( buffer.indexOf( "frog"    ),  4 );
-    Assert.assertEquals( buffer.indexOf( "Flansch" ), -1 );
-    Assert.assertEquals( buffer.indexOf( "frog"    , 5 ), -1 );
-    Assert.assertEquals( buffer.indexOf( "Flansch" , 5 ), -1 );
-    Assert.assertEquals( buffer.indexOf( "is", "frog"    ),  4 );
-    Assert.assertEquals( buffer.indexOf( "is", "Flansch" ),  9 );
-    Assert.assertEquals( buffer.indexOf( "co", "Flansch" ), -1 );
+    assertThat( buffer.indexOf( "frog"    ),  is( 4 ) );
+    assertThat( buffer.indexOf( "Flansch" ), is( -1 ) );
+    assertThat( buffer.indexOf( "frog"    , 5 ), is( -1 ) );
+    assertThat( buffer.indexOf( "Flansch" , 5 ), is( -1 ) );
+    assertThat( buffer.indexOf( "is", "frog"    ), is(  4 ) );
+    assertThat( buffer.indexOf( "is", "Flansch" ), is(  9 ) );
+    assertThat( buffer.indexOf( "co", "Flansch" ), is( -1 ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void lastIndexOf( StringFBuilder buffer ) {
     buffer.append( "The frog is here !" );
-    Assert.assertEquals( buffer.lastIndexOf( "frog"    ),  4 );
-    Assert.assertEquals( buffer.lastIndexOf( "Flansch" ), -1 );
-    Assert.assertEquals( buffer.lastIndexOf( "frog"    , 5 ),  4 );
-    Assert.assertEquals( buffer.lastIndexOf( "Flansch" , 5 ), -1 );
-    Assert.assertEquals( buffer.lastIndexOf( "frog", "is" ),  9 );
-    Assert.assertEquals( buffer.lastIndexOf( "Flansch"    ), -1 );
+    assertThat( buffer.lastIndexOf( "frog"    ), is(  4 ) );
+    assertThat( buffer.lastIndexOf( "Flansch" ), is( -1 ) );
+    assertThat( buffer.lastIndexOf( "frog"    , 5 ), is(  4 ) );
+    assertThat( buffer.lastIndexOf( "Flansch" , 5 ), is( -1 ) );
+    assertThat( buffer.lastIndexOf( "frog", "is" ), is(  9 ) );
+    assertThat( buffer.lastIndexOf( "Flansch"    ), is( -1 ) );
   }
   
   @Test(dataProvider="dataStringBuffers", groups="all")
   public void replace( StringFBuilder buffer ) {
     buffer.append( "The frog is here !" );
-    Assert.assertEquals( buffer.replace( 'e', 'a' ).toString(), "Tha frog is hara !" );
+    assertThat( buffer.replace( 'e', 'a' ).toString(), is( "Tha frog is hara !" ) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
@@ -145,15 +147,15 @@ public class StringFBuilderTest {
       "This", "was", "my", "3", "bir", "hday", "on", "he", "2", "s", "ree", "."
     };
     String[] parts    = buffer.split( " t" );
-    Assert.assertNotNull( parts );
-    Assert.assertEquals( parts.length, expected.length );
-    Assert.assertEquals( parts, expected );
+    assertThat( parts, is( notNullValue() ) );
+    assertThat( parts.length, is( expected.length ) );
+    assertThat( parts, is( expected ) );
     
     buffer.setLength(0);
     buffer.append( "58817162" );
     parts = buffer.split( "0123456789" );
-    Assert.assertNotNull( parts );
-    Assert.assertEquals( parts.length, 0 );
+    assertThat( parts, is( notNullValue() ) );
+    assertThat( parts.length, is(0) );
   }
 
   @Test(dataProvider="dataStringBuffers", groups="all")
@@ -164,15 +166,15 @@ public class StringFBuilderTest {
       "This was my ", " birthday on the ", " street."
     };
     String[] parts    = buffer.splitRegex( "[0-9]+" );
-    Assert.assertNotNull( parts );
-    Assert.assertEquals( parts.length, expected.length );
-    Assert.assertEquals( parts, expected );
+    assertThat( parts, is( notNullValue() ) );
+    assertThat( parts.length, is( expected.length ) );
+    assertThat( parts, is( expected ) );
     
     buffer.setLength(0);
     buffer.append( "58817162" );
     parts = buffer.splitRegex( "[0-9]+" );
-    Assert.assertNotNull( parts );
-    Assert.assertEquals( parts.length, 0 );
+    assertThat( parts, is( notNullValue() ) );
+    assertThat( parts.length, is(0) );
     
   }
 
@@ -181,17 +183,17 @@ public class StringFBuilderTest {
     
     buffer.append( "This was my 3 birthday on the 2 street." );
     buffer.replaceAll( "[0-9]+", "abce" );
-    Assert.assertEquals( buffer.toString(), "This was my abce birthday on the abce street." );
+    assertThat( buffer.toString(), is( "This was my abce birthday on the abce street." ) );
     
     buffer.setLength(0);
     buffer.append( "58817162" );
     buffer.replaceAll( "[0-9]+", "dodo" );
-    Assert.assertEquals( buffer.toString(), "dodo" );
+    assertThat( buffer.toString(), is( "dodo" ) );
    
     buffer.setLength(0);
     buffer.append( "This was my 43356 birthday on the 233120 street 2928010." );
     buffer.replaceAll( "[0-9]+", "abce" );
-    Assert.assertEquals( buffer.toString(), "This was my abce birthday on the abce street abce." );
+    assertThat( buffer.toString(), is( "This was my abce birthday on the abce street abce." ) );
     
   }
 
@@ -200,12 +202,12 @@ public class StringFBuilderTest {
     
     buffer.append( "This was my 3 birthday on the 2 street." );
     buffer.replaceFirst( "[0-9]+", "abce" );
-    Assert.assertEquals( buffer.toString(), "This was my abce birthday on the 2 street." );
+    assertThat( buffer.toString(), is( "This was my abce birthday on the 2 street." ) );
     
     buffer.setLength(0);
     buffer.append( "58817162" );
     buffer.replaceFirst( "[0-9]+", "dodo" );
-    Assert.assertEquals( buffer.toString(), "dodo" );
+    assertThat( buffer.toString(), is( "dodo" ) );
     
   }
 
@@ -214,12 +216,12 @@ public class StringFBuilderTest {
     
     buffer.append( "This was my 3 birthday on the 2 street." );
     buffer.replaceLast( "[0-9]+", "abce" );
-    Assert.assertEquals( buffer.toString(), "This was my 3 birthday on the abce street." );
+    assertThat( buffer.toString(), is( "This was my 3 birthday on the abce street." ) );
     
     buffer.setLength(0);
     buffer.append( "58817162" );
     buffer.replaceLast( "[0-9]+", "dodo" );
-    Assert.assertEquals( buffer.toString(), "dodo" );
+    assertThat( buffer.toString(), is( "dodo" ) );
     
   }
 

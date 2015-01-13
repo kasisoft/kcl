@@ -46,7 +46,7 @@ public class SimplePropertyTest {
     // set and get the color
     MyRequiredColor.setValue( properties, color );
     Color value = MyRequiredColor.getValue( properties );
-    Assert.assertEquals( color, value );
+    assertThat( color, is( value ) );
     
     // remove the color and wait for the complaint
     MyRequiredColor.setValue( properties, null );
@@ -58,7 +58,7 @@ public class SimplePropertyTest {
     
     // get the color while providing a default value
     value = MyRequiredColor.getValue( properties, Color.white );
-    Assert.assertEquals( Color.white, value );
+    assertThat( Color.white, is( value ) );
     
   }
 
@@ -70,19 +70,19 @@ public class SimplePropertyTest {
     // set and get the color
     MyRequiredColor.setValue( properties, color );
     Color value = MyRequiredColor.getValue( properties );
-    Assert.assertEquals( color, value );
+    assertThat( color, is( value ) );
     
     // remove the color and wait for the complaint
     MyRequiredColor.setValue( properties, null );
     try {
       value = MyRequiredColor.getValue( properties );
     } catch( MissingPropertyException ex ) {
-      Assert.assertEquals( MyRequiredColor.getKey(), ex.getProperty() );
+      assertThat( MyRequiredColor.getKey(), is( ex.getProperty() ) );
     }
     
     // get the color while providing a default value
     value = MyRequiredColor.getValue( properties, Color.white );
-    Assert.assertEquals( Color.white, value );
+    assertThat( Color.white, is( value ) );
     
   }
 
@@ -94,16 +94,16 @@ public class SimplePropertyTest {
     // set and get the color
     MyOptionalColor.setValue( properties, color );
     Color value = MyOptionalColor.getValue( properties );
-    Assert.assertEquals( color, value );
+    assertThat( color, is( value ) );
     
     // remove the color and accept the null result
     MyOptionalColor.setValue( properties, null );
     value = MyOptionalColor.getValue( properties );
-    Assert.assertEquals( null, value );
+    assertThat( null, is( value ) );
     
     // get the color while providing a default value
     value = MyOptionalColor.getValue( properties, Color.white );
-    Assert.assertEquals( Color.white, value );
+    assertThat( Color.white, is( value ) );
     
   }
 
@@ -115,16 +115,16 @@ public class SimplePropertyTest {
     // set and get the color
     MyOptionalColor.setValue( properties, color );
     Color value = MyOptionalColor.getValue( properties );
-    Assert.assertEquals( color, value );
+    assertThat( color, is( value ) );
     
     // remove the color and accept the null result
     MyOptionalColor.setValue( properties, null );
     value = MyOptionalColor.getValue( properties );
-    Assert.assertEquals( null, value );
+    assertThat( null, is( value ) );
     
     // get the color while providing a default value
     value = MyOptionalColor.getValue( properties, Color.white );
-    Assert.assertEquals( Color.white, value );
+    assertThat( Color.white, is( value ) );
     
   }
   

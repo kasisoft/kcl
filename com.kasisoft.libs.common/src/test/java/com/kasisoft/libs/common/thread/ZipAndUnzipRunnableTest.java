@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.thread;
 
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.test.framework.*;
 
@@ -43,7 +45,7 @@ public class ZipAndUnzipRunnableTest {
     Thread      thread   = new Thread( runnable );
     thread.start();
     thread.join();
-    Assert.assertTrue( runnable.hasCompleted() );
+    assertTrue( runnable.hasCompleted() );
   }
   
   @Test(dependsOnMethods="zip",groups="all")
@@ -52,7 +54,7 @@ public class ZipAndUnzipRunnableTest {
     Thread        thread   = new Thread( runnable );
     thread.start();
     thread.join();
-    Assert.assertTrue( runnable.hasCompleted() );
+    assertTrue( runnable.hasCompleted() );
     AssertExtension.assertEquals( unpackeddir, directory );
   }
   

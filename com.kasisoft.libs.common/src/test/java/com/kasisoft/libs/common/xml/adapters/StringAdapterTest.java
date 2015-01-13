@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 import lombok.*;
 import lombok.experimental.*;
@@ -37,12 +38,12 @@ public class StringAdapterTest {
 
   @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, String expected ) throws Exception {
-    Assert.assertEquals( adapter.unmarshal( value ), expected );
+    assertThat( adapter.unmarshal( value ), is( expected ) );
   }
   
   @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( String value, String expected ) throws Exception {
-    Assert.assertEquals( adapter.marshal( value ), expected );
+    assertThat( adapter.marshal( value ), is( expected ) );
   }
 
 } /* ENDCLASS */

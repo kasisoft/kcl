@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the constants 'Primitive'.
@@ -23,20 +24,20 @@ public class PrimitiveTest {
 
   @Test(dataProvider="createData",groups="all")
   public void arrayCreation( Primitive primitive, Integer size ) {
-    Assert.assertNotNull( primitive.getArrayClass() );
-    Assert.assertNotNull( primitive.getObjectClass() );
-    Assert.assertNotNull( primitive.getPrimitiveClass() );
+    assertThat( primitive.getArrayClass     (), is( notNullValue() ) );
+    assertThat( primitive.getObjectClass    (), is( notNullValue() ) );
+    assertThat( primitive.getPrimitiveClass (), is( notNullValue() ) );
     Object array = primitive.newArray( size.intValue() );
-    Assert.assertEquals( primitive.length( array ), size.intValue() );
+    assertThat( primitive.length( array ), is( size.intValue() ) );
   }
   
   @Test(dataProvider="createData",groups="all")
   public void arrayObjectCreation( Primitive primitive, Integer size ) {
-    Assert.assertNotNull( primitive.getArrayClass() );
-    Assert.assertNotNull( primitive.getObjectClass() );
-    Assert.assertNotNull( primitive.getPrimitiveClass() );
+    assertThat( primitive.getArrayClass     (), is( notNullValue() ) );
+    assertThat( primitive.getObjectClass    (), is( notNullValue() ) );
+    assertThat( primitive.getPrimitiveClass (), is( notNullValue() ) );
     Object array = primitive.newObjectArray( size.intValue() );
-    Assert.assertEquals( primitive.length( array ), size.intValue() );
+    assertThat( primitive.length( array ), is( size.intValue() ) );
   }
 
   @DataProvider(name="createTypes")
@@ -110,7 +111,7 @@ public class PrimitiveTest {
 
   @Test(dataProvider="createAllTypes",groups="all")
   public void byType( Object array, Primitive expected ) {
-    Assert.assertEquals( Primitive.byType( array ), expected );
+    assertThat( Primitive.byType( array ), is( expected ) );
   }
 
 } /* ENDCLASS */

@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the constants 'Digest'.
@@ -28,7 +29,7 @@ public class DigestTest {
     byte[] data         = text.getBytes();
     byte[] hash_first   = digest.digest( data ); 
     byte[] hash_second  = digest.digest( data );
-    Assert.assertEquals( hash_first, hash_second );
+    assertThat( hash_first, is( hash_second ) );
   }
   
   @DataProvider(name="valueByNameData")
@@ -44,7 +45,7 @@ public class DigestTest {
   
   @Test(dataProvider="valueByNameData", groups="all")
   public void valueByName( String name, Digest expected ) {
-    Assert.assertEquals( Digest.valueByName( name ), expected );
+    assertThat( Digest.valueByName( name ), is( expected ) );
   }
   
 } /* ENDCLASS */

@@ -1,11 +1,11 @@
 package com.kasisoft.libs.common.sys;
 
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.io.*;
 
@@ -38,7 +38,7 @@ public class SystemProcessTest {
     }
     exefile       = new File( dir, path );
     exefile.setExecutable( true );
-    Assert.assertTrue( exefile.canExecute() );
+    assertTrue( exefile.canExecute() );
     byteout       = new ByteArrayOutputStream();
     byteerr       = new ByteArrayOutputStream();
     systemprocess = new SystemProcess( exefile );
@@ -77,9 +77,9 @@ public class SystemProcessTest {
       System.out.printf( "StdErr      = %s\n", errstr );
       System.out.printf( "StdOut      = %s\n", outstr );
       if( systemprocess.getException() != null ) {
-        Assert.fail( systemprocess.getException().getMessage(), systemprocess.getException() );
+        fail( systemprocess.getException().getMessage(), systemprocess.getException() );
       } else {
-        Assert.fail();
+        fail();
       }
     }
   }

@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.xml.adapters;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
 import com.kasisoft.libs.common.test.framework.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -68,12 +69,12 @@ public class PathAdapterTest {
 
   @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, List<File> expected ) throws Exception {
-    Assert.assertEquals( adapter.unmarshal( value ), expected );
+    assertThat( adapter.unmarshal( value ), is( expected ) );
   }
   
   @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( List<File> value, String expected ) throws Exception {
-    Assert.assertEquals( adapter.marshal( value ), expected );
+    assertThat( adapter.marshal( value ), is( expected ) );
   }
   
 } /* ENDCLASS */

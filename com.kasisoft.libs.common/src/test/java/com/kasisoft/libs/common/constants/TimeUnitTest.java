@@ -1,24 +1,24 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the class 'TimeUnit'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Test(groups="all")
 public class TimeUnitTest {
 
-  @Test
+  @Test(groups="all")
   public void checkValues() {
-    Assert.assertEquals( TimeUnit . Millisecond . getMilliseconds(), 1        );
-    Assert.assertEquals( TimeUnit . Second      . getMilliseconds(), 1000     );
-    Assert.assertEquals( TimeUnit . Minute      . getMilliseconds(), 60000    );
-    Assert.assertEquals( TimeUnit . Hour        . getMilliseconds(), 3600000  );
-    Assert.assertEquals( TimeUnit . Day         . getMilliseconds(), 86400000 );
+    assertThat( TimeUnit . Millisecond . getMilliseconds(), is( 1L        ) );
+    assertThat( TimeUnit . Second      . getMilliseconds(), is( 1000L     ) );
+    assertThat( TimeUnit . Minute      . getMilliseconds(), is( 60000L    ) );
+    assertThat( TimeUnit . Hour        . getMilliseconds(), is( 3600000L  ) );
+    assertThat( TimeUnit . Day         . getMilliseconds(), is( 86400000L ) );
   }
   
 } /* ENDCLASS */

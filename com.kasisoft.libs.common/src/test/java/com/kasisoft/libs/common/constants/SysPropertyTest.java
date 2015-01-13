@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.constants;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
 import com.kasisoft.libs.common.config.*;
 import com.kasisoft.libs.common.util.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -96,13 +97,13 @@ public class SysPropertyTest {
   
   @Test(dataProvider="createValues", groups="all")
   public void checkAvailableValues( SimpleProperty property, Object expected ) {
-    Assert.assertEquals( property.getValue( systemproperties ), expected );
+    assertThat( property.getValue( systemproperties ), is( expected ) );
   }
 
   @Test(dataProvider="createValues", groups="all")
   public void checkMissingValues( SimpleProperty property, Object ignored ) {
     Object result = property.getValue( noproperties );
-    Assert.assertNull( result );
+    assertThat( result, is( nullValue() ) );
   }
 
 } /* ENDCLASS */

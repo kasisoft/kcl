@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.io.datatypes;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
 import com.kasisoft.libs.common.io.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.net.*;
 
@@ -45,17 +46,17 @@ public class FileTypeManagerTest {
   public void identify( String resource, String mime ) {
     
     URL    url         = getClass().getResource( resource );
-    Assert.assertNotNull( url );
+    assertThat( url, is( notNullValue() ) );
     
     byte[] fullcontent = IoFunctions.loadBytes( url, null );
-    Assert.assertNotNull( fullcontent );
+    assertThat( fullcontent, is( notNullValue() ) );
     
     FileType filetype = manager.identify( fullcontent );
     if( mime == null ) {
-      Assert.assertNull( filetype );
+      assertThat( filetype, is( nullValue()) );
     } else {
-      Assert.assertNotNull( filetype );
-      Assert.assertEquals( filetype.getMimeType(), mime );
+      assertThat( filetype, is( notNullValue() ) );
+      assertThat( filetype.getMimeType(), is( mime ) );
     }
     
   }

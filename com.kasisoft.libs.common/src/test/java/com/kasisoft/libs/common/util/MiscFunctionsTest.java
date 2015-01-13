@@ -1,11 +1,13 @@
 package com.kasisoft.libs.common.util;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.sys.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import java.util.*;
 
@@ -92,30 +94,30 @@ public class MiscFunctionsTest {
   @Test(dataProvider="createDateValues", groups="all")
   public void parseDate( String datevalue, Date expected ) {
     Date currentdate = MiscFunctions.parseDate( datevalue, DATEPATTERNS );
-    Assert.assertEquals( currentdate, expected );
+    assertThat( currentdate, is( expected ) );
   }
 
   @Test(dataProvider="createCalendarValues", groups="all")
   public void parseCalendar( String datevalue, Calendar expected ) {
     Calendar currentdate = MiscFunctions.parseCalendar( datevalue, DATEPATTERNS );
-    Assert.assertEquals( currentdate, expected );
+    assertThat( currentdate, is( expected ) );
   }
 
   @Test(dataProvider="createParseBoolean", groups="all")
   public void parseBoolean( String value, Boolean expected ) {
-    Assert.assertEquals( MiscFunctions.parseBoolean( value ), expected.booleanValue() );
+    assertThat( MiscFunctions.parseBoolean( value ), is( expected.booleanValue() ) );
   }
   
   @Test(groups="all")
   public void newInstance() {
     Object object = MiscFunctions.newInstance( false, String.class.getName(), "Frosch".getBytes() );
-    Assert.assertEquals( object, "Frosch" );
+    assertThat( object, is( (Object) "Frosch" ) );
   }
 
   @Test(expectedExceptions={FailureException.class}, groups="all")
   public void newInstanceFailure() {
     MiscFunctions.newInstance( true, String.class.getName(), new float[12] );
-    Assert.fail();
+    fail();
   }
 
   @Test(groups="all")
@@ -136,7 +138,7 @@ public class MiscFunctionsTest {
     Thread thread = new Thread( runnable );
     thread.start();
     MiscFunctions.joinThread( thread );
-    Assert.assertEquals( outparam.getValue(), Boolean.TRUE );
+    assertThat( outparam.getValue(), is( Boolean.TRUE ) );
   }
   
   @Test(groups="all")
@@ -148,27 +150,27 @@ public class MiscFunctionsTest {
       template = "The name of the user is: %user.name% !";
     }
     String result   = MiscFunctions.expandVariables( template );
-    Assert.assertEquals( result, String.format( "The name of the user is: %s !", System.getProperty( "user.name" ) ) );
+    assertThat( result, is( String.format( "The name of the user is: %s !", System.getProperty( "user.name" ) ) ) );
   }
   
   @Test(dataProvider="createToSet", groups="all")
   public void toSet( List<String> list, List<String> expected ) {
     List<String> altered = MiscFunctions.toUniqueList( list );
-    Assert.assertNotNull( altered );
-    Assert.assertEquals( altered.size(), expected.size() );
+    assertThat( altered, is( notNullValue() ) );
+    assertThat( altered.size(), is( expected.size() ) );
     for( int i = 0; i < altered.size(); i++ ) {
-      Assert.assertEquals( altered.get(i), expected.get(i) );
+      assertThat( altered.get(i), is( expected.get(i) ) );
     }
   }
   
   @Test(dataProvider="createIsLeapYearInt", groups="all")
   public void isLeapYear( int year, boolean expected ) {
-    Assert.assertEquals( MiscFunctions.isLeapYear( year ), expected );
+    assertThat( MiscFunctions.isLeapYear( year ), is( expected ) );
   }
 
   @Test(dataProvider="createIsLeapYearDate", groups="all")
   public void isLeapYear( Date year, boolean expected ) {
-    Assert.assertEquals( MiscFunctions.isLeapYear( year ), expected );
+    assertThat( MiscFunctions.isLeapYear( year ), is( expected ) );
   }
 
   @DataProvider(name="createIsLeapYearInt")
@@ -201,20 +203,20 @@ public class MiscFunctionsTest {
   
   @Test(groups="all")
   public void getConstructor() {
-    Assert.assertNotNull( MiscFunctions.getConstructor( ByteArrayOutputStream.class ) );
+    assertThat( MiscFunctions.getConstructor( ByteArrayOutputStream.class ), is( notNullValue() ) );
   }
 
   @Test(groups="all")
   public void getMethod() {
-    Assert.assertNotNull( MiscFunctions.getMethod( ByteArrayOutputStream.class, "reset" ) );
+    assertThat( MiscFunctions.getMethod( ByteArrayOutputStream.class, "reset" ), is( notNullValue() ) );
   }
   
   @DataProvider(name="repeatData")
   public Object[][] repeatData() {
     return new Object[][] {
-        { Integer.valueOf(0), null, Arrays.asList() },  
-        { Integer.valueOf(1), null, Arrays.asList( new Object[] { null } ) },
-        { Integer.valueOf(5), null, Arrays.asList( null, null, null, null, null ) },
+      { Integer.valueOf(0), null, Arrays.asList() },  
+      { Integer.valueOf(1), null, Arrays.asList( new Object[] { null } ) },
+      { Integer.valueOf(5), null, Arrays.asList( null, null, null, null, null ) },
       { Integer.valueOf(0), "Dodo", Arrays.asList() },  
       { Integer.valueOf(1), "Dodo", Arrays.asList( "Dodo" ) },
       { Integer.valueOf(5), "Dodo", Arrays.asList( "Dodo", "Dodo", "Dodo", "Dodo", "Dodo" ) },
@@ -224,9 +226,9 @@ public class MiscFunctionsTest {
   @Test(dataProvider="repeatData", groups="all")
   public <T> void repeat( int count, T element, List<T> expected ) {
     List<T> actual = MiscFunctions.repeat( count, element );
-    Assert.assertNotNull( actual );
-    Assert.assertEquals( actual.size(), count );
-    Assert.assertEquals( actual, expected );
+    assertThat( actual, is( notNullValue() ) );
+    assertThat( actual.size(), is( count ) );
+    assertThat( actual, is( expected ) );
   }
 
 } /* ENDCLASS */

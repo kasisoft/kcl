@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 import java.util.*;
 
@@ -16,10 +18,10 @@ public class MimeTypeTest {
   @Test(groups="all")
   public void simple() {
     Set<MimeType> result = MimeType.valuesBySuffix( "tex" );
-    Assert.assertNotNull( result );
-    Assert.assertEquals( result.size(), 2 );
-    Assert.assertTrue( result.contains( MimeType.LaTeX ) );
-    Assert.assertTrue( result.contains( MimeType.TeX ) );
+    assertThat( result, is( notNullValue() ) );
+    assertThat( result.size(), is(2) );
+    assertTrue( result.contains( MimeType.LaTeX ) );
+    assertTrue( result.contains( MimeType.TeX ) );
   }
   
 } /* ENDCLASS */

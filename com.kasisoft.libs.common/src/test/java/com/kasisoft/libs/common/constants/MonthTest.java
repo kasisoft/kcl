@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the class 'Month'.
@@ -50,14 +51,14 @@ public class MonthTest {
 
   @Test(dataProvider="checkMonth", groups="all")
   public void checkMonth( Month month, int daycount, int year, Weekday weekday ) { 
-    Assert.assertEquals( month.getDayCount( year ), daycount );
-    Assert.assertEquals( month.getFirstWeekday( year ), weekday );
+    assertThat( month.getDayCount     ( year ), is( daycount ) );
+    assertThat( month.getFirstWeekday ( year ), is( weekday  ) );
   }
   
   @Test(dataProvider="monthNavigation", groups="all")
   public void monthNavigation( Month current, Month before, Month after ) {
-    Assert.assertEquals( before , current.previous() );
-    Assert.assertEquals( after  , current.next()     );
+    assertThat( before , is( current.previous () ) );
+    assertThat( after  , is( current.next     () ) );
   }
   
 } /* ENDCLASS */

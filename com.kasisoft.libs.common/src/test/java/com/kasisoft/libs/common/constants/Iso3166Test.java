@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Test for the constants 'Iso3166'.
@@ -53,31 +54,31 @@ public class Iso3166Test {
 
   @Test(dataProvider="createValues",groups="all")
   public void validCode( Iso3166 value ) {
-    Assert.assertNotNull( value.getAlpha2() );
-    Assert.assertNotNull( value.getAlpha3() );
-    Assert.assertEquals( value.getAlpha2().length(), 2 );
-    Assert.assertEquals( value.getAlpha3().length(), 3 );
+    assertThat( value.getAlpha2(), is( notNullValue() ) );
+    assertThat( value.getAlpha3(), is( notNullValue() ) );
+    assertThat( value.getAlpha2().length(), is(2) );
+    assertThat( value.getAlpha3().length(), is(3) );
   }
 
   @Test(dataProvider="createAlpha2",groups="all")
   public void byAlpha2( Iso3166 expected, String alpha2 ) {
     Iso3166 identified = Iso3166.valueByAlpha2( alpha2 );
-    Assert.assertNotNull( identified );
-    Assert.assertEquals( identified, expected );
+    assertThat( identified, is( notNullValue() ) );
+    assertThat( identified, is( expected ) );
   }
 
   @Test(dataProvider="createAlpha3",groups="all")
   public void byAlpha3( Iso3166 expected, String alpha3 ) {
     Iso3166 identified = Iso3166.valueByAlpha3( alpha3 );
-    Assert.assertNotNull( identified );
-    Assert.assertEquals( identified, expected );
+    assertThat( identified, is( notNullValue() ) );
+    assertThat( identified, is( expected ) );
   }
 
   @Test(dataProvider="createNumerical",groups="all")
   public void byNumerical( Iso3166 expected, Integer numerical ) {
     Iso3166 identified = Iso3166.valueByNumerical( numerical.intValue() );
-    Assert.assertNotNull( identified );
-    Assert.assertEquals( identified, expected );
+    assertThat( identified, is( notNullValue() ) );
+    assertThat( identified, is( expected ) );
   }
 
 } /* ENDCLASS */

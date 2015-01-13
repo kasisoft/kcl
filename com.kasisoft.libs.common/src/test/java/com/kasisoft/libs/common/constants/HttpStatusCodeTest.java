@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the constants 'HttpStatusCode'.
@@ -24,7 +25,7 @@ public class HttpStatusCodeTest {
   
   @Test(dataProvider="createData", groups="all")
   public void valueByText( String textualcode, HttpStatusCode code ) {
-    Assert.assertEquals( HttpStatusCode.valueByStatusCode( textualcode ), code );
+    assertThat( HttpStatusCode.valueByStatusCode( textualcode ), is( code ) );
   }
   
 } /* ENDCLASS */

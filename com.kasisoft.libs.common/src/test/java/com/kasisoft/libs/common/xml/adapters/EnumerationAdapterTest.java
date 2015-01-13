@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.xml.adapters;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
 
 import org.testng.annotations.*;
-
-import org.testng.*;
 
 import lombok.*;
 import lombok.experimental.*;
@@ -70,17 +71,17 @@ public class EnumerationAdapterTest {
 
   @Test(dataProvider="createUnmarshalling", groups="all")
   public void unmarshal( String value, LordOfTheRings expected ) throws Exception {
-    Assert.assertEquals( adapter.unmarshal( value ), expected );
+    assertThat( adapter.unmarshal( value ), is( expected ) );
   }
 
   @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=FailureException.class, groups="all")
   public void invalidUnmarshal( String value, LordOfTheRings expected ) throws Exception {
-    Assert.assertEquals( adapter.unmarshal( value ), expected );
+    assertThat( adapter.unmarshal( value ), is( expected ) );
   }
 
   @Test(dataProvider="createMarshalling", groups="all")
   public void marshal( LordOfTheRings value, String expected ) throws Exception {
-    Assert.assertEquals( adapter.marshal( value ), expected );
+    assertThat( adapter.marshal( value ), is( expected ) );
   }
 
 } /* ENDCLASS */

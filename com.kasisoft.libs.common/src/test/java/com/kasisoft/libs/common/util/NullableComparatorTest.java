@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 import java.util.*;
 
@@ -43,9 +45,9 @@ public class NullableComparatorTest {
     Collections.sort( data, new NullableComparator<Integer>() );
     int size = data.size();
     data.trim();
-    Assert.assertEquals( data.size(), size - NULLCOUNT );
+    assertThat( data.size(), is( size - NULLCOUNT ) );
     for( int i = 1; i < data.size(); i++ ) {
-      Assert.assertTrue( data.get(i - 1).intValue() >= data.get(i).intValue() );
+      assertTrue( data.get(i - 1).intValue() >= data.get(i).intValue() );
     }
     
   }
@@ -63,9 +65,9 @@ public class NullableComparatorTest {
     Collections.sort( data, new NullableComparator<Integer>( delegate ) );
     int size = data.size();
     data.trim();
-    Assert.assertEquals( data.size(), size - NULLCOUNT );
+    assertThat( data.size(), is( size - NULLCOUNT ) );
     for( int i = 1; i < data.size(); i++ ) {
-      Assert.assertTrue( data.get(i - 1).intValue() <= data.get(i).intValue() );
+      assertTrue( data.get(i - 1).intValue() <= data.get(i).intValue() );
     }
     
   }

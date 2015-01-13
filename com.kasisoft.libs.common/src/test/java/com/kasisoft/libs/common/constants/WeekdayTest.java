@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Tests for the class 'Weekday'.
@@ -26,8 +27,8 @@ public class WeekdayTest {
   
   @Test(dataProvider="checkWeekday", groups="all")
   public void checkWeekday( Weekday month, Weekday before, Weekday after ) { 
-    Assert.assertEquals( month.previous() , before );
-    Assert.assertEquals( month.next()     , after  );
+    assertThat( month.previous() , is( before ) );
+    assertThat( month.next()     , is( after  ) );
   }
   
 } /* ENDCLASS */

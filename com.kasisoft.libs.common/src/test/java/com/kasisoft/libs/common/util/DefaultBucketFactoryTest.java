@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.Test;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.Test;
 
 import java.io.*;
 
@@ -18,7 +19,7 @@ public class DefaultBucketFactoryTest {
     
     Bucket<ByteArrayOutputStream> bucket = new Bucket<>( new DefaultBucketFactory<ByteArrayOutputStream>( ByteArrayOutputStream.class ) );
 
-    Assert.assertEquals( 0, bucket.getSize() );
+    assertThat( 0, is( bucket.getSize() ) );
     
     ByteArrayOutputStream bucket1 = bucket.allocate();
     bucket1.write( "Bucket-1".getBytes() );
@@ -30,10 +31,10 @@ public class DefaultBucketFactoryTest {
     bucket3.write( "Bucket-3".getBytes() );
 
     bucket.free( bucket1 );
-    Assert.assertEquals( 1, bucket.getSize() );
+    assertThat( 1, is( bucket.getSize() ) );
     
     ByteArrayOutputStream bucket4 = bucket.allocate();
-    Assert.assertEquals( 0, bucket4.size() );
+    assertThat( 0, is( bucket4.size() ) );
     
   }
 

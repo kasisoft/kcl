@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.util;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 import java.text.*;
 
@@ -48,7 +49,7 @@ public class VersionTest {
 
   @Test(dataProvider="createVersions", groups="all")
   public void versions( String version, boolean hasmicro, boolean hasqualifier, Version expected ) throws Exception {
-    Assert.assertEquals( new Version( version, hasmicro, hasqualifier ), expected );
+    assertThat( new Version( version, hasmicro, hasqualifier ), is( expected ) );
   }
 
   @DataProvider(name="createVersionsAll")
@@ -64,7 +65,7 @@ public class VersionTest {
 
   @Test(dataProvider="createVersionsAll", groups="all")
   public void versionsAll( String version, Version expected ) throws Exception {
-    Assert.assertEquals( new Version( version ), expected );
+    assertThat( new Version( version ), is( expected ) );
   }
 
   @DataProvider(name="createSort")
@@ -110,7 +111,7 @@ public class VersionTest {
   @Test(dataProvider="createSort", groups="all")
   public void sort( List<Version> versions, List<Version> expected ) {
     Collections.sort( versions );
-    Assert.assertEquals( versions, expected );
+    assertThat( versions, is( expected ) );
   }
   
 } /* ENDCLASS */

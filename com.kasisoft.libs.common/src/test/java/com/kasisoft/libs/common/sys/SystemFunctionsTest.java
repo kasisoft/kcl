@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.sys;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.*;
+import org.testng.annotations.*;
 
 /**
  * Test for the class 'SystemFunctions'.
@@ -20,7 +21,7 @@ public class SystemFunctionsTest {
         System.exit(13);
       }
     });
-    Assert.assertEquals( exitcode1, 13 );
+    assertThat( exitcode1, is(13) );
     
     int exitcode2 = SystemFunctions.executeWithoutExit( new Runnable() {
       @Override
@@ -28,7 +29,7 @@ public class SystemFunctionsTest {
         System.out.println("No exit here");
       }
     });
-    Assert.assertEquals( exitcode2, 0 );
+    assertThat( exitcode2, is(0) );
     
   }
 
