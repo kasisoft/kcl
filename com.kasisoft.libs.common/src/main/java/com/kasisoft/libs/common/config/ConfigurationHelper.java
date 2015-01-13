@@ -234,6 +234,7 @@ public class ConfigurationHelper {
     }
   }
   
+  @SuppressWarnings("cast")
   private static <T> T getValue( Map properties, SimpleProperty<T> property ) {
     try {
       return (T) property.getValue( properties );
