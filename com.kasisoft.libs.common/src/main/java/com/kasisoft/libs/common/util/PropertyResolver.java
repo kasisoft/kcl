@@ -50,6 +50,23 @@ public class PropertyResolver {
     data          = new HashMap<>();
     resolveddata  = new HashMap<>();
   }
+  
+  /**
+   * Clears the content of this instance.
+   */
+  public synchronized void clear() {
+    data.clear();
+    resolveddata.clear();
+  }
+  
+  /**
+   * Returns the number of properties available.
+   * 
+   * @return   The number of properties available.
+   */
+  public int getSize() {
+    return data.size();
+  }
 
   /**
    * Returns a list of all registered property names.
