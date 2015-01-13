@@ -8,14 +8,18 @@ import org.testng.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'FileAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileAdapterTest {
 
-  private FileAdapter adapter = new FileAdapter();
+  FileAdapter adapter = new FileAdapter();
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

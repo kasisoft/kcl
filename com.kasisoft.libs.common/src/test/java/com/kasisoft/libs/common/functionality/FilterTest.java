@@ -8,14 +8,18 @@ import org.testng.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * A test for the interface 'Filter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilterTest {
 
-  private Filter<Integer>   filter;
+  Filter<Integer>   filter;
   
   @BeforeTest
   public void setup() {

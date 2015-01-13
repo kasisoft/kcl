@@ -46,7 +46,7 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty> {
 
-  private static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(.+)\\s*\\])";
+  static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(.+)\\s*\\])";
 
   Map<String,T>   novalues;
   Pattern         pattern;

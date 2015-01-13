@@ -6,15 +6,19 @@ import org.testng.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'DateAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @SuppressWarnings("deprecation")
 public class DateAdapterTest {
 
-  private DateAdapter adapter = new DateAdapter( "dd.MM.yyyy", Locale.GERMAN );
+  DateAdapter adapter = new DateAdapter( "dd.MM.yyyy", Locale.GERMAN );
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

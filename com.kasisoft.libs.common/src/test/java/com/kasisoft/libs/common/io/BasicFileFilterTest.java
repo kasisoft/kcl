@@ -10,15 +10,19 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Test for the 'BasicFileFilter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BasicFileFilterTest {
 
-  private File              testdata;
-  private BasicFileFilter   filter;
+  File              testdata;
+  BasicFileFilter   filter;
   
   @BeforeTest
   public void setup() {

@@ -4,15 +4,19 @@ import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.datatypes.*;
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * FileType for 'gif' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GifFileType implements FileType {
 
-  private static final byte[] MAGIC1 = "GIF87a".getBytes(); 
-  private static final byte[] MAGIC2 = "GIF89a".getBytes();
+  static final byte[] MAGIC1 = "GIF87a".getBytes(); 
+  static final byte[] MAGIC2 = "GIF89a".getBytes();
   
   @Override
   public int getMinSize() {

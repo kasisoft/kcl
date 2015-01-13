@@ -9,21 +9,25 @@ import java.util.List;
 
 import java.awt.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * A test for the interface 'Zip'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ZipTest {
 
-  private static final String KEY_RED     = "red";
-  private static final String KEY_GREEN   = "green";
-  private static final String KEY_BLUE    = "blue";
-  private static final String KEY_NAME    = "name";
-  private static final String KEY_SIZE    = "size";
-  private static final String KEY_STYLE   = "style";
+  static final String KEY_RED     = "red";
+  static final String KEY_GREEN   = "green";
+  static final String KEY_BLUE    = "blue";
+  static final String KEY_NAME    = "name";
+  static final String KEY_SIZE    = "size";
+  static final String KEY_STYLE   = "style";
   
-  private Zip<Color,Font,Map<String,Object>>   zipfunction;
+  Zip<Color,Font,Map<String,Object>>   zipfunction;
   
   @BeforeTest
   public void setup() {

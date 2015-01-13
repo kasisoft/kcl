@@ -5,15 +5,17 @@ import com.kasisoft.libs.common.util.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple adapter for File types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileAdapter extends TypeAdapter<String,File> {
 
-  private boolean   canonical;
+  boolean   canonical;
   
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

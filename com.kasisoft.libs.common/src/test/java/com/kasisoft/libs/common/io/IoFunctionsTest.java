@@ -11,6 +11,9 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the class 'IoFunctions'.
  * 
@@ -19,12 +22,13 @@ import java.io.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctionsTest {
 
-  private File   testdata;
-  private File   directory;
-  private File   unpackeddir;
-  private File   destfile;
+  File   testdata;
+  File   directory;
+  File   unpackeddir;
+  File   destfile;
   
   @BeforeTest
   public void setup() {

@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.i18n;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Helper which provides formatting capabilities to a translation.
@@ -8,10 +9,10 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @AllArgsConstructor
-@Data
+@Data @FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18NFormatter {
 
-  private String   value;
+  String   value;
   
   /**
    * @see String#format(String, Object...)

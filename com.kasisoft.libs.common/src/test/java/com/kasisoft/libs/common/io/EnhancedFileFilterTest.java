@@ -10,15 +10,19 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Test for the 'EnhancedFileFilter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnhancedFileFilterTest {
 
-  private File                 testdata;
-  private EnhancedFileFilter   filter;
+  File                 testdata;
+  EnhancedFileFilter   filter;
   
   @BeforeTest
   public void setup() {

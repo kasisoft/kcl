@@ -9,14 +9,18 @@ import org.testng.*;
 
 import java.awt.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'PointAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PointAdapterTest {
 
-  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  SimpleErrorHandler errhandler = new SimpleErrorHandler() {
 
     @Override
     public void failure( Object source, String message, Exception cause ) {
@@ -29,7 +33,7 @@ public class PointAdapterTest {
     
   };
 
-  private PointAdapter adapter = new PointAdapter( errhandler, null, null, ":" );
+  PointAdapter adapter = new PointAdapter( errhandler, null, null, ":" );
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

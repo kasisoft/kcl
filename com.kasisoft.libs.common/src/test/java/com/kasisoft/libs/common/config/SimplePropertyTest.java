@@ -14,15 +14,19 @@ import java.util.*;
 
 import java.awt.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the class 'SimpleProperty'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimplePropertyTest {
 
-  private static final SimpleProperty<Color> MyRequiredColor = new SimpleProperty<>( "required.color", new ColorAdapter(), true  ); 
-  private static final SimpleProperty<Color> MyOptionalColor = new SimpleProperty<>( "optional.color", new ColorAdapter(), false );
+  static final SimpleProperty<Color> MyRequiredColor = new SimpleProperty<>( "required.color", new ColorAdapter(), true  ); 
+  static final SimpleProperty<Color> MyOptionalColor = new SimpleProperty<>( "optional.color", new ColorAdapter(), false );
   
   @DataProvider(name="roundtripData")
   public Object[][] roundtripData() {

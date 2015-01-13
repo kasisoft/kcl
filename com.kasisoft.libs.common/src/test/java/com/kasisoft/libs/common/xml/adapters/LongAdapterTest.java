@@ -4,14 +4,18 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'LongAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LongAdapterTest {
 
-  private LongAdapter adapter = new LongAdapter();
+  LongAdapter adapter = new LongAdapter();
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

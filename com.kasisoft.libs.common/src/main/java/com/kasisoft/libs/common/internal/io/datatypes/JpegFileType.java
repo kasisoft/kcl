@@ -4,14 +4,18 @@ import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.datatypes.*;
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * FileType for 'jpeg' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JpegFileType implements FileType {
 
-  private static final byte[] MAGIC = "JFIF".getBytes(); 
+  static final byte[] MAGIC = "JFIF".getBytes(); 
   
   @Override
   public int getMinSize() {

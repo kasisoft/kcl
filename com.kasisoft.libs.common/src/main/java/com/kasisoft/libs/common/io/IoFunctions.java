@@ -16,18 +16,20 @@ import java.net.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Collection of functions used for IO operations.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctions {
 
-  private static final byte[] NO_DATA = new byte[0];
+  static final byte[] NO_DATA = new byte[0];
 
-  private static final String WC1 = "([^/]+)";    // *
-  private static final String WC2 = "(.+)";       // **
+  static final String WC1 = "([^/]+)";    // *
+  static final String WC2 = "(.+)";       // **
 
   /**
    * Prevent instantiation.

@@ -8,14 +8,18 @@ import org.testng.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * A test for the interface 'Transform'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TransformTest {
 
-  private Wrapper   wrapper;
+  Wrapper   wrapper;
   
   @BeforeTest
   public void setup() {

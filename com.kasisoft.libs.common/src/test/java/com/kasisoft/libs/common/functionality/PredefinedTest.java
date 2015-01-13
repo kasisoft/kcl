@@ -6,16 +6,20 @@ import org.testng.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the class 'Predefined'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PredefinedTest {
 
-  private Filter<Object>   integerfilter;
-  private Filter<Object>   isevenfilter;
-  private List<Object>     inputlist;
+  Filter<Object>   integerfilter;
+  Filter<Object>   isevenfilter;
+  List<Object>     inputlist;
   
   @BeforeTest
   public void setup() {

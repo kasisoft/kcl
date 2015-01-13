@@ -5,6 +5,7 @@ import com.kasisoft.libs.common.sys.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 
@@ -12,10 +13,11 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BasicFileFilter extends javax.swing.filechooser.FileFilter implements FileFilter {
 
-  private String   mainsuffix;
-  private String   description;
+  String   mainsuffix;
+  String   description;
 
   /**
    * Initialises this filter with the supplied suffix.

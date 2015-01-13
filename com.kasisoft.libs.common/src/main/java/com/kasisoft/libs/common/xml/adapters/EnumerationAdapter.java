@@ -6,6 +6,7 @@ import com.kasisoft.libs.common.util.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise 
@@ -19,12 +20,13 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
 
-  private Class<T>        enumtype;
-  private Map<String,T>   values;
-  private boolean         ignorecase;
-  private String          allowed;
+  Class<T>        enumtype;
+  Map<String,T>   values;
+  boolean         ignorecase;
+  String          allowed;
 
   /**
    * Initializes this adapter using the supplied enumeration type.

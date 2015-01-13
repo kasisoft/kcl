@@ -10,16 +10,18 @@ import java.net.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Management for file type recognizers.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileTypeManager {
 
-  private List<FileType>    recognizers;
-  private int               maxspace;
+  List<FileType>    recognizers;
+  int               maxspace;
   
   /**
    * Initializes this management type while looking for all SPI declarations.

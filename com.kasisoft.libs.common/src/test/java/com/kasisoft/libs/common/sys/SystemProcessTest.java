@@ -9,18 +9,22 @@ import org.testng.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Test for the class 'SystemProcess'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SystemProcessTest {
 
-  private File                    exefile;
-  private SystemProcess           systemprocess;
-  private ByteArrayOutputStream   byteout;
-  private ByteArrayOutputStream   byteerr;
+  File                    exefile;
+  SystemProcess           systemprocess;
+  ByteArrayOutputStream   byteout;
+  ByteArrayOutputStream   byteerr;
   
   @BeforeTest
   public void setup() {

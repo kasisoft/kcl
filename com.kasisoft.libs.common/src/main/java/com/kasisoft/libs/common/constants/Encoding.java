@@ -35,7 +35,7 @@ public final class Encoding {
   public static final Encoding UTF16LE;
   public static final Encoding ISO88591;
   
-  private static final Map<String,Encoding>   ENCODINGS;
+  static final Map<String,Encoding>   ENCODINGS;
   
   static {
     ENCODINGS   = new Hashtable<>();

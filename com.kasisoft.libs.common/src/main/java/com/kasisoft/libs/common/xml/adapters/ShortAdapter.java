@@ -3,16 +3,18 @@ package com.kasisoft.libs.common.xml.adapters;
 import com.kasisoft.libs.common.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple adapter for short types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ShortAdapter extends TypeAdapter<String,Short> {
 
-  private static final String MAX   = "MAX";
-  private static final String MIN   = "MIN";
+  static final String MAX   = "MAX";
+  static final String MIN   = "MIN";
   
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

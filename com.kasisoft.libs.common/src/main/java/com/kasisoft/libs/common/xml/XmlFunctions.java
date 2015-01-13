@@ -22,16 +22,18 @@ import java.io.*;
 import java.lang.reflect.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Collection of xml related functions.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class XmlFunctions {
 
-  private static final Map<String, String> XML2NORMAL = new Hashtable<>();
-  private static final Map<String, String> NORMAL2XML = new Hashtable<>();
+  static final Map<String, String> XML2NORMAL = new Hashtable<>();
+  static final Map<String, String> NORMAL2XML = new Hashtable<>();
   
   static {
     

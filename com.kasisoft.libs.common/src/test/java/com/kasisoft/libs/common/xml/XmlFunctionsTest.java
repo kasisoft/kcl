@@ -17,18 +17,22 @@ import javax.xml.transform.stream.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the class 'XmlFunctions'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlFunctionsTest {
   
-  private File   simplexml;
-  private File   simplexsl;
-  private File   testfile;
-  private File   tempfile;
+  File   simplexml;
+  File   simplexsl;
+  File   testfile;
+  File   tempfile;
   
   @BeforeTest
   public void setup() {

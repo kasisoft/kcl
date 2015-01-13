@@ -3,17 +3,19 @@ package com.kasisoft.libs.common.xml.adapters;
 import com.kasisoft.libs.common.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * An adapter used to Version into Strings and vice versa.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class VersionAdapter extends TypeAdapter<String,Version> {
 
-  private boolean   micro;
-  private boolean   qualifier;
-  private boolean   all;
+  boolean   micro;
+  boolean   qualifier;
+  boolean   all;
   
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

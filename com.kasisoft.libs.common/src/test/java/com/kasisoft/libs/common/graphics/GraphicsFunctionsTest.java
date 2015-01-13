@@ -14,15 +14,19 @@ import java.awt.image.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the utility class 'GraphicsFunctions'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GraphicsFunctionsTest implements FilenameFilter {
   
-  private File     images;
-  private File[]   inputfiles;
+  File     images;
+  File[]   inputfiles;
   
   @BeforeTest
   public void setup() {

@@ -12,17 +12,19 @@ import java.awt.*;
 import java.lang.reflect.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Adapter used to convert a String into a Color and vice versa.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColorAdapter extends TypeAdapter<String,Color> {
 
-  private static final String RGB = "rgb";
+  static final String RGB = "rgb";
   
-  private Map<String,Color>   colors;
+  Map<String,Color>   colors;
   
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

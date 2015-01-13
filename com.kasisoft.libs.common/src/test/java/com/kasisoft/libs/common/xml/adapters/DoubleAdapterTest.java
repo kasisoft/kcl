@@ -6,14 +6,18 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'DoubleAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoubleAdapterTest {
 
-  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  SimpleErrorHandler errhandler = new SimpleErrorHandler() {
 
     @Override
     public void failure( Object source, String message, Exception cause ) {
@@ -26,7 +30,7 @@ public class DoubleAdapterTest {
     
   };
 
-  private DoubleAdapter adapter = new DoubleAdapter( errhandler, null, null );
+  DoubleAdapter adapter = new DoubleAdapter( errhandler, null, null );
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

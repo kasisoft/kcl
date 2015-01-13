@@ -11,16 +11,20 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Test for the classes 'ZipRunnable' and 'UnzipRunnable'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ZipAndUnzipRunnableTest {
   
-  private File   directory;
-  private File   unpackeddir;
-  private File   destfile;
+  File   directory;
+  File   unpackeddir;
+  File   destfile;
   
   @SuppressWarnings("unused")
   @BeforeClass

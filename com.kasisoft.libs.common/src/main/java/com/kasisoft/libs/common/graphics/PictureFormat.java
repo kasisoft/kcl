@@ -31,7 +31,7 @@ public enum PictureFormat {
   PictureFormat( boolean israster, MimeType mime, String iioname ) {
     rasterFormat  = israster;
     mimeType      = mime;
-    imageIOFormat       = iioname;
+    imageIOFormat = iioname;
   }
   
 } /* ENDENUM */

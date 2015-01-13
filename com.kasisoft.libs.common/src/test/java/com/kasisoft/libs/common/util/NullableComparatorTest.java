@@ -6,15 +6,19 @@ import org.testng.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'NullableComparator'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class NullableComparatorTest {
 
-  private static final int NULLCOUNT = 10;
+  static final int NULLCOUNT = 10;
   
   private ExtArrayList<Integer>   data;
   

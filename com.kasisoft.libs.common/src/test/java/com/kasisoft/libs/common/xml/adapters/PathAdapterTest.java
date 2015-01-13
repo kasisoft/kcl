@@ -10,14 +10,18 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'PathAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PathAdapterTest {
 
-  private PathAdapter adapter = new PathAdapter( ";", false );
+  PathAdapter adapter = new PathAdapter( ";", false );
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

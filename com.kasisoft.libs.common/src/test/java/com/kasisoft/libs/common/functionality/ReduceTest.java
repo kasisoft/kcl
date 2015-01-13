@@ -6,14 +6,18 @@ import org.testng.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * A test for the interface 'Reduce'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReduceTest {
 
-  private Sum   reducefunction;
+  Sum   reducefunction;
   
   @BeforeTest
   public void setup() {

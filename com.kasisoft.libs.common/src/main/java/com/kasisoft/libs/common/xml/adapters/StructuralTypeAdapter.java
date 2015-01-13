@@ -6,17 +6,19 @@ import com.kasisoft.libs.common.util.*;
 import java.util.regex.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
 
-  private String   delimiter;
-  private String   quoted;
-  private int      count;
+  String   delimiter;
+  String   quoted;
+  int      count;
 
   /**
    * Initialises this adapter with the default delimiter ','.

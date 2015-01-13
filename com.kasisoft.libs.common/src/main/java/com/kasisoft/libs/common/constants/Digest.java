@@ -29,7 +29,7 @@ public final class Digest {
   public static final Digest   SHA384;
   public static final Digest   SHA512;
   
-  private static final Map<String,Digest>   DIGESTS;
+  static final Map<String,Digest>   DIGESTS;
   
   static {
     DIGESTS   = new Hashtable<>();

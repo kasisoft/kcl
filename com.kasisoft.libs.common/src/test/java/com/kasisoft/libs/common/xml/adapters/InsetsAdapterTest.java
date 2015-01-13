@@ -9,14 +9,18 @@ import org.testng.*;
 
 import java.awt.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'InsetsAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class InsetsAdapterTest {
 
-  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  SimpleErrorHandler errhandler = new SimpleErrorHandler() {
 
     @Override
     public void failure( Object source, String message, Exception cause ) {
@@ -29,7 +33,7 @@ public class InsetsAdapterTest {
     
   };
 
-  private InsetsAdapter adapter = new InsetsAdapter( errhandler, null, null, ":" );
+  InsetsAdapter adapter = new InsetsAdapter( errhandler, null, null, ":" );
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

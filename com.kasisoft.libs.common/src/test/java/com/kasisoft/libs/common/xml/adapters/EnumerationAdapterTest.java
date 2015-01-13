@@ -7,14 +7,18 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'EnumerationAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnumerationAdapterTest {
 
-  private static enum LordOfTheRings {
+  static enum LordOfTheRings {
     
     Gandalf ,
     Bilbo   ,

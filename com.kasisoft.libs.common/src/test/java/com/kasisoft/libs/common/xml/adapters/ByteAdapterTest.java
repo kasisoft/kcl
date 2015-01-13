@@ -4,14 +4,18 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'ByteAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ByteAdapterTest {
 
-  private ByteAdapter adapter = new ByteAdapter();
+  ByteAdapter adapter = new ByteAdapter();
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

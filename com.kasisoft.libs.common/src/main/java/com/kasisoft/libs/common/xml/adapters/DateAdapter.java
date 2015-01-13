@@ -7,17 +7,19 @@ import java.text.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * An adapter used to convert a Date into a String and vice versa.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DateAdapter extends TypeAdapter<String,Date> {
 
-  private static final String FORMAT_DEFAULT = "yyyy-MM-dd";
+  static final String FORMAT_DEFAULT = "yyyy-MM-dd";
   
-  private SimpleDateFormat   formatter;
+  SimpleDateFormat   formatter;
   
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

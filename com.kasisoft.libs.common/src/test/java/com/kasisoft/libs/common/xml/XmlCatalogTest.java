@@ -10,15 +10,19 @@ import java.net.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Collection of testcases for the type 'XmlCatalog'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlCatalogTest {
 
-  private File    httpxsd;
-  private File    xmlxsd;
+  File    httpxsd;
+  File    xmlxsd;
   
   @BeforeTest
   public void setup() {

@@ -8,14 +8,18 @@ import org.testng.*;
 
 import java.net.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'URIAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class URIAdapterTest {
 
-  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  SimpleErrorHandler errhandler = new SimpleErrorHandler() {
 
     @Override
     public void failure( Object source, String message, Exception cause ) {
@@ -28,7 +32,7 @@ public class URIAdapterTest {
     
   };
 
-  private URIAdapter adapter = new URIAdapter( errhandler, null, null );
+  URIAdapter adapter = new URIAdapter( errhandler, null, null );
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() throws Exception {

@@ -9,14 +9,18 @@ import org.testng.*;
 
 import java.awt.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'RectangleAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RectangleAdapterTest {
 
-  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  SimpleErrorHandler errhandler = new SimpleErrorHandler() {
 
     @Override
     public void failure( Object source, String message, Exception cause ) {
@@ -29,7 +33,7 @@ public class RectangleAdapterTest {
     
   };
   
-  private RectangleAdapter adapter = new RectangleAdapter( errhandler, null, null, ":" );
+  RectangleAdapter adapter = new RectangleAdapter( errhandler, null, null, ":" );
 
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

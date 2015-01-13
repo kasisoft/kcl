@@ -4,14 +4,18 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'ShortAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ShortAdapterTest {
 
-  private ShortAdapter adapter = new ShortAdapter();
+  ShortAdapter adapter = new ShortAdapter();
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

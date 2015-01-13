@@ -8,14 +8,18 @@ import org.testng.*;
 
 import java.net.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the class 'FileTypeManager'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileTypeManagerTest {
 
-  private FileTypeManager   manager;
+  FileTypeManager   manager;
   
   @BeforeClass
   public void setup() {

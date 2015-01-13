@@ -12,17 +12,21 @@ import java.util.*;
 
 import java.awt.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the class 'MapProperty'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MapPropertyTest {
 
-  private static final MapProperty<Color> ColorsRequired = new MapProperty<>( "color.required", new ColorAdapter(), true  ); 
-  private static final MapProperty<Color> ColorsOptional = new MapProperty<>( "color.optional", new ColorAdapter(), false );
+  static final MapProperty<Color> ColorsRequired = new MapProperty<>( "color.required", new ColorAdapter(), true  ); 
+  static final MapProperty<Color> ColorsOptional = new MapProperty<>( "color.optional", new ColorAdapter(), false );
   
-  private ColorAdapter coloradapter = new ColorAdapter();
+  ColorAdapter coloradapter = new ColorAdapter();
   
   @Test(groups="all")
   public void roundtripPropertiesForRequired() {

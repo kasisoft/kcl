@@ -4,14 +4,18 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'StringAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class StringAdapterTest {
 
-  private StringAdapter adapter = new StringAdapter();
+  StringAdapter adapter = new StringAdapter();
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

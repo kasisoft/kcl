@@ -13,17 +13,21 @@ import java.util.List;
 
 import java.awt.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the class 'ListProperty'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ListPropertyTest {
 
-  private static final ListProperty<Color> ColorsRequired = new ListProperty<>( "color.required", new ColorAdapter(), true  ); 
-  private static final ListProperty<Color> ColorsOptional = new ListProperty<>( "color.optional", new ColorAdapter(), false );
+  static final ListProperty<Color> ColorsRequired = new ListProperty<>( "color.required", new ColorAdapter(), true  ); 
+  static final ListProperty<Color> ColorsOptional = new ListProperty<>( "color.optional", new ColorAdapter(), false );
   
-  private ColorAdapter coloradapter = new ColorAdapter();
+  ColorAdapter coloradapter = new ColorAdapter();
   
   @Test(groups="all")
   public void roundtripPropertiesForRequired() {

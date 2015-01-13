@@ -19,17 +19,19 @@ import java.lang.reflect.*;
 import java.sql.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Collection of various functions.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctions {
 
-  private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
+  static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
   
-  private static final Set<String> TRUEVALUES;
+  static final Set<String> TRUEVALUES;
   
   static {
     

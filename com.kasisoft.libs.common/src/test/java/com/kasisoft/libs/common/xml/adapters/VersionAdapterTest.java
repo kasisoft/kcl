@@ -8,14 +8,18 @@ import org.testng.*;
 
 import java.text.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'VersionAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class VersionAdapterTest {
 
-  private VersionAdapter adapter = new VersionAdapter( true, true );
+  VersionAdapter adapter = new VersionAdapter( true, true );
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

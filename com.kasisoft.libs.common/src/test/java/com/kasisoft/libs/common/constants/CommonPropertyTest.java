@@ -10,15 +10,19 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the enumeration 'CommonProperty'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommonPropertyTest {
 
-  private Properties   properties;
-  private Properties   noproperties;
+  Properties   properties;
+  Properties   noproperties;
   
   @BeforeSuite
   public void setup() {

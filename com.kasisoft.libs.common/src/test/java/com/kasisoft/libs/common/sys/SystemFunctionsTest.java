@@ -11,7 +11,6 @@ import org.testng.*;
  */
 public class SystemFunctionsTest {
 
-  
   @Test(groups="all")
   public void executeWithoutExit() {
 

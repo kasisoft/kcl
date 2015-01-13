@@ -6,6 +6,7 @@ import com.kasisoft.libs.common.util.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Simple adapter implementation which is <code>null</code> safe and allows to convert datatypes if possible. 
@@ -19,11 +20,12 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class TypeAdapter<F,T> implements Transform<F,T> {
 
-  private SimpleErrorHandler   errhandler;
-  private F                    defvalue1;
-  private T                    defvalue2;
+  SimpleErrorHandler   errhandler;
+  F                    defvalue1;
+  T                    defvalue2;
 
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

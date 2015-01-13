@@ -5,6 +5,7 @@ import java.util.*;
 import java.io.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 
@@ -12,19 +13,20 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnhancedFileFilter extends BasicFileFilter {
   
-  private static final String[] DEFAULT_EXCLUDEDDIRS = new String[] {
+  static final String[] DEFAULT_EXCLUDEDDIRS = new String[] {
     ".git", ".svn", "_svn", "CVS"
   };
   
-  private static final String[] DEFAULT_EXCLUDEDFILES = new String[] {
+  static final String[] DEFAULT_EXCLUDEDFILES = new String[] {
   };
 
-  private String        suffixlistasstring;
-  private List<String>  suffixlist;
-  private Set<String>   excludeddirs;
-  private Set<String>   excludedfiles;
+  String        suffixlistasstring;
+  List<String>  suffixlist;
+  Set<String>   excludeddirs;
+  Set<String>   excludedfiles;
   
   /**
    * Initialises this filter with the supplied suffix.

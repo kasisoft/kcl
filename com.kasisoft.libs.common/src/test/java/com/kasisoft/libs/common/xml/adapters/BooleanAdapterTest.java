@@ -4,14 +4,18 @@ import org.testng.annotations.*;
 
 import org.testng.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'BooleanAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BooleanAdapterTest {
 
-  private BooleanAdapter adapter = new BooleanAdapter();
+  BooleanAdapter adapter = new BooleanAdapter();
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {

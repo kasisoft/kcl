@@ -5,15 +5,17 @@ import com.kasisoft.libs.common.util.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Collection of facades that can be used for char sequence related operations.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CharSequenceFacades {
 
-  private static final Map<String,CharSequenceFacade>   FACADES;
+  static final Map<String,CharSequenceFacade>   FACADES;
   
   static {
     FACADES = new Hashtable<>();

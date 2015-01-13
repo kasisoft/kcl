@@ -11,26 +11,29 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the enumeration 'SysProperty'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SysPropertyTest {
 
-  private Properties   systemproperties;
-  private Properties   noproperties;
+  Properties   systemproperties;
+  Properties   noproperties;
   
-  private File         toolsjar;
-  private File         endorseddir;
-  private File         extdir;
-  private File         root;
-  private File         sysdir;
-  private File         tempdir;
-  private File         userdir;
-  private File         homedir;
+  File         toolsjar;
+  File         endorseddir;
+  File         extdir;
+  File         root;
+  File         sysdir;
+  File         tempdir;
+  File         userdir;
+  File         homedir;
     
-  
   @BeforeTest
   public void setup() throws Exception {
 

@@ -10,14 +10,18 @@ import org.testng.annotations.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Test for the class 'PropertyResolver'
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PropertyResolverTest {
 
-  private PropertyResolver   resolver;
+  PropertyResolver   resolver;
   
   @BeforeClass
   private void setup() {

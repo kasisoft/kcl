@@ -10,17 +10,21 @@ import java.util.regex.*;
 
 import java.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Tests for the type 'ConfigurationHelper'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ConfigurationHelperTest {
   
-  private SimpleProperty<String>   property1;
-  private SimpleProperty<String>   property2;
-  private Map<String,String>       map;
-  private Properties               properties;
+  SimpleProperty<String>   property1;
+  SimpleProperty<String>   property2;
+  Map<String,String>       map;
+  Properties               properties;
   
   @BeforeClass
   private void setup() {

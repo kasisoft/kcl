@@ -9,16 +9,18 @@ import java.util.regex.*;
 import java.util.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A helper which allows to deal with the configuration properties.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ConfigurationHelper {
 
-  private static final String PREFIX_ENV    = "env:";
-  private static final String PREFIX_SYS    = "sys:";  
+  static final String PREFIX_ENV    = "env:";
+  static final String PREFIX_SYS    = "sys:";  
 
   /**
    * Returns a simple help text about the supplied properties.

@@ -13,6 +13,7 @@ import java.io.*;
 import java.lang.reflect.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * A helper which initializes the translations managed by a class. Each translation class is supposed to provide fields
@@ -34,9 +35,10 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18NSupport {
 
-  private static final int MODIFIERS = Modifier.STATIC | Modifier.PUBLIC;
+  static final int MODIFIERS = Modifier.STATIC | Modifier.PUBLIC;
   
   /**
    * Returns <code>true</code> if the supplied field can be considered to be a translation field.

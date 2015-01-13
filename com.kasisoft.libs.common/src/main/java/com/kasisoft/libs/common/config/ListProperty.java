@@ -46,7 +46,7 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
 
-  private static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
+  static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
 
   Pattern   pattern;
   

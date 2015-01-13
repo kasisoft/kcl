@@ -4,14 +4,18 @@ import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.datatypes.*;
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * FileType for '7z' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SevenZipFileType implements FileType {
 
-  private static final byte[] MAGIC = new byte[] { (byte) 0x37, (byte) 0x7A, (byte) 0xBC, (byte) 0xAF, (byte) 0x27, (byte) 0x1C  }; 
+  static final byte[] MAGIC = new byte[] { (byte) 0x37, (byte) 0x7A, (byte) 0xBC, (byte) 0xAF, (byte) 0x27, (byte) 0x1C  }; 
   
   @Override
   public int getMinSize() {

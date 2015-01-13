@@ -5,6 +5,7 @@ import com.kasisoft.libs.common.base.*;
 import java.net.*;
 
 import lombok.*;
+import lombok.experimental.*;
 
 /**
  * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 
@@ -12,9 +13,10 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 
-  private static final String[] PRECONFIGURED = new String[] {
+  static final String[] PRECONFIGURED = new String[] {
     "-//W3C//DTD XMLSCHEMA 200102//EN"        , "/dtds/XMLSchema.dtd"                 ,
     "-//WAPFORUM//DTD XHTML Mobile 1.0//EN"   , "/dtds/xhtml-mobile10-flat.dtd"       ,
     "-//W3C//DTD XHTML Basic 1.0//EN"         , "/dtds/xhtml-basic10-f.dtd"           ,

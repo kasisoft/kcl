@@ -11,14 +11,18 @@ import java.util.*;
 
 import java.io.*;
 
+import lombok.*;
+import lombok.experimental.*;
+
 /**
  * Test for various functions of the class 'MiscFunctions'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctionsTest {
 
-  private static final String[] DATEPATTERNS = new String[] {
+  static final String[] DATEPATTERNS = new String[] {
     "dd.MM.yyyy", "dd-MM-yyyy", "dd MMM - yyyy"
   };
   
