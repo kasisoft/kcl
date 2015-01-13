@@ -8,7 +8,7 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor @ToString(of = "value")
+@AllArgsConstructor
 @Data @FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18NFormatter {
 
@@ -23,6 +23,11 @@ public class I18NFormatter {
     } else {
       return String.format( value, args );
     }
+  }
+  
+  @Override
+  public String toString() {
+    return value;
   }
         
 } /* ENDCLASS */
