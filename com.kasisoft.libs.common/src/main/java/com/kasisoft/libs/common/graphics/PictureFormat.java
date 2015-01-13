@@ -17,6 +17,7 @@ public enum PictureFormat {
   Eps     ( false , MimeType.EncapsulatedPostscript , null  ),
   Gif     ( true  , MimeType.Gif                    , "gif" ),
   Jpeg    ( true  , MimeType.Jpeg                   , "jpg" ),
+  Png     ( true  , MimeType.Png                    , "png" ),
   Ps      ( false , MimeType.Postscript             , null  ),
   Svg     ( false , MimeType.Svg                    , null  );
   
