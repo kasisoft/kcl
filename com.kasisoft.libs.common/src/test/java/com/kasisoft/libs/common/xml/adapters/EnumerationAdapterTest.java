@@ -18,7 +18,7 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnumerationAdapterTest {
 
-  static enum LordOfTheRings {
+  enum LordOfTheRings {
     
     Gandalf ,
     Bilbo   ,

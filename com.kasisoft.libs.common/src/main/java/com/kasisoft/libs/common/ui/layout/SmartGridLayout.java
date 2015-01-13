@@ -36,7 +36,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
   static final int MASK_HEIGHT          = 0x07; // %000111
 
   // Internal constants for controlling purposes
-  static enum SizeType {
+  enum SizeType {
     Minimum,
     Preferred,
     Maximum

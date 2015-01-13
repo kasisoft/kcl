@@ -13,7 +13,7 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlFault {
   
-  public static enum FaultType {
+  public enum FaultType {
     warning, error, fatal;
   }
 
