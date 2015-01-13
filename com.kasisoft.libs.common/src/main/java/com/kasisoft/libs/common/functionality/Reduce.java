@@ -4,7 +4,10 @@ package com.kasisoft.libs.common.functionality;
  * Reduces an input together with a current element.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated Will be removed with version 1.8 which will use Java 8.
  */
+@Deprecated
 public interface Reduce<F,T> {
 
   /**

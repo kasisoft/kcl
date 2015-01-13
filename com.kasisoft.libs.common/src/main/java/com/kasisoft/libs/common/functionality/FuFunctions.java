@@ -8,7 +8,11 @@ import lombok.*;
  * Helper functions to perform operations similar to the functional paradigm.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated Will be removed with version 1.8 which will use Java 8.
  */
+@Deprecated
+@SuppressWarnings("deprecation")
 public class FuFunctions {
 
   /**

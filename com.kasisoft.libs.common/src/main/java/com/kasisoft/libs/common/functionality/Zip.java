@@ -4,7 +4,10 @@ package com.kasisoft.libs.common.functionality;
  * Combines two elements to a single new one.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated Will be removed with version 1.8 which will use Java 8.
  */
+@Deprecated
 public interface Zip<L,R,V> {
 
   /**
