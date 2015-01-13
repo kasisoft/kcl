@@ -1093,6 +1093,13 @@ public class IoFunctions {
     return runnable.hasCompleted();
   }
 
+  /**
+   * GZIPs the supplied file.
+   * 
+   * @param file   The file which has to be gzipped. Not <code>null</code>.
+   * 
+   * @return   The gzipped file. <code>null</code> in case of an error.
+   */
   public static File gzip( @NonNull File file ) {
     File gzfile = new File( file.getParentFile(), String.format( "%s.gz", file.getName() ) );
     try( 
@@ -1106,6 +1113,13 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * Ungzips the supplied file.
+   * 
+   * @param gzfile   The gzipped file which must end with <i>.gz</i>. Not <code>null</code>.
+   * 
+   * @return   The original file. <code>null</code> in case of an error.
+   */
   public static File ungzip( @NonNull File gzfile ) {
     if( ! gzfile.getName().endsWith( ".gz" ) ) {
       return null;
