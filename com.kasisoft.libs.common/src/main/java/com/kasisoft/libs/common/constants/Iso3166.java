@@ -284,42 +284,6 @@ public enum Iso3166 {
   }
   
   /**
-   * Returns the alpha-3 code for this value.
-   * 
-   * @return   The alpha-3 code for this value. Not <code>null</code>. result.length() == 3.
-   * 
-   * @deprecated [07-Dec-2014:KASI]   Use {@link #getAlpha3()} instead.
-   */
-  @Deprecated
-  public String alpha3() {
-    return alpha3;
-  }
-  
-  /**
-   * Returns the alpha-2 code for this value.
-   * 
-   * @return   The alpha-2 code for this value. Not <code>null</code>. result.length() == 2.
-   * 
-   * @deprecated [07-Dec-2014:KASI]   Use {@link #getAlpha2()} instead.
-   */
-  @Deprecated
-  public String alpha2() {
-    return alpha2;
-  }
-  
-  /**
-   * Returns the numerical code for this value.
-   * 
-   * @return   The numerical code for this value.
-   * 
-   * @deprecated [07-Dec-2014:KASI]   Use {@link #getNumerical()} instead.
-   */
-  @Deprecated
-  public int numerical() {
-    return numerical;
-  }
-  
-  /**
    * Returns the iso value for a specific alpha-3 code.
    * 
    * @param alpha3   The alpha-3 code which value shall be searched for. Maybe <code>null</code>.

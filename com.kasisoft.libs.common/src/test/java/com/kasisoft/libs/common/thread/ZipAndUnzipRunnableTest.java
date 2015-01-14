@@ -28,7 +28,6 @@ public class ZipAndUnzipRunnableTest {
   File   unpackeddir;
   File   destfile;
   
-  @SuppressWarnings("unused")
   @BeforeClass
   private void setup() {
     destfile      = IoFunctions.newTempFile( "file-", ".zip" );
