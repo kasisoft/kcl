@@ -355,6 +355,18 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>sonatype-nexus-staging</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
       
     </plugins>
     
@@ -421,9 +433,8 @@
     </snapshotRepository>
     
     <repository>
-      <id>kasisoft-release</id>
-      <name>kasisoft-release</name>
-      <url>https://kasisoft.com/artifactory/libs-release-local</url>
+      <id>sonatype-nexus-staging</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     
   </distributionManagement>
