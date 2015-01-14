@@ -31,6 +31,15 @@ public class IoFunctions {
   static final String WC1 = "([^/]+)";    // *
   static final String WC2 = "(.+)";       // **
 
+  public static final FileFilter ACCEPT_ALL = new FileFilter() {
+
+    @Override
+    public boolean accept( File pathname ) {
+      return true;
+    }
+    
+  };
+  
   /**
    * Prevent instantiation.
    */
@@ -867,9 +876,36 @@ public class IoFunctions {
    * @return   <code>true</code> <=> Deletion of all files succeeded.
    */
   public static boolean delete( @NonNull File ... files ) {
-    FileDeleteRunnable runnable = new FileDeleteRunnable( files );
-    runnable.run();
-    return runnable.hasCompleted();
+    
+    List<File> entries = listRecursive( null, files );
+    boolean    result  = true;
+    
+    // delete files first
+    for( int i = entries.size() - 1; i >= 0; i-- ) {
+      File entry = entries.get(i);
+      if( entry.isFile() ) {
+        result = deleteFile( entry.isFile(), entry, result );
+      }
+    }
+
+    // delete directories
+    for( int i = entries.size() - 1; i >= 0; i-- ) {
+      File entry = entries.get(i);
+      if( entry.isDirectory() ) {
+        result = deleteFile( entry.isDirectory(), entry, result );
+      }
+    }
+
+    return result;
+    
+  }
+  
+  private static boolean deleteFile( boolean execute, File file, boolean previous ) {
+    if( execute ) {
+      return file.delete() && previous;
+    } else {
+      return previous;
+    }
   }
   
   /**
@@ -1036,34 +1072,101 @@ public class IoFunctions {
   }
   
   /**
+   * Iterates through the supplied resource.
+   * 
+   * @param filter      A FileFilter to use. Not <code>null</code>.
+   * @param receiver    The list that will be filled with the desired File instances. Not <code>null</code>.
+   * @param files       <code>true</code> <=> Only include file instances.
+   * @param dirs        <code>true</code> <=> Only include directory instances.
+   * @param path        A buffer providing the relative path. Not <code>null</code>.
+   * @param current     The resource that is supposed to be processed. Not <code>null</code>.
+   */
+  private static void iterateFiles( FileFilter filter, List<File> receiver, boolean files, boolean dirs, StringBuilder path, File current ) {
+    int oldlength = path.length();
+    path.append( current.getName() );
+    if( filter.accept( current ) ) {
+      if( files && current.isFile() ) {
+        receiver.add( current );
+      }
+      if( dirs && current.isDirectory() ) {
+        receiver.add( current );
+      }
+      if( current.isDirectory() ) {
+        path.append( "/" );
+        File[] children = current.listFiles();
+        if( children != null ) {
+          for( File child : children ) {
+            iterateFiles( filter, receiver, files, dirs, path, child );
+          }
+        }
+      }
+    }
+    path.setLength( oldlength );
+  }
+  
+  /**
+   * Scans a directory recursively and stores them into a list.
+   * 
+   * @param filter         A FileFilter usable to specify additional filter criterias. If <code>null</code> accept all.
+   * @param includefiles   <code>true</code> <=> Collect files in the returned list.
+   * @param includedirs    <code>true</code> <=> Collect directories in the returned list.
+   * @param dirs           The directories to scan. Not <code>null</code>.
+   * 
+   * @return   The list which collects the filesystem entries. Not <code>null</code>.
+   */
+  public static List<File> listRecursive( FileFilter filter, boolean includefiles, boolean includedirs, @NonNull File ... dirs ) {
+    List<File> result = new ArrayList<>();
+    if( filter == null ) {
+      filter = ACCEPT_ALL;
+    }
+    StringBuilder builder = new StringBuilder();
+    for( File dir : dirs ) {
+      builder.setLength(0);
+      iterateFiles( filter, result, includefiles, includedirs, builder, dir );
+    }
+    return result;
+  }
+  
+  /**
    * Scans a directory recursively and stores them into a list.
    * 
    * @param dir            The current directory to scan. Not <code>null</code>.
-   * @param filter         A FileFilter usable to specify additional filter criterias. Maybe <code>null</code>.
+   * @param filter         A FileFilter usable to specify additional filter criterias. If <code>null</code> accept all.
    * @param includefiles   <code>true</code> <=> Collect files in the returned list.
    * @param includedirs    <code>true</code> <=> Collect directories in the returned list.
    * 
    * @return   The list which collects the filesystem entries. Not <code>null</code>.
    */
   public static List<File> listRecursive( @NonNull File dir, FileFilter filter, boolean includefiles, boolean includedirs ) {
-    FileListRunnable runnable = new FileListRunnable( dir );
-    runnable.setIncludeFiles( includefiles );
-    runnable.setIncludeDirs( includedirs );
-    runnable.setFilter( filter );
-    runnable.run();
-    return runnable.getAllFiles();
+    List<File> result = new ArrayList<>();
+    if( filter == null ) {
+      filter = ACCEPT_ALL;
+    }
+    StringBuilder builder = new StringBuilder();
+    iterateFiles( filter, result, includefiles, includedirs, builder, dir );
+    return result;
   }
 
   /**
    * Scans a directory recursively and stores the collected entries into a list.
    * 
    * @param dir      The current directory to scan. Not <code>null</code>. 
-   * @param filter   A FileFilter usable to specify additional filter criterias. Not <code>null</code>.
+   * @param filter   A FileFilter usable to specify additional filter criterias. If <code>null</code> accept all.
    */
-  public static List<File> listRecursive( @NonNull File dir, @NonNull FileFilter filter ) {
+  public static List<File> listRecursive( @NonNull File dir, FileFilter filter ) {
     return listRecursive( dir, filter, true, true );
   }
   
+  /**
+   * Scans a directory recursively and stores the collected entries into a list.
+   * 
+   * @param filter   A FileFilter usable to specify additional filter criterias. If <code>null</code> accept all.
+   * @param dirs     The directories to scan. Not <code>null</code>.
+   */
+  public static List<File> listRecursive( FileFilter filter, @NonNull File ... dirs ) {
+    return listRecursive( filter, true, true, dirs );
+  }
+
   /**
    * Compresses the supplied directory into a zip file.
    *

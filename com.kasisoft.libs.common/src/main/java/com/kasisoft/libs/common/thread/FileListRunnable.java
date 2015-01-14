@@ -45,8 +45,8 @@ public class FileListRunnable extends AbstractRunnable {
    * @param files   The list of resources to traverse initially. Maybe <code>null</code>.
    */
   public FileListRunnable( File ... files ) {
-    includeDirs       = true;
-    includeFiles      = true;
+    includeDirs   = true;
+    includeFiles  = true;
     filter        = null;
     filepattern   = null;
     dirpattern    = null;
