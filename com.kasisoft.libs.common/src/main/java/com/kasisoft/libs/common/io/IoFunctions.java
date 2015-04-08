@@ -1249,10 +1249,12 @@ public class IoFunctions {
    * Calculates the class directory/jarfile used for the supplied class instance.
    * 
    * @param classobj   The class which is used to locate the application directory. Not <code>null</code>.
+   * @param skippable  If supplied immediate parental directories named as provided will be skipped. This is an easy
+   *                   way to skip directories in a build environment (f.e. target/classes). Maybe <code>null</code>.
    * 
    * @return   The location of the class directory/jarfile. Not <code>null</code>.
    */
-  public static File locateDirectory( @NonNull Class<?> classobj ) {
+  public static File locateDirectory( @NonNull Class<?> classobj, String ... skippable ) {
     
     String         classname    = String.format( "/%s.class", classobj.getName().replace('.','/') );
         
@@ -1279,12 +1281,33 @@ public class IoFunctions {
         // might be the case if the class was located in an archive
         file = file.getParentFile();
       }
+      if( (skippable != null) && (skippable.length > 0) ) {
+        file = skip( file, skippable, skippable.length - 1 );
+      }
       return file;
     } catch( URISyntaxException | IOException ex ) {
       // won't happen as the uri is based upon a correct URL
       return null;
     }
     
+  }
+  
+  /**
+   * Skips the parental directories as long as they match a certain list of skippable parents.
+   * 
+   * @param dir         The directory which might be altered. Not <code>null</code>.
+   * @param skippable   The list of names for skippable parental directories. Not <code>null</code>.
+   * @param index       The current index within the list of skippable parental directories.
+   *  
+   * @return   The desired directory. Not <code>null</code>.
+   */
+  private static File skip( File dir, String[] skippable, int index ) {
+    if( index >= 0 ) {
+      if( dir.getName().equalsIgnoreCase( skippable[ index ] ) ) {
+        return skip( dir.getParentFile(), skippable, index - 1 );
+      }
+    }
+    return dir;
   }
   
   /**

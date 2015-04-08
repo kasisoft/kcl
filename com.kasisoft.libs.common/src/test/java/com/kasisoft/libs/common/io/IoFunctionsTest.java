@@ -389,11 +389,17 @@ public class IoFunctionsTest {
 
   @Test(groups="all")
   public void locateDirectory() throws IOException {
-    File dir       = IoFunctions.locateDirectory( Iso3166Test.class );
-    assertThat( dir, is( notNullValue() ) );
-    File current1  = new File( "target/test-classes" ).getCanonicalFile(); // using maven
-    File current2  = new File( "build/classes/test"  ).getCanonicalFile(); // using gradle
-    assertTrue( dir.equals( current1 ) || dir.equals( current2 ) );
+    
+    File dir1      = IoFunctions.locateDirectory( Iso3166Test.class );
+    assertThat( dir1, is( notNullValue() ) );
+    File current1  = new File( "target/test-classes" ).getCanonicalFile();
+    assertTrue( dir1.equals( current1 ) );
+
+    File dir2      = IoFunctions.locateDirectory( Iso3166Test.class, "target", "test-classes" );
+    assertThat( dir2, is( notNullValue() ) );
+    File current2  = new File( "." ).getCanonicalFile();
+    assertTrue( dir2.equals( current2 ) );
+    
   }
   
 } /* ENDCLASS */
