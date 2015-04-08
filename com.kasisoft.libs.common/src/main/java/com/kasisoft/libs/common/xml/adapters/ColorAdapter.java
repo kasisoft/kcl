@@ -49,9 +49,8 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
       try {
         Color color = (Color) field.get( null );
         colors.put( field.getName().toLowerCase(), color );
-      } catch( IllegalArgumentException ex ) { // uninteresting Field
-      } catch( IllegalAccessException   ex ) { // uninteresting Field
-      } catch( ClassCastException       ex ) { // uninteresting Field
+      } catch( IllegalArgumentException | IllegalAccessException | ClassCastException ex ) { 
+        // uninteresting Field
       }
     }
   }

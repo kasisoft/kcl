@@ -319,10 +319,8 @@ public class MiscFunctions {
         ByteArrayInputStream  bytein    = new ByteArrayInputStream( byteout.toByteArray() );
         ObjectInputStream     objectin  = new ObjectInputStream( bytein );
         return (T) objectin.readObject();
-      } catch( IOException ex ) {
+      } catch( IOException | ClassNotFoundException ex ) {
         // since we're only working in memory this should never happen
-      } catch( ClassNotFoundException ex ) {
-        // cannot happen since we've just serialised the type ourselves so it's guarantueed 
       }
     }
     return null;

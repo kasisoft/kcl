@@ -251,10 +251,8 @@ public final class XmlFunctions {
       output.write( encoding.encode( xmldecl ) );
       output.flush();
       transformer.transform( new DOMSource( node ), new StreamResult( output ) );
-    } catch( IOException                       ex ) {
+    } catch( IOException          ex ) {
       throw FailureException.newFailureException( FailureCode.IO, ex );
-    } catch( TransformerConfigurationException ex ) {
-      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
     } catch( TransformerException ex ) {
       throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
     }

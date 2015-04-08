@@ -20,6 +20,7 @@ public class MissingPropertyException extends RuntimeException {
    * @param propertykey   The property that is missing. Neither <code>null</code> nor empty.
    */
   public MissingPropertyException( @NonNull String propertykey ) {
+    super( propertykey );
     property  = propertykey;
   }
 
