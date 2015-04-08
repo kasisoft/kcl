@@ -1241,6 +1241,10 @@ public class IoFunctions {
     }
   }
 
+  private static final String[] ARCHIVE_PREFIXES = new String[] {
+    "jar:", "ear:", "zip:", "war:"
+  };
+  
   /**
    * Calculates the class directory/jarfile used for the supplied class instance.
    * 
@@ -1256,21 +1260,33 @@ public class IoFunctions {
     URL            location     = classobj.getResource( classname );
     String         externalform = location.toExternalForm();
     String         baselocation = externalform.substring( 0, externalform.length() - classname.length() );
+
+    if( baselocation.endsWith("!") ) {
+      baselocation = baselocation.substring( 0, baselocation.length() - 1 );
+    }
+    
+    for( String prefix : ARCHIVE_PREFIXES ) {
+      if( baselocation.startsWith( prefix ) ) {
+        baselocation = baselocation.substring( prefix.length() );
+        break;
+      }
+    }
     
     try {
       URI  uri  = new URI( baselocation );
-      File file = new File( uri );
-      return file.getCanonicalFile();
-    } catch( URISyntaxException ex ) {
-      // won't happen as the uri is based upon a correct URL
-      return null;
-    } catch( IOException        ex ) {
+      File file = new File( uri ).getCanonicalFile();
+      if( file.isFile() ) {
+        // might be the case if the class was located in an archive
+        file = file.getParentFile();
+      }
+      return file;
+    } catch( URISyntaxException | IOException ex ) {
       // won't happen as the uri is based upon a correct URL
       return null;
     }
     
   }
-
+  
   /**
    * Creates a directory.
    * 
