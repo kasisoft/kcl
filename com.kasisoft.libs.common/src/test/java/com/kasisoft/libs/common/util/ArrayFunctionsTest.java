@@ -498,8 +498,8 @@ public class ArrayFunctionsTest {
     assertThat( index, is( expectedindex ) );
   }
 
-  @DataProvider(name="joinData")
-  public Object[][] joinData() {
+  @DataProvider(name="joinArraysData")
+  public Object[][] joinArraysData() {
     return new Object[][] {
       { new String[][] {}, new String[0] },  
       { new String[][] { new String[0] }, new String[0] },
@@ -510,9 +510,9 @@ public class ArrayFunctionsTest {
     };
   }
   
-  @Test(dataProvider="joinData", groups="all")
-  public void join( String[][] input, String[] expected ) {
-    assertThat( ArrayFunctions.join( input ), is( expected ) );
+  @Test(dataProvider="joinArraysData", groups="all")
+  public void joinArray( String[][] input, String[] expected ) {
+    assertThat( ArrayFunctions.joinArrays( new String[0], input ), is( expected ) );
   }
   
   private char[][] toCharArray( String ... str ) {
