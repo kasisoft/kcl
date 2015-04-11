@@ -142,7 +142,11 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This method will be removed with version 1.8 as default values are supposed
+   *                                  to be supplied using {@link #withDefault(Object)}.
    */
+  @Deprecated
   public T getValue( @NonNull Map<String,String> properties, T defvalue ) {
     return getValueImpl( properties, defvalue );
   }
@@ -154,7 +158,11 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This method will be removed with version 1.8 as default values are supposed
+   *                                  to be supplied using {@link #withDefault(Object)}.
    */
+  @Deprecated
   public T getValue( @NonNull Properties properties, T defvalue ) {
     return getValueImpl( properties, defvalue );
   }
