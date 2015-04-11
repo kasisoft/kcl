@@ -41,6 +41,13 @@ import lombok.experimental.*;
  * If the {@link TypeAdapter} instance shall generate an exception it's advisable to make use of the 
  * {@link MissingPropertyException}.
  * 
+ * Pleae note that you can enforce {@link #getValue(Map)} to return non-null values if you're supplying an empty list
+ * through {@link #withDefault(List)}. Default values to provide default values per key. That being said the result
+ * will contain the defaults key-value pair if it had not been overidden by an actual pair within the properties.
+ * 
+ * <strong>Also note that the API changed slightly with version 1.7 as non existing values resulted in empty lists
+ * rather than <code>null</code>.</strong> 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -48,9 +55,12 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
 
   static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(.+)\\s*\\])";
 
-  Map<String,T>   novalues;
-  Pattern         pattern;
+  Pattern                 pattern;
   
+  /** Maybe <code>null</code>. */
+  @Getter Map<String,T>   defaultValue;
+
+
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
    * creates optional properties.
@@ -61,7 +71,6 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
   public MapProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
     super( property, typeadapter, false );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
-    novalues = Collections.emptyMap();
   }
   
   /**
@@ -75,7 +84,18 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
   public MapProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
-    novalues = Collections.emptyMap();
+  }
+
+  /**
+   * Configures the default value for this property.
+   * 
+   * @param defvalue   The new default value for this property. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public MapProperty<T> withDefault( Map<String,T> defvalue ) {
+    defaultValue = defvalue;
+    return this;
   }
 
   /**
@@ -152,9 +172,14 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This method will be removed with version 1.8 as default values are supposed
+   *                                  to be supplied using {@link #withDefault(Object)}.
    */
+  @Deprecated
   public Map<String,T> getValue( @NonNull Map<String,String> properties, Map<String,T> defvalue ) {
-    return getTypedValues( getValueImpl( properties ), defvalue );
+    Map<String, String> values = getValueImpl( properties );
+    return checkForResult( getTypedValues( values, defvalue ) );
   }
 
   /**
@@ -164,9 +189,14 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This method will be removed with version 1.8 as default values are supposed
+   *                                  to be supplied using {@link #withDefault(Object)}.
    */
+  @Deprecated
   public Map<String,T> getValue( @NonNull Properties properties, Map<String,T> defvalue ) {
-    return getTypedValues( getValueImpl( properties ), defvalue );
+    Map<String, String> values = getValueImpl( properties );
+    return checkForResult( getTypedValues( values, defvalue ) );
   }
 
   /**
@@ -201,19 +231,20 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    */
   private Map<String,T> getTypedValues( Map<String,String> values, Map<String,T> defvalues ) {
     Map<String,T> result = new HashMap<>();
-    if( defvalues == null ) {
-      defvalues = novalues;
-    } else {
+    if( defaultValue != null ) {
+      result.putAll( defaultValue );
+    }
+    if( defvalues != null ) {
       result.putAll( defvalues );
     }
     for( Map.Entry<String,String> entry : values.entrySet() ) {
-      T defvalue = defvalues.get( entry.getKey() );
+      T defvalue = result.get( entry.getKey() );
       T value    = getTypedValue( entry.getValue(), defvalue );
       if( value != null ) {
         result.put( entry.getKey(), value );
       }
     }
-    return checkForResult( result );
+    return result;
   }
   
   private Map<String,T> checkForResult( Map<String,T> result ) {

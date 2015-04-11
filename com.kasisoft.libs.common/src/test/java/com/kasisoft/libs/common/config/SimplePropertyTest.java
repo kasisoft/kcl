@@ -22,6 +22,7 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimplePropertyTest {
 

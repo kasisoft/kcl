@@ -42,7 +42,7 @@ import lombok.experimental.*;
  * {@link MissingPropertyException}.
  * 
  * Pleae note that you can enforce {@link #getValue(Map)} to return non-null values if you're supplying an empty list
- * through {@link #withDefault(List)}.
+ * through {@link #withDefault(List)}. The default values will be delivered in case no list property had been found.
  * 
  * <strong>Also note that the API changed slightly with version 1.7 as non existing values resulted in empty lists
  * rather than <code>null</code>.</strong> 
@@ -156,11 +156,13 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    */
   public List<T> getValue( @NonNull Map<String,String> properties ) {
     List<String> values = getValueImpl( properties );
+    List<T>      result = null;
     if( values != null ) {
-      return getTypedValues( values );
+      result = getTypedValues( values );
     } else {
-      return defaultValue;
+      result = defaultValue;
     }
+    return checkForResult( result );
   }
 
   /**
@@ -172,11 +174,13 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    */
   public List<T> getValue( @NonNull Properties properties ) {
     List<String> values = getValueImpl( properties );
+    List<T>      result = null;
     if( values != null ) {
-      return getTypedValues( values );
+      result = getTypedValues( values );
     } else {
-      return defaultValue;
+      result = defaultValue;
     }
+    return checkForResult( result );
   }
 
   /**
