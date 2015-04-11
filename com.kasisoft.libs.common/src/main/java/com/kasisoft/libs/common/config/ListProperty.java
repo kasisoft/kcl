@@ -41,6 +41,12 @@ import lombok.experimental.*;
  * If the {@link TypeAdapter} instance shall generate an exception it's advisable to make use of the 
  * {@link MissingPropertyException}.
  * 
+ * Pleae note that you can enforce {@link #getValue(Map)} to return non-null values if you're supplying an empty list
+ * through {@link #withDefault(List)}.
+ * 
+ * <strong>Also note that the API changed slightly with version 1.7 as non existing values resulted in empty lists
+ * rather than <code>null</code>.</strong> 
+ * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -48,8 +54,11 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
 
   static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
 
-  Pattern   pattern;
+  Pattern           pattern;
   
+  /** Maybe <code>null</code>. */
+  @Getter List<T>   defaultValue;
+
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
    * creates optional properties.
@@ -75,6 +84,18 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
 
+  /**
+   * Configures the default value for this property.
+   * 
+   * @param defvalue   The new default value for this property. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public ListProperty<T> withDefault( List<T> defvalue ) {
+    defaultValue = defvalue;
+    return this;
+  }
+  
   /**
    * Removes all properties from a map (the supplied keys are backed for the map).
    * 
@@ -134,7 +155,12 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public List<T> getValue( @NonNull Map<String,String> properties ) {
-    return getTypedValues( getValueImpl( properties ) );
+    List<String> values = getValueImpl( properties );
+    if( values != null ) {
+      return getTypedValues( values );
+    } else {
+      return defaultValue;
+    }
   }
 
   /**
@@ -145,7 +171,12 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
   public List<T> getValue( @NonNull Properties properties ) {
-    return getTypedValues( getValueImpl( properties ) );
+    List<String> values = getValueImpl( properties );
+    if( values != null ) {
+      return getTypedValues( values );
+    } else {
+      return defaultValue;
+    }
   }
 
   /**
@@ -153,7 +184,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * 
    * @param map   The map which provides the properties. Not <code>null</code>.
    * 
-   * @return  The list values. Not <code>null</code>.
+   * @return  The list values. Maybe <code>null</code>.
    */
   private List<String> getValueImpl( Map<?,?> map ) {
     Map<Integer,String> result = new Hashtable<>();
@@ -166,6 +197,9 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
           result.put( index, value );
         }
       }
+    }
+    if( result.isEmpty() ) {
+      return null;
     }
     List<Integer> sorted = new ArrayList<>( result.keySet() );
     Collections.sort( sorted );

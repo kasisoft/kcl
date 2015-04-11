@@ -24,8 +24,10 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ListPropertyTest {
 
-  static final ListProperty<Color> ColorsRequired = new ListProperty<>( "color.required", new ColorAdapter(), true  ); 
-  static final ListProperty<Color> ColorsOptional = new ListProperty<>( "color.optional", new ColorAdapter(), false );
+  static final ListProperty<Color> ColorsRequired        = new ListProperty<>( "color.required", new ColorAdapter(), true  ); 
+  static final ListProperty<Color> ColorsOptional        = new ListProperty<>( "color.optional", new ColorAdapter(), false );
+  static final ListProperty<Color> ColorsOptionalNotNull = new ListProperty<>( "color.notNull.optional", new ColorAdapter(), false )
+                                                                .withDefault( Collections.<Color>emptyList() );
   
   ColorAdapter coloradapter = new ColorAdapter();
   
@@ -88,6 +90,26 @@ public class ListPropertyTest {
     // remove the color and wait for the complaint
     ColorsOptional.setValue( properties, null );
     value = ColorsOptional.getValue( properties );
+    assertNull( value );
+    
+  }
+
+  @Test(groups="all")
+  public void roundtripPropertiesOptionalNotNull() {
+    
+    Properties properties = new Properties();
+
+    List<Color> value = createValues();
+    
+    // set and get the color
+    ColorsOptionalNotNull.setValue( properties, value );
+    List<Color> read = ColorsOptionalNotNull.getValue( properties );
+    assertThat( read, is( value ) );
+    
+    // remove the color and wait for the complaint
+    ColorsOptionalNotNull.setValue( properties, null );
+    value = ColorsOptionalNotNull.getValue( properties );
+    assertNotNull( value );
     assertTrue( value.isEmpty() );
     
   }
@@ -107,10 +129,30 @@ public class ListPropertyTest {
     // remove the color and wait for the complaint
     ColorsOptional.setValue( properties, null );
     value = ColorsOptional.getValue( properties );
+    assertNull( value );
+    
+  }
+
+  @Test(groups="all")
+  public void roundtripMapOptionalNotNull() {
+    
+    Map<String,String> properties = new Hashtable<>();
+
+    List<Color> value = createValues();
+    
+    // set and get the color
+    ColorsOptionalNotNull.setValue( properties, value );
+    List<Color> read = ColorsOptionalNotNull.getValue( properties );
+    assertThat( read, is( value ) );
+    
+    // remove the color and wait for the complaint
+    ColorsOptionalNotNull.setValue( properties, null );
+    value = ColorsOptionalNotNull.getValue( properties );
+    assertNotNull( value );
     assertTrue( value.isEmpty() );
     
   }
-  
+
   @Test(groups="all")
   public void roundtripMapForRequiredWithEmptyValue() {
    
