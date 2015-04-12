@@ -20,7 +20,7 @@ import lombok.experimental.*;
 public class ConfigurationHelper {
 
   static final String PREFIX_ENV    = "env:";
-  static final String PREFIX_SYS    = "sys:";  
+  static final String PREFIX_SYS    = "sys:";
 
   /**
    * Returns a simple help text about the supplied properties.

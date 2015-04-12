@@ -248,9 +248,11 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
   }
   
   private Map<String,T> checkForResult( Map<String,T> result ) {
-    if( result.isEmpty() && isRequired() ) {
-      // damn, we need to complain here
-      throw new MissingPropertyException( getKey() );
+    if( isRequired() ) {
+      if( (result == null) || result.isEmpty() ) {
+        // damn, we need to complain here
+        throw new MissingPropertyException( getKey() );
+      }
     }
     return result;
   }

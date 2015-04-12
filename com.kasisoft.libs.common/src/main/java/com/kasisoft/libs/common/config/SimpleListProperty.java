@@ -1,8 +1,7 @@
 package com.kasisoft.libs.common.config;
 
+import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.xml.adapters.*;
-
-import java.util.regex.*;
 
 import java.util.*;
 
@@ -17,7 +16,7 @@ import lombok.experimental.*;
  * interface MyProperties {
  *   
  *   ...
- *   ListProperty<URL> Website = new ListProperty<>( "website", new URLAdapter() );
+ *   SimpleProperty<URL> Website = new SimpleProperty<>( "website", new URLAdapter() );
  *   ...
  *   
  * }
@@ -32,7 +31,7 @@ import lombok.experimental.*;
  *   ...
  *   {
  *      Properties props = ...
- *      List<URL>  sites = Website.getValues( props );
+ *      URL        site  = Website.getValue( props );
  *   }
  *   ...
  *   
@@ -41,20 +40,12 @@ import lombok.experimental.*;
  * If the {@link TypeAdapter} instance shall generate an exception it's advisable to make use of the 
  * {@link MissingPropertyException}.
  * 
- * Pleae note that you can enforce {@link #getValue(Map)} to return non-null values if you're supplying an empty list
- * through {@link #withDefault(List)}. The default values will be delivered in case no list property had been found.
- * 
- * <strong>Also note that the API changed slightly with version 1.7 as non existing values resulted in empty lists
- * rather than <code>null</code>.</strong> 
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
+public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleListProperty> {
 
-  static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
-
-  Pattern           pattern;
+  static final String DELIMITER = ",";
   
   /** Maybe <code>null</code>. */
   @Getter List<T>   defaultValue;
@@ -66,9 +57,8 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
+  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
     super( property, typeadapter, false );
-    pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
   
   /**
@@ -79,11 +69,10 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
+  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
-    pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
-
+  
   /**
    * Configures the default value for this property.
    * 
@@ -91,26 +80,11 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * 
    * @return   this
    */
-  public ListProperty<T> withDefault( List<T> defvalue ) {
+  public SimpleListProperty<T> withDefault( List<T> defvalue ) {
     defaultValue = defvalue;
     return this;
   }
   
-  /**
-   * Removes all properties from a map (the supplied keys are backed for the map).
-   * 
-   * @param propertykeys   The supplied keys backing the map. Not <code>null</code>.
-   */
-  private void removeProperties( @NonNull Set<?> propertykeys ) {
-    List<String> toremove = new ArrayList<>( (Set<String>) propertykeys );
-    for( int i = toremove.size() - 1; i >= 0; i-- ) {
-      if( ! pattern.matcher( toremove.get(i) ).matches() ) {
-        toremove.remove(i);
-      }
-    }
-    propertykeys.removeAll( toremove );
-  }
-
   /**
    * Applies the supplied value to the given properties.
    * 
@@ -131,19 +105,12 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
     setValueImpl( properties, newvalue );
   }
 
-  /**
-   * Applies the supplied values to the properties.
-   * 
-   * @param props       The properties instance that will be updated. Not <code>null</code>.
-   * @param newvalue    The new value to be set. Maybe <code>null</code>.
-   */
-  private void setValueImpl( Map props, List<T> newvalue ) {
-    removeProperties( props.keySet() );
-    if( newvalue != null ) {
-      for( int i = 0; i < newvalue.size(); i++ ) {
-        String key = String.format( "%s[%s]", getKey(), Integer.valueOf(i) );
-        setProperty( props, key, newvalue.get(i) );
-      }
+  private void setValueImpl( Map properties, List<T> newvalue ) {
+    String value = valueAsString( newvalue );
+    if( value == null ) {
+      properties.remove( getKey() );
+    } else {
+      properties.put( getKey(), value );
     }
   }
   
@@ -156,15 +123,13 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    */
   public List<T> getValue( @NonNull Map<String,String> properties ) {
     List<String> values = getValueImpl( properties );
-    List<T>      result = null;
-    if( values != null ) {
-      result = getTypedValues( values );
-    } else {
+    List<T>      result = getTypedValues( values );
+    if( result == null ) {
       result = defaultValue;
     }
     return checkForResult( result );
   }
-
+  
   /**
    * Returns the current value provided by the supplied properties.
    * 
@@ -174,15 +139,24 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    */
   public List<T> getValue( @NonNull Properties properties ) {
     List<String> values = getValueImpl( properties );
-    List<T>      result = null;
-    if( values != null ) {
-      result = getTypedValues( values );
-    } else {
+    List<T>      result = getTypedValues( values );
+    if( result == null ) {
       result = defaultValue;
     }
     return checkForResult( result );
   }
 
+  private List<T> getTypedValues( List<String> values ) {
+    List<T> result = null;
+    if( values != null ) {
+      result = new ArrayList<>( values.size() );
+      for( int i = 0; i < values.size(); i++ ) {
+        result.add( getTypedValue( values.get(i), null ) );
+      }
+    }
+    return result;
+  }
+  
   /**
    * Returns the list values provided with the supplied map.
    * 
@@ -191,41 +165,48 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return  The list values. Maybe <code>null</code>.
    */
   private List<String> getValueImpl( Map<?,?> map ) {
-    Map<Integer,String> result = new Hashtable<>();
-    for( Object propkey : map.keySet() ) {
-      Matcher matcher = pattern.matcher( (String) propkey );
-      if( matcher.matches() ) {
-        Integer index = Integer.valueOf( matcher.group(2) );
-        String  value = getProperty( map, (String) propkey );
-        if( value != null ) {
-          result.put( index, value );
-        }
-      }
+    List<String> result = null;
+    String       value  = getProperty( map, getKey() );
+    if( value != null ) {
+      result = new ArrayList<>( Arrays.asList( value.split( DELIMITER ) ) );
     }
-    if( result.isEmpty() ) {
-      return null;
-    }
-    List<Integer> sorted = new ArrayList<>( result.keySet() );
-    Collections.sort( sorted );
-    List<String>  list   = new ArrayList<>();
-    for( int i = 0; i < sorted.size(); i++ ) {
-      list.add( result.get( sorted.get(i) ) );
-    }
-    return list;
+    return result;
   }
   
   /**
-   * Returns the typed values from their String representations.
+   * Returns the textual value provides with the supplied properties.
    * 
-   * @param values   The String values. Not <code>null</code>.
+   * @param properties   The properties providing the current settings. Not <code>null</code>.
    * 
-   * @return   The typed values. Not <code>null</code>.
+   * @return   The value if there was one. Maybe <code>null</code>.
    */
-  private List<T> getTypedValues( List<String> values ) {
-    List<T> result = getAdapter().unmarshal( values );
-    return checkForResult( result );
+  public String getTextualValue( @NonNull Properties properties ) {
+    return getProperty( properties, getKey() );
+  }
+
+  /**
+   * Returns the textual value provides with the supplied properties.
+   * 
+   * @param properties   The properties providing the current settings. Not <code>null</code>.
+   * 
+   * @return   The value if there was one. Maybe <code>null</code>.
+   */
+  public String getTextualValue( @NonNull Map<String,String> properties ) {
+    return getProperty( properties, getKey() );
   }
   
+  private String valueAsString( List<T> values ) {
+    String result = null;
+    if( (values != null) && (! values.isEmpty()) ) {
+      List<String> list = new ArrayList<>( values.size() );
+      for( int i = 0; i < values.size(); i++ ) {
+        list.add( getAdapter().marshal( values.get(i) ) );
+      }
+      result = StringFunctions.concatenate( DELIMITER, list );
+    }
+    return result;
+  }
+
   private List<T> checkForResult( List<T> result ) {
     if( isRequired() ) {
       if( (result == null) || result.isEmpty() ) {
@@ -235,5 +216,5 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
     }
     return result;
   }
-
+  
 } /* ENDCLASS */
