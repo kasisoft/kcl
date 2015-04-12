@@ -17,10 +17,10 @@ import lombok.experimental.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WSFocusListener extends FocusAdapter implements WSListener<Component> {
+public class WSFocusListener<T> extends FocusAdapter implements WSListener<Component> {
 
-  String                   wsproperty;
-  SimpleProperty<String>   property;
+  String              wsproperty;
+  SimpleProperty<T>   property;
   
   /**
    * Sets up this listener using the supplied key allowing to access the Workspace.
@@ -39,7 +39,7 @@ public class WSFocusListener extends FocusAdapter implements WSListener<Componen
    * 
    * @param newproperty   The property used to persist the settings. Not <code>null</code>.
    */
-  public WSFocusListener( @NonNull SimpleProperty<String> newproperty ) {
+  public WSFocusListener( @NonNull SimpleProperty<T> newproperty ) {
     property = newproperty;
   }
 
@@ -51,7 +51,7 @@ public class WSFocusListener extends FocusAdapter implements WSListener<Componen
       if( wsproperty != null ) {
         Workspace.getInstance().setString( wsproperty, ((JTextField) component).getText() );
       } else {
-        property.setValue( Workspace.getInstance().getProperties(), ((JTextField) component).getText() );
+        ((SimpleProperty<String>) property).setValue( Workspace.getInstance().getProperties(), ((JTextField) component).getText() );
       }
     }
   }
@@ -59,9 +59,9 @@ public class WSFocusListener extends FocusAdapter implements WSListener<Componen
   @Override
   public void configure( Component component ) {
     if( property != null ) {
-      String value = property.getValue( Workspace.getInstance().getProperties() );
+      T value = property.getValue( Workspace.getInstance().getProperties() );
       if( (value != null) && (component instanceof JTextField) ) {
-        ((JTextField) component).setText( value );
+        ((JTextField) component).setText( (String) value );
       }
     }
   }
