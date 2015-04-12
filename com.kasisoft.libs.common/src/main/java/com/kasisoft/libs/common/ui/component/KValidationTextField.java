@@ -20,7 +20,7 @@ import lombok.experimental.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KValidationTextField extends JTextField implements KValidationComponent {
+public class KValidationTextField extends KTextField implements KValidationComponent {
 
   /** Maybe <code>null</code>. */
   @Getter ValidationConstraint<String>    validationConstraint;
