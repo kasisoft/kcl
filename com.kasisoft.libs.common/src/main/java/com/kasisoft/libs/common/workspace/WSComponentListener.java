@@ -15,7 +15,7 @@ import lombok.experimental.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WSComponentListener extends ComponentAdapter {
+public class WSComponentListener extends ComponentAdapter implements WSListener<Component> {
 
   String                      wsproperty;
   SimpleProperty<Rectangle>   property;
@@ -60,6 +60,16 @@ public class WSComponentListener extends ComponentAdapter {
       Workspace.getInstance().setRectangle( wsproperty, component.getBounds() );
     } else {
       property.setValue( Workspace.getInstance().getProperties(), component.getBounds() );
+    }
+  }
+
+  @Override
+  public void configure( Component component ) {
+    if( property != null ) {
+      Rectangle bounds = property.getValue( Workspace.getInstance().getProperties() );
+      if( bounds != null ) {
+        component.setBounds( bounds );
+      }
     }
   }
 

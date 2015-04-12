@@ -17,7 +17,7 @@ import lombok.experimental.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WSFocusListener extends FocusAdapter {
+public class WSFocusListener extends FocusAdapter implements WSListener<Component> {
 
   String                   wsproperty;
   SimpleProperty<String>   property;
@@ -52,6 +52,16 @@ public class WSFocusListener extends FocusAdapter {
         Workspace.getInstance().setString( wsproperty, ((JTextField) component).getText() );
       } else {
         property.setValue( Workspace.getInstance().getProperties(), ((JTextField) component).getText() );
+      }
+    }
+  }
+
+  @Override
+  public void configure( Component component ) {
+    if( property != null ) {
+      String value = property.getValue( Workspace.getInstance().getProperties() );
+      if( (value != null) && (component instanceof JTextField) ) {
+        ((JTextField) component).setText( value );
       }
     }
   }
