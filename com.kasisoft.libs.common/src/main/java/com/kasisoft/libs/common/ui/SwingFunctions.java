@@ -206,5 +206,41 @@ public class SwingFunctions {
     int       height      = screensize.height - relosize.height;
     relocatable.setBounds( Math.max( width / 2, 0 ), Math.max( height / 2, 0 ), relosize.width, relosize.height );
   }
-  
+
+  /**
+   * Invokes the supplied Runnable instance within the event dispatch thread and waits for it's completion. Any error
+   * will be thrown as a {@link RuntimeException}.
+   *  
+   * @param runnable   The Runnable instance that is supposed to be invoked. Not <code>null</code>.
+   */
+  public static void invokeAndWait( @NonNull Runnable runnable ) {
+    if( SwingUtilities.isEventDispatchThread() ) {
+      runnable.run();
+    } else {
+      try {
+        SwingUtilities.invokeAndWait( runnable );
+      } catch( Exception ex ) {
+        throw new RuntimeException( ex );
+      }
+    }
+  }
+
+  /**
+   * Invokes the supplied Runnable instance within the event dispatch thread as soon as possible without waiting for 
+   * it's completion. Any error will be thrown as a {@link RuntimeException}.
+   *  
+   * @param runnable   The Runnable instance that is supposed to be invoked. Not <code>null</code>.
+   */
+  public static void invokeLater( @NonNull Runnable runnable ) {
+    if( SwingUtilities.isEventDispatchThread() ) {
+      new Thread( runnable ).start();
+    } else {
+      try {
+        SwingUtilities.invokeLater( runnable );
+      } catch( Exception ex ) {
+        throw new RuntimeException( ex );
+      }
+    }
+  }
+
 } /* ENDCLASS */
