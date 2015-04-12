@@ -26,8 +26,10 @@ public final class Workspace {
 
   static Workspace       instance = null;
   
-  File                        settingsfile;
+  @Getter
   Properties                  properties;
+  
+  File                        settingsfile;
   boolean                     isnew;
   Map<Class<?>,TypeAdapter>   adapters;
   ShutdownWorkspace           shutdown;
@@ -116,7 +118,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setString( @NonNull String property, String value ) {
     properties.setProperty( property, value );
   }
@@ -128,7 +133,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public String getString( @NonNull String property, String defvalue ) {
     return properties.getProperty( property, defvalue );
   }
@@ -139,7 +147,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public String getString( @NonNull String property ) {
     return properties.getProperty( property, null );
   }
@@ -149,7 +160,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setRectangle( @NonNull String property, Rectangle value ) {
     set( Rectangle.class, property, value );
   }
@@ -161,7 +175,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Rectangle getRectangle( @NonNull String property, Rectangle defvalue ) {
     return get( Rectangle.class, property, defvalue );
   }
@@ -172,7 +189,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Rectangle getRectangle( @NonNull String property ) {
     return get( Rectangle.class, property, null );
   }
@@ -182,7 +202,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setBoolean( @NonNull String property, Boolean value ) {
     set( Boolean.class, property, value );
   }
@@ -194,7 +217,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Boolean getBoolean( @NonNull String property, Boolean defvalue ) {
     return get( Boolean.class, property, defvalue );
   }
@@ -205,7 +231,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Boolean getBoolean( @NonNull String property ) {
     return get( Boolean.class, property, null );
   }
@@ -215,7 +244,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setByte( @NonNull String property, Byte value ) {
     set( Byte.class, property, value );
   }
@@ -227,7 +259,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Byte getByte( @NonNull String property, Byte defvalue ) {
     return get( Byte.class, property, defvalue );
   }
@@ -238,7 +273,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Byte getByte( @NonNull String property ) {
     return get( Byte.class, property, null );
   }
@@ -248,7 +286,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setColor( @NonNull String property, Color value ) {
     set( Color.class, property, value );
   }
@@ -260,7 +301,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Color getColor( @NonNull String property, Color defvalue ) {
     return get( Color.class, property, defvalue );
   }
@@ -271,7 +315,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Color getColor( @NonNull String property ) {
     return get( Color.class, property, null );
   }
@@ -281,7 +328,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setDouble( @NonNull String property, Double value ) {
     set( Double.class, property, value );
   }
@@ -293,7 +343,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Double getDouble( @NonNull String property, Double defvalue ) {
     return get( Double.class, property, defvalue );
   }
@@ -304,7 +357,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Double getDouble( @NonNull String property ) {
     return get( Double.class, property, null );
   }
@@ -314,7 +370,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setFloat( @NonNull String property, Float value ) {
     set( Float.class, property, value );
   }
@@ -326,7 +385,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Float getFloat( @NonNull String property, Float defvalue ) {
     return get( Float.class, property, defvalue );
   }
@@ -337,7 +399,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Float getFloat( @NonNull String property ) {
     return get( Float.class, property, null );
   }
@@ -347,7 +412,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setInsets( @NonNull String property, Insets value ) {
     set( Insets.class, property, value );
   }
@@ -359,7 +427,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Insets getInsets( @NonNull String property, Insets defvalue ) {
     return get( Insets.class, property, defvalue );
   }
@@ -370,7 +441,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Insets getInsets( @NonNull String property ) {
     return get( Insets.class, property, null );
   }
@@ -380,7 +454,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setPoint( @NonNull String property, Point value ) {
     set( Point.class, property, value );
   }
@@ -392,7 +469,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Point getPoint( @NonNull String property, Point defvalue ) {
     return get( Point.class, property, defvalue );
   }
@@ -403,7 +483,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Point getPoint( @NonNull String property ) {
     return get( Point.class, property, null );
   }
@@ -413,7 +496,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setShort( @NonNull String property, Short value ) {
     set( Short.class, property, value );
   }
@@ -425,7 +511,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Short getShort( @NonNull String property, Short defvalue ) {
     return get( Short.class, property, defvalue );
   }
@@ -436,7 +525,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Short getShort( @NonNull String property ) {
     return get( Short.class, property, null );
   }
@@ -446,7 +538,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setURI( @NonNull String property, URI value ) {
     set( URI.class, property, value );
   }
@@ -458,7 +553,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public URI getURI( @NonNull String property, URI defvalue ) {
     return get( URI.class, property, defvalue );
   }
@@ -469,7 +567,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public URI getURI( @NonNull String property ) {
     return get( URI.class, property, null );
   }
@@ -479,7 +580,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setURL( @NonNull String property, URL value ) {
     set( URL.class, property, value );
   }
@@ -491,7 +595,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public URL getURL( @NonNull String property, URL defvalue ) {
     return get( URL.class, property, defvalue );
   }
@@ -502,7 +609,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public URL getURL( @NonNull String property ) {
     return get( URL.class, property, null );
   }
@@ -512,7 +622,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setVersion( @NonNull String property, Version value ) {
     set( Version.class, property, value );
   }
@@ -524,7 +637,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Version getVersion( @NonNull String property, Version defvalue ) {
     return get( Version.class, property, defvalue );
   }
@@ -535,7 +651,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public Version getVersion( @NonNull String property ) {
     return get( Version.class, property, null );
   }
@@ -545,7 +664,10 @@ public final class Workspace {
    * 
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * @param value      The value which has to be saved. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public void setFile( @NonNull String property, File value ) {
     set( File.class, property, value );
   }
@@ -557,7 +679,10 @@ public final class Workspace {
    * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public File getFile( @NonNull String property, File defvalue ) {
     return get( File.class, property, defvalue );
   }
@@ -568,7 +693,10 @@ public final class Workspace {
    * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
    * 
    * @return   The value associated with the property. Maybe <code>null</code>.
+   * 
+   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
    */
+  @Deprecated
   public File getFile( @NonNull String property ) {
     return get( File.class, property, null );
   }
