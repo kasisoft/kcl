@@ -53,7 +53,7 @@ public class FlatXmlHandler extends DefaultHandler {
     trimValues = true;
     attributes = true;
     escaping   = true;
-    newline    = SysProperty.LineSeparator.getValue( System.getProperties(), "\n" );
+    newline    = SysProperty.LineSeparator.getValue( System.getProperties() );
     encoding   = Encoding.UTF8;
   }
   
