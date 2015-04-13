@@ -40,6 +40,8 @@ public class KFrame extends JFrame {
    */
   private void init() {
     
+    setSize( 640, 480 );
+    
     initialize();
     components();
     configure();
