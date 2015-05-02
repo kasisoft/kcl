@@ -120,6 +120,15 @@ public class KValidationTextField extends KTextField implements KValidationCompo
   }
   
   /**
+   * Returns <code>true</code> if there's some content available.
+   * 
+   * @return   <code>true</code> <=> There's some content available.
+   */
+  public boolean isSet() {
+    return getDocument().getLength() > 0;
+  }
+  
+  /**
    * Changes the color for invalid content.
    * 
    * @param newinvalidcolor    The new color for invalid content. Not <code>null</code>.
