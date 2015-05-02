@@ -346,7 +346,7 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    */
   private void scaleDimension( int[] result, int[] source, int[] max, int available, int min ) {
 
-    if( (available < 0) || (min < 0) ) {
+    if( (available <= 0) || (min <= 0) ) {
       System.arraycopy( source, 0, result, 0, source.length );
       return;
     }
