@@ -84,7 +84,7 @@ public class KFrame extends JFrame {
   }
   
   /**
-   * 05. Register all listeners.
+   * 05. Create all listeners.
    */
   protected void listeners() {
   }
