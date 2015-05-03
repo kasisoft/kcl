@@ -19,6 +19,72 @@ import lombok.*;
 public class SwingFunctions {
 
   /**
+   * Returns the preferred size for the supplied component assuming that this component is supposed to spread at least
+   * over a specific amount of characters.
+   * 
+   * @param size        The preferred size. Not <code>null</code>
+   * @param component   The component which preferred size is desired. Not <code>null</code>.
+   * @param minchars    The minimum amount of chars that has to be used.
+   *  
+   * @return   The minimum size. Not <code>null</code>.
+   */
+  public static Dimension getAdjustedPreferredSize( @NonNull Dimension size, @NonNull Component component, int minchars ) {
+    if( (size.height == 0) || (size.width == 0) ) {
+      FontMetrics metrics = component.getFontMetrics( component.getFont() );
+      if( size.height == 0 ) {
+        size.height = metrics.getHeight();
+      }
+      size.width = Math.max( size.width, metrics.charWidth( 'W' ) * Math.max( 1, minchars ) );
+    }
+    return size;
+  }
+
+  /**
+   * Returns the minimum size for the supplied component. This function performs an adjustment towards the preferred 
+   * size.
+   * 
+   * @param component   The component which minimum size is desired. Not <code>null</code>.
+   *  
+   * @return   The minimum size. Not <code>null</code>.
+   */
+  public static Dimension getAdjustedMinimumSize( @NonNull Dimension size, @NonNull Component component ) {
+    return adjust( size, component );
+  }
+  
+  /**
+   * Returns the maximum size for the supplied component. This function performs an adjustment towards the preferred 
+   * size.
+   * 
+   * @param component   The component which maximum size is desired. Not <code>null</code>.
+   *  
+   * @return   The maximum size. Not <code>null</code>.
+   */
+  public static Dimension getAdjustedMaximumSize( @NonNull Dimension size, @NonNull Component component ) {
+    return adjust( size, component );
+  }
+  
+  /**
+   * Adjusts a dimension towards the preferred size.
+   * 
+   * @param toadjust    The Dimension instance which is supposed to be adjusted. Not <code>null</code>.
+   * @param component   The component which provides the preferred size. Not <code>null</code>.
+   * 
+   * @return   The adjusted size. Not <code>null</code>.
+   */
+  private static Dimension adjust( Dimension toadjust, Component component ) {
+    if( (toadjust.width == 0) || (toadjust.height == 0) ) {
+      Dimension preferred = component.getPreferredSize();
+      if( toadjust.width == 0 ) {
+        toadjust.width = preferred.width;
+      }
+      if( toadjust.height == 0 ) {
+        toadjust.height = preferred.height;
+      }
+    }
+    return toadjust;
+  }
+
+  /**
    * Creates a popup menu from the supplied items. Only enabled items will be considered. Each <code>null</code> item 
    * will be used to insert a separator instead.
    * 
