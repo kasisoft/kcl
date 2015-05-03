@@ -494,6 +494,21 @@ public class MiscFunctions {
       throw null;
     }
   }
+  
+  /**
+   * Returns the current locale. Uses the default if none had been set yet.
+   * 
+   * @param locale   The locale to be used. Maybe <code>null</code>.
+   * 
+   * @return   The current locale. Not <code>null</code>.
+   */
+  public static Locale getLocale( Locale locale ) {
+    if( locale == null ) {
+      return Locale.getDefault();
+    } else {
+      return locale;
+    }
+  }
 
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
