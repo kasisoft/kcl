@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.ui.event.*;
+
 import com.kasisoft.libs.common.validation.*;
 
-import javax.swing.event.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import javax.swing.event.*;
 
 /**
  * Field used to support numerical values only.
@@ -16,14 +18,17 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KDoubleField extends KFilteringTextField {
 
-  @Getter double                  minimum;
-  @Getter double                  maximum;
+  @Getter double          minimum;
+  @Getter double          maximum;
+          String          tooltiptext;
   
-  /** Non <code>null</code> if valid. */
-  @Getter Double                  value;
+  @Getter Double          value;
   
-  StringBuilder                   buffer;
-  ChangeEventDispatcher           changeeventdispatcher;
+  StringBuilder           buffer;
+  ChangeEventDispatcher   changeeventdispatcher;
+  
+  @Getter @Setter 
+  boolean                 emptyValid;
   
   /**
    * Sets up this field allowing to enter numerical values.
@@ -41,6 +46,7 @@ public class KDoubleField extends KFilteringTextField {
   public KDoubleField( Double min, Double max ) {
     super();
     value                 = null;
+    emptyValid            = false;
     changeeventdispatcher = new ChangeEventDispatcher();
     buffer                = new StringBuilder();
     minimum               = min == null ? -Double.MAX_VALUE : min.doubleValue();
@@ -50,7 +56,7 @@ public class KDoubleField extends KFilteringTextField {
     } else {
       setAllowed( "-.0123456789" );
     }
-    LocalBehaviour localbehaviour = new LocalBehaviour();
+    LocalBehaviour localbehaviour = new LocalBehaviour( this );
     setValidationConstraint( localbehaviour );
     getDocument().addDocumentListener( localbehaviour );
     setToolTipText( null );
@@ -60,11 +66,12 @@ public class KDoubleField extends KFilteringTextField {
    * If <code>tooltiptext</code> is null or empty a default tooltip text is generated.
    */
   @Override
-  public void setToolTipText( String tooltiptext ) {
-    if( (tooltiptext == null) || (tooltiptext.length() == 0) ) {
-      tooltiptext = String.format( " %3.3f .. %3.3f ", Double.valueOf( minimum ), Double.valueOf( maximum ) );
+  public void setToolTipText( String text ) {
+    if( (text == null) || (text.length() == 0) ) {
+      text = String.format( " %3.3e .. %3.3e ", Double.valueOf( minimum ), Double.valueOf( maximum ) );
     }
-    super.setToolTipText( tooltiptext );
+    super.setToolTipText( text );
+    tooltiptext = text;
   }
   
   /**
@@ -112,13 +119,15 @@ public class KDoubleField extends KFilteringTextField {
   protected void accept( @NonNull String text ) {
     try {
       value = Double.valueOf( text );
-    } catch( NumberFormatException ex ) {
+    } catch( Exception ex ) {
       // fragments like -, -0, -., -0.
+      value = null;
     }
   }
   
   /**
-   * Changes the currently allowed minimum value.
+   * Changes the currently allowed minimum value. If the minimum value is bigger than the current maximum these values
+   * will be exchanged.
    * 
    * @param newminimum   The new allowed minimum value. Maybe <code>null</code>.
    */
@@ -128,28 +137,40 @@ public class KDoubleField extends KFilteringTextField {
     } else {
       minimum = newminimum.doubleValue();
     }
-    if( minimum >= 0 ) {
-      setAllowed( ".0123456789" );
-    } else {
-      setAllowed( "-.0123456789" );
-    }
+    swap();
     validityCheck();
   }
 
   /**
-   * Changes the currently allowed maximum value.
+   * Changes the currently allowed maximum value. If the maximum value is bigger than the current minimum these values
+   * will be exchanged.
    * 
    * @param newmaximum   The new allowed maximum value. Maybe <code>null</code>.
    */
   public void setMaximum( Double newmaximum ) {
     if( (newmaximum == null) || Double.isNaN( newmaximum.doubleValue() ) ) {
-      maximum = -Double.MAX_VALUE;
+      maximum = Double.MAX_VALUE;
     } else {
       maximum = newmaximum.intValue();
     }
+    swap();
     validityCheck();
   }
 
+  private void swap() {
+    if( minimum > maximum ) {
+      double value = maximum;
+      maximum      = minimum;
+      minimum      = value;
+    }
+    if( minimum >= 0 ) {
+      setAllowed( ".0123456789" );
+    } else {
+      setAllowed( "-.0123456789" );
+    }
+    setToolTipText( tooltiptext );
+  }
+  
   /**
    * Generates an event to inform about the changed value.
    */
@@ -205,15 +226,21 @@ public class KDoubleField extends KFilteringTextField {
    */
   private class LocalBehaviour implements ValidationConstraint<String>, DocumentListener {
 
+    KDoubleField    pthis;
+    
+    public LocalBehaviour( KDoubleField ref ) {
+      pthis = ref;
+    }
+    
     @Override
     public boolean check( String input ) {
       if( input.length() == 0 ) {
-        return true;
+        return pthis.emptyValid;
       }
       try {
         double value = Double.parseDouble( input );
         return (value >= minimum) && (value <= maximum);
-      } catch( NumberFormatException ex ) {
+      } catch( Exception ex ) {
         return false;
       }
     }
