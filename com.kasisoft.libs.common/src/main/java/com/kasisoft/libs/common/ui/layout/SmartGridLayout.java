@@ -36,10 +36,22 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
   static final int MASK_HEIGHT          = 0x07; // %000111
 
   // Internal constants for controlling purposes
-  enum SizeType {
+  private enum SizeType {
+    
     Minimum,
     Preferred,
-    Maximum
+    Maximum;
+    
+    public Dimension getSize( Component component ) {
+      if( this == Minimum ) {
+        return component.getMinimumSize();
+      } else if( this == Maximum ) {
+        return component.getMaximumSize();
+      } else {
+        return component.getPreferredSize();
+      }
+    }
+    
   }
 
   /** Delivers minimal width.                                     */
@@ -552,22 +564,12 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
    * @return   The dimension of a single object depending on the needs and the optional constraint. Not <code>null</code>.
    */
   private final Dimension getDimensionOfComponent( SizeType desired, Component comp, boolean nolimits ) {
-
-    Dimension result = null;
-    switch( desired ) {
-    case Minimum : result = comp.getMinimumSize   () ; break;
-    case Maximum : result = comp.getMaximumSize   () ; break;
-    // Preferred
-    default      : result = comp.getPreferredSize () ; break;
-    }
-
-    Integer constraint = constraints.get( comp );
+    Dimension result     = desired.getSize( comp );
+    Integer   constraint = constraints.get( comp );
     if( constraint != null ) {
       overruleDimension( constraint.intValue(), result, comp, nolimits );
     }
-
     return result;
-
   }
   
   private void overruleDimension( int mask, Dimension result, Component comp, boolean nolimits ) {
