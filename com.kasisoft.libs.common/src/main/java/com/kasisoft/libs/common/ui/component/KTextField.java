@@ -60,10 +60,11 @@ public class KTextField extends JTextField {
     super.paintComponent( g );
     if( placeHolder != null ) {
       if( getText().isEmpty() ) {
-        Graphics2D  g2d = (Graphics2D) g.create();
-        FontMetrics fm  = g2d.getFontMetrics();
+        Graphics2D  g2d    = (Graphics2D) g.create();
+        FontMetrics fm     = g2d.getFontMetrics();
+        Insets      insets = getInsets();
         g2d.setColor( placeHolderColor != null ? placeHolderColor : DEFAULT_PLACEHOLDER );
-        g2d.drawString( placeHolder, 2, fm.getHeight() - 1 );
+        g2d.drawString( placeHolder, insets.left, fm.getHeight() - insets.bottom + insets.top );
         g2d.dispose();
       }
     }
