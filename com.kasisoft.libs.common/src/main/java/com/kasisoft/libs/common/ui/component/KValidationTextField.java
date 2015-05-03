@@ -1,7 +1,12 @@
 package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.ui.event.*;
+
 import com.kasisoft.libs.common.validation.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import javax.swing.event.*;
 
@@ -10,10 +15,7 @@ import javax.swing.text.*;
 import javax.swing.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
-
+//import javax.swing.*;
 /**
  * TextField variety which allows to run checks on the entered content and colors the input accordingly.
  * 
@@ -62,6 +64,12 @@ public class KValidationTextField extends KTextField implements KValidationCompo
     localbehaviour        = new LocalBehaviour( this );
     validationdispatcher  = new ValidationEventDispatcher();
     getDocument().addDocumentListener( localbehaviour );
+  }
+  
+  /**
+   * Enables the {@link InputVerifier} for this instance. This means that the focus can't change if the input is invalid. 
+   */
+  public void setInputVerifier() {
     setInputVerifier( new InputVerifier() {
 
       @Override
