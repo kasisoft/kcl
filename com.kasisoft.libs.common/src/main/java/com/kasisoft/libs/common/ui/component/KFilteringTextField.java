@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.ui.component;
 
-import javax.swing.text.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import javax.swing.text.*;
 
 /**
  * Textfield variety which simply filters characters, so they cannot be used while entering some input.
