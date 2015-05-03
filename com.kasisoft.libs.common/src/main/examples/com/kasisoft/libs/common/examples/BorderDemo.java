@@ -107,4 +107,4 @@ public class BorderDemo extends AbstractDemo {
     demo.setVisible( true );
   }
   
-}
+} /* ENDCLASS */
