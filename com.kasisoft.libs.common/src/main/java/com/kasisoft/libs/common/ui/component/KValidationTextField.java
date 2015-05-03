@@ -15,7 +15,7 @@ import javax.swing.text.*;
 import javax.swing.*;
 
 import java.awt.*;
-//import javax.swing.*;
+
 /**
  * TextField variety which allows to run checks on the entered content and colors the input accordingly.
  * 
