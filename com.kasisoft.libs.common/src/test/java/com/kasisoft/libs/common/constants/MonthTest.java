@@ -5,13 +5,24 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
+import java.text.*;
+
+import java.util.*;
+
 /**
  * Tests for the class 'Month'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MonthTest {
 
+  SimpleDateFormat   formatter = new SimpleDateFormat( "dd.MM.yyyy" );
+  
   @DataProvider(name="checkMonth")
   public Object[][] createData() {
     return new Object[][] {
@@ -49,6 +60,24 @@ public class MonthTest {
     };
   }
 
+  @DataProvider(name="valueOf")
+  public Object[][] createValueOf() {
+    return new Object[][] {
+      { Month.January   ,  1 },
+      { Month.February  ,  2 },
+      { Month.March     ,  3 },
+      { Month.April     ,  4 },
+      { Month.May       ,  5 },
+      { Month.June      ,  6 },
+      { Month.July      ,  7 },
+      { Month.August    ,  8 },
+      { Month.September ,  9 },
+      { Month.October   , 10 },
+      { Month.November  , 11 },
+      { Month.December  , 12 },
+    };
+  }
+
   @Test(dataProvider="checkMonth", groups="all")
   public void checkMonth( Month month, int daycount, int year, Weekday weekday ) { 
     assertThat( month.getDayCount     ( year ), is( daycount ) );
@@ -59,6 +88,12 @@ public class MonthTest {
   public void monthNavigation( Month current, Month before, Month after ) {
     assertThat( before , is( current.previous () ) );
     assertThat( after  , is( current.next     () ) );
+  }
+  
+  @Test(dataProvider="valueOf", groups="all")
+  public void valueOf( Month expected, int month ) throws Exception {
+    Date date = formatter.parse( String.format( "01.%02d.2015", month ) );
+    assertThat( Month.valueOf( date ), is( expected ) );
   }
   
 } /* ENDCLASS */
