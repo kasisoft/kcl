@@ -1,8 +1,12 @@
 package com.kasisoft.libs.common.examples;
 
+import com.kasisoft.libs.common.constants.*;
+
 import com.kasisoft.libs.common.ui.component.*;
 
 import com.kasisoft.libs.common.ui.layout.*;
+
+import com.kasisoft.libs.common.ui.*;
 
 import lombok.experimental.*;
 
@@ -11,6 +15,10 @@ import lombok.*;
 import javax.swing.event.*;
 
 import javax.swing.*;
+
+import java.util.*;
+
+import java.awt.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -28,10 +36,37 @@ public class InputFieldsDemo extends AbstractDemo {
   KLabel            doublecontent2;
   KLabel            intcontent2;
 
+  KMonthPanel       monthpanel;
+  KLabel            monthcontent;
+  
   LocalBehaviour    localbehaviour;
   
   public InputFieldsDemo() {
     super( "Input Fields Demo" );
+  }
+  
+  @Override
+  protected void initialize() {
+    
+    super.initialize();
+
+    Style day = new Style( "day", StyleManager.getInstance().getDefaultStyle() );
+    day.setAlignment( Alignment.Center );
+
+    Style title = new Style( "title", day );
+    title.setFont( title.getFont().deriveFont( Font.BOLD ) );
+
+    Style weekend = new Style( "weekend", day );
+    weekend.setFont( weekend.getFont().deriveFont( Font.ITALIC ) );
+    weekend.setForeground( Color.red );
+
+    Style selected = new Style( "selected", day );
+    selected.setBackground( Color.magenta );
+    selected.setFont( selected.getFont().deriveFont( Font.BOLD ) );
+    selected.setForeground( Color.white );
+
+    StyleManager.getInstance().addStyles( day, title, weekend, selected );
+    
   }
   
   @Override
@@ -70,7 +105,17 @@ public class InputFieldsDemo extends AbstractDemo {
 
     doublecontent2  = newKLabel( "-" );
     intcontent2     = newKLabel( "-" );
+   
+    // calendar/date stuff
+    monthpanel      = new KMonthPanel( Month.May, 2015 );
+    monthpanel.setStyleTitle( "title" );
+    monthpanel.setStyleNormal( "day" );
+    monthpanel.setStyleWeekend( "weekend" );
+    monthpanel.setStyleSelected( "selected" );
+    monthpanel.setToggleSelection( true );
     
+    monthcontent   = newKLabel( "-" );
+
   }
   
   @Override
@@ -78,9 +123,19 @@ public class InputFieldsDemo extends AbstractDemo {
     
     super.arrange();
     
+    // calendar/date stuff
+    JPanel panel3 = newJPanel( new SmartGridLayout( -1, 2, 4, 4 ) );
+    panel3.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
+    panel3.add( newKLabel( "Month"    ) , SmartGridLayout.FIXMINSIZE  );
+    panel3.add( monthpanel              , SmartGridLayout.FIXPREFSIZE );
+    panel3.add( newKLabel( "Current:" ) , SmartGridLayout.FIXMINSIZE  );
+    panel3.add( monthcontent            , SmartGridLayout.FIXPREFSIZE );
+    
+    addTab( "Date Inputs", panel3 );
+    
     // empty values are valid
     JPanel panel1 = newJPanel( new SmartGridLayout( -1, 3, 4, 4 ) );
-    panel1.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 5 ) );
+    panel1.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
     
     panel1.add( newKLabel( "Double" )  , SmartGridLayout.FIXMINSIZE   );
     panel1.add( doublevalue1           , SmartGridLayout.FIXMINHEIGHT );
@@ -94,7 +149,7 @@ public class InputFieldsDemo extends AbstractDemo {
 
     // empty values are invalid
     JPanel panel2 = newJPanel( new SmartGridLayout( -1, 3, 4, 4 ) );
-    panel2.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 5 ) );
+    panel2.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
     
     panel2.add( newKLabel( "Double" )  , SmartGridLayout.FIXMINSIZE   );
     panel2.add( doublevalue2           , SmartGridLayout.FIXMINHEIGHT );
@@ -105,7 +160,7 @@ public class InputFieldsDemo extends AbstractDemo {
     panel2.add( intcontent2            , SmartGridLayout.FIXMINHEIGHT );
     
     addTab( "Empty values are invalid", panel2 );
-
+    
   }
 
   private KLabel newKLabel( String text ) {
@@ -125,6 +180,7 @@ public class InputFieldsDemo extends AbstractDemo {
     intvalue1    . addChangeListener( localbehaviour );
     doublevalue2 . addChangeListener( localbehaviour );
     intvalue2    . addChangeListener( localbehaviour );
+    monthpanel   . addChangeListener( localbehaviour );
   }
   
   private void doubleValue( KDoubleField doublevalue, KLabel doublecontent ) {
@@ -140,6 +196,15 @@ public class InputFieldsDemo extends AbstractDemo {
       intcontent.setText( String.valueOf( intvalue.getValue() ) );
     } else {
       intcontent.setText( "- invalid -" );
+    }
+  }
+  
+  private void monthValue( KMonthPanel monthpanel, KLabel monthcontent ) {
+    Date selectiondate = monthpanel.getSelectionDate();
+    if( selectiondate != null ) {
+      monthcontent.setText( String.valueOf( selectiondate ) );
+    } else {
+      monthcontent.setText( "- unset -" );
     }
   }
   
@@ -168,6 +233,8 @@ public class InputFieldsDemo extends AbstractDemo {
         pthis.intValue( pthis.intvalue1, pthis.intcontent1 );
       } else if( source == pthis.intvalue2 ) {
         pthis.intValue( pthis.intvalue2, pthis.intcontent2 );
+      } else if( source == pthis.monthpanel ) {
+        pthis.monthValue( pthis.monthpanel, pthis.monthcontent );
       }
     }
     
