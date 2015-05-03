@@ -247,13 +247,7 @@ public enum Month {
    */
   @SuppressWarnings("deprecation")
   public static Month valueOf( @NonNull Date date ) {
-    int number = date.getMonth();
-    for( Month month : Month.values() ) {
-      if( month.jreMonth == number ) {
-        return month;
-      }
-    } 
-    return null;
+    return valueOf( date.getMonth() );
   }
 
   /**
@@ -270,6 +264,15 @@ public enum Month {
       }
     } 
     return null;
+  }
+  
+  /**
+   * Returns the current month which is the month present while calling this function.
+   * 
+   * @return   The current month which is the month present while calling this function. Not <code>null</code>.
+   */
+  public static Month getCurrent() {
+    return valueOf( new Date() );
   }
 
 } /* ENDENUM */
