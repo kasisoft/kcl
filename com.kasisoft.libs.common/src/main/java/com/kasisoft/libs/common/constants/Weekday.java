@@ -148,4 +148,16 @@ public enum Weekday {
     return null;
   }
 
+  /**
+   * Returns <code>true</code> if the supplied date is a weekend.
+   * 
+   * @param date   The date that is supposed to be tested. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied Date is a weekend.
+   */
+  public static boolean isWeekend( @NonNull Date date ) {
+    Weekday value = valueOf( date );
+    return (value == Saturday) || (value == Sunday);
+  }
+  
 } /* ENDENUM */
