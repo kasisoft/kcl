@@ -41,4 +41,12 @@ public enum Alignment {
     titledBorderX = borderx;
   }
   
+  public void set( @NonNull JComponent component ) {
+    if( component instanceof JLabel ) {
+      ((JLabel) component).setHorizontalAlignment( alignment );
+    } else if( component instanceof JTextField ) {
+      ((JTextField) component).setHorizontalAlignment( alignment );
+    }
+  }
+
 } /* ENDENUM */
