@@ -5,6 +5,7 @@ import java.text.*;
 import java.util.*;
 
 import lombok.*;
+
 import lombok.experimental.*;
 
 /**
@@ -29,9 +30,9 @@ public enum Month {
   December    ( Calendar.DECEMBER  , 31 );
   
   @SuppressWarnings("deprecation")
-  private static final int CURRENTYEAR = (new Date()).getYear() + 1900;
+  static final int CURRENTYEAR = (new Date()).getYear() + 1900;
   
-  int      daycount;
+          int      daycount;
   
   /** @see java.util.Calendar */
   @Getter int      jreMonth;
@@ -53,6 +54,16 @@ public enum Month {
     daycount         = days;
     presentable      = getPresentable( Locale.getDefault() );
     shortPresentable = getShortPresentable( Locale.getDefault() );
+  }
+  
+  /**
+   * Sets this month to the supplied date.
+   * 
+   * @param date   The date which is supposed to be updated. Not <code>null</code>.
+   */
+  @SuppressWarnings("deprecation")
+  public void set( @NonNull Date date ) {
+    date.setMonth( jreMonth );
   }
   
   /**
@@ -92,6 +103,17 @@ public enum Month {
    */
   public int getNumber() {
     return jreMonth + 1;
+  }
+  
+  /**
+   * Returns <code>true</code> if the supplied date corresponds to this month.
+   * 
+   * @param date   The date that is supposed to be tested. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied date corresponds to this month.
+   */
+  public boolean isInMonth( @NonNull Date date ) {
+    return valueOf( date ) == this;
   }
   
   /**
@@ -225,7 +247,7 @@ public enum Month {
    */
   @SuppressWarnings("deprecation")
   public static Month valueOf( @NonNull Date date ) {
-    int number = date.getMonth() + 1;
+    int number = date.getMonth();
     for( Month month : Month.values() ) {
       if( month.jreMonth == number ) {
         return month;
