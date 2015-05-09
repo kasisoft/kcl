@@ -96,5 +96,45 @@ public enum Database {
     activate();
     return DriverManager.getConnection( url, username, password );
   }
+  
+  /**
+   * Makes an attempt to connect an reports whether connecting succeeded or not.
+   * 
+   * @param url        The URL used to access the database. Neither <code>null</code> nor empty.
+   * @param username   The username to access the database. Neither <code>null</code> nor empty.
+   * @param password   The password to be used. Maybe <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
+   * 
+   * @throws SQLException   Something went wrong while accessing the database.
+   */
+  public boolean probe( @NonNull String url, @NonNull String username, String password ) {
+    boolean result = false;
+    try( Connection connection = getConnection( url, username, password ) ) {
+      result = connection.prepareStatement( aliveQuery ).execute();
+    } catch( SQLException ex ) {
+      // our default assumption is that the db isn't available
+    }
+    return result;
+  }
+
+  /**
+   * Makes an attempt to connect an reports whether connecting succeeded or not.
+   * 
+   * @param url   The URL used to access the database. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
+   * 
+   * @throws SQLException   Something went wrong while accessing the database.
+   */
+  public boolean probe( @NonNull String url ) {
+    boolean result = false;
+    try( Connection connection = getConnection( url ) ) {
+      result = connection.prepareStatement( aliveQuery ).execute();
+    } catch( SQLException ex ) {
+      // our default assumption is that the db isn't available
+    }
+    return result;
+  }
 
 } /* ENDENUM */
