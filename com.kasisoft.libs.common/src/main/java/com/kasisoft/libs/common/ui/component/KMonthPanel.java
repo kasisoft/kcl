@@ -73,12 +73,12 @@ public class KMonthPanel extends JPanel {
   @Getter @Setter
   String                       styleNormal;
 
-  /** this style required to configure the constraint {@link #holidayDates} as well. */
+  /** this style requires to configure the constraint {@link #holidayDates} as well. */
   @Getter @Setter
   String                       styleHoliday;
 
   @Getter @Setter
-  String                       styleWeekend;
+  String                       styleHolidayTitle;
 
   @Getter @Setter
   String                       styleSelected;
@@ -103,6 +103,27 @@ public class KMonthPanel extends JPanel {
    */
   public KMonthPanel( Month month, int year ) {
     this( null, month, Integer.valueOf( year ) );
+  }
+
+  /**
+   * Sets up this table used to display a month.
+   * 
+   * @param date   The date used to be displayed. Not <code>null</code>.
+   */
+  @SuppressWarnings("deprecation")
+  public KMonthPanel( Date date ) {
+    this( null, Month.valueOf( date ), Integer.valueOf( date.getDate() ) );
+  }
+
+  /**
+   * Sets up this table used to display a month.
+   * 
+   * @param locale   The Locale used to provide textual content. If <code>null</code> the default Locale is used.
+   * @param date     The date used to be displayed. Not <code>null</code>.
+   */
+  @SuppressWarnings("deprecation")
+  public KMonthPanel( Locale locale, Date date ) {
+    this( locale, Month.valueOf( date ), Integer.valueOf( date.getDate() ) );
   }
 
   /**
@@ -155,7 +176,6 @@ public class KMonthPanel extends JPanel {
     styleTitle            = null;
     styleNormal           = null;
     styleHoliday          = null;
-    styleWeekend          = null;
     styleSelected         = null;
     selectOnDoubleClick   = false;
     toggleSelection       = false;
@@ -440,18 +460,36 @@ public class KMonthPanel extends JPanel {
       if( row == 0 ) {
         return pthis.styleTitle;
       }
+      if( date == null ) {
+        return pthis.styleNormal;
+      }
+      boolean holiday = isHoliday( date );
+      if( row == 0 ) {
+        return getTitleStyle( holiday );
+      }
       if( selected ) {
         return pthis.styleSelected;
-      } else if( date != null ) {
-        if( Weekday.isWeekend( date ) ) {
-          return pthis.styleWeekend;
-        } else if( pthis.holidayDates != null ) {
-          if( pthis.holidayDates.check( date ) ) {
-            return pthis.styleHoliday;
-          }
-        }
+      }
+      if( holiday && (pthis.styleHoliday != null) ) {
+        return pthis.styleHoliday;
       }
       return pthis.styleNormal;
+    }
+    
+    private String getTitleStyle( boolean holiday ) {
+      String result = pthis.styleTitle;
+      if( holiday && (pthis.styleHolidayTitle != null) ) {
+        result = pthis.styleHolidayTitle;
+      }
+      return result;
+    }
+    
+    private boolean isHoliday( Date date ) {
+      boolean result = Weekday.isWeekend( date );
+      if( (! result) && (pthis.holidayDates != null) ) {
+        result = pthis.holidayDates.check( date );
+      }
+      return result;
     }
     
     @Override

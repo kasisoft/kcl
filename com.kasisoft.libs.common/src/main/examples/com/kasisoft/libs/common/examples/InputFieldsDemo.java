@@ -8,6 +8,8 @@ import com.kasisoft.libs.common.ui.layout.*;
 
 import com.kasisoft.libs.common.ui.*;
 
+import com.kasisoft.libs.common.validation.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -110,11 +112,21 @@ public class InputFieldsDemo extends AbstractDemo {
     monthpanel      = new KMonthPanel( Month.May, 2015 );
     monthpanel.setStyleTitle( "title" );
     monthpanel.setStyleNormal( "day" );
-    monthpanel.setStyleWeekend( "weekend" );
+    monthpanel.setStyleHolidayTitle( "weekend" );
+    monthpanel.setStyleHoliday( "weekend" );
     monthpanel.setStyleSelected( "selected" );
     monthpanel.setToggleSelection( true );
+    monthpanel.setHolidayDates( new ValidationConstraint<Date>() {
+
+      @SuppressWarnings("deprecation")
+      @Override
+      public boolean check( Date input ) {
+        return input.getDate() == 14;
+      }
+      
+    });
     
-    monthcontent   = newKLabel( "-" );
+    monthcontent    = newKLabel( "-" );
 
   }
   
