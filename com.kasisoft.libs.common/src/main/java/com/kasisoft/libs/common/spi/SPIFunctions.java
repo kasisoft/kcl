@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.spi;
 
 import com.kasisoft.libs.common.base.*;
 
+import lombok.*;
+
 import java.util.*;
 
 import java.lang.reflect.*;
-
-import lombok.*;
 
 /**
  * Collection of various functions.
@@ -29,11 +29,8 @@ public class SPIFunctions {
    * @return   A list with all SPI services currently available. Not <code>null</code>.
    */
   public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype ) {
-    List<T>          result    = new ArrayList<>();
-    ServiceLoader<T> spiloader = ServiceLoader.load( servicetype );
-    for( T service : spiloader ) {
-      result.add( service );
-    }
+    List<T> result = new ArrayList<>();
+    ServiceLoader.load( servicetype ).forEach( service -> result.add( service ) );
     return result;
   }
 

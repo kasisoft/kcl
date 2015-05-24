@@ -1,7 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.config.*;
+
 import com.kasisoft.libs.common.util.*;
+
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.*;
@@ -9,6 +11,7 @@ import java.util.*;
 import java.io.*;
 
 import lombok.*;
+
 import lombok.experimental.*;
 
 /**
@@ -64,8 +67,6 @@ public class SysProperty {
   /**
    * Creates a replacement map used to substitute system properties. The key is encapsulated by '%' characters.
    * 
-   * @param shortkey     <code>true</code> <=> Use the short key representation to create the key.
-   *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap() {
@@ -77,14 +78,16 @@ public class SysProperty {
    * 
    * @param format     A formatting String with one %s format code. This is used in order to support various key 
    *                   formats. Neither <code>null</code> nor empty.
-   * @param shortkey   <code>true</code> <=> Use the short key representation to create the key.
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap( @NonNull String format ) {
-    Map<String,String> result = new Hashtable<String,String>();
+    Map<String,String> result = new Hashtable<>();
     for( SimpleProperty sysprop : SysProperty.values() ) {
       String textualvalue = sysprop.getTextualValue( System.getProperties() );
+      if( textualvalue == null ) {
+        textualvalue = "";
+      }
       result.put( String.format( format, sysprop.getKey() ), textualvalue );
     }
     return result;

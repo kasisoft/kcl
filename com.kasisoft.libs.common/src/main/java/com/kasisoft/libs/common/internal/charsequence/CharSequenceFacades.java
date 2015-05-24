@@ -2,9 +2,12 @@ package com.kasisoft.libs.common.internal.charsequence;
 
 import com.kasisoft.libs.common.util.*;
 
+import com.kasisoft.libs.common.internal.*;
+
 import java.util.*;
 
 import lombok.*;
+
 import lombok.experimental.*;
 
 /**
@@ -29,7 +32,7 @@ public class CharSequenceFacades {
   public static <T extends CharSequence> CharSequenceFacade<T> getFacade( @NonNull T input ) {
     CharSequenceFacade<T> result = FACADES.get( input.getClass().getName() );
     if( result == null ) {
-      throw new IllegalArgumentException( String.format( "Unsupported CharSequence type '%s'", input.getClass().getName() ) );
+      throw new IllegalArgumentException( Messages.unsupported_charsequence.format( input.getClass().getName() ) );
     }
     return result;
   }

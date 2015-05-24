@@ -168,7 +168,7 @@ public class SystemProcess {
       Process process = Runtime.getRuntime().exec( createCommandVector( args ), createEnvironment(), workingDir );
 
       OutputStream out = outputStream != null ? outputStream : System.out;
-      OutputStream err = errorStream != null ? errorStream : System.err;
+      OutputStream err = errorStream  != null ? errorStream  : System.err;
       
       ByteCopierRunnable outrunnable = new ByteCopierRunnable(); 
       ByteCopierRunnable errrunnable = new ByteCopierRunnable(); 
@@ -228,8 +228,8 @@ public class SystemProcess {
    */
   private String[] toEnvp( Map<String,String> map ) {
     String[]                           result   = new String[ map.size() ];
-    Iterator<Map.Entry<String,String>> iterator = map.entrySet().iterator();
     int                                i        = 0;
+    Iterator<Map.Entry<String,String>> iterator = map.entrySet().iterator();
     while( iterator.hasNext() ) {
       Map.Entry<String,String> pair = iterator.next();
       result[i]                     = String.format( "%s=%s", pair.getKey(), pair.getValue() );

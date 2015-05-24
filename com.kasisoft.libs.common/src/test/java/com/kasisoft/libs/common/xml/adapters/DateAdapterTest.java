@@ -8,6 +8,7 @@ import org.testng.annotations.*;
 import java.util.*;
 
 import lombok.*;
+
 import lombok.experimental.*;
 
 /**
@@ -15,8 +16,8 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @SuppressWarnings("deprecation")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DateAdapterTest {
 
   DateAdapter adapter = new DateAdapter( "dd.MM.yyyy", Locale.GERMAN );

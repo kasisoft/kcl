@@ -20,17 +20,17 @@ import lombok.experimental.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileTypeManager {
 
-  List<FileType>    recognizers;
+  List<FileType>    filetypes;
   int               maxspace;
   
   /**
    * Initializes this management type while looking for all SPI declarations.
    */
   public FileTypeManager() {
-    recognizers = SPIFunctions.loadSPIServices( FileType.class );
-    Collections.sort( recognizers, new FileTypeBySizeComparator() );
-    if( ! recognizers.isEmpty() ) {
-      maxspace = recognizers.get(0).getMinSize();
+    filetypes = SPIFunctions.loadSPIServices( FileType.class );
+    Collections.sort( filetypes, new FileTypeBySizeComparator() );
+    if( ! filetypes.isEmpty() ) {
+      maxspace = filetypes.get(0).getMinSize();
     } else {
       maxspace = 0;
     }
@@ -42,7 +42,7 @@ public class FileTypeManager {
    * @return   A list with all known FileType instances. Not <code>null</code>.
    */
   public FileType[] getFileTypes() {
-    return recognizers.toArray( new FileType[ recognizers.size() ] );
+    return filetypes.toArray( new FileType[ filetypes.size() ] );
   }
   
   /**
@@ -82,8 +82,8 @@ public class FileTypeManager {
    * @return   The FileType if it could be identified. Maybe <code>null</code>.
    */
   public FileType identify( @NonNull byte[] data ) {
-    for( int i = 0; i < recognizers.size(); i++ ) {
-      FileType current = recognizers.get(i);
+    for( int i = 0; i < filetypes.size(); i++ ) {
+      FileType current = filetypes.get(i);
       if( (current.getMinSize() <= data.length) && current.isOfType( data ) ) {
         return current;
       }

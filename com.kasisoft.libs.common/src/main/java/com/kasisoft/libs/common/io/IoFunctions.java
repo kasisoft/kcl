@@ -918,14 +918,8 @@ public class IoFunctions {
    * @throws FailureException if writing the text failed for some reason.
    */
   public static void writeText( @NonNull OutputStream output, @NonNull List<String> lines, Encoding encoding ) {
-    PrintStream printer = null;
-    try {
-      printer = Encoding.openPrintStream( output, encoding );
-      for( int i = 0; i < lines.size(); i++ ) {
-        printer.println( lines.get(i) );
-      }
-    } finally {
-      MiscFunctions.close( printer );
+    try( PrintStream printer = Encoding.openPrintStream( output, encoding ) ) {
+      lines.forEach( line -> printer.println( line ) );
     }
   }
 
@@ -938,14 +932,8 @@ public class IoFunctions {
    * @throws FailureException if writing the text failed for some reason.
    */
   public static void writeText( @NonNull Writer writer, @NonNull List<String> lines ) {
-    PrintWriter printer = null;
-    try {
-      printer = new PrintWriter( writer );
-      for( int i = 0; i < lines.size(); i++ ) {
-        printer.println( lines.get(i) );
-      }
-    } finally {
-      MiscFunctions.close( printer );
+    try( PrintWriter printer = new PrintWriter( writer ) ) {
+      lines.forEach( line -> printer.println( line ) );
     }
   }
 

@@ -66,9 +66,7 @@ public class ConfigurationHelper {
    */
   public static Map<Pattern,String> quoteKeys( @NonNull Map<String,String> replacementmap ) {
     Map<Pattern,String> result = new HashMap<>();
-    for( Map.Entry<String,String> entry : replacementmap.entrySet() ) {
-      result.put( Pattern.compile( Pattern.quote( entry.getKey() ) ), entry.getValue() );
-    }
+    replacementmap.forEach( (k,v) ->  result.put( Pattern.compile( Pattern.quote(k) ), v ) );
     return result;
   }
   
@@ -171,9 +169,7 @@ public class ConfigurationHelper {
     } else {
       // process simple properties
       for( SimpleProperty<?> property : properties ) {
-        String keypattern = String.format( format, property.getKey() );
-        String value      = getValueAsText( property, props, nullvalue );
-        result.put( keypattern, value );
+        result.put( String.format( format, property.getKey() ), getValueAsText( property, props, nullvalue ) );
       }
     }
     return result;

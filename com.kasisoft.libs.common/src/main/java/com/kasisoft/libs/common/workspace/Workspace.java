@@ -113,33 +113,33 @@ public final class Workspace {
     }
   }
   
-  /**
-   * Changes the value for a textual property.
-   * 
-   * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
-   * @param value      The value which has to be saved. Maybe <code>null</code>.
-   * 
-   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
-   */
-  @Deprecated
-  public void setString( @NonNull String property, String value ) {
-    properties.setProperty( property, value );
-  }
-  
-  /**
-   * Returns a value associated with a specific property key.
-   * 
-   * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
-   * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
-   * 
-   * @return   The value associated with the property. Maybe <code>null</code>.
-   * 
-   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
-   */
-  @Deprecated
-  public String getString( @NonNull String property, String defvalue ) {
-    return properties.getProperty( property, defvalue );
-  }
+//  /**
+//   * Changes the value for a textual property.
+//   * 
+//   * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
+//   * @param value      The value which has to be saved. Maybe <code>null</code>.
+//   * 
+//   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
+//   */
+//  @Deprecated
+//  public void setString( @NonNull String property, String value ) {
+//    properties.setProperty( property, value );
+//  }
+//  
+//  /**
+//   * Returns a value associated with a specific property key.
+//   * 
+//   * @param property   The property key which has to be used. Neither <code>null</code> nor empty.
+//   * @param defvalue   The default value to be used if there's no value yet. Maybe <code>null</code>.
+//   * 
+//   * @return   The value associated with the property. Maybe <code>null</code>.
+//   * 
+//   * @deprecated [12-Apr-2015:KASI]   This function will be removed and will be replaced by the properties declarations.
+//   */
+//  @Deprecated
+//  public String getString( @NonNull String property, String defvalue ) {
+//    return properties.getProperty( property, defvalue );
+//  }
 
   /**
    * Returns a value associated with a specific property key.

@@ -24,6 +24,9 @@ public class Messages {
 
   @I18N("optional")
   static String          label_optional;
+  
+  @I18N("Unsupported CharSequence type '%s'")
+  static I18NFormatter   unsupported_charsequence;
 
   static {
     I18NSupport.initialize( Messages.class );

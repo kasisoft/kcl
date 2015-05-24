@@ -1,11 +1,14 @@
 package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.util.*;
+
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.*;
+import java.util.stream.*;
 
 import lombok.*;
+
 import lombok.experimental.*;
 
 /**
@@ -149,10 +152,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
   private List<T> getTypedValues( List<String> values ) {
     List<T> result = null;
     if( values != null ) {
-      result = new ArrayList<>( values.size() );
-      for( int i = 0; i < values.size(); i++ ) {
-        result.add( getTypedValue( values.get(i), null ) );
-      }
+      result = values.stream().map( v -> getTypedValue( v, null ) ).collect( Collectors.toList() );
     }
     return result;
   }
@@ -198,10 +198,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
   private String valueAsString( List<T> values ) {
     String result = null;
     if( (values != null) && (! values.isEmpty()) ) {
-      List<String> list = new ArrayList<>( values.size() );
-      for( int i = 0; i < values.size(); i++ ) {
-        list.add( getAdapter().marshal( values.get(i) ) );
-      }
+      List<String> list = values.stream().map( v -> getAdapter().marshal( v ) ).collect( Collectors.toList() );
       result = StringFunctions.concatenate( DELIMITER, list );
     }
     return result;

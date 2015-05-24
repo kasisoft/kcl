@@ -21,11 +21,6 @@ public enum Alignment {
   Middle ( SwingConstants.CENTER , TitledBorder.LEFT    ) ,
   Bottom ( SwingConstants.BOTTOM , TitledBorder.LEFT    ) ;
   
-  /**
-   * @deprecated [03-May-2015:KASI]   Use {@link #getAlignment()} instead.
-   */
-  @Deprecated
-  @Getter int   alignmentX;
   @Getter int   alignment;
   @Getter int   titledBorderX;
   
@@ -36,7 +31,6 @@ public enum Alignment {
    * @param borderx   The alignment for the titled border.
    */
   Alignment( int value, int borderx ) {
-    alignmentX    = value;
     alignment     = value;
     titledBorderX = borderx;
   }

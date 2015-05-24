@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.internal.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
+
 import com.kasisoft.libs.common.io.datatypes.*;
 
 import java.util.zip.*;
@@ -30,6 +31,11 @@ public class GzipFileType implements FileType {
   @Override
   public String toString() {
     return getMimeType();
+  }
+
+  @Override
+  public String getSuffix() {
+    return ".gz";
   }
 
 } /* ENDCLASS */

@@ -208,9 +208,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
     List<Integer> sorted = new ArrayList<>( result.keySet() );
     Collections.sort( sorted );
     List<String>  list   = new ArrayList<>();
-    for( int i = 0; i < sorted.size(); i++ ) {
-      list.add( result.get( sorted.get(i) ) );
-    }
+    sorted.forEach( s -> list.add( result.get(s) ) );
     return list;
   }
   

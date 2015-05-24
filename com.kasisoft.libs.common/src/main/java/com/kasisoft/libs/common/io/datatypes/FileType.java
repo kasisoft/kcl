@@ -30,4 +30,11 @@ public interface FileType {
    */
   String getMimeType();
   
+  /**
+   * Returns the primary suffix for this file type.
+   * 
+   * @return   The primary suffix for this file type. Neither <code>null</code> nor empty.
+   */
+  String getSuffix();
+  
 } /* ENDINTERFACE */

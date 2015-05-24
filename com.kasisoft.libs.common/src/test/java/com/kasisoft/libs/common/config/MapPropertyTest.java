@@ -8,19 +8,19 @@ import com.kasisoft.libs.common.xml.adapters.*;
 
 import org.testng.annotations.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the class 'MapProperty'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MapPropertyTest {
 
@@ -45,13 +45,10 @@ public class MapPropertyTest {
     ColorsRequired.setValue( properties, null );
     try {
       value = ColorsRequired.getValue( properties );
+      fail();
     } catch( MissingPropertyException ex ) {
       assertThat( ColorsRequired.getKey(), is( ex.getProperty() ) );
     }
-    
-    // get the color while providing a default value
-    read = ColorsRequired.getValue( properties, value );
-    assertThat( read, is( value ) );
     
   }
 
@@ -75,10 +72,6 @@ public class MapPropertyTest {
       assertThat( ColorsRequired.getKey(), is( ex.getProperty() ) );
     }
     
-    // get the color while providing a default value
-    read = ColorsRequired.getValue( properties, value );
-    assertThat( read, is( value ) );
-    
   }
   
   @Test(groups="all")
@@ -98,10 +91,6 @@ public class MapPropertyTest {
     value = ColorsOptional.getValue( properties );
     assertTrue( value.isEmpty() );
     
-    // get the color while providing a default value
-    read = ColorsOptional.getValue( properties, value );
-    assertThat( read, is( value ) );
-    
   }
 
   @Test(groups="all")
@@ -120,10 +109,6 @@ public class MapPropertyTest {
     ColorsOptional.setValue( properties, null );
     value = ColorsOptional.getValue( properties );
     assertTrue( value.isEmpty() );
-    
-    // get the color while providing a default value
-    read = ColorsOptional.getValue( properties, value );
-    assertThat( read, is( value ) );
     
   }
 

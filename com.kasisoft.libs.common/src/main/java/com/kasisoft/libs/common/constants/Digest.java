@@ -93,8 +93,7 @@ public final class Digest {
           digest.update( data[j] );
         }
       }
-      byte[] result = digest.digest();
-      return result;
+      return digest.digest();
     } finally {
       bucket.free( digest );
     }

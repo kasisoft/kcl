@@ -22,7 +22,6 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimplePropertyTest {
 
@@ -57,10 +56,6 @@ public class SimplePropertyTest {
       Assert.assertEquals( MyRequiredColor.getKey(), ex.getProperty() );
     }
     
-    // get the color while providing a default value
-    value = MyRequiredColor.getValue( properties, Color.white );
-    assertThat( Color.white, is( value ) );
-    
   }
 
   @Test(dataProvider="roundtripData",groups="all")
@@ -81,10 +76,6 @@ public class SimplePropertyTest {
       assertThat( MyRequiredColor.getKey(), is( ex.getProperty() ) );
     }
     
-    // get the color while providing a default value
-    value = MyRequiredColor.getValue( properties, Color.white );
-    assertThat( Color.white, is( value ) );
-    
   }
 
   @Test(dataProvider="roundtripData",groups="all")
@@ -102,10 +93,6 @@ public class SimplePropertyTest {
     value = MyOptionalColor.getValue( properties );
     assertThat( null, is( value ) );
     
-    // get the color while providing a default value
-    value = MyOptionalColor.getValue( properties, Color.white );
-    assertThat( Color.white, is( value ) );
-    
   }
 
   @Test(dataProvider="roundtripData",groups="all")
@@ -122,10 +109,6 @@ public class SimplePropertyTest {
     MyOptionalColor.setValue( properties, null );
     value = MyOptionalColor.getValue( properties );
     assertThat( null, is( value ) );
-    
-    // get the color while providing a default value
-    value = MyOptionalColor.getValue( properties, Color.white );
-    assertThat( Color.white, is( value ) );
     
   }
   

@@ -21,7 +21,6 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class TypeAdapter<F,T> implements Function<F,T> {
 

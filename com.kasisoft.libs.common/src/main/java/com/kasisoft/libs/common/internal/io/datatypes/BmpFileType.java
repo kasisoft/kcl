@@ -37,4 +37,9 @@ public class BmpFileType implements FileType {
     return getMimeType();
   }
   
+  @Override
+  public String getSuffix() {
+    return ".bmp";
+  }
+  
 } /* ENDCLASS */
