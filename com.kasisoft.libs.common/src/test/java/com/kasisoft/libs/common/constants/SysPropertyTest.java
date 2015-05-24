@@ -3,17 +3,19 @@ package com.kasisoft.libs.common.constants;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.config.*;
 import com.kasisoft.libs.common.util.*;
 
+import com.kasisoft.libs.common.config.*;
+
 import org.testng.annotations.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the enumeration 'SysProperty'.
@@ -102,8 +104,7 @@ public class SysPropertyTest {
 
   @Test(dataProvider="createValues", groups="all")
   public void checkMissingValues( SimpleProperty property, Object ignored ) {
-    Object result = property.getValue( noproperties );
-    assertThat( result, is( nullValue() ) );
+    assertThat( property.getValue( noproperties ), is( property.getDefaultValue() ) );
   }
 
 } /* ENDCLASS */
