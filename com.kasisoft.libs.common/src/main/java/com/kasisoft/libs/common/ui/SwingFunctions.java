@@ -2,14 +2,19 @@ package com.kasisoft.libs.common.ui;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.*;
+
 import javax.swing.table.*;
+
+import javax.swing.tree.*;
 
 import javax.swing.*;
 
+import java.util.*;
+import java.util.List;
+
 import java.awt.*;
 import java.awt.image.*;
-
-import lombok.*;
 
 /**
  * Collection of Swing related utility functions.
@@ -306,6 +311,44 @@ public class SwingFunctions {
       } catch( Exception ex ) {
         throw new RuntimeException( ex );
       }
+    }
+  }
+  
+  /**
+   * Expands all rows from the supplied tree.
+   * 
+   * @param tree   The tree which rows shall be expanded. Not <code>null</code>.
+   */
+  public static void expandTree( @NonNull JTree tree ) {
+    for( int i = 0; i < tree.getRowCount(); i++ ) {
+      tree.expandRow(i);
+    }
+  }
+
+  /**
+   * Collects the complete subtree provided by the supplied node. The supplied node is NOT part of the resulting list.
+   * 
+   * @param node   The node which provides the subtree. Not <code>null</code>.
+   * 
+   * @return   A list with all nodes. Not <code>null</code>.
+   */
+  public static <T extends TreeNode> List<T> collectChildren( @NonNull T node ) {
+    List<T> result = new ArrayList<>( node.getChildCount() );
+    collectChildren( result, node );
+    return result;
+  }
+     
+  /**
+   * Collects the complete node tree.
+   * 
+   * @param receiver   A list with all nodes. Not <code>null</code>.
+   * @param node       The node which provides the subtree. Not <code>null</code>.
+   */
+  private static <T extends TreeNode> void collectChildren( List<T> receiver, T node ) {
+    for( int i = 0; i < node.getChildCount(); i++ ) {
+      T child = (T) node.getChildAt(i);
+      receiver.add( child );
+      collectChildren( receiver, child );
     }
   }
 
