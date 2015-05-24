@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.functionality.*;
 import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
+import java.util.function.*;
 
 import lombok.*;
+
 import lombok.experimental.*;
 
 /**
@@ -22,7 +23,7 @@ import lombok.experimental.*;
  */
 @SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public abstract class TypeAdapter<F,T> implements Transform<F,T> {
+public abstract class TypeAdapter<F,T> implements Function<F,T> {
 
   SimpleErrorHandler   errhandler;
   F                    defvalue1;
@@ -132,7 +133,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
     if( v != null ) {
       List<T> result = new ArrayList<>( v.size() );
       for( int i = 0; i < v.size(); i++ ) {
-        result.add( map( v.get(i) ) );
+        result.add( apply( v.get(i) ) );
       }
       return result;
     }
@@ -140,7 +141,7 @@ public abstract class TypeAdapter<F,T> implements Transform<F,T> {
   }
   
   @Override
-  public final T map( F input ) {
+  public final T apply( F input ) {
     return unmarshal( input );
   }
   
