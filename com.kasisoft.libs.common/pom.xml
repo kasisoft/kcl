@@ -13,7 +13,7 @@
   
   <groupId>com.kasisoft</groupId>
   <artifactId>com.kasisoft.libs.common</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.8-SNAPSHOT</version>
 
   <name>KCL :: Kasisoft Common Library</name>
   <!-- url>https://kasisoft.com/software/kasisoftcommon.html</url -->
@@ -35,6 +35,7 @@
     <url>https://kasisoft.com/stash/projects/LIBS/repos/kasisoft-common</url>
     <connection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</connection>
     <developerConnection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</developerConnection>
+    <tag>HEAD</tag>
   </scm>
   
   <issueManagement>
