@@ -337,15 +337,22 @@ public class IoFunctions {
    * @throws FailureException when the copying process fails for some reason.
    */
   public static void copy( @NonNull File input, @NonNull File output ) {
-    InputStream   instream   = null;
-    OutputStream  outstream  = null;
+    copy( Paths.get( input.toURI() ), Paths.get( output.toURI() ) );
+  }
+  
+  /**
+   * Copies the content from one file to another file.
+   * 
+   * @param input    The file which contains the content. Must be a valid file.
+   * @param output   The destination where to write the content to. Not <code>null</code>.
+   * 
+   * @throws FailureException when the copying process fails for some reason.
+   */
+  public static void copy( @NonNull Path input, @NonNull Path output ) {
     try {
-      instream   = newInputStream  ( input  );
-      outstream  = newOutputStream ( output );
-      copy( instream, outstream );
-    } finally {
-      MiscFunctions.close( instream   );
-      MiscFunctions.close( outstream  );
+      Files.copy( input, output, StandardCopyOption.REPLACE_EXISTING );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException(ex);
     }
   }
   
