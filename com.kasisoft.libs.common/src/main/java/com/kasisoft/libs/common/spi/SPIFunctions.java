@@ -69,7 +69,7 @@ public class SPIFunctions {
           result.add( constructor.newInstance( element ) );
         }
       } catch( NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex ) {
-        throw FailureException.newFailureException( FailureCode.Reflections, ex );
+        throw FailureCode.Reflections.newException( ex );
       }
     }
     return result;

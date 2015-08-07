@@ -59,10 +59,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         if( docbuilder.getDOMImplementation() instanceof DOMImplementationLS ) {
           domimpl = (DOMImplementationLS) docbuilder.getDOMImplementation();
         } else {
-          throw FailureException.newFailureException( FailureCode.XmlFailure );
+          throw FailureCode.XmlFailure.newException();
         }
       } catch( ParserConfigurationException ex ) {
-        throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
+        throw FailureCode.XmlFailure.newException( ex );
       }
     }
     

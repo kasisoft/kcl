@@ -21,6 +21,7 @@ import java.awt.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KValidationTextField extends KTextField implements KValidationComponent {
 

@@ -199,7 +199,7 @@ public final class XmlFunctions {
         result = builder.parse( input );
       }
     } catch( SAXException | IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
+      throw FailureCode.XmlFailure.newException( ex );
     }
     return result;
   }
@@ -235,7 +235,7 @@ public final class XmlFunctions {
       }
       return result;
     } catch( ParserConfigurationException ex ) {
-      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
+      throw FailureCode.XmlFailure.newException( ex );
     }
   }
   
@@ -296,9 +296,9 @@ public final class XmlFunctions {
       output.flush();
       transformer.transform( new DOMSource( node ), new StreamResult( output ) );
     } catch( IOException          ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     } catch( TransformerException ex ) {
-      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
+      throw FailureCode.XmlFailure.newException( ex );
     }
   }
   
@@ -358,7 +358,7 @@ public final class XmlFunctions {
       instream = resource.openStream();
       return newTransformer( instream );
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, null, ex, resource );
+      throw FailureCode.IO.newException( null, ex, resource );
     } finally {
       MiscFunctions.close( instream );
     }
@@ -379,7 +379,7 @@ public final class XmlFunctions {
     try {
       return factory.newTransformer( new StreamSource( xslinstream ) );
     } catch( TransformerConfigurationException ex ) {
-      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
+      throw FailureCode.XmlFailure.newException( ex );
     }
   }
 

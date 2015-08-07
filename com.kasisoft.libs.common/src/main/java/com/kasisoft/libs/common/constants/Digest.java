@@ -58,7 +58,7 @@ public final class Digest {
     try {
       MessageDigest.getInstance( algorithm );
     } catch( NoSuchAlgorithmException ex ) {
-      throw FailureException.newFailureException( FailureCode.Reflections, null, ex, algorithm );
+      throw FailureCode.Reflections.newException( null, ex, algorithm );
     }
     this.algorithm  = algorithm;
     bucket          = new Bucket<>( new DigestFactory( algorithm ) );

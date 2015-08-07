@@ -15,7 +15,7 @@ public class FailureException extends RuntimeException {
   FailureCode   failurecode;
   Object[]      params;
 
-  private FailureException( String message, FailureCode code, Throwable cause, Object[] parameters ) {
+  FailureException( String message, FailureCode code, Throwable cause, Object[] parameters ) {
     super( message, cause );
     failurecode = code;
     params      = parameters;
@@ -26,18 +26,26 @@ public class FailureException extends RuntimeException {
    * 
    * @param code    A failure code as described in {@link FailureCode}. Not <code>null</code>.
    * @param cause   The causing exception.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replace this method using the corresponding
+   *                                  creator in {@link FailureCode}.
    */
+  @Deprecated
   public static FailureException newFailureException( @NonNull FailureCode code, Throwable cause ) {
-    return new FailureException( createMessage( code, null, null ), code, cause, null );
+    return code.newException( cause );
   }
 
   /**
    * Initialises this exception with the appropriate failure information.
    * 
    * @param code   A failure code as described in {@link FailureCode}. Not <code>null</code>.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replace this method using the corresponding
+   *                                  creator in {@link FailureCode}.
    */
+  @Deprecated
   public static FailureException newFailureException( @NonNull FailureCode code ) {
-    return new FailureException( createMessage( code, null, null ), code, null, null );
+    return code.newException();
   }
 
   /**
@@ -45,9 +53,13 @@ public class FailureException extends RuntimeException {
    * 
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
    * @param message   The error message. Maybe <code>null</code>.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replace this method using the corresponding
+   *                                  creator in {@link FailureCode}.
    */
+  @Deprecated
   public static FailureException newFailureException( @NonNull FailureCode code, String message ) {
-    return new FailureException( createMessage( code, message, null ), code, null, null );
+    return code.newException( message );
   }
  
   /**
@@ -56,9 +68,13 @@ public class FailureException extends RuntimeException {
    * @param code      A failure code as described in {@link FailureCode}. Not <code>null</code>.
    * @param message   The error message. Maybe <code>null</code>.
    * @param cause     The causing exception.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replace this method using the corresponding
+   *                                  creator in {@link FailureCode}.
    */
+  @Deprecated
   public static FailureException newFailureException( @NonNull FailureCode code, String message, Throwable cause ) {
-    return new FailureException( createMessage( code, message, null ), code, cause, null );
+    return code.newException( message, cause );
   }
 
   /**
@@ -68,9 +84,13 @@ public class FailureException extends RuntimeException {
    * @param message   The error message. Maybe <code>null</code>.
    * @param cause     The causing exception.
    * @param params    Optional parameters which have been involved in the cause of the exception. Maybe <code>null</code>.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replace this method using the corresponding
+   *                                  creator in {@link FailureCode}.
    */
+  @Deprecated
   public static FailureException newFailureException( @NonNull FailureCode code, String message, Throwable cause, Object ... params ) {
-    return new FailureException( createMessage( code, message, params ), code, cause, params );
+    return code.newException( message, cause, params );
   }
 
   /**

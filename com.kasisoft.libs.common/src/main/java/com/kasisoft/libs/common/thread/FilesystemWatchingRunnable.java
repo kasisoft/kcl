@@ -268,7 +268,7 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
    * @param ex   The error which indicates the cause of a failure.
    */
   protected void handleFailure( Exception ex ) {
-    throw FailureException.newFailureException( FailureCode.Unexpected, ex );
+    throw FailureCode.Unexpected.newException( ex );
   }
   
 } /* ENDCLASS */

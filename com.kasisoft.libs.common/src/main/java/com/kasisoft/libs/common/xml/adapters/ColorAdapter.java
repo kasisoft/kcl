@@ -92,7 +92,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
     if( colors.containsKey( lower ) ) {
       return colors.get( lower );
     }
-    throw FailureException.newFailureException( FailureCode.ConversionFailure, invalid_color.format( v ) );
+    throw FailureCode.ConversionFailure.newException( invalid_color.format( v ) );
   }
   
   /**
@@ -119,7 +119,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
         }
       }
     }
-    throw FailureException.newFailureException( FailureCode.ConversionFailure, invalid_color.format( v ) );
+    throw FailureCode.ConversionFailure.newException( invalid_color.format( v ) );
   }
 
   /**
@@ -146,7 +146,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
       String blue   = v.substring( 7, 9 );
       return new Color( Integer.parseInt( red, 16 ), Integer.parseInt( green, 16 ), Integer.parseInt( blue, 16 ), Integer.parseInt( alpha, 16 ) );
     } else {
-      throw FailureException.newFailureException( FailureCode.ConversionFailure, invalid_color.format( v ) );
+      throw FailureCode.ConversionFailure.newException( invalid_color.format( v ) );
     }
   }
   

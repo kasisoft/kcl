@@ -25,6 +25,7 @@ import java.awt.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class InputFieldsDemo extends AbstractDemo {
 
@@ -120,7 +121,7 @@ public class InputFieldsDemo extends AbstractDemo {
 
       @SuppressWarnings("deprecation")
       @Override
-      public boolean check( Date input ) {
+      public boolean test( Date input ) {
         return input.getDate() == 14;
       }
       

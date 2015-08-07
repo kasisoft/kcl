@@ -112,7 +112,7 @@ public class ZipRunnable extends AbstractRunnable {
    * @param ex   The cause of the failure. Not <code>null</code>.
    */
   protected void handleIOFailure( @NonNull IOException ex ) {
-    throw FailureException.newFailureException( FailureCode.IO, ex );
+    throw FailureCode.IO.newException( ex );
   }
   
 } /* ENDCLASS */

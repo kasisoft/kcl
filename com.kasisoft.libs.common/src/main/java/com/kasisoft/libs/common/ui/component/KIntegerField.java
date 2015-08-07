@@ -265,6 +265,7 @@ public class KIntegerField extends KFilteringTextField {
   /**
    * Implementation of custom behaviour.
    */
+  @SuppressWarnings("deprecation")
   private class LocalBehaviour implements ValidationConstraint<String>, DocumentListener {
 
     KIntegerField    pthis;
@@ -274,7 +275,7 @@ public class KIntegerField extends KFilteringTextField {
     }
     
     @Override
-    public boolean check( String input ) {
+    public boolean test( String input ) {
       if( input.length() == 0 ) {
         return pthis.emptyValid;
       }

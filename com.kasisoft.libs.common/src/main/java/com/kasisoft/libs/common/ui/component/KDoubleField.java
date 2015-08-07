@@ -224,6 +224,7 @@ public class KDoubleField extends KFilteringTextField {
   /**
    * Implementation of custom behaviour.
    */
+  @SuppressWarnings("deprecation")
   private class LocalBehaviour implements ValidationConstraint<String>, DocumentListener {
 
     KDoubleField    pthis;
@@ -233,7 +234,7 @@ public class KDoubleField extends KFilteringTextField {
     }
     
     @Override
-    public boolean check( String input ) {
+    public boolean test( String input ) {
       if( input.length() == 0 ) {
         return pthis.emptyValid;
       }
@@ -259,7 +260,7 @@ public class KDoubleField extends KFilteringTextField {
     public void removeUpdate( DocumentEvent evt ) {
       valueChanged();
     }
-    
+
   } /* ENDCLASS */
   
 } /* ENDCLASS */

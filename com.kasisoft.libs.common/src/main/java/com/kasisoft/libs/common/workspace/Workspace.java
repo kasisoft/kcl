@@ -95,7 +95,7 @@ public final class Workspace {
     try( Writer writer = Encoding.UTF8.openWriter( settingsfile ) ) {
       properties.store( writer, null );
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     }
     isnew  = false;
   }
@@ -109,7 +109,7 @@ public final class Workspace {
     try( Reader reader = Encoding.UTF8.openReader( settingsfile ) ) {
       properties.load( reader );
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     }
   }
 

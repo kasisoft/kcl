@@ -33,13 +33,13 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
       reset     = MiscFunctions.getMethod( type, "clear" );
     }
     if( (constructor == null) || (reset == null) ) {
-      throw FailureException.newFailureException( FailureCode.Reflections );
+      throw FailureCode.Reflections.newException();
     }
     try {
       T probe = (T) constructor.newInstance();
       reset.invoke( probe );
     } catch( Exception ex ) {
-      throw FailureException.newFailureException( FailureCode.Reflections, ex );
+      throw FailureCode.Reflections.newException( ex );
     }
   }
   

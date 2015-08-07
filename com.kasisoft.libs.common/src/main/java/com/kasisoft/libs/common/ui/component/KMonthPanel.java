@@ -38,6 +38,7 @@ import java.awt.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KMonthPanel extends JPanel {
 
@@ -348,7 +349,7 @@ public class KMonthPanel extends JPanel {
   private void selectDate( Date newdate ) {
     if( model.getMonth().isInMonth( newdate ) ) {
       if( selectableDates != null ) {
-        if( ! selectableDates.check( newdate ) ) {
+        if( ! selectableDates.test( newdate ) ) {
           // rejected by our constraint
           return;
         }
@@ -487,7 +488,7 @@ public class KMonthPanel extends JPanel {
     private boolean isHoliday( Date date ) {
       boolean result = Weekday.isWeekend( date );
       if( (! result) && (pthis.holidayDates != null) ) {
-        result = pthis.holidayDates.check( date );
+        result = pthis.holidayDates.test( date );
       }
       return result;
     }
