@@ -9,11 +9,14 @@ import com.kasisoft.libs.common.util.*;
 import java.util.regex.*;
 
 import java.util.*;
+import java.util.function.*;
 import java.util.zip.*;
 
 import java.net.*;
 
 import java.io.*;
+
+import java.nio.file.*;
 
 import lombok.*;
 import lombok.experimental.*;
@@ -97,6 +100,21 @@ public class IoFunctions {
   }
 
   /**
+   * Creates an instance of {@link InputStream} and handles potential exceptions.
+   * 
+   * @param path   The {@link Path} that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link InputStream}. Not <code>null</code>.
+   */
+  public static InputStream newInputStream( @NonNull Path path ) {
+    try {
+      return Files.newInputStream( path );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  /**
    * Creates an instance of {@link InputStream} and handles potential exceptions if enabled.
    * 
    * @param fail   <code>true</code> <=> Generate an exception upon failure or otherwise return <code>null</code>.
@@ -158,6 +176,21 @@ public class IoFunctions {
    */
   public static OutputStream newOutputStream( @NonNull File file ) {
     return newOutputStream( true, file );
+  }
+
+  /**
+   * Creates an instance of {@link OutputStream} and handles potential exceptions.
+   * 
+   * @param file   The {@link File} that will be opened. Not <code>null</code>.
+   * 
+   * @return   The opened {@link OutputStream}. Not <code>null</code>.
+   */
+  public static OutputStream newOutputStream( @NonNull Path path ) {
+    try {
+      return Files.newOutputStream( path, StandardOpenOption.CREATE );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
 
   /**
@@ -1320,7 +1353,7 @@ public class IoFunctions {
       dir.mkdirs();
     }
     if( ! dir.isDirectory() ) {
-      throw FailureException.newFailureException( FailureCode.CreateDirectory, null, null, dir );
+      throw FailureCode.CreateDirectory.newException( null, null, dir );
     }
   }
 
@@ -1344,4 +1377,260 @@ public class IoFunctions {
     return FailureException.raiseIf( fail, Boolean.valueOf( dir.isDirectory() ), FailureCode.CreateDirectory, dir ).booleanValue();
   }
 
+  public static <R> R forInputStreamDo( @NonNull File file, @NonNull Function<InputStream,R> function ) {
+    try( InputStream instream = newInputStream( file ) ) {
+      return function.apply( instream );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forInputStreamDo( @NonNull File file, C context, @NonNull BiFunction<InputStream,C,R> function ) {
+    try( InputStream instream = newInputStream( file ) ) {
+      return function.apply( instream, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forInputStreamDo( @NonNull Path path, @NonNull Function<InputStream,R> function ) {
+    try( InputStream instream = Files.newInputStream( path ) ) {
+      return function.apply( instream );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forInputStreamDo( @NonNull Path path, C context, @NonNull BiFunction<InputStream,C,R> function ) {
+    try( InputStream instream = Files.newInputStream( path ) ) {
+      return function.apply( instream, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forInputStreamDo( @NonNull String path, @NonNull Function<InputStream,R> function ) {
+    return forInputStreamDo( Paths.get( path ), function );
+  }
+
+  public static <R,C> R forInputStreamDo( @NonNull String path, C context, @NonNull BiFunction<InputStream,C,R> function ) {
+    return forInputStreamDo( Paths.get( path ), context, function );
+  }
+
+  public static <R> R forInputStreamDo( @NonNull URI path, @NonNull Function<InputStream,R> function ) {
+    return forInputStreamDo( Paths.get( path ), function );
+  }
+
+  public static <R,C> R forInputStreamDo( @NonNull URI path, C context, @NonNull BiFunction<InputStream,C,R> function ) {
+    return forInputStreamDo( Paths.get( path ), context, function );
+  }
+
+  public static <R> R forOutputStreamDo( @NonNull File file, @NonNull Function<OutputStream,R> function ) {
+    try( OutputStream outstream = newOutputStream( file ) ) {
+      return function.apply( outstream );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forOutputStreamDo( @NonNull File file, C context, @NonNull BiFunction<OutputStream,C,R> function ) {
+    try( OutputStream outstream = newOutputStream( file ) ) {
+      return function.apply( outstream, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forOutputStreamDo( @NonNull Path path, @NonNull Function<OutputStream,R> function ) {
+    try( OutputStream outstream = Files.newOutputStream( path ) ) {
+      return function.apply( outstream );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forOutputStreamDo( @NonNull Path path, C context, @NonNull BiFunction<OutputStream,C,R> function ) {
+    try( OutputStream outstream = Files.newOutputStream( path ) ) {
+      return function.apply( outstream, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forOutputStreamDo( @NonNull String path, @NonNull Function<OutputStream,R> function ) {
+    return forOutputStreamDo( Paths.get( path ), function );
+  }
+
+  public static <R,C> R forOutputStreamDo( @NonNull String path, C context, @NonNull BiFunction<OutputStream,C,R> function ) {
+    return forOutputStreamDo( Paths.get( path ), context, function );
+  }
+
+  public static <R> R forOutputStreamDo( @NonNull URI path, @NonNull Function<OutputStream,R> function ) {
+    return forOutputStreamDo( Paths.get( path ), function );
+  }
+
+  public static <R,C> R forOutputStreamDo( @NonNull URI path, C context, @NonNull BiFunction<OutputStream,C,R> function ) {
+    return forOutputStreamDo( Paths.get( path ), context, function );
+  }
+
+  public static <R> R forReaderDo( @NonNull File file, Encoding encoding, @NonNull Function<Reader,R> function ) {
+    try( Reader reader = Encoding.openReader( file, encoding ) ) {
+      return function.apply( reader );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forReaderDo( @NonNull File file, Encoding encoding, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    try( Reader reader = Encoding.openReader( file, encoding ) ) {
+      return function.apply( reader, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forReaderDo( @NonNull Path path, Encoding encoding, @NonNull Function<Reader,R> function ) {
+    try( Reader reader = Encoding.openReader( path, encoding ) ) {
+      return function.apply( reader );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forReaderDo( @NonNull Path path, Encoding encoding, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    try( Reader reader = Encoding.openReader( path, encoding ) ) {
+      return function.apply( reader, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forReaderDo( @NonNull String path, Encoding encoding, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( Paths.get( path ), encoding, function );
+  }
+
+  public static <R,C> R forReaderDo( @NonNull String path, Encoding encoding, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( Paths.get( path ), encoding, context, function );
+  }
+
+  public static <R> R forReaderDo( @NonNull URI path, Encoding encoding, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( Paths.get( path ), encoding, function );
+  }
+
+  public static <R,C> R forReaderDo( @NonNull URI path, Encoding encoding, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( Paths.get( path ), encoding, context, function );
+  }
+
+  public static <R> R forWriterDo( @NonNull File file, Encoding encoding, @NonNull Function<Writer,R> function ) {
+    try( Writer writer = Encoding.openWriter( file, encoding ) ) {
+      return function.apply( writer );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forWriterDo( @NonNull File file, Encoding encoding, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    try( Writer writer = Encoding.openWriter( file, encoding ) ) {
+      return function.apply( writer, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forWriterDo( @NonNull Path path, Encoding encoding, @NonNull Function<Writer,R> function ) {
+    try( Writer writer = Encoding.openWriter( path, encoding ) ) {
+      return function.apply( writer );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forWriterDo( @NonNull Path path, Encoding encoding, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    try( Writer writer = Encoding.openWriter( path, encoding ) ) {
+      return function.apply( writer, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R> R forWriterDo( @NonNull String path, Encoding encoding, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( Paths.get( path ), encoding, function );
+  }
+
+  public static <R,C> R forWriterDo( @NonNull String path, Encoding encoding, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( Paths.get( path ), encoding, context, function );
+  }
+
+  public static <R> R forWriterDo( @NonNull URI path, Encoding encoding, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( Paths.get( path ), encoding, function );
+  }
+
+  public static <R,C> R forWriterDo( @NonNull URI path, Encoding encoding, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( Paths.get( path ), encoding, context, function );
+  }
+
+  public static <R> R forReaderDo( @NonNull File file, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( file, null, function );
+  }
+    
+  public static <R,C> R forReaderDo( @NonNull File file, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( file, null, context, function );
+  }
+    
+  public static <R> R forReaderDo( @NonNull Path path, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( path, null, function );
+  }
+    
+  public static <R,C> R forReaderDo( @NonNull Path path, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( path, null, context, function );
+  }
+    
+  public static <R> R forReaderDo( @NonNull String path, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( path, null, function );
+  }
+    
+  public static <R,C> R forReaderDo( @NonNull String path, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( path, null, context, function );
+  }
+    
+  public static <R> R forReaderDo( @NonNull URI path, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( path, null, function );
+  }
+    
+  public static <R,C> R forReaderDo( @NonNull URI path, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( path, null, context, function );
+  }
+    
+  public static <R> R forWriterDo( @NonNull File file, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( file, null, function );
+  }
+    
+  public static <R,C> R forWriterDo( @NonNull File file, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( file, null, context, function );
+  }
+    
+  public static <R> R forWriterDo( @NonNull Path path, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( path, null, function );
+  }
+    
+  public static <R,C> R forWriterDo( @NonNull Path path, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( path, null, context, function );
+  }
+    
+  public static <R> R forWriterDo( @NonNull String path, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( path, null, function );
+  }
+    
+  public static <R,C> R forWriterDo( @NonNull String path, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( path, null, context, function );
+  }
+    
+  public static <R> R forWriterDo( @NonNull URI path, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( path, null, function );
+  }
+    
+  public static <R,C> R forWriterDo( @NonNull URI path, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( path, null, context, function );
+  }
+  
 } /* ENDCLASS */

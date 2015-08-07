@@ -10,6 +10,7 @@ import java.net.*;
 import java.io.*;
 
 import java.nio.charset.*;
+import java.nio.file.Path;
 
 import lombok.*;
 import lombok.experimental.*;
@@ -100,6 +101,19 @@ public final class Encoding {
   }
 
   /**
+   * Opens a Reader for a specific resource using this encoding.
+   * 
+   * @param path   The path of the resource that has to be opened using this encoding. Must be a valid resource.
+   *  
+   * @return   The reader if the url could be opened. Not <code>null</code>.
+   * 
+   * @throws FailureException if opening the resource failed for some reason.
+   */
+  public Reader openReader( @NonNull Path path ) {
+    return openReader( IoFunctions.newInputStream( path ) );
+  }
+
+  /**
    * Opens a Reader for a specific InputStream using this encoding.
    * 
    * @param instream   The InputStream that has to be accessed using this encoding. Not <code>null</code>.
@@ -126,6 +140,19 @@ public final class Encoding {
    */
   public Writer openWriter( @NonNull File file ) {
     return openWriter( IoFunctions.newOutputStream( file ) );
+  }
+
+  /**
+   * Opens a Writer for a specific file using this encoding.
+   * 
+   * @param path   The path that has to be opened using this encoding. Must be a valid file.
+   *  
+   * @return   The writer if the file could be opened. Not <code>null</code>.
+   * 
+   * @throws FailureException if opening the file failed for some reason.
+   */
+  public Writer openWriter( @NonNull Path path ) {
+    return openWriter( IoFunctions.newOutputStream( path ) );
   }
 
   /**
@@ -224,6 +251,24 @@ public final class Encoding {
   }
 
   /**
+   * Opens a Reader for a specific file using this encoding.
+   * 
+   * @param path       The path that has to be opened using this encoding. Must be a valid file.
+   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is used.
+   *  
+   * @return   The reader if the file could be opened. Not <code>null</code>.
+   * 
+   * @throws FailureException if opening the file failed for some reason.
+   */
+  public static Reader openReader( @NonNull Path path, Encoding encoding ) {
+    if( encoding == null ) {
+      return UTF8.openReader( path );
+    } else {
+      return encoding.openReader( path );
+    }
+  }
+
+  /**
    * Opens a Reader for a specific InputStream using this encoding.
    * 
    * @param instream   The InputStream that has to be opened using this encoding. Not <code>null</code>.
@@ -256,6 +301,24 @@ public final class Encoding {
       return UTF8.openWriter( file );
     } else {
       return encoding.openWriter( file );
+    }
+  }
+
+  /**
+   * Opens a Writer for a specific file using this encoding.
+   * 
+   * @param path       The path that has to be opened using this encoding. Must be a valid file.
+   * @param encoding   The encoding that has to be used. If <code>null</code> the default encoding {@link #UTF8} is used.
+   *  
+   * @return   The writer if the file could be opened. Not <code>null</code>.
+   * 
+   * @throws FailureException if opening the file failed for some reason.
+   */
+  public static Writer openWriter( @NonNull Path path, Encoding encoding ) {
+    if( encoding == null ) {
+      return UTF8.openWriter( path );
+    } else {
+      return encoding.openWriter( path );
     }
   }
 
