@@ -35,6 +35,15 @@ public enum TimeUnit {
   }
   
   /**
+   * Returns the amount of milliseconds for a single time unit.
+   * 
+   * @return   The amount of milliseconds representing a single time unit.
+   */
+  public long amount() {
+    return amount(1);
+  }
+  
+  /**
    * Converts an amount of units into it's corresponding value for another unit.
    * 
    * @param num     The amount of units to convert.
