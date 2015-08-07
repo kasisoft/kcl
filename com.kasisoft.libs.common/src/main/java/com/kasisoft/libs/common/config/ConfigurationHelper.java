@@ -193,25 +193,20 @@ public class ConfigurationHelper {
    */
   public static Map<String,String> createReplacementMap( @NonNull String varformatter ) {
     
-    Map<String,String> result       = new Hashtable<>();
+    Map<String,String> result = new Hashtable<>();
     
     // record the env entries
-    Map<String,String> environment  = System.getenv();
-    for( Map.Entry<String,String> env : environment.entrySet() ) {
-      result.put( String.format( varformatter, String.format( "%s%s", PREFIX_ENV, env.getKey() ) ), env.getValue() );
-    }
-    
+    System.getenv().forEach( (k, v) -> result.put( newKey( varformatter, PREFIX_ENV, k ), v ) );
+
     // record the system properties
-    Properties          sysprops    = System.getProperties();
-    Enumeration<String> names       = (Enumeration<String>) sysprops.propertyNames();
-    while( names.hasMoreElements() ) {
-      String key    = names.nextElement();
-      String value  = sysprops.getProperty( key );
-      result.put( String.format( varformatter, String.format( "%s%s", PREFIX_SYS, key ) ), value );
-    }
+    System.getProperties().forEach( (k, v) -> result.put( newKey( varformatter, PREFIX_SYS, (String) k ), (String) v ) );
     
     return result;
     
+  }
+  
+  private static String newKey( String formatter, String prefix, String key ) {
+    return String.format( formatter, String.format( "%s%s", prefix, key ) );
   }
 
   /**
