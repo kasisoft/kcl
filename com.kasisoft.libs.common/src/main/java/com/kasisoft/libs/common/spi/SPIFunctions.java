@@ -42,16 +42,11 @@ public class SPIFunctions {
    * 
    * @return   A list with all SPI services currently available. Not <code>null</code>.
    * 
-   * @throws Exception in case one SPI could not be configured properly.
+   * @throws FailureException in case one SPI could not be configured properly.
    */
-  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype, @NonNull Properties configuration ) throws Exception {
+  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype, @NonNull Properties configuration ) throws FailureException {
     List<T> result = loadSPIServices( servicetype );
-    for( int i = result.size() - 1; i >= 0; i-- ) {
-      T element = result.get(i);
-      if( element instanceof Configurable ) {
-        ((Configurable) element).configure( configuration );
-      }
-    }
+    result.stream().filter( s -> s instanceof Configurable ).forEach( s -> ((Configurable) s).configure( configuration ) );
     return result;
   }
   
