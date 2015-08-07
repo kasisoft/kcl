@@ -1,7 +1,9 @@
 package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
+
 import com.kasisoft.libs.common.constants.*;
+
 import com.kasisoft.libs.common.sys.*;
 
 import java.text.*;
@@ -19,6 +21,7 @@ import java.lang.reflect.*;
 import java.sql.*;
 
 import lombok.*;
+
 import lombok.experimental.*;
 
 /**
@@ -52,6 +55,50 @@ public class MiscFunctions {
    * Prevent instantiation.
    */
   private MiscFunctions() {
+  }
+  
+  /**
+   * Returns the 'minimum' of two {@link Comparable} objects.
+   * 
+   * @param a   The first candidate. Maybe <code>null</code>.
+   * @param b   The second candidate. Maybe <code>null</code>.
+   * 
+   * @return   The 'minimum' instance. Maybe <code>null</code>.
+   */
+  public static <T extends Comparable> T min( T a, T b ) {
+    if( (a != null) && (b != null) ) {
+      if( a.compareTo(b) < 0 ) {
+        return a;
+      } else {
+        return b;
+      }
+    } else if( a != null ) {
+      return a;
+    } else {
+      return b;
+    }
+  }
+
+  /**
+   * Returns the 'maximum' of two {@link Comparable} objects.
+   * 
+   * @param a   The first candidate. Maybe <code>null</code>.
+   * @param b   The second candidate. Maybe <code>null</code>.
+   * 
+   * @return   The 'maximum' instance. Maybe <code>null</code>.
+   */
+  public static <T extends Comparable> T max( T a, T b ) {
+    if( (a != null) && (b != null) ) {
+      if( a.compareTo(b) >= 0 ) {
+        return a;
+      } else {
+        return b;
+      }
+    } else if( a != null ) {
+      return a;
+    } else {
+      return b;
+    }
   }
 
   /**
