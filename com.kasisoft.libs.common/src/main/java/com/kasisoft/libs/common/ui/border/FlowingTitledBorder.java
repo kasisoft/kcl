@@ -33,7 +33,7 @@ public class FlowingTitledBorder extends TitledBorder {
    * Creates a FlowingTitledBorder instance without some textual content.
    */
   public FlowingTitledBorder() {
-    this( "", LEADING, null, Color.black, Color.cyan, Color.white );
+    this( "", Alignment.Left, null, Color.black, Color.cyan, Color.white );
   }
 
   /**
@@ -42,7 +42,7 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param title   The title the border should display. Neither <code>null</code> nor empty.
    */
   public FlowingTitledBorder( @NonNull String title ) {
-    this( title, LEADING, null, Color.black, Color.cyan, Color.white  );
+    this( title, Alignment.Left, null, Color.black, Color.cyan, Color.white  );
   }
 
   /**
@@ -61,45 +61,9 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param title           The title the border should display. Neither <code>null</code> nor empty.
    * @param justification   The justification for the title.
    * @param font            The font for rendering the title.
-   * 
-   * @deprecated [13-Apr-2015:KASI]   This constructor will be removed with version 1.8. Please use the alternate
-   *                                  {@link #FlowingTitledBorder(String, Alignment, Font, Color, Color, Color)} instead.
-   */
-//  @Deprecated
-//  public FlowingTitledBorder( @NonNull String title, int justification, Font font ) {
-//    this( title, justification, font, Color.black, Color.cyan, Color.white );
-//  }
-
-  /**
-   * Creates a FlowingTitledBorder instance with the specified title, title-justification and title-font.
-   *
-   * @param title           The title the border should display. Neither <code>null</code> nor empty.
-   * @param justification   The justification for the title.
-   * @param font            The font for rendering the title.
    */
   public FlowingTitledBorder( @NonNull String title, Alignment justification, Font font ) {
     this( title, justification, font, Color.black, Color.cyan, Color.white );
-  }
-
-  /**
-   * Creates a FlowingTitledBorder instance with the specified title, title-justification, title-font, title-color, 
-   * start-color and destination-color.
-   *
-   * @param title           The title the border should display. Neither <code>null</code> nor empty.
-   * @param justification   The justification for the title.
-   * @param font            The font of the title.
-   * @param titlecol        The color of the title.
-   * @param fromcol         The starting color for the flow.
-   * @param tocol           The end color for the flow.
-   * 
-   * @deprecated [13-Apr-2015:KASI]   This constructor will be removed with version 1.8. Please use the alternate
-   *                                  {@link #FlowingTitledBorder(String, Alignment, Font, Color, Color, Color)} instead.
-   */
-  @Deprecated
-  public FlowingTitledBorder( @NonNull String title, int justification, Font font, Color titlecol, Color fromcol, Color tocol ) {
-    super( new EmptyBorder( 1, 1, 1, 1 ), title, justification, TOP, font, Color.black );
-    setFromColor( fromcol );
-    setToColor( tocol );
   }
 
   /**
