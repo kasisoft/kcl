@@ -23,6 +23,7 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctions {
 
@@ -104,7 +105,10 @@ public class IoFunctions {
    * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
    * 
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static InputStream newInputStream( boolean fail, @NonNull File file ) {
     try {
       return new BufferedInputStream( new FileInputStream( file ) );
@@ -133,7 +137,10 @@ public class IoFunctions {
    * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
    * 
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static InputStream newInputStream( boolean fail, @NonNull URL url ) {
     try {
       return new BufferedInputStream( url.openStream() );
@@ -162,7 +169,10 @@ public class IoFunctions {
    * @return   The opened {@link OutputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
    * 
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static OutputStream newOutputStream( boolean fail, @NonNull File file ) {
     try {
       return new BufferedOutputStream( new FileOutputStream( file ) );
@@ -1323,7 +1333,10 @@ public class IoFunctions {
    * @return   <code>true</code> <=> The creation of the directory succeeded.
    * 
    * @throws FailureException   The supplied directory cannot be assured to be an existing directory.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static boolean mkdirs( boolean fail, @NonNull File dir ) {
     if( ! dir.exists() ) {
       dir.mkdirs();

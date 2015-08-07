@@ -28,6 +28,7 @@ import lombok.experimental.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlFunctionsTest {
   

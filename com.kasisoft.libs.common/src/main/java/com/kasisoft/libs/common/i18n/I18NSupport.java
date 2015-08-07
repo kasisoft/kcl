@@ -83,6 +83,7 @@ public class I18NSupport {
    * 
    * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
    */
+  @SuppressWarnings("deprecation")
   private static Properties loadTranslations( String[] candidates, boolean failonload ) {
     
     Properties  result      = new Properties();
@@ -223,7 +224,10 @@ public class I18NSupport {
    * @param failonload  <code>true</code> <=> Cause a FailureException if loading a translation failed.
    * 
    * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static void initialize( Locale locale, @NonNull Class<?> clazz, boolean failonload ) {
     
     if( locale == null ) {

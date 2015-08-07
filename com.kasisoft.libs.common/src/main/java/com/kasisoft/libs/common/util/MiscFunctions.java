@@ -29,6 +29,7 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctions {
 
@@ -230,7 +231,10 @@ public class MiscFunctions {
    *           <code>null</code> in case of a failure.
    *           
    * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> is set to <code>true</code>.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
    */
+  @Deprecated
   public static Object newInstance( boolean fail, @NonNull String classname, Object ... args ) {
     try {
       Class clazz = Class.forName( classname );
@@ -397,7 +401,10 @@ public class MiscFunctions {
    * @param socket   The Socket that has to be closed. Maybe <code>null</code>.
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
    */
+  @Deprecated
   public static void close( boolean fail, Socket socket ) {
     if( socket != null ) {
       try {
@@ -415,7 +422,10 @@ public class MiscFunctions {
    * @param socket   The ServerSocket that has to be closed. Maybe <code>null</code>.
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
    */
+  @Deprecated
   public static void close( boolean fail, ServerSocket socket ) {
     if( socket != null ) {
       try {
@@ -433,7 +443,10 @@ public class MiscFunctions {
    * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
    */
+  @Deprecated
   public static void close( boolean fail, Closeable closeable ) {
     if( closeable != null ) {
       try {
@@ -460,7 +473,10 @@ public class MiscFunctions {
    * @param connection   The connection that has to be closed. Maybe <code>null</code>.
    * 
    * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
    */
+  @Deprecated
   public static void close( boolean fail, Connection connection ) {
     if( connection != null ) {
       try {

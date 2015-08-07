@@ -13,6 +13,7 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 
@@ -76,7 +77,10 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * 
    * @throws FailureException   If <param>failifmissing</param> was set to <code>true</code> and we couldn't find the
    *                            desired resource.
+   *                            
+   * @deprecated [07-Aug-2015:KASI]   Will be deleted with version 1.9.   
    */
+  @Deprecated
   protected void registerResource( boolean failifmissing, String publicid, @NonNull String resource ) {
     URL url = getClass().getResource( resource );
     if( url != null ) {

@@ -20,6 +20,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 public class GraphicsFunctions {
 
   /**
@@ -48,7 +49,10 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
    * 
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static BufferedImage readImage( boolean fail, @NonNull File file ) {
     try {
       return ImageIO.read( file );
@@ -76,8 +80,9 @@ public class GraphicsFunctions {
    * 
    * @return   The image. <code>null</code> if fail is set to <code>false</code> and the resource could not be loaded.
    * 
-   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static BufferedImage readImage( boolean fail, @NonNull URL url ) {
     try {
       return ImageIO.read( url );
@@ -107,7 +112,10 @@ public class GraphicsFunctions {
    *           could not be loaded.
    *           
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static BufferedImage readImage( boolean fail, @NonNull InputStream instream ) {
     try {
       return ImageIO.read( instream );
@@ -152,7 +160,10 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static boolean writeImage( boolean fail, @NonNull File file, @NonNull PictureFormat format, @NonNull JComponent component ) {
     return writeImage( fail, file, format, (BufferedImage) SwingFunctions.createImage( component ) );
   }
@@ -169,7 +180,10 @@ public class GraphicsFunctions {
    *           an exception will be raised instead.
    *           
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static boolean writeImage( boolean fail, @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     try {
       if( ImageIO.write( image, format.getImageIOFormat(), file ) ) {
@@ -219,7 +233,10 @@ public class GraphicsFunctions {
    * 
    * @return   <code>true</code> <=> Saving the image succeeded. If fail has been set to <code>true</code>
    *           an exception will be raised instead.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static boolean writeImage( boolean fail, @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull JComponent component ) {
     return writeImage( fail, outstream, format, (BufferedImage) SwingFunctions.createImage( component ) );
   }
@@ -236,7 +253,10 @@ public class GraphicsFunctions {
    *           an exception will be raised instead.
    *           
    * @throws FailureException   If <param>fail</param> was set to true and reading failed.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
    */
+  @Deprecated
   public static boolean writeImage( boolean fail, @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     try {
       if( ImageIO.write( image, format.getImageIOFormat(), outstream ) ) {
