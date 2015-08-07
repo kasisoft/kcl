@@ -75,7 +75,11 @@ public final class XmlFunctions {
    * @return   The Document node itself. Not <code>null</code>.
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
+   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
    */
+  @Deprecated
   public static Document readDocument( @NonNull File file, boolean validate, boolean xmlnamespaces ) throws FailureException {
     return readDocument( file, null, null, null, validate, xmlnamespaces, false );
   }
@@ -90,7 +94,11 @@ public final class XmlFunctions {
    * @return   The Document node itself. Not <code>null</code>.
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
+   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
    */
+  @Deprecated
   public static Document readDocument( @NonNull InputStream input, boolean validate, boolean xmlnamespaces ) throws FailureException {
     return readDocument( input, null, null, null, validate, xmlnamespaces, false );
   }
@@ -109,7 +117,11 @@ public final class XmlFunctions {
    * @return   The Document node itself. Not <code>null</code>.
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
+   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
    */
+  @Deprecated
   public static Document readDocument( 
     @NonNull File    file, 
     ErrorHandler     handler,
@@ -142,7 +154,11 @@ public final class XmlFunctions {
    * @return   The Document node itself. Not <code>null</code>.
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
+   * 
+   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
+   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
    */
+  @Deprecated
   public static Document readDocument( 
     @NonNull InputStream    input, 
     ErrorHandler            handler,
@@ -152,46 +168,74 @@ public final class XmlFunctions {
     boolean                 xmlnamespaces, 
     boolean                 xincludes 
   ) throws FailureException {
+    XmlParserConfiguration config = XmlParserConfiguration.builder()
+        .handler( handler )
+        .baseurl( baseurl )
+        .resolver( resolver )
+        .validate( validate )
+        .xmlnamespaces( xmlnamespaces )
+        .xincludes( xincludes )
+        .build();
+    return readDocument( input, config );
+  }
+  
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param input    The stream which provides the xml content. Not <code>null</code>.
+   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull InputStream input, @NonNull XmlParserConfiguration config ) throws FailureException {
+    DocumentBuilder builder = newDocumentBuilder( config );
+    Document        result  = null;
     try {
-      DocumentBuilderFactory factory    = DocumentBuilderFactory.newInstance();
-      factory . setNamespaceAware ( xmlnamespaces );
-      factory . setValidating     ( validate      );
-      try {
-        Method method = factory.getClass().getMethod( "XIncludeAware", Boolean.TYPE );
-        method.invoke( factory, Boolean.valueOf( xincludes ) );
-      } catch( Exception ex ) {
-        // no effect here
-      }
-      DocumentBuilder        docbuilder = factory.newDocumentBuilder();
-      XmlErrorHandler     newhandler = null;
-      if( resolver != null ) {
-        docbuilder.setEntityResolver( resolver );
-      }
-      if( handler != null ) {
-        docbuilder.setErrorHandler( handler );
+      if( config.getBaseurl() != null ) {
+        result = builder.parse( input, config.getBaseurl().toExternalForm() );
       } else {
-        newhandler  = new XmlErrorHandler();
-        docbuilder.setErrorHandler( newhandler );
+        result = builder.parse( input );
       }
-      Document document = null;
-      if( baseurl != null ) {
-        document = docbuilder.parse( input, baseurl.toExternalForm() );
+    } catch( SAXException | IOException ex ) {
+      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
+    }
+    return result;
+  }
+  
+  /**
+   * Creates a {@link DocumentBuilder} instance for the supplied parser configuration.
+   * 
+   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * 
+   * @return   The {@link DocumentBuilder} instance. Not <code>null</code>.
+   * 
+   * @throws FailureException   Configuring the builder failed for some reason.
+   */
+  public static DocumentBuilder newDocumentBuilder( @NonNull XmlParserConfiguration config ) {
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory . setNamespaceAware ( config.isXmlnamespaces () );
+    factory . setValidating     ( config.isValidate      () );
+    try {
+      Method method = factory.getClass().getMethod( "XIncludeAware", Boolean.TYPE );
+      method.invoke( factory, Boolean.valueOf( config.isXincludes() ) );
+    } catch( Exception ex ) {
+      // no effect here
+    }
+    try {
+      DocumentBuilder result = factory.newDocumentBuilder();
+      if( config.getResolver() != null ) {
+        result.setEntityResolver( config.getResolver() );
+      }
+      if( config.getHandler() != null ) {
+        result.setErrorHandler( config.getHandler() );
       } else {
-        document = docbuilder.parse( input );
+        result.setErrorHandler( new XmlErrorHandler() );
       }
-      if( (newhandler != null) && newhandler.hasErrors() ) {
-        throw FailureException.newFailureException( FailureCode.XmlFailure, newhandler.getFaultMessage() ); 
-      }
-      return document;
+      return result;
     } catch( ParserConfigurationException ex ) {
       throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
-    } catch( SAXParseException             ex ) {
-      XmlFault fault = new XmlFault( XmlFault.FaultType.fatal, ex );
-      throw FailureException.newFailureException( FailureCode.XmlFailure, fault.getFaultMessage() );
-    } catch( SAXException                  ex ) {
-      throw FailureException.newFailureException( FailureCode.XmlFailure, ex );
-    } catch( IOException                   ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
     }
   }
   
