@@ -49,7 +49,7 @@ public class FlatXmlHandler extends DefaultHandler {
     elements   = new Stack<>();
     path       = new StringFBuilder();
     buffer     = new StringBuilder();
-    target       = null;
+    target     = null;
     trimValues = true;
     attributes = true;
     escaping   = true;
