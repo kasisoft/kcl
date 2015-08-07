@@ -151,7 +151,8 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The value if there was one. Maybe <code>null</code>.
    */
   public Map<String,T> getValue( @NonNull Map<String,String> properties ) {
-    return getValue( properties, null );
+    Map<String, String> values = getValueImpl( properties );
+    return checkForResult( getTypedValues( values, null ) );
   }
   
   /**
@@ -162,41 +163,8 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @return   The value if there was one. Maybe <code>null</code>.
    */
   public Map<String,T> getValue( @NonNull Properties properties ) {
-    return getValue( properties, null );
-  }
-
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
-   * 
-   * @return   The value if there was one or the default value. Maybe <code>null</code>.
-   * 
-   * @deprecated [12-Apr-2015:KASI]   This method will be removed with version 1.8 as default values are supposed
-   *                                  to be supplied using {@link #withDefault(Object)}.
-   */
-  @Deprecated
-  public Map<String,T> getValue( @NonNull Map<String,String> properties, Map<String,T> defvalue ) {
     Map<String, String> values = getValueImpl( properties );
-    return checkForResult( getTypedValues( values, defvalue ) );
-  }
-
-  /**
-   * Returns the current value provided by the supplied properties.
-   * 
-   * @param properties   The properties providing the current settings. Not <code>null</code>.
-   * @param defvalue     A default value to be used in case this property isn't available. Maybe <code>null</code>.
-   * 
-   * @return   The value if there was one or the default value. Maybe <code>null</code>.
-   * 
-   * @deprecated [12-Apr-2015:KASI]   This method will be removed with version 1.8 as default values are supposed
-   *                                  to be supplied using {@link #withDefault(Object)}.
-   */
-  @Deprecated
-  public Map<String,T> getValue( @NonNull Properties properties, Map<String,T> defvalue ) {
-    Map<String, String> values = getValueImpl( properties );
-    return checkForResult( getTypedValues( values, defvalue ) );
+    return checkForResult( getTypedValues( values, null ) );
   }
 
   /**
