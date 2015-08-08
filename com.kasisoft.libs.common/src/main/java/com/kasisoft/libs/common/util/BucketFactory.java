@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.util;
 
+import java.util.function.*;
+
 /**
  * Factory implementation used to fill up the Bucket.
  * 
@@ -23,4 +25,34 @@ public interface BucketFactory<T> {
    */
   <P extends T> P reset( T object );
   
+  /**
+   * Executes the supplied function with the desired instance.
+   * 
+   * @param function   The function that is supposed to be executed. Not <code>null</code>.
+   * 
+   * @return   The return value of the supplied function. Maybe <code>null<code>.
+   */
+  default <R> R withInstance( Function<T,R> function ) {
+    T instance = create();
+    try {
+      return function.apply( instance );
+    } finally {
+      reset( instance );
+    }
+  }
+
+  /**
+   * Executes the supplied consumer with the desired instance.
+   * 
+   * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
+   */
+  default void withInstanceDo( Consumer<T> consumer ) {
+    T instance = create();
+    try {
+      consumer.accept( instance );
+    } finally {
+      reset( instance );
+    }
+  }
+
 } /* ENDINTERFACE */

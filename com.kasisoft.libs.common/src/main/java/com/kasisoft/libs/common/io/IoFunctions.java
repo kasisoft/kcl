@@ -26,7 +26,6 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctions {
 
@@ -219,7 +218,7 @@ public class IoFunctions {
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
     byte[] data = buffer;
     if( buffer == null ) {
-      data = Primitive.PByte.<byte[]>getBuffers().allocate( null );
+      data = Primitive.PByte.allocate( null );
     }
     try {
       int read = input.read( data );
@@ -230,10 +229,10 @@ public class IoFunctions {
         read = input.read( data );
       }
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     }
     if( buffer == null ) {
-      Primitive.PByte.<byte[]>getBuffers().release( data );
+      Primitive.PByte.release( data );
     }
   }
 
@@ -259,9 +258,9 @@ public class IoFunctions {
    * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
-    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
+    byte[] buffer = Primitive.PByte.allocate( buffersize );
     copy( input, output, buffer );
-    Primitive.PByte.<byte[]>getBuffers().release( buffer );
+    Primitive.PByte.release( buffer );
   }
 
   /**
@@ -344,7 +343,7 @@ public class IoFunctions {
   public static void copy( @NonNull Reader input, @NonNull Writer output, char[] buffer ) {
     char[] data = buffer;
     if( buffer == null ) {
-      data = (char[]) Primitive.PChar.getBuffers().allocate();
+      data = Primitive.PChar.allocate();
     }
     try {
       int read = input.read( data );
@@ -355,10 +354,10 @@ public class IoFunctions {
         read = input.read( data );
       }
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     }
     if( buffer == null ) {
-      Primitive.PChar.getBuffers().release( data );
+      Primitive.PChar.release( data );
     }
   }
 
@@ -384,9 +383,9 @@ public class IoFunctions {
    * @throws FailureException whenever the copying failed for some reason.
    */
   public static void copy( @NonNull Reader input, @NonNull Writer output, Integer buffersize ) {
-    char[] buffer = (char[]) Primitive.PChar.getBuffers().allocate( buffersize );
+    char[] buffer = Primitive.PChar.allocate( buffersize );
     copy( input, output, buffer );
-    Primitive.PChar.getBuffers().release( buffer );
+    Primitive.PChar.release( buffer );
   }
 
   /**
@@ -452,7 +451,7 @@ public class IoFunctions {
       input = newInputStream( file );
       copy( input, byteout, buffersize );
     } finally {
-      MiscFunctions.close( true, input );
+      MiscFunctions.close( input );
     }
     return byteout.toByteArray();
   }
@@ -474,7 +473,7 @@ public class IoFunctions {
       input = newInputStream( url );
       copy( input, byteout, buffersize );
     } finally {
-      MiscFunctions.close( true, input );
+      MiscFunctions.close( input );
     }
     return byteout.toByteArray();
   }
@@ -563,7 +562,7 @@ public class IoFunctions {
     runnable.setEmptyLines( emptylines );
     runnable.run();
     if( ! runnable.hasCompleted() ) {
-      throw FailureException.newFailureException( FailureCode.IO );
+      throw FailureCode.IO.newException();
     }
     return result;
   }
@@ -667,7 +666,7 @@ public class IoFunctions {
     try( InputStream instream = resource.openStream() ) {
       return readTextAsIs( instream, encoding );
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, null, null, resource );
+      throw FailureCode.IO.newException( null, ex, resource );
     }
   }
 
@@ -683,10 +682,10 @@ public class IoFunctions {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
-          throw FailureException.newFailureException( FailureCode.Skip );
+          throw FailureCode.IO.newException();
         }
       } catch( IOException ex ) {
-        throw FailureException.newFailureException( FailureCode.IO, ex );
+        throw FailureCode.IO.newException( ex );
       }
     }
   }
@@ -703,10 +702,10 @@ public class IoFunctions {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
-          throw FailureException.newFailureException( FailureCode.Skip );
+          throw FailureCode.IO.newException();
         }
       } catch( IOException ex ) {
-        throw FailureException.newFailureException( FailureCode.IO, ex );
+        throw FailureCode.IO.newException( ex );
       }
     }
   }
@@ -724,7 +723,7 @@ public class IoFunctions {
    */
   public static byte[] loadFragment( @NonNull InputStream input, int offset, int length ) {
     skip( input, offset );
-    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( Integer.valueOf( length ) );
+    byte[] buffer = Primitive.PByte.allocate( Integer.valueOf( length ) );
     try {
       int read = input.read( buffer, 0, length );
       if( (read != -1) && (read > 0) ) {
@@ -735,9 +734,9 @@ public class IoFunctions {
         return NO_DATA;
       }
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     } finally {
-      Primitive.PByte.<byte[]>getBuffers().release( buffer );
+      Primitive.PByte.release( buffer );
     }
   }
   
@@ -796,7 +795,7 @@ public class IoFunctions {
    */
   public static long crc32( @NonNull InputStream instream, CRC32 crc, Integer buffersize ) {
     crc           = crc == null ? new CRC32() : crc;
-    byte[] buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
+    byte[] buffer = Primitive.PByte.allocate( buffersize );
     try {
       int read = instream.read( buffer );
       while( read != -1 ) {
@@ -806,9 +805,9 @@ public class IoFunctions {
         read = instream.read( buffer );
       }
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     } finally {
-      Primitive.PByte.<byte[]>getBuffers().release( buffer );
+      Primitive.PByte.release( buffer );
     }
     return crc.getValue();
   }
@@ -1019,7 +1018,7 @@ public class IoFunctions {
     try {
       outstream.write( content );
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     }
   }
   
@@ -1054,7 +1053,7 @@ public class IoFunctions {
     try {
       writer.write( content );
     } catch( IOException ex ) {
-      throw FailureException.newFailureException( FailureCode.IO, ex );
+      throw FailureCode.IO.newException( ex );
     }
   }
   
@@ -1309,7 +1308,7 @@ public class IoFunctions {
       dir.mkdirs();
     }
     if( ! dir.isDirectory() ) {
-      throw FailureCode.CreateDirectory.newException( null, null, dir );
+      throw FailureCode.IO.newException( null, null, dir );
     }
   }
 
@@ -1604,7 +1603,7 @@ public class IoFunctions {
   public static <R> R forWriterDo( @NonNull URL url, @NonNull Function<Writer,R> function ) {
     return forWriterDo( toURI( url ), null, function );
   }
-  
+
   public static <R,C> R forWriterDo( @NonNull URL url, C context, @NonNull BiFunction<Writer,C,R> function ) {
     return forWriterDo( toURI( url ), null, context, function );
   }

@@ -3,6 +3,9 @@ package com.kasisoft.libs.common.constants;
 import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
+import java.util.function.*;
+
+import java.lang.ref.*;
 
 import lombok.*;
 import lombok.experimental.*;
@@ -39,7 +42,9 @@ public enum Primitive {
   @Getter long        min;
   @Getter long        max;
   
+  @SuppressWarnings("deprecation")
   Buffers             buffers;
+  InternalBuffers     ibuffers;
   boolean             supportsMinMax;
   
   /**
@@ -65,6 +70,7 @@ public enum Primitive {
     LocalData.primitivemap.put( objclazz        , this );
     LocalData.primitivemap.put( arraytype       , this );
     LocalData.primitivemap.put( objectarraytype , this );
+    ibuffers          = new InternalBuffers( this );
   }
   
   /**
@@ -134,10 +140,15 @@ public enum Primitive {
    * Returns the {@link Buffers} instance for this type.
    * 
    * @return   The {@link Buffers} instance for this type. Not <code>null</code>.
+   * 
+   * @deprecated [09-Aug-2015:KASI]   This function will be removed as the returned type Buffers will be removed. Use
+   *                                  it's functionality directly now.
    */
+  @SuppressWarnings("deprecation")
+  @Deprecated
   public synchronized <T> Buffers<T> getBuffers() {
     if( buffers == null ) {
-      buffers = Buffers.newBuffers( this );
+      buffers  = Buffers.newBuffers( this );
     }
     return buffers;
   }
@@ -183,10 +194,214 @@ public enum Primitive {
       return LocalData.primitivemap.get( obj.getClass() );
     }
   }
+  
+  /**
+   * Allocates a block with the current default size.
+   * 
+   * @return  A block with the current default size. Neither <code>null</code> nor empty.
+   */
+  public synchronized <T> T allocate() {
+    return allocate( null );
+  }
+  
+  /**
+   * Allocates a block with a specified size. The returned block doesn't necessarily have the desired size so the 
+   * returned block might be larger.
+   * 
+   * @param size   The requested size of the returned buffer. A value of <code>null</code> means that the default size 
+   *               has to be used (see {@link CommonProperty#BufferCount}).
+   * 
+   * @return   A block with the requested size. Neither <code>null</code> nor empty.
+   */
+  @SuppressWarnings("unchecked")
+  public synchronized <T> T allocate( Integer size ) {
+    getBuffers();
+    return ((InternalBuffers<T>) ibuffers).allocate( size );
+  }  
+  
+  /**
+   * Releases the supplied byte array so it can be reallocated later.
+   * 
+   * @param data   The data that can be reallocated later. Not <code>null</code>.
+   */
+  public synchronized <T> void release( @NonNull T data ) {
+    getBuffers();
+    ((InternalBuffers<T>) ibuffers).release( data );
+  }
+
+  /**
+   * Executes the supplied function while providing a buffer.
+   * 
+   * @param function   The function that will be executed using the buffer. Not <code>null</code>.
+   * 
+   * @return   The result of the supplied function. Maybe <code>null</code>.
+   */
+  public <T,R> R withBuffer( @NonNull Function<T,R> function ) {
+    return withBuffer( null, function );
+  }
+
+  /**
+   * Executes the supplied function while providing a buffer.
+   *
+   * @param size       The requested size of the returned buffer. A value of <code>null</code> means that the default 
+   *                   size has to be used (see {@link CommonProperty#BufferCount}).
+   * @param function   The function that will be executed using the buffer. Not <code>null</code>.
+   * 
+   * @return   The result of the supplied function. Maybe <code>null</code>.
+   */
+  public <T,R> R withBuffer( Integer size, Function<T,R> function ) {
+    T buffer = allocate( size );
+    try {
+      return function.apply( buffer );
+    } finally {
+      release( buffer );
+    }
+  }
+
+  /**
+   * Executes the supplied function while providing a buffer.
+   * 
+   * @param function   The function that will be executed using the buffer. Not <code>null</code>.
+   */
+  public <T> void withBufferDo( Consumer<T> consumer ) {
+    withBufferDo( null, consumer ); 
+  }
+
+  /**
+   * Executes the supplied function while providing a buffer.
+   * 
+   * @param size       The requested size of the returned buffer. A value of <code>null</code> means that the default 
+   *                   size has to be used (see {@link CommonProperty#BufferCount}).
+   * @param function   The function that will be executed using the buffer. Not <code>null</code>.
+   */
+  public <T> void withBufferDo( Integer size, Consumer<T> consumer ) {
+    T buffer = allocate( size );
+    try {
+      consumer.accept( buffer );
+    } finally {
+      release( buffer );
+    }
+  }
 
   private static class LocalData {
     
     private static Map<Class<?>,Primitive>   primitivemap = new Hashtable<>();
+    
+  } /* ENDCLASS */
+  
+  @FieldDefaults(level = AccessLevel.PRIVATE)
+  private static class InternalBuffers<T> {
+
+    List<SoftReference<T>>        allocated;
+    Primitive                     type;
+    Comparator<SoftReference<T>>  comparator0;
+    
+    /**
+     * Initialises these instance with the supplied primitive type identification.
+     * 
+     * @param primitive   The primitive type identification. Not <code>null</code>.
+     */
+    private InternalBuffers( @NonNull Primitive primitive ) {
+      allocated   = new ArrayList<>();
+      type        = primitive;
+      comparator0 = new Comparator<SoftReference<T>>() {
+
+        @Override
+        public int compare( SoftReference<T> o1, SoftReference<T> o2 ) {
+          int l1 = length( o1 );
+          int l2 = length( o2 );
+          if( (l1 == 0) || (l2 == 0) ) {
+            // this element have been cleared by the GC so return 0 in order to sustain the current position
+            return 0;
+          }
+          return l1 - l2;
+        }
+        
+      };
+    }
+    
+    private void cleanup() {
+      for( int i = allocated.size() - 1; i >= 0; i-- ) {
+        if( allocated.get(i).get() == null ) {
+          allocated.remove(i);
+        }
+      }
+    }
+    
+    /**
+     * Returns a block of data matching the supplied size constraint.
+     * 
+     * @param size   The size which is requested.
+     * 
+     * @return   The block with the apropriate space or <code>null</code>.
+     */
+    private T getBlock( int size ) {
+      if( allocated.isEmpty() ) {
+        return null;
+      }
+      cleanup();
+      for( int i = 0; i < allocated.size(); i++ ) {
+        SoftReference<T> ref    = allocated.get(i);
+        T                result = ref.get();
+        if( length( ref ) >= size ) {
+          ref.clear();
+          allocated.remove( ref );
+          return result;
+        }
+      }
+      return null;
+    }
+    
+    /**
+     * Allocates a block with a specified size. The returned block doesn't necessarily have the desired size so the 
+     * returned block might be larger.
+     * 
+     * @param size   The requested size of the returned buffer. A value of <code>null</code> means that the default size 
+     *               has to be used (see {@link CommonProperty#BufferCount}).
+     * 
+     * @return   A block with the requested size. Neither <code>null</code> nor empty.
+     */
+    @SuppressWarnings("unchecked")
+    public synchronized T allocate( Integer size ) {
+      if( size == null ) {
+        size = CommonProperty.BufferCount.getValue( System.getProperties() );
+      }
+      int value  = size.intValue();
+      T   result = getBlock( value );
+      if( result == null ) {
+        value  = ((value / 1024) + 1) * 1024;
+        result = (T) type.newArray( value );
+      }
+      return result;
+    }
+    
+    /**
+     * Releases the supplied byte array so it can be reallocated later.
+     * 
+     * @param data   The data that can be reallocated later. Not <code>null</code>.
+     */
+    public synchronized void release( @NonNull T data ) {
+      cleanup();
+      SoftReference<T> newref = new SoftReference<>( data ); 
+      if( allocated.isEmpty() ) {
+        allocated.add( newref );
+      } else {
+        int pos = Collections.binarySearch( allocated, newref, comparator0 );
+        if( pos < 0 ) {
+          pos = -(pos + 1);
+        }
+        allocated.add( pos, newref );
+      }
+    }
+    
+    private int length( SoftReference<T> data ) {
+      T content = data.get();
+      if( content != null ) {
+        return type.length( content );
+      } else {
+        return 0;
+      }
+    }
     
   } /* ENDCLASS */
   

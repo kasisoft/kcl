@@ -169,7 +169,7 @@ public class SwingFunctions {
    *
    * @return   A visual representation of the supplied component. Not <code>null</code>.
    */
-  public static Image createImage( @NonNull Component comp ) {
+  public static BufferedImage createImage( @NonNull Component comp ) {
     BufferedImage image = new BufferedImage( comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB );
     comp.paint( image.getGraphics() );
     return image;

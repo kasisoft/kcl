@@ -113,13 +113,13 @@ public class MiscFunctionsTest {
   
   @Test(groups="all")
   public void newInstance() {
-    Object object = MiscFunctions.newInstance( false, String.class.getName(), "Frosch".getBytes() );
+    Object object = MiscFunctions.newInstance( String.class.getName(), "Frosch".getBytes() );
     assertThat( object, is( (Object) "Frosch" ) );
   }
 
   @Test(expectedExceptions={FailureException.class}, groups="all")
   public void newInstanceFailure() {
-    MiscFunctions.newInstance( true, String.class.getName(), new float[12] );
+    MiscFunctions.newInstance( String.class.getName(), new float[12] );
     fail();
   }
 

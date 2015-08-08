@@ -77,14 +77,12 @@ public class I18NSupport {
    * Loads all properties matching the current locale (we support different formats).
    * 
    * @param candidates   A list of resource pathes pointing to possible translations. Not <code>null</code>.
-   * @param failonload   <code>true</code> <=> Cause a FailureException if loading a translation failed.
    * 
    * @return   The {@link Properties} instance providing all current translations. Not <code>null</code>.
    * 
    * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
    */
-  @SuppressWarnings("deprecation")
-  private static Properties loadTranslations( String[] candidates, boolean failonload ) {
+  private static Properties loadTranslations( String[] candidates ) {
     
     Properties  result      = new Properties();
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -103,7 +101,7 @@ public class I18NSupport {
       try( Reader reader = Encoding.UTF8.openReader( url.openStream() ) ) {
         result.load( reader );
       } catch( IOException ex ) {
-        FailureException.raiseIf( failonload, FailureCode.IO, ex, url );
+        throw FailureCode.IO.newException( ex );
       }
       
     }
@@ -198,7 +196,7 @@ public class I18NSupport {
    * @throws FailureException   A translation could not be loaded.
    */
   public static void initialize( @NonNull Class<?> clazz ) {
-    initialize( null, clazz, true );
+    initialize( null, clazz );
   }
 
   /**
@@ -212,23 +210,6 @@ public class I18NSupport {
    * @throws FailureException   A translation could not be loaded.
    */
   public static void initialize( Locale locale, @NonNull Class<?> clazz ) {
-    initialize( locale, clazz, true );
-  }
-
-  /**
-   * Applies all translations to the supplied class.
-   * 
-   * @param locale      The {@link Locale} instance which has to be used. If <code>null</code> {@link Locale#getDefault()}
-   *                    will be used.
-   * @param clazz       The class that is supposed to be translated. Not <code>null</code>.
-   * @param failonload  <code>true</code> <=> Cause a FailureException if loading a translation failed.
-   * 
-   * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
-   */
-  @Deprecated
-  public static void initialize( Locale locale, @NonNull Class<?> clazz, boolean failonload ) {
     
     if( locale == null ) {
       locale = Locale.getDefault();
@@ -253,7 +234,7 @@ public class I18NSupport {
     candidates[1] = String.format( "%s_%s.properties", base, locale.getLanguage() ); // f.e. de 
     candidates[2] = String.format( "%s.properties", base ); 
 
-    applyTranslations( prefix, loadTranslations( candidates, failonload ), collectFields( clazz ) );
+    applyTranslations( prefix, loadTranslations( candidates ), collectFields( clazz ) );
     
   }
 

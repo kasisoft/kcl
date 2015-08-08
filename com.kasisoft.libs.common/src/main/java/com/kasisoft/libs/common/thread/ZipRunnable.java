@@ -52,14 +52,14 @@ public class ZipRunnable extends AbstractRunnable {
   @Override
   protected void execute() {
     try( ZipOutputStream zipout = new ZipOutputStream( IoFunctions.newOutputStream( zipfile ) ) ) {
-      buffer = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
+      buffer = Primitive.PByte.allocate( buffersize );
       zipout.setMethod( ZipOutputStream.DEFLATED );
       zipout.setLevel(9);
       packDir( zipout, "", sourcedir );
     } catch( IOException ex ) {
       handleIOFailure( ex );
     } finally {
-      Primitive.PByte.<byte[]>getBuffers().release( buffer );
+      Primitive.PByte.release( buffer );
       buffer = null;
     }
   }

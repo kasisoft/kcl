@@ -33,16 +33,15 @@ public class BuffersTest {
     
     Integer    count      = CommonProperty.BufferCount.getValue( System.getProperties() );
     
-    Buffers<T> buffers    = Buffers.newBuffers( primitive );
-    T          datablock1 = buffers.allocate();
+    T          datablock1 = primitive.allocate();
     assertThat( datablock1, is( notNullValue() ) );
     assertTrue( primitive.length( datablock1 ) >= count.intValue() );
     
-    T          datablock2 = buffers.allocate( null );
+    T          datablock2 = primitive.allocate( null );
     assertThat( datablock2, is( notNullValue() ) );
     assertTrue( primitive.length( datablock2 ) >= count.intValue() );
     
-    T          datablock3 = buffers.allocate( Integer.valueOf( 100 ) );
+    T          datablock3 = primitive.allocate( Integer.valueOf( 100 ) );
     assertThat( datablock3, is( notNullValue() ) );
     assertTrue( primitive.length( datablock3 ) >= 100 );
     assertTrue( primitive.length( datablock3 ) < count.intValue() );

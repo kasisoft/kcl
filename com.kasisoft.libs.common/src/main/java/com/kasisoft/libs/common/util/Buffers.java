@@ -2,10 +2,6 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 
-import java.util.*;
-
-import java.lang.ref.*;
-
 import lombok.*;
 import lombok.experimental.*;
 
@@ -15,13 +11,15 @@ import lombok.experimental.*;
  * Nevertheless this type provides buffers meant to be reused especially in multi-threading environments.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [09-Aug-2015:KASI]    This class will be removed with version 2.0. Use the corresponding methods of the
+ *                                   type {@link Primitive} .
  */
+@Deprecated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Buffers<T> {
 
-  List<SoftReference<T>>        allocated;
-  Primitive                     type;
-  Comparator<SoftReference<T>>  comparator0;
+  Primitive   type;
   
   /**
    * Initialises these instance with the supplied primitive type identification.
@@ -29,54 +27,7 @@ public class Buffers<T> {
    * @param primitive   The primitive type identification. Not <code>null</code>.
    */
   private Buffers( @NonNull Primitive primitive ) {
-    allocated   = new ArrayList<>();
     type        = primitive;
-    comparator0 = new Comparator<SoftReference<T>>() {
-
-      @Override
-      public int compare( SoftReference<T> o1, SoftReference<T> o2 ) {
-        int l1 = length( o1 );
-        int l2 = length( o2 );
-        if( (l1 == 0) || (l2 == 0) ) {
-          // this element have been cleared by the GC so return 0 in order to sustain the current position
-          return 0;
-        }
-        return l1 - l2;
-      }
-      
-    };
-  }
-  
-  private void cleanup() {
-    for( int i = allocated.size() - 1; i >= 0; i-- ) {
-      if( allocated.get(i).get() == null ) {
-        allocated.remove(i);
-      }
-    }
-  }
-  
-  /**
-   * Returns a block of data matching the supplied size constraint.
-   * 
-   * @param size   The size which is requested.
-   * 
-   * @return   The block with the apropriate space or <code>null</code>.
-   */
-  private T getBlock( int size ) {
-    if( allocated.isEmpty() ) {
-      return null;
-    }
-    cleanup();
-    for( int i = 0; i < allocated.size(); i++ ) {
-      SoftReference<T> ref    = allocated.get(i);
-      T                result = ref.get();
-      if( length( ref ) >= size ) {
-        ref.clear();
-        allocated.remove( ref );
-        return result;
-      }
-    }
-    return null;
   }
   
   /**
@@ -85,7 +36,7 @@ public class Buffers<T> {
    * @return  A block with the current default size. Neither <code>null</code> nor empty.
    */
   public synchronized T allocate() {
-    return allocate( null );
+    return type.allocate();
   }
   
   /**
@@ -99,16 +50,7 @@ public class Buffers<T> {
    */
   @SuppressWarnings("unchecked")
   public synchronized T allocate( Integer size ) {
-    if( size == null ) {
-      size = CommonProperty.BufferCount.getValue( System.getProperties() );
-    }
-    int value  = size.intValue();
-    T   result = getBlock( value );
-    if( result == null ) {
-      value  = ((value / 1024) + 1) * 1024;
-      result = (T) type.newArray( value );
-    }
-    return result;
+    return type.allocate( size );
   }
   
   /**
@@ -117,26 +59,7 @@ public class Buffers<T> {
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
   public synchronized void release( @NonNull T data ) {
-    cleanup();
-    SoftReference<T> newref = new SoftReference<>( data ); 
-    if( allocated.isEmpty() ) {
-      allocated.add( newref );
-    } else {
-      int pos = Collections.binarySearch( allocated, newref, comparator0 );
-      if( pos < 0 ) {
-        pos = -(pos + 1);
-      }
-      allocated.add( pos, newref );
-    }
-  }
-  
-  private int length( SoftReference<T> data ) {
-    T content = data.get();
-    if( content != null ) {
-      return type.length( content );
-    } else {
-      return 0;
-    }
+    type.release( data );
   }
   
   /**

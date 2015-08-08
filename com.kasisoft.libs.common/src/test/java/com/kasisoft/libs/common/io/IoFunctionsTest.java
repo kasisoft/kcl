@@ -66,25 +66,25 @@ public class IoFunctionsTest {
   public void allocateAndRelease() {
     
     Integer defaultsize = CommonProperty.BufferCount.getValue( System.getProperties() );
-    byte[]  data1       = Primitive.PByte.<byte[]>getBuffers().allocate( null );
+    byte[]  data1       = Primitive.PByte.allocate( null );
     assertThat( data1, is( notNullValue() ) );
     assertTrue( data1.length >= defaultsize.intValue() );
 
-    Primitive.PByte.<byte[]>getBuffers().release( data1 );
-    Primitive.PByte.<byte[]>getBuffers().release( data1 ); // just to be sure that double release won't do any bad
+    Primitive.PByte.release( data1 );
+    Primitive.PByte.release( data1 ); // just to be sure that double release won't do any bad
     
-    byte[]  data2       = Primitive.PByte.<byte[]>getBuffers().allocate( null );
+    byte[]  data2       = Primitive.PByte.allocate( null );
     assertThat( data2, is( notNullValue() ) );
     assertThat( data2, is( data1 ) );
 
-    byte[]  data3       = Primitive.PByte.<byte[]>getBuffers().allocate( Integer.valueOf( 8192 ) );
+    byte[]  data3       = Primitive.PByte.allocate( Integer.valueOf( 8192 ) );
     assertThat( data3, is( notNullValue() ) );
     assertTrue( data3.length >= 8192 );
 
-    Primitive.PByte.<byte[]>getBuffers().release( data3 );
-    Primitive.PByte.<byte[]>getBuffers().release( data3 ); // just to be sure that double release won't do any bad
+    Primitive.PByte.release( data3 );
+    Primitive.PByte.release( data3 ); // just to be sure that double release won't do any bad
 
-    byte[]  data4       = Primitive.PByte.<byte[]>getBuffers().allocate( Integer.valueOf( 8192 ) );
+    byte[]  data4       = Primitive.PByte.allocate( Integer.valueOf( 8192 ) );
     assertThat( data4, is( notNullValue() ) );
     assertThat( data4, is( data3 ) );
     

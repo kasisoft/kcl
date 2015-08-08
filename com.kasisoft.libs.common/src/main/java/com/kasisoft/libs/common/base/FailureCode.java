@@ -17,16 +17,8 @@ public enum FailureCode {
   /** an unknown failure has been launched. */
   Unexpected                                          (  -1 ),
   
-  /** closing a resource failed. @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replaced by IO. */
-  @Deprecated
-  Close                                               (  -2 ),
-  
   /** reading or writing failed. */
   IO                                                  (  -3 ),
-  
-  /** skipping within a resource failed. @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replaced by IO. */
-  @Deprecated
-  Skip                                                (  -4 ),
   
   /** the encoding that has been used is not supported. */
   InvalidEncoding                                     (  -5 ),
@@ -43,24 +35,8 @@ public enum FailureCode {
   /** indicates a xml related failure. */
   XmlFailure                                          (  -9 ),
   
-  /** a requested resource could not be found. @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replaced by IO. */
-  @Deprecated
-  MissingResource                                     ( -10 ),
-  
   /** a conversion failed. */
-  ConversionFailure                                   ( -11 ),
-  
-  /** a directory creation failed. @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replaced by IO. */
-  @Deprecated
-  CreateDirectory                                     ( -12 ),
-  
-  /** a file could not be found. @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replaced by IO. */
-  @Deprecated
-  FileNotFound                                        ( -13 ),
-
-  /** accessing a resource failed. @deprecated [07-Aug-2015:KASI]   Will be removed with version 1.9. Replaced by IO. */
-  @Deprecated
-  ResourceIO                                          ( -14 );
+  ConversionFailure                                   ( -11 );
   
   int      code;
   

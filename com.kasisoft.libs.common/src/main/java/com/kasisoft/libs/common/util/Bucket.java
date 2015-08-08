@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.util;
 
 import java.util.*;
+import java.util.function.*;
 
 import java.lang.ref.*;
 
@@ -69,13 +70,42 @@ public class Bucket<T> {
   /**
    * Frees the supplied object, so it's allowed to be reused.
    * 
-   * @param object
-   *          The object that shall be freed. Not <code>null</code>.
+   * @param object   The object that shall be freed. Not <code>null</code>.
    */
-  public void free( T object ) {
+  public void free( @NonNull T object ) {
     synchronized( references ) {
       references.add( new SoftReference<>( factory.reset( object ) ) );
     }
   }
 
+  /**
+   * Executes the supplied function with the desired instance.
+   * 
+   * @param function   The function that is supposed to be executed. Not <code>null</code>.
+   * 
+   * @return   The return value of the supplied function. Maybe <code>null<code>.
+   */
+  public <R> R withInstance( @NonNull Function<T,R> function ) {
+    T instance = allocate();
+    try {
+      return function.apply( instance );
+    } finally {
+      free( instance );
+    }
+  }
+
+  /**
+   * Executes the supplied consumer with the desired instance.
+   * 
+   * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
+   */
+  public void withInstanceDo( Consumer<T> consumer ) {
+    T instance = allocate();
+    try {
+      consumer.accept( instance );
+    } finally {
+      free( instance );
+    }
+  }
+  
 } /* ENDCLASS */

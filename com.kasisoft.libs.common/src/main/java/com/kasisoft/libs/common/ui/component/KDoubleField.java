@@ -224,7 +224,6 @@ public class KDoubleField extends KFilteringTextField {
   /**
    * Implementation of custom behaviour.
    */
-  @SuppressWarnings("deprecation")
   private class LocalBehaviour implements Predicate<String>, DocumentListener {
 
     KDoubleField    pthis;

@@ -65,7 +65,7 @@ public class StringFunctions {
    * @return   The buffer itself. Not <code>null</code>.
    */
   public static char[] allocateChars( Integer size ) {
-    return Primitive.PChar.<char[]>getBuffers().allocate( size );
+    return Primitive.PChar.allocate( size );
   }
 
   /**
@@ -74,7 +74,7 @@ public class StringFunctions {
    * @param buffer   The buffer which has to be released. Not <code>null</code>.
    */
   public static void releaseChars( @NonNull char[] buffer ) {
-    Primitive.PChar.<char[]>getBuffers().release( buffer );
+    Primitive.PChar.release( buffer );
   }
 
   /**

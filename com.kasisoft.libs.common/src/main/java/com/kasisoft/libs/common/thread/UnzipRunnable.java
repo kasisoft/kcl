@@ -51,7 +51,7 @@ public class UnzipRunnable extends AbstractRunnable {
   @Override
   protected void execute() {
     
-    byte[] buffer  = Primitive.PByte.<byte[]>getBuffers().allocate( buffersize );
+    byte[] buffer  = Primitive.PByte.allocate( buffersize );
     ZipFile zipfile = null;
     try {
 
@@ -85,7 +85,7 @@ public class UnzipRunnable extends AbstractRunnable {
     } catch( IOException  ex ) {
       handleIOFailure( ex );
     } finally {
-      Primitive.PByte.<byte[]>getBuffers().release( buffer );
+      Primitive.PByte.release( buffer );
     }
     
   }

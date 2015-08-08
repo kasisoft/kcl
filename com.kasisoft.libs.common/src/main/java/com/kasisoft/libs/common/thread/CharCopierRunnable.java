@@ -2,7 +2,6 @@ package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.util.*;
 
 import java.io.*;
 
@@ -77,15 +76,6 @@ public class CharCopierRunnable extends AbstractRunnable {
     configured  = true;
   }
   
-  /**
-   * Returns an instance of buffers used for this runnable.
-   * 
-   * @return   An instance of buffers used for this runnable. Not <code>null</code>.
-   */
-  private Buffers<char[]> getBuffers() {
-    return Primitive.PChar.getBuffers();
-  }
-  
   @Override
   protected void execute() {
     
@@ -96,7 +86,7 @@ public class CharCopierRunnable extends AbstractRunnable {
     try {
       
       if( owned ) {
-        buffer  = getBuffers().allocate( size );
+        buffer  = Primitive.PChar.allocate( size );
       }
       
       int read = source.read( buffer );
@@ -114,7 +104,7 @@ public class CharCopierRunnable extends AbstractRunnable {
       handleIOFailure( ex );
     } finally {
       if( owned ) {
-        getBuffers().release( buffer );
+        Primitive.PChar.release( buffer );
         buffer = null;
       }
       reset();

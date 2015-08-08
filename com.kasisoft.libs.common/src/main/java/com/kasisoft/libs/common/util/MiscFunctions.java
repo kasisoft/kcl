@@ -13,8 +13,6 @@ import java.util.regex.*;
 import java.util.*;
 import java.util.Date;
 
-import java.net.*;
-
 import java.io.*;
 
 import java.lang.reflect.*;
@@ -29,7 +27,6 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctions {
 
@@ -212,30 +209,6 @@ public class MiscFunctions {
    * @return   <code>null</code> <=> If the class could not be instantiated otherwise the instance itself.
    */
   public static Object newInstance( @NonNull String classname, Object ... args ) {
-    return newInstance( false, classname, args );
-  }
-  
-  /**
-   * Instantiates the supplied class with the supplied arguments. The behaviour of this
-   * method can be configured using the supplied flag.
-   * 
-   * @param fail        <code>true</code> <=> If the creation of the instance fails a FailureException is generation 
-   *                    with the constant code {@link "CommonLibraryConstants#RTE_REFLECTIONS"}. Otherwise this method 
-   *                    returns normally with the value <code>null</code>.
-   * @param classname   The class that shall be instantiated. Neither <code>null</code> nor empty.
-   * @param args        The arguments which have to be passed to the constructor. If omitted the default constructor 
-   *                    will be used. If passed each element must be non-<code>null</code> in order to determine the 
-   *                    parameter type.
-   * 
-   * @return   If <code>fail</code> is <code>true</code> the value is not <code>null</code>. Otherwise it is 
-   *           <code>null</code> in case of a failure.
-   *           
-   * @throws FailureException   The instantiation failed. Will only be raised if <code>fail</code> is set to <code>true</code>.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
-   */
-  @Deprecated
-  public static Object newInstance( boolean fail, @NonNull String classname, Object ... args ) {
     try {
       Class clazz = Class.forName( classname );
       if( (args == null) || (args.length == 0) ) {
@@ -253,15 +226,15 @@ public class MiscFunctions {
           if( constructor != null ) {
             return constructor.newInstance( args );
           } else {
-            return FailureException.raiseIf( fail, FailureCode.Reflections, ex, classname );
+            throw FailureCode.Reflections.newException( ex );
           }
         }
       }
     } catch( Exception ex ) { 
-      return FailureException.raiseIf( fail, FailureCode.Reflections, ex, classname );
+      throw FailureCode.Reflections.newException( ex );
     }
   }
-
+  
   /**
    * Identifies a constructor by it's signature. This might be necessary if the appropriate Constructor uses an 
    * interface, so using a concrete type might fail to locate the right Constructor.
@@ -395,105 +368,33 @@ public class MiscFunctions {
   }
 
   /**
-   * Closes the supplied Socket. 
-   * 
-   * @param fail     <code>true</code> <=> Cause an exception if it happens.
-   * @param socket   The Socket that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
-   */
-  @Deprecated
-  public static void close( boolean fail, Socket socket ) {
-    if( socket != null ) {
-      try {
-        socket.close();
-      } catch( IOException ex ) {
-        FailureException.raiseIf( fail, FailureCode.Close, ex );
-      }
-    }
-  }
-
-  /**
-   * Closes the supplied ServerSocket. 
-   * 
-   * @param fail     <code>true</code> <=> Cause an exception if it happens.
-   * @param socket   The ServerSocket that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
-   */
-  @Deprecated
-  public static void close( boolean fail, ServerSocket socket ) {
-    if( socket != null ) {
-      try {
-        socket.close();
-      } catch( IOException ex ) {
-        FailureException.raiseIf( fail, FailureCode.Close, ex );
-      }
-    }
-  }
-  
-  /**
-   * Closes the supplied Closeable. 
-   * 
-   * @param fail        <code>true</code> <=> Cause an exception if it happens.
-   * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
-   */
-  @Deprecated
-  public static void close( boolean fail, Closeable closeable ) {
-    if( closeable != null ) {
-      try {
-        closeable.close();
-      } catch( IOException ex ) {
-        FailureException.raiseIf( fail, FailureCode.Close, ex );
-      }
-    }
-  }
-
-  /**
    * Closes the supplied Closeable. 
    * 
    * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
    */
   public static void close( Closeable closeable ) {
-    close( false, closeable );
-  }
-
-  /**
-   * Closes the supplied Connection. 
-   * 
-   * @param fail         <code>true</code> <=> Cause an exception if it happens.
-   * @param connection   The connection that has to be closed. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Will be launched only when <code>fail</code> is set to true and an exception comes up.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This variety will be removed with version 1.9.
-   */
-  @Deprecated
-  public static void close( boolean fail, Connection connection ) {
-    if( connection != null ) {
+    if( closeable != null ) {
       try {
-        connection.close();
-      } catch( SQLException ex ) {
-        FailureException.raiseIf( fail, FailureCode.Close, ex );
+        closeable.close();
+      } catch( IOException ex ) {
+        throw FailureCode.IO.newException( ex );
       }
     }
   }
-  
+
   /**
    * Closes the supplied Connection. 
    * 
    * @param connection   The connection that has to be closed. Maybe <code>null</code>.
    */
   public static void close( Connection connection ) {
-    close( false, connection );
+    if( connection != null ) {
+      try {
+        connection.close();
+      } catch( SQLException ex ) {
+        throw FailureCode.IO.newException( ex );
+      }
+    }
   }
   
   /**

@@ -70,8 +70,8 @@ public class GraphicsFunctionsTest implements FilenameFilter {
       BufferedImage image     = GraphicsFunctions.readImage( inputfile );
       assertThat( image, is( notNullValue() ) );
       File          destfile  = new File( tempdir, inputfile.getName() + "." + outformat.getMimeType().getSuffices().get(0) );
-      boolean       success   = GraphicsFunctions.writeImage( destfile, outformat, image );
-      assertTrue( success );
+      GraphicsFunctions.writeImage( destfile, outformat, image );
+      assertTrue( destfile.isFile() );
     }
   }
   
