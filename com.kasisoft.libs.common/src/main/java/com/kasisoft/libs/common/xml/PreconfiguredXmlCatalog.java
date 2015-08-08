@@ -13,7 +13,6 @@ import lombok.experimental.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 
@@ -49,39 +48,34 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * Initialises this catalog.
    */
   public PreconfiguredXmlCatalog() {
-    this( false, false );
+    this( false );
   }
 
   /**
    * Initialises this catalog.
    * 
-   * @param failifmissing   <code>true</code> <=> In case a resource could not be found a FailureException is raised.
-   * @param lsaware         <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
-   *                        implementation can be found this could cause a FailureException.
+   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
+   *                  implementation can be found this could cause a FailureException.
    *                        
    * @throws FailureException if a resource is missing and causing a failure has been enabled.
    */
-  public PreconfiguredXmlCatalog( boolean failifmissing, boolean lsaware ) throws FailureException {
+  public PreconfiguredXmlCatalog( boolean lsaware ) throws FailureException {
     super( lsaware );
     for( int i = 0; i < PRECONFIGURED.length; i += 2 ) {
-      registerResource( failifmissing, PRECONFIGURED[ i + 0 ], PRECONFIGURED[ i + 1 ] );
+      registerResource( PRECONFIGURED[ i + 0 ], PRECONFIGURED[ i + 1 ] );
     }
   }
   
   /**
    * Registers a single resource with this catalog.
    *  
-   * @param failifmissing   <code>true</code> <=> Cause an exception in case a resource could not be resolved.
-   * @param publicid        A public id. Maybe <code>null</code>. 
-   * @param resource        The resource associated with the id or a system id itself. Neither <code>null</code> nor empty.
+   * @param publicid   A public id. Maybe <code>null</code>. 
+   * @param resource   The resource associated with the id or a system id itself. Neither <code>null</code> nor empty.
    * 
    * @throws FailureException   If <param>failifmissing</param> was set to <code>true</code> and we couldn't find the
    *                            desired resource.
-   *                            
-   * @deprecated [07-Aug-2015:KASI]   Will be deleted with version 1.9.   
    */
-  @Deprecated
-  protected void registerResource( boolean failifmissing, String publicid, @NonNull String resource ) {
+  protected void registerResource( String publicid, @NonNull String resource ) {
     URL url = getClass().getResource( resource );
     if( url != null ) {
       if( publicid != null ) {
@@ -90,7 +84,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
         registerSystemID( url );
       }
     } else {
-      FailureException.raiseIf( failifmissing, FailureCode.MissingResource, null, resource );
+      throw FailureCode.XmlFailure.newException( resource );
     }
   }
 

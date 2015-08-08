@@ -8,8 +8,6 @@ import com.kasisoft.libs.common.ui.layout.*;
 
 import com.kasisoft.libs.common.ui.*;
 
-import com.kasisoft.libs.common.validation.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
@@ -18,6 +16,7 @@ import javax.swing.event.*;
 
 import javax.swing.*;
 
+import java.util.function.*;
 import java.util.*;
 
 import java.awt.*;
@@ -117,7 +116,7 @@ public class InputFieldsDemo extends AbstractDemo {
     monthpanel.setStyleHoliday( "weekend" );
     monthpanel.setStyleSelected( "selected" );
     monthpanel.setToggleSelection( true );
-    monthpanel.setHolidayDates( new ValidationConstraint<Date>() {
+    monthpanel.setHolidayDates( new Predicate<Date>() {
 
       @SuppressWarnings("deprecation")
       @Override

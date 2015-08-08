@@ -9,8 +9,6 @@ import com.kasisoft.libs.common.ui.event.*;
 
 import com.kasisoft.libs.common.util.*;
 
-import com.kasisoft.libs.common.validation.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
@@ -26,6 +24,7 @@ import javax.swing.*;
 import java.text.*;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 import java.awt.event.*;
 
@@ -63,10 +62,10 @@ public class KMonthPanel extends JPanel {
   boolean                      toggleSelection;
 
   @Getter @Setter
-  ValidationConstraint<Date>   selectableDates;
+  Predicate<Date>              selectableDates;
 
   @Getter @Setter
-  ValidationConstraint<Date>   holidayDates;
+  Predicate<Date>              holidayDates;
 
   @Getter @Setter
   String                       styleTitle;

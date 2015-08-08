@@ -2,13 +2,13 @@ package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.ui.event.*;
 
-import com.kasisoft.libs.common.validation.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
 
 import javax.swing.event.*;
+
+import java.util.function.Predicate;
 
 /**
  * Field used to support numerical values only.
@@ -225,7 +225,7 @@ public class KDoubleField extends KFilteringTextField {
    * Implementation of custom behaviour.
    */
   @SuppressWarnings("deprecation")
-  private class LocalBehaviour implements ValidationConstraint<String>, DocumentListener {
+  private class LocalBehaviour implements Predicate<String>, DocumentListener {
 
     KDoubleField    pthis;
     

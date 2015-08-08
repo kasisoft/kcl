@@ -96,7 +96,11 @@ public class IoFunctions {
    * @return   The opened {@link InputStream}. Not <code>null</code>.
    */
   public static InputStream newInputStream( @NonNull File file ) {
-    return newInputStream( true, file );
+    try {
+      return new BufferedInputStream( new FileInputStream( file ) );
+    } catch( FileNotFoundException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
 
   /**
@@ -115,27 +119,6 @@ public class IoFunctions {
   }
 
   /**
-   * Creates an instance of {@link InputStream} and handles potential exceptions if enabled.
-   * 
-   * @param fail   <code>true</code> <=> Generate an exception upon failure or otherwise return <code>null</code>.
-   * @param file   The {@link File} that will be opened. Not <code>null</code>.
-   * 
-   * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
-   * 
-   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
-   */
-  @Deprecated
-  public static InputStream newInputStream( boolean fail, @NonNull File file ) {
-    try {
-      return new BufferedInputStream( new FileInputStream( file ) );
-    } catch( FileNotFoundException ex ) {
-      return FailureException.raiseIf( fail, FailureCode.FileNotFound, ex, file );
-    }
-  }
-
-  /**
    * Creates an instance of {@link InputStream} and handles potential exceptions.
    * 
    * @param url   The URL pointing to the resource that will be opened. Not <code>null</code>.
@@ -143,28 +126,11 @@ public class IoFunctions {
    * @return   The opened {@link InputStream}. Not <code>null</code>.
    */
   public static InputStream newInputStream( @NonNull URL url ) {
-    return newInputStream( true, url );
-  }
-
-  /**
-   * Creates an instance of {@link InputStream} and handles potential exceptions if enabled.
-   * 
-   * @param fail   <code>true</code> <=> Generate an exception upon failure or otherwise return <code>null</code>.
-   * @param url    The URL pointing to the resource that will be opened. Not <code>null</code>.
-   * 
-   * @return   The opened {@link InputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
-   * 
-   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
-   */
-  @Deprecated
-  public static InputStream newInputStream( boolean fail, @NonNull URL url ) {
     try {
       return new BufferedInputStream( url.openStream() );
     } catch( IOException ex ) {
-      return FailureException.raiseIf( fail, FailureCode.IO, ex, url );
-    }
+      throw FailureCode.IO.newException( ex );
+    } 
   }
 
   /**
@@ -175,7 +141,11 @@ public class IoFunctions {
    * @return   The opened {@link OutputStream}. Not <code>null</code>.
    */
   public static OutputStream newOutputStream( @NonNull File file ) {
-    return newOutputStream( true, file );
+    try {
+      return new BufferedOutputStream( new FileOutputStream( file ) );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    } 
   }
 
   /**
@@ -193,27 +163,6 @@ public class IoFunctions {
     }
   }
 
-  /**
-   * Creates an instance of {@link OutputStream} and handles potential exceptions if enabled.
-   * 
-   * @param fail   <code>true</code> <=> Generate an exception upon failure or otherwise return <code>null</code>.
-   * @param file   The {@link File} that will be opened. Not <code>null</code>.
-   * 
-   * @return   The opened {@link OutputStream}. Not <code>null</code> if <param>fail</param> was <code>true</code>.
-   * 
-   * @throws FailureException   If <param>fail</param> was set to true and reading failed.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
-   */
-  @Deprecated
-  public static OutputStream newOutputStream( boolean fail, @NonNull File file ) {
-    try {
-      return new BufferedOutputStream( new FileOutputStream( file ) );
-    } catch( FileNotFoundException ex ) {
-      return FailureException.raiseIf( fail, FailureCode.FileNotFound, ex, file );
-    }
-  }
-  
   /**
    * Returns a file for temporary use.
    * 
@@ -1364,26 +1313,6 @@ public class IoFunctions {
     }
   }
 
-  /**
-   * Creates a directory.
-   * 
-   * @param fail   <code>true</code> <=> Cause an exception if the directory creation failed.
-   * @param dir    The directory that needs to be created. Not <code>null</code> and must be a valid file.
-   * 
-   * @return   <code>true</code> <=> The creation of the directory succeeded.
-   * 
-   * @throws FailureException   The supplied directory cannot be assured to be an existing directory.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be deleted with version 1.9.
-   */
-  @Deprecated
-  public static boolean mkdirs( boolean fail, @NonNull File dir ) {
-    if( ! dir.exists() ) {
-      dir.mkdirs();
-    }
-    return FailureException.raiseIf( fail, Boolean.valueOf( dir.isDirectory() ), FailureCode.CreateDirectory, dir ).booleanValue();
-  }
-
   public static <R> R forInputStreamDo( @NonNull File file, @NonNull Function<InputStream,R> function ) {
     try( InputStream instream = newInputStream( file ) ) {
       return function.apply( instream );
@@ -1424,12 +1353,20 @@ public class IoFunctions {
     return forInputStreamDo( Paths.get( path ), context, function );
   }
 
-  public static <R> R forInputStreamDo( @NonNull URI path, @NonNull Function<InputStream,R> function ) {
-    return forInputStreamDo( Paths.get( path ), function );
+  public static <R> R forInputStreamDo( @NonNull URI uri, @NonNull Function<InputStream,R> function ) {
+    return forInputStreamDo( Paths.get( uri ), function );
   }
 
-  public static <R,C> R forInputStreamDo( @NonNull URI path, C context, @NonNull BiFunction<InputStream,C,R> function ) {
-    return forInputStreamDo( Paths.get( path ), context, function );
+  public static <R,C> R forInputStreamDo( @NonNull URI uri, C context, @NonNull BiFunction<InputStream,C,R> function ) {
+    return forInputStreamDo( Paths.get( uri ), context, function );
+  }
+
+  public static <R> R forInputStreamDo( @NonNull URL url, @NonNull Function<InputStream,R> function ) {
+    return forInputStreamDo( toURI( url ), function );
+  }
+
+  public static <R,C> R forInputStreamDo( @NonNull URL url, C context, @NonNull BiFunction<InputStream,C,R> function ) {
+    return forInputStreamDo( toURI( url ), context, function );
   }
 
   public static <R> R forOutputStreamDo( @NonNull File file, @NonNull Function<OutputStream,R> function ) {
@@ -1472,12 +1409,20 @@ public class IoFunctions {
     return forOutputStreamDo( Paths.get( path ), context, function );
   }
 
-  public static <R> R forOutputStreamDo( @NonNull URI path, @NonNull Function<OutputStream,R> function ) {
-    return forOutputStreamDo( Paths.get( path ), function );
+  public static <R> R forOutputStreamDo( @NonNull URI uri, @NonNull Function<OutputStream,R> function ) {
+    return forOutputStreamDo( Paths.get( uri ), function );
   }
 
-  public static <R,C> R forOutputStreamDo( @NonNull URI path, C context, @NonNull BiFunction<OutputStream,C,R> function ) {
-    return forOutputStreamDo( Paths.get( path ), context, function );
+  public static <R,C> R forOutputStreamDo( @NonNull URI uri, C context, @NonNull BiFunction<OutputStream,C,R> function ) {
+    return forOutputStreamDo( Paths.get( uri ), context, function );
+  }
+
+  public static <R> R forOutputStreamDo( @NonNull URL url, @NonNull Function<OutputStream,R> function ) {
+    return forOutputStreamDo( toURI( url ), function );
+  }
+
+  public static <R,C> R forOutputStreamDo( @NonNull URL url, C context, @NonNull BiFunction<OutputStream,C,R> function ) {
+    return forOutputStreamDo( toURI( url ), context, function );
   }
 
   public static <R> R forReaderDo( @NonNull File file, Encoding encoding, @NonNull Function<Reader,R> function ) {
@@ -1600,14 +1545,30 @@ public class IoFunctions {
     return forReaderDo( path, null, context, function );
   }
     
-  public static <R> R forReaderDo( @NonNull URI path, @NonNull Function<Reader,R> function ) {
-    return forReaderDo( path, null, function );
+  public static <R> R forReaderDo( @NonNull URI uri, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( uri, null, function );
   }
     
-  public static <R,C> R forReaderDo( @NonNull URI path, C context, @NonNull BiFunction<Reader,C,R> function ) {
-    return forReaderDo( path, null, context, function );
+  public static <R,C> R forReaderDo( @NonNull URI uri, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( uri, null, context, function );
+  }
+
+  public static <R> R forReaderDo( @NonNull URL url, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( toURI( url ), null, function );
   }
     
+  public static <R,C> R forReaderDo( @NonNull URL url, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( toURI( url ), null, context, function );
+  }
+
+  public static <R> R forReaderDo( @NonNull URL url, Encoding encoding, @NonNull Function<Reader,R> function ) {
+    return forReaderDo( toURI( url ), encoding, function );
+  }
+      
+  public static <R,C> R forReaderDo( @NonNull URL url, Encoding encoding, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    return forReaderDo( toURI( url ), encoding, context, function );
+  }
+
   public static <R> R forWriterDo( @NonNull File file, @NonNull Function<Writer,R> function ) {
     return forWriterDo( file, null, function );
   }
@@ -1632,12 +1593,36 @@ public class IoFunctions {
     return forWriterDo( path, null, context, function );
   }
     
-  public static <R> R forWriterDo( @NonNull URI path, @NonNull Function<Writer,R> function ) {
-    return forWriterDo( path, null, function );
+  public static <R> R forWriterDo( @NonNull URI uri, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( uri, null, function );
   }
     
-  public static <R,C> R forWriterDo( @NonNull URI path, C context, @NonNull BiFunction<Writer,C,R> function ) {
-    return forWriterDo( path, null, context, function );
+  public static <R,C> R forWriterDo( @NonNull URI uri, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( uri, null, context, function );
+  }
+
+  public static <R> R forWriterDo( @NonNull URL url, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( toURI( url ), null, function );
+  }
+  
+  public static <R,C> R forWriterDo( @NonNull URL url, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( toURI( url ), null, context, function );
+  }
+
+  public static <R> R forWriterDo( @NonNull URL url, Encoding encoding, @NonNull Function<Writer,R> function ) {
+    return forWriterDo( toURI( url ), encoding, function );
+  }
+
+  public static <R,C> R forWriterDo( @NonNull URL url, Encoding encoding, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    return forWriterDo( toURI( url ), encoding, context, function );
+  }
+
+  private static URI toURI( URL url ) {
+    try {
+      return url.toURI();
+    } catch( URISyntaxException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
   
 } /* ENDCLASS */

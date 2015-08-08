@@ -2,8 +2,6 @@ package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.ui.event.*;
 
-import com.kasisoft.libs.common.validation.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
@@ -13,6 +11,8 @@ import javax.swing.event.*;
 import javax.swing.text.*;
 
 import javax.swing.*;
+
+import java.util.function.Predicate;
 
 import java.awt.*;
 
@@ -26,14 +26,14 @@ import java.awt.*;
 public class KValidationTextField extends KTextField implements KValidationComponent {
 
   /** Maybe <code>null</code>. */
-  @Getter ValidationConstraint<String>    validationConstraint;
+  @Getter Predicate<String>   validationConstraint;
   
-  @Getter Color                           invalidColor;
-  @Getter Color                           validColor;
+  @Getter Color               invalidColor;
+  @Getter Color               validColor;
   
-  boolean                                 valid;
-  LocalBehaviour                          localbehaviour;
-  ValidationEventDispatcher               validationdispatcher;
+  boolean                     valid;
+  LocalBehaviour              localbehaviour;
+  ValidationEventDispatcher   validationdispatcher;
   
   
   /**
@@ -87,7 +87,7 @@ public class KValidationTextField extends KTextField implements KValidationCompo
    * 
    * @param constraint   The constraint that is used to check the validity. Maybe <code>null</code>.
    */
-  public void setValidationConstraint( ValidationConstraint<String> constraint ) {
+  public void setValidationConstraint( Predicate<String> constraint ) {
     validationConstraint = constraint;
     validityCheck();
   }
@@ -172,7 +172,7 @@ public class KValidationTextField extends KTextField implements KValidationCompo
     if( validationConstraint == null ) {
       return true;
     }
-    return validationConstraint.check( text );
+    return validationConstraint.test( text );
   }
   
   /**

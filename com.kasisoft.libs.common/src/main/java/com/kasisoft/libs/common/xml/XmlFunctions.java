@@ -20,6 +20,7 @@ import java.net.*;
 import java.io.*;
 
 import java.lang.reflect.*;
+import java.nio.file.Path;
 
 import lombok.*;
 import lombok.experimental.*;
@@ -66,120 +67,6 @@ public final class XmlFunctions {
   }
 
   /**
-   * Reads the content of the supplied File.
-   * 
-   * @param file            The File which provides the xml content. Not <code>null</code>.
-   * @param validate        <code>true</code> <=> Validates the document if possible.
-   * @param xmlnamespaces   <code>true</code> <=> Recognize XML namespaces.
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
-   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
-   */
-  @Deprecated
-  public static Document readDocument( @NonNull File file, boolean validate, boolean xmlnamespaces ) throws FailureException {
-    return readDocument( file, null, null, null, validate, xmlnamespaces, false );
-  }
-
-  /**
-   * Reads the content of the supplied InputStream.
-   * 
-   * @param input           The stream which provides the xml content. Not <code>null</code>.
-   * @param validate        <code>true</code> <=> Validates the document if possible.
-   * @param xmlnamespaces   <code>true</code> <=> Recognize XML namespaces.
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
-   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
-   */
-  @Deprecated
-  public static Document readDocument( @NonNull InputStream input, boolean validate, boolean xmlnamespaces ) throws FailureException {
-    return readDocument( input, null, null, null, validate, xmlnamespaces, false );
-  }
-
-  /**
-   * Reads the content of the supplied File.
-   * 
-   * @param file            The File which provides the xml content. Not <code>null</code>.
-   * @param handler         The ErrorHandler to be used. Mabye <code>null</code>. 
-   * @param baseurl         A base URL used for the resolving process. Maybe <code>null</code>.
-   * @param resolver        Resolver for entities. Maybe <code>null</code>.
-   * @param validate        <code>true</code> <=> Validates the document if possible.
-   * @param xmlnamespaces   <code>true</code> <=> Recognize XML namespaces.
-   * @param xincludes       <code>true</code> <=> Recognize XML includes.
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
-   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
-   */
-  @Deprecated
-  public static Document readDocument( 
-    @NonNull File    file, 
-    ErrorHandler     handler,
-    URL              baseurl,
-    EntityResolver   resolver,
-    boolean          validate, 
-    boolean          xmlnamespaces, 
-    boolean          xincludes 
-  ) throws FailureException {
-    InputStream input = null;
-    try {
-      input = IoFunctions.newInputStream( file );
-      return readDocument( input, handler, baseurl, resolver, validate, xmlnamespaces, xincludes );
-    } finally {
-      MiscFunctions.close( input );
-    }
-  }
-
-  /**
-   * Reads the content of the supplied stream.
-   * 
-   * @param input           The stream which provides the xml content. Not <code>null</code>.
-   * @param handler         The ErrorHandler to be used. Maybe <code>null</code>.
-   * @param baseurl         A base URL used for the resolving process. Maybe <code>null</code>.
-   * @param resolver        Resolver for entities. Maybe <code>null</code>.
-   * @param validate        <code>true</code> <=> Validates the document if possible.
-   * @param xmlnamespaces   <code>true</code> <=> Recognize XML namespaces.
-   * @param xincludes       <code>true</code> <=> Recognize XML includes (only supported with JRE 1.7+).
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   * 
-   * @deprecated [07-Aug-2015:KASI]   This function will be removed with version 1.9 . 
-   *                                  Use {@link #readDocument(InputStream, XmlParserConfiguration)} instead.
-   */
-  @Deprecated
-  public static Document readDocument( 
-    @NonNull InputStream    input, 
-    ErrorHandler            handler,
-    URL                     baseurl,
-    EntityResolver          resolver,
-    boolean                 validate, 
-    boolean                 xmlnamespaces, 
-    boolean                 xincludes 
-  ) throws FailureException {
-    XmlParserConfiguration config = XmlParserConfiguration.builder()
-        .handler( handler )
-        .baseurl( baseurl )
-        .resolver( resolver )
-        .validate( validate )
-        .xmlnamespaces( xmlnamespaces )
-        .xincludes( xincludes )
-        .build();
-    return readDocument( input, config );
-  }
-  
-  /**
    * Reads the content of the supplied stream.
    * 
    * @param input    The stream which provides the xml content. Not <code>null</code>.
@@ -202,6 +89,48 @@ public final class XmlFunctions {
       throw FailureCode.XmlFailure.newException( ex );
     }
     return result;
+  }
+
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param uri      The resource which provides the xml content. Not <code>null</code>.
+   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull URI uri, @NonNull XmlParserConfiguration config ) throws FailureException {
+    return IoFunctions.forInputStreamDo( uri, config, XmlFunctions::readDocument );
+  }
+
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param path     The path which provides the xml content. Not <code>null</code>.
+   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull Path path, @NonNull XmlParserConfiguration config ) throws FailureException {
+    return IoFunctions.forInputStreamDo( path, config, XmlFunctions::readDocument );
+  }
+  
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param file     The file which provides the xml content. Not <code>null</code>.
+   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull File file, @NonNull XmlParserConfiguration config ) throws FailureException {
+    return IoFunctions.forInputStreamDo( file, config, XmlFunctions::readDocument );
   }
   
   /**

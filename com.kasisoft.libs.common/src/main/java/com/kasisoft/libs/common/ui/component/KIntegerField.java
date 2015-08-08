@@ -4,13 +4,13 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.ui.event.*;
 
-import com.kasisoft.libs.common.validation.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
 
 import javax.swing.event.*;
+
+import java.util.function.Predicate;
 
 /**
  * Field used to support numerical values only.
@@ -266,7 +266,7 @@ public class KIntegerField extends KFilteringTextField {
    * Implementation of custom behaviour.
    */
   @SuppressWarnings("deprecation")
-  private class LocalBehaviour implements ValidationConstraint<String>, DocumentListener {
+  private class LocalBehaviour implements Predicate<String>, DocumentListener {
 
     KIntegerField    pthis;
     

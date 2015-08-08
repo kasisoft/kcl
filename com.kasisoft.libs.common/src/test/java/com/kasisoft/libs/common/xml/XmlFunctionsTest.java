@@ -28,7 +28,6 @@ import lombok.experimental.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
-@SuppressWarnings("deprecation")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlFunctionsTest {
   
@@ -48,12 +47,22 @@ public class XmlFunctionsTest {
 
   @Test(expectedExceptions=FailureException.class)
   public void readDocumentFailure() {
-    XmlFunctions.readDocument( testfile, true, true );
+    XmlParserConfiguration config = XmlParserConfiguration
+      .builder()
+      .validate( true )
+      .xmlnamespaces( true )
+      .build();
+    XmlFunctions.readDocument( testfile, config );
   }
   
   @Test
   public void readDocument() {
-    Document document = XmlFunctions.readDocument( simplexml, false, true );
+    XmlParserConfiguration config = XmlParserConfiguration
+      .builder()
+      .validate( false )
+      .xmlnamespaces( true )
+      .build();
+    Document document = XmlFunctions.readDocument( simplexml, config );
     assertThat( document, is( notNullValue() ) );
     assertThat( document.getDocumentElement(), is( notNullValue() ) );
     assertThat( document.getDocumentElement().getTagName(), is( "bookstore" ) );
@@ -61,10 +70,15 @@ public class XmlFunctionsTest {
 
   @Test(dependsOnMethods="readDocument")
   public void writeDocument() {
-    Document document = XmlFunctions.readDocument( simplexml, false, true );
+    XmlParserConfiguration config = XmlParserConfiguration
+      .builder()
+      .validate( false )
+      .xmlnamespaces( true )
+      .build();
+    Document document = XmlFunctions.readDocument( simplexml, config );
     XmlFunctions.writeDocument( tempfile, document, Encoding.ISO88591 );
     assertTrue( tempfile.isFile() );
-    Document reloaded = XmlFunctions.readDocument( tempfile, false, true );
+    Document reloaded = XmlFunctions.readDocument( tempfile, config );
     assertThat( reloaded, is( notNullValue() ) );
     assertThat( reloaded.getDocumentElement(), is( notNullValue() ) );
     assertThat( reloaded.getDocumentElement().getTagName(), is( "bookstore" ) );
@@ -103,7 +117,13 @@ public class XmlFunctionsTest {
     Transformer           transformer = XmlFunctions.newTransformer( simplexsl );
     assertNotNull( transformer );
     
-    Document              document    = XmlFunctions.readDocument( simplexml, false, true );
+    XmlParserConfiguration config = XmlParserConfiguration
+      .builder()
+      .validate( false )
+      .xmlnamespaces( true )
+      .build();
+    
+    Document              document    = XmlFunctions.readDocument( simplexml, config );
     ByteArrayOutputStream byteout     = new ByteArrayOutputStream();
     StreamResult          streamres   = new StreamResult( byteout );
     transformer.transform( new DOMSource( document ), streamres );
