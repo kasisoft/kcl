@@ -6,8 +6,9 @@ import lombok.experimental.*;
 
 import lombok.*;
 
-import java.util.*;
 import java.util.function.*;
+
+import java.util.*;
 
 /**
  * Simple adapter implementation which is <code>null</code> safe and allows to convert datatypes if possible. 

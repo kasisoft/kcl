@@ -21,8 +21,9 @@ import javax.swing.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import java.util.*;
 import java.util.function.*;
+
+import java.util.*;
 
 import java.text.*;
 
