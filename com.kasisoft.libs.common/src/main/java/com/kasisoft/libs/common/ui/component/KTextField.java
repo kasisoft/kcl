@@ -2,14 +2,15 @@ package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.workspace.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.*;
 
 import java.awt.event.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Initializes this component.

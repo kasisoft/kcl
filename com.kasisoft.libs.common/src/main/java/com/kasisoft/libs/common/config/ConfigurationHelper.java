@@ -4,12 +4,13 @@ import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.regex.*;
 
 import java.util.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * A helper which allows to deal with the configuration properties.

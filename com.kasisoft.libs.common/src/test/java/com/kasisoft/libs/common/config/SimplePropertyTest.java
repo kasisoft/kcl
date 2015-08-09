@@ -3,19 +3,21 @@ package com.kasisoft.libs.common.config;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.xml.adapters.*;
-
 import org.testng.annotations.*;
 
 import org.testng.*;
 
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.xml.adapters.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the class 'SimpleProperty'.

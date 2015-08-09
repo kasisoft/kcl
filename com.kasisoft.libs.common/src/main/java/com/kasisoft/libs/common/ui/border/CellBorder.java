@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.ui.border;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.border.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * The CellBorder is similar to the borders known from spreadsheets where each edge can be selectively enabled.

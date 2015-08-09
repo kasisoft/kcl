@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.util;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.*;
 

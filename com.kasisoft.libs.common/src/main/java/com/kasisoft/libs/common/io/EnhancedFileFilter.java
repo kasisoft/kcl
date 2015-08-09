@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.io;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * FileFilter implementation which is capable to be used with the standard File class as well as with the JFileChooser 

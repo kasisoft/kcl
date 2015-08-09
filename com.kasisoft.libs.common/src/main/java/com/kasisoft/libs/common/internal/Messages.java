@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.internal;
 
 import com.kasisoft.libs.common.i18n.*;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of messages that could be overridden if necessary.

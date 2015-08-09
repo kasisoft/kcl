@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.ui.event;
 
-import javax.swing.event.*;
-
 import lombok.*;
+
+import javax.swing.event.*;
 
 /**
  * Default implementation of TableColumnModelListener.

@@ -4,9 +4,9 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.*;
-
 import org.testng.annotations.*;
+
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * Testcases for the class 'NetFunctions'.

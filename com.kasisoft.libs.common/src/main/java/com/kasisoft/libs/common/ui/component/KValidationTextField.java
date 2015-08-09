@@ -12,7 +12,7 @@ import javax.swing.text.*;
 
 import javax.swing.*;
 
-import java.util.function.Predicate;
+import java.util.function.*;
 
 import java.awt.*;
 

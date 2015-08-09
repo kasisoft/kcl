@@ -1,7 +1,12 @@
 package com.kasisoft.libs.common.util;
 
-import com.kasisoft.libs.common.config.*;
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.config.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.regex.*;
 
@@ -10,9 +15,6 @@ import java.util.*;
 import java.net.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Helper class which allows to resolve properties from the classpath.

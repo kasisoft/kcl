@@ -1,9 +1,16 @@
 package com.kasisoft.libs.common.workspace;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
+
 import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.base.*;
+
 import com.kasisoft.libs.common.xml.adapters.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
@@ -12,9 +19,6 @@ import java.net.*;
 import java.awt.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * The Workspace allows to store various configuration information during the runtime.

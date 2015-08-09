@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.base;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Specialisation of the RuntimeException which provides a numerical code which allows to handle this exception in a 

@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.ui.event;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.*;
 
 import java.util.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * This event informs about the validation of a component.

@@ -5,11 +5,11 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import java.util.*;
+import lombok.experimental.*;
 
 import lombok.*;
 
-import lombok.experimental.*;
+import java.util.*;
 
 /**
  * Tests for the type 'DateAdapter'.

@@ -1,15 +1,18 @@
 package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.base.*;
+
 import com.kasisoft.libs.common.io.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.zip.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * A Runnable that is used to ZIP a directory.

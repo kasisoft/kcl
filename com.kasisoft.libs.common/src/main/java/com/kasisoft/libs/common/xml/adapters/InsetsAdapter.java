@@ -2,9 +2,9 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
-import java.awt.*;
-
 import lombok.*;
+
+import java.awt.*;
 
 /**
  * Adapter used to convert a String into a Insets and vice versa.

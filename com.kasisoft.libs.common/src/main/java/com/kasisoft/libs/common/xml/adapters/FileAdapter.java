@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
-import java.io.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.io.*;
 
 /**
  * Simple adapter for File types.

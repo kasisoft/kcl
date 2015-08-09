@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
-import java.util.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * Collection of iso-3166 codes.

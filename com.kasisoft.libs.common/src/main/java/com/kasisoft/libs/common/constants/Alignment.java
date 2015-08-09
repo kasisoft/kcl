@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.constants;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import javax.swing.*;
+import javax.swing.border.*;
 
 /**
  * Values to specify an alignment.

@@ -2,14 +2,15 @@ package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.io.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.regex.*;
 
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Implementation allowing to traverse a directory structure.

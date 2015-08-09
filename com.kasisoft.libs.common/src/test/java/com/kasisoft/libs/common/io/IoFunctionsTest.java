@@ -4,19 +4,21 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.test.framework.*;
-
 import org.testng.annotations.*;
 
 import org.testng.*;
 
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.test.framework.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the class 'IoFunctions'.

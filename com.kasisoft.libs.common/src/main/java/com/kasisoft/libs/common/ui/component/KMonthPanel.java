@@ -2,35 +2,34 @@ package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.constants.*;
 
+import com.kasisoft.libs.common.util.*;
+
 import com.kasisoft.libs.common.ui.model.*;
 
-import com.kasisoft.libs.common.ui.*;
 import com.kasisoft.libs.common.ui.event.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.ui.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
-import javax.swing.border.*;
+import javax.swing.table.*;
 
 import javax.swing.event.*;
 
-import javax.swing.table.*;
-
 import javax.swing.*;
+import javax.swing.border.*;
+
+import java.util.*;
+import java.util.function.*;
 
 import java.text.*;
 
-import java.util.*;
-import java.util.function.Predicate;
-
 import java.awt.event.*;
 
-import java.awt.geom.*;
-
 import java.awt.*;
+import java.awt.geom.*;
 
 /**
  * This panel shows a single month within a specific year. It allows to select a specific day.

@@ -6,13 +6,13 @@ import com.kasisoft.libs.common.util.*;
 
 import com.kasisoft.libs.common.xml.adapters.*;
 
-import java.util.*;
-
-import java.io.*;
+import lombok.experimental.*;
 
 import lombok.*;
 
-import lombok.experimental.*;
+import java.util.*;
+
+import java.io.*;
 
 /**
  * Listing of system properties used to be accessed.

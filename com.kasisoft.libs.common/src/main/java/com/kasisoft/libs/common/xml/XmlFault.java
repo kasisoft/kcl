@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Simple datastructure representing a fault within a xml document.

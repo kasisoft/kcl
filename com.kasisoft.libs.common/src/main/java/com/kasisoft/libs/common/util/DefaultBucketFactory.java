@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.base.*;
 
-import java.lang.reflect.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.lang.reflect.*;
 
 /**
  * Default implementation of a BucketFactory.

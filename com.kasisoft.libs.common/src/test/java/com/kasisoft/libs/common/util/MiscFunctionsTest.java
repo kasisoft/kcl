@@ -4,19 +4,19 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
+import org.testng.annotations.*;
+
 import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.sys.*;
 
-import org.testng.annotations.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-
-import lombok.experimental.*;
 
 /**
  * Test for various functions of the class 'MiscFunctions'.

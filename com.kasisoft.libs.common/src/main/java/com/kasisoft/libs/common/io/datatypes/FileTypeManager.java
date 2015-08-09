@@ -1,16 +1,20 @@
 package com.kasisoft.libs.common.io.datatypes;
 
-import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.base.*;
+
 import com.kasisoft.libs.common.spi.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
 import java.net.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Management for file type recognizers.

@@ -3,11 +3,11 @@ package com.kasisoft.libs.common.constants;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.util.*;
+import org.testng.annotations.*;
 
 import com.kasisoft.libs.common.config.*;
 
-import org.testng.annotations.*;
+import com.kasisoft.libs.common.util.*;
 
 import lombok.experimental.*;
 

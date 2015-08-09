@@ -1,7 +1,12 @@
 package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.constants.*;
+
 import com.kasisoft.libs.common.ui.event.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import javax.swing.event.*;
 
@@ -10,9 +15,6 @@ import javax.swing.*;
 import java.awt.event.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * A JSplitPane like variety that supports more than two parts.

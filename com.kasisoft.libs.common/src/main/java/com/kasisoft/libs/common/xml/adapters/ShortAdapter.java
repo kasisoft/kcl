@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Simple adapter for short types.

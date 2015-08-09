@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.thread;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Basic implementation for a Runnable.

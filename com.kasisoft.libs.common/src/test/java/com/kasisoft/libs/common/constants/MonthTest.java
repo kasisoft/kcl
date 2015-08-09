@@ -9,9 +9,9 @@ import lombok.experimental.*;
 
 import lombok.*;
 
-import java.text.*;
-
 import java.util.*;
+
+import java.text.*;
 
 /**
  * Tests for the class 'Month'.

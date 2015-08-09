@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.constants.*;
 
+import lombok.*;
+
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
 
 /**
  * A Runnable implementation used to delete a file.

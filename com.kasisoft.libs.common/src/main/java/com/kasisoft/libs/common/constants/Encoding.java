@@ -1,7 +1,12 @@
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.base.*;
+
 import com.kasisoft.libs.common.io.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
@@ -10,10 +15,7 @@ import java.net.*;
 import java.io.*;
 
 import java.nio.charset.*;
-import java.nio.file.Path;
-
-import lombok.*;
-import lombok.experimental.*;
+import java.nio.file.*;
 
 /**
  * Collection of supported encodings.

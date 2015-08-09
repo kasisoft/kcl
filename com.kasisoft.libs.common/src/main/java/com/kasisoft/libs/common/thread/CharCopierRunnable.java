@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 
-import java.io.*;
+import com.kasisoft.libs.common.base.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.io.*;
 
 /**
  * A Runnable which is used to copy data from a Reader to a Writer.

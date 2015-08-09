@@ -1,26 +1,27 @@
 package com.kasisoft.libs.common.util;
 
-import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.sys.*;
 
-import java.text.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.regex.*;
 
 import java.util.*;
 import java.util.Date;
 
-import java.io.*;
+import java.text.*;
 
 import java.lang.reflect.*;
+
+import java.io.*;
+
 import java.sql.*;
-
-import lombok.*;
-
-import lombok.experimental.*;
 
 /**
  * Collection of various functions.

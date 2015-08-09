@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
 
-import java.net.*;
-
 import lombok.experimental.*;
+
 import lombok.*;
+
+import java.net.*;
 
 /**
  * Simple POJO used to configure an xml parser. 

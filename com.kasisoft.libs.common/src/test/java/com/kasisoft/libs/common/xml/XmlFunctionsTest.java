@@ -4,23 +4,27 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.test.framework.*;
-
 import org.testng.annotations.*;
 
 import org.w3c.dom.*;
+
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.base.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import com.kasisoft.libs.common.test.framework.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the class 'XmlFunctions'.

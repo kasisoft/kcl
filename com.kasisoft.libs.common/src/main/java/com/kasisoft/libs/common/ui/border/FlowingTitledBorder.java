@@ -2,14 +2,15 @@ package com.kasisoft.libs.common.ui.border;
 
 import com.kasisoft.libs.common.constants.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * The FlowingTitledBorder also allows to display a title where this title is backgrounded by a flow changing one color 

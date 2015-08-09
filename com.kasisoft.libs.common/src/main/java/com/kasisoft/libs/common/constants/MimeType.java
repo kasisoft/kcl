@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
-import java.util.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * @ks.spec [30-Sep-2014:KASI]    http://de.selfhtml.org/diverses/mimetypen.htm

@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.config.*;
+
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.io.*;

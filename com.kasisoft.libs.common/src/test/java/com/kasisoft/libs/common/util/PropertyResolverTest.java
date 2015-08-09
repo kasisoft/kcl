@@ -4,14 +4,15 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.*;
-
 import org.testng.annotations.*;
 
-import java.util.*;
+import com.kasisoft.libs.common.constants.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * Test for the class 'PropertyResolver'

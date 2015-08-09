@@ -2,12 +2,13 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.regex.*;
 
 import java.util.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.

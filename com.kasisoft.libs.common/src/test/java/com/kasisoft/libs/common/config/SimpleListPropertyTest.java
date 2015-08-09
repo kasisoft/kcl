@@ -4,17 +4,18 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
+import org.testng.annotations.*;
+
 import com.kasisoft.libs.common.xml.adapters.*;
 
-import org.testng.annotations.Test;
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 import java.util.List;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the class 'SimpleListProperty'.

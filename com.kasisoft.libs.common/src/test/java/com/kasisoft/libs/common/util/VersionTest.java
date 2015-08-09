@@ -5,9 +5,9 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import java.text.*;
-
 import java.util.*;
+
+import java.text.*;
 
 /**
  * Tests for the class 'Version'.

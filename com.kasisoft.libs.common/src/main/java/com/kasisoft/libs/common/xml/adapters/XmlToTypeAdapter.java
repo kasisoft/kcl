@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import javax.xml.bind.annotation.adapters.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import javax.xml.bind.annotation.adapters.*;
 
 /**
  * A simple helper class which allows to use the TypeAdapter implementations in an XML context.

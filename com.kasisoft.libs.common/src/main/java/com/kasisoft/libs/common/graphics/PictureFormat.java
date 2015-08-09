@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.constants.*;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of constants used to identify image formats.

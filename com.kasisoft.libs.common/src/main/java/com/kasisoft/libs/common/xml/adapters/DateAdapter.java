@@ -2,12 +2,13 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
-import java.text.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
-import lombok.*;
-import lombok.experimental.*;
+import java.text.*;
 
 /**
  * An adapter used to convert a Date into a String and vice versa.

@@ -1,19 +1,22 @@
 package com.kasisoft.libs.common.i18n;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
+
 import com.kasisoft.libs.common.util.*;
 
+import com.kasisoft.libs.common.base.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
+
+import java.lang.reflect.*;
 
 import java.net.*;
 
 import java.io.*;
-
-import java.lang.reflect.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * A helper which initializes the translations managed by a class. Each translation class is supposed to provide fields

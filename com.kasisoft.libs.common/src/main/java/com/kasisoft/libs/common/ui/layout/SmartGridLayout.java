@@ -2,12 +2,13 @@ package com.kasisoft.libs.common.ui.layout;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * The <code>SmartGridLayout</code> has nearly the same functionality as it's superclass <code>GridLayout</code>. The 

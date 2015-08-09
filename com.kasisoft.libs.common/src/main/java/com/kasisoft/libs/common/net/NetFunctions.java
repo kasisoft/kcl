@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.net;
 
 import com.kasisoft.libs.common.io.*;
 
+import lombok.*;
+
 import java.net.*;
 
 import java.io.*;
-
-import lombok.*;
 
 /**
  * Collection of net related helper functions.

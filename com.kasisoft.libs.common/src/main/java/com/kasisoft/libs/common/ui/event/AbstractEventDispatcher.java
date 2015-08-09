@@ -2,12 +2,13 @@ package com.kasisoft.libs.common.ui.event;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.*;
 
 import java.util.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Basic implementation of a dispatcher for various Swing UI events.

@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.ui.event;
 
-import java.awt.event.*;
-
 import lombok.*;
+
+import java.awt.event.*;
 
 /**
  * Basic implementation of a dispatcher for KeyEvent's. Listeners called using this dispatcher will be executed within 

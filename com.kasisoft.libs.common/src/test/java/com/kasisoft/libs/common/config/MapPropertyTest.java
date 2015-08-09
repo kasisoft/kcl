@@ -4,9 +4,9 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.xml.adapters.*;
-
 import org.testng.annotations.*;
+
+import com.kasisoft.libs.common.xml.adapters.*;
 
 import lombok.experimental.*;
 

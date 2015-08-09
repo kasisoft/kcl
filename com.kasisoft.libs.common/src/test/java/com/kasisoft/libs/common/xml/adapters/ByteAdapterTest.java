@@ -5,8 +5,9 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Tests for the type 'ByteAdapter'.

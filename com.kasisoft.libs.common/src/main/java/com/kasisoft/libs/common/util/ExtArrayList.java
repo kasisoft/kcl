@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.util;
 
-import java.util.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * ArrayList variety which can handle negative indices. So an index of -1 points to the last element. An index of -2 

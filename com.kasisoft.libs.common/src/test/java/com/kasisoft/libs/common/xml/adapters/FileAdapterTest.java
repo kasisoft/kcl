@@ -3,14 +3,15 @@ package com.kasisoft.libs.common.xml.adapters;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.test.framework.*;
-
 import org.testng.annotations.*;
 
-import java.io.*;
+import com.kasisoft.libs.common.test.framework.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.io.*;
 
 /**
  * Tests for the type 'FileAdapter'.

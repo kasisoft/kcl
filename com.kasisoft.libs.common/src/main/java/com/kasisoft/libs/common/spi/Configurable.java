@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.spi;
 
 import com.kasisoft.libs.common.base.*;
 
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Each implementor allows to be configured after being setup.

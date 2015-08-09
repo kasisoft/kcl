@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.sys;
 
-import java.security.*;
-
 import lombok.*;
+
+import java.security.*;
 
 /**
  * System specific functions.

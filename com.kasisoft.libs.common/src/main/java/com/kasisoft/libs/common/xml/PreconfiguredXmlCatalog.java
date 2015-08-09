@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.base.*;
 
-import java.net.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.net.*;
 
 /**
  * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 

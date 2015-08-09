@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.constants;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of HTTP stastus codes.

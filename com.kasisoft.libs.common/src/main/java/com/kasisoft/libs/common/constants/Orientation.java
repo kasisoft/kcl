@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
-import javax.swing.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import javax.swing.*;
 
 /**
  * Constants used to specify orientations for various purposes.

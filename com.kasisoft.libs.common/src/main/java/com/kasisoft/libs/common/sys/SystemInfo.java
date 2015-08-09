@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.sys;
 
 import com.kasisoft.libs.common.constants.*;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Simple class that provides some system related informations.

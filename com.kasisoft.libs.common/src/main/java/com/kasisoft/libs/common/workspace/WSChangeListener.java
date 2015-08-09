@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.workspace;
 
 import com.kasisoft.libs.common.config.*;
 
-import javax.swing.event.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import javax.swing.event.*;
 
 /**
  * A basic ChangeListener implementation which stores the settings of a source object to the Workspace.

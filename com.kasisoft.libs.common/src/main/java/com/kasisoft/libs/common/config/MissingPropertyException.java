@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.config;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Exception type that indicates that a required property is missing.

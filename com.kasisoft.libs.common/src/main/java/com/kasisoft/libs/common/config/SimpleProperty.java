@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.xml.adapters.*;
 
-import java.util.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following

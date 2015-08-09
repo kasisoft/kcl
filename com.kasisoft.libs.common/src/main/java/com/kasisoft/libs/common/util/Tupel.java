@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.util;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).

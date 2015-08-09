@@ -3,14 +3,15 @@ package com.kasisoft.libs.common.xml.adapters;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import org.testng.annotations.*;
 
-import java.text.*;
+import com.kasisoft.libs.common.util.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.text.*;
 
 /**
  * Tests for the type 'VersionAdapter'.

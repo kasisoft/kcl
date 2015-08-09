@@ -2,13 +2,14 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 import java.util.function.*;
 
 import java.lang.ref.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Declarations used to identify primitive types.

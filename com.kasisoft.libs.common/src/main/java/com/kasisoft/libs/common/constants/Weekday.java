@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.constants;
 
-import java.text.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
-import lombok.*;
-import lombok.experimental.*;
+import java.text.*;
 
 /**
  * Constants used to describe a weekday.

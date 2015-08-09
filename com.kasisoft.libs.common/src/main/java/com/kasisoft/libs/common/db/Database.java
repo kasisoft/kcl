@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.db;
 
-import java.sql.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.sql.*;
 
 /**
  * Simple wrapper for various database types.

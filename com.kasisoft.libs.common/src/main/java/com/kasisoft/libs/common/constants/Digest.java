@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.base.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.security.*;
 
 import java.util.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Collection of supported MessageDigest implementations.

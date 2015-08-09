@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 
+import lombok.*;
+
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
 
 /**
  * Collection of functions useful in conjunction with arrays.

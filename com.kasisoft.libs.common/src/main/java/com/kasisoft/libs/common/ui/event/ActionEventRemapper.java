@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.ui.event;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.*;
 
 import java.awt.event.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Specialisation of a dispatcher which allows to change the 'source' of an ActionEvent. This listener implementation 

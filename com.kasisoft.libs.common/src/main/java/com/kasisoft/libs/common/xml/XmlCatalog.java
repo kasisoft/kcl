@@ -1,11 +1,18 @@
 package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.util.*;
+import org.xml.sax.*;
 
 import org.w3c.dom.ls.*;
-import org.xml.sax.*;
+
+import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.base.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -15,9 +22,6 @@ import java.util.*;
 import java.net.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Basic data structure used to store entity ids together with the urls.

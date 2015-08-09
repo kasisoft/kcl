@@ -4,17 +4,16 @@ import static javax.swing.BorderFactory.*;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.ui.border.*;
-
 import com.kasisoft.libs.common.ui.layout.*;
+
+import com.kasisoft.libs.common.ui.border.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
-import javax.swing.border.*;
-
 import javax.swing.*;
+import javax.swing.border.*;
 
 import java.awt.*;
 

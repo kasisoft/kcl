@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.util;
 
-import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.internal.charsequence.*;
+
+import com.kasisoft.libs.common.constants.*;
+
 import com.kasisoft.libs.common.io.*;
+
+import lombok.*;
 
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
 
 /**
  * Collection of functions used for String processing. Whenever an api uses a CharSequence as a type it's safe to

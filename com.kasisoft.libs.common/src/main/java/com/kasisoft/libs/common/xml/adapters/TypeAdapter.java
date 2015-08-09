@@ -2,12 +2,12 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
-import java.util.*;
-import java.util.function.*;
+import lombok.experimental.*;
 
 import lombok.*;
 
-import lombok.experimental.*;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * Simple adapter implementation which is <code>null</code> safe and allows to convert datatypes if possible. 

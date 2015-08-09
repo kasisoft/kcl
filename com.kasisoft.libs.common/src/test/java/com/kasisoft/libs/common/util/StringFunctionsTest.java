@@ -4,10 +4,11 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.test.framework.*;
-
 import org.testng.annotations.*;
+
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.test.framework.*;
 
 import java.util.*;
 

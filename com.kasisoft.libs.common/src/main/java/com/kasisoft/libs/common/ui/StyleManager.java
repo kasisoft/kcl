@@ -6,9 +6,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
-import javax.swing.border.*;
-
 import javax.swing.*;
+import javax.swing.border.*;
 
 import java.util.*;
 

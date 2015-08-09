@@ -2,12 +2,13 @@ package com.kasisoft.libs.common.workspace;
 
 import com.kasisoft.libs.common.config.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.awt.event.*;
 
 import java.awt.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * A ComponentListener implementation which stores the settings of a Component to the Workspace.

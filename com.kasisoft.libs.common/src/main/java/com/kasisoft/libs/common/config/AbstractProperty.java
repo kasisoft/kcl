@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.util.*;
+
 import com.kasisoft.libs.common.xml.adapters.*;
 
-import java.util.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * Base type which allows to realize typed property values.

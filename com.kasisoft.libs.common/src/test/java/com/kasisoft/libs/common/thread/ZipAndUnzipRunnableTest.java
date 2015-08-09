@@ -2,19 +2,21 @@ package com.kasisoft.libs.common.thread;
 
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.test.framework.*;
-
 import org.testng.annotations.*;
 
 import org.testng.*;
 
+import com.kasisoft.libs.common.io.*;
+
+import com.kasisoft.libs.common.test.framework.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Test for the classes 'ZipRunnable' and 'UnzipRunnable'.

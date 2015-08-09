@@ -2,12 +2,13 @@ package com.kasisoft.libs.common.ui;
 
 import com.kasisoft.libs.common.workspace.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.*;
 
 import java.awt.event.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * A small extension to the {@link JFrame} which provides some helpful convenience functionalities.

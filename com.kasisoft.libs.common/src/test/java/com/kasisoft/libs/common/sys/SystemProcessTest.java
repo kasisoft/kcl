@@ -2,15 +2,17 @@ package com.kasisoft.libs.common.sys;
 
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.test.framework.*;
-
 import org.testng.annotations.*;
 
-import java.io.*;
+import com.kasisoft.libs.common.base.*;
+
+import com.kasisoft.libs.common.test.framework.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.io.*;
 
 /**
  * Test for the class 'SystemProcess'.

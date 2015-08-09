@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.base;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of failure codes.

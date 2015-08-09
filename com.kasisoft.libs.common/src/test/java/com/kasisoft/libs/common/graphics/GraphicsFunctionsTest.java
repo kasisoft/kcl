@@ -4,20 +4,23 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.io.*;
+import org.testng.annotations.*;
+
 import com.kasisoft.libs.common.sys.*;
+
+import com.kasisoft.libs.common.io.*;
+
 import com.kasisoft.libs.common.test.framework.*;
 
-import org.testng.annotations.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
 import java.awt.image.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the utility class 'GraphicsFunctions'.

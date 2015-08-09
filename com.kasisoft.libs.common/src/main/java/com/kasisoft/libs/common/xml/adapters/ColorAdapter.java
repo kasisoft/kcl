@@ -2,17 +2,19 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.base.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
-import java.awt.*;
-
 import java.lang.reflect.*;
 
-import lombok.*;
-import lombok.experimental.*;
+import java.awt.*;
 
 /**
  * Adapter used to convert a String into a Color and vice versa.

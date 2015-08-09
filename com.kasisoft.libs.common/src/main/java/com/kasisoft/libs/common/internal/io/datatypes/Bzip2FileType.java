@@ -2,13 +2,13 @@ package com.kasisoft.libs.common.internal.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.datatypes.*;
-
 import com.kasisoft.libs.common.util.*;
 
-import lombok.*;
+import com.kasisoft.libs.common.io.datatypes.*;
 
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * FileType for 'bzip2' files.

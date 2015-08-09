@@ -1,8 +1,12 @@
 package com.kasisoft.libs.common.graphics;
 
 import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.io.*;
+
 import com.kasisoft.libs.common.ui.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import lombok.*;
 
 import javax.swing.*;
 
@@ -15,8 +19,6 @@ import java.awt.image.*;
 import java.io.*;
 
 import java.nio.file.*;
-
-import lombok.*;
 
 /**
  * Several utility functions related to graphical operations.

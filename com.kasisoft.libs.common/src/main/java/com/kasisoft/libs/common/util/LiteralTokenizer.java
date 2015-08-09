@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.util;
 
-import java.util.*;
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 

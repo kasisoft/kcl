@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.util.*;
 
-import java.util.*;
+import com.kasisoft.libs.common.base.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise 

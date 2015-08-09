@@ -1,12 +1,20 @@
 package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.util.*;
+import org.xml.sax.*;
 
 import org.w3c.dom.*;
-import org.xml.sax.*;
+
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.base.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -15,15 +23,13 @@ import javax.xml.transform.stream.*;
 
 import java.util.*;
 
+import java.lang.reflect.*;
+
 import java.net.*;
 
 import java.io.*;
 
-import java.lang.reflect.*;
-import java.nio.file.Path;
-
-import lombok.*;
-import lombok.experimental.*;
+import java.nio.file.*;
 
 /**
  * Collection of xml related functions.

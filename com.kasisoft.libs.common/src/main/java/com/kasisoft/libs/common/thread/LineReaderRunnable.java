@@ -2,12 +2,13 @@ package com.kasisoft.libs.common.thread;
 
 import com.kasisoft.libs.common.base.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * A Runnable implementation which is used to load text lines from a Reader.

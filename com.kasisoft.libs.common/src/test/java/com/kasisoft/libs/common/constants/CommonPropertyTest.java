@@ -4,16 +4,17 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
+import org.testng.annotations.*;
+
 import com.kasisoft.libs.common.config.*;
 
-import org.testng.annotations.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Tests for the enumeration 'CommonProperty'.

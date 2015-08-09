@@ -2,9 +2,9 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
-import java.net.*;
-
 import lombok.*;
+
+import java.net.*;
 
 /**
  * Simple adapter for URL types.

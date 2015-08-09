@@ -3,15 +3,17 @@ package com.kasisoft.libs.common.xml.adapters;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.util.*;
-
 import org.testng.annotations.*;
 
-import java.awt.*;
+import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.base.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.awt.*;
 
 /**
  * Tests for the type 'InsetsAdapter'.

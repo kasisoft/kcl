@@ -2,14 +2,15 @@ package com.kasisoft.libs.common.ui;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 import java.util.List;
 
 import java.awt.*;
 import java.awt.geom.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Simple helper classes used to manage fonts.

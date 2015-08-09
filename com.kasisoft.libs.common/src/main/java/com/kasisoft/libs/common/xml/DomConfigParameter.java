@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.xml;
 
 import org.w3c.dom.*;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of parameters for the {@link DOMConfiguration} .

@@ -1,17 +1,19 @@
 package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.util.*;
-
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
+
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.util.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * Simple converter which allows to create flat representations of a XML document. This converter simply implements a 

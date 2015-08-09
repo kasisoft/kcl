@@ -1,13 +1,14 @@
 package com.kasisoft.libs.common.util;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.regex.*;
 
 import java.util.*;
 
 import java.io.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which means

@@ -3,12 +3,13 @@ package com.kasisoft.libs.common.xml.adapters;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import org.testng.annotations.*;
 
-import lombok.*;
+import com.kasisoft.libs.common.util.*;
+
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Tests for the type 'FloatAdapter'.

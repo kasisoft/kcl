@@ -3,14 +3,15 @@ package com.kasisoft.libs.common.io.datatypes;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.io.*;
-
 import org.testng.annotations.*;
 
-import java.net.*;
+import com.kasisoft.libs.common.io.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.net.*;
 
 /**
  * Tests for the class 'FileTypeManager'.

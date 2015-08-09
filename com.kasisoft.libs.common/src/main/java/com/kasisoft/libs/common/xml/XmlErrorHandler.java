@@ -1,13 +1,14 @@
 package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.libs.common.constants.*;
-
 import org.xml.sax.*;
 
-import java.util.*;
+import com.kasisoft.libs.common.constants.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
-import lombok.experimental.*;
+
+import java.util.*;
 
 /**
  * Default implementation of an ErrorHandler.

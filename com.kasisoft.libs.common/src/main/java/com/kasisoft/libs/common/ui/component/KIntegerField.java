@@ -10,7 +10,7 @@ import lombok.*;
 
 import javax.swing.event.*;
 
-import java.util.function.Predicate;
+import java.util.function.*;
 
 /**
  * Field used to support numerical values only.

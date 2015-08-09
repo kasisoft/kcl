@@ -1,14 +1,14 @@
 package com.kasisoft.libs.common.internal.charsequence;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.internal.*;
 
-import java.util.*;
+import com.kasisoft.libs.common.util.*;
+
+import lombok.experimental.*;
 
 import lombok.*;
 
-import lombok.experimental.*;
+import java.util.*;
 
 /**
  * Collection of facades that can be used for char sequence related operations.

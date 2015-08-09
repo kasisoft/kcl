@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.i18n;
 
-import lombok.*;
 import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Helper which provides formatting capabilities to a translation.

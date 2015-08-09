@@ -4,15 +4,16 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 import com.kasisoft.libs.common.base.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 import java.util.concurrent.*;
 
 import java.io.*;
 
 import java.nio.file.*;
-
-import lombok.*;
-import lombok.experimental.*;
 
 /**
  * This {@link Runnable} implementation allows to watch a directory for filesystem changes recursively.

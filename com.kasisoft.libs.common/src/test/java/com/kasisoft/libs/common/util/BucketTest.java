@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.*;
 
