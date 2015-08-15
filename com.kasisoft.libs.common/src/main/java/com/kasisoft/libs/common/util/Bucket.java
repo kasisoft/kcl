@@ -87,7 +87,7 @@ public class Bucket<T> {
    * 
    * @return   The return value of the supplied function. Maybe <code>null<code>.
    */
-  public <R> R withInstance( @NonNull Function<T,R> function ) {
+  public <R> R forInstance( @NonNull Function<T,R> function ) {
     T instance = allocate();
     try {
       return function.apply( instance );
@@ -101,7 +101,7 @@ public class Bucket<T> {
    * 
    * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
    */
-  public void withInstanceDo( Consumer<T> consumer ) {
+  public void forInstanceDo( Consumer<T> consumer ) {
     T instance = allocate();
     try {
       consumer.accept( instance );

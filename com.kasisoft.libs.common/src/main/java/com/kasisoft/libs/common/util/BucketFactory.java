@@ -32,7 +32,7 @@ public interface BucketFactory<T> {
    * 
    * @return   The return value of the supplied function. Maybe <code>null<code>.
    */
-  default <R> R withInstance( Function<T,R> function ) {
+  default <R> R forInstance( Function<T,R> function ) {
     T instance = create();
     try {
       return function.apply( instance );
@@ -46,7 +46,7 @@ public interface BucketFactory<T> {
    * 
    * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
    */
-  default void withInstanceDo( Consumer<T> consumer ) {
+  default void forInstanceDo( Consumer<T> consumer ) {
     T instance = create();
     try {
       consumer.accept( instance );
