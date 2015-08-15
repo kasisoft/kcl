@@ -108,7 +108,7 @@ public final class XmlFunctions {
    * @throws FailureException   Loading the xml content failed for some reason.
    */
   public static Document readDocument( @NonNull URI uri, @NonNull XmlParserConfiguration config ) throws FailureException {
-    return IoFunctions.forInputStreamDo( uri, config, XmlFunctions::readDocument );
+    return IoFunctions.forInputStream( uri, config, XmlFunctions::readDocument );
   }
 
   /**
@@ -122,7 +122,7 @@ public final class XmlFunctions {
    * @throws FailureException   Loading the xml content failed for some reason.
    */
   public static Document readDocument( @NonNull Path path, @NonNull XmlParserConfiguration config ) throws FailureException {
-    return IoFunctions.forInputStreamDo( path, config, XmlFunctions::readDocument );
+    return IoFunctions.forInputStream( path, config, XmlFunctions::readDocument );
   }
   
   /**
@@ -136,7 +136,7 @@ public final class XmlFunctions {
    * @throws FailureException   Loading the xml content failed for some reason.
    */
   public static Document readDocument( @NonNull File file, @NonNull XmlParserConfiguration config ) throws FailureException {
-    return IoFunctions.forInputStreamDo( file, config, XmlFunctions::readDocument );
+    return IoFunctions.forInputStream( file, config, XmlFunctions::readDocument );
   }
   
   /**

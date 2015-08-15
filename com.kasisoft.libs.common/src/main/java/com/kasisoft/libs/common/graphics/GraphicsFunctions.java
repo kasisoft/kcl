@@ -41,7 +41,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull File file ) {
-    return IoFunctions.forInputStreamDo( file, GraphicsFunctions::readImage );
+    return IoFunctions.forInputStream( file, GraphicsFunctions::readImage );
   }
 
   /**
@@ -52,7 +52,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull URL url ) {
-    return IoFunctions.forInputStreamDo( url, GraphicsFunctions::readImage );
+    return IoFunctions.forInputStream( url, GraphicsFunctions::readImage );
   }
 
   /**
@@ -63,7 +63,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull URI uri ) {
-    return IoFunctions.forInputStreamDo( uri, GraphicsFunctions::readImage );
+    return IoFunctions.forInputStream( uri, GraphicsFunctions::readImage );
   }
 
   /**
@@ -74,7 +74,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull Path path ) {
-    return IoFunctions.forInputStreamDo( path, GraphicsFunctions::readImage );
+    return IoFunctions.forInputStream( path, GraphicsFunctions::readImage );
   }
 
   /**
@@ -85,7 +85,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull String path ) {
-    return IoFunctions.forInputStreamDo( path, GraphicsFunctions::readImage );
+    return IoFunctions.forInputStream( path, GraphicsFunctions::readImage );
   }
 
   /**
@@ -111,7 +111,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URL url, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( url, outstream -> { writeImage( outstream, format, component ); return null; } );
+    IoFunctions.forOutputStreamDo( url, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -122,7 +122,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URI uri, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( uri, outstream -> { writeImage( outstream, format, component ); return null; } );
+    IoFunctions.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -133,7 +133,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull Path path, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> { writeImage( outstream, format, component ); return null; } );
+    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -144,7 +144,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( file, outstream -> { writeImage( outstream, format, component ); return null; } );
+    IoFunctions.forOutputStreamDo( file, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -155,7 +155,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull String path, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> { writeImage( outstream, format, component ); return null; } );
+    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -177,7 +177,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URL url, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( url, outstream -> { writeImage( outstream, format, image ); return null; } );
+    IoFunctions.forOutputStreamDo( url, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -188,7 +188,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URI uri, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( uri, outstream -> { writeImage( outstream, format, image ); return null; } );
+    IoFunctions.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -199,7 +199,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull Path path, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> { writeImage( outstream, format, image ); return null; } );
+    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -210,7 +210,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( file, outstream -> { writeImage( outstream, format, image ); return null; } );
+    IoFunctions.forOutputStreamDo( file, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -221,7 +221,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull String path, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> { writeImage( outstream, format, image ); return null; } );
+    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
