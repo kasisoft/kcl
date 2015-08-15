@@ -18,6 +18,8 @@ import lombok.*;
 
 import java.util.*;
 
+import java.nio.file.*;
+
 import java.io.*;
 
 /**
@@ -35,16 +37,18 @@ public class IoFunctionsTest {
   File   directory;
   File   unpackeddir;
   File   destfile;
+  Path   testdataAsPath;
   
   @BeforeTest
   public void setup() {
-    testdata      = Utilities.getTestdataDir();
-    destfile      = IoFunctions.newTempFile( "file-", ".zip" );
-    directory     = IoFunctions.newTempFile( "temp-" );
+    testdata        = Utilities.getTestdataDir();
+    destfile        = IoFunctions.newTempFile( "file-", ".zip" );
+    directory       = IoFunctions.newTempFile( "temp-" );
     directory.mkdirs();
-    unpackeddir   = IoFunctions.newTempFile( "temp-" );
+    unpackeddir     = IoFunctions.newTempFile( "temp-" );
     unpackeddir.mkdirs();
     Utilities.createFileSystemStructure( directory );
+    testdataAsPath  = Paths.get( testdata.toURI() );
   }
 
   @Test(groups="all")
@@ -378,6 +382,14 @@ public class IoFunctionsTest {
     assertThat( list3.size(), is( 7 ) );
 
   }
+  
+  @Test(groups="all")
+  public void listPathes() {
+    List<String> list  = IoFunctions.listPathes( testdataAsPath, (p,r) -> ! p.endsWith( "_svn" ) );
+    list.forEach( System.err::println );
+    assertThat( list.size(), is( 22 ) );
+  }
+  
   
   @Test(groups="all")
   public void zip() {

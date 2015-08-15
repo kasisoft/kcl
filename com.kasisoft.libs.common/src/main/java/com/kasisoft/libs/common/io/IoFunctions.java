@@ -18,14 +18,17 @@ import java.util.function.*;
 
 import java.util.regex.*;
 
-import java.util.*;
 import java.util.zip.*;
+
+import java.util.*;
 
 import java.net.*;
 
-import java.io.*;
+import java.nio.file.attribute.*;
 
 import java.nio.file.*;
+
+import java.io.*;
 
 /**
  * Collection of functions used for IO operations.
@@ -1153,6 +1156,35 @@ public class IoFunctions {
     return listRecursive( filter, true, true, dirs );
   }
 
+  /**
+   * Collects relative pathes.
+   * 
+   * @param start    The base path. Not <code>null</code>.
+   * @param filter   A filter used to accept the relative path. Maybe <code>null</code>. 
+   * 
+   * @return   A list of relative pathes. Not <code>null</code>.
+   */
+  public static List<String> listPathes( @NonNull Path start, BiFunction<Path,String,Boolean> filter ) {
+    try {
+      BiFunction<Path,String,Boolean> function = filter != null ? filter : (x,y) -> true;
+      List<String>                    result   = new ArrayList<>();
+      Files.walkFileTree( start, new SimpleFileVisitor<Path>() {
+        @Override 
+        public FileVisitResult visitFile( Path path, BasicFileAttributes attrs ) {
+          String  relative = start.relativize( path ).toString();
+          Boolean value    = function.apply( path, relative );
+          if( (value != null) && value.booleanValue() ) {
+            result.add( relative );
+          }
+          return FileVisitResult.CONTINUE;
+        }
+      });
+      return result;
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+  
   /**
    * Compresses the supplied directory into a zip file.
    *
