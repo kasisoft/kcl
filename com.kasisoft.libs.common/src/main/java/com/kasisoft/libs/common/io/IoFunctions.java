@@ -1130,13 +1130,7 @@ public class IoFunctions {
    * @return   The list which collects the filesystem entries. Not <code>null</code>.
    */
   public static List<File> listRecursive( @NonNull File dir, FileFilter filter, boolean includefiles, boolean includedirs ) {
-    List<File> result = new ArrayList<>();
-    if( filter == null ) {
-      filter = ACCEPT_ALL;
-    }
-    StringBuilder builder = new StringBuilder();
-    iterateFiles( filter, result, includefiles, includedirs, builder, dir );
-    return result;
+    return listRecursive( filter, includefiles, includedirs, dir );
   }
 
   /**
