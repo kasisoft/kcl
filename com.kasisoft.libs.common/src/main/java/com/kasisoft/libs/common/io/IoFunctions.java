@@ -120,7 +120,7 @@ public class IoFunctions {
    */
   public static InputStream newInputStream( @NonNull Path path ) {
     try {
-      return Files.newInputStream( path );
+      return new BufferedInputStream( Files.newInputStream( path ) );
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );
     }
@@ -1159,26 +1159,72 @@ public class IoFunctions {
   /**
    * Collects relative pathes.
    * 
+   * @param start   The base path. Not <code>null</code>.
+   * 
+   * @return   A list of relative pathes. Not <code>null</code>.
+   */
+  public static List<String> listPathes( @NonNull Path start ) {
+    return listPathes( start, null );
+  }
+  
+  /**
+   * Collects relative pathes.
+   * 
    * @param start    The base path. Not <code>null</code>.
    * @param filter   A filter used to accept the relative path. Maybe <code>null</code>. 
    * 
    * @return   A list of relative pathes. Not <code>null</code>.
    */
-  public static List<String> listPathes( @NonNull Path start, BiFunction<Path,String,Boolean> filter ) {
+  public static List<String> listPathes( @NonNull Path start, BiPredicate<Path,String> filter ) {
     try {
-      BiFunction<Path,String,Boolean> function = filter != null ? filter : (x,y) -> true;
-      List<String>                    result   = new ArrayList<>();
+      BiPredicate<Path,String> predicate = filter != null ? filter : (x,y) -> true;
+      List<String>             result    = new ArrayList<>();
       Files.walkFileTree( start, new SimpleFileVisitor<Path>() {
         @Override 
         public FileVisitResult visitFile( Path path, BasicFileAttributes attrs ) {
-          String  relative = start.relativize( path ).toString();
-          Boolean value    = function.apply( path, relative );
-          if( (value != null) && value.booleanValue() ) {
-            result.add( relative );
+          String relative = start.relativize( path ).toString();
+          if( predicate.test( path, relative ) ) {
+            result.add( relative.replace( '\\', '/' ) );
           }
           return FileVisitResult.CONTINUE;
         }
       });
+      return result;
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  /**
+   * Collects relative pathes within the supplied archive.
+   * 
+   * @param start    The base path. Not <code>null</code>.
+   * 
+   * @return   A list of relative pathes. Not <code>null</code>.
+   */
+  public static List<String> listPathesInZip( @NonNull Path start ) {
+    return listPathesInZip( start, null );
+  }
+  
+  /**
+   * Collects relative pathes within the supplied archive.
+   * 
+   * @param start    The base path. Not <code>null</code>.
+   * @param filter   A filter used to accept the relative path. Maybe <code>null</code>. 
+   * 
+   * @return   A list of relative pathes. Not <code>null</code>.
+   */
+  public static List<String> listPathesInZip( @NonNull Path start, BiPredicate<Path,ZipEntry> filter ) {
+    try( ZipFile zipfile = new ZipFile( new File( start.toUri() ) ) ) {
+      BiPredicate<Path,ZipEntry>      predicate = filter != null ? filter : (x,y) -> true;
+      List<String>                    result    = new ArrayList<>();
+      Enumeration<? extends ZipEntry> entries   = zipfile.entries();
+      while( entries.hasMoreElements() ) {
+        ZipEntry entry = entries.nextElement();
+        if( predicate.test( start, entry ) ) {
+          result.add( entry.getName().replace( '\\', '/' ) );
+        }
+      }
       return result;
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );
@@ -1896,11 +1942,11 @@ public class IoFunctions {
     forWriterDo( toPath( url ), null, context, consumer );
   }
   
-  private static Path toPath( URL url ) {
+  public static Path toPath( URL url ) {
     try {
       return Paths.get( url.toURI() );
     } catch( URISyntaxException ex ) {
-      throw FailureCode.IO.newException( ex );
+      throw FailureCode.ConversionFailure.newException( ex );
     }
   }
   
