@@ -1,11 +1,23 @@
 package com.kasisoft.libs.common.io.datatypes;
 
+import java.util.function.*;
+
 /**
  * A simple definition of characteristics used to identify file types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public interface FileType {
+public interface FileType extends Predicate<byte[]> {
+  
+  /**
+   * Returns <code>true</code> if the supplied data indicates to be of this type.
+   * 
+   * @param data   The data which has to be examined. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The data indicates this type.
+   */
+  @Override
+  boolean test( byte[] data );
   
   /**
    * Returns the minimum number of bytes needed to identify this type.
@@ -20,8 +32,13 @@ public interface FileType {
    * @param data   The data which has to be examined. Not <code>null</code>.
    * 
    * @return   <code>true</code> <=> The data indicates this type.
+   * 
+   * @deprecated   [23-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #test(byte[])} instead.
    */
-  boolean isOfType( byte[] data );
+  @Deprecated
+  default boolean isOfType( byte[] data ) {
+    return test( data );
+  }
   
   /**
    * Returns the mime type corresponding to this type instance.

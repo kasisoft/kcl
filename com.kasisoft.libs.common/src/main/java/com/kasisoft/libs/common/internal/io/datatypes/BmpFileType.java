@@ -26,8 +26,12 @@ public class BmpFileType implements FileType {
   }
 
   @Override
-  public boolean isOfType( byte[] data ) {
-    return ArrayFunctions.compare( data, MAGIC, 0 );
+  public boolean test( byte[] data ) {
+    if( getMinSize() <= data.length ) {
+      return ArrayFunctions.compare( data, MAGIC, 0 );
+    } else {
+      return false;
+    }
   }
 
   @Override

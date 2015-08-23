@@ -26,8 +26,12 @@ public class JpegFileType implements FileType {
   }
 
   @Override
-  public boolean isOfType( byte[] data ) {
-    return ArrayFunctions.compare( data, MAGIC, 6 );
+  public boolean test( byte[] data ) {
+    if( getMinSize() <= data.length ) {
+      return ArrayFunctions.compare( data, MAGIC, 6 );
+    } else {
+      return false;
+    }
   }
 
   @Override

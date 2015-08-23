@@ -19,8 +19,12 @@ public class GzipFileType implements FileType {
   }
 
   @Override
-  public boolean isOfType( byte[] data ) {
-    return ( ((data[1] << 8) | data[0]) & 0x0000FFFF ) == GZIPInputStream.GZIP_MAGIC;
+  public boolean test( byte[] data ) {
+    if( getMinSize() <= data.length ) {
+      return ( ((data[1] << 8) | data[0]) & 0x0000FFFF ) == GZIPInputStream.GZIP_MAGIC;
+    } else {
+      return false;
+    }
   }
 
   @Override

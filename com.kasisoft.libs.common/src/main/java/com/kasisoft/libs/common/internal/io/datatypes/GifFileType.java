@@ -27,8 +27,12 @@ public class GifFileType implements FileType {
   }
 
   @Override
-  public boolean isOfType( byte[] data ) {
-    return ArrayFunctions.compare( data, MAGIC1, 0 ) || ArrayFunctions.compare( data, MAGIC2, 0 );
+  public boolean test( byte[] data ) {
+    if( getMinSize() <= data.length ) {
+      return ArrayFunctions.compare( data, MAGIC1, 0 ) || ArrayFunctions.compare( data, MAGIC2, 0 );
+    } else {
+      return false;
+    }
   }
 
   @Override

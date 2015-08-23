@@ -87,9 +87,8 @@ public class FileTypeManager {
    */
   public FileType identify( @NonNull byte[] data ) {
     for( int i = 0; i < filetypes.size(); i++ ) {
-      FileType current = filetypes.get(i);
-      if( (current.getMinSize() <= data.length) && current.isOfType( data ) ) {
-        return current;
+      if( filetypes.get(i).test( data ) ) {
+        return filetypes.get(i);
       }
     }
     return null;

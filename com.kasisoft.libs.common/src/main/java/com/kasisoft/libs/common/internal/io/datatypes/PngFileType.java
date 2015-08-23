@@ -26,8 +26,12 @@ public class PngFileType implements FileType {
   }
 
   @Override
-  public boolean isOfType( byte[] data ) {
-    return ArrayFunctions.compare( data, MAGIC, 1 );
+  public boolean test( byte[] data ) {
+    if( getMinSize() <= data.length ) {
+      return ArrayFunctions.compare( data, MAGIC, 1 );
+    } else {
+      return false;
+    }
   }
 
   @Override
