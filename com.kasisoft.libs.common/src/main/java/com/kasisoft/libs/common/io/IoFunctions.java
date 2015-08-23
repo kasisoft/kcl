@@ -723,6 +723,20 @@ public class IoFunctions {
    * Reads some fragment of the supplied input.
    * 
    * @param input    The InputStream providing the content. Not <code>null</code>.
+   * @param length   The length of the data that has to be read starting with the first byte. 
+   * 
+   * @return   The fragment or at least the beginning part of the desired fragment.
+   * 
+   * @throws FailureException in case the fragment could not be read.
+   */
+  public static byte[] loadFragment( @NonNull InputStream input, int length ) {
+    return loadFragment( input, 0, length );
+  }
+  
+  /**
+   * Reads some fragment of the supplied input.
+   * 
+   * @param input    The InputStream providing the content. Not <code>null</code>.
    * @param offset   The location where to read the data.
    * @param length   The length of the data that has to be read. 
    * 
@@ -759,7 +773,11 @@ public class IoFunctions {
    * @return   The fragment or at least the beginning part of the desired fragment.
    * 
    * @throws FailureException in case the fragment could not be read.
+   * 
+   * @deprecated [23-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #loadFragment(InputStream, int, int)} 
+   *                                  in combination with {@link #forInputStream(File, Function)} instead.
    */
+  @Deprecated
   public static byte[] loadFragment( @NonNull File file, int offset, int length ) {
     InputStream input = null;
     try {
@@ -780,7 +798,11 @@ public class IoFunctions {
    * @return   The fragment or at least the beginning part of the desired fragment.
    * 
    * @throws FailureException in case the fragment could not be read.
+   * 
+   * @deprecated [23-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #loadFragment(InputStream, int, int)} 
+   *                                  in combination with {@link #forInputStream(URL, Function)} instead.
    */
+  @Deprecated
   public static byte[] loadFragment( @NonNull URL url, int offset, int length ) {
     InputStream input = null;
     try {
