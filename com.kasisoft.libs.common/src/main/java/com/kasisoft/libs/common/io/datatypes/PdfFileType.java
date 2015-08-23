@@ -1,24 +1,22 @@
-package com.kasisoft.libs.common.internal.io.datatypes;
+package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
-
-import com.kasisoft.libs.common.io.datatypes.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
 /**
- * FileType for 'zip' files.
+ * FileType for 'pdf' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ZipFileType implements FileType {
+public class PdfFileType implements FileType {
 
-  static final byte[] MAGIC = new byte[] { 'P', 'K', 3, 4 }; 
+  static final byte[] MAGIC = "%PDF".getBytes(); 
   
   @Override
   public int getMinSize() {
@@ -36,7 +34,7 @@ public class ZipFileType implements FileType {
 
   @Override
   public String getMimeType() {
-    return MimeType.Zip.getMimeType();
+    return MimeType.AdobePdf.getMimeType();
   }
 
   @Override
@@ -46,7 +44,7 @@ public class ZipFileType implements FileType {
 
   @Override
   public String getSuffix() {
-    return ".zip";
+    return ".pdf";
   }
 
 } /* ENDCLASS */

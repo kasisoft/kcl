@@ -1,28 +1,26 @@
-package com.kasisoft.libs.common.internal.io.datatypes;
+package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
-
-import com.kasisoft.libs.common.io.datatypes.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
 /**
- * FileType for '7z' files.
+ * FileType for 'bmp' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SevenZipFileType implements FileType {
+public class BmpFileType implements FileType {
 
-  static final byte[] MAGIC = new byte[] { (byte) 0x37, (byte) 0x7A, (byte) 0xBC, (byte) 0xAF, (byte) 0x27, (byte) 0x1C  }; 
+  static final byte[] MAGIC = "BM".getBytes(); 
   
   @Override
   public int getMinSize() {
-    return 6;
+    return 4;
   }
 
   @Override
@@ -36,17 +34,17 @@ public class SevenZipFileType implements FileType {
 
   @Override
   public String getMimeType() {
-    return MimeType.SevenZip.getMimeType();
+    return MimeType.Bitmap.getMimeType();
   }
 
   @Override
   public String toString() {
     return getMimeType();
   }
-
+  
   @Override
   public String getSuffix() {
-    return ".7z";
+    return ".bmp";
   }
-
+  
 } /* ENDCLASS */

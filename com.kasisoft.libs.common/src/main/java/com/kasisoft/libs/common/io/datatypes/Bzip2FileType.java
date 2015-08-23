@@ -1,27 +1,32 @@
-package com.kasisoft.libs.common.internal.io.datatypes;
+package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.datatypes.*;
+import com.kasisoft.libs.common.util.*;
 
-import java.util.zip.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
- * FileType for 'gzip' files.
+ * FileType for 'bzip2' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class GzipFileType implements FileType {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Bzip2FileType implements FileType {
 
+  static final byte[] MAGIC = "BZh".getBytes(); 
+  
   @Override
   public int getMinSize() {
-    return 2;
+    return 3;
   }
 
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ( ((data[1] << 8) | data[0]) & 0x0000FFFF ) == GZIPInputStream.GZIP_MAGIC;
+      return ArrayFunctions.compare( data, MAGIC, 0 );
     } else {
       return false;
     }
@@ -29,7 +34,7 @@ public class GzipFileType implements FileType {
 
   @Override
   public String getMimeType() {
-    return MimeType.GZip.getMimeType();
+    return MimeType.Bzip2.getMimeType();
   }
 
   @Override
@@ -39,7 +44,7 @@ public class GzipFileType implements FileType {
 
   @Override
   public String getSuffix() {
-    return ".gz";
+    return ".bz2";
   }
 
 } /* ENDCLASS */

@@ -1,24 +1,22 @@
-package com.kasisoft.libs.common.internal.io.datatypes;
+package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
-
-import com.kasisoft.libs.common.io.datatypes.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
 /**
- * FileType for 'bmp' files.
+ * FileType for 'png' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BmpFileType implements FileType {
+public class PngFileType implements FileType {
 
-  static final byte[] MAGIC = "BM".getBytes(); 
+  static final byte[] MAGIC = "PNG".getBytes(); 
   
   @Override
   public int getMinSize() {
@@ -28,7 +26,7 @@ public class BmpFileType implements FileType {
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ArrayFunctions.compare( data, MAGIC, 0 );
+      return ArrayFunctions.compare( data, MAGIC, 1 );
     } else {
       return false;
     }
@@ -36,17 +34,17 @@ public class BmpFileType implements FileType {
 
   @Override
   public String getMimeType() {
-    return MimeType.Bitmap.getMimeType();
+    return MimeType.Png.getMimeType();
   }
 
   @Override
   public String toString() {
     return getMimeType();
   }
-  
+
   @Override
   public String getSuffix() {
-    return ".bmp";
+    return ".png";
   }
-  
+
 } /* ENDCLASS */

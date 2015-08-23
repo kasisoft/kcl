@@ -1,35 +1,32 @@
-package com.kasisoft.libs.common.internal.io.datatypes;
+package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
-
-import com.kasisoft.libs.common.io.datatypes.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
 /**
- * FileType for 'gif' files.
+ * FileType for 'jpeg' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class GifFileType implements FileType {
+public class JpegFileType implements FileType {
 
-  static final byte[] MAGIC1 = "GIF87a".getBytes(); 
-  static final byte[] MAGIC2 = "GIF89a".getBytes();
+  static final byte[] MAGIC = "JFIF".getBytes(); 
   
   @Override
   public int getMinSize() {
-    return 6;
+    return 10;
   }
 
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ArrayFunctions.compare( data, MAGIC1, 0 ) || ArrayFunctions.compare( data, MAGIC2, 0 );
+      return ArrayFunctions.compare( data, MAGIC, 6 );
     } else {
       return false;
     }
@@ -37,7 +34,7 @@ public class GifFileType implements FileType {
 
   @Override
   public String getMimeType() {
-    return MimeType.Gif.getMimeType();
+    return MimeType.Jpeg.getMimeType();
   }
 
   @Override
@@ -47,7 +44,7 @@ public class GifFileType implements FileType {
 
   @Override
   public String getSuffix() {
-    return ".gif";
+    return ".jpg";
   }
 
 } /* ENDCLASS */

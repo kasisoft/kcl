@@ -1,34 +1,33 @@
-package com.kasisoft.libs.common.internal.io.datatypes;
+package com.kasisoft.libs.common.io.datatypes;
 
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
-
-import com.kasisoft.libs.common.io.datatypes.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
 /**
- * FileType for 'pdf' files.
+ * FileType for 'gif' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PdfFileType implements FileType {
+public class GifFileType implements FileType {
 
-  static final byte[] MAGIC = "%PDF".getBytes(); 
+  static final byte[] MAGIC1 = "GIF87a".getBytes(); 
+  static final byte[] MAGIC2 = "GIF89a".getBytes();
   
   @Override
   public int getMinSize() {
-    return 4;
+    return 6;
   }
 
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ArrayFunctions.compare( data, MAGIC, 0 );
+      return ArrayFunctions.compare( data, MAGIC1, 0 ) || ArrayFunctions.compare( data, MAGIC2, 0 );
     } else {
       return false;
     }
@@ -36,7 +35,7 @@ public class PdfFileType implements FileType {
 
   @Override
   public String getMimeType() {
-    return MimeType.AdobePdf.getMimeType();
+    return MimeType.Gif.getMimeType();
   }
 
   @Override
@@ -46,7 +45,7 @@ public class PdfFileType implements FileType {
 
   @Override
   public String getSuffix() {
-    return ".pdf";
+    return ".gif";
   }
 
 } /* ENDCLASS */
