@@ -43,14 +43,11 @@ public class IoFunctions {
   static final String WC1 = "([^/]+)";    // *
   static final String WC2 = "(.+)";       // **
 
-  public static final FileFilter ACCEPT_ALL = new FileFilter() {
-
-    @Override
-    public boolean accept( File pathname ) {
-      return true;
-    }
-    
-  };
+  /**
+   * @deprecated [29-Aug-2015:KASI]  Use Predicates#ACCEPT_ALL with version 2.0+ 
+   */
+  @Deprecated
+  public static final FileFilter ACCEPT_ALL = $ -> true;
   
   /**
    * Prevent instantiation.
