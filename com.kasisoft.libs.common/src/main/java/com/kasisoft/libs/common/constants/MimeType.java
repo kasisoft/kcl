@@ -123,8 +123,8 @@ public enum MimeType {
   
   private static class LocalData {
     
-    private static Map<String,MimeType>       valuebymimetype = new Hashtable<>();
-    private static Map<String,Set<MimeType>>  valuebysuffix   = new Hashtable<>();
+    static Map<String,MimeType>       valuebymimetype = new Hashtable<>();
+    static Map<String,Set<MimeType>>  valuebysuffix   = new Hashtable<>();
     
   } /* ENDCLASS */
   
