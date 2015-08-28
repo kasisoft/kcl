@@ -6,6 +6,8 @@ import com.kasisoft.libs.common.io.datatypes.*;
 
 import com.kasisoft.libs.common.io.*;
 
+import com.kasisoft.libs.common.data.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -30,25 +32,81 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClasspathIndexer {
 
-  Map<Path,Set<String>>   resources;
-  List<Path>              pathesAsList;
-  List<String>            asList;
+  Map<Path,Set<String>>               resources;
+  List<Path>                          pathesAsList;
+  List<String>                        asList;
   
   @Getter @Setter
-  Predicate<Path>         pathTester;
+  Predicate<Path>                     pathTester;
   
   @Getter @Setter
-  Predicate<String>       resourceTester;
+  Predicate<String>                   resourceTester;
   
-  FileType                zipTest;
+  FileType                            zipTest;
+  
+  Map<String,Partitioner<String,?>>   partitioners;
   
   public ClasspathIndexer() {
     zipTest         = new ZipFileType();
     resources       = new Hashtable<>();
     asList          = new ArrayList<>();
     pathesAsList    = new ArrayList<>();
+    partitioners    = new Hashtable<>();
     pathTester      = null;
     resourceTester  = null;
+  }
+  
+  
+  /**
+   * Registers a partitioner for java classes instance with a corresponding name. The partition data is of type
+   * Set<String>.
+   * 
+   * @param name   The name for the partition. Neither <code>null</code> nor empty.
+   * @param data   The data used to collect the records. Not <code>null</code>.
+   * 
+   * @return   this
+   */
+  public <R extends ClasspathIndexer,C extends Collection<String>> R withJavaClassPartitioner( @NonNull String name, @NonNull C data ) {
+    return withPartitioner( name, ClasspathPartitioners.newToEnclosingClass( data ) ); 
+  }
+
+  /**
+   * Registers a partitioner for resource files instance with a corresponding name. The partition data is of type
+   * Set<String>.
+   * 
+   * @param name   The name for the partition. Neither <code>null</code> nor empty.
+   * @param data   The data used to collect the records. Not <code>null</code>.
+   * 
+   * @return   this
+   */
+  public <R extends ClasspathIndexer,C extends Collection<String>> R withResourceFilesPartitioner( @NonNull String name, @NonNull C data ) {
+    return withPartitioner( name, ClasspathPartitioners.newToResourceFile( data ) ); 
+  }
+
+  /**
+   * Registers a partitioner for resource dirs instance with a corresponding name. The partition data is of type
+   * Set<String>.
+   * 
+   * @param name   The name for the partition. Neither <code>null</code> nor empty.
+   * @param data   The data used to collect the records. Not <code>null</code>.
+   * 
+   * @return   this
+   */
+  public <R extends ClasspathIndexer,C extends Collection<String>> R withResourceDirsPartitioner( @NonNull String name, @NonNull C data ) {
+    return withPartitioner( name, ClasspathPartitioners.newToResourceDir( data ) ); 
+  }
+
+  /**
+   * Registers a certain partitioner instance with a corresponding name.
+   * 
+   * @param name          The name for the partition. Neither <code>null</code> nor empty.
+   * @param partitioner   The partitioner used to collect the data. Not <code>null</code>.
+   * 
+   * @return   this
+   */
+  public <R extends ClasspathIndexer> R withPartitioner( @NonNull String name, @NonNull Partitioner<String,?> partitioner ) {
+    partitioners.put( name, partitioner );
+    return (R) this; 
   }
   
   /**
@@ -101,7 +159,7 @@ public class ClasspathIndexer {
   }
 
   /**
-   * Returns a list of all resources.
+   * Returns a list of all resources in the order they have been indexed (essentially in order of the classpath).
    * 
    * @return   A list of all resources. Immutable. Not <code>null</code>.
    */
@@ -116,6 +174,16 @@ public class ClasspathIndexer {
     resources    . clear();
     asList       . clear();
     pathesAsList . clear();
+    partitioners.values().forEach( $ -> $.clear() );
+  }
+  
+  /**
+   * Reindexes the current classpath records.
+   */
+  public void reindex() {
+    List<Path> list = new ArrayList<>( pathesAsList );
+    reset();
+    indexClasspath( list );
   }
 
   /**
@@ -160,7 +228,7 @@ public class ClasspathIndexer {
    *  
    * @param classloader   The classloader which had been established through a specific classpath. Not <code>null</code>.
    */
-  public void indexClassLoader( @NonNull URLClassLoader classloader ) {
+  private void indexClassLoader( @NonNull URLClassLoader classloader ) {
     List<URL> urls = Arrays.asList( classloader.getURLs() );
     urls.forEach( u -> processClasspathEntry( IoFunctions.toPath(u) ) );
   }
@@ -184,6 +252,10 @@ public class ClasspathIndexer {
       resources.put( path, entries );
       asList.addAll( entries );
       pathesAsList.add( path );
+      
+      // collect the data per partitioner
+      partitioners.values().forEach( x -> entries.stream().filter(x).forEach( x::collect ) );
+      
     }
   }
   
@@ -210,10 +282,33 @@ public class ClasspathIndexer {
     return true;
   }
   
-  public static void main( String[] args ) throws Exception {
-    ClasspathIndexer indexer = new ClasspathIndexer();
-    indexer.indexSystemClasspath();
-    indexer.resources.values().forEach( System.err::println );
+  /**
+   * Returns the partition data of a certain partition.
+   * 
+   * @param name   The name of the desired partition. Neither <code>null</code> nor empty.
+   * 
+   * @return   The partition data. Maybe <code>null</code>.
+   */
+  public <R> R getPartition( @NonNull String name ) {
+    Partitioner<String,?> partitioner = partitioners.get( name );
+    if( partitioner != null ) {
+      return (R) partitioner.getPartition();
+    } else {
+      return null;
+    }
   }
   
-}
+//  public static void main( String[] args ) throws Exception {
+//    ClasspathIndexer indexer = new ClasspathIndexer()
+//      .withResourceDirsPartitioner( "resourcedirs", new HashSet<>() )
+//      .withJavaClassPartitioner( "java", new ArrayList<>() );
+//    indexer.indexSystemClasspath();
+//    // indexer.resources.values().forEach( System.err::println );
+//    // indexer.classes.forEach( System.err::println );
+//    // indexer.files.forEach( System.err::println );
+//    List<String> classes = indexer.getPartition( "java" );
+//    Set<String> dirs = indexer.getPartition( "resourcedirs" );
+//    dirs.forEach( System.err::println );
+//  }
+
+} /* ENDCLASS */

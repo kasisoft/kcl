@@ -3,24 +3,31 @@ package com.kasisoft.libs.common.data;
 import java.util.function.*;
 
 /**
+ * Each implementor allows to collect data.
+ * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface Partitioner<T,R> extends Predicate<T> {
 
   /**
-   * Create a new partition which allows to collect some data.
-   * 
-   * @return   The new partition instance used to collect some data. Not <code>null</code>.
+   * Returns the data instance associated with this partitioner.
+   *  
+   * @return   The data instance associated with this partitioner. Not <code>null</code>.
    */
-  R newPartition();
+  R getPartition();
+
   
   /**
-   * Collects a certain record while adding it to the supplied partition. This only applies to records successfully
+   * Allow to clear the inner state if necessary.
+   */
+  void clear();
+
+  /**
+   * Collects a certain record while adding it to this partition. This only applies to records successfully
    * tested by this predicate.
    *
-   * @param partition  The partition that will be expanded. Not <code>null</code>.
    * @param record     The record that will be added. Not <code>null</code>.
    */
-  void collect( R partition, T record );
+  void collect( T record );
   
 } /* ENDINTERFACE */

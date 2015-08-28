@@ -31,7 +31,6 @@ public class PredicatesTest {
   public void isJavaClassFile( String classname, boolean expected ) {
     assertThat( Predicates.IS_JAVA_CLASS_FILE.test( classname ), is( expected ) );
   }
-
   
   @DataProvider(name="isInnerJavaClassFile")
   public Object[][] isInnerJavaClassFileData() {
@@ -53,4 +52,24 @@ public class PredicatesTest {
     assertThat( Predicates.IS_INNER_JAVA_CLASS_FILE.test( classname ), is( expected ) );
   }
 
+  @DataProvider(name="isEnclosingJavaClassFile")
+  public Object[][] isEnclosingJavaClassFileData() {
+    return new Object[][] {
+      { "com/sample/Bibo.class"           , true  },
+      { "Bibo.class"                      , true  },
+      { "com/sample/Bibo$1.class"         , false },
+      { "Bibo$1.class"                    , false },
+      { "com/sample/Bibo$Sample.class"    , false },
+      { "Bibo$Sample.class"               , false },
+      { "com.sample.Bibo"                 , false },
+      { "Bibo"                            , false },
+      { ""                                , false },
+    };
+  }
+  
+  @Test(dataProvider = "isEnclosingJavaClassFile")
+  public void isEnclosingJavaClassFile( String classname, boolean expected ) {
+    assertThat( Predicates.IS_ENCLOSING_JAVA_CLASS_FILE.test( classname ), is( expected ) );
+  }
+  
 }

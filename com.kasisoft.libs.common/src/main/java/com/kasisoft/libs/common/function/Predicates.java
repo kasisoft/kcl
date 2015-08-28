@@ -14,10 +14,18 @@ public class Predicates {
   public static final Predicate<?> ACCEPT_ALL = $ -> true;
   
   public static final Predicate<?> ACCEPT_NONE = $ -> false;
-  
+
   public static final Predicate<String> IS_JAVA_CLASS_FILE = new IsJavaClassFile();
+  
+  public static final Predicate<String> IS_RESOURCE = IS_JAVA_CLASS_FILE.negate();
+
+  public static final Predicate<String> IS_RESOURCE_FILE = IS_RESOURCE.and( $ -> !$.endsWith("/"));
+
+  public static final Predicate<String> IS_RESOURCE_DIR = IS_RESOURCE.and( $ -> $.endsWith("/"));
 
   public static final Predicate<String> IS_INNER_JAVA_CLASS_FILE = new IsInnerJavaClassFile();
+  
+  public static final Predicate<String> IS_ENCLOSING_JAVA_CLASS_FILE = IS_JAVA_CLASS_FILE.and( IS_INNER_JAVA_CLASS_FILE.negate() );
   
   private static class IsJavaClassFile implements Predicate<String> {
 
