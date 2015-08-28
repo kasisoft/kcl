@@ -4,6 +4,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.sql.*;
 
 /**
@@ -12,7 +14,7 @@ import java.sql.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public enum Database {
+public enum Database implements Predicate<String> {
 
   derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1" ),
   h2          ( "org.h2.Driver"                                 , "SELECT 1" ),
@@ -107,9 +109,23 @@ public enum Database {
    * 
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    * 
-   * @throws SQLException   Something went wrong while accessing the database.
+   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #test(String, String, String)} instead.
    */
+  @Deprecated
   public boolean probe( @NonNull String url, @NonNull String username, String password ) {
+    return test( url, username, password );
+  }
+  
+  /**
+   * Makes an attempt to connect an reports whether connecting succeeded or not.
+   * 
+   * @param url        The URL used to access the database. Neither <code>null</code> nor empty.
+   * @param username   The username to access the database. Neither <code>null</code> nor empty.
+   * @param password   The password to be used. Maybe <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
+   */
+  public boolean test( @NonNull String url, @NonNull String username, String password ) {
     boolean result = false;
     try( Connection connection = getConnection( url, username, password ) ) {
       result = connection.prepareStatement( aliveQuery ).execute();
@@ -126,9 +142,22 @@ public enum Database {
    * 
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    * 
-   * @throws SQLException   Something went wrong while accessing the database.
+   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #test(String)} instead.
    */
+  @Deprecated
   public boolean probe( @NonNull String url ) {
+    return test(url );
+  }
+
+  /**
+   * Makes an attempt to connect an reports whether connecting succeeded or not.
+   * 
+   * @param url   The URL used to access the database. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
+   */
+  @Override
+  public boolean test( @NonNull String url ) {
     boolean result = false;
     try( Connection connection = getConnection( url ) ) {
       result = connection.prepareStatement( aliveQuery ).execute();
