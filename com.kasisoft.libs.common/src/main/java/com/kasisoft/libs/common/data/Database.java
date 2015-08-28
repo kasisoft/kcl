@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.db;
+package com.kasisoft.libs.common.data;
 
 import lombok.experimental.*;
 
