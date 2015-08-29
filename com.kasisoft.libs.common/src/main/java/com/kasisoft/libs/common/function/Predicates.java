@@ -27,6 +27,12 @@ public class Predicates {
   
   public static final Predicate<String> IS_ENCLOSING_JAVA_CLASS_FILE = IS_JAVA_CLASS_FILE.and( IS_INNER_JAVA_CLASS_FILE.negate() );
   
+  public static final Predicate<String> IS_SPI_FILE = new IsSPIFile();
+  
+  public static final Predicate<String> IS_MAGNOLIA_FILE = new IsMagnoliaFile();
+  
+  public static final Predicate<String> IS_MAVEN_FILE = new IsMavenFile();
+  
   public static <T> Predicate<T> acceptAll() {
     return $ -> true;
   }
@@ -35,6 +41,39 @@ public class Predicates {
     return $ -> false;
   }
 
+  private static class IsMavenFile implements Predicate<String> {
+    
+    @Override
+    public boolean test( String resource ) {
+      return resource.endsWith( "/pom.xml" ) || resource.endsWith( "/pom.properties" );
+    }
+      
+  }
+
+  private static class IsMagnoliaFile implements Predicate<String> {
+    
+    private static final String PREFIX = "META-INF/magnolia/";
+    
+    @Override
+    public boolean test( String resource ) {
+      boolean equals = PREFIX.equals( resource );
+      return resource.startsWith( PREFIX ) && (!equals);
+    }
+      
+  }
+
+  private static class IsSPIFile implements Predicate<String> {
+      
+    private static final String PREFIX = "META-INF/services/";
+    
+    @Override
+    public boolean test( String resource ) {
+      boolean equals = PREFIX.equals( resource );
+      return resource.startsWith( PREFIX ) && (!equals);
+    }
+      
+  }
+  
   private static class IsJavaClassFile implements Predicate<String> {
 
     Pattern pattern = Pattern.compile( "^(.+)(.class)$" );

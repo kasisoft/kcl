@@ -7,7 +7,7 @@ import java.util.function.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public interface Partitioner<T,R> extends Predicate<T> {
+public interface Partitioner<T,K,R> extends Predicate<T> {
 
   /**
    * Returns the data instance associated with this partitioner.
@@ -16,7 +16,6 @@ public interface Partitioner<T,R> extends Predicate<T> {
    */
   R getPartition();
 
-  
   /**
    * Allow to clear the inner state if necessary.
    */
@@ -26,8 +25,9 @@ public interface Partitioner<T,R> extends Predicate<T> {
    * Collects a certain record while adding it to this partition. This only applies to records successfully
    * tested by this predicate.
    *
-   * @param record     The record that will be added. Not <code>null</code>.
+   * @param key      The key used to access a certain partition element. Not <code>null</code>.
+   * @param record   The record that will be added. Not <code>null</code>.
    */
-  void collect( T record );
+  void collect( K key, T record );
   
 } /* ENDINTERFACE */

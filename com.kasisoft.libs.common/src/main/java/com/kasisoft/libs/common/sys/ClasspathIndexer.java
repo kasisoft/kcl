@@ -32,19 +32,19 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClasspathIndexer {
 
-  Map<Path,Set<String>>               resources;
-  List<Path>                          pathesAsList;
-  List<String>                        asList;
+  Map<Path,Set<String>>                    resources;
+  List<Path>                               pathesAsList;
+  List<String>                             asList;
   
   @Getter @Setter
-  Predicate<Path>                     pathTester;
+  Predicate<Path>                          pathTester;
   
   @Getter @Setter
-  Predicate<String>                   resourceTester;
+  Predicate<String>                        resourceTester;
   
-  FileType                            zipTest;
+  FileType                                 zipTest;
   
-  Map<String,Partitioner<String,?>>   partitioners;
+  Map<String,Partitioner<String,Path,?>>   partitioners;
   
   public ClasspathIndexer() {
     zipTest         = new ZipFileType();
@@ -104,7 +104,7 @@ public class ClasspathIndexer {
    * 
    * @return   this
    */
-  public <R extends ClasspathIndexer> R withPartitioner( @NonNull String name, @NonNull Partitioner<String,?> partitioner ) {
+  public <R extends ClasspathIndexer> R withPartitioner( @NonNull String name, @NonNull Partitioner<String,Path,?> partitioner ) {
     partitioners.put( name, partitioner );
     return (R) this; 
   }
@@ -239,7 +239,9 @@ public class ClasspathIndexer {
    * @param path   The classpath element that is supposed to be collected. Not <code>null</code>.
    */
   private void processClasspathEntry( Path path ) {
+    
     if( isValid( path ) ) {
+      
       Set<String> entries = new HashSet<>();
       if( Files.isDirectory( path ) ) {
         entries.addAll( IoFunctions.listPathes( path, getResourceFilter() ) );
@@ -254,7 +256,7 @@ public class ClasspathIndexer {
       pathesAsList.add( path );
       
       // collect the data per partitioner
-      partitioners.values().forEach( x -> entries.stream().filter(x).forEach( x::collect ) );
+      partitioners.values().forEach( x -> entries.stream().filter(x).forEach( $ -> x.collect( path, $ ) ) );
       
     }
   }
@@ -290,7 +292,7 @@ public class ClasspathIndexer {
    * @return   The partition data. Maybe <code>null</code>.
    */
   public <R> R getPartition( @NonNull String name ) {
-    Partitioner<String,?> partitioner = partitioners.get( name );
+    Partitioner<String,Path,?> partitioner = partitioners.get( name );
     if( partitioner != null ) {
       return (R) partitioner.getPartition();
     } else {
@@ -298,17 +300,17 @@ public class ClasspathIndexer {
     }
   }
   
-//  public static void main( String[] args ) throws Exception {
-//    ClasspathIndexer indexer = new ClasspathIndexer()
-//      .withResourceDirsPartitioner( "resourcedirs", new HashSet<>() )
-//      .withJavaClassPartitioner( "java", new ArrayList<>() );
-//    indexer.indexSystemClasspath();
-//    // indexer.resources.values().forEach( System.err::println );
-//    // indexer.classes.forEach( System.err::println );
-//    // indexer.files.forEach( System.err::println );
-//    List<String> classes = indexer.getPartition( "java" );
-//    Set<String> dirs = indexer.getPartition( "resourcedirs" );
-//    dirs.forEach( System.err::println );
-//  }
+  public static void main( String[] args ) throws Exception {
+    ClasspathIndexer indexer = new ClasspathIndexer()
+      .withResourceDirsPartitioner( "resourcedirs", new HashSet<>() )
+      .withPartitioner( "maven", ClasspathPartitioners.newMaven( new ArrayList<>() ) )
+      .withJavaClassPartitioner( "java", new ArrayList<>() );
+    indexer.indexSystemClasspath();
+    // indexer.resources.values().forEach( System.err::println );
+    // indexer.classes.forEach( System.err::println );
+    // indexer.files.forEach( System.err::println );
+    List<String> spi = indexer.getPartition( "maven" );
+    spi.forEach( x -> System.err.println( ">> " + x ) );
+  }
 
 } /* ENDCLASS */
