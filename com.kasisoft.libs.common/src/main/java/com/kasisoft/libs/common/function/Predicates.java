@@ -27,6 +27,14 @@ public class Predicates {
   
   public static final Predicate<String> IS_ENCLOSING_JAVA_CLASS_FILE = IS_JAVA_CLASS_FILE.and( IS_INNER_JAVA_CLASS_FILE.negate() );
   
+  public static <T> Predicate<T> acceptAll() {
+    return $ -> true;
+  }
+
+  public static <T> Predicate<T> acceptNone() {
+    return $ -> false;
+  }
+
   private static class IsJavaClassFile implements Predicate<String> {
 
     Pattern pattern = Pattern.compile( "^(.+)(.class)$" );

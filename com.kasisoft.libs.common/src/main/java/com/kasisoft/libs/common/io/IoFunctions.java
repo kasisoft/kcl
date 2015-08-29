@@ -10,6 +10,8 @@ import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.sys.*;
 
+import com.kasisoft.libs.common.function.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -215,17 +217,14 @@ public class IoFunctions {
   /**
    * Copies some content from an InputStream to an OutputStream.
    * 
+   * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    * @param input    The stream providing the content. Not <code>null</code>.
    * @param output   The stream receiving the content. Not <code>null</code>.
-   * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    *
    * @throws FailureException   Whenever the copying failed for some reason.
    */
-  public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
+  private static void copy( byte[] buffer, InputStream input, OutputStream output ) {
     byte[] data = buffer;
-    if( buffer == null ) {
-      data = Primitive.PByte.allocate( null );
-    }
     try {
       int read = input.read( data );
       while( read != -1 ) {
@@ -237,8 +236,22 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );
     }
-    if( buffer == null ) {
-      Primitive.PByte.release( data );
+  }
+
+  /**
+   * Copies some content from an InputStream to an OutputStream.
+   * 
+   * @param input    The stream providing the content. Not <code>null</code>.
+   * @param output   The stream receiving the content. Not <code>null</code>.
+   * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
+   *
+   * @throws FailureException   Whenever the copying failed for some reason.
+   */
+  public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
+    if( buffer != null ) {
+      copy( buffer, input, output );
+    } else {
+      Primitive.PByte.<byte[]>withBufferDo( $ -> copy( $, input, output ) );
     }
   }
 
@@ -264,9 +277,7 @@ public class IoFunctions {
    * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
-    byte[] buffer = Primitive.PByte.allocate( buffersize );
-    copy( input, output, buffer );
-    Primitive.PByte.release( buffer );
+    Primitive.PByte.<byte[]>withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
 
   /**
@@ -389,9 +400,7 @@ public class IoFunctions {
    * @throws FailureException whenever the copying failed for some reason.
    */
   public static void copy( @NonNull Reader input, @NonNull Writer output, Integer buffersize ) {
-    char[] buffer = Primitive.PChar.allocate( buffersize );
-    copy( input, output, buffer );
-    Primitive.PChar.release( buffer );
+    Primitive.PChar.<char[]>withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
 
   /**
@@ -451,14 +460,8 @@ public class IoFunctions {
    * @throws FailureException whenever the reading process fails for some reason.
    */
   public static byte[] loadBytes( @NonNull File file, Integer buffersize ) {
-    InputStream           input   = null;
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-    try {
-      input = newInputStream( file );
-      copy( input, byteout, buffersize );
-    } finally {
-      MiscFunctions.close( input );
-    }
+    forInputStreamDo( file, $ -> copy( $, byteout, buffersize ) );
     return byteout.toByteArray();
   }
 
@@ -473,14 +476,8 @@ public class IoFunctions {
    * @throws FailureException whenever the reading process fails for some reason.
    */
   public static byte[] loadBytes( @NonNull URL url, Integer buffersize ) {
-    InputStream           input   = null;
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-    try {
-      input = newInputStream( url );
-      copy( input, byteout, buffersize );
-    } finally {
-      MiscFunctions.close( input );
-    }
+    forInputStreamDo( url, $ -> copy( $, byteout, buffersize) );
     return byteout.toByteArray();
   }
 
@@ -488,20 +485,20 @@ public class IoFunctions {
    * Loads a specific amount of data into a buffer.
    * 
    * @param buffer     The buffer where the data shall be written to. Not <code>null</code>.
-   * @param instream   The InputStream which provides the content. Not <code>null</code>.
+   * @param source   The InputStream which provides the content. Not <code>null</code>.
    * @param count      The amount of data which has to be loaded.
    * 
    * @throws IOException   Loading the content failed for some reason.
    */
-  public static void loadBytes( @NonNull byte[] buffer, @NonNull InputStream instream, int count ) throws IOException {
+  public static void loadBytes( @NonNull byte[] buffer, @NonNull InputStream source, int count ) throws IOException {
     int offset  = 0; 
-    int read    = instream.read( buffer, offset, count );
+    int read    = source.read( buffer, offset, count );
     while( (read != -1) && (count > 0) ) {
       if( read > 0 ) {
         offset += read;
         count  -= read;
       }
-      read = instream.read( buffer, offset, count );
+      read = source.read( buffer, offset, count );
     }
   }
   
@@ -509,20 +506,20 @@ public class IoFunctions {
    * Loads a specific amount of data into a buffer.
    * 
    * @param buffer   The buffer where the data shall be written to. Not <code>null</code>.
-   * @param reader   The Reader which provides the content. Not <code>null</code>.
+   * @param source   The Reader which provides the content. Not <code>null</code>.
    * @param count    The amount of data which has to be loaded.
    * 
    * @throws IOException   Loading the content failed for some reason.
    */
-  public static void loadChars( @NonNull char[] buffer, @NonNull Reader reader, int count ) throws IOException {
+  public static void loadChars( @NonNull char[] buffer, @NonNull Reader source, int count ) throws IOException {
     int offset  = 0; 
-    int read    = reader.read( buffer, offset, count );
+    int read    = source.read( buffer, offset, count );
     while( (read != -1) && (count > 0) ) {
       if( read > 0 ) {
         offset += read;
         count  -= read;
       }
-      read = reader.read( buffer, offset, count );
+      read = source.read( buffer, offset, count );
     }
   }
 
@@ -539,14 +536,8 @@ public class IoFunctions {
    * @throws FailureException in case of an io error.
    */
   public static char[] loadChars( @NonNull File file, Integer buffersize, Encoding encoding ) {
-    Reader          reader  = null;
     CharArrayWriter charout = new CharArrayWriter();
-    try {
-      reader = Encoding.openReader( file, encoding );
-      copy( reader, charout, buffersize );
-    } finally {
-      MiscFunctions.close( reader );
-    }
+    forReaderDo( file, encoding, $ -> copy( $, charout, buffersize ) );
     return charout.toCharArray();
   }
   
@@ -599,7 +590,11 @@ public class IoFunctions {
    * @return   A list with the textual content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
+   * 
+   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readText(Reader)} in
+   *                                    combination with {@link #forReaderDo(File, Consumer)}.
    */
+  @Deprecated
   public static List<String> readText( @NonNull File input, boolean trim, boolean emptylines, Encoding encoding ) {
     Reader reader = null;
     try {
@@ -620,7 +615,11 @@ public class IoFunctions {
    * @return   A list with the textual content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
+   * 
+   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readText(Reader)} in
+   *                                    combination with {@link #forReaderDo(File, Consumer)}.
    */
+  @Deprecated
   public static List<String> readText( @NonNull File input, Encoding encoding ) {
     return readText( input, false, true, encoding );
   }
@@ -635,7 +634,11 @@ public class IoFunctions {
    * @return   The complete textual content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
+   * 
+   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readTextAsIs(InputStream, Encoding)} in
+   *                                    combination with {@link #forInputStream(File, Consumer)}.
    */
+  @Deprecated
   public static String readTextAsIs( @NonNull File input, Encoding encoding ) {
     return Encoding.decode( loadBytes( input, null ), encoding );
   }
@@ -667,7 +670,11 @@ public class IoFunctions {
    * @return   The complete textual content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
+   * 
+   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readTextAsIs(InputStream, Encoding)} in
+   *                                    combination with {@link #forInputStream(URL, Consumer)}.
    */
+  @Deprecated
   public static String readTextAsIs( @NonNull URL resource, Encoding encoding ) {
     try( InputStream instream = resource.openStream() ) {
       return readTextAsIs( instream, encoding );
@@ -813,17 +820,16 @@ public class IoFunctions {
   /**
    * Calculates the CRC32 checksum for the content delivered by an InputStream.
    * 
-   * @param instream     The stream that delivers the input. Not <code>null</code>.
-   * @param crc          A CRC32 object for the calculation. Maybe <code>null</code>.
-   * @param buffersize   The size of the buffer to use. <code>null</code> indicates to use a default value.
+   * @param buffer     The buffer to use. <code>null</code> indicates to use a default value.
+   * @param instream   The stream that delivers the input. Not <code>null</code>.
+   * @param crc        A CRC32 object for the calculation. Maybe <code>null</code>.
    * 
    * @return   The CRC32 checksum value.
    * 
    * @throws FailureException if the accessing the stream failed for some reason.
    */
-  public static long crc32( @NonNull InputStream instream, CRC32 crc, Integer buffersize ) {
-    crc           = crc == null ? new CRC32() : crc;
-    byte[] buffer = Primitive.PByte.allocate( buffersize );
+  private static long crc32( byte[] buffer, InputStream instream, CRC32 crc ) {
+    crc = crc == null ? new CRC32() : crc;
     try {
       int read = instream.read( buffer );
       while( read != -1 ) {
@@ -834,10 +840,23 @@ public class IoFunctions {
       }
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );
-    } finally {
-      Primitive.PByte.release( buffer );
     }
     return crc.getValue();
+  }
+  
+  /**
+   * Calculates the CRC32 checksum for the content delivered by an InputStream.
+   * 
+   * @param instream     The stream that delivers the input. Not <code>null</code>.
+   * @param crc          A CRC32 object for the calculation. Maybe <code>null</code>.
+   * @param buffersize   The size of the buffer to use. <code>null</code> indicates to use a default value.
+   * 
+   * @return   The CRC32 checksum value.
+   * 
+   * @throws FailureException if the accessing the stream failed for some reason.
+   */
+  public static long crc32( @NonNull InputStream instream, CRC32 crc, Integer buffersize ) {
+    return Primitive.PByte.<byte[],Long>withBuffer( buffersize, $ -> crc32( $, instream, crc ) );
   }
 
   /**
@@ -863,7 +882,11 @@ public class IoFunctions {
    * @return   The CRC32 checksum value.
    * 
    * @throws FailureException in case io failed for some reason.
+   * 
+   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #crc32(File, CRC32, Integer)} 
+   *                                  in combination with {@link #forInputStream(File, Function)}.
    */
+  @Deprecated
   public static long crc32( @NonNull File file, CRC32 crc, Integer buffersize ) {
     InputStream input = null;
     try {
@@ -882,7 +905,11 @@ public class IoFunctions {
    * @return   The CRC32 checksum value.
    * 
    * @throws FailureException in case io failed for some reason.
+   * 
+   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #crc32(File, CRC32, Integer)} 
+   *                                  in combination with {@link #forInputStream(File, Function)}.
    */
+  @Deprecated
   public static long crc32( @NonNull File file ) {
     InputStream input = null;
     try {
@@ -945,7 +972,7 @@ public class IoFunctions {
    */
   public static void writeText( @NonNull OutputStream output, @NonNull List<String> lines, Encoding encoding ) {
     try( PrintStream printer = Encoding.openPrintStream( output, encoding ) ) {
-      lines.forEach( line -> printer.println( line ) );
+      lines.forEach( printer::println );
     }
   }
 
@@ -959,7 +986,7 @@ public class IoFunctions {
    */
   public static void writeText( @NonNull Writer writer, @NonNull List<String> lines ) {
     try( PrintWriter printer = new PrintWriter( writer ) ) {
-      lines.forEach( line -> printer.println( line ) );
+      lines.forEach( printer::println );
     }
   }
 
@@ -971,7 +998,11 @@ public class IoFunctions {
    * @param encoding   The encoding to use. <code>null</code> means default encoding.
    * 
    * @throws FailureException if writing the text failed for some reason.
+   * 
+   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeText(Writer, List)}
+   *                                  in combination with {@link #forWriterDo(File, Consumer)}
    */
+  @Deprecated
   public static void writeText( @NonNull File file, @NonNull List<String> lines, Encoding encoding ) {
     OutputStream output = null;
     try {
@@ -1005,7 +1036,11 @@ public class IoFunctions {
    * @param file       The File used to receive the text. Not <code>null</code> and must be writable.
    * @param text       The text which has to be written. Not <code>null</code>.
    * @param encoding   The encoding which has to be used. Maybe <code>null</code>.
+   * 
+   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeText(Writer, List)}
+   *                                  in combination with {@link #forWriterDo(File, Consumer)}
    */
+  @Deprecated
   public static void writeText( @NonNull File file, @NonNull String text, Encoding encoding ) {
     OutputStream output = null;
     try {
@@ -1023,7 +1058,11 @@ public class IoFunctions {
    * @param content   The content which has to be stored. Not <code>null</code>.
    * 
    * @throws FailureException if writing the data failed for some reason.
+   * 
+   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeBytes(OutputStream, byte[])}
+   *                                  in combination with {@link #forOutputStreamDo(File, Consumer)}.
    */
+  @Deprecated
   public static void writeBytes( @NonNull File file, @NonNull byte[] content ) {
     OutputStream output = null;
     try {
@@ -1058,7 +1097,11 @@ public class IoFunctions {
    * @param encoding   The encoding to be used for the file. Maybe <code>null</code>.
    * 
    * @throws FailureException if writing the data failed for some reason.
+   * 
+   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeCharacters(Writer, char[])}
+   *                                  in combination with {@link #forWriterDo(File, Consumer)}.
    */
+  @Deprecated
   public static void writeCharacters( @NonNull File file, @NonNull char[] content, Encoding encoding ) {
     Writer writer = null;
     try {
@@ -1095,10 +1138,10 @@ public class IoFunctions {
    * @param path        A buffer providing the relative path. Not <code>null</code>.
    * @param current     The resource that is supposed to be processed. Not <code>null</code>.
    */
-  private static void iterateFiles( FileFilter filter, List<File> receiver, boolean files, boolean dirs, StringBuilder path, File current ) {
+  private static void iterateFiles( Predicate<File> filter, List<File> receiver, boolean files, boolean dirs, StringBuilder path, File current ) {
     int oldlength = path.length();
     path.append( current.getName() );
-    if( filter.accept( current ) ) {
+    if( filter.test( current ) ) {
       if( files && current.isFile() ) {
         receiver.add( current );
       }
@@ -1129,14 +1172,12 @@ public class IoFunctions {
    * @return   The list which collects the filesystem entries. Not <code>null</code>.
    */
   public static List<File> listRecursive( FileFilter filter, boolean includefiles, boolean includedirs, @NonNull File ... dirs ) {
-    List<File> result = new ArrayList<>();
-    if( filter == null ) {
-      filter = ACCEPT_ALL;
-    }
-    StringBuilder builder = new StringBuilder();
+    List<File>      result    = new ArrayList<>();
+    Predicate<File> predicate = filter != null ? ($ -> filter.accept($)) : Predicates.<File>acceptAll(); 
+    StringBuilder   builder   = new StringBuilder();
     for( File dir : dirs ) {
       builder.setLength(0);
-      iterateFiles( filter, result, includefiles, includedirs, builder, dir );
+      iterateFiles( predicate, result, includefiles, includedirs, builder, dir );
     }
     return result;
   }
