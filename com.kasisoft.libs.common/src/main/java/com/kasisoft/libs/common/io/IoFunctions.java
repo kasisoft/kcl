@@ -46,12 +46,6 @@ public class IoFunctions {
   static final String WC2 = "(.+)";       // **
 
   /**
-   * @deprecated [29-Aug-2015:KASI]  Use Predicates#ACCEPT_ALL with version 2.0+ 
-   */
-  @Deprecated
-  public static final FileFilter ACCEPT_ALL = $ -> true;
-  
-  /**
    * Prevent instantiation.
    */
   private IoFunctions() {
@@ -577,71 +571,6 @@ public class IoFunctions {
   public static List<String> readText( @NonNull Reader input ) {
     return readText( input, false, true );
   }
-  
-  /**
-   * Loads the textual content from a File.
-   * 
-   * @param input        The File providing the textual content. Not <code>null</code>.
-   * @param trim         <code>true</code> <=> Trim each line.
-   * @param emptylines   <code>true</code> <=> Also include empty lines in the result.
-   * @param encoding     The encoding to be used while loading the content. If <code>null</code> the default encoding 
-   *                     will be used.
-   * 
-   * @return   A list with the textual content. Not <code>null</code>.
-   *
-   * @throws FailureException in case of an io error.
-   * 
-   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readText(Reader)} in
-   *                                    combination with {@link #forReaderDo(File, Consumer)}.
-   */
-  @Deprecated
-  public static List<String> readText( @NonNull File input, boolean trim, boolean emptylines, Encoding encoding ) {
-    Reader reader = null;
-    try {
-      reader = Encoding.openReader( input, encoding );
-      return readText( reader, trim, emptylines );
-    } finally {
-      MiscFunctions.close( reader );
-    }
-  }
-
-  /**
-   * Loads the textual content from a File. The lines will be read as is, so even empty lines will be returned.
-   * 
-   * @param input      The File providing the textual content. Not <code>null</code>.
-   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
-   *                   be used.
-   * 
-   * @return   A list with the textual content. Not <code>null</code>.
-   *
-   * @throws FailureException in case of an io error.
-   * 
-   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readText(Reader)} in
-   *                                    combination with {@link #forReaderDo(File, Consumer)}.
-   */
-  @Deprecated
-  public static List<String> readText( @NonNull File input, Encoding encoding ) {
-    return readText( input, false, true, encoding );
-  }
-
-  /**
-   * Loads the textual content from a File. The content will be loaded as is so it's equal to the content on the disk.
-   * 
-   * @param input      The File providing the textual content. Not <code>null</code>.
-   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
-   *                   be used.
-   * 
-   * @return   The complete textual content. Not <code>null</code>.
-   *
-   * @throws FailureException in case of an io error.
-   * 
-   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readTextAsIs(InputStream, Encoding)} in
-   *                                    combination with {@link #forInputStream(File, Consumer)}.
-   */
-  @Deprecated
-  public static String readTextAsIs( @NonNull File input, Encoding encoding ) {
-    return Encoding.decode( loadBytes( input, null ), encoding );
-  }
 
   /**
    * Loads the textual content from an InputStream. The content will be loaded as is so it's equal to the content supplied
@@ -657,30 +586,6 @@ public class IoFunctions {
    */
   public static String readTextAsIs( @NonNull InputStream instream, Encoding encoding ) {
     return Encoding.decode( loadBytes( instream, null ), encoding );
-  }
-
-  /**
-   * Loads the textual content from a resource. The content will be loaded as is so it's equal to the content supplied
-   * by the resource.
-   * 
-   * @param resource   The URL of the resource providing the textual content. Not <code>null</code>.
-   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
-   *                   be used.
-   * 
-   * @return   The complete textual content. Not <code>null</code>.
-   *
-   * @throws FailureException in case of an io error.
-   * 
-   * @deprecated   [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #readTextAsIs(InputStream, Encoding)} in
-   *                                    combination with {@link #forInputStream(URL, Consumer)}.
-   */
-  @Deprecated
-  public static String readTextAsIs( @NonNull URL resource, Encoding encoding ) {
-    try( InputStream instream = resource.openStream() ) {
-      return readTextAsIs( instream, encoding );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( null, ex, resource );
-    }
   }
 
   /**
@@ -768,56 +673,6 @@ public class IoFunctions {
   }
   
   /**
-   * Reads some fragment of the supplied input.
-   * 
-   * @param file     The File providing the content. Not <code>null</code>.
-   * @param offset   The location where to read the data.
-   * @param length   The length of the data that has to be read. 
-   * 
-   * @return   The fragment or at least the beginning part of the desired fragment.
-   * 
-   * @throws FailureException in case the fragment could not be read.
-   * 
-   * @deprecated [23-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #loadFragment(InputStream, int, int)} 
-   *                                  in combination with {@link #forInputStream(File, Function)} instead.
-   */
-  @Deprecated
-  public static byte[] loadFragment( @NonNull File file, int offset, int length ) {
-    InputStream input = null;
-    try {
-      input = newInputStream( file );
-      return loadFragment( input, offset, length );
-    } finally {
-      MiscFunctions.close( input );
-    }
-  }
-
-  /**
-   * Reads some fragment of the supplied input.
-   * 
-   * @param url      The respource providing the content. Not <code>null</code>.
-   * @param offset   The location where to read the data.
-   * @param length   The length of the data that has to be read. 
-   * 
-   * @return   The fragment or at least the beginning part of the desired fragment.
-   * 
-   * @throws FailureException in case the fragment could not be read.
-   * 
-   * @deprecated [23-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #loadFragment(InputStream, int, int)} 
-   *                                  in combination with {@link #forInputStream(URL, Function)} instead.
-   */
-  @Deprecated
-  public static byte[] loadFragment( @NonNull URL url, int offset, int length ) {
-    InputStream input = null;
-    try {
-      input = newInputStream( url );
-      return loadFragment( input, offset, length );
-    } finally {
-      MiscFunctions.close( input );
-    }
-  }
-
-  /**
    * Calculates the CRC32 checksum for the content delivered by an InputStream.
    * 
    * @param buffer     The buffer to use. <code>null</code> indicates to use a default value.
@@ -870,54 +725,6 @@ public class IoFunctions {
    */
   public static long crc32( @NonNull InputStream instream ) {
     return crc32( instream, null, null );
-  }
-
-  /**
-   * Calculates the CRC32 checksum for the content delivered by a File.
-   * 
-   * @param file         The File that delivers the input. Not <code>null</code>.
-   * @param crc          A CRC32 object for the calculation. Maybe <code>null</code>.
-   * @param buffersize   The size of the buffer to use. <code>null</code> indicates to use a default value.
-   * 
-   * @return   The CRC32 checksum value.
-   * 
-   * @throws FailureException in case io failed for some reason.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #crc32(File, CRC32, Integer)} 
-   *                                  in combination with {@link #forInputStream(File, Function)}.
-   */
-  @Deprecated
-  public static long crc32( @NonNull File file, CRC32 crc, Integer buffersize ) {
-    InputStream input = null;
-    try {
-      input = newInputStream( file );
-      return crc32( input, crc, buffersize );
-    } finally {
-      MiscFunctions.close( input );
-    }
-  }
-
-  /**
-   * Calculates the CRC32 checksum for the content delivered by a File.
-   * 
-   * @param file   The File that delivers the input. Not <code>null</code>.
-   * 
-   * @return   The CRC32 checksum value.
-   * 
-   * @throws FailureException in case io failed for some reason.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #crc32(File, CRC32, Integer)} 
-   *                                  in combination with {@link #forInputStream(File, Function)}.
-   */
-  @Deprecated
-  public static long crc32( @NonNull File file ) {
-    InputStream input = null;
-    try {
-      input = newInputStream( file );
-      return crc32( input, null, null );
-    } finally {
-      MiscFunctions.close( input );
-    }
   }
 
   /**
@@ -991,29 +798,6 @@ public class IoFunctions {
   }
 
   /**
-   * Writes the list of text lines to the supplied File.
-   *  
-   * @param file       The File receiving the text content.
-   * @param lines      The text lines that have to be dumped.
-   * @param encoding   The encoding to use. <code>null</code> means default encoding.
-   * 
-   * @throws FailureException if writing the text failed for some reason.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeText(Writer, List)}
-   *                                  in combination with {@link #forWriterDo(File, Consumer)}
-   */
-  @Deprecated
-  public static void writeText( @NonNull File file, @NonNull List<String> lines, Encoding encoding ) {
-    OutputStream output = null;
-    try {
-      output = newOutputStream( file );
-      writeText( output, lines, encoding );
-    } finally {
-      MiscFunctions.close( output );
-    }
-  }
-  
-  /**
    * Writes the supplied text into an OutputStream.
    * 
    * @param output     The OutputStream used to receive the text. Not <code>null</code>.
@@ -1031,49 +815,6 @@ public class IoFunctions {
   }
   
   /**
-   * Writes the supplied text into a File.
-   * 
-   * @param file       The File used to receive the text. Not <code>null</code> and must be writable.
-   * @param text       The text which has to be written. Not <code>null</code>.
-   * @param encoding   The encoding which has to be used. Maybe <code>null</code>.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeText(Writer, List)}
-   *                                  in combination with {@link #forWriterDo(File, Consumer)}
-   */
-  @Deprecated
-  public static void writeText( @NonNull File file, @NonNull String text, Encoding encoding ) {
-    OutputStream output = null;
-    try {
-      output = newOutputStream( file );
-      writeText( output, text, encoding );
-    } finally {
-      MiscFunctions.close( output );
-    }
-  }
-  
-  /**
-   * Writes some binary content to a file.
-   * 
-   * @param file      The destination where to write the content to. Must be writable destination.
-   * @param content   The content which has to be stored. Not <code>null</code>.
-   * 
-   * @throws FailureException if writing the data failed for some reason.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeBytes(OutputStream, byte[])}
-   *                                  in combination with {@link #forOutputStreamDo(File, Consumer)}.
-   */
-  @Deprecated
-  public static void writeBytes( @NonNull File file, @NonNull byte[] content ) {
-    OutputStream output = null;
-    try {
-      output = newOutputStream( file );
-      writeBytes( output, content );
-    } finally {
-      MiscFunctions.close( output );
-    }
-  }
-
-  /**
    * Writes some binary content to an OutputStream.
    * 
    * @param outstream   The destination where the content has to be stored to. Not <code>null</code>.
@@ -1089,29 +830,6 @@ public class IoFunctions {
     }
   }
   
-  /**
-   * Writes some character content to a file.
-   * 
-   * @param file       The destination where to write the content to. Must be writable destination.
-   * @param content    The content which has to be stored. Not <code>null</code>.
-   * @param encoding   The encoding to be used for the file. Maybe <code>null</code>.
-   * 
-   * @throws FailureException if writing the data failed for some reason.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #writeCharacters(Writer, char[])}
-   *                                  in combination with {@link #forWriterDo(File, Consumer)}.
-   */
-  @Deprecated
-  public static void writeCharacters( @NonNull File file, @NonNull char[] content, Encoding encoding ) {
-    Writer writer = null;
-    try {
-      writer = Encoding.openWriter( file, encoding );
-      writeCharacters( writer, content );
-    } finally {
-      MiscFunctions.close( writer );
-    }
-  }
-
   /**
    * Writes some character content to a writer.
    * 

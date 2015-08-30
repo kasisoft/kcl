@@ -169,7 +169,7 @@ public class IoFunctionsTest {
     
     byte[] data     = Utilities.createByteBlock();
     File   tempfile = IoFunctions.newTempFile();
-    IoFunctions.writeBytes( tempfile, data );
+    IoFunctions.forOutputStreamDo( tempfile, $ -> IoFunctions.writeBytes( $, data ) );
     
     byte[] loaded1  = IoFunctions.loadBytes( tempfile, null );
     assertThat( loaded1, is( data ) );
@@ -190,7 +190,7 @@ public class IoFunctionsTest {
     
     char[] data     = Utilities.createCharacterBlock();
     File   tempfile = IoFunctions.newTempFile();
-    IoFunctions.writeCharacters( tempfile, data, Encoding.UTF8 );
+    IoFunctions.forWriterDo( tempfile, Encoding.UTF8, $ -> IoFunctions.writeCharacters( $, data ) );
     
     char[] loaded1  = IoFunctions.loadChars( tempfile, null, Encoding.UTF8 );
     assertThat( loaded1, is( data ) );
@@ -211,17 +211,17 @@ public class IoFunctionsTest {
     
     File          testfile  = new File( testdata, "testfile.txt" );
   
-    List<String>  text1     = IoFunctions.readText( testfile, false, true, Encoding.UTF8 );
+    List<String>  text1     = IoFunctions.forReader( testfile, Encoding.UTF8, $ -> IoFunctions.readText( $, false, true ) );
     assertThat( text1, is( notNullValue() ) );
     assertThat( 7, is( text1.size() ) );
     assertThat( text1.toArray(), is( new Object[] { "BEGIN BLÖD", "", "LINE 1", "", "   LINE 2   ", "", "BLABLUB" } ) );
 
-    List<String>  text2     = IoFunctions.readText( testfile, false, false, Encoding.UTF8 );
+    List<String>  text2     = IoFunctions.forReader( testfile, Encoding.UTF8, $ -> IoFunctions.readText( $, false, false ) );
     assertThat( text2, is( notNullValue() ) );
     assertThat( 4, is( text2.size() ) );
     assertThat( text2.toArray(), is( new Object[] { "BEGIN BLÖD", "LINE 1", "   LINE 2   ", "BLABLUB" } ) );
 
-    List<String>  text3     = IoFunctions.readText( testfile, true, false, Encoding.UTF8 );
+    List<String>  text3     = IoFunctions.forReader( testfile, Encoding.UTF8, $ -> IoFunctions.readText( $, true, false ) );
     assertThat( text3, is( notNullValue() ) );
     assertThat( 4, is( text3.size() ) );
     assertThat( text3.toArray(), is( new Object[] { "BEGIN BLÖD", "LINE 1", "LINE 2", "BLABLUB" } ) );
@@ -275,7 +275,7 @@ public class IoFunctionsTest {
     assertThat( result1, is( "BLUB" ) );
     
     File                  testfile  = new File( testdata, "testfile.txt" );
-    String                result2   = Encoding.UTF8.decode( IoFunctions.loadFragment( testfile, 15, 6 ) );
+    String                result2   = Encoding.UTF8.decode( IoFunctions.forInputStream( testfile, $ -> IoFunctions.loadFragment( $, 15, 6 ) ) );
     assertThat( result2, is( "LINE 1" ) );
     
   }
@@ -285,7 +285,7 @@ public class IoFunctionsTest {
    
     File    testfile  = new File( testdata, "testfile.gz" );
     
-    assertThat( IoFunctions.crc32( testfile ), is( 1699530864L ) );
+    assertThat( IoFunctions.forInputStream( testfile, IoFunctions::crc32 ), is( 1699530864L ) );
     
     byte[]  data      = IoFunctions.loadBytes( testfile, null );
     assertThat( IoFunctions.crc32( new ByteArrayInputStream( data ) ), is( 1699530864L ) );
@@ -323,8 +323,8 @@ public class IoFunctionsTest {
     assertThat( loaded1, is( lines ) );
     
     File         tempfile1  = IoFunctions.newTempFile();
-    IoFunctions.writeText( tempfile1, lines, Encoding.UTF8 );
-    List<String> loaded2    = IoFunctions.readText( tempfile1, false, true, Encoding.UTF8 );
+    IoFunctions.forWriterDo( tempfile1, Encoding.UTF8, $ -> IoFunctions.writeText( $, lines ) );
+    List<String> loaded2    = IoFunctions.forReader( tempfile1, Encoding.UTF8, $ -> IoFunctions.readText( $, false, true ) );
     assertThat( loaded2, is( lines ) );
     
     StringBuilder buffer    = new StringBuilder();
@@ -334,9 +334,9 @@ public class IoFunctionsTest {
     }
     
     File         tempfile2  = IoFunctions.newTempFile();
-    IoFunctions.writeText( tempfile2, buffer.toString(), Encoding.UTF8 );
+    IoFunctions.forWriterDo( tempfile2, Encoding.UTF8, $ -> IoFunctions.writeText( $, lines ) );
     
-    List<String> loaded3    = IoFunctions.readText( tempfile2, false, true, Encoding.UTF8 );
+    List<String> loaded3    = IoFunctions.forReader( tempfile2, Encoding.UTF8, $ -> IoFunctions.readText( $, false, true ) );
     assertThat( loaded3, is( lines ) );
     
   }

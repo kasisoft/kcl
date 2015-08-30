@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
@@ -44,8 +42,6 @@ public enum Primitive {
   @Getter long        min;
   @Getter long        max;
   
-  @SuppressWarnings("deprecation")
-  Buffers             buffers;
   InternalBuffers     ibuffers;
   boolean             supportsMinMax;
   
@@ -66,7 +62,6 @@ public enum Primitive {
     arrayClass        = arraytype;
     min               = minval;
     max               = maxval;
-    buffers           = null;
     supportsMinMax    = minval != maxval;
     LocalData.primitivemap.put( primitive       , this );
     LocalData.primitivemap.put( objclazz        , this );
@@ -139,23 +134,6 @@ public enum Primitive {
   }
 
   /**
-   * Returns the {@link Buffers} instance for this type.
-   * 
-   * @return   The {@link Buffers} instance for this type. Not <code>null</code>.
-   * 
-   * @deprecated [09-Aug-2015:KASI]   This function will be removed as the returned type Buffers will be removed. Use
-   *                                  it's functionality directly now.
-   */
-  @SuppressWarnings("deprecation")
-  @Deprecated
-  public synchronized <T> Buffers<T> getBuffers() {
-    if( buffers == null ) {
-      buffers  = Buffers.newBuffers( this );
-    }
-    return buffers;
-  }
-  
-  /**
    * Returns the length of an array instance.
    * 
    * @param arrayobj    An array instance. Not <code>null</code>.
@@ -217,7 +195,6 @@ public enum Primitive {
    */
   @SuppressWarnings("unchecked")
   public synchronized <T> T allocate( Integer size ) {
-    getBuffers();
     return ((InternalBuffers<T>) ibuffers).allocate( size );
   }  
   
@@ -227,7 +204,6 @@ public enum Primitive {
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
   public synchronized <T> void release( @NonNull T data ) {
-    getBuffers();
     ((InternalBuffers<T>) ibuffers).release( data );
   }
 

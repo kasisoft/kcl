@@ -71,7 +71,7 @@ public class Utilities {
         byte[] datablock = createByteBlock();
         File   destfile  = new File( basedir, filename );
         collector.add( destfile );
-        IoFunctions.writeBytes( destfile, datablock );
+        IoFunctions.forOutputStreamDo( destfile, $ -> IoFunctions.writeBytes( $, datablock ) );
       }
     }
   }
@@ -104,7 +104,7 @@ public class Utilities {
   public static File createRandomBytesFile() {
     File    result  = IoFunctions.newTempFile();
     byte[]  data    = createByteBlock();
-    IoFunctions.writeBytes( result, data );
+    IoFunctions.forOutputStreamDo( result, $ -> IoFunctions.writeBytes( $, data ) );
     return result;
   }
   
@@ -125,7 +125,7 @@ public class Utilities {
       fill( newchild, count );
     } else {
       byte[]  data    = createByteBlock();
-      IoFunctions.writeBytes( newchild, data );
+      IoFunctions.forOutputStreamDo( newchild, $ -> IoFunctions.writeBytes( $, data ) );
       if( count > 0 ) {
         fill( dir, count );
       }

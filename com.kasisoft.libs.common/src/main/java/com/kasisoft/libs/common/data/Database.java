@@ -108,22 +108,6 @@ public enum Database implements Predicate<String> {
    * @param password   The password to be used. Maybe <code>null</code>.
    * 
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #test(String, String, String)} instead.
-   */
-  @Deprecated
-  public boolean probe( @NonNull String url, @NonNull String username, String password ) {
-    return test( url, username, password );
-  }
-  
-  /**
-   * Makes an attempt to connect an reports whether connecting succeeded or not.
-   * 
-   * @param url        The URL used to access the database. Neither <code>null</code> nor empty.
-   * @param username   The username to access the database. Neither <code>null</code> nor empty.
-   * @param password   The password to be used. Maybe <code>null</code>.
-   * 
-   * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */
   public boolean test( @NonNull String url, @NonNull String username, String password ) {
     boolean result = false;
@@ -133,20 +117,6 @@ public enum Database implements Predicate<String> {
       // our default assumption is that the db isn't available
     }
     return result;
-  }
-
-  /**
-   * Makes an attempt to connect an reports whether connecting succeeded or not.
-   * 
-   * @param url   The URL used to access the database. Neither <code>null</code> nor empty.
-   * 
-   * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
-   * 
-   * @deprecated [29-Aug-2015:KASI]   This method will be removed with version 2.0. Use {@link #test(String)} instead.
-   */
-  @Deprecated
-  public boolean probe( @NonNull String url ) {
-    return test(url );
   }
 
   /**

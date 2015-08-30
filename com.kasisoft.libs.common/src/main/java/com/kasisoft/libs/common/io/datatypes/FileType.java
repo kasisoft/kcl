@@ -27,20 +27,6 @@ public interface FileType extends Predicate<byte[]> {
   int getMinSize();
   
   /**
-   * Returns <code>true</code> if the supplied data indicates to be of this type.
-   * 
-   * @param data   The data which has to be examined. Not <code>null</code>.
-   * 
-   * @return   <code>true</code> <=> The data indicates this type.
-   * 
-   * @deprecated   [23-Aug-2015:KASI]   This function will be removed with version 2.0. Use {@link #test(byte[])} instead.
-   */
-  @Deprecated
-  default boolean isOfType( byte[] data ) {
-    return test( data );
-  }
-  
-  /**
    * Returns the mime type corresponding to this type instance.
    * 
    * @return   The mime type corresponding to this type instance. Neither <code>null</code> nor empty.
