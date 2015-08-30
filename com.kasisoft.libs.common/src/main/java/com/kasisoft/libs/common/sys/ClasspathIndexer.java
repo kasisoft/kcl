@@ -239,13 +239,12 @@ public class ClasspathIndexer {
    * @param path   The classpath element that is supposed to be collected. Not <code>null</code>.
    */
   private void processClasspathEntry( Path path ) {
-    
     if( isValid( path ) ) {
       
       Set<String> entries = new HashSet<>();
       if( Files.isDirectory( path ) ) {
         entries.addAll( IoFunctions.listPathes( path, getResourceFilter() ) );
-      } else {
+      } else if( Files.isRegularFile( path ) ) {
         byte[] fragment = IoFunctions.forInputStream( path, zipTest.getMinSize(), IoFunctions::loadFragment );
         if( zipTest.test( fragment ) ) {
           entries.addAll( IoFunctions.listPathesInZip( path, getZipResourceFilter() ) );
