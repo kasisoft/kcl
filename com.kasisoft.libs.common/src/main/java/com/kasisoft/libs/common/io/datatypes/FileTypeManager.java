@@ -60,7 +60,7 @@ public class FileTypeManager {
    */
   public FileType identify( @NonNull File file ) {
     if( file.isFile() && (file.length() > 0) ) {
-      return identify( IoFunctions.forInputStream( file, maxspace, IoFunctions::loadFragment ) );
+      return identify( IoFunctions.<byte[],Integer>forInputStream( file, maxspace, IoFunctions::loadFragment ) );
     }
     return null;
   }
@@ -75,7 +75,7 @@ public class FileTypeManager {
    * @throws FailureException   Accessing the resource failed for some reason.
    */
   public FileType identify( @NonNull URL url ) {
-    return identify( IoFunctions.forInputStream( url, maxspace, IoFunctions::loadFragment ) );
+    return identify( IoFunctions.<byte[],Integer>forInputStream( url, maxspace, IoFunctions::loadFragment ) );
   }
 
   /**
