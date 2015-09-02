@@ -6,6 +6,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.lang.reflect.*;
 
 /**
@@ -14,10 +16,40 @@ import java.lang.reflect.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DefaultBucketFactory<T> implements BucketFactory<T> {
+public class DefaultBucketFactory<T,P> implements BucketFactory<T> {
 
-  Constructor   constructor;
-  Method        reset;
+  Supplier<T>      create;
+  BiConsumer<T,P>  reset;
+  P                param;
+  
+  /**
+   * Initializes this factory using the supplied creation and reset methods.
+   * 
+   * @param   The method used for the creation of an instance. Not <code>null</code>.
+   * @param   The method used to perform a reset. Not <code>null</code>.
+   * 
+   * @throws FailureException   There's neither a default constructor nor a method named <code>reset</code> or
+   *                            <code>clear</code>.
+   */
+  public DefaultBucketFactory( @NonNull Supplier<T> creator, @NonNull Consumer<T> resetter ) {
+    this( creator, (x,y) -> resetter.accept(x), null );
+  }
+  
+  /**
+   * Initializes this factory using the supplied creation and reset methods.
+   * 
+   * @param   The method used for the creation of an instance. Not <code>null</code>.
+   * @param   The method used to perform a reset. Not <code>null</code>.
+   * @param   The reset value to be used if we're dealing with a parameterized reset method. Maybe <code>null</code>.
+   * 
+   * @throws FailureException   There's neither a default constructor nor a method named <code>reset</code> or
+   *                            <code>clear</code>.
+   */
+  public DefaultBucketFactory( @NonNull Supplier<T> creator, @NonNull BiConsumer<T,P> resetter, P resetval ) {
+    create = creator;
+    reset  = resetter;
+    param  = resetval;
+  }
   
   /**
    * Initializes this factory using the supplied type.
@@ -26,43 +58,78 @@ public class DefaultBucketFactory<T> implements BucketFactory<T> {
    * 
    * @throws FailureException   There's neither a default constructor nor a method named <code>reset</code> or
    *                            <code>clear</code>.
+   *                            
+   * @deprecated [03-Sep-2015:KASI]   Will be removed with version 2.1. Use {@link DefaultBucketFactory} instead.
    */
+  @Deprecated
   public DefaultBucketFactory( @NonNull Class<? extends T> type ) {
-    constructor = MiscFunctions.getConstructor( type );
-    reset       = MiscFunctions.getMethod( type, "reset" );
-    if( reset == null ) {
-      reset     = MiscFunctions.getMethod( type, "clear" );
-    }
-    if( (constructor == null) || (reset == null) ) {
-      throw FailureCode.Reflections.newException();
-    }
+    
+    create = new Supplier<T>() {
+
+      Constructor constructor;
+      
+      {
+        constructor = MiscFunctions.getConstructor( type );
+        if( constructor == null ) {
+          throw FailureCode.Reflections.newException();
+        }
+      }
+      
+      @Override
+      public T get() {
+        try {
+          return (T) constructor.newInstance();
+        } catch( Exception ex ) {
+          // won't happen as we've checked that within the constructor
+          return null;
+        }
+      }
+      
+    };
+    
+    reset = new BiConsumer<T,P>() {
+      
+      Method method;
+      
+      {
+        method = MiscFunctions.getMethod( type, "reset" );
+        if( method == null ) {
+          method = MiscFunctions.getMethod( type, "clear" );
+        }
+        if( method == null ) {
+          throw FailureCode.Reflections.newException();
+        }
+      }
+
+      @Override
+      public void accept( T t, P p ) {
+        try {
+          method.invoke(t);
+        } catch( Exception ex ) {
+          // won't happen as we've checked that within the constructor
+        }
+      }
+      
+    };
+    
+    
     try {
-      T probe = (T) constructor.newInstance();
-      reset.invoke( probe );
+      reset( create.get() );
     } catch( Exception ex ) {
       throw FailureCode.Reflections.newException( ex );
     }
+    
   }
   
   @Override
-  public <P extends T> P create() {
-    try {
-      return (P) constructor.newInstance();
-    } catch( Exception ex ) {
-      // won't happen as we've checked that within the constructor
-      return null;
-    }
+  public <R extends T> R create() {
+    return (R) create.get();
   }
 
   @Override
-  public <P extends T> P reset( @NonNull T object ) {
-    try {
-      reset.invoke( object );
-      return (P) object;
-    } catch( Exception ex ) {
-      // won't happen as we've checked that within the constructor
-      return null;
-    }
+  public <R extends T> R reset( @NonNull T object ) {
+    reset.accept( object, param );
+    return (R) object;
   }
 
 } /* ENDCLASS */
