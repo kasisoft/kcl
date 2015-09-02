@@ -41,20 +41,21 @@ public class ConfigurationHelper {
       }
     }
     Collections.sort( keys );
-    for( String key : keys ) {
-      AbstractProperty<?,?,?> property = map.get( key );
-      buffer.appendF( "%s ", key );
-      buffer.appendF( "(%s) ", property.isRequired() ? label_mandatory : label_optional );
-      if( property instanceof SimpleProperty ) {
-        SimpleProperty simpleproperty = (SimpleProperty) property;
-        if( simpleproperty.getDefaultValue() != null ) {
-          buffer.append( format_default.format( simpleproperty.getDefaultValue() ) );
-          buffer.append( " " );
-        }
-      }
-      buffer.appendF( ": %s\n", property.getDescription() != null ? property.getDescription() : "" );
-    }
+    keys.forEach( $ -> appendProperty( buffer, $, map.get( $ ) ) );
     return buffer.toString();
+  }
+
+  private static void appendProperty( StringFBuffer buffer, String key, AbstractProperty<?, ?, ?> property ) {
+    buffer.appendF( "%s ", key );
+    buffer.appendF( "(%s) ", property.isRequired() ? label_mandatory : label_optional );
+    if( property instanceof SimpleProperty ) {
+      SimpleProperty simpleproperty = (SimpleProperty) property;
+      if( simpleproperty.getDefaultValue() != null ) {
+        buffer.append( format_default.format( simpleproperty.getDefaultValue() ) );
+        buffer.append( " " );
+      }
+    }
+    buffer.appendF( ": %s\n", property.getDescription() != null ? property.getDescription() : "" );
   }
   
   /**
