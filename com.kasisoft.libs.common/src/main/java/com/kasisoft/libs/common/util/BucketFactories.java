@@ -12,6 +12,33 @@ import java.io.*;
 public class BucketFactories {
 
   /**
+   * Creates a new factory for {@link TreeMap}.
+   * 
+   * @return   A new factory for {@link TreeMap}. Not <code>null</code>.
+   */
+  public static <K,V> BucketFactory<TreeMap<K,V>> newTreeMapFactory() {
+    return new DefaultBucketFactory<TreeMap<K,V>,Integer>( TreeMap::new, TreeMap::clear );
+  }
+
+  /**
+   * Creates a new factory for {@link Hashtable}.
+   * 
+   * @return   A new factory for {@link Hashtable}. Not <code>null</code>.
+   */
+  public static <K,V> BucketFactory<Hashtable<K,V>> newHashtableFactory() {
+    return new DefaultBucketFactory<Hashtable<K,V>,Integer>( Hashtable::new, Hashtable::clear );
+  }
+
+  /**
+   * Creates a new factory for {@link HashMap}.
+   * 
+   * @return   A new factory for {@link HashMap}. Not <code>null</code>.
+   */
+  public static <K,V> BucketFactory<HashMap<K,V>> newHashMapFactory() {
+    return new DefaultBucketFactory<HashMap<K,V>,Integer>( HashMap::new, HashMap::clear );
+  }
+    
+  /**
    * Creates a new factory for {@link StringBuilder}.
    * 
    * @return   A new factory for {@link StringBuilder}. Not <code>null</code>.
