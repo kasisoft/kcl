@@ -583,9 +583,28 @@ public class IoFunctions {
    * @return   The complete textual content. Not <code>null</code>.
    *
    * @throws FailureException in case of an io error.
+   * 
+   * @deprecated [07-Sep-2015:KASI]   This method will be deleted with version 2.1. Use {@link #readTextFully(Reader)}
+   *                                  in combination with {@link #forReaderDo(InputStream, Encoding, Consumer)}.
    */
+  @Deprecated
   public static String readTextAsIs( @NonNull InputStream instream, Encoding encoding ) {
     return Encoding.decode( loadBytes( instream, null ), encoding );
+  }
+  
+  /**
+   * Loads the textual content from a Reader. The content will be loaded as is.
+   * 
+   * @param reader   The Reader providing the textual content. Not <code>null</code>.
+   * 
+   * @return   The complete textual content. Not <code>null</code>.
+   *
+   * @throws FailureException in case of an io error.
+   */
+  public static String readTextFully( @NonNull Reader reader ) {
+    StringWriter writer = new StringWriter();
+    Primitive.PChar.<char[]>withBufferDo( null, $ -> copy( reader, writer, $ ) );
+    return writer.toString();
   }
 
   /**
@@ -1366,6 +1385,22 @@ public class IoFunctions {
   
   /* forReader */
 
+  public static <R> R forReader( @NonNull InputStream inputstream, Encoding encoding, @NonNull Function<Reader,R> function ) {
+    try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
+      return function.apply( reader );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forReader( @NonNull InputStream inputstream, Encoding encoding, C context, @NonNull BiFunction<Reader,C,R> function ) {
+    try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
+      return function.apply( reader, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
   public static <R> R forReader( @NonNull Path path, Encoding encoding, @NonNull Function<Reader,R> function ) {
     try( Reader reader = Encoding.openReader( path, encoding ) ) {
       return function.apply( reader );
@@ -1452,6 +1487,22 @@ public class IoFunctions {
 
   public static <R,C> R forReader( @NonNull URL url, C context, @NonNull BiFunction<Reader,C,R> function ) {
     return forReader( toPath( url ), null, context, function );
+  }
+
+  public static void forReaderDo( @NonNull InputStream inputstream, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
+    try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
+      consumer.accept( reader );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <C> void forReaderDo( @NonNull InputStream inputstream, Encoding encoding, C context, @NonNull BiConsumer<Reader,C> consumer ) {
+    try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
+      consumer.accept( reader, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
 
   public static void forReaderDo( @NonNull Path path, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
@@ -1544,6 +1595,22 @@ public class IoFunctions {
   
   /* forWriter */
   
+  public static <R> R forWriter( @NonNull OutputStream outputstream, Encoding encoding, @NonNull Function<Writer,R> function ) {
+    try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
+      return function.apply( writer );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <R,C> R forWriter( @NonNull OutputStream outputstream, Encoding encoding, C context, @NonNull BiFunction<Writer,C,R> function ) {
+    try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
+      return function.apply( writer, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+  
   public static <R> R forWriter( @NonNull Path path, Encoding encoding, @NonNull Function<Writer,R> function ) {
     try( Writer writer = Encoding.openWriter( path, encoding ) ) {
       return function.apply( writer );
@@ -1630,6 +1697,22 @@ public class IoFunctions {
 
   public static <R,C> R forWriter( @NonNull URL url, C context, @NonNull BiFunction<Writer,C,R> function ) {
     return forWriter( toPath( url ), null, context, function );
+  }
+  
+  public static void forWriterDo( @NonNull OutputStream outputstream, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
+    try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
+      consumer.accept( writer );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+
+  public static <C> void forWriterDo( @NonNull OutputStream outputstream, Encoding encoding, C context, @NonNull BiConsumer<Writer,C> consumer ) {
+    try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
+      consumer.accept( writer, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
   
   public static void forWriterDo( @NonNull Path path, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
