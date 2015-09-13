@@ -354,7 +354,7 @@ public class IoFunctionsTest {
     
     String               text    = builder.toString();
     ByteArrayInputStream bytein  = new ByteArrayInputStream( Encoding.UTF8.encode( text ) ); 
-    String               current = IoFunctions.readTextAsIs( bytein, Encoding.UTF8 );
+    String               current = IoFunctions.forReader( bytein, Encoding.UTF8, IoFunctions::readTextFully );
     assertThat( current, is( text ) );
     
   }
