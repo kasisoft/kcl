@@ -14,6 +14,9 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class Messages {
 
+  @I18N("The filesystem watching dispatcher has already been started.")
+  static String          error_fswatcher_already_started;
+
   @I18N("(default=%s)")
   static I18NFormatter   format_default;
   

@@ -76,8 +76,11 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
       register( root );
       registerChildren( root );
       
+      startup();
+      
       // process all filesystem events
       while( ! isStopped() ) {
+        maintenance();
         cancelNonExistingResources();
         removeInvalidKeys();
         processNextEvents();
@@ -91,6 +94,8 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
       
       // cleanup
       cancelAll();
+      
+      shutdown();
       
     }
     
@@ -250,6 +255,24 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
    *               Not <code>null</code>.
    */
   protected void processPath( Path path ) {
+  }
+
+  /**
+   * Will be invoked before the actual scheduling takes place.
+   */
+  protected void startup() {
+  }
+  
+  /**
+   * Will be invoked after all keys have been cleaned up so no more path will be passed to #processPath(Path).
+   */
+  protected void shutdown() {
+  }
+
+  /**
+   * Will be invoked for each each event allowing to perform some maintenance operations.
+   */
+  protected void maintenance() {
   }
   
   /**
