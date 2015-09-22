@@ -79,7 +79,7 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
     withMaxQueueSize( maxPoolSize * 16 );
     futures      = new Hashtable<>();
     consumer     = cse;
-    pathTest     = (Predicate<Path>) Predicates.ACCEPT_ALL;
+    pathTest     = Predicates.acceptAll();
     errorHandler = $ -> {};
   }
 

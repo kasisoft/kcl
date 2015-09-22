@@ -11,10 +11,6 @@ import java.util.regex.*;
  */
 public class Predicates {
   
-  public static final Predicate<?> ACCEPT_ALL = $ -> true;
-  
-  public static final Predicate<?> ACCEPT_NONE = $ -> false;
-
   public static final Predicate<String> IS_JAVA_CLASS_FILE = new IsJavaClassFile();
   
   public static final Predicate<String> IS_RESOURCE = IS_JAVA_CLASS_FILE.negate();
@@ -33,6 +29,8 @@ public class Predicates {
   
   public static final Predicate<String> IS_MAVEN_FILE = new IsMavenFile();
   
+  public static final Predicate<String> IS_JAVA_FQDN = new IsJavaFqdn();
+  
   public static <T> Predicate<T> acceptAll() {
     return $ -> true;
   }
@@ -45,7 +43,8 @@ public class Predicates {
     
     @Override
     public boolean test( String resource ) {
-      return resource.endsWith( "/pom.xml" ) || resource.endsWith( "/pom.properties" );
+      return resource.endsWith( "/pom.xml" ) || resource.endsWith( "/pom.properties" ) ||
+             resource.equals( "pom.xml" ) || resource.equals( "pom.properties" ) ;
     }
       
   }
@@ -69,7 +68,10 @@ public class Predicates {
     @Override
     public boolean test( String resource ) {
       boolean equals = PREFIX.equals( resource );
-      return resource.startsWith( PREFIX ) && (!equals);
+      if( resource.startsWith( PREFIX ) && (!equals) && (resource.indexOf( '$' ) == -1) ) {
+        return IS_JAVA_FQDN.test( resource.substring( PREFIX.length() ) );
+      }
+      return false;
     }
       
   }
@@ -92,6 +94,23 @@ public class Predicates {
     @Override
     public boolean test( String resource ) {
       return pattern.matcher( resource ).matches();
+    }
+    
+  } /* ENDCLASS */
+  
+  private static class IsJavaFqdn implements Predicate<String> {
+     
+    private static final Pattern PATTERN = Pattern.compile(
+      "^(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)*(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)$"
+    );
+
+    @Override
+    public boolean test( String classname ) {
+      if( !classname.endsWith( ".class" ) ) {
+        // to be more accurate: split segments and make sure that the segments aren't keywords
+        return PATTERN.matcher( classname ).matches();
+      }
+      return false;
     }
     
   } /* ENDCLASS */
