@@ -4,16 +4,11 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * FileType for 'bmp' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BmpFileType implements FileType {
 
   static final byte[] MAGIC = "BM".getBytes(); 

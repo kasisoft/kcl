@@ -11,7 +11,7 @@ import lombok.*;
  */
 @AllArgsConstructor
 @Data @FieldDefaults(level = AccessLevel.PRIVATE)
-public class I18NFormatter {
+public final class I18NFormatter {
 
   String   value;
   
@@ -22,7 +22,11 @@ public class I18NFormatter {
     if( (args == null) || (args.length == 0) ) {
       return value;
     } else {
-      return String.format( value, args );
+      try {
+        return String.format( value, args );
+      } catch( Exception ex ) {
+        return value;
+      }
     }
   }
   

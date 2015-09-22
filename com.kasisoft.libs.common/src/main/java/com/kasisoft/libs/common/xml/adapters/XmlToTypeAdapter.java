@@ -21,12 +21,12 @@ public class XmlToTypeAdapter<S,T> extends XmlAdapter<S,T>{
   }
   
   @Override
-  public T unmarshal( @NonNull S v ) throws Exception {
+  public T unmarshal( S v ) throws Exception {
     return typeadapter.unmarshal(v);
   }
 
   @Override
-  public S marshal( @NonNull T v ) throws Exception {
+  public S marshal( T v ) throws Exception {
     return typeadapter.marshal(v);
   }
 

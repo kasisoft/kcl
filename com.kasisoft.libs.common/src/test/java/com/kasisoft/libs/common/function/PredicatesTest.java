@@ -29,7 +29,7 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isMaven")
+  @Test(dataProvider = "isMaven", groups = "all")
   public void isMaven( String classname, boolean expected ) {
     assertThat( Predicates.IS_MAVEN_FILE.test( classname ), is( expected ) );
   }
@@ -47,7 +47,7 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isSPIFile")
+  @Test(dataProvider = "isSPIFile", groups = "all")
   public void isSPIFile( String classname, boolean expected ) {
     assertThat( Predicates.IS_SPI_FILE.test( classname ), is( expected ) );
   }
@@ -62,7 +62,7 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isMagnoliaFile")
+  @Test(dataProvider = "isMagnoliaFile", groups = "all")
   public void isMagnoliaFile( String classname, boolean expected ) {
     assertThat( Predicates.IS_MAGNOLIA_FILE.test( classname ), is( expected ) );
   }
@@ -81,7 +81,7 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isJavaFqdn")
+  @Test(dataProvider = "isJavaFqdn", groups = "all")
   public void isJavaFqdn( String classname, boolean expected ) {
     assertThat( Predicates.IS_JAVA_FQDN.test( classname ), is( expected ) );
   }
@@ -101,7 +101,7 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isJavaClassFile")
+  @Test(dataProvider = "isJavaClassFile", groups = "all")
   public void isJavaClassFile( String classname, boolean expected ) {
     assertThat( Predicates.IS_JAVA_CLASS_FILE.test( classname ), is( expected ) );
   }
@@ -121,7 +121,7 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isInnerJavaClassFile")
+  @Test(dataProvider = "isInnerJavaClassFile", groups = "all")
   public void isInnerJavaClassFile( String classname, boolean expected ) {
     assertThat( Predicates.IS_INNER_JAVA_CLASS_FILE.test( classname ), is( expected ) );
   }
@@ -141,17 +141,17 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isEnclosingJavaClassFile")
+  @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
   public void isEnclosingJavaClassFile( String classname, boolean expected ) {
     assertThat( Predicates.IS_ENCLOSING_JAVA_CLASS_FILE.test( classname ), is( expected ) );
   }
 
-  @Test(dataProvider = "isEnclosingJavaClassFile")
+  @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
   public void acceptAll( String classname, boolean expected ) {
     assertThat( Predicates.acceptAll().test( classname ), is( true ) );
   }
 
-  @Test(dataProvider = "isEnclosingJavaClassFile")
+  @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
   public void acceptNone( String classname, boolean expected ) {
     assertThat( Predicates.acceptNone().test( classname ), is( false ) );
   }

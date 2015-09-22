@@ -4,16 +4,11 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * FileType for 'zip' files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ZipFileType implements FileType {
 
   static final byte[] MAGIC = new byte[] { 'P', 'K', 3, 4 }; 
