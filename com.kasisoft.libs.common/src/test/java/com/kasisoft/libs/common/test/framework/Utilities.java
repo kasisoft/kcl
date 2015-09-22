@@ -19,7 +19,6 @@ import java.io.*;
  */
 public class Utilities {
   
-  @SuppressWarnings("null")
   public static File getTestdataDir() {
     URL location = null;
     try {

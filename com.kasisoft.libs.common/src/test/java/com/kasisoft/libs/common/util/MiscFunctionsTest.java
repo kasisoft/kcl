@@ -39,7 +39,6 @@ public class MiscFunctionsTest {
     return result;
   }
 
-  @SuppressWarnings("deprecation")
   @DataProvider(name="createDateValues")
   public Object[][] createDateValues() {
     Date date = new Date( 110, 3, 13 );
@@ -51,7 +50,6 @@ public class MiscFunctionsTest {
     };
   }
 
-  @SuppressWarnings("deprecation")
   @DataProvider(name="createCalendarValues")
   public Object[][] createCalendarValues() {
     Date      date      = new Date( 110, 3, 13 );

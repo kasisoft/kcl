@@ -22,15 +22,6 @@ public class Bucket<T> {
   BucketFactory<T>         factory;
 
   /**
-   * Initializes this bucket for a specific type.
-   * 
-   * @param type   The type that should be used for the creation. Not <code>null</code>.
-   */
-  public Bucket( @NonNull Class<T> type ) {
-    this( new DefaultBucketFactory<>( type ) );
-  }
-  
-  /**
    * Initializes this bucket.
    * 
    * @param bucketfactory   The factory that will be used to create/reset new objects. Not <code>null</code>.

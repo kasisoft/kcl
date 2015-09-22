@@ -573,26 +573,6 @@ public class IoFunctions {
   }
 
   /**
-   * Loads the textual content from an InputStream. The content will be loaded as is so it's equal to the content supplied
-   * by the InputStream.
-   * 
-   * @param instream   The InputStream providing the textual content. Not <code>null</code>.
-   * @param encoding   The encoding to be used while loading the content. If <code>null</code> the default encoding will 
-   *                   be used.
-   * 
-   * @return   The complete textual content. Not <code>null</code>.
-   *
-   * @throws FailureException in case of an io error.
-   * 
-   * @deprecated [07-Sep-2015:KASI]   This method will be deleted with version 2.1. Use {@link #readTextFully(Reader)}
-   *                                  in combination with {@link #forReaderDo(InputStream, Encoding, Consumer)}.
-   */
-  @Deprecated
-  public static String readTextAsIs( @NonNull InputStream instream, Encoding encoding ) {
-    return Encoding.decode( loadBytes( instream, null ), encoding );
-  }
-  
-  /**
    * Loads the textual content from a Reader. The content will be loaded as is.
    * 
    * @param reader   The Reader providing the textual content. Not <code>null</code>.
