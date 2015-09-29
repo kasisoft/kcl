@@ -11,6 +11,10 @@ import java.util.regex.*;
  */
 public class Predicates {
   
+  public static final Predicate         IS_NOT_NULL = $ -> $ != null;
+  
+  public static final Predicate         IS_NULL = IS_NOT_NULL.negate();
+  
   public static final Predicate<String> IS_JAVA_CLASS_FILE = new IsJavaClassFile();
   
   public static final Predicate<String> IS_RESOURCE = IS_JAVA_CLASS_FILE.negate();
