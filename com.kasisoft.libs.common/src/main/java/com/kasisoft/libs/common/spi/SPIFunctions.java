@@ -16,7 +16,10 @@ import java.lang.reflect.*;
  * Collection of various functions.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [25-Oct-2015:KASI]   This function will be removed with version 2.1. Use SPILoader instead.
  */
+@Deprecated
 public class SPIFunctions {
 
   /**
