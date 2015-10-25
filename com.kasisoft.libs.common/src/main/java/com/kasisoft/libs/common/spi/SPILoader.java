@@ -18,40 +18,38 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SPILoader {
+public class SPILoader<T> {
 
-  Map<Class,Predicate>   filter;
-  Map<Class,Function>    postprocessor;
-  Map<String,Object>     configuration;
+  Predicate<T>        filter;
+  Function<T,T>       postprocessor;
+  Class<T>            clazz;
+  Map<String,Object>  configuration;
   
   private SPILoader() {
     filter        = null;
     postprocessor = null;
     configuration = null;
+    clazz         = null;
   }
   
   /**
    * Small helper which is used to load all SPI services currently available.
    * 
-   * @param servicetype   The desired service type. Not <code>null</code>
-   * 
    * @return   A list with all SPI services currently available. Not <code>null</code>.
    * 
    * @throws FailureException in case one SPI could not be configured properly.
    */
-  public <T> List<T> loadServices( Class<T> servicetype ) throws FailureException {
+  public List<T> loadServices() throws FailureException {
     List<T> result = new ArrayList<>();
-    ServiceLoader.load( servicetype ).forEach( result::add );
+    ServiceLoader.load( clazz ).forEach( result::add );
     if( configuration != null ) {
       result.stream().filter( $ -> $ instanceof Configurable ).forEach( s -> ((Configurable) s).configure( configuration ) );
     }
-    if( (postprocessor != null) && postprocessor.containsKey( servicetype ) ) {
-      Function<T,T> transformer = postprocessor.get( servicetype ); 
-      result = result.stream().map( transformer::apply ).collect( Collectors.toList() );
+    if( postprocessor != null ) {
+      result = result.stream().map( postprocessor::apply ).collect( Collectors.toList() );
     }
-    if( (filter != null) && filter.containsKey( servicetype ) ) {
-      Predicate<T> test = filter.get( servicetype );
-      result = result.stream().filter( test ).collect( Collectors.toList() );
+    if( filter != null ) {
+      result = result.stream().filter( filter ).collect( Collectors.toList() );
     }
     return result;
   }
@@ -63,34 +61,24 @@ public class SPILoader {
   public static class SPILoaderBuilder {
     
     private SPILoader   instance = new SPILoader();
-    
-    public <T> SPILoaderBuilder filter( Class<T> spiType, Predicate<T> test ) {
-      if( test != null ) {
-        if( instance.filter == null ) {
-          instance.filter = new Hashtable<>();
-        }
-        instance.filter.put( spiType, test );
-      }
+
+    public <T> SPILoaderBuilder serviceType( Class<T> type) {
+      instance.clazz = type;
       return this;
     }
 
-    public <T> SPILoaderBuilder postProcessor( Class<T> spiType, Consumer<T> consumer ) {
-      if( consumer != null ) {
-        if( instance.postprocessor == null ) {
-          instance.postprocessor = new Hashtable<>();
-        }
-        instance.postprocessor.put( spiType, WrapperFactory.toFunction( consumer ) );
-      }
+    public <T> SPILoaderBuilder filter( Predicate<T> test ) {
+      instance.filter = test;
+      return this;
+    }
+
+    public <T> SPILoaderBuilder postProcessor( Consumer<T> consumer ) {
+      instance.postprocessor = WrapperFactory.toFunction( consumer );
       return this;
     }
 
     public <T> SPILoaderBuilder postProcessor( Class<T> spiType, Function<T,T> transformer ) {
-      if( transformer != null ) {
-        if( instance.postprocessor == null ) {
-          instance.postprocessor = new Hashtable<>();
-        }
-        instance.postprocessor.put( spiType, transformer );
-      }
+      instance.postprocessor = transformer;
       return this;
     }
 
@@ -109,7 +97,11 @@ public class SPILoader {
     }
     
     public SPILoader build() {
-      return instance;
+      if( instance.clazz != null ) {
+        return instance;
+      } else {
+        return null;
+      }
     }
     
   } /* ENDCLASS */
