@@ -58,7 +58,7 @@ public abstract class TypeAdapter<F,T> implements Function<F,T> {
    */
   protected void failure( @NonNull Object value, @NonNull Exception cause ) {
     if( errhandler != null ) {
-      errhandler.failure( value, cause.getLocalizedMessage(), cause );
+      errhandler.accept( value, cause );
     }
   }
   

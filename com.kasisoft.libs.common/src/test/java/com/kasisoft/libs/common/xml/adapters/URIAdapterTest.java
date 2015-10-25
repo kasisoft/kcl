@@ -24,7 +24,7 @@ public class URIAdapterTest {
   SimpleErrorHandler errhandler = new SimpleErrorHandler() {
 
     @Override
-    public void failure( Object source, String message, Exception cause ) {
+    public void accept( Object source, Exception cause ) {
       if( cause instanceof RuntimeException ) {
         throw ((RuntimeException) cause);
       } else {
