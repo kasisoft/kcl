@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.ui.event;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
 
 import javax.swing.*;
+
+import java.util.function.*;
 
 import java.util.*;
 
@@ -18,8 +18,8 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractEventDispatcher<L,E> {
 
-  Set<L>               listeners;
-  SimpleErrorHandler   errorhandler;
+  Set<L>                         listeners;
+  BiConsumer<Object,Exception>   errorhandler;
   
   /**
    * Initialises this dispatcher to deliver Swing UI events.
@@ -34,7 +34,7 @@ public abstract class AbstractEventDispatcher<L,E> {
    * 
    * @param newhandler   The new error handler. If <code>null</code> there won't be any further notification.
    */
-  public synchronized void setErrorHandler( SimpleErrorHandler newhandler ) {
+  public synchronized void setErrorHandler( BiConsumer<Object,Exception> newhandler ) {
     errorhandler = newhandler;
   }
 
@@ -82,7 +82,7 @@ public abstract class AbstractEventDispatcher<L,E> {
               invokeEvent( (L) listener, evt );
             } catch( RuntimeException ex ) {
               if( errorhandler != null ) {
-                errorhandler.failure( source, ex.getMessage(), ex );
+                errorhandler.accept( source, ex );
               }
             }
           }

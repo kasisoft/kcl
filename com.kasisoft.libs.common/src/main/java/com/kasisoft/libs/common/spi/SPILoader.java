@@ -54,35 +54,35 @@ public class SPILoader<T> {
     return result;
   }
   
-  public static SPILoaderBuilder builder() {
-    return new SPILoaderBuilder();
+  public static <R> SPILoaderBuilder<R> builder() {
+    return new SPILoaderBuilder<R>();
   }
 
-  public static class SPILoaderBuilder {
+  public static class SPILoaderBuilder<S> {
     
     private SPILoader   instance = new SPILoader();
 
-    public <T> SPILoaderBuilder serviceType( Class<T> type) {
+    public SPILoaderBuilder<S> serviceType( Class<S> type) {
       instance.clazz = type;
       return this;
     }
 
-    public <T> SPILoaderBuilder filter( Predicate<T> test ) {
+    public SPILoaderBuilder<S> filter( Predicate<S> test ) {
       instance.filter = test;
       return this;
     }
 
-    public <T> SPILoaderBuilder postProcessor( Consumer<T> consumer ) {
+    public SPILoaderBuilder<S> postProcessor( Consumer<S> consumer ) {
       instance.postprocessor = WrapperFactory.toFunction( consumer );
       return this;
     }
 
-    public <T> SPILoaderBuilder postProcessor( Class<T> spiType, Function<T,T> transformer ) {
+    public SPILoaderBuilder<S> postProcessor( Class<S> spiType, Function<S,S> transformer ) {
       instance.postprocessor = transformer;
       return this;
     }
 
-    public <T> SPILoaderBuilder configuration( Map<String,Object> config ) {
+    public SPILoaderBuilder<S> configuration( Map<String,Object> config ) {
       if( config != null ) {
         instance.configuration = config;
         if( instance.configuration.isEmpty() ) {
@@ -92,7 +92,7 @@ public class SPILoader<T> {
       return this;
     }
 
-    public <T> SPILoaderBuilder configuration( Properties config ) {
+    public SPILoaderBuilder<S> configuration( Properties config ) {
       return configuration( WrapperFactory.toMap( config ) );
     }
     
