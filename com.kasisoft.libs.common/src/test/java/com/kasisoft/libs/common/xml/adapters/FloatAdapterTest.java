@@ -5,11 +5,11 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 /**
  * Tests for the type 'FloatAdapter'.
@@ -19,7 +19,7 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FloatAdapterTest {
 
-  SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  BiConsumer<Object,Exception> errhandler = new BiConsumer<Object,Exception>() {
 
     @Override
     public void accept( Object source, Exception cause ) {

@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.*;
+
+import java.util.function.*;
 
 import java.awt.*;
 
@@ -37,7 +37,7 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public PointAdapter( SimpleErrorHandler handler, String defval1, Point defval2 ) {
+  public PointAdapter( BiConsumer<Object,Exception> handler, String defval1, Point defval2 ) {
     this( handler, defval1, defval2, null );
   }
 
@@ -50,7 +50,7 @@ public class PointAdapter extends StructuralTypeAdapter<Point> {
    * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
    *                  ',' is used.
    */
-  public PointAdapter( SimpleErrorHandler handler, String defval1, Point defval2, String delim ) {
+  public PointAdapter( BiConsumer<Object,Exception> handler, String defval1, Point defval2, String delim ) {
     super( handler, defval1, defval2, 2, delim );
   }
 

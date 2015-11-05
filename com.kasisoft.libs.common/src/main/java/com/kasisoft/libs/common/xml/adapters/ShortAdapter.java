@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 /**
  * Simple adapter for short types.
@@ -32,7 +32,7 @@ public class ShortAdapter extends TypeAdapter<String,Short> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public ShortAdapter( SimpleErrorHandler handler, String defval1, Short defval2 ) {
+  public ShortAdapter( BiConsumer<Object,Exception> handler, String defval1, Short defval2 ) {
     super( handler, defval1, defval2 );
   }
 

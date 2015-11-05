@@ -8,6 +8,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.util.regex.*;
 
 /**
@@ -46,7 +48,7 @@ public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public StructuralTypeAdapter( SimpleErrorHandler handler, String defval1, T defval2, int size ) {
+  public StructuralTypeAdapter( BiConsumer<Object,Exception> handler, String defval1, T defval2, int size ) {
     this( handler, defval1, defval2, size, null );
   }
 
@@ -59,7 +61,7 @@ public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
    * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
    *                  ',' is used.
    */
-  public StructuralTypeAdapter( SimpleErrorHandler handler, String defval1, T defval2, int size, String delim ) {
+  public StructuralTypeAdapter( BiConsumer<Object,Exception> handler, String defval1, T defval2, int size, String delim ) {
     super( handler, defval1, defval2 );
     delimiter = StringFunctions.cleanup( delim );
     if( delimiter == null ) {

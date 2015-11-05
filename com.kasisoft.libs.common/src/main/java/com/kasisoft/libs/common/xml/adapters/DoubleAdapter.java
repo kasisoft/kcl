@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 /**
  * Simple adapter for double types.
@@ -39,7 +39,7 @@ public class DoubleAdapter extends TypeAdapter<String,Double> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public DoubleAdapter( SimpleErrorHandler handler, String defval1, Double defval2 ) {
+  public DoubleAdapter( BiConsumer<Object,Exception> handler, String defval1, Double defval2 ) {
     super( handler, defval1, defval2 );
   }
 

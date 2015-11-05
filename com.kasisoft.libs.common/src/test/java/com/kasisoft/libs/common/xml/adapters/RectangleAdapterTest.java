@@ -5,13 +5,13 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.base.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 import java.awt.*;
 
@@ -23,7 +23,7 @@ import java.awt.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RectangleAdapterTest {
 
-  SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  BiConsumer<Object,Exception> errhandler = new BiConsumer<Object,Exception>() {
 
     @Override
     public void accept( Object source, Exception cause ) {

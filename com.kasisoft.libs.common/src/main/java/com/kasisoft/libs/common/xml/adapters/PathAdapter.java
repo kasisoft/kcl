@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import com.kasisoft.libs.common.util.*;
 
+import java.util.function.*;
+
 import java.io.*;
 
 /**
@@ -18,7 +20,7 @@ public class PathAdapter extends ListAdapter<File> {
    * @param delim       The delimiter for the path. Maybe <code>null</code>.
    * @param canonical   <code>true</code> <=> Deliver canonical pathes only.
    */
-  public PathAdapter( SimpleErrorHandler handler, String delim, boolean canonical ) {
+  public PathAdapter( BiConsumer<Object,Exception> handler, String delim, boolean canonical ) {
     super( handler, getDelimiter( delim ), new FileAdapter( canonical ) );
   }
 
@@ -28,7 +30,7 @@ public class PathAdapter extends ListAdapter<File> {
    * @param handler     The handler that has to be used. Maybe <code>null</code>.
    * @param canonical   <code>true</code> <=> Deliver canonical pathes only.
    */
-  public PathAdapter( SimpleErrorHandler handler, boolean canonical ) {
+  public PathAdapter( BiConsumer<Object,Exception> handler, boolean canonical ) {
     super( handler, getDelimiter( null ), new FileAdapter( canonical ) );
   }
 

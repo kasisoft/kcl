@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 /**
  * Simple adapter for integer types.
@@ -32,7 +32,7 @@ public class IntegerAdapter extends TypeAdapter<String,Integer> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public IntegerAdapter( SimpleErrorHandler handler, String defval1, Integer defval2 ) {
+  public IntegerAdapter( BiConsumer<Object,Exception> handler, String defval1, Integer defval2 ) {
     super( handler, defval1, defval2 );
   }
 

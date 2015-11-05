@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.*;
+
+import java.util.function.*;
 
 import java.net.*;
 
@@ -28,7 +28,7 @@ public class URLAdapter extends TypeAdapter<String,URL> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public URLAdapter( SimpleErrorHandler handler, String defval1, URL defval2 ) {
+  public URLAdapter( BiConsumer<Object,Exception> handler, String defval1, URL defval2 ) {
     super( handler, defval1, defval2 );
   }
 

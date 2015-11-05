@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 /**
  * Simple adapter for float types.
@@ -39,7 +39,7 @@ public class FloatAdapter extends TypeAdapter<String,Float> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public FloatAdapter( SimpleErrorHandler handler, String defval1, Float defval2 ) {
+  public FloatAdapter( BiConsumer<Object,Exception> handler, String defval1, Float defval2 ) {
     super( handler, defval1, defval2 );
   }
 

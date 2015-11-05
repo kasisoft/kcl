@@ -10,6 +10,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.util.*;
 
 import java.lang.reflect.*;
@@ -43,7 +45,7 @@ public class ColorAdapter extends TypeAdapter<String,Color> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public ColorAdapter( SimpleErrorHandler handler, String defval1, Color defval2 ) {
+  public ColorAdapter( BiConsumer<Object,Exception> handler, String defval1, Color defval2 ) {
     super( handler, defval1, defval2 );
     colors          = new Hashtable<>();
     Field[] fields  = Color.class.getFields();

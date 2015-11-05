@@ -31,7 +31,7 @@ public class FileTypeManager {
    * Initializes this management type while looking for all SPI declarations.
    */
   public FileTypeManager() {
-    filetypes = SPIFunctions.loadSPIServices( FileType.class );
+    filetypes = MultiSPILoader.builder().build().loadServices( FileType.class );
     Collections.sort( filetypes, new FileTypeBySizeComparator() );
     if( ! filetypes.isEmpty() ) {
       maxspace = filetypes.get(0).getMinSize();

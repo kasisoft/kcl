@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.*;
+
+import java.util.function.*;
 
 /**
  * Simple adapter for String identity.
@@ -26,7 +26,7 @@ public class StringAdapter extends TypeAdapter<String,String> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public StringAdapter( SimpleErrorHandler handler, String defval1, String defval2 ) {
+  public StringAdapter( BiConsumer<Object,Exception> handler, String defval1, String defval2 ) {
     super( handler, defval1, defval2 );
   }
 

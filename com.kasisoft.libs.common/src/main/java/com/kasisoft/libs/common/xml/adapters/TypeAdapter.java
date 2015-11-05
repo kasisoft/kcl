@@ -25,9 +25,9 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class TypeAdapter<F,T> implements Function<F,T> {
 
-  SimpleErrorHandler   errhandler;
-  F                    defvalue1;
-  T                    defvalue2;
+  BiConsumer<Object,Exception>   errhandler;
+  F                              defvalue1;
+  T                              defvalue2;
 
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 
@@ -44,7 +44,7 @@ public abstract class TypeAdapter<F,T> implements Function<F,T> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  protected TypeAdapter( SimpleErrorHandler handler, F defval1, T defval2 ) {
+  protected TypeAdapter( BiConsumer<Object,Exception> handler, F defval1, T defval2 ) {
     errhandler  = handler;
     defvalue1   = defval1;
     defvalue2   = defval2;

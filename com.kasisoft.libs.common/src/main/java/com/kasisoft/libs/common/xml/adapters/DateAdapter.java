@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.xml.adapters;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 import java.util.*;
 
@@ -37,7 +37,7 @@ public class DateAdapter extends TypeAdapter<String,Date> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public DateAdapter( SimpleErrorHandler handler, String defval1, Date defval2 ) {
+  public DateAdapter( BiConsumer<Object,Exception> handler, String defval1, Date defval2 ) {
     this( handler, defval1, defval2, null, null );
   }
   
@@ -64,7 +64,7 @@ public class DateAdapter extends TypeAdapter<String,Date> {
    * @param locale    The Locale instance to be used for the formatting/parsing. If <code>null</code> 
    *                  {@link Locale#ENGLISH} is being used.
    */
-  public DateAdapter( SimpleErrorHandler handler, String defval1, Date defval2, String format, Locale locale ) {
+  public DateAdapter( BiConsumer<Object,Exception> handler, String defval1, Date defval2, String format, Locale locale ) {
     super( handler, defval1, defval2 );
     if( locale == null ) {
       locale = Locale.ENGLISH;

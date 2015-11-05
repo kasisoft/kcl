@@ -5,13 +5,13 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.base.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.function.*;
 
 /**
  * Tests for the type 'EnumerationAdapter'.
@@ -29,7 +29,7 @@ public class EnumerationAdapterTest {
     
   }
   
-  private SimpleErrorHandler errhandler = new SimpleErrorHandler() {
+  private BiConsumer<Object,Exception> errhandler = new BiConsumer<Object,Exception>() {
 
     @Override
     public void accept( Object source, Exception cause ) {
