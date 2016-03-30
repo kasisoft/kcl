@@ -428,6 +428,19 @@ public class IoFunctions {
   }
 
   /**
+   * Reads the binary content of an InputStream.
+   * 
+   * @param input   The InputStream providing the content. Not <code>null</code>.
+   *                       
+   * @return   The binary content. Not <code>null</code>.
+   * 
+   * @throws FailureException when the copying process fails for some reason.
+   */
+  public static byte[] loadBytes( @NonNull InputStream input ) {
+    return loadBytes( input, null );
+  }
+
+  /**
    * Reads the binary content of a Reader.
    * 
    * @param input        The Reader providing the content. Not <code>null</code>.
