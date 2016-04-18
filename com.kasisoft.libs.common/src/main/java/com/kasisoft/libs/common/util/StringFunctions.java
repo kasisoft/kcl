@@ -351,7 +351,7 @@ public class StringFunctions {
    * @param input          The input which has to be modified. Not <code>null</code>.
    * @param replacements   A Map of String's used to run the search replace operation. Not <code>null</code>.
    * 
-   * @return   The modified String.
+   * @return   The modified String. Not <code>null</code>.
    */
   public static String replace( @NonNull String input, @NonNull Map<String,String> replacements ) {
     StringFBuffer  buffer = new StringFBuffer( input );
