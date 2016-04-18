@@ -27,9 +27,9 @@ import java.lang.reflect.*;
 
 import java.net.*;
 
-import java.io.*;
-
 import java.nio.file.*;
+
+import java.io.*;
 
 /**
  * Collection of xml related functions.
@@ -44,20 +44,21 @@ public final class XmlFunctions {
   
   static {
     
-    XML2NORMAL.put( "\\n"    , "\n" );
-    XML2NORMAL.put( "\\r"    , "\r" );
-    XML2NORMAL.put( "&#10;"  , "\n" );
-    XML2NORMAL.put( "&#13;"  , "\r" );
+//    XML2NORMAL.put( "\\n"    , "\n" );
+//    XML2NORMAL.put( "\\r"    , "\r" );
+//    XML2NORMAL.put( "&#10;"  , "\n" );
+//    XML2NORMAL.put( "&#13;"  , "\r" );
     XML2NORMAL.put( "&apos;" , "'"  );
     XML2NORMAL.put( "&gt;"   , ">"  );
     XML2NORMAL.put( "&lt;"   , "<"  );
     XML2NORMAL.put( "&amp;"  , "&"  );
     XML2NORMAL.put( "&quot;" , "\"" );
     
-    NORMAL2XML.put( "\n" , "\\n"    );
-    NORMAL2XML.put( "\r" , "\\r"    );
-    NORMAL2XML.put( "\n" , "&#10;"  );
-    NORMAL2XML.put( "\r" , "&#13;"  );
+//    NORMAL2XML.put( "\n" , "\\n"    );
+//    NORMAL2XML.put( "\r" , "\\r"    );
+//    NORMAL2XML.put( "\n" , "&#10;"  );
+//    NORMAL2XML.put( "\r" , "&#13;"  );
+    
     NORMAL2XML.put( "'"  , "&apos;" );
     NORMAL2XML.put( ">"  , "&gt;"   );
     NORMAL2XML.put( "<"  , "&lt;"   );
@@ -195,6 +196,31 @@ public final class XmlFunctions {
   public static String encodeString( @NonNull String source ) {
     return StringFunctions.replace( source, NORMAL2XML );
   }
+  
+  /**
+   * Decodes a String in place that contains XML specific entities.
+   * 
+   * @param source   A String that may contain XML entities. Not <code>null</code>.
+   * 
+   * @return   A decoded String. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T unescapeXml( @NonNull T source ) {
+    StringFunctions.replace( source, XML2NORMAL );
+    return source;
+  }
+
+  /**
+   * Encodes a String in place while replacing literals into corresponding XML entities.
+   * 
+   * @param source   A String that may be modified. Not <code>null</code>.
+   * 
+   * @return   An encoded String. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T escapeXml( @NonNull T source ) {
+    StringFunctions.replace( source, NORMAL2XML );
+    return source;
+  }
+
 
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
