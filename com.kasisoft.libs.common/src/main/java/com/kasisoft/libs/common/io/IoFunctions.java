@@ -209,6 +209,54 @@ public class IoFunctions {
   }
 
   /**
+   * Copies the content from one file to another file.
+   * 
+   * @param input    The file which contains the content. Must be a valid file.
+   * @param output   The destination where to write the content to. Not <code>null</code>.
+   * 
+   * @throws FailureException when the copying process fails for some reason.
+   */
+  public static void move( @NonNull Path input, @NonNull Path output ) {
+    try {
+      if( Files.isRegularFile( input ) ) {
+        Files.move( input, output, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING );
+      } else {
+        moveDir( input, output );
+      }
+    } catch( Exception ex ) {
+      throw FailureCode.IO.newException(ex);
+    }
+  }
+
+  private static void moveDir( Path input, Path output ) throws Exception {
+    Files.walkFileTree(input, new SimpleFileVisitor<Path>() {
+  
+      @Override
+      public FileVisitResult preVisitDirectory( Path dir, BasicFileAttributes attrs ) throws IOException {
+          Path destination = output.resolve( input.relativize( dir ) );
+          if( ! Files.exists( destination ) ) {
+              Files.createDirectory( destination );
+          }
+          return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult visitFile( Path file, BasicFileAttributes attrs ) throws IOException {
+          Path destination = output.resolve( input.relativize( file ) );
+          Files.move( file, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING );
+          return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult postVisitDirectory( Path dir, IOException ex ) throws IOException {
+          Files.deleteIfExists( dir );
+          return FileVisitResult.CONTINUE;
+      }
+        
+    });
+  }
+  
+  /**
    * Copies some content from an InputStream to an OutputStream.
    * 
    * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
@@ -309,8 +357,40 @@ public class IoFunctions {
    */
   public static void copy( @NonNull Path input, @NonNull Path output ) {
     try {
-      Files.copy( input, output, StandardCopyOption.REPLACE_EXISTING );
-    } catch( IOException ex ) {
+      if( Files.isRegularFile( input ) ) {
+        Files.copy( input, output, StandardCopyOption.REPLACE_EXISTING );
+      } else {
+        copyDir( input, output, FileVisitResult.CONTINUE );
+      }
+    } catch( Exception ex ) {
+      throw FailureCode.IO.newException(ex);
+    }
+  }
+  
+  private static void copyDir( final Path input, final Path output, final FileVisitResult fileVisitResult ) throws Exception {
+    try {
+      
+      Files.walkFileTree( input, new SimpleFileVisitor<Path>() {
+  
+        @Override
+        public FileVisitResult preVisitDirectory( Path dir, BasicFileAttributes attrs ) throws IOException {
+            Path destination = output.resolve( input.relativize( dir ) );
+            if( !Files.exists( destination ) ) {
+                Files.createDirectories( destination );
+            }
+            return fileVisitResult;
+        }
+  
+        @Override
+        public FileVisitResult visitFile( Path file, BasicFileAttributes attrs ) throws IOException {
+            Path destination = output.resolve( input.relativize( file ) );
+            Files.copy( file, destination, StandardCopyOption.REPLACE_EXISTING );
+            return FileVisitResult.CONTINUE;
+        }
+  
+      });
+      
+    } catch( Exception ex ) {
       throw FailureCode.IO.newException(ex);
     }
   }
@@ -325,20 +405,12 @@ public class IoFunctions {
    * @throws FailureException when the copying process fails for some reason.
    */
   public static void copyDir( @NonNull File input, @NonNull File output, boolean recursive ) {
-    if( ! output.exists() ) {
-      mkdirs( output );
-    }
-    File[] children = input.listFiles();
-    for( int i = 0; i < children.length; i++ ) {
-      File newchild = new File( output, children[i].getName() );
-      if( children[i].isFile() ) {
-        copy( children[i], newchild );
-      } else if( children[i].isDirectory() ) {
-        mkdirs( newchild );
-        if( recursive ) {
-          copyDir( children[i], newchild, true );
-        }
-      }
+    try {
+      Path inputPath  = Paths.get( input.toURI() );
+      Path outputPath = Paths.get( output.toURI() );
+      copyDir( inputPath, outputPath, recursive ? FileVisitResult.CONTINUE : FileVisitResult.SKIP_SUBTREE );
+    } catch( Exception ex ) {
+      throw FailureCode.IO.newException(ex);
     }
   }
   
