@@ -17,6 +17,8 @@ import java.io.*;
 import java.nio.charset.*;
 import java.nio.file.*;
 
+import java.nio.*;
+
 /**
  * Collection of supported encodings.
  * 
@@ -210,12 +212,10 @@ public final class Encoding {
    * @return   The data which has to be encoded. Not <code>null</code>.
    */
   public byte[] encode( @NonNull String text ) {
-    try {
-      return text.getBytes( encoding );
-    } catch( UnsupportedEncodingException ex ) {
-      // cannot happen as the declared encodings are required according to the specs 
-      return null;
-    }
+    ByteBuffer buffer = charset.encode( CharBuffer.wrap( text ) );
+    byte[]     result = new byte[ buffer.limit() ];
+    buffer.get( result );
+    return result;
   }
 
   /**
@@ -226,12 +226,7 @@ public final class Encoding {
    * @return   The decoded String. Not <code>null</code>.
    */
   public String decode( @NonNull byte[] data ) {
-    try {
-      return new String( data, encoding );
-    } catch( UnsupportedEncodingException ex ) {
-      // cannot happen as the declared encodings are required according to the specs 
-      return null;
-    }
+    return charset.decode( ByteBuffer.wrap( data ) ).toString();
   }
   
   /**
