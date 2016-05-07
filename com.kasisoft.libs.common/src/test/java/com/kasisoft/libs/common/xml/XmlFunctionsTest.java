@@ -109,9 +109,9 @@ public class XmlFunctionsTest {
   
   @Test
   public void encodeAndDecodeString() {
-    String encoded = XmlFunctions.encodeString( "<Bla\nBlub\r\n>" );
+    String encoded = XmlFunctions.escapeXml( "<Bla\nBlub\r\n>", true );
     assertThat( encoded, is( "&lt;Bla&#10;Blub&#13;&#10;&gt;" ) );
-    String decoded = XmlFunctions.decodeString( encoded );
+    String decoded = XmlFunctions.unescapeXml( encoded, true );
     assertThat( decoded, is( "<Bla\nBlub\r\n>" ) );
   }
 

@@ -19,7 +19,7 @@ import java.util.*;
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "builder") @ToString(of = "builder")
-public class XmlGenerator implements AutoCloseable {
+public class XmlGenerator {
 
   StringFBuilder                      builder;
   Encoding                            encoding;
@@ -61,12 +61,12 @@ public class XmlGenerator implements AutoCloseable {
   /**
    * Creates this generator using a certain encoding and a specific indentation size.
    * 
-   * @param encoding     The encoding to be used. If <code>null</code> the default encoding UTF-8 is used.  
+   * @param csEncoding   The encoding to be used. If <code>null</code> the default encoding UTF-8 is used.  
    * @param indentsize   The indentation size. If <code>null</code> the default 2 is being used.
    */
-  public XmlGenerator( Encoding encoding, Integer indentsize ) {
+  public XmlGenerator( Encoding csEncoding, Integer indentsize ) {
     builder                 = new StringFBuilder();
-    encoding                = encoding != null ? encoding : Encoding.UTF8;
+    encoding                = csEncoding != null ? csEncoding : Encoding.UTF8;
     tags                    = new Stack<>();
     indentation             = new StringBuilder();
     indent                  = StringFunctions.fillString( indentsize != null ? indentsize.intValue() : 2, ' ' );
@@ -235,6 +235,19 @@ public class XmlGenerator implements AutoCloseable {
   /**
    * Writes a complete tag. 
    * 
+   * @param tag    The tag name. Neither <code>null</code> nor empty.
+   * @param text   The text contained with this tag. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public synchronized <T extends XmlGenerator> T tag( String tag, String text ) {
+    tag( tag, text, (Map<String, Object>) null );
+    return (T) this;
+  }
+  
+  /**
+   * Writes a complete tag. 
+   * 
    * @param tag          The tag name. Neither <code>null</code> nor empty.
    * @param text         The text contained with this tag. Maybe <code>null</code>.
    * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
@@ -307,6 +320,17 @@ public class XmlGenerator implements AutoCloseable {
     return (T) this;
   }
 
+  /**
+   * Opens a tag which potentially contains other tags. 
+   * 
+   * @param tag   The tag name. Neither <code>null</code> nor empty.
+   * 
+   * @return   this
+   */
+  public synchronized <T extends XmlGenerator> T openTag( String tag ) {
+    return openTag( tag, (Map<String, Object>) null );
+  }
+    
   /**
    * Opens a tag which potentially contains other tags. 
    * 
@@ -396,8 +420,7 @@ public class XmlGenerator implements AutoCloseable {
     }
   }
   
-  @Override
-  public void close() {
+  private void stop() {
     while( ! tags.isEmpty() ) {
       closeTag();
     }
@@ -409,7 +432,7 @@ public class XmlGenerator implements AutoCloseable {
    * @return   The current xml content. Not <code>null</code>.
    */
   public synchronized String toXml() {
-    close();
+    stop();
     return builder.toString();
   }
 

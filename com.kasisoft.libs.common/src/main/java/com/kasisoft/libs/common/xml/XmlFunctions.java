@@ -39,25 +39,26 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class XmlFunctions {
 
-  static final Map<String, String> XML2NORMAL = new Hashtable<>();
-  static final Map<String, String> NORMAL2XML = new Hashtable<>();
-  
+  static final Map<String, String> XML2NORMAL = new HashMap<>();
+  static final Map<String, String> NORMAL2XML = new HashMap<>();
+
+  static final Map<String, String> XML2NORMAL_LE = new HashMap<>();
+  static final Map<String, String> NORMAL2XML_LE = new HashMap<>();
+
   static {
     
-//    XML2NORMAL.put( "\\n"    , "\n" );
-//    XML2NORMAL.put( "\\r"    , "\r" );
-//    XML2NORMAL.put( "&#10;"  , "\n" );
-//    XML2NORMAL.put( "&#13;"  , "\r" );
     XML2NORMAL.put( "&apos;" , "'"  );
     XML2NORMAL.put( "&gt;"   , ">"  );
     XML2NORMAL.put( "&lt;"   , "<"  );
     XML2NORMAL.put( "&amp;"  , "&"  );
     XML2NORMAL.put( "&quot;" , "\"" );
     
-//    NORMAL2XML.put( "\n" , "\\n"    );
-//    NORMAL2XML.put( "\r" , "\\r"    );
-//    NORMAL2XML.put( "\n" , "&#10;"  );
-//    NORMAL2XML.put( "\r" , "&#13;"  );
+    XML2NORMAL_LE.putAll( XML2NORMAL );
+    XML2NORMAL_LE.put( "\\n"    , "\n" );
+    XML2NORMAL_LE.put( "\\r"    , "\r" );
+    XML2NORMAL_LE.put( "&#10;"  , "\n" );
+    XML2NORMAL_LE.put( "&#13;"  , "\r" );
+    
     
     NORMAL2XML.put( "'"  , "&apos;" );
     NORMAL2XML.put( ">"  , "&gt;"   );
@@ -65,6 +66,12 @@ public final class XmlFunctions {
     NORMAL2XML.put( "&"  , "&amp;"  );
     NORMAL2XML.put( "\"" , "&quot;" );
     
+    NORMAL2XML_LE.putAll( NORMAL2XML );
+    NORMAL2XML_LE.put( "\n" , "\\n"    );
+    NORMAL2XML_LE.put( "\r" , "\\r"    );
+    NORMAL2XML_LE.put( "\n" , "&#10;"  );
+    NORMAL2XML_LE.put( "\r" , "&#13;"  );
+  
   }
 
   /**
@@ -181,20 +188,26 @@ public final class XmlFunctions {
    * @param source   A String that may contain XML entities. Not <code>null</code>.
    * 
    * @return   A decoded String. Not <code>null</code>.
+   * 
+   * @deprecated This function will be removed with version 2.2 . Use {@link #unescapeXml(CharSequence, boolean)} instead.
    */
+  @Deprecated
   public static String decodeString( @NonNull String source ) {
-    return StringFunctions.replace( source, XML2NORMAL );
+    return StringFunctions.replace( source, XML2NORMAL_LE );
   }
 
   /**
-   * Encodes a String while replacing literals into corresponding XML entities.
+   * Encodes a String while replacing literals into corresponding XML entities. Thi
    * 
    * @param source   A String that may be modified. Not <code>null</code>.
    * 
    * @return   An encoded String. Not <code>null</code>.
+   * 
+   * @deprecated This function will be removed with version 2.2 . Use {@link #unescapeXml(CharSequence, boolean)} instead.
    */
+  @Deprecated
   public static String encodeString( @NonNull String source ) {
-    return StringFunctions.replace( source, NORMAL2XML );
+    return StringFunctions.replace( source, NORMAL2XML_LE );
   }
   
   /**
@@ -205,8 +218,28 @@ public final class XmlFunctions {
    * @return   A decoded String. Not <code>null</code>.
    */
   public static <T extends CharSequence> T unescapeXml( @NonNull T source ) {
-    StringFunctions.replace( source, XML2NORMAL );
-    return source;
+    return unescapeXml( source, false );
+  }
+  
+  /**
+   * Decodes a String in place that contains XML specific entities.
+   * 
+   * @param source        A String that may contain XML entities. Not <code>null</code>.
+   * @param lineEndings   <code>true</code> <=> Unescape line endings as well.
+   * 
+   * @return   A decoded String. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T unescapeXml( @NonNull T source, boolean lineEndings ) {
+    T result = null;
+    if( source instanceof String ) {
+      StringBuilder builder = new StringBuilder( source );
+      StringFunctions.replace( builder, lineEndings ? XML2NORMAL_LE : XML2NORMAL );
+      result = (T) builder.toString();
+    } else {
+      result = source;
+      StringFunctions.replace( result, lineEndings ? XML2NORMAL_LE : XML2NORMAL );
+    }
+    return result;
   }
 
   /**
@@ -217,8 +250,28 @@ public final class XmlFunctions {
    * @return   An encoded String. Not <code>null</code>.
    */
   public static <T extends CharSequence> T escapeXml( @NonNull T source ) {
-    StringFunctions.replace( source, NORMAL2XML );
-    return source;
+    return escapeXml( source, false );
+  }
+  
+  /**
+   * Encodes a String in place while replacing literals into corresponding XML entities.
+   * 
+   * @param source        A String that may be modified. Not <code>null</code>.
+   * @param lineEndings   <code>true</code> <=> Escape line endings as well.
+   * 
+   * @return   An encoded String. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T escapeXml( @NonNull T source, boolean lineEndings ) {
+    T result = null;
+    if( source instanceof String ) {
+      StringBuilder builder = new StringBuilder( source );
+      StringFunctions.replace( builder, lineEndings ? NORMAL2XML_LE : NORMAL2XML );
+      result = (T) builder.toString();
+    } else {
+      result = source;
+      StringFunctions.replace( result, lineEndings ? NORMAL2XML_LE : NORMAL2XML );
+    }
+    return result;
   }
 
 
