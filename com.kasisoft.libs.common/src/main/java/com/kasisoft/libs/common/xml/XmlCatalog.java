@@ -32,6 +32,7 @@ import java.io.*;
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver {
 
   Map<String,byte[]>    catalogdata;
+  Map<String,String>    systemIds;
   Set<URL>              failures;
   DOMImplementationLS   domimpl;
   
@@ -53,6 +54,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   public XmlCatalog( boolean lsaware ) {
     
     catalogdata = new Hashtable<>();
+    systemIds   = new Hashtable<>();
     failures    = new HashSet<>();
     domimpl     = null;
     
@@ -99,6 +101,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         instream    = openStream( url );
         byte[] data = IoFunctions.loadBytes( instream, null );
         catalogdata.put( id, data );
+        systemIds.put( id, url.toExternalForm() );
       } catch( IOException | FailureException ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
@@ -209,7 +212,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     byte[] result = loadData( publicid, systemid );
     if( result != null ) {
       InputSource inputsource = new InputSource( new ByteArrayInputStream( result ) );
-      inputsource.setSystemId( systemid );
+      inputsource.setSystemId( systemIds.get( publicid ) );
       inputsource.setPublicId( publicid );
       return inputsource;
     } else {
