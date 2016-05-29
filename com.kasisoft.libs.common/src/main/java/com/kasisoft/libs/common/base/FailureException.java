@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.base;
 
+import com.kasisoft.libs.common.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -15,8 +17,6 @@ import java.util.function.*;
 @Getter @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FailureException extends RuntimeException {
 
-  static final Object[] NO_PARAMS = new Object[0];
-  
   FailureCode   failurecode;
   Object[]      params;
 
@@ -26,12 +26,29 @@ public class FailureException extends RuntimeException {
     params      = parameters;
   }
   
-  public static FailureException wrap( Exception ex ) {
+  /**
+   * This function makes sure that an exception is always wrapped as a {@link FailureException} without
+   * unnecessary wrappings.
+   * 
+   * @param ex   The exception that might need to be wrapped. Not <code>null</code>.
+   * 
+   * @return   A FailureException instance. Not <code>null</code>.
+   */
+  public static FailureException wrap( @NonNull Exception ex ) {
     if( ex instanceof FailureException ) {
       return (FailureException) ex;
     } else {
-      return new FailureException( ex.getLocalizedMessage(), FailureCode.Unexpected, ex, NO_PARAMS );
+      return new FailureException( ex.getLocalizedMessage(), FailureCode.Unexpected, ex, Empty.NO_OBJECTS );
     }
+  }
+  
+  /**
+   * This helper function can be used as a generic error handler.
+   * 
+   * @param ex   The exception that indicates the error. Not <code>null</code>.
+   */
+  public static void errorHandler( @NonNull Exception ex ) {
+    throw wrap(ex);
   }
 
   public static <T> Consumer<T> ensure( Consumer<T> consumer ) {
