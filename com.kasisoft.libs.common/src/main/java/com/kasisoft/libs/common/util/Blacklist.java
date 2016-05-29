@@ -26,7 +26,7 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString(of = {"list", "commentPrefix"})
 @EqualsAndHashCode(of = {"list", "commentPrefix"})
-public class Blacklist implements Predicate<String>, Function<CharSequence,CharSequence> {
+public class Blacklist implements Predicate<String>, Function<CharSequence,StringBuilder> {
   
   static final Comparator<String> LENGTH_COMPARATOR = new Comparator<String>() {
 
@@ -63,6 +63,21 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,CharS
    */
   public Blacklist( URL url ) {
     this();
+    IoFunctions.forReaderDo( url, this::load );
+  }
+
+  /**
+   * Sets up an {@link Blacklist} instance initialized using the supplied resource.
+   * 
+   * @param classpath   The location of a classpath resource. Neither <code>null</code> nor empty.
+   */
+  public Blacklist( String classpath ) {
+    this();
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    if( cl == null ) {
+      cl = getClass().getClassLoader();
+    }
+    URL url = cl.getResource( classpath );
     IoFunctions.forReaderDo( url, this::load );
   }
 
@@ -148,15 +163,42 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,CharS
   public synchronized void reset() {
     list.clear();
   }
+
+
+  public Predicate<String> startsWith() {
+    return this::testStartsWith;
+  }
   
+  public Predicate<String> endsWith() {
+    return this::testEndsWith;
+  }
+
   @Override
   public synchronized boolean test( String t ) {
     return list.contains(t);
   }
 
+  private synchronized boolean testStartsWith( String t ) {
+    for( String entry : list ) {
+      if( t.startsWith( entry ) ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private synchronized boolean testEndsWith( String t ) {
+    for( String entry : list ) {
+      if( t.endsWith( entry ) ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
-  public synchronized CharSequence apply( CharSequence t ) {
-    StringFBuilder result = new StringFBuilder();
+  public synchronized StringBuilder apply( CharSequence t ) {
+    StringBuilder result = new StringBuilder();
     result.append(t);
     for( String entry : list ) {
       removeAll( result, entry );
@@ -164,7 +206,7 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,CharS
     return result;
   }
   
-  private void removeAll( StringFBuilder builder, String literal ) {
+  private void removeAll( StringBuilder builder, String literal ) {
     int idx = builder.indexOf( literal );
     while( idx != -1 ) {
       builder.delete( idx, idx + literal.length() );
