@@ -163,6 +163,21 @@ public class IoFunctions {
       throw FailureCode.IO.newException( ex );
     }
   }
+  
+  /**
+   * Returns a {@link BufferedReader} instance.
+   * 
+   * @param reader   The {@link Reader} that might need wrapping. Not <code>null</code>.
+   * 
+   * @return   The {@link BufferedReader} instance. Not <code>null</code>.
+   */
+  public static BufferedReader newBufferedReader( @NonNull Reader reader ) {
+    if( reader instanceof BufferedReader ) {
+      return (BufferedReader) reader;
+    } else {
+      return new BufferedReader( reader );
+    }
+  }
 
   /**
    * Returns a file for temporary use.
