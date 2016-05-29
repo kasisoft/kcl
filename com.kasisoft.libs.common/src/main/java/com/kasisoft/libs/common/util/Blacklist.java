@@ -44,6 +44,7 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,Strin
   };
   
   List<String>          list;
+  List<String>          lowercaseList;
   String                commentPrefix;
   Consumer<Exception>   errorHandler;
   
@@ -52,6 +53,7 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,Strin
    */
   public Blacklist() {
     list          = new ArrayList<>();
+    lowercaseList = new ArrayList<>();
     commentPrefix = "#";
     errorHandler  = FailureException::errorHandler;
   }
@@ -100,6 +102,7 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,Strin
     String value = StringFunctions.cleanup( blacklist );
     if( value != null ) {
       list.add( value );
+      lowercaseList.add( value.toLowerCase() );
     }
   }
 
@@ -143,9 +146,8 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,Strin
     try {
       String line   = buffered.readLine();
       while( line != null ) {
-        line = StringFunctions.cleanup( line );
         if( (line != null) && (!line.startsWith( commentPrefix )) ) {
-          list.add( line );
+          add( line );
         }
         line = buffered.readLine();
       }
@@ -164,32 +166,106 @@ public class Blacklist implements Predicate<String>, Function<CharSequence,Strin
     list.clear();
   }
 
+  /**
+   * Returns a startsWith test. 
+   * 
+   * @param ignorecase   <code>true</code> <=> Ignore case.
+   * 
+   * @return   A startsWith test for this blacklist. Not <code>null</code>.
+   */
+  public Predicate<String> startsWith( boolean ignorecase ) {
+    return ignorecase ? this::testStartsWithCI : this::testStartsWithCS;
+  }
 
+  /**
+   * Returns a startsWith test (case sensitive) 
+   * 
+   * @return   A startsWith test for this blacklist. Not <code>null</code>.
+   */
   public Predicate<String> startsWith() {
-    return this::testStartsWith;
+    return startsWith( false );
   }
   
+  /**
+   * Returns an endsWith test. 
+   * 
+   * @param ignorecase   <code>true</code> <=> Ignore case.
+   * 
+   * @return   A endsWith test for this blacklist. Not <code>null</code>.
+   */
+  public Predicate<String> endsWith( boolean ignorecase ) {
+    return ignorecase ? this::testEndsWithCI : this::testEndsWithCS;
+  }
+  
+  /**
+   * Returns an endsWith test. 
+   * 
+   * @return   A endsWith test for this blacklist. Not <code>null</code>.
+   */
   public Predicate<String> endsWith() {
-    return this::testEndsWith;
+    return endsWith( false );
   }
 
+  /**
+   * Returns a test ignoring case sensitivity.
+   * 
+   * @return   A test ignoring case sensitivity. Not <code>null</code>.
+   */
+  public Predicate<String> testIgnoreCase() {
+    return this::testCI;
+  }
+  
   @Override
   public synchronized boolean test( String t ) {
-    return list.contains(t);
+    if( t != null ) {
+      return list.contains(t);
+    } else {
+      return false;
+    }
+  }
+  
+  private synchronized boolean testCI( String t ) {
+    if( t != null ) {
+      String candidate = t.toLowerCase();
+      return lowercaseList.contains( candidate );
+    } else {
+      return false;
+    }
   }
 
-  private synchronized boolean testStartsWith( String t ) {
-    for( String entry : list ) {
-      if( t.startsWith( entry ) ) {
-        return true;
-      }
+  private synchronized boolean testStartsWithCS( String t ) {
+    if( t != null ) {
+      return test( list, t, t::startsWith );
     }
     return false;
   }
 
-  private synchronized boolean testEndsWith( String t ) {
-    for( String entry : list ) {
-      if( t.endsWith( entry ) ) {
+  private synchronized boolean testStartsWithCI( String t ) {
+    if( t != null ) {
+      String candidate = t.toLowerCase();
+      return test( lowercaseList, candidate, candidate::startsWith );
+    }
+    return false;
+  }
+
+  private synchronized boolean testEndsWithCS( String t ) {
+    if( t != null ) {
+      return test( list, t, t::endsWith );
+    }
+    return false;
+  }
+
+  private synchronized boolean testEndsWithCI( String t ) {
+    if( t != null ) {
+      String candidate = t.toLowerCase();
+      return test( lowercaseList, candidate, candidate::endsWith );
+    }
+    return false;
+  }
+  
+  private boolean test( List<String> list, String candidate, Predicate<String> test ) {
+    for( String element : list ) {
+      if( test.test( element ) ) {
         return true;
       }
     }
