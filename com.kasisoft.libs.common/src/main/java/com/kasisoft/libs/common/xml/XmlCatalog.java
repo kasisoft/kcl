@@ -4,8 +4,6 @@ import org.xml.sax.*;
 
 import org.w3c.dom.ls.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.io.*;
@@ -16,6 +14,8 @@ import lombok.*;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
+
+import java.util.function.*;
 
 import java.util.*;
 
@@ -29,12 +29,12 @@ import java.io.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver {
+public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver, Predicate<String> {
 
-  Map<String,byte[]>    catalogdata;
-  Map<String,String>    systemIds;
-  Set<URL>              failures;
-  DOMImplementationLS   domimpl;
+  Map<PublicId,byte[]>   catalogdata;
+  Map<PublicId,String>   systemIds;
+  Set<URL>               failures;
+  DOMImplementationLS    domimpl;
   
   /**
    * Initialises this catalog.
@@ -96,23 +96,20 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    */
   public synchronized void registerPublicID( @NonNull String id, @NonNull URL url ) {
     if( ! failures.contains( url ) ) {
-      InputStream instream = null;
-      try {
-        instream    = openStream( url );
+      PublicId publicid = new PublicId( id );
+      try( InputStream instream = openStream( url ) ) {
         byte[] data = IoFunctions.loadBytes( instream, null );
-        catalogdata.put( id, data );
-        systemIds.put( id, url.toExternalForm() );
+        catalogdata.put( publicid, data );
+        systemIds.put( publicid, url.toExternalForm() );
       } catch( IOException | FailureException ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
         // we just register this url as 'invalid'
         failures.add( url );
-      } finally {
-        MiscFunctions.close( instream );
       }
     }
   }
-
+  
   /**
    * Registers a system resource with this catalog.
    * 
@@ -120,26 +117,23 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    */
   public synchronized void registerSystemID( @NonNull URL systemid ) {
     if( ! failures.contains( systemid ) ) {
-      InputStream instream = null;
-      try {
-        instream     = openStream( systemid );
+      PublicId publicid = new PublicId( systemid.toExternalForm() );
+      try( InputStream instream = openStream( systemid ) ) {
         byte[]  data = IoFunctions.loadBytes( instream, null );
-        catalogdata.put( systemid.toExternalForm(), data );
+        catalogdata.put( publicid, data );
         // we're also registering the resource name which might also be used to match
         String  path = systemid.getPath();
         int     lidx = path.lastIndexOf( '/' );
         if( lidx != -1 ) {
-          catalogdata.put( path.substring( lidx + 1 ), data );
+          catalogdata.put( new PublicId( path.substring( lidx + 1 ) ), data );
         } else {
-          catalogdata.put( path, data );
+          catalogdata.put( new PublicId( path ), data );
         }
       } catch( IOException | FailureException ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
         // we just register this url as 'invalid'
         failures.add( systemid );
-      } finally {
-        MiscFunctions.close( instream );
       }
     }
   }
@@ -152,7 +146,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * @return   The content if it could be loaded. Maybe <code>null</code>.
    */
   public synchronized byte[] loadResource( @NonNull String publicid ) {
-    return catalogdata.get( publicid );
+    return catalogdata.get( new PublicId( publicid ) );
   }
 
   /**
@@ -163,15 +157,16 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * @return   The content if it could be loaded. Maybe <code>null</code>.
    */
   public synchronized byte[] loadResource( @NonNull URL resource ) {
-    if( catalogdata.containsKey( resource ) ) {
-      return catalogdata.get( resource );
+    PublicId publicid = new PublicId( resource.toExternalForm() );
+    if( catalogdata.containsKey( publicid ) ) {
+      return catalogdata.get( publicid );
     } else {
       String path = resource.getPath();
       int    lidx = path.lastIndexOf( '/' );
       if( lidx != -1 ) {
-        return catalogdata.get( path.substring( lidx + 1 ) );
+        return catalogdata.get( new PublicId( path.substring( lidx + 1 ) ) );
       } else {
-        return catalogdata.get( path );
+        return catalogdata.get( new PublicId( path ) );
       }
     }
   }
@@ -211,9 +206,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   public InputSource resolveEntity( String publicid, String systemid ) throws SAXException, IOException {
     byte[] result = loadData( publicid, systemid );
     if( result != null ) {
+      PublicId pid = new PublicId( publicid );
       InputSource inputsource = new InputSource( new ByteArrayInputStream( result ) );
-      inputsource.setSystemId( systemIds.get( publicid ) );
-      inputsource.setPublicId( publicid );
+      inputsource.setSystemId( systemIds.get( pid ) );
+      inputsource.setPublicId( pid.getId() );
       return inputsource;
     } else {
       return null;
@@ -269,5 +265,54 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   public Source resolve( String href, String base ) throws TransformerException {
     return null;
   }
+  
+  @Override
+  public boolean test( String candidate ) {
+    boolean result = false;
+    if( candidate != null ) {
+      PublicId publicid = new PublicId( candidate );
+      result = catalogdata.keySet().contains( publicid ) || // public/system id is known
+               systemIds.values().contains( publicid );     // the url is known
+    }
+    return result;
+  }
+  
+  @FieldDefaults(level = AccessLevel.PRIVATE)
+  private static class PublicId implements Comparable<PublicId> {
+    
+    @Getter
+    String   id;
+    String   lowerid;
+    
+    public PublicId( String publicid ) {
+      id      = publicid;
+      lowerid = publicid.toLowerCase();
+    }
+    
+    @Override
+    public boolean equals( Object other ) {
+      if( other instanceof PublicId ) {
+        return lowerid.equals( ((PublicId) other).lowerid );
+      } else {
+        return false;
+      }
+    }
+    
+    @Override
+    public int hashCode() {
+      return lowerid.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return id;
+    }
+
+    @Override
+    public int compareTo( PublicId o ) {
+      return lowerid.compareTo( o.lowerid );
+    }
+    
+  } /* ENDCLASS */
 
 } /* ENDCLASS */
