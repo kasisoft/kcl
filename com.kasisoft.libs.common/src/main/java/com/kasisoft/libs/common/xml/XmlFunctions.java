@@ -99,6 +99,11 @@ public final class XmlFunctions {
       } else {
         result = builder.parse( input );
       }
+      DOMConfiguration domconfig = result.getDomConfig();
+      config.getParameters().forEach( (k,v) -> k.set( domconfig, v ) );
+      if( config.isNormalize() ) {
+        result.normalizeDocument();
+      }
     } catch( SAXException | IOException ex ) {
       throw FailureCode.XmlFailure.newException( ex );
     }
