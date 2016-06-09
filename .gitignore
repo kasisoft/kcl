@@ -6,3 +6,5 @@
 */.gradle/
 */.launch/
 rebel.xml
+*/test-output/
+
