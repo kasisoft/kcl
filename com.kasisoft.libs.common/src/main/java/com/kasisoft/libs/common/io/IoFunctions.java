@@ -688,6 +688,32 @@ public class IoFunctions {
   }
 
   /**
+   * Loads the textual content from a URL. The content will be loaded as is.
+   * 
+   * @param url   The URL providing the textual content. Not <code>null</code>.
+   * 
+   * @return   The complete textual content. Not <code>null</code>.
+   *
+   * @throws FailureException in case of an io error.
+   */
+  public static String readTextFully( @NonNull URL url ) {
+    return forReader( url, IoFunctions::readTextFully );
+  }
+  
+  /**
+   * Loads the textual content from a Path. The content will be loaded as is.
+   * 
+   * @param path   The path providing the textual content. Not <code>null</code>.
+   * 
+   * @return   The complete textual content. Not <code>null</code>.
+   *
+   * @throws FailureException in case of an io error.
+   */
+  public static String readTextFully( @NonNull Path path ) {
+    return forReader( path, IoFunctions::readTextFully );
+  }
+  
+  /**
    * Skip some bytes within an InputStream.
    * 
    * @param input    The InputStream providing the content. Not <code>null</code>.
