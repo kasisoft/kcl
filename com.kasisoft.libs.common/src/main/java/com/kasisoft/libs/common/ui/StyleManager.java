@@ -26,14 +26,14 @@ public class StyleManager {
 
   static StyleManager     instance = null;
   
-  Map<String,Style>                 styles;
-  Map<String,WriteProtectedStyle>   writeprotected;
+  Map<String, Style>                 styles;
+  Map<String, WriteProtectedStyle>   writeprotected;
   
   @Getter
-  Style                             defaultStyle;
+  Style                              defaultStyle;
   
   @Getter
-  FontPool                          fontPool;
+  FontPool                           fontPool;
   
   /**
    * Initialises this manager for styles.

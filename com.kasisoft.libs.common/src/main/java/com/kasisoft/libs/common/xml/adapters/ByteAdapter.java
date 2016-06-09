@@ -12,7 +12,7 @@ import java.util.function.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ByteAdapter extends TypeAdapter<String,Byte> {
+public class ByteAdapter extends TypeAdapter<String, Byte> {
 
   static final String MAX   = "MAX";
   static final String MIN   = "MIN";
@@ -32,7 +32,7 @@ public class ByteAdapter extends TypeAdapter<String,Byte> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public ByteAdapter( BiConsumer<Object,Exception> handler, String defval1, Byte defval2 ) {
+  public ByteAdapter( BiConsumer<Object, Exception> handler, String defval1, Byte defval2 ) {
     super( handler, defval1, defval2 );
   }
 

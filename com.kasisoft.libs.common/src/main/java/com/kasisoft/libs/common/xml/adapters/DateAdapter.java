@@ -16,7 +16,7 @@ import java.text.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DateAdapter extends TypeAdapter<String,Date> {
+public class DateAdapter extends TypeAdapter<String, Date> {
 
   static final String FORMAT_DEFAULT = "yyyy-MM-dd";
   
@@ -37,7 +37,7 @@ public class DateAdapter extends TypeAdapter<String,Date> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public DateAdapter( BiConsumer<Object,Exception> handler, String defval1, Date defval2 ) {
+  public DateAdapter( BiConsumer<Object, Exception> handler, String defval1, Date defval2 ) {
     this( handler, defval1, defval2, null, null );
   }
   

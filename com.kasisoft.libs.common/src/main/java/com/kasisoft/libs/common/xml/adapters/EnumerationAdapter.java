@@ -23,7 +23,7 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
+public class EnumerationAdapter<T> extends TypeAdapter<String, T> {
 
   Class<T>        enumtype;
   Map<String,T>   values;
@@ -57,7 +57,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
    * @param defval2           A default value for the target type. Maybe <code>null</code>.
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    */
-  public EnumerationAdapter( BiConsumer<Object,Exception> handler, String defval1, T defval2, @NonNull Class<T> type ) {
+  public EnumerationAdapter( BiConsumer<Object, Exception> handler, String defval1, T defval2, @NonNull Class<T> type ) {
     this( handler, defval1, defval2, type, false );
   }
   
@@ -70,7 +70,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String,T> {
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    * @param caseinsensitive   <code>true</code> <=> Disable case sensitivity.
    */
-  public EnumerationAdapter( BiConsumer<Object,Exception> handler, String defval1, T defval2, @NonNull Class<T> type, boolean caseinsensitive ) {
+  public EnumerationAdapter( BiConsumer<Object, Exception> handler, String defval1, T defval2, @NonNull Class<T> type, boolean caseinsensitive ) {
     super( handler, defval1, defval2 );
     enumtype    = type;
     ignorecase  = caseinsensitive;

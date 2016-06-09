@@ -24,11 +24,11 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PropertyResolver {
 
-  Map<Pattern,String>   substitutions;
-  ClassLoader           classloader;
-  String                format;
-  Map<String,String>    data;
-  Map<String,String>    resolveddata;
+  Map<Pattern, String>   substitutions;
+  ClassLoader            classloader;
+  String                 format;
+  Map<String, String>    data;
+  Map<String, String>    resolveddata;
 
   /**
    * Creates a new resolver using the system ClassLoader.
@@ -166,7 +166,7 @@ public class PropertyResolver {
    * 
    * @return   this
    */
-  public synchronized PropertyResolver withSubstitutions( @NonNull Map<String,String> properties ) {
+  public synchronized PropertyResolver withSubstitutions( @NonNull Map<String, String> properties ) {
     substitutions = ConfigurationHelper.quoteKeys( ConfigurationHelper.createReplacementMap( properties, format, null ) );
     resolveddata.clear();
     return this;
@@ -235,7 +235,7 @@ public class PropertyResolver {
    */
   private void loadSetting( URL resource ) throws IOException {
     Properties  newprops = new Properties();
-    try( Reader reader   = Encoding.UTF8.openReader( resource ) ) {
+    try( Reader reader = Encoding.UTF8.openReader( resource ) ) {
       newprops.load( reader );
     }
     putProperties( newprops );

@@ -14,11 +14,11 @@ import java.util.function.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DefaultBucketFactory<T,P> implements BucketFactory<T> {
+public class DefaultBucketFactory<T, P> implements BucketFactory<T> {
 
-  Supplier<T>      create;
-  BiConsumer<T,P>  reset;
-  P                param;
+  Supplier<T>       create;
+  BiConsumer<T, P>  reset;
+  P                 param;
   
   /**
    * Initializes this factory using the supplied creation and reset methods.
@@ -43,7 +43,7 @@ public class DefaultBucketFactory<T,P> implements BucketFactory<T> {
    * @throws FailureException   There's neither a default constructor nor a method named <code>reset</code> or
    *                            <code>clear</code>.
    */
-  public DefaultBucketFactory( @NonNull Supplier<T> creator, @NonNull BiConsumer<T,P> resetter, P resetval ) {
+  public DefaultBucketFactory( @NonNull Supplier<T> creator, @NonNull BiConsumer<T, P> resetter, P resetval ) {
     create = creator;
     reset  = resetter;
     param  = resetval;

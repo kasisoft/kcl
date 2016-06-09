@@ -43,7 +43,7 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
+public class SimpleProperty<T> extends AbstractProperty<T, T, SimpleProperty> {
 
   /** Maybe <code>null</code>. */
   @Getter T   defaultValue;
@@ -55,7 +55,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public SimpleProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
+  public SimpleProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
     super( property, typeadapter, false );
   }
   
@@ -67,7 +67,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public SimpleProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
+  public SimpleProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
   }
   
@@ -100,7 +100,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( @NonNull Map<String,String> properties, T newvalue ) {
+  public void setValue( @NonNull Map<String, String> properties, T newvalue ) {
     setProperty( properties, getKey(), newvalue );
   }
 
@@ -121,7 +121,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public T getValue( @NonNull Map<String,String> properties ) {
+  public T getValue( @NonNull Map<String, String> properties ) {
     return checkForResult( getTypedValue( getProperty( properties, getKey() ), getDefaultValue() ) );
   }
   
@@ -154,7 +154,7 @@ public class SimpleProperty<T> extends AbstractProperty<T,T,SimpleProperty> {
    * 
    * @return   The value if there was one. Maybe <code>null</code>.
    */
-  public String getTextualValue( @NonNull Map<String,String> properties ) {
+  public String getTextualValue( @NonNull Map<String, String> properties ) {
     return getProperty( properties, getKey() );
   }
 

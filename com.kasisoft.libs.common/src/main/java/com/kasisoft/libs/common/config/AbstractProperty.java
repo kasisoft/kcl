@@ -16,14 +16,14 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @ToString @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of={"key"})
-public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
+@EqualsAndHashCode(of = {"key"})
+public abstract class AbstractProperty<T, V, C extends AbstractProperty> {
 
-  @Getter String                  key;
-  @Getter TypeAdapter<String,T>   adapter;
-  @Getter boolean                 required;
-  @Getter String                  description;
-          PropertiesConfig        propertiesConfig;
+  @Getter String                   key;
+  @Getter TypeAdapter<String, T>   adapter;
+  @Getter boolean                  required;
+  @Getter String                   description;
+          PropertiesConfig         propertiesConfig;
   
   /**
    * Initializes this typed property with the supplied adapter which is being used for the conversion. This constructor
@@ -32,7 +32,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
+  public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
     this( property, typeadapter, false );
   }
   
@@ -44,7 +44,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
+  public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter, boolean req ) {
     key               = property;
     required          = req;
     adapter           = typeadapter;
@@ -104,7 +104,7 @@ public abstract class AbstractProperty<T,V,C extends AbstractProperty> {
    * 
    * @return   The property value. Maybe <code>null</code>.
    */
-  protected String getProperty( Map<?,?> props, @NonNull String key ) {
+  protected String getProperty( Map<?, ?> props, @NonNull String key ) {
     String result = null;
     if( props != null ) {
       result = cleanup( (String) props.get( key ) );

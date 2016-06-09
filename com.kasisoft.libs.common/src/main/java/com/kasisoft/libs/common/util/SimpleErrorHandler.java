@@ -11,7 +11,7 @@ import java.util.function.*;
  *                                  by the <code>BiConsumer&lt;Object,Exception&gt;</code> interface.
  */
 @Deprecated
-public interface SimpleErrorHandler extends BiConsumer<Object,Exception> {
+public interface SimpleErrorHandler extends BiConsumer<Object, Exception> {
 
   /**
    * Will be called whenever an error happened.

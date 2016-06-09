@@ -18,18 +18,18 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
+public class ListAdapter<T> extends TypeAdapter<String, List<T>> {
 
-  String                  delimiter;
-  String                  quoted;
-  TypeAdapter<String,T>   elementadapter;
+  String                   delimiter;
+  String                   quoted;
+  TypeAdapter<String, T>   elementadapter;
   
   /**
    * Initialises this adapter with the default delimiter ','.
    * 
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( @NonNull TypeAdapter<String,T> adapter ) {
+  public ListAdapter( @NonNull TypeAdapter<String, T> adapter ) {
     this( null, null, adapter );
   }
 
@@ -40,7 +40,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
    *                  ',' is used.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( String delim, @NonNull TypeAdapter<String,T> adapter ) {
+  public ListAdapter( String delim, @NonNull TypeAdapter<String, T> adapter ) {
     this( null, delim, adapter );
   }
 
@@ -50,7 +50,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
    * @param handler   A custom error handler. Maybe <code>null</code>.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( BiConsumer<Object,Exception> handler, @NonNull TypeAdapter<String,T> adapter ) {
+  public ListAdapter( BiConsumer<Object, Exception> handler, @NonNull TypeAdapter<String, T> adapter ) {
     this( handler, null, adapter );
   }
 
@@ -62,7 +62,7 @@ public class ListAdapter<T> extends TypeAdapter<String,List<T>> {
    *                  ',' is used.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( BiConsumer<Object,Exception> handler, String delim, @NonNull TypeAdapter<String,T> adapter ) {
+  public ListAdapter( BiConsumer<Object, Exception> handler, String delim, @NonNull TypeAdapter<String, T> adapter ) {
     super( handler, "", Collections.<T>emptyList() );
     delimiter = StringFunctions.cleanup( delim );
     if( delimiter == null ) {

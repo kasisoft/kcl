@@ -7,12 +7,12 @@ import lombok.*;
 import java.util.*;
 
 /**
- * @ks.spec [30-Sep-2014:KASI]    http://de.selfhtml.org/diverses/mimetypen.htm
- * @ks.spec [30-Sep-2014:KASI]    http://www.ietf.org/rfc/rfc4627.txt
+ * @ks.spec [10-Jun-2016:KASI]    http://de.selfhtml.org/diverses/mimetypen.htm
+ * @ks.spec [10-Jun-2016:KASI]    http://www.ietf.org/rfc/rfc4627.txt
  * 
- * Alternate and more official: @ks.spec [06-Oct-2014:KASI]   http://www.iana.org/assignments/media-types
+ * Alternate and more official: @ks.spec [10-Jun-2016:KASI]   http://www.iana.org/assignments/media-types
  * 
- * @ks.note [30-Sep-2014:KASI]   Not all types have been used here.
+ * @ks.note [10-Jun-2016:KASI]   Not all types have been used here.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
@@ -59,7 +59,7 @@ public enum MimeType {
   ZLib                        ( "application/x-compress"        , "z"                                 );  // ZLib compressed files 
 
   static {
-    for( Map.Entry<String,Set<MimeType>> entry : LocalData.valuebysuffix.entrySet() ) {
+    for( Map.Entry<String, Set<MimeType>> entry : LocalData.valuebysuffix.entrySet() ) {
       LocalData.valuebysuffix.put( entry.getKey(), Collections.unmodifiableSet( entry.getValue() ) );
     }
   }
@@ -123,8 +123,8 @@ public enum MimeType {
   
   private static class LocalData {
     
-    static Map<String,MimeType>       valuebymimetype = new Hashtable<>();
-    static Map<String,Set<MimeType>>  valuebysuffix   = new Hashtable<>();
+    static Map<String, MimeType>       valuebymimetype = new Hashtable<>();
+    static Map<String, Set<MimeType>>  valuebysuffix   = new Hashtable<>();
     
   } /* ENDCLASS */
   

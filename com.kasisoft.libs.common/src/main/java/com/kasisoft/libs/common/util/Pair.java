@@ -13,7 +13,7 @@ import java.util.*;
  */
 @Data @NoArgsConstructor @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Pair<T1,T2> implements Map.Entry<T1,T2> {
+public class Pair<T1, T2> implements Map.Entry<T1, T2> {
 
   T1   value1;
   T2   value2;

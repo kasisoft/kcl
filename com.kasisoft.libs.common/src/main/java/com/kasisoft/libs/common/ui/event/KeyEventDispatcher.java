@@ -10,7 +10,7 @@ import java.awt.event.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class KeyEventDispatcher extends AbstractEventDispatcher<KeyListener,KeyEvent> {
+public class KeyEventDispatcher extends AbstractEventDispatcher<KeyListener, KeyEvent> {
 
   @Override
   protected void invokeEvent( @NonNull KeyListener listener, @NonNull KeyEvent evt ) {

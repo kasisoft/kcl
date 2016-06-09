@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.adapters.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class XmlToTypeAdapter<S,T> extends XmlAdapter<S,T>{
+public class XmlToTypeAdapter<S, T> extends XmlAdapter<S, T>{
 
   TypeAdapter<S,T>   typeadapter;
   
-  public XmlToTypeAdapter( TypeAdapter<S,T> adapter ) {
+  public XmlToTypeAdapter( TypeAdapter<S, T> adapter ) {
     typeadapter = adapter;
   }
   

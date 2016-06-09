@@ -37,7 +37,7 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public InsetsAdapter( BiConsumer<Object,Exception> handler, String defval1, Insets defval2 ) {
+  public InsetsAdapter( BiConsumer<Object, Exception> handler, String defval1, Insets defval2 ) {
     this( handler, defval1, defval2, null );
   }
 
@@ -50,7 +50,7 @@ public class InsetsAdapter extends StructuralTypeAdapter<Insets> {
    * @param delim     The delimiter to be used for the textual representation. If <code>null</code> or empty the default 
    *                  ',' is used.
    */
-  public InsetsAdapter( BiConsumer<Object,Exception> handler, String defval1, Insets defval2, String delim ) {
+  public InsetsAdapter( BiConsumer<Object, Exception> handler, String defval1, Insets defval2, String delim ) {
     super( handler, defval1, defval2, 4, delim );
   }
 

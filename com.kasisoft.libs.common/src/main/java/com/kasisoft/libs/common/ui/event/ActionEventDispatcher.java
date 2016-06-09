@@ -10,7 +10,7 @@ import java.awt.event.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class ActionEventDispatcher extends AbstractEventDispatcher<ActionListener,ActionEvent> {
+public class ActionEventDispatcher extends AbstractEventDispatcher<ActionListener, ActionEvent> {
 
   @Override
   protected void invokeEvent( @NonNull ActionListener listener, @NonNull ActionEvent event ) {

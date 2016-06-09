@@ -8,7 +8,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class ValidationEventDispatcher extends AbstractEventDispatcher<ValidationListener,ValidationEvent> {
+public class ValidationEventDispatcher extends AbstractEventDispatcher<ValidationListener, ValidationEvent> {
 
   @Override
   protected void invokeEvent( @NonNull ValidationListener listener, @NonNull ValidationEvent event ) {

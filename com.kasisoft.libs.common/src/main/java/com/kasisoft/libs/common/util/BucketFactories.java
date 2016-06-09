@@ -16,8 +16,8 @@ public class BucketFactories {
    * 
    * @return   A new factory for {@link TreeMap}. Not <code>null</code>.
    */
-  public static <K,V> BucketFactory<TreeMap<K,V>> newTreeMapFactory() {
-    return new DefaultBucketFactory<TreeMap<K,V>,Integer>( TreeMap::new, TreeMap::clear );
+  public static <K, V> BucketFactory<TreeMap<K, V>> newTreeMapFactory() {
+    return new DefaultBucketFactory<TreeMap<K, V>, Integer>( TreeMap::new, TreeMap::clear );
   }
 
   /**
@@ -25,8 +25,8 @@ public class BucketFactories {
    * 
    * @return   A new factory for {@link Hashtable}. Not <code>null</code>.
    */
-  public static <K,V> BucketFactory<Hashtable<K,V>> newHashtableFactory() {
-    return new DefaultBucketFactory<Hashtable<K,V>,Integer>( Hashtable::new, Hashtable::clear );
+  public static <K, V> BucketFactory<Hashtable<K, V>> newHashtableFactory() {
+    return new DefaultBucketFactory<Hashtable<K, V>, Integer>( Hashtable::new, Hashtable::clear );
   }
 
   /**
@@ -34,8 +34,8 @@ public class BucketFactories {
    * 
    * @return   A new factory for {@link HashMap}. Not <code>null</code>.
    */
-  public static <K,V> BucketFactory<HashMap<K,V>> newHashMapFactory() {
-    return new DefaultBucketFactory<HashMap<K,V>,Integer>( HashMap::new, HashMap::clear );
+  public static <K,V> BucketFactory<HashMap<K, V>> newHashMapFactory() {
+    return new DefaultBucketFactory<HashMap<K, V>, Integer>( HashMap::new, HashMap::clear );
   }
     
   /**
@@ -44,7 +44,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringBuilder}. Not <code>null</code>.
    */
   public static BucketFactory<StringBuilder> newStringBuilderFactory() {
-    return new DefaultBucketFactory<StringBuilder,Integer>( StringBuilder::new, StringBuilder::setLength, 0 );
+    return new DefaultBucketFactory<StringBuilder, Integer>( StringBuilder::new, StringBuilder::setLength, 0 );
   }
   
   /**
@@ -53,7 +53,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringBuffer}. Not <code>null</code>.
    */
   public static BucketFactory<StringBuffer> newStringBufferFactory() {
-    return new DefaultBucketFactory<StringBuffer,Integer>( StringBuffer::new, StringBuffer::setLength, 0 );
+    return new DefaultBucketFactory<StringBuffer, Integer>( StringBuffer::new, StringBuffer::setLength, 0 );
   }
 
   /**
@@ -62,7 +62,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringFBuilder}. Not <code>null</code>.
    */
   public static BucketFactory<StringFBuilder> newStringFBuilderFactory() {
-    return new DefaultBucketFactory<StringFBuilder,Integer>( StringFBuilder::new, StringFBuilder::setLength, 0 );
+    return new DefaultBucketFactory<StringFBuilder, Integer>( StringFBuilder::new, StringFBuilder::setLength, 0 );
   }
   
   /**
@@ -71,7 +71,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringFBuffer}. Not <code>null</code>.
    */
   public static BucketFactory<StringFBuffer> newStringFBufferFactory() {
-    return new DefaultBucketFactory<StringFBuffer,Integer>( StringFBuffer::new, StringFBuffer::setLength, 0 );
+    return new DefaultBucketFactory<StringFBuffer, Integer>( StringFBuffer::new, StringFBuffer::setLength, 0 );
   }
 
   /**
@@ -80,7 +80,7 @@ public class BucketFactories {
    * @return   A new factory for {@link ByteArrayOutputStream}. Not <code>null</code>.
    */
   public static BucketFactory<ByteArrayOutputStream> newByteArrayOutputStreamFactory() {
-    return new DefaultBucketFactory<ByteArrayOutputStream,Void>( ByteArrayOutputStream::new, ByteArrayOutputStream::reset );
+    return new DefaultBucketFactory<ByteArrayOutputStream, Void>( ByteArrayOutputStream::new, ByteArrayOutputStream::reset );
   }
 
   /**
@@ -89,7 +89,7 @@ public class BucketFactories {
    * @return   A new factory for {@link ArrayList}. Not <code>null</code>.
    */
   public static <T> BucketFactory<ArrayList<T>> newArrayListFactory() {
-    return new DefaultBucketFactory<ArrayList<T>,Void>( ArrayList::new, ArrayList::clear );
+    return new DefaultBucketFactory<ArrayList<T>, Void>( ArrayList::new, ArrayList::clear );
   }
 
   /**
@@ -98,7 +98,7 @@ public class BucketFactories {
    * @return   A new factory for {@link Vector}. Not <code>null</code>.
    */
   public static <T> BucketFactory<Vector<T>> newVectorFactory() {
-    return new DefaultBucketFactory<Vector<T>,Void>( Vector::new, Vector::clear );
+    return new DefaultBucketFactory<Vector<T>, Void>( Vector::new, Vector::clear );
   }
 
   /**
@@ -129,7 +129,7 @@ public class BucketFactories {
    * @return   A new factory for {@link CharArrayWriter}. Not <code>null</code>.
    */
   public static BucketFactory<CharArrayWriter> newCharArrayWriterFactory() {
-    return new DefaultBucketFactory<CharArrayWriter,Void>( CharArrayWriter::new, CharArrayWriter::reset );
+    return new DefaultBucketFactory<CharArrayWriter, Void>( CharArrayWriter::new, CharArrayWriter::reset );
   }
 
 } /* ENDCLASS */

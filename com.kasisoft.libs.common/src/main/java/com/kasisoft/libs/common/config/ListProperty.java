@@ -51,7 +51,7 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
+public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> {
 
   static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
 
@@ -67,7 +67,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
+  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
     super( property, typeadapter, false );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
@@ -80,7 +80,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
+  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
@@ -118,7 +118,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( @NonNull Map<String,String> properties, List<T> newvalue ) {
+  public void setValue( @NonNull Map<String, String> properties, List<T> newvalue ) {
     setValueImpl( properties, newvalue );
   }
 
@@ -155,7 +155,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public List<T> getValue( @NonNull Map<String,String> properties ) {
+  public List<T> getValue( @NonNull Map<String, String> properties ) {
     List<String> values = getValueImpl( properties );
     List<T>      result = null;
     if( values != null ) {
@@ -192,7 +192,7 @@ public class ListProperty<T> extends AbstractProperty<T,List<T>,ListProperty> {
    * @return  The list values. Maybe <code>null</code>.
    */
   private List<String> getValueImpl( Map<?,?> map ) {
-    Map<Integer,String> result = new Hashtable<>();
+    Map<Integer, String> result = new Hashtable<>();
     for( Object propkey : map.keySet() ) {
       Matcher matcher = pattern.matcher( (String) propkey );
       if( matcher.matches() ) {

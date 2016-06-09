@@ -13,15 +13,15 @@ import java.util.*;
  */
 public class WrapperFactory {
 
-  public static Map<String,Object> toMap( Properties properties ) {
-    Map<String,Object> result = null;
+  public static Map<String, Object> toMap( Properties properties ) {
+    Map<String, Object> result = null;
     if( properties != null ) {
       result = new PropertiesMap( properties );
     }
     return result;
   }
 
-  public static <T> Function<T,T> toFunction( Consumer<T> consumer ) {
+  public static <T> Function<T, T> toFunction( Consumer<T> consumer ) {
     Function<T,T> result = null;
     if( consumer != null ) {
       result = new IdentityAndApply( consumer );
@@ -31,7 +31,7 @@ public class WrapperFactory {
   
   @FieldDefaults(level = AccessLevel.PRIVATE)
   @AllArgsConstructor
-  private static class IdentityAndApply<T> implements Function<T,T> {
+  private static class IdentityAndApply<T> implements Function<T, T> {
 
     Consumer<T>   consumer;
     
@@ -45,7 +45,7 @@ public class WrapperFactory {
 
   @FieldDefaults(level = AccessLevel.PRIVATE)
   @AllArgsConstructor
-  private static class PropertiesMap implements Map<String,Object> {
+  private static class PropertiesMap implements Map<String, Object> {
 
     Properties   properties;
 
@@ -105,7 +105,7 @@ public class WrapperFactory {
     }
 
     @Override
-    public Set<java.util.Map.Entry<String, Object>> entrySet() {
+    public Set<Map.Entry<String, Object>> entrySet() {
       throw new UnsupportedOperationException();
     }
     

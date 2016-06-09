@@ -161,8 +161,8 @@ public enum Month {
   }
 
   /**
-   * Returns the number of days for this month. To calculate the number of days for {@link #February} the current year 
-   * is used.
+   * Returns the number of days for this month. To calculate the number of days for {@link #February} the 
+   * current year is used.
    * 
    * @return   The number of days for this month. [ 1 .. result .. 31 ]
    */

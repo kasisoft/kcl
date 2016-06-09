@@ -11,7 +11,7 @@ import lombok.*;
  */
 @Data @NoArgsConstructor @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Triple<T1,T2,T3> {
+public class Triple<T1, T2, T3> {
 
   T1   value1;
   T2   value2;

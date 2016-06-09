@@ -71,7 +71,9 @@ public class SPIFunctions {
     List<T> result = loadSPIServices( servicetype );
     result.stream().filter( s -> s instanceof Configurable ).forEach( s -> ((Configurable) s).configure( configuration ) );
     if( test != null ) {
-      result = result.stream().filter( test ).collect( Collectors.toList() );
+      result = result.parallelStream()
+        .filter( test )
+        .collect( Collectors.toList() );
     }
     return result;
   }
@@ -86,7 +88,7 @@ public class SPIFunctions {
    * 
    * @throws FailureException in case one SPI could not be configured properly.
    */
-  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype, @NonNull Map<String,Object> configuration ) throws FailureException {
+  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype, @NonNull Map<String, Object> configuration ) throws FailureException {
     return loadSPIServices( servicetype, configuration, null );
   }
 
@@ -102,7 +104,7 @@ public class SPIFunctions {
    * 
    * @throws FailureException in case one SPI could not be configured properly.
    */
-  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype, @NonNull Map<String,Object> configuration, Predicate<T> test ) throws FailureException {
+  public static <T> List<T> loadSPIServices( @NonNull Class<T> servicetype, @NonNull Map<String, Object> configuration, Predicate<T> test ) throws FailureException {
     List<T> result = loadSPIServices( servicetype );
     result.stream().filter( s -> s instanceof Configurable ).forEach( s -> ((Configurable) s).configure( configuration ) );
     if( test != null ) {

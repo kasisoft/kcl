@@ -22,9 +22,9 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MultiSPILoader {
 
-  Map<Class,Predicate>   filter;
-  Map<Class,Function>    postprocessor;
-  Map<String,Object>     configuration;
+  Map<Class, Predicate>   filter;
+  Map<Class, Function>    postprocessor;
+  Map<String, Object>     configuration;
   
   private MultiSPILoader() {
     filter        = null;
@@ -45,15 +45,21 @@ public class MultiSPILoader {
     List<T> result = new ArrayList<>();
     ServiceLoader.load( servicetype ).forEach( result::add );
     if( configuration != null ) {
-      result.stream().filter( $ -> $ instanceof Configurable ).forEach( s -> ((Configurable) s).configure( configuration ) );
+      result.parallelStream()
+        .filter( $ -> $ instanceof Configurable )
+        .forEach( s -> ((Configurable) s).configure( configuration ) );
     }
     if( (postprocessor != null) && postprocessor.containsKey( servicetype ) ) {
       Function<T,T> transformer = postprocessor.get( servicetype ); 
-      result = result.stream().map( transformer::apply ).collect( Collectors.toList() );
+      result = result.parallelStream()
+        .map( transformer::apply )
+        .collect( Collectors.toList() );
     }
     if( (filter != null) && filter.containsKey( servicetype ) ) {
       Predicate<T> test = filter.get( servicetype );
-      result = result.stream().filter( test ).collect( Collectors.toList() );
+      result = result.parallelStream()
+        .filter( test )
+        .collect( Collectors.toList() );
     }
     return result;
   }
@@ -86,7 +92,7 @@ public class MultiSPILoader {
       return this;
     }
 
-    public <T> MultiSPILoaderBuilder postProcessor( Class<T> spiType, Function<T,T> transformer ) {
+    public <T> MultiSPILoaderBuilder postProcessor( Class<T> spiType, Function<T, T> transformer ) {
       if( transformer != null ) {
         if( instance.postprocessor == null ) {
           instance.postprocessor = new Hashtable<>();
@@ -96,7 +102,7 @@ public class MultiSPILoader {
       return this;
     }
 
-    public <T> MultiSPILoaderBuilder configuration( Map<String,Object> config ) {
+    public <T> MultiSPILoaderBuilder configuration( Map<String, Object> config ) {
       if( config != null ) {
         instance.configuration = config;
         if( instance.configuration.isEmpty() ) {

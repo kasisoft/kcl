@@ -10,7 +10,7 @@ import java.awt.event.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class ComponentEventDispatcher extends AbstractEventDispatcher<ComponentListener,ComponentEvent>  {
+public class ComponentEventDispatcher extends AbstractEventDispatcher<ComponentListener, ComponentEvent>  {
 
   @Override
   protected void invokeEvent( @NonNull ComponentListener listener, @NonNull ComponentEvent event ) {

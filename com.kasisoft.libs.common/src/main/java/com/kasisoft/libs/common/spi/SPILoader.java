@@ -20,10 +20,10 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SPILoader<T> {
 
-  Predicate<T>        filter;
-  Function<T,T>       postprocessor;
-  Class<T>            clazz;
-  Map<String,Object>  configuration;
+  Predicate<T>          filter;
+  Function<T, T>        postprocessor;
+  Class<T>              clazz;
+  Map<String, Object>   configuration;
   
   private SPILoader() {
     filter        = null;
@@ -43,13 +43,19 @@ public class SPILoader<T> {
     List<T> result = new ArrayList<>();
     ServiceLoader.load( clazz ).forEach( result::add );
     if( configuration != null ) {
-      result.stream().filter( $ -> $ instanceof Configurable ).forEach( s -> ((Configurable) s).configure( configuration ) );
+      result.parallelStream()
+        .filter( $ -> $ instanceof Configurable )
+        .forEach( s -> ((Configurable) s).configure( configuration ) );
     }
     if( postprocessor != null ) {
-      result = result.stream().map( postprocessor::apply ).collect( Collectors.toList() );
+      result = result.parallelStream()
+        .map( postprocessor::apply )
+        .collect( Collectors.toList() );
     }
     if( filter != null ) {
-      result = result.stream().filter( filter ).collect( Collectors.toList() );
+      result = result.parallelStream()
+        .filter( filter )
+        .collect( Collectors.toList() );
     }
     return result;
   }
@@ -77,12 +83,12 @@ public class SPILoader<T> {
       return this;
     }
 
-    public SPILoaderBuilder<S> postProcessor( Class<S> spiType, Function<S,S> transformer ) {
+    public SPILoaderBuilder<S> postProcessor( Class<S> spiType, Function<S, S> transformer ) {
       instance.postprocessor = transformer;
       return this;
     }
 
-    public SPILoaderBuilder<S> configuration( Map<String,Object> config ) {
+    public SPILoaderBuilder<S> configuration( Map<String, Object> config ) {
       if( config != null ) {
         instance.configuration = config;
         if( instance.configuration.isEmpty() ) {

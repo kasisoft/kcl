@@ -151,7 +151,7 @@ public enum Primitive {
       case PInt     : return ((int     []) arrayobj).length;
       case PLong    : return ((long    []) arrayobj).length;
       case PFloat   : return ((float   []) arrayobj).length;
-        /* case PDouble: */
+      /* case PDouble: */
       default       : return ((double  []) arrayobj).length;
       }
     } else {
@@ -214,7 +214,7 @@ public enum Primitive {
    * 
    * @return   The result of the supplied function. Maybe <code>null</code>.
    */
-  public <T,R> R withBuffer( @NonNull Function<T,R> function ) {
+  public <T, R> R withBuffer( @NonNull Function<T, R> function ) {
     return withBuffer( null, function );
   }
 
@@ -227,7 +227,7 @@ public enum Primitive {
    * 
    * @return   The result of the supplied function. Maybe <code>null</code>.
    */
-  public <T,R> R withBuffer( Integer size, Function<T,R> function ) {
+  public <T, R> R withBuffer( Integer size, Function<T, R> function ) {
     T buffer = allocate( size );
     try {
       return function.apply( buffer );
@@ -263,7 +263,7 @@ public enum Primitive {
 
   private static class LocalData {
     
-    private static Map<Class<?>,Primitive>   primitivemap = new Hashtable<>();
+    private static Map<Class<?>, Primitive>   primitivemap = new Hashtable<>();
     
   } /* ENDCLASS */
   

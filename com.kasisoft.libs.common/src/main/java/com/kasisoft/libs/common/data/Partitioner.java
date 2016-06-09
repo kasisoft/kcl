@@ -7,7 +7,7 @@ import java.util.function.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public interface Partitioner<T,K,R> extends Predicate<T> {
+public interface Partitioner<T, K, R> extends Predicate<T> {
 
   /**
    * Returns the data instance associated with this partitioner.

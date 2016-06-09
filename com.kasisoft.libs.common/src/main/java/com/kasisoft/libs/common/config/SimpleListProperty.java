@@ -46,7 +46,7 @@ import java.util.stream.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleListProperty> {
+public class SimpleListProperty<T> extends AbstractProperty<T, List<T>, SimpleListProperty> {
 
   static final String DELIMITER = ",";
   
@@ -60,7 +60,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
+  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
     super( property, typeadapter, false );
   }
   
@@ -72,7 +72,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
+  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
   }
   
@@ -94,7 +94,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( @NonNull Map<String,String> properties, List<T> newvalue ) {
+  public void setValue( @NonNull Map<String, String> properties, List<T> newvalue ) {
     setValueImpl( properties, newvalue );
   }
 
@@ -124,7 +124,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
    * 
    * @return   The value if there was one or the default value. Maybe <code>null</code>.
    */
-  public List<T> getValue( @NonNull Map<String,String> properties ) {
+  public List<T> getValue( @NonNull Map<String, String> properties ) {
     List<String> values = getValueImpl( properties );
     List<T>      result = getTypedValues( values );
     if( result == null ) {
@@ -164,7 +164,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
    * 
    * @return  The list values. Maybe <code>null</code>.
    */
-  private List<String> getValueImpl( Map<?,?> map ) {
+  private List<String> getValueImpl( Map<?, ?> map ) {
     List<String> result = null;
     String       value  = getProperty( map, getKey() );
     if( value != null ) {
@@ -191,7 +191,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T,List<T>,SimpleList
    * 
    * @return   The value if there was one. Maybe <code>null</code>.
    */
-  public String getTextualValue( @NonNull Map<String,String> properties ) {
+  public String getTextualValue( @NonNull Map<String, String> properties ) {
     return getProperty( properties, getKey() );
   }
   

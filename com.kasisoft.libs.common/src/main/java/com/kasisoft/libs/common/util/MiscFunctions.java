@@ -157,7 +157,7 @@ public class MiscFunctions {
    * 
    * @return   The date that has been parsed or <code>null</code> in case of a failure.
    */
-  public static Date parseDate(@NonNull String value, @NonNull String ... patterns ) {
+  public static Date parseDate( @NonNull String value, @NonNull String ... patterns ) {
     Date result = null;
     for( int i = 0; i < patterns.length; i++ ) {
       SimpleDateFormat formatter = new SimpleDateFormat( patterns[i] );
@@ -271,7 +271,7 @@ public class MiscFunctions {
    * 
    * @param type   The type of the key. Not <code>null</code>.
    */
-  public static <T extends Comparable> Comparator<Map.Entry<T,?>> newKeyComparator( @NonNull Class<T> type ) {
+  public static <T extends Comparable> Comparator<Map.Entry<T, ?>> newKeyComparator( @NonNull Class<T> type ) {
     return new KeyComparator<>();
   }
   
@@ -379,7 +379,7 @@ public class MiscFunctions {
     if( closeable != null ) {
       try {
         closeable.close();
-      } catch( IOException ex ) {
+      } catch( Exception ex ) {
         throw FailureCode.IO.newException( ex );
       }
     }
@@ -394,7 +394,7 @@ public class MiscFunctions {
     if( connection != null ) {
       try {
         connection.close();
-      } catch( SQLException ex ) {
+      } catch( Exception ex ) {
         throw FailureCode.IO.newException( ex );
       }
     }
@@ -409,7 +409,7 @@ public class MiscFunctions {
     if( closeable != null ) {
       try {
         closeable.close();
-      } catch( IOException ex ) {
+      } catch( Exception ex ) {
         // don't complain
       }
     }
@@ -424,7 +424,7 @@ public class MiscFunctions {
     if( connection != null ) {
       try {
         connection.close();
-      } catch( SQLException ex ) {
+      } catch( Exception ex ) {
         // don't complain
       }
     }
@@ -563,7 +563,7 @@ public class MiscFunctions {
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */
-  private static final class KeyComparator<T extends Comparable> implements Comparator<Map.Entry<T,?>> {
+  private static final class KeyComparator<T extends Comparable> implements Comparator<Map.Entry<T, ?>> {
     
     @Override
     public int compare( Map.Entry<T, ?> o1, Map.Entry<T, ?> o2 ) {

@@ -82,7 +82,7 @@ public class SysProperty {
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
   public static Map<String,String> createReplacementMap( @NonNull String format ) {
-    Map<String,String> result = new Hashtable<>();
+    Map<String, String> result = new Hashtable<>();
     for( SimpleProperty sysprop : SysProperty.values() ) {
       String textualvalue = sysprop.getTextualValue( System.getProperties() );
       if( textualvalue == null ) {

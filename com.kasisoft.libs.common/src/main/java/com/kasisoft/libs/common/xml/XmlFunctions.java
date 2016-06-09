@@ -314,9 +314,7 @@ public final class XmlFunctions {
       output.write( encoding.encode( xmldecl ) );
       output.flush();
       transformer.transform( new DOMSource( node ), new StreamResult( output ) );
-    } catch( IOException          ex ) {
-      throw FailureCode.IO.newException( ex );
-    } catch( TransformerException ex ) {
+    } catch( IOException | TransformerException ex ) {
       throw FailureCode.XmlFailure.newException( ex );
     }
   }
@@ -332,12 +330,10 @@ public final class XmlFunctions {
    * @throws FailureException   Saving the XML datastructure failed.
    */
   public static void writeDocument( @NonNull File destination, @NonNull Node node, Encoding encoding ) throws FailureException {
-    OutputStream output = null;
-    try {
-      output = IoFunctions.newOutputStream( destination );
+    try( OutputStream output = IoFunctions.newOutputStream( destination ) ) {
       writeDocument( output, node, encoding );
-    } finally {
-      MiscFunctions.close( output );
+    } catch( Exception ex ) {
+      throw FailureCode.XmlFailure.newException( ex );  
     }
   }
   
@@ -352,12 +348,10 @@ public final class XmlFunctions {
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
   public static Transformer newTransformer( @NonNull File xsl ) throws FailureException {
-    InputStream         instream  = null;
-    try {
-      instream = IoFunctions.newInputStream( xsl );
+    try( InputStream instream = IoFunctions.newInputStream( xsl ) ) {
       return newTransformer( instream );
-    } finally {
-      MiscFunctions.close( instream );
+    } catch( Exception ex ) {
+      throw FailureCode.XmlFailure.newException( ex ); 
     }
   }
 
@@ -372,14 +366,10 @@ public final class XmlFunctions {
    * @throws FailureException if loading the stylesheet failed for some reason.
    */
   public static Transformer newTransformer( @NonNull URL resource ) throws FailureException {
-    InputStream instream  = null;
-    try {
-      instream = resource.openStream();
+    try( InputStream instream = resource.openStream() ) {
       return newTransformer( instream );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( null, ex, resource );
-    } finally {
-      MiscFunctions.close( instream );
+    } catch( Exception ex ) {
+      throw FailureCode.XmlFailure.newException( null, ex, resource );
     }
   }
 
@@ -394,7 +384,7 @@ public final class XmlFunctions {
    * @throws FailureException   If loading the stylesheet failed for some reason.
    */
   public static Transformer newTransformer( @NonNull InputStream xslinstream ) throws FailureException {
-    TransformerFactory  factory   = TransformerFactory.newInstance();
+    TransformerFactory factory = TransformerFactory.newInstance();
     try {
       return factory.newTransformer( new StreamSource( xslinstream ) );
     } catch( TransformerConfigurationException ex ) {

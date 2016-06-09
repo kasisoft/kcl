@@ -30,12 +30,12 @@ public class ConfigurationHelper {
    * 
    * @return   A simple help text about the supplied properties. Not <code>null</code>.
    */
-  public static String help( AbstractProperty<?,?,?> ... properties ) {
-    StringFBuffer                       buffer = new StringFBuffer();
-    Map<String,AbstractProperty<?,?,?>> map    = new Hashtable<>();
-    List<String>                        keys   = new ArrayList<>();
+  public static String help( AbstractProperty<?, ?, ?> ... properties ) {
+    StringFBuffer                          buffer = new StringFBuffer();
+    Map<String, AbstractProperty<?, ?, ?>> map    = new Hashtable<>();
+    List<String>                           keys   = new ArrayList<>();
     if( properties != null ) {
-      for( AbstractProperty<?,?,?> property : properties ) {
+      for( AbstractProperty<?, ?, ?> property : properties ) {
         keys.add( property.getKey() );
         map.put( property.getKey(), property );
       }
@@ -66,9 +66,9 @@ public class ConfigurationHelper {
    * 
    * @return   A map of replacements with regex quoted keys. Not <code>null</code>.
    */
-  public static Map<Pattern,String> quoteKeys( @NonNull Map<String,String> replacementmap ) {
-    Map<Pattern,String> result = new HashMap<>();
-    replacementmap.forEach( (k,v) ->  result.put( Pattern.compile( Pattern.quote(k) ), v ) );
+  public static Map<Pattern, String> quoteKeys( @NonNull Map<String, String> replacementmap ) {
+    Map<Pattern, String> result = new HashMap<>();
+    replacementmap.forEach( (k, v) ->  result.put( Pattern.compile( Pattern.quote(k) ), v ) );
     return result;
   }
   
@@ -82,7 +82,7 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( @NonNull Map<String,String> props, SimpleProperty<?> ... properties ) {
+  public static Map<String, String> createReplacementMap( @NonNull Map<String, String> props, SimpleProperty<?> ... properties ) {
     return createReplacementMapImpl( props, "%%%s%%", null, properties );
   }
 
@@ -96,7 +96,7 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( @NonNull Properties props, SimpleProperty<?> ... properties ) {
+  public static Map<String, String> createReplacementMap( @NonNull Properties props, SimpleProperty<?> ... properties ) {
     return createReplacementMapImpl( props, "%%%s%%", null, properties );
   }
 
@@ -114,8 +114,8 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( 
-    @NonNull Map<String,String> props, @NonNull String format, String nullvalue, SimpleProperty<?> ... properties 
+  public static Map<String, String> createReplacementMap( 
+    @NonNull Map<String, String> props, @NonNull String format, String nullvalue, SimpleProperty<?> ... properties 
   ) {
     return createReplacementMapImpl( props, format, nullvalue, properties );
   }
@@ -134,7 +134,7 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( 
+  public static Map<String, String> createReplacementMap( 
     @NonNull Properties props, @NonNull String format, String nullvalue, SimpleProperty<?> ... properties 
   ) {
     return createReplacementMapImpl( props, format, nullvalue, properties );
@@ -154,10 +154,10 @@ public class ConfigurationHelper {
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
    */
-  private static Map<String,String> createReplacementMapImpl( 
+  private static Map<String, String> createReplacementMapImpl( 
     Map props, String format, String nullvalue, SimpleProperty<?> ... properties 
   ) {
-    Map<String,String> result = new HashMap<>();
+    Map<String, String> result = new HashMap<>();
     if( (properties == null) || (properties.length == 0) ) {
       // process all properties (if the type is a map it must provide String values !)
       for( Object keyobj : props.keySet() ) {
@@ -182,7 +182,7 @@ public class ConfigurationHelper {
    * 
    * @return   A map with variable settings from the current system environment. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap() {
+  public static Map<String, String> createReplacementMap() {
     return createReplacementMap( "%%%s%%" );
   }
   
@@ -193,9 +193,9 @@ public class ConfigurationHelper {
    * 
    * @return   A map with variable settings from the current system environment. Not <code>null</code>.
    */
-  public static Map<String,String> createReplacementMap( @NonNull String varformatter ) {
+  public static Map<String, String> createReplacementMap( @NonNull String varformatter ) {
     
-    Map<String,String> result = new Hashtable<>();
+    Map<String, String> result = new Hashtable<>();
     
     // record the env entries
     System.getenv().forEach( (k, v) -> result.put( newKey( varformatter, PREFIX_ENV, k ), v ) );

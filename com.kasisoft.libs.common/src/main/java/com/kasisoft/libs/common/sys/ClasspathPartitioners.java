@@ -14,40 +14,40 @@ import java.nio.file.*;
  */
 public class ClasspathPartitioners {
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newSPI( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_SPI_FILE, ClasspathPartitioners::service2Class, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newSPI( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_SPI_FILE, ClasspathPartitioners::service2Class, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newMagnolia( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_MAGNOLIA_FILE, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newMagnolia( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_MAGNOLIA_FILE, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newMaven( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_MAVEN_FILE, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newMaven( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_MAVEN_FILE, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newToEnclosingClass( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_ENCLOSING_JAVA_CLASS_FILE, ClasspathPartitioners::file2Class, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newToEnclosingClass( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_ENCLOSING_JAVA_CLASS_FILE, ClasspathPartitioners::file2Class, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newToInnerClass( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_INNER_JAVA_CLASS_FILE, ClasspathPartitioners::file2Class, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newToInnerClass( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_INNER_JAVA_CLASS_FILE, ClasspathPartitioners::file2Class, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newToClass( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_JAVA_CLASS_FILE, ClasspathPartitioners::file2Class, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newToClass( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_JAVA_CLASS_FILE, ClasspathPartitioners::file2Class, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newToResource( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_RESOURCE, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newToResource( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_RESOURCE, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newToResourceFile( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_RESOURCE_FILE, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newToResourceFile( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_RESOURCE_FILE, model );
   }
 
-  public static <R extends Collection<String>> Partitioner<String,Path,R> newToResourceDir( R model ) {
-    return new DefaultPartitioner<String,Path,String,R>( Predicates.IS_RESOURCE_DIR, model );
+  public static <R extends Collection<String>> Partitioner<String, Path, R> newToResourceDir( R model ) {
+    return new DefaultPartitioner<String, Path, String, R>( Predicates.IS_RESOURCE_DIR, model );
   }
 
   private static String file2Class( String file ) {

@@ -325,9 +325,9 @@ public enum Iso3166 {
   
   private static class LocalData {
     
-    private static Map<String,Iso3166>    valuebyalpha2 = new Hashtable<>();
-    private static Map<String,Iso3166>    valuebyalpha3 = new Hashtable<>();
-    private static Map<Integer,Iso3166>   valuebynum    = new Hashtable<>();
+    private static Map<String, Iso3166>    valuebyalpha2 = new Hashtable<>();
+    private static Map<String, Iso3166>    valuebyalpha3 = new Hashtable<>();
+    private static Map<Integer, Iso3166>   valuebynum    = new Hashtable<>();
     
   } /* ENDCLASS */
 

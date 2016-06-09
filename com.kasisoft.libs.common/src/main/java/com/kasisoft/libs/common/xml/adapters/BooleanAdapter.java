@@ -11,7 +11,7 @@ import java.util.function.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class BooleanAdapter extends TypeAdapter<String,Boolean> {
+public class BooleanAdapter extends TypeAdapter<String, Boolean> {
 
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 
@@ -28,7 +28,7 @@ public class BooleanAdapter extends TypeAdapter<String,Boolean> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public BooleanAdapter( BiConsumer<Object,Exception> handler, String defval1, Boolean defval2 ) {
+  public BooleanAdapter( BiConsumer<Object, Exception> handler, String defval1, Boolean defval2 ) {
     super( handler, defval1, defval2 );
   }
 

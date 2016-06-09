@@ -11,7 +11,7 @@ import java.net.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class URLAdapter extends TypeAdapter<String,URL> {
+public class URLAdapter extends TypeAdapter<String, URL> {
 
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 
@@ -28,7 +28,7 @@ public class URLAdapter extends TypeAdapter<String,URL> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public URLAdapter( BiConsumer<Object,Exception> handler, String defval1, URL defval2 ) {
+  public URLAdapter( BiConsumer<Object, Exception> handler, String defval1, URL defval2 ) {
     super( handler, defval1, defval2 );
   }
 

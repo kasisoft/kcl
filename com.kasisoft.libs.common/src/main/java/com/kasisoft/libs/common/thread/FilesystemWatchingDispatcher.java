@@ -37,7 +37,7 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
   int                   maxPoolSize;
   int                   maxQueueSize;
   int                   maxTimeOut;
-  Map<URI,Future<?>>    futures;
+  Map<URI, Future<?>>   futures;
   Consumer<Path>        consumer;
   Predicate<Path>       pathTest;
   Consumer<Exception>   errorHandler;
@@ -192,7 +192,9 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
   @Override
   protected final void maintenance() {
     // drop all futures that are already processed
-    Set<URI> keys = futures.keySet().stream().filter( k -> futures.get(k).isDone() ).collect( Collectors.toSet() );
+    Set<URI> keys = futures.keySet().parallelStream()
+      .filter( k -> futures.get(k).isDone() )
+      .collect( Collectors.toSet() );
     futures.keySet().removeAll( keys );
   }
 

@@ -7,7 +7,7 @@ import lombok.*;
 /**
  * Collection of HTTP stastus codes.
  * 
- * @ks.spec [07-Dec-2014:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
+ * @ks.spec [10-Jun-2016:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */

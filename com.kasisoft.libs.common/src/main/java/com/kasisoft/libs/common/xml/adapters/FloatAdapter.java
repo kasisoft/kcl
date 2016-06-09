@@ -12,7 +12,7 @@ import java.util.function.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FloatAdapter extends TypeAdapter<String,Float> {
+public class FloatAdapter extends TypeAdapter<String, Float> {
 
   static final String NAN           = "NaN";
   static final String NEG_INF       = "-INF";
@@ -39,7 +39,7 @@ public class FloatAdapter extends TypeAdapter<String,Float> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  public FloatAdapter( BiConsumer<Object,Exception> handler, String defval1, Float defval2 ) {
+  public FloatAdapter( BiConsumer<Object, Exception> handler, String defval1, Float defval2 ) {
     super( handler, defval1, defval2 );
   }
 

@@ -16,10 +16,10 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public abstract class AbstractEventDispatcher<L,E> {
+public abstract class AbstractEventDispatcher<L, E> {
 
-  Set<L>                         listeners;
-  BiConsumer<Object,Exception>   errorhandler;
+  Set<L>                          listeners;
+  BiConsumer<Object, Exception>   errorhandler;
   
   /**
    * Initialises this dispatcher to deliver Swing UI events.

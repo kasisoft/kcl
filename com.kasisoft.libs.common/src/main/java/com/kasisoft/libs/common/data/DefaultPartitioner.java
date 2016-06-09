@@ -14,11 +14,11 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DefaultPartitioner<T,K,S,R extends Collection<S>> implements Partitioner<T,K,R> {
+public class DefaultPartitioner<T, K, S, R extends Collection<S>> implements Partitioner<T, K, R> {
 
-  Predicate<T>        predicate;
-  BiFunction<K,T,S>   transform;
-  R                   data;
+  Predicate<T>          predicate;
+  BiFunction<K, T, S>   transform;
+  R                     data;
   
   /**
    * Initializes this default implementation providing a certain collection to store the data.
@@ -27,35 +27,35 @@ public class DefaultPartitioner<T,K,S,R extends Collection<S>> implements Partit
    * @param model   The model used to collect the data. Not <code>null</code>.
    */
   public DefaultPartitioner( @NonNull Predicate<T> test, @NonNull R model ) {
-    this( test, (BiFunction<K,T,S>) null, model );
+    this( test, (BiFunction<K, T, S>) null, model );
   }
 
   /**
    * Initializes this default implementation providing a certain collection to store the data.
    * 
    * @param test    The predicate used to determine whether we can select a record or not. Not <code>null</code>.
-   * @param alter   A transformer which used prepares a record to become collected. 
+   * @param alter   A transformer which prepares a record to become collected. 
    *                If <code>null</code> each record will be collected as is.
    * @param model   The model used to collect the data. Not <code>null</code>.
    */
-  public DefaultPartitioner( @NonNull Predicate<T> test, Function<T,S> alter, @NonNull R model ) {
-    this( test, ($,v) -> alter.apply(v), model );
+  public DefaultPartitioner( @NonNull Predicate<T> test, Function<T, S> alter, @NonNull R model ) {
+    this( test, ($, v) -> alter.apply(v), model );
   }
   
   /**
    * Initializes this default implementation providing a certain collection to store the data.
    * 
    * @param test    The predicate used to determine whether we can select a record or not. Not <code>null</code>.
-   * @param alter   A transformer which used prepares a record to become collected. 
+   * @param alter   A transformer which prepares a record to become collected. 
    *                If <code>null</code> each record will be collected as is.
    * @param model   The model used to collect the data. Not <code>null</code>.
    */
-  public DefaultPartitioner( @NonNull Predicate<T> test, BiFunction<K,T,S> alter, @NonNull R model ) {
+  public DefaultPartitioner( @NonNull Predicate<T> test, BiFunction<K, T, S> alter, @NonNull R model ) {
     predicate = test;
     data      = model;
     transform = alter;
     if( transform == null ) {
-      transform = ($1,$2) -> (S) $2;
+      transform = ($1, $2) -> (S) $2;
     }
   }
 

@@ -10,7 +10,7 @@ import javax.swing.event.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class ChangeEventDispatcher extends AbstractEventDispatcher<ChangeListener,ChangeEvent>{
+public class ChangeEventDispatcher extends AbstractEventDispatcher<ChangeListener, ChangeEvent>{
 
   @Override
   protected void invokeEvent( @NonNull ChangeListener listener, @NonNull ChangeEvent event ) {

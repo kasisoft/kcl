@@ -66,8 +66,8 @@ public class FailureException extends RuntimeException {
     };
   }
 
-  public static <T1,T2> BiConsumer<T1,T2> ensure( BiConsumer<T1,T2> consumer ) {
-    return new BiConsumer<T1,T2>() {
+  public static <T1, T2> BiConsumer<T1, T2> ensure( BiConsumer<T1, T2> consumer ) {
+    return new BiConsumer<T1, T2>() {
 
       @Override
       public void accept( T1 t1, T2 t2 ) {

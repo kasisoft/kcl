@@ -413,7 +413,7 @@ public class Blacklist implements Predicate<String> {
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
    *           Not <code>null</code>.
    */
-  public <T extends CharSequence> Function<T,StringBuilder> cleanup() {
+  public <T extends CharSequence> Function<T, StringBuilder> cleanup() {
     return cleanup( false );
   }
 
@@ -425,7 +425,7 @@ public class Blacklist implements Predicate<String> {
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
    *           Not <code>null</code>.
    */
-  public <T extends CharSequence> Function<T,StringBuilder> cleanup( boolean ignorecase ) {
+  public <T extends CharSequence> Function<T, StringBuilder> cleanup( boolean ignorecase ) {
     return cleanup( ignorecase, null );
   }
 
@@ -439,7 +439,7 @@ public class Blacklist implements Predicate<String> {
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
    *           Not <code>null</code>.
    */
-  public <T extends CharSequence> Function<T,StringBuilder> cleanup( Consumer<String> statistic ) {
+  public <T extends CharSequence> Function<T, StringBuilder> cleanup( Consumer<String> statistic ) {
     return cleanup( false, statistic );
   }
   
@@ -453,7 +453,7 @@ public class Blacklist implements Predicate<String> {
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
    *           Not <code>null</code>.
    */
-  public <T extends CharSequence> Function<T,StringBuilder> cleanup( boolean ignorecase, Consumer<String> statistic ) {
+  public <T extends CharSequence> Function<T, StringBuilder> cleanup( boolean ignorecase, Consumer<String> statistic ) {
     return ignorecase ? $ -> applyCI( $, statistic ) : $ -> applyCS( $, statistic );
   }
 

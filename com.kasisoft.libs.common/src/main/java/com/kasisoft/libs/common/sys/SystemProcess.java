@@ -23,21 +23,21 @@ import java.io.*;
 public class SystemProcess {
 
   /** Maybe <code>null</code>. */
-  @Getter OutputStream         outputStream;
+  @Getter OutputStream          outputStream;
   
   /** Maybe <code>null</code>. */
-  @Getter OutputStream         errorStream;
+  @Getter OutputStream          errorStream;
   
-  @Getter Exception            exception;
-  @Getter File                 executable;
+  @Getter Exception             exception;
+  @Getter File                  executable;
   
   /** Maybe <code>null</code>. */
-  @Getter File                 workingDir;
+  @Getter File                  workingDir;
   
-  @Getter boolean              inheritEnvironment;
-  @Getter int                  returncode;
+  @Getter boolean               inheritEnvironment;
+  @Getter int                   returncode;
 
-          Map<String,String>   variables;
+          Map<String, String>   variables;
   
   /**
    * Sets up this convenience class to use the supplied executable for the creation of a system process.
@@ -216,7 +216,7 @@ public class SystemProcess {
    * @return   An environment which is a merger of the current environment and the variables added to this process.
    */
   private String[] extendProperties() {
-    Map<String,String> map = new Hashtable<>();
+    Map<String, String> map = new Hashtable<>();
     map.putAll( System.getenv() );
     map.putAll( variables       );
     return toEnvp( map );
@@ -229,13 +229,13 @@ public class SystemProcess {
    * 
    * @return   An array of Strings usable as an environment for the execution of a command. Not <code>null</code>.
    */
-  private String[] toEnvp( Map<String,String> map ) {
-    String[]                           result   = new String[ map.size() ];
-    int                                i        = 0;
-    Iterator<Map.Entry<String,String>> iterator = map.entrySet().iterator();
+  private String[] toEnvp( Map<String, String> map ) {
+    String[]                            result   = new String[ map.size() ];
+    int                                 i        = 0;
+    Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
     while( iterator.hasNext() ) {
-      Map.Entry<String,String> pair = iterator.next();
-      result[i]                     = String.format( "%s=%s", pair.getKey(), pair.getValue() );
+      Map.Entry<String, String> pair = iterator.next();
+      result[i]                      = String.format( "%s=%s", pair.getKey(), pair.getValue() );
       i++;
     }
     return result;

@@ -14,7 +14,7 @@ import java.util.function.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class VersionAdapter extends TypeAdapter<String,Version> {
+public class VersionAdapter extends TypeAdapter<String, Version> {
 
   boolean   micro;
   boolean   qualifier;
@@ -35,7 +35,7 @@ public class VersionAdapter extends TypeAdapter<String,Version> {
    * @param hasmicro       <code>true</code> <=> The version is supposed to provide a micro number.
    * @param hasqualifier   <code>true</code> <=> The version is supposed to provide a qualifier number.
    */
-  public VersionAdapter( BiConsumer<Object,Exception> handler, boolean hasmicro, boolean hasqualifier ) {
+  public VersionAdapter( BiConsumer<Object, Exception> handler, boolean hasmicro, boolean hasqualifier ) {
     this( handler, null, null, hasmicro, hasqualifier );
   }
   
@@ -58,7 +58,7 @@ public class VersionAdapter extends TypeAdapter<String,Version> {
    * @param hasmicro      <code>true</code> <=> The version is supposed to provide a micro number.
    * @param hasqualifier  <code>true</code> <=> The version is supposed to provide a qualifier number.
    */
-  public VersionAdapter( BiConsumer<Object,Exception> handler, String defval1, Version defval2, boolean hasmicro, boolean hasqualifier ) {
+  public VersionAdapter( BiConsumer<Object, Exception> handler, String defval1, Version defval2, boolean hasmicro, boolean hasqualifier ) {
     super( handler, defval1, defval2 );
     micro     = hasmicro;
     qualifier = hasqualifier;
@@ -79,7 +79,7 @@ public class VersionAdapter extends TypeAdapter<String,Version> {
    * @param handler    A custom error handler. Maybe <code>null</code>.
    * @param matchall   <code>true</code> <=> Try to match everything.
    */
-  public VersionAdapter( BiConsumer<Object,Exception> handler, boolean matchall ) {
+  public VersionAdapter( BiConsumer<Object, Exception> handler, boolean matchall ) {
     this( handler, null, null, matchall );
   }
 
@@ -102,7 +102,7 @@ public class VersionAdapter extends TypeAdapter<String,Version> {
    * @param defval2    A default value for the target type. Maybe <code>null</code>.
    * @param matchall   <code>true</code> <=> Try to match everything.
    */
-  public VersionAdapter( BiConsumer<Object,Exception> handler, String defval1, Version defval2, boolean matchall ) {
+  public VersionAdapter( BiConsumer<Object, Exception> handler, String defval1, Version defval2, boolean matchall ) {
     super( handler, defval1, defval2 );
     micro     = false;
     qualifier = false;

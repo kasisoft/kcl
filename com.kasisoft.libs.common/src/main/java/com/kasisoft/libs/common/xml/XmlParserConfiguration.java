@@ -124,5 +124,4 @@ public class XmlParserConfiguration {
     
   } /* ENDCLASS */
   
-  
 } /* ENDCLASS */

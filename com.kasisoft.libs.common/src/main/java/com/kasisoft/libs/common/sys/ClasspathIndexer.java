@@ -32,19 +32,19 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClasspathIndexer {
 
-  Map<Path,Set<String>>                    resources;
-  List<Path>                               pathesAsList;
-  List<String>                             asList;
+  Map<Path, Set<String>>                      resources;
+  List<Path>                                  pathesAsList;
+  List<String>                                asList;
   
   @Getter @Setter
-  Predicate<Path>                          pathTester;
+  Predicate<Path>                             pathTester;
   
   @Getter @Setter
-  Predicate<String>                        resourceTester;
+  Predicate<String>                           resourceTester;
   
-  FileType                                 zipTest;
+  FileType                                    zipTest;
   
-  Map<String,Partitioner<String,Path,?>>   partitioners;
+  Map<String, Partitioner<String, Path, ?>>   partitioners;
   
   public ClasspathIndexer() {
     zipTest         = new ZipFileType();
@@ -66,7 +66,7 @@ public class ClasspathIndexer {
    * 
    * @return   this
    */
-  public <R extends ClasspathIndexer,C extends Collection<String>> R withJavaClassPartitioner( @NonNull String name, @NonNull C data ) {
+  public <R extends ClasspathIndexer, C extends Collection<String>> R withJavaClassPartitioner( @NonNull String name, @NonNull C data ) {
     return withPartitioner( name, ClasspathPartitioners.newToEnclosingClass( data ) ); 
   }
 
@@ -79,7 +79,7 @@ public class ClasspathIndexer {
    * 
    * @return   this
    */
-  public <R extends ClasspathIndexer,C extends Collection<String>> R withResourceFilesPartitioner( @NonNull String name, @NonNull C data ) {
+  public <R extends ClasspathIndexer, C extends Collection<String>> R withResourceFilesPartitioner( @NonNull String name, @NonNull C data ) {
     return withPartitioner( name, ClasspathPartitioners.newToResourceFile( data ) ); 
   }
 
@@ -92,7 +92,7 @@ public class ClasspathIndexer {
    * 
    * @return   this
    */
-  public <R extends ClasspathIndexer,C extends Collection<String>> R withResourceDirsPartitioner( @NonNull String name, @NonNull C data ) {
+  public <R extends ClasspathIndexer, C extends Collection<String>> R withResourceDirsPartitioner( @NonNull String name, @NonNull C data ) {
     return withPartitioner( name, ClasspathPartitioners.newToResourceDir( data ) ); 
   }
 
@@ -104,7 +104,7 @@ public class ClasspathIndexer {
    * 
    * @return   this
    */
-  public <R extends ClasspathIndexer> R withPartitioner( @NonNull String name, @NonNull Partitioner<String,Path,?> partitioner ) {
+  public <R extends ClasspathIndexer> R withPartitioner( @NonNull String name, @NonNull Partitioner<String, Path,?> partitioner ) {
     partitioners.put( name, partitioner );
     return (R) this; 
   }
@@ -260,7 +260,7 @@ public class ClasspathIndexer {
     }
   }
   
-  private BiPredicate<Path,String> getResourceFilter() {
+  private BiPredicate<Path, String> getResourceFilter() {
     if( resourceTester == null ) {
       return (p,s) -> true;
     } else {
@@ -268,7 +268,7 @@ public class ClasspathIndexer {
     }
   }
 
-  private BiPredicate<Path,ZipEntry> getZipResourceFilter() {
+  private BiPredicate<Path, ZipEntry> getZipResourceFilter() {
     if( resourceTester == null ) {
       return (p,z) -> true;
     } else {
@@ -291,7 +291,7 @@ public class ClasspathIndexer {
    * @return   The partition data. Maybe <code>null</code>.
    */
   public <R> R getPartition( @NonNull String name ) {
-    Partitioner<String,Path,?> partitioner = partitioners.get( name );
+    Partitioner<String, Path, ?> partitioner = partitioners.get( name );
     if( partitioner != null ) {
       return (R) partitioner.getPartition();
     } else {
@@ -305,9 +305,6 @@ public class ClasspathIndexer {
       .withPartitioner( "maven", ClasspathPartitioners.newMaven( new ArrayList<>() ) )
       .withJavaClassPartitioner( "java", new ArrayList<>() );
     indexer.indexSystemClasspath();
-    // indexer.resources.values().forEach( System.err::println );
-    // indexer.classes.forEach( System.err::println );
-    // indexer.files.forEach( System.err::println );
     List<String> spi = indexer.getPartition( "maven" );
     spi.forEach( x -> System.err.println( ">> " + x ) );
   }

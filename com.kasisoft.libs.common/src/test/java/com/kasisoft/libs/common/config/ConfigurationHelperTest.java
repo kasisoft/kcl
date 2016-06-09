@@ -26,7 +26,7 @@ public class ConfigurationHelperTest {
   
   SimpleProperty<String>   property1;
   SimpleProperty<String>   property2;
-  Map<String,String>       map;
+  Map<String, String>      map;
   Properties               properties;
   
   @BeforeClass

@@ -31,10 +31,10 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver, Predicate<String> {
 
-  Map<PublicId,byte[]>   catalogdata;
-  Map<PublicId,String>   systemIds;
-  Set<URL>               failures;
-  DOMImplementationLS    domimpl;
+  Map<PublicId, byte[]>   catalogdata;
+  Map<PublicId, String>   systemIds;
+  Set<URL>                failures;
+  DOMImplementationLS     domimpl;
   
   /**
    * Initialises this catalog.
@@ -222,11 +222,12 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
       if( (publicid != null) || (systemid != null) ) {
         byte[] result = loadData( publicid, systemid );
         if( result != null ) {
+          PublicId pid = new PublicId( publicid );
           LSInput lsinput = domimpl.createLSInput();
           lsinput.setBaseURI( baseuri );
           lsinput.setByteStream( new ByteArrayInputStream( result ) );
-          lsinput.setPublicId( publicid );
-          lsinput.setSystemId( systemid );
+          lsinput.setSystemId( systemIds.get( pid ) );
+          lsinput.setPublicId( pid.getId() );
           return lsinput;
         } else {
           return null;

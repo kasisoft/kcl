@@ -35,7 +35,7 @@ public final class FontFamily {
   public static final FontFamily  Tahoma;
   public static final FontFamily  TimesNewRoman;
   
-  static final Map<String,FontFamily>   FONTFAMILIES;
+  static final Map<String, FontFamily>   FONTFAMILIES;
   
   static {
     FONTFAMILIES        = new Hashtable<>();

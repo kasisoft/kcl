@@ -21,7 +21,7 @@ import java.util.*;
 public final class Digest {
   
   /**
-   * @ks.spec [07-Dec-2014:KASI]   http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest
+   * @ks.spec [10-Jun-2016:KASI]   http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest
    */
   
   public static final Digest   MD2;

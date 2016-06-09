@@ -52,7 +52,7 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty> {
+public class MapProperty<T> extends AbstractProperty<T, Map<String, T>, MapProperty> {
 
   static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(.+)\\s*\\])";
 
@@ -69,7 +69,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public MapProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter ) {
+  public MapProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
     super( property, typeadapter, false );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
@@ -82,7 +82,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public MapProperty( @NonNull String property, @NonNull TypeAdapter<String,T> typeadapter, boolean req ) {
+  public MapProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
@@ -94,7 +94,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   this
    */
-  public MapProperty<T> withDefault( Map<String,T> defvalue ) {
+  public MapProperty<T> withDefault( Map<String, T> defvalue ) {
     defaultValue = defvalue;
     return this;
   }
@@ -120,7 +120,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( @NonNull Map<String,String> properties, Map<String,T> newvalue ) {
+  public void setValue( @NonNull Map<String, String> properties, Map<String, T> newvalue ) {
     setValueImpl( properties, newvalue );
   }
 
@@ -130,14 +130,14 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * @param properties   The properties instance that will be updated. Not <code>null</code>.
    * @param newvalue     The new value to be set. Maybe <code>null</code>.
    */
-  public void setValue( @NonNull Properties properties, Map<String,T> newvalue ) {
+  public void setValue( @NonNull Properties properties, Map<String, T> newvalue ) {
     setValueImpl( properties, newvalue );
   }
 
-  private void setValueImpl( Map props, Map<String,T> newvalue ) {
+  private void setValueImpl( Map props, Map<String, T> newvalue ) {
     removeProperties( props.keySet() );
     if( newvalue != null ) {
-      for( Map.Entry<String,T> entry : newvalue.entrySet() ) {
+      for( Map.Entry<String, T> entry : newvalue.entrySet() ) {
         String key = String.format( "%s[%s]", getKey(), entry.getKey() );
         setProperty( props, key, entry.getValue() );
       }
@@ -151,7 +151,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The value if there was one. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( @NonNull Map<String,String> properties ) {
+  public Map<String, T> getValue( @NonNull Map<String, String> properties ) {
     Map<String, String> values = getValueImpl( properties );
     return checkForResult( getTypedValues( values, null ) );
   }
@@ -163,7 +163,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The value if there was one. Maybe <code>null</code>.
    */
-  public Map<String,T> getValue( @NonNull Properties properties ) {
+  public Map<String, T> getValue( @NonNull Properties properties ) {
     Map<String, String> values = getValueImpl( properties );
     return checkForResult( getTypedValues( values, null ) );
   }
@@ -175,8 +175,8 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The map value providing the content. Not <code>null</code>. 
    */
-  private Map<String,String> getValueImpl( Map<?,?> map ) {
-    Map<String,String> result = new Hashtable<>();
+  private Map<String, String> getValueImpl( Map<?, ?> map ) {
+    Map<String, String> result = new Hashtable<>();
     for( Object propkey : map.keySet() ) {
       Matcher matcher = pattern.matcher( (String) propkey );
       if( matcher.matches() ) {
@@ -198,15 +198,15 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
    * 
    * @return   The typed values. Not <code>null</code>.
    */
-  private Map<String,T> getTypedValues( Map<String,String> values, Map<String,T> defvalues ) {
-    Map<String,T> result = new HashMap<>();
+  private Map<String, T> getTypedValues( Map<String, String> values, Map<String, T> defvalues ) {
+    Map<String, T> result = new HashMap<>();
     if( defaultValue != null ) {
       result.putAll( defaultValue );
     }
     if( defvalues != null ) {
       result.putAll( defvalues );
     }
-    for( Map.Entry<String,String> entry : values.entrySet() ) {
+    for( Map.Entry<String, String> entry : values.entrySet() ) {
       T defvalue = result.get( entry.getKey() );
       T value    = getTypedValue( entry.getValue(), defvalue );
       if( value != null ) {
@@ -216,7 +216,7 @@ public class MapProperty<T> extends AbstractProperty<T,Map<String,T>,MapProperty
     return result;
   }
   
-  private Map<String,T> checkForResult( Map<String,T> result ) {
+  private Map<String, T> checkForResult( Map<String, T> result ) {
     if( isRequired() ) {
       if( (result == null) || result.isEmpty() ) {
         // damn, we need to complain here

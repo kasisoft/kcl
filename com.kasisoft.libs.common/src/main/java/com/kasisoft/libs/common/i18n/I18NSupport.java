@@ -66,8 +66,8 @@ public class I18NSupport {
    * @return   A mapping between field names and the corresponding {@link Field} instances. Not <code>null</code>.
    */
   private static Map<String,Field> collectFields( Class<?> clazz ) {
-    Map<String,Field> result = new Hashtable<>();
-    Field[]           fields = clazz.getDeclaredFields();
+    Map<String, Field> result = new Hashtable<>();
+    Field[]            fields = clazz.getDeclaredFields();
     for( Field field : fields ) {
       if( isTranslationField( field ) ) {
         result.put( field.getName(), field );
@@ -86,17 +86,14 @@ public class I18NSupport {
    * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
    */
   private static Properties loadTranslations( String[] candidates ) {
-    
-    Properties  result      = new Properties();
-    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-    
+    Properties result = new Properties();
     for( String variant : candidates ) {
       
       if( variant == null ) {
         continue;
       }
       
-      URL url = classloader.getResource( variant );
+      URL url = MiscFunctions.getResource( null, variant );
       if( url == null ) {
         continue;
       }
