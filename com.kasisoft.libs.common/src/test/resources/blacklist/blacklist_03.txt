@@ -1,0 +1,5 @@
+$%
+$% Comments using $%
+$%
+blacklisted
+blacklisted2
