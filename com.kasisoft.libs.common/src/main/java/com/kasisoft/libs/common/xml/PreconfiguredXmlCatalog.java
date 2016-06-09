@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.xml;
 
+import com.kasisoft.libs.common.util.*;
+
 import com.kasisoft.libs.common.base.*;
 
 import lombok.experimental.*;
@@ -77,7 +79,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    *                            desired resource.
    */
   protected void registerResource( String publicid, @NonNull String resource ) {
-    URL url = getClass().getResource( resource );
+    URL url = MiscFunctions.getResource( getClass(), resource );
     if( url != null ) {
       if( publicid != null ) {
         registerPublicID( publicid, url );
