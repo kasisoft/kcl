@@ -19,6 +19,8 @@ import java.text.*;
 
 import java.lang.reflect.*;
 
+import java.net.*;
+
 import java.io.*;
 
 import java.sql.*;
@@ -397,7 +399,37 @@ public class MiscFunctions {
       }
     }
   }
-  
+
+  /**
+   * Like {@link #close(Closeable)} without complaining.
+   * 
+   * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
+   */
+  public static void closeQuietly( Closeable closeable ) {
+    if( closeable != null ) {
+      try {
+        closeable.close();
+      } catch( IOException ex ) {
+        // don't complain
+      }
+    }
+  }
+
+  /**
+   * Like {@link #close(Connection)} without complaining.
+   * 
+   * @param connection   The connection that has to be closed. Maybe <code>null</code>.
+   */
+  public static void closeQuietly( Connection connection ) {
+    if( connection != null ) {
+      try {
+        connection.close();
+      } catch( SQLException ex ) {
+        // don't complain
+      }
+    }
+  }
+
   /**
    * Returns <code>true</code> if the supplied year is a leap year.
    * 
@@ -473,6 +505,59 @@ public class MiscFunctions {
     } else {
       return locale;
     }
+  }
+  
+  /**
+   * Returns the resource which might be provided by a ClassLoader instance accessible in this function.
+   * 
+   * @param resource   The resource that shall be loaded. Not blank.
+   * 
+   * @return   The URL allowing to access the resource. Maybe <code>null</code>.
+   */
+  public static URL getResource( @NonNull String resource ) {
+    return getResource( (Class<?>) null, resource );
+  }
+  
+  /**
+   * Returns the resource which might be provided by a certain Class or the ClassLoader instances accessible
+   * in this function.
+   * 
+   * @param caller     The calling class allowing to access a resource. Maybe <code>null</code>.
+   * @param resource   The resource that shall be loaded. Not blank.
+   * 
+   * @return   The URL allowing to access the resource. Maybe <code>null</code>.
+   */
+  public static URL getResource( Class<?> caller, @NonNull String resource ) {
+    URL result = null;
+    if( (resource.length() > 0) && (resource.charAt(0) == '/') ) {
+      resource = resource.substring(1);
+    }
+    if( caller != null ) {
+      result = caller.getResource( resource );
+    }
+    if( result == null ) {
+      result = getResource( Thread.currentThread().getContextClassLoader(), resource );
+    }
+    if( result == null ) {
+      result = getResource( MiscFunctions.class.getClassLoader(), resource );
+    }
+    return result;
+  }
+  
+  /**
+   * Returns the resource which might be provided by a certain ClassLoader instance.
+   * 
+   * @param cl         The potential ClassLoader allowing to access a resource. Maybe <code>null</code>.
+   * @param resource   The resource that shall be loaded. Not blank.
+   * 
+   * @return   The URL allowing to access the resource. Maybe <code>null</code>.
+   */
+  private static URL getResource( ClassLoader cl, String resource ) {
+    URL result = null;
+    if( cl != null ) {
+      result = cl.getResource( resource );
+    }
+    return result;
   }
 
   /**
