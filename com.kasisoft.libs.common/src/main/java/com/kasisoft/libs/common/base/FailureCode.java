@@ -67,7 +67,11 @@ public enum FailureCode {
    * @param cause   The causing exception.
    */
   public FailureException newException( Throwable cause ) {
-    return new FailureException( createMessage( null, null ), this, cause, null );
+    if( cause instanceof FailureException ) {
+      return (FailureException) cause;
+    } else {
+      return new FailureException( createMessage( null, null ), this, cause, null );
+    }
   }
   
   /**
@@ -86,7 +90,11 @@ public enum FailureCode {
    * @param cause     The causing exception.
    */
   public FailureException newException( String message, Throwable cause ) {
-    return new FailureException( createMessage( message, null ), this, cause, null );
+    if( cause instanceof FailureException ) {
+      return (FailureException) cause;
+    } else {
+      return new FailureException( createMessage( message, null ), this, cause, null );
+    }
   }
 
   /**
@@ -97,7 +105,11 @@ public enum FailureCode {
    * @param params    Optional parameters which have been involved in the cause of the exception. Maybe <code>null</code>.
    */
   public FailureException newException( String message, Throwable cause, Object ... params ) {
-    return new FailureException( createMessage( message, params ), this, cause, params );
+    if( cause instanceof FailureException ) {
+      return (FailureException) cause;
+    } else {
+      return new FailureException( createMessage( message, params ), this, cause, params );
+    }
   }
   
   private String createMessage( String message, Object[] params ) {

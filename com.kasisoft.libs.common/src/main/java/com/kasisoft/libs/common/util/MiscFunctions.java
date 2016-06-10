@@ -2,9 +2,13 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 
+import com.kasisoft.libs.common.i18n.*;
+
 import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.sys.*;
+
+import com.kasisoft.libs.common.lang.*;
 
 import lombok.experimental.*;
 
@@ -210,60 +214,13 @@ public class MiscFunctions {
    *                    parameter type.
    * 
    * @return   <code>null</code> <=> If the class could not be instantiated otherwise the instance itself.
-   */
-  public static Object newInstance( @NonNull String classname, Object ... args ) {
-    try {
-      Class clazz = Class.forName( classname );
-      if( (args == null) || (args.length == 0) ) {
-        return clazz.newInstance();
-      } else {
-        Class[] params = new Class[ args.length ];
-        for( int i = 0; i < params.length; i++ ) {
-          params[i] = args[i].getClass();
-        }
-        try {
-          return clazz.getConstructor( params ).newInstance( args );
-        } catch( NoSuchMethodException ex ) {
-          Constructor[] constructors = clazz.getDeclaredConstructors();
-          Constructor   constructor  = findMatchingConstructor( constructors, params );
-          if( constructor != null ) {
-            return constructor.newInstance( args );
-          } else {
-            throw FailureCode.Reflections.newException( ex );
-          }
-        }
-      }
-    } catch( Exception ex ) { 
-      throw FailureCode.Reflections.newException( ex );
-    }
-  }
-  
-  /**
-   * Identifies a constructor by it's signature. This might be necessary if the appropriate Constructor uses an 
-   * interface, so using a concrete type might fail to locate the right Constructor.
-   *  
-   * @param candidates   The possible candidates of Constructors. Not <code>null</code>.
-   * @param params       The current signature used to locate the Constructor. Not <code>null</code>.
    * 
-   * @return   The Constructor if it could be found. Maybe <code>null</code>.
+   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
+   *                                  Use {@link ReflectionFunctions#newInstance(String, Object...)} instead.
    */
-  private static Constructor findMatchingConstructor( @NonNull Constructor[] candidates, @NonNull Class<?>[] params ) {
-    for( Constructor constructor : candidates ) {
-      Class[] expectedparams = constructor.getParameterTypes();
-      if( (expectedparams != null) && (expectedparams.length == params.length) ) {
-        boolean matches = true;
-        for( int i = 0; i < expectedparams.length; i++ ) {
-          if( ! expectedparams[i].isAssignableFrom( params[i] ) ) {
-            matches = false;
-            break;
-          }
-        }
-        if( matches ) {
-          return constructor;
-        }
-      }
-    }
-    return null;
+  @Deprecated
+  public static Object newInstance( @NonNull String classname, Object ... args ) {
+    return ReflectionFunctions.newInstance( classname, args );
   }
   
   /**
@@ -360,14 +317,13 @@ public class MiscFunctions {
    * @param sequence   The sequence where to look for the pattern. Not <code>null</code>.
    * 
    * @return   A list of regions providing the positions within the sequence. Not <code>null</code>.
+   * 
+   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
+   *                                  Use {@link StringFunctions#getRegexRegions(Pattern, String)} instead.
    */
+  @Deprecated
   public static List<int[]> getRegexRegions( @NonNull Pattern pattern, @NonNull String sequence ) {
-    List<int[]> result  = new ArrayList<>();
-    Matcher     matcher = pattern.matcher( sequence );
-    while( matcher.find() ) {
-      result.add( new int[] { matcher.start(), matcher.end() } );
-    }
-    return result;
+    return StringFunctions.getRegexRegions( pattern, sequence );
   }
 
   /**
@@ -466,13 +422,13 @@ public class MiscFunctions {
    * @param params   The parameter types for the constructor. Maybe <code>null</code>.
    * 
    * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
+   * 
+   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
+   *                                  Use {@link ReflectionFunctions#getConstructor(Class, Class...)} instead.
    */
+  @Deprecated
   public static Constructor getConstructor( @NonNull Class<?> type, Class<?> ... params ) {
-    try {
-      return type.getDeclaredConstructor( params );
-    } catch( Exception ex ) {
-      throw null;
-    }
+    return ReflectionFunctions.getConstructor( type, params );
   }
 
   /**
@@ -483,13 +439,13 @@ public class MiscFunctions {
    * @param params   The parameter types for the method. Maybe <code>null</code>.
    * 
    * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
+   * 
+   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
+   *                                  Use {@link ReflectionFunctions#getMethod(Class, String, Class...)} instead.
    */
+  @Deprecated
   public static Method getMethod( @NonNull Class<?> type, @NonNull String name, Class<?> ... params ) {
-    try {
-      return type.getDeclaredMethod( name, params );
-    } catch( Exception ex ) {
-      throw null;
-    }
+    return ReflectionFunctions.getMethod( type, name, params );
   }
   
   /**
@@ -498,13 +454,13 @@ public class MiscFunctions {
    * @param locale   The locale to be used. Maybe <code>null</code>.
    * 
    * @return   The current locale. Not <code>null</code>.
+   * 
+   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
+   *                                  Use {@link I18NFunctions#getLocale(Locale)} instead.
    */
+  @Deprecated
   public static Locale getLocale( Locale locale ) {
-    if( locale == null ) {
-      return Locale.getDefault();
-    } else {
-      return locale;
-    }
+    return I18NFunctions.getLocale( locale );
   }
   
   /**

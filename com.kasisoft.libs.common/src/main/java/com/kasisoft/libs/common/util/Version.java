@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.util;
 
-import lombok.experimental.*;
-
 import lombok.*;
 
 import java.text.*;
@@ -10,16 +8,12 @@ import java.text.*;
  * A simple descriptional datastructure for a version.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [10-Jun-2016:KASI]   This type had been moved into the package com.kasisoft.libs.common.model
+ *                                  and will be removed with version 2.3.
  */
-@EqualsAndHashCode(of = "text")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class Version implements Comparable<Version> {
-
-  @Getter int       major;
-  @Getter int       minor;
-  @Getter Integer   micro;
-  @Getter String    qualifier;
-          String    text;
+@Deprecated
+public class Version extends com.kasisoft.libs.common.model.Version {
 
   /**
    * Sets up this version with the supplied settings.
@@ -28,9 +22,7 @@ public class Version implements Comparable<Version> {
    * @param minorver   The minor version number.
    */
   public Version( int majorver, int minorver ) {
-    this( majorver, minorver, 0, null );
-    micro = null;
-    text  = toText();
+    super( majorver, minorver );
   }
   
   /**
@@ -41,9 +33,7 @@ public class Version implements Comparable<Version> {
    * @param qualifierstr   A qualifier String. Either <code>null</code> or not empty.
    */
   public Version( int majorver, int minorver, String qualifierstr ) {
-    this( majorver, minorver, 0, qualifierstr );
-    micro = null;
-    text  = toText();
+    super( majorver, minorver, qualifierstr );
   }
 
   /**
@@ -54,7 +44,7 @@ public class Version implements Comparable<Version> {
    * @param microver       The micro version number. Maybe <code>null</code>.
    */
   public Version( int majorver, int minorver, int microver ) {
-    this( majorver, minorver, microver, null );
+    super( majorver, minorver, microver );
   }
   
   /**
@@ -66,11 +56,7 @@ public class Version implements Comparable<Version> {
    * @param qualifierstr   A qualifier String. Either <code>null</code> or not empty.
    */
   public Version( int majorver, int minorver, int microver, String qualifierstr ) {
-    major     = majorver;
-    minor     = minorver;
-    micro     = Integer.valueOf( microver );
-    qualifier = qualifierstr;
-    text      = toText();
+    super( majorver, minorver, microver, qualifierstr );
   }
 
   /**
@@ -83,7 +69,7 @@ public class Version implements Comparable<Version> {
    * @throws ParseException   The textual presentation is invalid.
    */
   public Version( @NonNull String version, boolean hasmicro, boolean hasqualifier ) throws ParseException {
-    this( version, Boolean.valueOf( hasmicro ), Boolean.valueOf( hasqualifier ) );
+    super( version, hasmicro, hasqualifier );
   }
 
   /**
@@ -94,147 +80,7 @@ public class Version implements Comparable<Version> {
    * @throws ParseException   The textual presentation is invalid.
    */
   public Version( @NonNull String version ) throws ParseException {
-    this( version, null, null );
-  }
-
-  /**
-   * Creates a new instance based upon the supplied textual description.
-   * 
-   * @param version        A textual description of a version. Neither <code>null</code> nor empty.
-   * @param hasmicro       <code>true</code> <=> Process a micro number.
-   * @param hasqualifier   <code>true</code> <=> Process a optional qualifier.
-   * 
-   * @throws ParseException   The textual presentation is invalid.
-   */
-  private Version( @NonNull String version, Boolean hasmicro, Boolean hasqualifier ) throws ParseException {
-
-    int idx = 0;
-    try {
-      
-      StringBuilder input = new StringBuilder( version );
-      String part         = nextPart( input, '.' );
-      major               = Integer.parseInt( part );
-      idx++;
-      
-      part                = nextPart( input, '.' );
-      minor               = Integer.parseInt( part );
-      idx++;
-      
-      if( hasmicro != null ) {
-        
-        if( hasmicro.booleanValue() ) {
-          part   = nextPart( input, '.', '_' );
-          micro  = Integer.valueOf( part );
-          idx++;
-        }
-        
-        if( hasqualifier.booleanValue() ) {
-          qualifier = StringFunctions.cleanup( input.toString() );
-          if( qualifier == null ) {
-            throw new Exception();
-          }
-        }
-        
-      } else {
-        
-        // this is our flexible approach where we're trying to match as much as possible
-        try {
-          
-          part   = nextPart( input, '.', '_' );
-          micro  = Integer.valueOf( part );
-          idx++;
-          
-          qualifier = StringFunctions.cleanup( input.toString() );
-          
-        } catch( NumberFormatException ex ) {
-          // not a valid number so it's obviously the qualifier
-          qualifier = part;
-        }
-        
-      }
-
-      text      = toText();
-      
-    } catch( Exception ex ) {
-      throw new ParseException( version, idx );
-    }
-    
-  }
-
-  /**
-   * Creates a textual presentation of this version.
-   * 
-   * @return   A textual presentation of this version. Neither <code>null</code> nor empty.
-   */
-  public String toText() {
-    return toText('.');
-  }
-  
-  /**
-   * Creates a textual presentation of this version.
-   * 
-   * @param qualifierdelim   The delimiter which has to be used for the qualifier (sometimes you might wann use '_').
-   * 
-   * @return   A textual presentation of this version. Neither <code>null</code> nor empty.
-   */
-  public String toText( char qualifierdelim ) {
-    StringBuilder builder = new StringBuilder();
-    builder.append( major );
-    builder.append( '.' );
-    builder.append( minor );
-    if( micro != null ) {
-      builder.append( '.' );
-      builder.append( micro );
-    }
-    if( qualifier != null ) {
-      builder.append( qualifierdelim );
-      builder.append( qualifier );
-    }
-    return builder.toString();
-  }
-
-  private String nextPart( StringBuilder input, char ... characters ) {
-    String result = null;
-    int    pos    = StringFunctions.indexOf( 0, input, characters );
-    if( pos == -1 ) {
-      result = input.toString();
-      input.setLength(0);
-    } else {
-      result = input.substring( 0, pos );
-      input.delete( 0, pos + 1 );
-    }
-    return StringFunctions.cleanup( result );
-  }
-  
-  @Override
-  public String toString() {
-    return text;
-  }
-  
-  @Override
-  public int compareTo( Version other ) {
-    if( other == null ) {
-      return -1;
-    }
-    int result = Integer.valueOf( major ).compareTo( Integer.valueOf( other.major ) );
-    if( result == 0 ) {
-      result = Integer.valueOf( minor ).compareTo( Integer.valueOf( other.minor ) );
-    }
-    if( result == 0 ) {
-      if( (micro != null) && (other.micro != null) ) {
-        result = micro.compareTo( other.micro );
-      } else if( (micro != null) || (other.micro != null) ) {
-        if( micro != null ) {
-          result = -1;
-        } else {
-          result = 1;
-        }
-      }
-    }
-    if( result == 0 ) {
-      result = text.compareTo( other.text );
-    }
-    return result;
+    super( version );
   }
 
 } /* ENDCLASS */

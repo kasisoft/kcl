@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.util;
+package com.kasisoft.libs.common.constants;
 
 import lombok.experimental.*;
 

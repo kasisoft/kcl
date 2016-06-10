@@ -3,10 +3,11 @@ package com.kasisoft.libs.common.util;
 import com.kasisoft.libs.common.internal.charsequence.*;
 
 import com.kasisoft.libs.common.constants.*;
-
 import com.kasisoft.libs.common.io.*;
 
 import lombok.*;
+
+import java.util.regex.*;
 
 import java.util.*;
 
@@ -758,6 +759,23 @@ public class StringFunctions {
   public static <T extends CharSequence> T trim( @NonNull T input, @NonNull String chars, Boolean left ) {
     CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     return facade.trim( input, chars, left );
+  }
+  
+  /**
+   * Returns a list with regions providing the ranges for a matched pattern.
+   * 
+   * @param pattern    The pattern to be matched. Not <code>null</code>.
+   * @param sequence   The sequence where to look for the pattern. Not <code>null</code>.
+   * 
+   * @return   A list of regions providing the positions within the sequence. Not <code>null</code>.
+   */
+  public static List<int[]> getRegexRegions( @NonNull Pattern pattern, @NonNull String sequence ) {
+    List<int[]> result  = new ArrayList<>();
+    Matcher     matcher = pattern.matcher( sequence );
+    while( matcher.find() ) {
+      result.add( new int[] { matcher.start(), matcher.end() } );
+    }
+    return result;
   }
 
 } /* ENDCLASS */
