@@ -17,18 +17,6 @@ public interface Configurable {
    * @param properties   The settings which will be used for the configuration. Not <code>null</code>.
    * 
    * @throws FailureException in case anything went wrong.
-   * 
-   * @deprecated   [25-Oct-2015:KASI]   This method will be removed with version 2.2.
-   */
-  @Deprecated
-  void configure( Properties properties ) throws FailureException;
-
-  /**
-   * Configures this instance with the supplied settings.
-   * 
-   * @param properties   The settings which will be used for the configuration. Not <code>null</code>.
-   * 
-   * @throws FailureException in case anything went wrong.
    */
   void configure( Map<String,Object> properties ) throws FailureException;
 

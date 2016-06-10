@@ -188,34 +188,6 @@ public final class XmlFunctions {
   }
   
   /**
-   * Decodes a String that contains XML specific entities into a normal String.
-   * 
-   * @param source   A String that may contain XML entities. Not <code>null</code>.
-   * 
-   * @return   A decoded String. Not <code>null</code>.
-   * 
-   * @deprecated This function will be removed with version 2.2 . Use {@link #unescapeXml(CharSequence, boolean)} instead.
-   */
-  @Deprecated
-  public static String decodeString( @NonNull String source ) {
-    return StringFunctions.replace( source, XML2NORMAL_LE );
-  }
-
-  /**
-   * Encodes a String while replacing literals into corresponding XML entities. Thi
-   * 
-   * @param source   A String that may be modified. Not <code>null</code>.
-   * 
-   * @return   An encoded String. Not <code>null</code>.
-   * 
-   * @deprecated This function will be removed with version 2.2 . Use {@link #unescapeXml(CharSequence, boolean)} instead.
-   */
-  @Deprecated
-  public static String encodeString( @NonNull String source ) {
-    return StringFunctions.replace( source, NORMAL2XML_LE );
-  }
-  
-  /**
    * Decodes a String in place that contains XML specific entities.
    * 
    * @param source   A String that may contain XML entities. Not <code>null</code>.
