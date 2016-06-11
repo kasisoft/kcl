@@ -2,26 +2,18 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.i18n.*;
-
 import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.sys.*;
-
-import com.kasisoft.libs.common.lang.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
-import java.util.regex.*;
-
 import java.util.*;
 import java.util.Date;
 
 import java.text.*;
-
-import java.lang.reflect.*;
 
 import java.net.*;
 
@@ -206,24 +198,6 @@ public class MiscFunctions {
   }
 
   /**
-   * Instantiates the supplied class with the supplied arguments.
-   * 
-   * @param classname   The class that shall be instantiated. Neither <code>null</code> nor empty.
-   * @param args        The arguments which have to be passed to the constructor. If omitted the default constructor 
-   *                    will be used. If passed each element must be non-<code>null</code> in order to determine the 
-   *                    parameter type.
-   * 
-   * @return   <code>null</code> <=> If the class could not be instantiated otherwise the instance itself.
-   * 
-   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
-   *                                  Use {@link ReflectionFunctions#newInstance(String, Object...)} instead.
-   */
-  @Deprecated
-  public static Object newInstance( @NonNull String classname, Object ... args ) {
-    return ReflectionFunctions.newInstance( classname, args );
-  }
-  
-  /**
    * Returns a new Comparator which can be used to sort Map.Entry records according to it's keys.
    * 
    * @param type   The type of the key. Not <code>null</code>.
@@ -311,22 +285,6 @@ public class MiscFunctions {
   }
   
   /**
-   * Returns a list with regions providing the ranges for a matched pattern.
-   * 
-   * @param pattern    The pattern to be matched. Not <code>null</code>.
-   * @param sequence   The sequence where to look for the pattern. Not <code>null</code>.
-   * 
-   * @return   A list of regions providing the positions within the sequence. Not <code>null</code>.
-   * 
-   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
-   *                                  Use {@link StringFunctions#getRegexRegions(Pattern, String)} instead.
-   */
-  @Deprecated
-  public static List<int[]> getRegexRegions( @NonNull Pattern pattern, @NonNull String sequence ) {
-    return StringFunctions.getRegexRegions( pattern, sequence );
-  }
-
-  /**
    * Closes the supplied Closeable. 
    * 
    * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
@@ -413,54 +371,6 @@ public class MiscFunctions {
   @SuppressWarnings("deprecation")
   public static boolean isLeapYear( @NonNull Date date ) {
     return isLeapYear( date.getYear() + 1900 );
-  }
-  
-  /**
-   * Returns the constructor associated with a specific type.
-   * 
-   * @param type     The type used to access the constructor. Not <code>null</code>. 
-   * @param params   The parameter types for the constructor. Maybe <code>null</code>.
-   * 
-   * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
-   * 
-   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
-   *                                  Use {@link ReflectionFunctions#getConstructor(Class, Class...)} instead.
-   */
-  @Deprecated
-  public static Constructor getConstructor( @NonNull Class<?> type, Class<?> ... params ) {
-    return ReflectionFunctions.getConstructor( type, params );
-  }
-
-  /**
-   * Returns the method associated with a specific type.
-   * 
-   * @param type     The type used to access the method. Not <code>null</code>.
-   * @param name     The name of the method. Neither <code>null</code> nor empty. 
-   * @param params   The parameter types for the method. Maybe <code>null</code>.
-   * 
-   * @return   The Constructor if there is one apropriate one. Maybe <code>null</code>.
-   * 
-   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
-   *                                  Use {@link ReflectionFunctions#getMethod(Class, String, Class...)} instead.
-   */
-  @Deprecated
-  public static Method getMethod( @NonNull Class<?> type, @NonNull String name, Class<?> ... params ) {
-    return ReflectionFunctions.getMethod( type, name, params );
-  }
-  
-  /**
-   * Returns the current locale. Uses the default if none had been set yet.
-   * 
-   * @param locale   The locale to be used. Maybe <code>null</code>.
-   * 
-   * @return   The current locale. Not <code>null</code>.
-   * 
-   * @deprecated [10-Jun-2016:KASI]   This method will be dropped with version 2.3. 
-   *                                  Use {@link I18NFunctions#getLocale(Locale)} instead.
-   */
-  @Deprecated
-  public static Locale getLocale( Locale locale ) {
-    return I18NFunctions.getLocale( locale );
   }
   
   /**

@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.ui.component;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.i18n.*;
 
 import com.kasisoft.libs.common.ui.model.*;
 
@@ -181,7 +181,7 @@ public class KMonthPanel extends JPanel {
     cellPadding           = 2;
     model                 = new MonthModel( month, year, locale );
     dispatcher            = new ChangeEventDispatcher();
-    formatter             = new SimpleDateFormat( "dd.MM.yyyy", MiscFunctions.getLocale( locale ) );
+    formatter             = new SimpleDateFormat( "dd.MM.yyyy", I18NFunctions.getLocale( locale ) );
     localbehaviour        = new LocalBehaviour( this );
   }
   

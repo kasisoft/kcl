@@ -8,7 +8,7 @@ import org.testng.annotations.*;
 
 import com.kasisoft.libs.common.config.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.model.*;
 
 import com.kasisoft.libs.common.xml.adapters.*;
 

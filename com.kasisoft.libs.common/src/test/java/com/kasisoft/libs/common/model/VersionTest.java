@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.util;
+package com.kasisoft.libs.common.model;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;

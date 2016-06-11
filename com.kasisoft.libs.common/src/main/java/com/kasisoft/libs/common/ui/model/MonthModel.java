@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.ui.model;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.i18n.*;
 
 import lombok.experimental.*;
 
@@ -44,7 +44,7 @@ public class MonthModel extends DefaultTableModel {
     if( month == null ) {
       month = Month.getCurrent();
     }
-    this.locale = MiscFunctions.getLocale( locale ); 
+    this.locale = I18NFunctions.getLocale( locale ); 
     this.month  = month;
     this.year   = year != null ? year.intValue() : (new Date().getYear() + 1900);
     weekdays    = new Weekday[ WEEKDAYCOUNT ];

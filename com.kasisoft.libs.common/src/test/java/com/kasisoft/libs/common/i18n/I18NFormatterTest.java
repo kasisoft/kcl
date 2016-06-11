@@ -7,8 +7,6 @@ import org.testng.annotations.*;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.util.*;
-
 /**
  * Tests for the i18n class 'I18NSupport'.
  * 

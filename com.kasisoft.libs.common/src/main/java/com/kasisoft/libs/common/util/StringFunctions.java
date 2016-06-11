@@ -5,6 +5,8 @@ import com.kasisoft.libs.common.internal.charsequence.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
 
+import com.kasisoft.libs.common.model.*;
+
 import lombok.*;
 
 import java.util.regex.*;

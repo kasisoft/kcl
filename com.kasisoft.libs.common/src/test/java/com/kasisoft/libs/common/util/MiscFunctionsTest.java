@@ -2,21 +2,18 @@ package com.kasisoft.libs.common.util;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
-import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.sys.*;
+
+import com.kasisoft.libs.common.model.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
 import java.util.*;
-
-import java.io.*;
 
 /**
  * Test for various functions of the class 'MiscFunctions'.
@@ -110,18 +107,6 @@ public class MiscFunctionsTest {
   }
   
   @Test(groups="all")
-  public void newInstance() {
-    Object object = MiscFunctions.newInstance( String.class.getName(), "Frosch".getBytes() );
-    assertThat( object, is( (Object) "Frosch" ) );
-  }
-
-  @Test(expectedExceptions={FailureException.class}, groups="all")
-  public void newInstanceFailure() {
-    MiscFunctions.newInstance( String.class.getName(), new float[12] );
-    fail();
-  }
-
-  @Test(groups="all")
   public void joinThread() {
     final Tupel<Boolean> outparam = new Tupel<>( Boolean.FALSE );
     Runnable runnable = new Runnable() {
@@ -200,16 +185,6 @@ public class MiscFunctionsTest {
     Calendar calendar = Calendar.getInstance();
     calendar.set( Calendar.YEAR, year );
     return calendar.getTime();
-  }
-  
-  @Test(groups="all")
-  public void getConstructor() {
-    assertThat( MiscFunctions.getConstructor( ByteArrayOutputStream.class ), is( notNullValue() ) );
-  }
-
-  @Test(groups="all")
-  public void getMethod() {
-    assertThat( MiscFunctions.getMethod( ByteArrayOutputStream.class, "reset" ), is( notNullValue() ) );
   }
   
   @DataProvider(name="repeatData")
