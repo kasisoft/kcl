@@ -32,7 +32,7 @@
   </organization>
   
   <scm>
-    <url>https://kasisoft.com/stash/projects/LIBS/repos/kasisoft-common</url>
+    <url>https://kasisoft.com/bitbucket/projects/LIBS/repos/kasisoft-common</url>
     <connection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</connection>
     <developerConnection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</developerConnection>
     <tag>HEAD</tag>
