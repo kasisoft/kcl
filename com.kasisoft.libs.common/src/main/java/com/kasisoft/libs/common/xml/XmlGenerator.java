@@ -400,7 +400,7 @@ public class XmlGenerator<T extends XmlGenerator> {
    * @return   this
    */
   public synchronized T processingInstruction() {
-    builder.appendF( "<?xml version\"=1.0\" encoding=\"%s\"?>\n", encoding.getEncoding() );
+    builder.appendF( "<?xml version=\"1.0\" encoding=\"%s\"?>\n", encoding.getEncoding() );
     return (T) this;
   }
 
