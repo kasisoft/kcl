@@ -19,7 +19,7 @@ import java.util.*;
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "builder") @ToString(of = "builder")
-public class XmlGenerator {
+public class XmlGenerator<T extends XmlGenerator> {
 
   StringFBuilder                      builder;
   Encoding                            encoding;
@@ -81,7 +81,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T withInvalidAttributeHandler( BiConsumer<Object, Object> handler ) {
+  public synchronized T withInvalidAttributeHandler( BiConsumer<Object, Object> handler ) {
     if( handler != null ) {
       handleInvalidAttribute = handler;
     } else {
@@ -98,7 +98,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T withAttributeValueConverter( BiFunction<String, Object, String> converter ) {
+  public synchronized T withAttributeValueConverter( BiFunction<String, Object, String> converter ) {
     if( converter != null ) {
       attributeValueConverter = converter;
     } else {
@@ -200,7 +200,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T tagV( String tag, Object ... attributes ) {
+  public synchronized T tagV( String tag, Object ... attributes ) {
     tag( tag, null, asMap( attributes ) );
     return (T) this;
   }
@@ -214,7 +214,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T tagV( String tag, String text, Object ... attributes ) {
+  public synchronized T tagV( String tag, String text, Object ... attributes ) {
     tag( tag, text, asMap( attributes ) );
     return (T) this;
   }
@@ -227,7 +227,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T tag( String tag, Object[] attributes ) {
+  public synchronized T tag( String tag, Object[] attributes ) {
     tag( tag, null, asMap( attributes ) );
     return (T) this;
   }
@@ -240,7 +240,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T tag( String tag, String text ) {
+  public synchronized T tag( String tag, String text ) {
     tag( tag, text, (Map<String, Object>) null );
     return (T) this;
   }
@@ -254,7 +254,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T tag( String tag, String text, Object[] attributes ) {
+  public synchronized T tag( String tag, String text, Object[] attributes ) {
     tag( tag, text, asMap( attributes ) );
     return (T) this;
   }
@@ -267,7 +267,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T tag( String tag, Map<String, Object> attributes ) {
+  public synchronized T tag( String tag, Map<String, Object> attributes ) {
     tag( tag, null, attributes );
     return (T) this;
   }
@@ -281,7 +281,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T tag( String tag, String text, Map<String, Object> attributes ) {
+  public synchronized T tag( String tag, String text, Map<String, Object> attributes ) {
     tag        = StringFunctions.cleanup( tag );
     attributes = asMap( attributes );
     text       = StringFunctions.cleanup( text );
@@ -315,7 +315,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T openTagV( String tag, Object ... attributes ) {
+  public synchronized T openTagV( String tag, Object ... attributes ) {
     openTag( tag, asMap( attributes ) );
     return (T) this;
   }
@@ -327,7 +327,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T openTag( String tag ) {
+  public synchronized T openTag( String tag ) {
     return openTag( tag, (Map<String, Object>) null );
   }
     
@@ -339,7 +339,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T openTag( String tag, Object[] attributes ) {
+  public synchronized T openTag( String tag, Object[] attributes ) {
     openTag( tag, asMap( attributes ) );
     return (T) this;
   }
@@ -352,7 +352,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T openTag( String tag, Map<String, Object> attributes ) {
+  public synchronized T openTag( String tag, Map<String, Object> attributes ) {
     tag        = StringFunctions.cleanup( tag );
     attributes = asMap( attributes );
     builder.append( indentation );
@@ -371,7 +371,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T closeTag() {
+  public synchronized T closeTag() {
     if( ! tags.isEmpty() ) {
       dedent();
       String tag = tags.pop();
@@ -387,7 +387,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T cdata( String text ) {
+  public synchronized T cdata( String text ) {
     if( text != null ) {
       builder.appendF( "<![CDATA[%s]]>\n", text );
     }
@@ -399,7 +399,7 @@ public class XmlGenerator {
    * 
    * @return   this
    */
-  public synchronized <T extends XmlGenerator> T processingInstruction() {
+  public synchronized T processingInstruction() {
     builder.appendF( "<?xml version\"=1.0\" encoding=\"%s\"?>\n", encoding.getEncoding() );
     return (T) this;
   }
