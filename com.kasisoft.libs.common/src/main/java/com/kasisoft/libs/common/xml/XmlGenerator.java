@@ -327,7 +327,7 @@ public class XmlGenerator<T extends XmlGenerator> {
    * 
    * @return   this
    */
-  public synchronized T openTag( String tag ) {
+  public synchronized T openTag( @NonNull String tag ) {
     return openTag( tag, (Map<String, Object>) null );
   }
     
@@ -352,7 +352,7 @@ public class XmlGenerator<T extends XmlGenerator> {
    * 
    * @return   this
    */
-  public synchronized T openTag( String tag, Map<String, Object> attributes ) {
+  public synchronized T openTag( @NonNull String tag, Map<String, Object> attributes ) {
     tag        = StringFunctions.cleanup( tag );
     attributes = asMap( attributes );
     builder.append( indentation );
@@ -404,6 +404,44 @@ public class XmlGenerator<T extends XmlGenerator> {
     return (T) this;
   }
 
+  /**
+   * Writes a single line comment.
+   * 
+   * @param comment   The comment that shall be rendered. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public synchronized T comment( String comment ) {
+    if( comment != null ) {
+      builder.appendF( "%s<!-- %s -->\n", indentation, escapeXml( comment ) );
+    }
+    return (T) this;
+  }
+
+  /**
+   * Writes a multi line comment.
+   * 
+   * @param comment   The comment that shall be rendered. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public synchronized T multilineComment( String comment ) {
+    if( comment != null ) {
+      builder.appendF( "%s<!-- ~~~~~~~~~~~~~~~~~ \n", indentation );
+      StringTokenizer tokenizer = new StringTokenizer( comment, "\n", false );
+      while( tokenizer.hasMoreTokens() ) {
+        String line = StringFunctions.cleanup( tokenizer.nextToken() );
+        if( line == null ) {
+          builder.append( '\n' );
+        } else {
+          builder.appendF( "%s%s\n", indentation, line );
+        }
+      }
+      builder.appendF( "%s~~~~~~~~~~~~~~~~~~ -->\n", indentation );
+    }
+    return (T) this;
+  }
+  
   /**
    * Writes all attributes sorted by their key names.
    * 
