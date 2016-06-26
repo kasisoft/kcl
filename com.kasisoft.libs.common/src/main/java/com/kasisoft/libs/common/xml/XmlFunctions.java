@@ -12,6 +12,8 @@ import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.io.*;
 
+import com.kasisoft.libs.common.function.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -20,6 +22,8 @@ import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
+
+import java.util.function.*;
 
 import java.util.*;
 
@@ -427,13 +431,14 @@ public final class XmlFunctions {
   public static List<Element> getChildElements( @NonNull Node parent, String ... relevant ) {
     NodeList childnodes = parent.getChildNodes();
     if( (childnodes != null) && (childnodes.getLength() > 0) ) {
-      Set<String>   tagnames = MiscFunctions.toSet( relevant );
-      List<Element> result   = new ArrayList<>( childnodes.getLength() );
+      Set<String>       tagnames = MiscFunctions.toSet( relevant );
+      Predicate<String> validTag = tagnames.isEmpty() ? Predicates.acceptAll() : tagnames::contains;
+      List<Element>     result   = new ArrayList<>( childnodes.getLength() );
       for( int i = 0; i < childnodes.getLength(); i++ ) {
         Node current = childnodes.item(i);
         if( current.getNodeType() == Node.ELEMENT_NODE ) {
           Element element = (Element) current;
-          if( tagnames.isEmpty() || contains( tagnames, element.getTagName() ) || contains( tagnames, element.getLocalName() ) ) {
+          if( validTag.test( element.getTagName() ) || validTag.test( element.getLocalName() ) ) {
             result.add( element );
           }
         }
@@ -443,13 +448,41 @@ public final class XmlFunctions {
       return Collections.emptyList();
     }
   }
-
-  private static boolean contains( Set<String> set, String candidate ) {
-    if( candidate != null ) {
-      return set.contains( candidate );
+  
+  /**
+   * Returns a map with all attributes.
+   * 
+   * @param parent      The node used to retrieve all attributes. Not <code>null</code>.
+   * @param namespace   <code>true</code> <=> Include the namespace in the tagname.
+   * 
+   * @return   A list with all matching elements. Not <code>null</code>.
+   */
+  public static Map<String, Attr> getAttributes( @NonNull Node parent, boolean namespace ) {
+    NamedNodeMap attributes = parent.getAttributes();
+    if( attributes != null ) {
+      Function<Attr, String> toName = namespace ? XmlFunctions::attrFqName : XmlFunctions::attrName;
+      Map<String, Attr>      result = new HashMap<>();
+      for( int i = 0; i < attributes.getLength(); i++ ) {
+        Attr attribute = (Attr) attributes.item(i);
+        result.put( toName.apply( attribute ), attribute );
+      }
+      return result;
     } else {
-      return false;
+      return Collections.emptyMap();
     }
   }
+
+  private static String attrName( Attr attribute ) {
+    return attribute.getName();
+  }
   
+  private static String attrFqName( Attr attribute ) {
+    String uri = attribute.getNamespaceURI();
+    if( uri != null ) {
+      return String.format( "{%s}%s", uri, attribute.getLocalName() );
+    } else {
+      return attribute.getName();
+    }
+  }
+
 } /* ENDCLASS */
