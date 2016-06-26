@@ -19,7 +19,7 @@ import java.util.*;
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "builder") @ToString(of = "builder")
-public class XmlGenerator<T extends XmlGenerator> {
+public class XmlGenerator<T extends XmlGenerator<T>> {
 
   StringFBuilder                      builder;
   Encoding                            encoding;

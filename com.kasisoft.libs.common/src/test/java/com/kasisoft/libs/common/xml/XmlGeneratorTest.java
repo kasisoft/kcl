@@ -21,7 +21,7 @@ public class XmlGeneratorTest {
       ;
     
     assertThat( generator.toXml(), is( 
-        "<?xml version\"=1.0\" encoding=\"UTF-8\"?>\n"
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
       + "<bibo>\n"
       + "  <dodo alpha=\"beta&lt;&gt;\">\n"
       + "    <marker>Wumpi &amp; Stumpi</marker>\n"
@@ -44,7 +44,7 @@ public class XmlGeneratorTest {
       ;
     
     assertThat( generator.toXml(), is( 
-        "<?xml version\"=1.0\" encoding=\"UTF-8\"?>\n"
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
       + "<bibo>\n"
       // the attribute is NOT part of the tag
       + "  <dodo>\n"
