@@ -327,7 +327,7 @@ public class StringFBuilder implements Serializable, CharSequence {
    * @see StringBuilder#insert(int, char[], int, int)
    */
   public StringFBuilder insert( int index, @NonNull char[] charray, int offset, int length ) {
-    origin = origin.insert( adjustIndex( offset ), charray, offset, length );
+    origin = origin.insert( adjustIndex( index ), charray, offset, length );
     return this;
   }
 
