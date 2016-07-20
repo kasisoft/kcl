@@ -61,7 +61,7 @@ public class SPILoader<T> {
   }
   
   public static <R> SPILoaderBuilder<R> builder() {
-    return new SPILoaderBuilder<R>();
+    return new SPILoaderBuilder<>();
   }
 
   public static class SPILoaderBuilder<S> {
@@ -83,7 +83,7 @@ public class SPILoader<T> {
       return this;
     }
 
-    public SPILoaderBuilder<S> postProcessor( Class<S> spiType, Function<S, S> transformer ) {
+    public SPILoaderBuilder<S> postProcessor( Function<S, S> transformer ) {
       instance.postprocessor = transformer;
       return this;
     }

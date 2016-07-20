@@ -102,6 +102,7 @@ public class SysPropertyTest {
     assertThat( property.getValue( systemproperties ), is( expected ) );
   }
 
+  @SuppressWarnings("unused")
   @Test(dataProvider="createValues", groups="all")
   public void checkMissingValues( SimpleProperty property, Object ignored ) {
     assertThat( property.getValue( noproperties ), is( property.getDefaultValue() ) );

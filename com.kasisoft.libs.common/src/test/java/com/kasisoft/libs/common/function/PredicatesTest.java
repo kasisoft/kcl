@@ -146,13 +146,15 @@ public class PredicatesTest {
     assertThat( Predicates.IS_ENCLOSING_JAVA_CLASS_FILE.test( classname ), is( expected ) );
   }
 
+  @SuppressWarnings("unused")
   @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
-  public void acceptAll( String classname, boolean expected ) {
+  public void acceptAll( String classname, boolean ignore ) {
     assertThat( Predicates.acceptAll().test( classname ), is( true ) );
   }
 
+  @SuppressWarnings("unused")
   @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
-  public void acceptNone( String classname, boolean expected ) {
+  public void acceptNone( String classname, boolean ignore ) {
     assertThat( Predicates.acceptNone().test( classname ), is( false ) );
   }
 

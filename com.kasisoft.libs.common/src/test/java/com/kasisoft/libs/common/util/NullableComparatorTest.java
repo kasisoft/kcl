@@ -63,7 +63,7 @@ public class NullableComparatorTest {
       }
     };
     
-    Collections.sort( data, new NullableComparator<Integer>( delegate ) );
+    Collections.sort( data, new NullableComparator<>( delegate ) );
     int size = data.size();
     data.trim();
     assertThat( data.size(), is( size - NULLCOUNT ) );

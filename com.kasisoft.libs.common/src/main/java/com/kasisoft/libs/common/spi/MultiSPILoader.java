@@ -15,7 +15,7 @@ import java.util.stream.*;
 import java.util.*;
 
 /**
- * Like SPILoader with the difference that it supports to multiple service types.
+ * Like SPILoader with the difference that it supports multiple service types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */

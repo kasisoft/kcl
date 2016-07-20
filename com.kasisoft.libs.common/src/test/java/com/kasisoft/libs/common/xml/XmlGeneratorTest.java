@@ -68,6 +68,7 @@ public class XmlGeneratorTest {
       ;
   }
   
+  @SuppressWarnings("unused")
   private void throwEx( Object key, Object val ) {
     throw new RuntimeException();
   }

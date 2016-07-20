@@ -540,6 +540,7 @@ public class Blacklist implements Predicate<String> {
     statistic.accept( literal );
   }
   
+  @SuppressWarnings("unused")
   private void noStatistic( String literal ) {
   }
   

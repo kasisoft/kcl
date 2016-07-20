@@ -465,9 +465,9 @@ public class StringFunctionsTest {
   public Object[][] toLinesData() {
     return new Object[][] {
       { "", new ArrayList<String>() },
-      { "Hello\r\nWorld", new ArrayList<String>( Arrays.asList( "Hello", "World" ) ) },
-      { "  Hello\r\n\tWorld", new ArrayList<String>( Arrays.asList( "  Hello", "\tWorld" ) ) },
-      { "  Hello\r\n\r\n\tWorld", new ArrayList<String>( Arrays.asList( "  Hello", "", "\tWorld" ) ) },
+      { "Hello\r\nWorld", new ArrayList<>( Arrays.asList( "Hello", "World" ) ) },
+      { "  Hello\r\n\tWorld", new ArrayList<>( Arrays.asList( "  Hello", "\tWorld" ) ) },
+      { "  Hello\r\n\r\n\tWorld", new ArrayList<>( Arrays.asList( "  Hello", "", "\tWorld" ) ) },
     };
   }
   

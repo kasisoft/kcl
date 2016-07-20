@@ -44,7 +44,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringBuilder}. Not <code>null</code>.
    */
   public static BucketFactory<StringBuilder> newStringBuilderFactory() {
-    return new DefaultBucketFactory<StringBuilder, Integer>( StringBuilder::new, StringBuilder::setLength, 0 );
+    return new DefaultBucketFactory<>( StringBuilder::new, StringBuilder::setLength, 0 );
   }
   
   /**
@@ -53,7 +53,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringBuffer}. Not <code>null</code>.
    */
   public static BucketFactory<StringBuffer> newStringBufferFactory() {
-    return new DefaultBucketFactory<StringBuffer, Integer>( StringBuffer::new, StringBuffer::setLength, 0 );
+    return new DefaultBucketFactory<>( StringBuffer::new, StringBuffer::setLength, 0 );
   }
 
   /**
@@ -62,7 +62,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringFBuilder}. Not <code>null</code>.
    */
   public static BucketFactory<StringFBuilder> newStringFBuilderFactory() {
-    return new DefaultBucketFactory<StringFBuilder, Integer>( StringFBuilder::new, StringFBuilder::setLength, 0 );
+    return new DefaultBucketFactory<>( StringFBuilder::new, StringFBuilder::setLength, 0 );
   }
   
   /**
@@ -71,7 +71,7 @@ public class BucketFactories {
    * @return   A new factory for {@link StringFBuffer}. Not <code>null</code>.
    */
   public static BucketFactory<StringFBuffer> newStringFBufferFactory() {
-    return new DefaultBucketFactory<StringFBuffer, Integer>( StringFBuffer::new, StringFBuffer::setLength, 0 );
+    return new DefaultBucketFactory<>( StringFBuffer::new, StringFBuffer::setLength, 0 );
   }
 
   /**
