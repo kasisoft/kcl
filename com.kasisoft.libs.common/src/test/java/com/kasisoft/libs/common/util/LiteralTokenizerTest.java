@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
+import com.kasisoft.libs.common.text.*;
+
 import java.util.*;
 
 /**
