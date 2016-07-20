@@ -40,11 +40,6 @@ public class StringFacade implements CharSequenceFacade<String> {
   }
 
   @Override
-  public int length( String sequence ) {
-    return sequence.length();
-  }
-
-  @Override
   public String replace( String sequence, int offset, int end, String replacement ) {
     StringBuilder builder = new StringBuilder( sequence );
     builder.replace( offset, end, replacement );

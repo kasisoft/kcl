@@ -601,7 +601,7 @@ public class StringFunctions {
       return null;
     } else {
       CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( text );
-      if( facade.length( text ) > limit ) {
+      if( text.length() > limit ) {
         return facade.substring( text, 0, limit );
       }
       return text.toString();

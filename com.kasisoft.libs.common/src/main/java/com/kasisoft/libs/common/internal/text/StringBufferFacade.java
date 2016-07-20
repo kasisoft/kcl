@@ -40,11 +40,6 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
   }
 
   @Override
-  public int length( StringBuffer sequence ) {
-    return sequence.length();
-  }
-
-  @Override
   public StringBuffer replace( StringBuffer sequence, int offset, int end, String replacement ) {
     sequence.replace( offset, end, replacement );
     return sequence;

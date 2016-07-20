@@ -75,15 +75,6 @@ public interface CharSequenceFacade<T extends CharSequence> {
   String substring( T sequence, int offset, int end );
 
   /**
-   * Returns the length of the supplied sequence.
-   * 
-   * @param sequence   The object which has to be investigated. Not <code>null</code>.
-   * 
-   * @return   The length of the supplied sequenc.e
-   */
-  int length( T sequence );
-  
-  /**
    * Replaces a fraction of the supplied sequence.
    * 
    * @param sequence      The object which has to be investigated. Not <code>null</code>.
