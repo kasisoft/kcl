@@ -57,4 +57,55 @@ public interface TextProcessingFactory<T extends CharSequence> {
    */
   Function<T, T> replace( List<Pair<String, String>> replacements );
 
+  /**
+   * Returns an operation that trims the input at both ends (standard whitespace characters).
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> trim();
+  
+  /**
+   * Returns an operation that trims the input at both ends.
+   * 
+   * @param wschars   The characters used for the trimming. If <code>null</code> the standard whitepsace 
+   *                  characters are being used.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> trim( String wschars );
+
+  /**
+   * Returns an operation that trims the input at the left side (standard whitespace characters).
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> trimLeft();
+  
+  /**
+   * Returns an operation that trims the input at the left side.
+   * 
+   * @param wschars   The characters used for the trimming. If <code>null</code> the standard whitepsace 
+   *                  characters are being used.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> trimLeft( String wschars );
+
+  /**
+   * Returns an operation that trims the input at the right side (standard whitespace characters).
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> trimRight();
+  
+  /**
+   * Returns an operation that trims the input at the right side.
+   * 
+   * @param wschars   The characters used for the trimming. If <code>null</code> the standard whitepsace 
+   *                  characters are being used.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> trimRight( String wschars );
+
 } /* ENDINTERFACE */

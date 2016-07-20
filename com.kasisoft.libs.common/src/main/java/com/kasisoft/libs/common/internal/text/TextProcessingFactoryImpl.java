@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.internal.text;
 
 import com.kasisoft.libs.common.internal.text.op.*;
 
+import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.text.*;
 
@@ -30,17 +31,47 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
 
   @Override
   public Function<T, T> replace( String key, String value ) {
-    return new KeyValueReplacer<>( facade, key, value );
+    return Functions.nullSafe( new KeyValueReplacer<>( facade, key, value ) );
   }
 
   @Override
   public Function<T, T> replace( Map<String, String> replacements ) {
-    return new KeyValueByMapReplacer<>( facade, replacements );
+    return Functions.nullSafe( new KeyValueByMapReplacer<>( facade, replacements ) );
   }
 
   @Override
   public Function<T, T> replace( List<Pair<String, String>> replacements ) {
-    return new KeyValueByPairsReplacer<>( facade, replacements );
+    return Functions.nullSafe( new KeyValueByPairsReplacer<>( facade, replacements ) );
+  }
+
+  @Override
+  public Function<T, T> trim() {
+    return trim( null );
+  }
+
+  @Override
+  public Function<T, T> trim( String wschars ) {
+    return Functions.nullSafe( new Trim<>( facade, wschars, null ) );
+  }
+
+  @Override
+  public Function<T, T> trimLeft() {
+    return trimLeft( null );
+  }
+
+  @Override
+  public Function<T, T> trimLeft( String wschars ) {
+    return Functions.nullSafe( new Trim<>( facade, wschars, Boolean.TRUE ) );
+  }
+
+  @Override
+  public Function<T, T> trimRight() {
+    return trimRight( null );
+  }
+
+  @Override
+  public Function<T, T> trimRight( String wschars ) {
+    return Functions.nullSafe( new Trim<>( facade, wschars, Boolean.FALSE ) );
   }
   
 } /* ENDCLASS */
