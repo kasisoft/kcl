@@ -9,6 +9,7 @@ import org.testng.annotations.*;
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.test.framework.*;
+import com.kasisoft.libs.common.text.*;
 
 import java.util.*;
 

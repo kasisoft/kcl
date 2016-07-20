@@ -6,6 +6,8 @@ import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
+import com.kasisoft.libs.common.text.*;
+
 /**
  * Testcase for the class 'StringFBuffer'.
  * 

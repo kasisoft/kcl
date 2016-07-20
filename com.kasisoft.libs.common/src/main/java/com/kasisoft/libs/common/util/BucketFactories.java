@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.util;
 
+import com.kasisoft.libs.common.text.*;
+
 import java.util.*;
 
 import java.io.*;
