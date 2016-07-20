@@ -1,0 +1,60 @@
+package com.kasisoft.libs.common.text;
+
+import com.kasisoft.libs.common.internal.text.*;
+
+import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.model.*;
+
+import java.util.function.*;
+
+import java.util.*;
+
+/**
+ * @author daniel.kasmeroglu@kasisoft.net
+ */
+public interface TextProcessingFactory<T extends CharSequence> {
+
+  TextProcessingFactory<String>         STRING          = new TextProcessingFactoryImpl<>( String.class );
+
+  TextProcessingFactory<StringBuffer>   STRINGBUFFER    = new TextProcessingFactoryImpl<>( StringBuffer.class );
+
+  TextProcessingFactory<StringBuilder>  STRINGBUILDER   = new TextProcessingFactoryImpl<>( StringBuilder.class );
+
+  TextProcessingFactory<StringFBuffer>  STRINGFBUFFER   = new TextProcessingFactoryImpl<>( StringFBuffer.class );
+
+  TextProcessingFactory<StringFBuilder> STRINGFBUILDER  = new TextProcessingFactoryImpl<>( StringFBuilder.class );
+
+  /**
+   * Returns an operation that allows to replace the supplied key by a corresponding value.
+   * 
+   * @param key     The key to be replaced. Not <code>null</code>.
+   * @param value   The value to be inserted. Not <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replace( String key, String value );
+
+  /**
+   * Returns an operation that allows to replace the supplied keys by their corresponding values. The execution
+   * order is undefined.
+   * 
+   * @param replacements   The key-value pairs to be used for the replacement. A <code>null</code> value 
+   *                       within a key-value pair is treated as an empty string. Not <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replace( Map<String, String> replacements );
+
+  /**
+   * Returns an operation that allows to replace the supplied keys by their corresponding values. The order 
+   * is given by the supplied list.
+   * 
+   * @param replacements   The key-value pairs to be used for the replacement. A <code>null</code> value 
+   *                       within a key-value pair is treated as an empty string. Not <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replace( List<Pair<String, String>> replacements );
+
+} /* ENDINTERFACE */
