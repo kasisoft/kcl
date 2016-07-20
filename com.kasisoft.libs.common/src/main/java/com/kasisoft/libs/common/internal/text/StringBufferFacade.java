@@ -59,11 +59,6 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
   }
 
   @Override
-  public void write( StringBuffer sequence, StringBuilder builder ) {
-    builder.append( sequence );
-  }
-
-  @Override
   public StringBuffer toLowerCase( StringBuffer sequence ) {
     for( int i = 0; i < sequence.length(); i++ ) {
       char ch = sequence.charAt(i);
@@ -83,6 +78,17 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
       }
     }
     return sequence;
+  }
+
+  @Override
+  public StringBuffer deleteCharAt( StringBuffer sequence, int idx ) {
+    sequence.deleteCharAt( idx );
+    return sequence;
+  }
+  
+  @Override
+  public void write( StringBuffer sequence, StringBuilder builder ) {
+    builder.append( sequence );
   }
 
 } /* ENDCLASS */

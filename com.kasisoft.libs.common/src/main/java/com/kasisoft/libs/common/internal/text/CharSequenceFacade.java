@@ -120,6 +120,17 @@ public interface CharSequenceFacade<T extends CharSequence> {
   T toUpperCase( T sequence );
 
   /**
+   * Deletes a character at a certain index.
+   * 
+   * @param sequence   The object which has to be investigated. Not <code>null</code>.
+   * @param idx        The index that is supposed to be deleted.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T deleteCharAt( T sequence, int idx );
+  
+  /**
    * Writes the supplied sequence into the provided builder.
    * 
    * @param sequence   The sequence that shall be written. Not <code>null</code>.

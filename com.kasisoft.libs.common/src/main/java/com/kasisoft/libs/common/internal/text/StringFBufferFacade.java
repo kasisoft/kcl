@@ -83,6 +83,12 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
   }
 
   @Override
+  public StringFBuffer deleteCharAt( StringFBuffer sequence, int idx ) {
+    sequence.deleteCharAt( idx );
+    return sequence;
+  }
+
+  @Override
   public void write( StringFBuffer sequence, StringBuilder builder ) {
     builder.append( sequence );
   }
