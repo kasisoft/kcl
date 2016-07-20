@@ -20,15 +20,33 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KeyValueByPairsReplacer<T extends CharSequence> implements Function<T, T> {
+public class KeyValuesReplacer<T extends CharSequence> implements Function<T, T> {
 
   int                          minLength;
   List<Pair<String, String>>   pairs;
   CharSequenceFacade<T>        facade;
   
-  public KeyValueByPairsReplacer( CharSequenceFacade<T> csfacade, List<Pair<String, String>> replacements ) {
-    minLength = Integer.MAX_VALUE;
+  private KeyValuesReplacer( CharSequenceFacade<T> csfacade ) {
     facade    = csfacade;
+    minLength = Integer.MAX_VALUE;
+  }
+  
+  public KeyValuesReplacer( CharSequenceFacade<T> csfacade, Map<String, String> replacements ) {
+    this( csfacade );
+    pairs     = new ArrayList<>( replacements.size() );
+    for( Map.Entry<String, String> entry : replacements.entrySet() ) {
+      String key = entry.getKey();
+      String val = entry.getValue();
+      if( val == null ) {
+        val = Empty.NO_STRING;
+      }
+      minLength  = Math.min( minLength, key.length() );
+      pairs.add( new Pair<>( key, val ) );
+    }
+  }
+  
+  public KeyValuesReplacer( CharSequenceFacade<T> csfacade, List<Pair<String, String>> replacements ) {
+    this( csfacade );
     pairs     = new ArrayList<>( replacements.size() );
     for( Pair<String, String> entry : replacements ) {
       String key = entry.getKey();

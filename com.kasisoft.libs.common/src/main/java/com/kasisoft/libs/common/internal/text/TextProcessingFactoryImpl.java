@@ -36,12 +36,12 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
 
   @Override
   public Function<T, T> replace( Map<String, String> replacements ) {
-    return Functions.nullSafe( new KeyValueByMapReplacer<>( facade, replacements ) );
+    return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements ) );
   }
 
   @Override
   public Function<T, T> replace( List<Pair<String, String>> replacements ) {
-    return Functions.nullSafe( new KeyValueByPairsReplacer<>( facade, replacements ) );
+    return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements ) );
   }
 
   @Override
