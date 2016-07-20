@@ -31,17 +31,32 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
 
   @Override
   public Function<T, T> replace( String key, String value ) {
-    return Functions.nullSafe( new KeyValueReplacer<>( facade, key, value ) );
+    return replace( key, value, true );
+  }
+
+  @Override
+  public Function<T, T> replace( String key, String value, boolean caseSensitive ) {
+    return Functions.nullSafe( new KeyValueReplacer<>( facade, key, value, caseSensitive ) );
   }
 
   @Override
   public Function<T, T> replace( Map<String, String> replacements ) {
-    return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements ) );
+    return replace( replacements, true );
+  }
+
+  @Override
+  public Function<T, T> replace( Map<String, String> replacements, boolean caseSensitive ) {
+    return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements, caseSensitive ) );
   }
 
   @Override
   public Function<T, T> replace( List<Pair<String, String>> replacements ) {
-    return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements ) );
+    return replace( replacements, true );
+  }
+
+  @Override
+  public Function<T, T> replace( List<Pair<String, String>> replacements, boolean caseSensitive ) {
+    return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements, caseSensitive ) );
   }
 
   @Override

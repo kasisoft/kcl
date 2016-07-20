@@ -22,59 +22,90 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KeyValuesReplacer<T extends CharSequence> implements Function<T, T> {
 
-  int                          minLength;
-  List<Pair<String, String>>   pairs;
-  CharSequenceFacade<T>        facade;
+  int                                      minLength;
+  List<Pair<String, String>>               pairs;
+  CharSequenceFacade<T>                    facade;
+  CharSequenceFacade<StringBuilder>        sbFacade;
+  StringBuilder                            representer;
+  BiFunction<T, Pair<String, String>, T>   impl;
   
   private KeyValuesReplacer( CharSequenceFacade<T> csfacade ) {
     facade    = csfacade;
     minLength = Integer.MAX_VALUE;
+    impl      = this::applyCaseSensitive;
   }
   
-  public KeyValuesReplacer( CharSequenceFacade<T> csfacade, Map<String, String> replacements ) {
+  public KeyValuesReplacer( CharSequenceFacade<T> csfacade, Map<String, String> replacements, boolean caseSensitive ) {
     this( csfacade );
-    pairs     = new ArrayList<>( replacements.size() );
-    for( Map.Entry<String, String> entry : replacements.entrySet() ) {
-      String key = entry.getKey();
-      String val = entry.getValue();
-      if( val == null ) {
-        val = Empty.NO_STRING;
-      }
-      minLength  = Math.min( minLength, key.length() );
-      pairs.add( new Pair<>( key, val ) );
+    pairs = new ArrayList<>( replacements.size() );
+    replacements.entrySet().forEach( this::addPair );
+    init( caseSensitive );
+  }
+  
+  public KeyValuesReplacer( CharSequenceFacade<T> csfacade, List<Pair<String, String>> replacements, boolean caseSensitive ) {
+    this( csfacade );
+    pairs = new ArrayList<>( replacements.size() );
+    replacements.forEach( this::addPair );
+    init( caseSensitive );
+  }
+  
+  private void init( boolean caseSensitive ) {
+    if( ! caseSensitive ) {
+      pairs.forEach( $ -> $.setValue1( $.getValue1().toLowerCase() ) );
+      representer = new StringBuilder();
+      sbFacade    = CharSequenceFacades.getFacade( StringBuilder.class );
+      impl        = this::applyCaseInsensitive;
     }
   }
   
-  public KeyValuesReplacer( CharSequenceFacade<T> csfacade, List<Pair<String, String>> replacements ) {
-    this( csfacade );
-    pairs     = new ArrayList<>( replacements.size() );
-    for( Pair<String, String> entry : replacements ) {
-      String key = entry.getKey();
-      String val = entry.getValue();
-      if( val == null ) {
-        val = Empty.NO_STRING;
-      }
-      minLength  = Math.min( minLength, key.length() );
-      pairs.add( new Pair<>( key, val ) );
+  private void addPair( Map.Entry<String, String> pair ) {
+    String key = pair.getKey();
+    String val = pair.getValue();
+    if( val == null ) {
+      val = Empty.NO_STRING;
     }
+    minLength  = Math.min( minLength, key.length() );
+    pairs.add( new Pair<>( key, val ) );
   }
   
   @Override
   public T apply( T input ) {
     T   result = input;
-    int length = input.length();
-    if( length >= minLength ) {
+    if( input.length() >= minLength ) {
       for( Pair<String, String> entry : pairs ) {
-        String key    = entry.getKey();
-        int    keyLen = key.length();
-        if( length >= keyLen ) {
-          String value = entry.getValue();
-          int    idx   = facade.indexOf( result, key, 0 );
-          while( idx != -1 ) {
-            result = facade.replace( result, idx, idx + keyLen, value );
-            idx    = facade.indexOf( result, key, idx + value.length() );
-          }
-        }
+        result = impl.apply( result, entry );
+      }
+    }
+    return result;
+  }
+
+  private T applyCaseSensitive( T result, Pair<String, String> entry ) {
+    String key    = entry.getKey();
+    int    keyLen = key.length();
+    if( result.length() >= keyLen ) {
+      String value = entry.getValue();
+      int    idx   = facade.indexOf( result, key, 0 );
+      while( idx != -1 ) {
+        result = facade.replace( result, idx, idx + keyLen, value );
+        idx    = facade.indexOf( result, key, idx + value.length() );
+      }
+    }
+    return result;
+  }
+
+  private T applyCaseInsensitive( T result, Pair<String, String> entry ) {
+    String key    = entry.getKey();
+    int    keyLen = key.length();
+    if( result.length() >= keyLen ) {
+      representer.setLength(0);
+      facade.write( result, representer );
+      sbFacade.toLowerCase( representer );
+      String value = entry.getValue();
+      int    idx   = representer.indexOf( key, 0 );
+      while( idx != -1 ) {
+        result = facade.replace( result, idx, idx + keyLen, value );
+        representer.replace( idx, idx + keyLen, value );
+        idx    = representer.indexOf( key, idx + value.length() );
       }
     }
     return result;

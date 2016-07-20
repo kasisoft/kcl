@@ -61,7 +61,29 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
   }
   
   @Override
-  public void write( StringFBuffer sequence, StringFBuilder builder ) {
+  public StringFBuffer toLowerCase( StringFBuffer sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toLowerCase( ch ) );
+      }
+    }
+    return sequence;
+  }
+
+  @Override
+  public StringFBuffer toUpperCase( StringFBuffer sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toUpperCase( ch ) );
+      }
+    }
+    return sequence;
+  }
+
+  @Override
+  public void write( StringFBuffer sequence, StringBuilder builder ) {
     builder.append( sequence );
   }
 

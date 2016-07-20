@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.internal.text;
 
-import com.kasisoft.libs.common.util.*;
-
 /**
  * Facade for StringBuffer.
  * 
@@ -61,8 +59,30 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
   }
 
   @Override
-  public void write( StringBuffer sequence, StringFBuilder builder ) {
+  public void write( StringBuffer sequence, StringBuilder builder ) {
     builder.append( sequence );
+  }
+
+  @Override
+  public StringBuffer toLowerCase( StringBuffer sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toLowerCase( ch ) );
+      }
+    }
+    return sequence;
+  }
+
+  @Override
+  public StringBuffer toUpperCase( StringBuffer sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toUpperCase( ch ) );
+      }
+    }
+    return sequence;
   }
 
 } /* ENDCLASS */

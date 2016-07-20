@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.internal.text;
 
-import com.kasisoft.libs.common.util.*;
-
 /**
  * A simple facade which is used to handle commonly used CharSequence types.
  * 
@@ -100,14 +98,34 @@ public interface CharSequenceFacade<T extends CharSequence> {
    *           Not <code>null</code>.
    */
   T trim( T sequence, String chars, Boolean left );
-  
+
+  /**
+   * Creates a lower case version of this sequence.
+   * 
+   * @param sequence      The object which has to be investigated. Not <code>null</code>.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T toLowerCase( T sequence );
+
+  /**
+   * Creates a upper case version of this sequence.
+   * 
+   * @param sequence      The object which has to be investigated. Not <code>null</code>.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T toUpperCase( T sequence );
+
   /**
    * Writes the supplied sequence into the provided builder.
    * 
    * @param sequence   The sequence that shall be written. Not <code>null</code>.
    * @param builder    The receiving builder. Not <code>null</code>.
    */
-  void write( T sequence, StringFBuilder builder );
+  void write( T sequence, StringBuilder builder );
   
 } /* ENDINTERFACE */
 

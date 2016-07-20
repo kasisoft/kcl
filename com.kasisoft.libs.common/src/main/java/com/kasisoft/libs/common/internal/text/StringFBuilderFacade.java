@@ -61,7 +61,29 @@ public class StringFBuilderFacade implements CharSequenceFacade<StringFBuilder> 
   }
   
   @Override
-  public void write( StringFBuilder sequence, StringFBuilder builder ) {
+  public StringFBuilder toLowerCase( StringFBuilder sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toLowerCase( ch ) );
+      }
+    }
+    return sequence;
+  }
+
+  @Override
+  public StringFBuilder toUpperCase( StringFBuilder sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toUpperCase( ch ) );
+      }
+    }
+    return sequence;
+  }
+  
+  @Override
+  public void write( StringFBuilder sequence, StringBuilder builder ) {
     builder.append( sequence );
   }
 

@@ -26,7 +26,8 @@ public interface TextProcessingFactory<T extends CharSequence> {
   TextProcessingFactory<StringFBuilder> STRINGFBUILDER  = new TextProcessingFactoryImpl<>( StringFBuilder.class );
 
   /**
-   * Returns an operation that allows to replace the supplied key by a corresponding value.
+   * Returns an operation that allows to replace the supplied key by a corresponding value. This operation
+   * is case sensitive.
    * 
    * @param key     The key to be replaced. Not <code>null</code>.
    * @param value   The value to be inserted. Not <code>null</code>.
@@ -36,8 +37,19 @@ public interface TextProcessingFactory<T extends CharSequence> {
   Function<T, T> replace( String key, String value );
 
   /**
+   * Returns an operation that allows to replace the supplied key by a corresponding value.
+   * 
+   * @param key             The key to be replaced. Not <code>null</code>.
+   * @param value           The value to be inserted. Not <code>null</code>.
+   * @param caseSensitive   <code>true</code> <=> The task shall be case sensitive.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replace( String key, String value, boolean caseSensitive );
+
+  /**
    * Returns an operation that allows to replace the supplied keys by their corresponding values. The execution
-   * order is undefined.
+   * order is undefined. This operation is case sensitive.
    * 
    * @param replacements   The key-value pairs to be used for the replacement. A <code>null</code> value 
    *                       within a key-value pair is treated as an empty string. Not <code>null</code>.
@@ -45,6 +57,18 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * @return   The operation. Not <code>null</code>.
    */
   Function<T, T> replace( Map<String, String> replacements );
+
+  /**
+   * Returns an operation that allows to replace the supplied keys by their corresponding values. The execution
+   * order is undefined.
+   * 
+   * @param replacements    The key-value pairs to be used for the replacement. A <code>null</code> value 
+   *                        within a key-value pair is treated as an empty string. Not <code>null</code>.
+   * @param caseSensitive   <code>true</code> <=> The task shall be case sensitive.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replace( Map<String, String> replacements, boolean caseSensitive );
 
   /**
    * Returns an operation that allows to replace the supplied keys by their corresponding values. The order 
@@ -56,6 +80,18 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * @return   The operation. Not <code>null</code>.
    */
   Function<T, T> replace( List<Pair<String, String>> replacements );
+
+  /**
+   * Returns an operation that allows to replace the supplied keys by their corresponding values. The order 
+   * is given by the supplied list. This operation is case sensitive.
+   * 
+   * @param replacements    The key-value pairs to be used for the replacement. A <code>null</code> value 
+   *                        within a key-value pair is treated as an empty string. Not <code>null</code>.
+   * @param caseSensitive   <code>true</code> <=> The task shall be case sensitive.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replace( List<Pair<String, String>> replacements, boolean caseSensitive );
 
   /**
    * Returns an operation that trims the input at both ends (standard whitespace characters).

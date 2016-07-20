@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.internal.text;
 
-import com.kasisoft.libs.common.util.*;
-
 /**
  * Facade for String.
  * 
@@ -63,7 +61,17 @@ public class StringFacade implements CharSequenceFacade<String> {
   }
 
   @Override
-  public void write( String sequence, StringFBuilder builder ) {
+  public String toLowerCase( String sequence ) {
+    return sequence.toLowerCase();
+  }
+
+  @Override
+  public String toUpperCase( String sequence ) {
+    return sequence.toUpperCase();
+  }
+
+  @Override
+  public void write( String sequence, StringBuilder builder ) {
     builder.append( sequence );
   }
 

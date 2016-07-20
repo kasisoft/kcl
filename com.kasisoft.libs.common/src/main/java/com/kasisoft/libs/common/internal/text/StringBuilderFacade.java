@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.internal.text;
 
-import com.kasisoft.libs.common.util.*;
-
 /**
  * Facade for StringBuilder.
  * 
@@ -61,7 +59,29 @@ public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
   }
   
   @Override
-  public void write( StringBuilder sequence, StringFBuilder builder ) {
+  public StringBuilder toLowerCase( StringBuilder sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toLowerCase( ch ) );
+      }
+    }
+    return sequence;
+  }
+
+  @Override
+  public StringBuilder toUpperCase( StringBuilder sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence.setCharAt( i, Character.toUpperCase( ch ) );
+      }
+    }
+    return sequence;
+  }
+  
+  @Override
+  public void write( StringBuilder sequence, StringBuilder builder ) {
     builder.append( sequence );
   }
 
