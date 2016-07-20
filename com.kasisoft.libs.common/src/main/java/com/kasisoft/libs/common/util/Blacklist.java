@@ -4,6 +4,8 @@ import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.io.*;
 
+import com.kasisoft.libs.common.text.*;
+
 import lombok.experimental.*;
 
 import lombok.*;

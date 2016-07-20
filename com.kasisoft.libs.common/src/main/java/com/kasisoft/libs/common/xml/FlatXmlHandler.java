@@ -5,8 +5,6 @@ import org.xml.sax.helpers.*;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;

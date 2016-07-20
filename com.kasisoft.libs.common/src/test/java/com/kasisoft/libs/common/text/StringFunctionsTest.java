@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.util;
+package com.kasisoft.libs.common.text;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -9,7 +9,6 @@ import org.testng.annotations.*;
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.test.framework.*;
-import com.kasisoft.libs.common.text.*;
 
 import java.util.*;
 

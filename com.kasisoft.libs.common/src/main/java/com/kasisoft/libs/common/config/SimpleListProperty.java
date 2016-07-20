@@ -1,15 +1,16 @@
 package com.kasisoft.libs.common.config;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.xml.adapters.*;
+
+import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
 
-import java.util.*;
 import java.util.stream.*;
+
+import java.util.*;
 
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following

@@ -2,8 +2,6 @@ package com.kasisoft.libs.common.text;
 
 import com.kasisoft.libs.common.internal.text.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.model.*;
 
 import java.util.function.*;

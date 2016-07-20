@@ -2,8 +2,6 @@ package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;

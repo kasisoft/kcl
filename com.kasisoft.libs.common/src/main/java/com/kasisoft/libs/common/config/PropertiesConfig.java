@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.config;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;
 
