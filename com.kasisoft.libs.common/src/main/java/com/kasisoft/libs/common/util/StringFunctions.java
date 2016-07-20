@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.util;
 
-import com.kasisoft.libs.common.internal.charsequence.*;
+import com.kasisoft.libs.common.internal.text.*;
 
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;

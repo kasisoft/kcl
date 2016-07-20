@@ -1,57 +1,57 @@
-package com.kasisoft.libs.common.internal.charsequence;
+package com.kasisoft.libs.common.internal.text;
 
 import com.kasisoft.libs.common.util.*;
 
 /**
- * Facade for StringFBuilder.
+ * Facade for StringBuffer.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class StringFBuilderFacade implements CharSequenceFacade<StringFBuilder> {
+public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
 
   @Override
-  public int indexOf( StringFBuilder sequence, char ch, int first ) {
+  public int indexOf( StringBuffer sequence, char ch, int first ) {
     return sequence.indexOf( String.valueOf(ch), first );
   }
 
   @Override
-  public int indexOf( StringFBuilder sequence, String str, int first ) {
+  public int indexOf( StringBuffer sequence, String str, int first ) {
     return sequence.indexOf( str, first );
   }
 
   @Override
-  public int lastIndexOf( StringFBuilder sequence, char ch, int first ) {
+  public int lastIndexOf( StringBuffer sequence, char ch, int first ) {
     return sequence.lastIndexOf( String.valueOf(ch), first );
   }
 
   @Override
-  public int lastIndexOf( StringFBuilder sequence, String str, int first ) {
+  public int lastIndexOf( StringBuffer sequence, String str, int first ) {
     return sequence.lastIndexOf( str, first );
   }
 
   @Override
-  public boolean contains( StringFBuilder sequence, String str ) {
+  public boolean contains( StringBuffer sequence, String str ) {
     return sequence.indexOf( str ) != -1;
   }
 
   @Override
-  public String substring( StringFBuilder sequence, int offset, int end ) {
+  public String substring( StringBuffer sequence, int offset, int end ) {
     return sequence.substring( offset, end );
   }
 
   @Override
-  public int length( StringFBuilder sequence ) {
+  public int length( StringBuffer sequence ) {
     return sequence.length();
   }
 
   @Override
-  public StringFBuilder replace( StringFBuilder sequence, int offset, int end, String replacement ) {
+  public StringBuffer replace( StringBuffer sequence, int offset, int end, String replacement ) {
     sequence.replace( offset, end, replacement );
     return sequence;
   }
 
   @Override
-  public StringFBuilder trim( StringFBuilder sequence, String chars, Boolean left ) {
+  public StringBuffer trim( StringBuffer sequence, String chars, Boolean left ) {
     if( (left == null) || left.booleanValue() ) {
       while( (sequence.length() > 0) && (chars.indexOf( sequence.charAt(0) ) != -1) ) {
         sequence.deleteCharAt(0);
@@ -64,9 +64,9 @@ public class StringFBuilderFacade implements CharSequenceFacade<StringFBuilder> 
     }
     return sequence;
   }
-  
+
   @Override
-  public void write( StringFBuilder sequence, StringFBuilder builder ) {
+  public void write( StringBuffer sequence, StringFBuilder builder ) {
     builder.append( sequence );
   }
 
