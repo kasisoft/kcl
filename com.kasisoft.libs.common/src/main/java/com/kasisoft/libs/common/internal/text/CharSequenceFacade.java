@@ -97,7 +97,19 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
    *           Not <code>null</code>.
    */
-  T trim( T sequence, String chars, Boolean left );
+  default T trim( T sequence, String chars, Boolean left ) {
+    if( (left == null) || left.booleanValue() ) {
+      while( (sequence.length() > 0) && (chars.indexOf( sequence.charAt(0) ) != -1) ) {
+        sequence = deleteCharAt( sequence, 0 );
+      }
+    }
+    if( (left == null) || (! left.booleanValue()) ) {
+      while( (sequence.length() > 0) && (chars.indexOf( sequence.charAt( sequence.length() - 1 ) ) != -1) ) {
+        sequence = deleteCharAt( sequence, sequence.length() - 1 );
+      }
+    }
+    return sequence;
+  }
 
   /**
    * Creates a lower case version of this sequence.
@@ -107,7 +119,15 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
    *           Not <code>null</code>.
    */
-  T toLowerCase( T sequence );
+  default T toLowerCase( T sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence = setCharAt( sequence, i, Character.toLowerCase( ch ) );
+      }
+    }
+    return sequence;
+  }
 
   /**
    * Creates a upper case version of this sequence.
@@ -117,7 +137,15 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
    *           Not <code>null</code>.
    */
-  T toUpperCase( T sequence );
+  default T toUpperCase( T sequence ) {
+    for( int i = 0; i < sequence.length(); i++ ) {
+      char ch = sequence.charAt(i);
+      if( Character.isLetter(ch) ) {
+        sequence = setCharAt( sequence, i, Character.toUpperCase( ch ) );
+      }
+    }
+    return sequence;
+  }
 
   /**
    * Deletes a character at a certain index.
@@ -129,6 +157,18 @@ public interface CharSequenceFacade<T extends CharSequence> {
    *           Not <code>null</code>.
    */
   T deleteCharAt( T sequence, int idx );
+  
+  /**
+   * Sets a character at a certain index.
+   * 
+   * @param sequence   The object which has to be investigated. Not <code>null</code>.
+   * @param idx        The index where to write to.
+   * @param ch         The character that shall be written.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T setCharAt( T sequence, int idx, char ch );
   
   /**
    * Writes the supplied sequence into the provided builder.

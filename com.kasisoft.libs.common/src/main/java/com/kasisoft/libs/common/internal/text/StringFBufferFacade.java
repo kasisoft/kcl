@@ -46,45 +46,14 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
   }
 
   @Override
-  public StringFBuffer trim( StringFBuffer sequence, String chars, Boolean left ) {
-    if( (left == null) || left.booleanValue() ) {
-      while( (sequence.length() > 0) && (chars.indexOf( sequence.charAt(0) ) != -1) ) {
-        sequence.deleteCharAt(0);
-      }
-    }
-    if( (left == null) || (! left.booleanValue()) ) {
-      while( (sequence.length() > 0) && (chars.indexOf( sequence.charAt( sequence.length() - 1 ) ) != -1) ) {
-        sequence.deleteCharAt( sequence.length() - 1 );
-      }
-    }
+  public StringFBuffer deleteCharAt( StringFBuffer sequence, int idx ) {
+    sequence.deleteCharAt( idx );
     return sequence;
   }
   
   @Override
-  public StringFBuffer toLowerCase( StringFBuffer sequence ) {
-    for( int i = 0; i < sequence.length(); i++ ) {
-      char ch = sequence.charAt(i);
-      if( Character.isLetter(ch) ) {
-        sequence.setCharAt( i, Character.toLowerCase( ch ) );
-      }
-    }
-    return sequence;
-  }
-
-  @Override
-  public StringFBuffer toUpperCase( StringFBuffer sequence ) {
-    for( int i = 0; i < sequence.length(); i++ ) {
-      char ch = sequence.charAt(i);
-      if( Character.isLetter(ch) ) {
-        sequence.setCharAt( i, Character.toUpperCase( ch ) );
-      }
-    }
-    return sequence;
-  }
-
-  @Override
-  public StringFBuffer deleteCharAt( StringFBuffer sequence, int idx ) {
-    sequence.deleteCharAt( idx );
+  public StringFBuffer setCharAt( StringFBuffer sequence, int idx, char ch ) {
+    sequence.setCharAt( idx, ch );
     return sequence;
   }
 

@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.internal.text;
 
-import com.kasisoft.libs.common.constants.*;
-
 /**
  * Facade for String.
  * 
@@ -74,15 +72,16 @@ public class StringFacade implements CharSequenceFacade<String> {
 
   @Override
   public String deleteCharAt( String sequence, int idx ) {
-    String result = null;
-    if( idx == 0 ) {
-      result = sequence.length() > 1 ? sequence.substring(1) : Empty.NO_STRING;
-    } else if( idx == sequence.length() - 1 ) {
-      result = sequence.substring( 0, sequence.length() - 1 );
-    } else {
-      result = sequence.substring( 0, idx ) + sequence.substring( idx + 1 );
-    }
-    return result;
+    StringBuilder builder = new StringBuilder( sequence );
+    builder.deleteCharAt( idx );
+    return builder.toString();
+  }
+  
+  @Override
+  public String setCharAt( String sequence, int idx, char ch ) {
+    StringBuilder builder = new StringBuilder( sequence );
+    builder.setCharAt( idx, ch );
+    return builder.toString();
   }
   
   @Override
