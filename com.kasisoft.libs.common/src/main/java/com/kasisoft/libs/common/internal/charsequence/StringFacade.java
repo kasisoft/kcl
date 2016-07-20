@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.internal.charsequence;
 
+import com.kasisoft.libs.common.util.*;
+
 /**
  * Facade for String.
  * 
@@ -63,6 +65,11 @@ public class StringFacade implements CharSequenceFacade<String> {
       }
     }
     return builder.toString();
+  }
+
+  @Override
+  public void write( String sequence, StringFBuilder builder ) {
+    builder.append( sequence );
   }
 
 } /* ENDCLASS */

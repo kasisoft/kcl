@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.internal.charsequence;
 
+import com.kasisoft.libs.common.util.*;
+
 /**
  * Facade for StringBuffer.
  * 
@@ -61,6 +63,11 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
       }
     }
     return sequence;
+  }
+
+  @Override
+  public void write( StringBuffer sequence, StringFBuilder builder ) {
+    builder.append( sequence );
   }
 
 } /* ENDCLASS */

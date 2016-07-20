@@ -64,5 +64,10 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
     }
     return sequence;
   }
+  
+  @Override
+  public void write( StringFBuffer sequence, StringFBuilder builder ) {
+    builder.append( sequence );
+  }
 
 } /* ENDCLASS */

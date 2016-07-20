@@ -30,9 +30,13 @@ public class CharSequenceFacades {
   }
   
   public static <T extends CharSequence> CharSequenceFacade<T> getFacade( @NonNull T input ) {
-    CharSequenceFacade<T> result = FACADES.get( input.getClass().getName() );
+    return (CharSequenceFacade<T>) getFacade( input.getClass() );
+  }
+
+  public static <T extends CharSequence> CharSequenceFacade<T> getFacade( @NonNull Class<T> inputtype ) {
+    CharSequenceFacade<T> result = FACADES.get( inputtype.getName() );
     if( result == null ) {
-      throw new IllegalArgumentException( Messages.unsupported_charsequence.format( input.getClass().getName() ) );
+      throw new IllegalArgumentException( Messages.unsupported_charsequence.format( inputtype.getName() ) );
     }
     return result;
   }

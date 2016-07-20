@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.internal.charsequence;
 
+import com.kasisoft.libs.common.util.*;
+
 /**
  * A simple facade which is used to handle commonly used CharSequence types.
  * 
@@ -107,6 +109,14 @@ public interface CharSequenceFacade<T extends CharSequence> {
    *           Not <code>null</code>.
    */
   T trim( T sequence, String chars, Boolean left );
+  
+  /**
+   * Writes the supplied sequence into the provided builder.
+   * 
+   * @param sequence   The sequence that shall be written. Not <code>null</code>.
+   * @param builder    The receiving builder. Not <code>null</code>.
+   */
+  void write( T sequence, StringFBuilder builder );
   
 } /* ENDINTERFACE */
 

@@ -64,5 +64,10 @@ public class StringFBuilderFacade implements CharSequenceFacade<StringFBuilder> 
     }
     return sequence;
   }
+  
+  @Override
+  public void write( StringFBuilder sequence, StringFBuilder builder ) {
+    builder.append( sequence );
+  }
 
 } /* ENDCLASS */
