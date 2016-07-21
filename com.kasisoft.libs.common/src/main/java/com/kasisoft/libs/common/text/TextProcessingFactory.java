@@ -142,4 +142,18 @@ public interface TextProcessingFactory<T extends CharSequence> {
    */
   Function<T, T> trimRight( String wschars );
 
+  /**
+   * Returns an operation that makes a lower case version of the input.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> toLowerCase();
+  
+  /**
+   * Returns an operation that makes a upper case version of the input.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> toUpperCase();
+  
 } /* ENDINTERFACE */

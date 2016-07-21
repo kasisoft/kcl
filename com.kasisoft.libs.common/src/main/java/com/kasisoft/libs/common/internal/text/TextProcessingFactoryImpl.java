@@ -88,5 +88,15 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
   public Function<T, T> trimRight( String wschars ) {
     return Functions.nullSafe( new Trim<>( facade, wschars, Boolean.FALSE ) );
   }
+
+  @Override
+  public Function<T, T> toLowerCase() {
+    return Functions.nullSafe( new CharacterCase<>( facade, false ) );
+  }
+
+  @Override
+  public Function<T, T> toUpperCase() {
+    return Functions.nullSafe( new CharacterCase<>( facade, true ) );
+  }
   
 } /* ENDCLASS */
