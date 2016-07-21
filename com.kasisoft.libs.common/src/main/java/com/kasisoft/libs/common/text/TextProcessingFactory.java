@@ -6,6 +6,8 @@ import com.kasisoft.libs.common.model.*;
 
 import java.util.function.*;
 
+import java.util.regex.*;
+
 import java.util.*;
 
 /**
@@ -156,4 +158,64 @@ public interface TextProcessingFactory<T extends CharSequence> {
    */
   Function<T, T> toUpperCase();
   
+  /**
+   * Returns an operation that replaces each regex occurrence with a value.
+   * 
+   * @param pattern       The regex pattern. Not <code>null</code>.
+   * @param replacement   The replacement value. Maybe <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replaceAll( Pattern pattern, String replacement );
+  
+  /**
+   * Returns an operation that replaces each regex occurrence with a value.
+   * 
+   * @param pattern       The regex pattern. Not <code>null</code>.
+   * @param replacement   A function providing the replacement value. Maybe <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replaceAll( Pattern pattern, Function<String, String> replacement );
+
+  /**
+   * Returns an operation that replaces the first regex occurrence with a value.
+   * 
+   * @param pattern       The regex pattern. Not <code>null</code>.
+   * @param replacement   The replacement value. Maybe <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replaceFirst( Pattern pattern, String replacement );
+  
+  /**
+   * Returns an operation that replaces the first regex occurrence with a value.
+   * 
+   * @param pattern       The regex pattern. Not <code>null</code>.
+   * @param replacement   A function providing the replacement value. Maybe <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replaceFirst( Pattern pattern, Function<String, String> replacement );
+
+  /**
+   * Returns an operation that replaces the last regex occurrence with a value.
+   * 
+   * @param pattern       The regex pattern. Not <code>null</code>.
+   * @param replacement   The replacement value. Maybe <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replaceLast( Pattern pattern, String replacement );
+  
+  /**
+   * Returns an operation that replaces the last regex occurrence with a value.
+   * 
+   * @param pattern       The regex pattern. Not <code>null</code>.
+   * @param replacement   A function providing the replacement value. Maybe <code>null</code>.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> replaceLast( Pattern pattern, Function<String, String> replacement );
+
 } /* ENDINTERFACE */

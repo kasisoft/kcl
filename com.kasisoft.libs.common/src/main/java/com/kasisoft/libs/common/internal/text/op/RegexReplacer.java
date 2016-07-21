@@ -74,7 +74,9 @@ public class RegexReplacer<T extends CharSequence> implements Function<T, T> {
       int    start = matches.get(i)[0];
       int    end   = matches.get(i)[1];
       result       = facade.delete( result, start, end   );
-      result       = facade.insert( result, start, value );
+      if( value != null ) {
+        result = facade.insert( result, start, value );
+      }
     }
     return result;
   }

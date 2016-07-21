@@ -12,6 +12,8 @@ import lombok.*;
 
 import java.util.function.*;
 
+import java.util.regex.*;
+
 import java.util.*;
 
 /**
@@ -30,32 +32,32 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
   }
 
   @Override
-  public Function<T, T> replace( String key, String value ) {
+  public Function<T, T> replace( @NonNull String key, String value ) {
     return replace( key, value, true );
   }
 
   @Override
-  public Function<T, T> replace( String key, String value, boolean caseSensitive ) {
+  public Function<T, T> replace( @NonNull String key, String value, boolean caseSensitive ) {
     return Functions.nullSafe( new KeyValueReplacer<>( facade, key, value, caseSensitive ) );
   }
 
   @Override
-  public Function<T, T> replace( Map<String, String> replacements ) {
+  public Function<T, T> replace( @NonNull Map<String, String> replacements ) {
     return replace( replacements, true );
   }
 
   @Override
-  public Function<T, T> replace( Map<String, String> replacements, boolean caseSensitive ) {
+  public Function<T, T> replace( @NonNull Map<String, String> replacements, boolean caseSensitive ) {
     return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements, caseSensitive ) );
   }
 
   @Override
-  public Function<T, T> replace( List<Pair<String, String>> replacements ) {
+  public Function<T, T> replace( @NonNull List<Pair<String, String>> replacements ) {
     return replace( replacements, true );
   }
 
   @Override
-  public Function<T, T> replace( List<Pair<String, String>> replacements, boolean caseSensitive ) {
+  public Function<T, T> replace( @NonNull List<Pair<String, String>> replacements, boolean caseSensitive ) {
     return Functions.nullSafe( new KeyValuesReplacer<>( facade, replacements, caseSensitive ) );
   }
 
@@ -97,6 +99,36 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
   @Override
   public Function<T, T> toUpperCase() {
     return Functions.nullSafe( new CharacterCase<>( facade, true ) );
+  }
+
+  @Override
+  public Function<T, T> replaceAll( @NonNull Pattern pattern, String replacement ) {
+    return Functions.nullSafe( new RegexReplacer<>( facade, pattern, replacement, null ) );
+  }
+
+  @Override
+  public Function<T, T> replaceAll( @NonNull Pattern pattern, Function<String, String> replacement ) {
+    return Functions.nullSafe( new RegexReplacer<>( facade, pattern, replacement, null ) );
+  }
+
+  @Override
+  public Function<T, T> replaceFirst( @NonNull Pattern pattern, String replacement ) {
+    return Functions.nullSafe( new RegexReplacer<>( facade, pattern, replacement, Boolean.TRUE ) );
+  }
+
+  @Override
+  public Function<T, T> replaceFirst( @NonNull Pattern pattern, Function<String, String> replacement ) {
+    return Functions.nullSafe( new RegexReplacer<>( facade, pattern, replacement, Boolean.TRUE ) );
+  }
+
+  @Override
+  public Function<T, T> replaceLast( @NonNull Pattern pattern, String replacement ) {
+    return Functions.nullSafe( new RegexReplacer<>( facade, pattern, replacement, Boolean.FALSE ) );
+  }
+
+  @Override
+  public Function<T, T> replaceLast( @NonNull Pattern pattern, Function<String, String> replacement ) {
+    return Functions.nullSafe( new RegexReplacer<>( facade, pattern, replacement, Boolean.FALSE ) );
   }
   
 } /* ENDCLASS */
