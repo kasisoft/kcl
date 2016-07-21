@@ -85,6 +85,20 @@ public class StringFacade implements CharSequenceFacade<String> {
   }
   
   @Override
+  public String delete( String sequence, int start, int end ) {
+    StringBuilder builder = new StringBuilder( sequence );
+    builder.delete( start, end );
+    return builder.toString();
+  }
+
+  @Override
+  public String insert( String sequence, int offset, String value ) {
+    StringBuilder builder = new StringBuilder( sequence );
+    builder.insert( offset, value );
+    return builder.toString();
+  }
+
+  @Override
   public void write( String sequence, StringBuilder builder ) {
     builder.append( sequence );
   }

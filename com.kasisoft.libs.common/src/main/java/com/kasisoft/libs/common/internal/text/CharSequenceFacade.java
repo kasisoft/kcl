@@ -169,6 +169,30 @@ public interface CharSequenceFacade<T extends CharSequence> {
    *           Not <code>null</code>.
    */
   T setCharAt( T sequence, int idx, char ch );
+
+  /**
+   * Deletes a portion of the supplied sequence.
+   * 
+   * @param sequence   The sequence which has to be altered. Not <code>null</code>.
+   * @param start      The index of the first character to delete.
+   * @param end        The end of the deletion. The index is exclusive.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T delete( T sequence, int start, int end );
+  
+  /**
+   * Inserts a String into the supplied sequence.
+   * 
+   * @param sequence   The sequence which has to be altered. Not <code>null</code>.
+   * @param start      The index where to insert the value.
+   * @param value      The value that should be inserted. Not <code>null</code>.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T insert( T sequence, int offset, String value );
   
   /**
    * Writes the supplied sequence into the provided builder.
