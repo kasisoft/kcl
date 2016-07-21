@@ -38,11 +38,11 @@ public class TextCodec<T extends CharSequence> {
     return this::decode;
   }
 
-  private synchronized T encode( T input ) {
+  private T encode( T input ) {
     return execute( input, encoding );
   }
   
-  private synchronized T decode( T input ) {
+  private T decode( T input ) {
     return execute( input, decoding );
   }
 

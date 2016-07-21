@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.internal.text.op;
 
 import com.kasisoft.libs.common.internal.text.*;
 
+import com.kasisoft.libs.common.constants.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -32,7 +34,7 @@ public class KeyValueReplacer<T extends CharSequence> implements Function<T, T> 
   public KeyValueReplacer( CharSequenceFacade<T> csfacade, String search, String replacement, boolean caseSensitive ) {
     facade   = csfacade;
     key      = search;
-    value    = replacement;
+    value    = replacement != null ? replacement : Empty.NO_STRING;
     keyLen   = key.length();
     valueLen = value.length();
     impl     = this::applyCaseSensitive;

@@ -2,8 +2,6 @@ package com.kasisoft.libs.common.internal.text.op;
 
 import com.kasisoft.libs.common.internal.text.*;
 
-import com.kasisoft.libs.common.text.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
@@ -24,7 +22,7 @@ public class Trim<T extends CharSequence> implements Function<T, T> {
   
   public Trim( CharSequenceFacade<T> csfacade, String wschars, Boolean left ) {
     facade = csfacade;
-    chars  = StringFunctions.cleanup( wschars );
+    chars  = wschars;
     type   = left;
     if( chars == null ) {
       chars = " \t\r\n";
