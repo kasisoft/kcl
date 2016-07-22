@@ -28,7 +28,11 @@ public class TextProcessingFactoryTest {
   private static final String TEXT = ""
     + "  This is my text.\t\r"
     ;
-  
+
+  private static final String XML_TEXT = ""
+    + "<tag>This is my &#252; and ö text</tag>"
+    ;
+
   @DataProvider(name="createTextProcessingFactories")
   public Object[][] createTextProcessingFactories() {
     return new Object[][] {
@@ -39,7 +43,18 @@ public class TextProcessingFactoryTest {
       { TextProcessingFactory.STRINGFBUILDER , TEXT , (Function<String, StringFBuilder>) $ -> new StringFBuilder($) }
     };
   }
-  
+
+  @DataProvider(name="createTextProcessingFactoriesXmlText")
+  public Object[][] createTextProcessingFactoriesXmlText() {
+    return new Object[][] {
+      { TextProcessingFactory.STRING         , XML_TEXT , (Function<String, String>)         $ -> $                     },
+      { TextProcessingFactory.STRINGBUFFER   , XML_TEXT , (Function<String, StringBuffer>)   $ -> new StringBuffer($)   },
+      { TextProcessingFactory.STRINGBUILDER  , XML_TEXT , (Function<String, StringBuilder>)  $ -> new StringBuilder($)  },
+      { TextProcessingFactory.STRINGFBUFFER  , XML_TEXT , (Function<String, StringFBuffer>)  $ -> new StringFBuffer($)  },
+      { TextProcessingFactory.STRINGFBUILDER , XML_TEXT , (Function<String, StringFBuilder>) $ -> new StringFBuilder($) }
+    };
+  }
+
   @Test(dataProvider="createTextProcessingFactories", groups="all")
   public <T extends CharSequence> void replaceByKeyValue( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
     
@@ -299,6 +314,36 @@ public class TextProcessingFactoryTest {
     T text2    = supplier.apply( text );
     T outcome2 = factory.replaceLast( Pattern.compile( Pattern.quote( "is" ) ), retValue ).apply( text2 );
     assertThat( outcome2.toString(), is( "  This os my text.\t\r" ) );
+
+  }
+
+  @Test(dataProvider="createTextProcessingFactoriesXmlText", groups="all")
+  public <T extends CharSequence> void xmlDecoder( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
+    
+    T text1    = supplier.apply( text );
+    T outcome1 = factory.xmlDecoder().apply( text1 );
+    assertThat( outcome1.toString(), is( "<tag>This is my ü and ö text</tag>" ) );
+
+    T text2    = supplier.apply( text );
+    T outcome2 = factory.xmlDecoder( $ -> $.intValue() > 255, true ).apply( text2 );
+    assertThat( outcome2.toString(), is( "<tag>This is my &#252; and ö text</tag>" ) );
+
+    T text3    = supplier.apply( text );
+    T outcome3 = factory.xmlDecoder( $ -> $.intValue() > 255, false ).apply( text3 );
+    assertThat( outcome3.toString(), is( "<tag>This is my ü and ö text</tag>" ) );
+
+  }
+
+  @Test(dataProvider="createTextProcessingFactoriesXmlText", groups="all")
+  public <T extends CharSequence> void xmlEncoder( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
+
+    T text1    = supplier.apply( text );
+    T outcome1 = factory.xmlEncoder().apply( text1 );
+    assertThat( outcome1.toString(), is( "<tag>This is my &#252; and &#246; text</tag>" ) );
+
+    T text2    = supplier.apply( text );
+    T outcome2 = factory.xmlEncoder( $ -> $.intValue() > 255 && $.intValue() != 246 ).apply( text2 );
+    assertThat( outcome2.toString(), is( "<tag>This is my &#252; and ö text</tag>" ) );
 
   }
 

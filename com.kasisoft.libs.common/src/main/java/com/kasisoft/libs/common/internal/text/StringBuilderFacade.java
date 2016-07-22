@@ -68,6 +68,12 @@ public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
   }
 
   @Override
+  public StringBuilder insert( StringBuilder sequence, int offset, char[] value ) {
+    sequence.insert( offset, value );
+    return sequence;
+  }
+  
+  @Override
   public void write( StringBuilder sequence, StringBuilder builder ) {
     builder.append( sequence );
   }

@@ -218,4 +218,57 @@ public interface TextProcessingFactory<T extends CharSequence> {
    */
   Function<T, T> replaceLast( Pattern pattern, Function<String, String> replacement );
 
+  /**
+   * Returns an operation that escapes characters using a numerical representation.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlEncoder();
+  
+  /**
+   * Returns an operation that escapes characters using a numerical representation.
+   * 
+   * @param charTest   The test used for characters. If <code>null</code> everything above 127 will be encoded.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlEncoder( Predicate<Integer> charTest );
+
+  /**
+   * Returns an operation that unescapes numerical character representations.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlDecoder();
+  
+  /**
+   * Returns an operation that unescapes numerical character representations.
+   *  
+   * @param charTest   The test used for characters. If <code>null</code> everything above 127 will be encoded.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlDecoder( Predicate<Integer> charTest );
+  
+  /**
+   * Returns an operation that unescapes numerical character representations.
+   *  
+   * @param strict   <code>true</code> <=> Decode numerical literals even if they're not within the allowed 
+   *                 characters range. 
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlDecoder( boolean strict );
+
+  /**
+   * Returns an operation that unescapes numerical character representations.
+   *  
+   * @param charTest   The test used for characters. If <code>null</code> everything above 127 will be encoded.
+   * @param strict     <code>true</code> <=> Decode numerical literals even if they're not within the allowed 
+   *                   characters range. 
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlDecoder( Predicate<Integer> charTest, boolean strict );
+  
 } /* ENDINTERFACE */

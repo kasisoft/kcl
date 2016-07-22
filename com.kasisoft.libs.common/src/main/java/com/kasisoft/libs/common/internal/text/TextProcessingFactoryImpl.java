@@ -130,5 +130,35 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
   public Function<T, T> replaceLast( @NonNull Pattern pattern, Function<String, String> replacement ) {
     return Functions.nullSafe( new RegexReplacer<>( facade, pattern, replacement, Boolean.FALSE ) );
   }
+
+  @Override
+  public Function<T, T> xmlEncoder() {
+    return xmlEncoder( null );
+  }
+
+  @Override
+  public Function<T, T> xmlEncoder( Predicate<Integer> charTest ) {
+    return Functions.nullSafe( new XmlNumerical<>( facade, charTest, false, true ) );
+  }
+
+  @Override
+  public Function<T, T> xmlDecoder() {
+    return xmlDecoder( null, false );
+  }
+
+  @Override
+  public Function<T, T> xmlDecoder( Predicate<Integer> charTest ) {
+    return xmlDecoder( charTest, false );
+  }
+
+  @Override
+  public Function<T, T> xmlDecoder( boolean strict ) {
+    return xmlDecoder( null, strict );
+  }
+
+  @Override
+  public Function<T, T> xmlDecoder( Predicate<Integer> charTest, boolean strict ) {
+    return Functions.nullSafe( new XmlNumerical<>( facade, charTest, strict, false ) );
+  }
   
 } /* ENDCLASS */

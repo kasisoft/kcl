@@ -70,6 +70,12 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
   }
 
   @Override
+  public StringFBuffer insert( StringFBuffer sequence, int offset, char[] value ) {
+    sequence.insert( offset, value );
+    return sequence;
+  }
+
+  @Override
   public void write( StringFBuffer sequence, StringBuilder builder ) {
     builder.append( sequence );
   }
