@@ -25,6 +25,41 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TextProcessingFactoryImpl<T extends CharSequence> implements TextProcessingFactory<T> {
   
+  static final Map<String, String> XML2NORMAL = new HashMap<>();
+  static final Map<String, String> NORMAL2XML = new HashMap<>();
+
+  static final Map<String, String> XML2NORMAL_LE = new HashMap<>();
+  static final Map<String, String> NORMAL2XML_LE = new HashMap<>();
+
+  static {
+    
+    XML2NORMAL.put( "&apos;" , "'"  );
+    XML2NORMAL.put( "&gt;"   , ">"  );
+    XML2NORMAL.put( "&lt;"   , "<"  );
+    XML2NORMAL.put( "&amp;"  , "&"  );
+    XML2NORMAL.put( "&quot;" , "\"" );
+    
+    XML2NORMAL_LE.putAll( XML2NORMAL );
+    XML2NORMAL_LE.put( "\\n"    , "\n" );
+    XML2NORMAL_LE.put( "\\r"    , "\r" );
+    XML2NORMAL_LE.put( "&#10;"  , "\n" );
+    XML2NORMAL_LE.put( "&#13;"  , "\r" );
+    
+    
+    NORMAL2XML.put( "'"  , "&apos;" );
+    NORMAL2XML.put( ">"  , "&gt;"   );
+    NORMAL2XML.put( "<"  , "&lt;"   );
+    NORMAL2XML.put( "&"  , "&amp;"  );
+    NORMAL2XML.put( "\"" , "&quot;" );
+    
+    NORMAL2XML_LE.putAll( NORMAL2XML );
+    NORMAL2XML_LE.put( "\n" , "\\n"    );
+    NORMAL2XML_LE.put( "\r" , "\\r"    );
+    NORMAL2XML_LE.put( "\n" , "&#10;"  );
+    NORMAL2XML_LE.put( "\r" , "&#13;"  );
+  
+  }
+  
   CharSequenceFacade   facade;
   
   public TextProcessingFactoryImpl( @NonNull Class<T> type ) {
@@ -159,6 +194,26 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
   @Override
   public Function<T, T> xmlNumericalDecoder( Predicate<Integer> charTest, boolean strict ) {
     return Functions.nullSafe( new XmlNumerical<>( facade, charTest, strict, false ) );
+  }
+
+  @Override
+  public Function<T, T> xmlEncoder() {
+    return xmlEncoder( false );
+  }
+
+  @Override
+  public Function<T, T> xmlEncoder( boolean lineEndings ) {
+    return Functions.nullSafe( new KeyValuesReplacer<>( facade, lineEndings ? NORMAL2XML_LE : NORMAL2XML, false ) );
+  }
+
+  @Override
+  public Function<T, T> xmlDecoder() {
+    return xmlDecoder( false );
+  }
+
+  @Override
+  public Function<T, T> xmlDecoder( boolean lineEndings ) {
+    return Functions.nullSafe( new KeyValuesReplacer<>( facade, lineEndings ? XML2NORMAL_LE : XML2NORMAL, false ) );
   }
   
 } /* ENDCLASS */

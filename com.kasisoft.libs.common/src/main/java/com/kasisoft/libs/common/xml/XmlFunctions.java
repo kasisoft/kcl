@@ -4,6 +4,8 @@ import org.xml.sax.*;
 
 import org.w3c.dom.*;
 
+import com.kasisoft.libs.common.internal.text.*;
+
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.util.*;
@@ -13,7 +15,6 @@ import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.function.*;
-import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;
 
@@ -43,41 +44,6 @@ import java.io.*;
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class XmlFunctions {
-
-  static final Map<String, String> XML2NORMAL = new HashMap<>();
-  static final Map<String, String> NORMAL2XML = new HashMap<>();
-
-  static final Map<String, String> XML2NORMAL_LE = new HashMap<>();
-  static final Map<String, String> NORMAL2XML_LE = new HashMap<>();
-
-  static {
-    
-    XML2NORMAL.put( "&apos;" , "'"  );
-    XML2NORMAL.put( "&gt;"   , ">"  );
-    XML2NORMAL.put( "&lt;"   , "<"  );
-    XML2NORMAL.put( "&amp;"  , "&"  );
-    XML2NORMAL.put( "&quot;" , "\"" );
-    
-    XML2NORMAL_LE.putAll( XML2NORMAL );
-    XML2NORMAL_LE.put( "\\n"    , "\n" );
-    XML2NORMAL_LE.put( "\\r"    , "\r" );
-    XML2NORMAL_LE.put( "&#10;"  , "\n" );
-    XML2NORMAL_LE.put( "&#13;"  , "\r" );
-    
-    
-    NORMAL2XML.put( "'"  , "&apos;" );
-    NORMAL2XML.put( ">"  , "&gt;"   );
-    NORMAL2XML.put( "<"  , "&lt;"   );
-    NORMAL2XML.put( "&"  , "&amp;"  );
-    NORMAL2XML.put( "\"" , "&quot;" );
-    
-    NORMAL2XML_LE.putAll( NORMAL2XML );
-    NORMAL2XML_LE.put( "\n" , "\\n"    );
-    NORMAL2XML_LE.put( "\r" , "\\r"    );
-    NORMAL2XML_LE.put( "\n" , "&#10;"  );
-    NORMAL2XML_LE.put( "\r" , "&#13;"  );
-  
-  }
 
   /**
    * Prevent this class from being instantiated.
@@ -212,16 +178,7 @@ public final class XmlFunctions {
    * @return   A decoded String. Not <code>null</code>.
    */
   public static <T extends CharSequence> T unescapeXml( @NonNull T source, boolean lineEndings ) {
-    T result = null;
-    if( source instanceof String ) {
-      StringBuilder builder = new StringBuilder( source );
-      StringFunctions.replace( builder, lineEndings ? XML2NORMAL_LE : XML2NORMAL );
-      result = (T) builder.toString();
-    } else {
-      result = source;
-      StringFunctions.replace( result, lineEndings ? XML2NORMAL_LE : XML2NORMAL );
-    }
-    return result;
+    return CharSequenceFacades.getTextProcessingFactory( source ).xmlDecoder( lineEndings ).apply( source );
   }
 
   /**
@@ -244,18 +201,8 @@ public final class XmlFunctions {
    * @return   An encoded String. Not <code>null</code>.
    */
   public static <T extends CharSequence> T escapeXml( @NonNull T source, boolean lineEndings ) {
-    T result = null;
-    if( source instanceof String ) {
-      StringBuilder builder = new StringBuilder( source );
-      StringFunctions.replace( builder, lineEndings ? NORMAL2XML_LE : NORMAL2XML );
-      result = (T) builder.toString();
-    } else {
-      result = source;
-      StringFunctions.replace( result, lineEndings ? NORMAL2XML_LE : NORMAL2XML );
-    }
-    return result;
+    return CharSequenceFacades.getTextProcessingFactory( source ).xmlEncoder( lineEndings ).apply( source );
   }
-
 
   /**
    * Writes the XML content from a DOM tree into an OutputStream.

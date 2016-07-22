@@ -33,6 +33,10 @@ public class TextProcessingFactoryTest {
     + "<tag>This is my &#252; and ö text</tag>"
     ;
 
+  private static final String XML_CONTENT = ""
+    + "<Bla\nBlub\r\n>"
+    ;
+  
   @DataProvider(name="createTextProcessingFactories")
   public Object[][] createTextProcessingFactories() {
     return new Object[][] {
@@ -52,6 +56,17 @@ public class TextProcessingFactoryTest {
       { TextProcessingFactory.STRINGBUILDER  , XML_TEXT , (Function<String, StringBuilder>)  $ -> new StringBuilder($)  },
       { TextProcessingFactory.STRINGFBUFFER  , XML_TEXT , (Function<String, StringFBuffer>)  $ -> new StringFBuffer($)  },
       { TextProcessingFactory.STRINGFBUILDER , XML_TEXT , (Function<String, StringFBuilder>) $ -> new StringFBuilder($) }
+    };
+  }
+
+  @DataProvider(name="createTextProcessingFactoriesXmlContent")
+  public Object[][] createTextProcessingFactoriesXmlContent() {
+    return new Object[][] {
+      { TextProcessingFactory.STRING         , XML_CONTENT , (Function<String, String>)         $ -> $                     },
+      { TextProcessingFactory.STRINGBUFFER   , XML_CONTENT , (Function<String, StringBuffer>)   $ -> new StringBuffer($)   },
+      { TextProcessingFactory.STRINGBUILDER  , XML_CONTENT , (Function<String, StringBuilder>)  $ -> new StringBuilder($)  },
+      { TextProcessingFactory.STRINGFBUFFER  , XML_CONTENT , (Function<String, StringFBuffer>)  $ -> new StringFBuffer($)  },
+      { TextProcessingFactory.STRINGFBUILDER , XML_CONTENT , (Function<String, StringFBuilder>) $ -> new StringFBuilder($) }
     };
   }
 
@@ -344,6 +359,27 @@ public class TextProcessingFactoryTest {
     T text2    = supplier.apply( text );
     T outcome2 = factory.xmlNumericalEncoder( $ -> $.intValue() > 255 && $.intValue() != 246 ).apply( text2 );
     assertThat( outcome2.toString(), is( "<tag>This is my &#252; and ö text</tag>" ) );
+
+  }
+
+  @Test(dataProvider="createTextProcessingFactoriesXmlContent", groups="all")
+  public <T extends CharSequence> void xmlEncodingDecoding( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
+
+    T text1    = supplier.apply( text );
+    T outcome1 = factory.xmlEncoder( false ).apply( text1 );
+    assertThat( outcome1.toString(), is( "&lt;Bla\nBlub\r\n&gt;" ) );
+
+    T text2    = supplier.apply( text1.toString() );
+    T outcome2 = factory.xmlDecoder( false ).apply( text2 );
+    assertThat( outcome2.toString(), is( text ) );
+
+    T text3    = supplier.apply( text );
+    T outcome3 = factory.xmlEncoder( true ).apply( text3 );
+    assertThat( outcome3.toString(), is( "&lt;Bla&#10;Blub&#13;&#10;&gt;" ) );
+
+    T text4    = supplier.apply( text3.toString() );
+    T outcome4 = factory.xmlDecoder( true ).apply( text4 );
+    assertThat( outcome4.toString(), is( text ) );
 
   }
 

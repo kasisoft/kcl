@@ -271,4 +271,36 @@ public interface TextProcessingFactory<T extends CharSequence> {
    */
   Function<T, T> xmlNumericalDecoder( Predicate<Integer> charTest, boolean strict );
   
+  /**
+   * Returns an operation that encodes the default xml literals.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlEncoder();
+  
+  /**
+   * Returns an operation that encodes the default xml literals.
+   * 
+   * @param lineEndings   <code>true</code> <=> Encode line endings numerically.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlEncoder( boolean lineEndings );
+  
+  /**
+   * Returns an operation that decodes the default xml literals.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlDecoder();
+  
+  /**
+   * Returns an operation that decodes the default xml literals.
+   * 
+   * @param lineEndings   <code>true</code> <=> Decode line endings numerically.
+   * 
+   * @return   The operation. Not <code>null</code>.
+   */
+  Function<T, T> xmlDecoder( boolean lineEndings );
+  
 } /* ENDINTERFACE */
