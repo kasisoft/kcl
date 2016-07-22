@@ -318,31 +318,31 @@ public class TextProcessingFactoryTest {
   }
 
   @Test(dataProvider="createTextProcessingFactoriesXmlText", groups="all")
-  public <T extends CharSequence> void xmlDecoder( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
+  public <T extends CharSequence> void xmlNumericalDecoder( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
     
     T text1    = supplier.apply( text );
-    T outcome1 = factory.xmlDecoder().apply( text1 );
+    T outcome1 = factory.xmlNumericalDecoder().apply( text1 );
     assertThat( outcome1.toString(), is( "<tag>This is my ü and ö text</tag>" ) );
 
     T text2    = supplier.apply( text );
-    T outcome2 = factory.xmlDecoder( $ -> $.intValue() > 255, true ).apply( text2 );
+    T outcome2 = factory.xmlNumericalDecoder( $ -> $.intValue() > 255, true ).apply( text2 );
     assertThat( outcome2.toString(), is( "<tag>This is my &#252; and ö text</tag>" ) );
 
     T text3    = supplier.apply( text );
-    T outcome3 = factory.xmlDecoder( $ -> $.intValue() > 255, false ).apply( text3 );
+    T outcome3 = factory.xmlNumericalDecoder( $ -> $.intValue() > 255, false ).apply( text3 );
     assertThat( outcome3.toString(), is( "<tag>This is my ü and ö text</tag>" ) );
 
   }
 
   @Test(dataProvider="createTextProcessingFactoriesXmlText", groups="all")
-  public <T extends CharSequence> void xmlEncoder( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
+  public <T extends CharSequence> void xmlNumericalEncoder( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
 
     T text1    = supplier.apply( text );
-    T outcome1 = factory.xmlEncoder().apply( text1 );
+    T outcome1 = factory.xmlNumericalEncoder().apply( text1 );
     assertThat( outcome1.toString(), is( "<tag>This is my &#252; and &#246; text</tag>" ) );
 
     T text2    = supplier.apply( text );
-    T outcome2 = factory.xmlEncoder( $ -> $.intValue() > 255 && $.intValue() != 246 ).apply( text2 );
+    T outcome2 = factory.xmlNumericalEncoder( $ -> $.intValue() > 255 && $.intValue() != 246 ).apply( text2 );
     assertThat( outcome2.toString(), is( "<tag>This is my &#252; and ö text</tag>" ) );
 
   }

@@ -132,32 +132,32 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
   }
 
   @Override
-  public Function<T, T> xmlEncoder() {
-    return xmlEncoder( null );
+  public Function<T, T> xmlNumericalEncoder() {
+    return xmlNumericalEncoder( null );
   }
 
   @Override
-  public Function<T, T> xmlEncoder( Predicate<Integer> charTest ) {
+  public Function<T, T> xmlNumericalEncoder( Predicate<Integer> charTest ) {
     return Functions.nullSafe( new XmlNumerical<>( facade, charTest, false, true ) );
   }
 
   @Override
-  public Function<T, T> xmlDecoder() {
-    return xmlDecoder( null, false );
+  public Function<T, T> xmlNumericalDecoder() {
+    return xmlNumericalDecoder( null, false );
   }
 
   @Override
-  public Function<T, T> xmlDecoder( Predicate<Integer> charTest ) {
-    return xmlDecoder( charTest, false );
+  public Function<T, T> xmlNumericalDecoder( Predicate<Integer> charTest ) {
+    return xmlNumericalDecoder( charTest, false );
   }
 
   @Override
-  public Function<T, T> xmlDecoder( boolean strict ) {
-    return xmlDecoder( null, strict );
+  public Function<T, T> xmlNumericalDecoder( boolean strict ) {
+    return xmlNumericalDecoder( null, strict );
   }
 
   @Override
-  public Function<T, T> xmlDecoder( Predicate<Integer> charTest, boolean strict ) {
+  public Function<T, T> xmlNumericalDecoder( Predicate<Integer> charTest, boolean strict ) {
     return Functions.nullSafe( new XmlNumerical<>( facade, charTest, strict, false ) );
   }
   

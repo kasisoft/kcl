@@ -223,7 +223,7 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * 
    * @return   The operation. Not <code>null</code>.
    */
-  Function<T, T> xmlEncoder();
+  Function<T, T> xmlNumericalEncoder();
   
   /**
    * Returns an operation that escapes characters using a numerical representation.
@@ -232,14 +232,14 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * 
    * @return   The operation. Not <code>null</code>.
    */
-  Function<T, T> xmlEncoder( Predicate<Integer> charTest );
+  Function<T, T> xmlNumericalEncoder( Predicate<Integer> charTest );
 
   /**
    * Returns an operation that unescapes numerical character representations.
    * 
    * @return   The operation. Not <code>null</code>.
    */
-  Function<T, T> xmlDecoder();
+  Function<T, T> xmlNumericalDecoder();
   
   /**
    * Returns an operation that unescapes numerical character representations.
@@ -248,7 +248,7 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * 
    * @return   The operation. Not <code>null</code>.
    */
-  Function<T, T> xmlDecoder( Predicate<Integer> charTest );
+  Function<T, T> xmlNumericalDecoder( Predicate<Integer> charTest );
   
   /**
    * Returns an operation that unescapes numerical character representations.
@@ -258,7 +258,7 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * 
    * @return   The operation. Not <code>null</code>.
    */
-  Function<T, T> xmlDecoder( boolean strict );
+  Function<T, T> xmlNumericalDecoder( boolean strict );
 
   /**
    * Returns an operation that unescapes numerical character representations.
@@ -269,6 +269,6 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * 
    * @return   The operation. Not <code>null</code>.
    */
-  Function<T, T> xmlDecoder( Predicate<Integer> charTest, boolean strict );
+  Function<T, T> xmlNumericalDecoder( Predicate<Integer> charTest, boolean strict );
   
 } /* ENDINTERFACE */
