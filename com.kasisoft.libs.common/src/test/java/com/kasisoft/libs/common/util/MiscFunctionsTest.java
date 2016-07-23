@@ -202,9 +202,30 @@ public class MiscFunctionsTest {
   @Test(dataProvider="repeatData", groups="all")
   public <T> void repeat( int count, T element, List<T> expected ) {
     List<T> actual = MiscFunctions.repeat( count, element );
-    assertThat( actual, is( notNullValue() ) );
+    assertThat( actual, notNullValue() );
     assertThat( actual.size(), is( count ) );
     assertThat( actual, is( expected ) );
+  }
+  
+  @Test(groups="all")
+  public void toPairs() {
+    
+    List<Pair<String, String>> noentries = MiscFunctions.toPairs();
+    assertThat( noentries, notNullValue() );
+    assertThat( noentries.size(), is(0) );
+
+    List<Pair<String, String>> incompletePair = MiscFunctions.toPairs( "key" );
+    assertThat( incompletePair, notNullValue() );
+    assertThat( incompletePair.size(), is(0) );
+
+    List<Pair<String, String>> onePair = MiscFunctions.toPairs( "key", "val" );
+    assertThat( onePair, notNullValue() );
+    assertThat( onePair.size(), is(1) );
+
+    List<Pair<String, String>> stillOnePair = MiscFunctions.toPairs( "key", "val", "nextKey" );
+    assertThat( stillOnePair, notNullValue() );
+    assertThat( stillOnePair.size(), is(1) );
+
   }
 
 } /* ENDCLASS */

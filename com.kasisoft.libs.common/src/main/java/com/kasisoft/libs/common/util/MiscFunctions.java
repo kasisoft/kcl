@@ -6,6 +6,7 @@ import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.sys.*;
 
+import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;
@@ -428,6 +429,25 @@ public class MiscFunctions {
     return result;
   }
 
+  /**
+   * Creates a list of pairs from the supplied entries.
+   * 
+   * @param entries   The entries that will be returned as list of pairs. Maybe <code>null</code>.
+   * 
+   * @return   A list of pairs. Not <code>null</code>.
+   */
+  public static <R> List<Pair<R, R>> toPairs( R ... entries ) {
+    List<Pair<R, R>> result = Collections.emptyList();
+    if( entries != null ) {
+      int count = entries.length / 2;
+      result    = new ArrayList<>( count );
+      for( int i = 0; i < count; i++ ) {
+        result.add( new Pair<>( entries[ i * 2 + 0 ], entries[ i * 2 + 1 ] ) );
+      }
+    }
+    return result;
+  }
+  
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */
