@@ -231,11 +231,24 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
     if( Files.isDirectory( path ) && (kind == ENTRY_CREATE) ) {
       register( path );
     }
-    if( isInterestingPath( path ) ) {
+    if( isInterestingPath( path, kind == ENTRY_DELETE ) ) {
       processPath( path );
     }
   }
   
+  /**
+   * Returns <code>true</code> if the supplied path should be processed.
+   * 
+   * @param path       The path which identifies the change. Since a change might be a deletion it doesn't necessarily exist.
+   *                   Not <code>null</code>.
+   * @param deletion   <code>true</code> <=> We're dealing with a deletion here.
+   *               
+   * @return   <code>true</code> <=> The supplied path should be processed.
+   */
+  protected boolean isInterestingPath( Path path, boolean deletion ) {
+    return isInterestingPath( path );
+  }
+
   /**
    * Returns <code>true</code> if the supplied path should be processed.
    * 
