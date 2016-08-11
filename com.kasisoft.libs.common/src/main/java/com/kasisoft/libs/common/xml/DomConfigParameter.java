@@ -55,7 +55,9 @@ public enum DomConfigParameter {
    * @param value    The value which will be set.
    */
   public void set( DOMConfiguration config, Object value ) {
-    config.setParameter( key, value );
+    if( config.canSetParameter( key, value ) ) {
+      config.setParameter( key, value );
+    }
   }
   
   /**
