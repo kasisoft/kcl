@@ -400,16 +400,16 @@ public final class XmlFunctions {
   /**
    * Returns a map with all attributes.
    * 
-   * @param parent      The node used to retrieve all attributes. Not <code>null</code>.
-   * @param namespace   <code>true</code> <=> Include the namespace in the tagname.
+   * @param node        The node used to retrieve all attributes. Not <code>null</code>.
+   * @param namespace   <code>true</code> <=> Include the namespace in the attribute name.
    * 
    * @return   A list with all matching elements. Not <code>null</code>.
    */
-  public static Map<String, Attr> getAttributes( @NonNull Node parent, boolean namespace ) {
-    NamedNodeMap attributes = parent.getAttributes();
+  public static Map<String, Attr> getAttributes( @NonNull Node node, boolean namespace ) {
+    NamedNodeMap attributes = node.getAttributes();
     if( attributes != null ) {
       Function<Attr, String> toName = namespace ? XmlFunctions::attrFqName : XmlFunctions::attrName;
-      Map<String, Attr>      result = new HashMap<>();
+      Map<String, Attr>      result = new TreeMap<>();
       for( int i = 0; i < attributes.getLength(); i++ ) {
         Attr attribute = (Attr) attributes.item(i);
         result.put( toName.apply( attribute ), attribute );
@@ -432,5 +432,5 @@ public final class XmlFunctions {
       return attribute.getName();
     }
   }
-
+  
 } /* ENDCLASS */
