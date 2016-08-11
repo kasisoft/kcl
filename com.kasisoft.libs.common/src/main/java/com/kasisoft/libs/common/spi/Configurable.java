@@ -18,6 +18,6 @@ public interface Configurable {
    * 
    * @throws FailureException in case anything went wrong.
    */
-  void configure( Map<String,Object> properties ) throws FailureException;
+  void configure( Map<String, Object> properties ) throws FailureException;
 
 } /* ENDINTERFACE */
