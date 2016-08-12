@@ -1,8 +1,10 @@
-package com.kasisoft.libs.common.util;
+package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.config.*;
+import com.kasisoft.libs.common.base.*;
+
+import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.text.*;
 
@@ -15,6 +17,8 @@ import java.util.regex.*;
 import java.util.*;
 
 import java.net.*;
+
+import java.nio.file.*;
 
 import java.io.*;
 
@@ -205,15 +209,30 @@ public class PropertyResolver {
       if( external.indexOf( "/test/" ) != -1 ) {
         postponed.add( resource );
       } else {
-        loadSetting( resource );
+        load( resource );
       }
     }
     for( URL resource : postponed ) {
-      loadSetting( resource );
+      load( resource );
     }
     return this;
   }
+
   
+  /**
+   * Loads all properties located in the supplied respource.
+   * 
+   * @param resource   The location of the properties file. Not <code>null</code>.
+   * 
+   * @return   this
+   * 
+   * @throws FailureException   Loading failed for some reason.
+   */
+  public synchronized PropertyResolver load( @NonNull URL resource ) {
+    IoFunctions.forInputStreamDo( resource, this::loadSetting );
+    return this;
+  }
+
   /**
    * Loads all properties located in the supplied file.
    * 
@@ -221,26 +240,58 @@ public class PropertyResolver {
    * 
    * @return   this
    * 
-   * @throws IOException   Loading failed for some reason.
+   * @throws FailureException   Loading failed for some reason.
    */
-  public synchronized PropertyResolver load( @NonNull File file ) throws IOException {
-    loadSetting( file.toURI().toURL() );
+  public synchronized PropertyResolver load( @NonNull Path file ) {
+    IoFunctions.forInputStreamDo( file, this::loadSetting );
+    return this;
+  }
+
+  /**
+   * Loads all properties located in the supplied file.
+   * 
+   * @param file   The location of the properties file. Not <code>null</code>.
+   * 
+   * @return   this
+   * 
+   * @throws FailureException   Loading failed for some reason.
+   */
+  public synchronized PropertyResolver load( @NonNull File file ) {
+    IoFunctions.forInputStreamDo( file, this::loadSetting );
+    return this;
+  }
+
+  /**
+   * Loads all properties located in the supplied file.
+   * 
+   * @param instream   The InputStream that provides the properties to be loaded. Not <code>null</code>.
+   * 
+   * @return   this
+   * 
+   * @throws FailureException   Loading failed for some reason.
+   */
+  public synchronized PropertyResolver load( @NonNull InputStream instream ) {
+    loadSetting( instream );
     return this;
   }
 
   /**
    * Imports the properties from the supplied resource.
    * 
-   * @param resource   The resource that provides the properties to be loaded. Not <code>null</code>.
+   * @param instream   The InputStream that provides the properties to be loaded. Not <code>null</code>.
    * 
-   * @throws IOException   Loading failed for some reason.
+   * @throws FailureException   Loading failed for some reason.
    */
-  private void loadSetting( URL resource ) throws IOException {
-    Properties  newprops = new Properties();
-    try( Reader reader = Encoding.UTF8.openReader( resource ) ) {
-      newprops.load( reader );
+  private void loadSetting( InputStream instream ) {
+    try {
+      Properties  newprops = new Properties();
+      try( Reader reader = Encoding.UTF8.openReader( instream ) ) {
+        newprops.load( reader );
+      }
+      putProperties( newprops );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
     }
-    putProperties( newprops );
   }
 
   /**
