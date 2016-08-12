@@ -12,6 +12,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.util.regex.*;
 
 import java.util.*;
@@ -59,6 +61,49 @@ public class PropertyResolver {
     resolveddata  = new HashMap<>();
   }
   
+  /**
+   * Returns a Properties instance with resolved properties.
+   * Note that values that resolve to <code>null</code> won't be returned as {@link Properties} cannot deal
+   * with them.
+   * 
+   * @return   A Properties instance with resolved properties. Not <code>null</code>.
+   */
+  public synchronized Properties toProperties() {
+    Properties result = new Properties();
+    return storeProperties( result, result::setProperty, null );
+  }
+  
+  /**
+   * Returns a map with resolved properties.
+   * 
+   * @return   A map with resolved properties. Not <code>null</code>.
+   */
+  public synchronized Map<String, String> toMap() {
+    Map<String, String> result = new HashMap<>();
+    return storeProperties( result, result::put, result::put );
+  }
+
+  /**
+   * Returns the supplied receiver after it had been filled with resolved properties.
+   * 
+   * @param receiver     The receiving type for the resolved properties. Not <code>null</code>.
+   * @param setter       The function that applies the resolved properties for non-null values. Not <code>null</code>.
+   * @param nullSetter   The function that applies the resolved properties for null values. Not <code>null</code>.
+   * 
+   * @return   The supplied receiver. Not <code>null</code>.
+   */
+  private <R> R storeProperties( R receiver, BiConsumer<String, String> setter, BiConsumer<String, String> nullSetter ) {
+    for( String key : getPropertyNames() ) {
+      String value = getProperty( key );
+      if( value != null ) {
+        setter.accept( key, value );
+      } else if( nullSetter != null ) {
+        nullSetter.accept( key, value );
+      }
+    }
+    return receiver;
+  }
+
   /**
    * Clears the content of this instance.
    */

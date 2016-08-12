@@ -82,5 +82,21 @@ public class PropertyResolverTest {
     assertThat( resolver.getProperty( "myvariable" ), is( "-problematic_replacement\\-" ) );
     
   }
+  
+  @Test(groups="all", dependsOnMethods="resolveFromClasspathResource")
+  public void toMap() throws Exception {
+    Map<String, String> asMap = resolver.toMap();
+    assertThat( asMap.size(), is(4) );
+    assertTrue( asMap.containsKey( "my_file_encoding" ) );
+    assertThat( asMap.get( "my_file_encoding" ), is( "ENCODING: UTF-8" ) );
+  }
+
+  @Test(groups="all", dependsOnMethods="resolveFromClasspathResource")
+  public void toProperties() throws Exception {
+    Properties asProperties = resolver.toProperties();
+    assertThat( asProperties.size(), is(3) );
+    assertTrue( asProperties.containsKey( "my_file_encoding" ) );
+    assertThat( asProperties.get( "my_file_encoding" ), is( "ENCODING: UTF-8" ) );
+  }
 
 } /* ENDCLASS */
