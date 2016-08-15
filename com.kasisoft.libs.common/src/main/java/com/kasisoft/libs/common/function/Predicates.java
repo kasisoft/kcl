@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.function;
 
+import com.kasisoft.libs.common.util.*;
+
 import java.util.function.*;
 
 import java.util.regex.*;
@@ -35,6 +37,32 @@ public class Predicates {
   
   public static final Predicate<String> IS_JAVA_FQDN = new IsJavaFqdn();
   
+  public static final Predicate<String> IS_BOOLEAN = MiscFunctions::isBoolean;
+  
+  public static final Predicate<String> IS_LONG = $ -> isValid( $, Long::parseLong );
+  
+  public static final Predicate<String> IS_INTEGER = $ -> isValid( $, Integer::parseInt );
+
+  public static final Predicate<String> IS_SHORT = $ -> isValid( $, Short::parseShort );
+
+  public static final Predicate<String> IS_BYTE = $ -> isValid( $, Byte::parseByte );
+
+  public static final Predicate<String> IS_FLOAT = $ -> isValid( $, Float::parseFloat );
+
+  public static final Predicate<String> IS_DOUBLE = $ -> isValid( $, Double::parseDouble );
+
+  private static boolean isValid( String value, Function<String, ?> parse ) {
+    if( value != null ) {
+      try {
+        parse.apply( value );
+        return true;
+      } catch( NumberFormatException ex ) {
+        // valid case
+      }
+    }
+    return false;
+  }
+
   public static <T> Predicate<T> acceptAll() {
     return $ -> true;
   }
