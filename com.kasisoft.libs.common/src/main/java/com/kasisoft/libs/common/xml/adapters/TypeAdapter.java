@@ -21,7 +21,7 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public abstract class TypeAdapter<F,T> implements Function<F,T> {
+public abstract class TypeAdapter<F, T> implements Function<F, T> {
 
   BiConsumer<Object,Exception>   errhandler;
   F                              defvalue1;
@@ -42,7 +42,7 @@ public abstract class TypeAdapter<F,T> implements Function<F,T> {
    * @param defval1   A default value for the source type. Maybe <code>null</code>.
    * @param defval2   A default value for the target type. Maybe <code>null</code>.
    */
-  protected TypeAdapter( BiConsumer<Object,Exception> handler, F defval1, T defval2 ) {
+  protected TypeAdapter( BiConsumer<Object, Exception> handler, F defval1, T defval2 ) {
     errhandler  = handler;
     defvalue1   = defval1;
     defvalue2   = defval2;
