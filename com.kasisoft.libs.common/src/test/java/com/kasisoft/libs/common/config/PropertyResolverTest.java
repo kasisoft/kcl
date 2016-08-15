@@ -85,18 +85,28 @@ public class PropertyResolverTest {
   
   @Test(groups="all", dependsOnMethods="resolveFromClasspathResource")
   public void toMap() throws Exception {
+    
+    String encoding    = SysProperty.FileEncoding.getValue( System.getProperties() );
+    String resolvedval = String.format( "ENCODING: %s", encoding );
+    
     Map<String, String> asMap = resolver.toMap();
     assertThat( asMap.size(), is(4) );
     assertTrue( asMap.containsKey( "my_file_encoding" ) );
-    assertThat( asMap.get( "my_file_encoding" ), is( "ENCODING: UTF-8" ) );
+    assertThat( asMap.get( "my_file_encoding" ), is( resolvedval ) );
+    
   }
 
   @Test(groups="all", dependsOnMethods="resolveFromClasspathResource")
   public void toProperties() throws Exception {
+    
+    String encoding    = SysProperty.FileEncoding.getValue( System.getProperties() );
+    String resolvedval = String.format( "ENCODING: %s", encoding );
+     
     Properties asProperties = resolver.toProperties();
     assertThat( asProperties.size(), is(3) );
     assertTrue( asProperties.containsKey( "my_file_encoding" ) );
-    assertThat( asProperties.get( "my_file_encoding" ), is( "ENCODING: UTF-8" ) );
+    assertThat( asProperties.get( "my_file_encoding" ), is( resolvedval ) );
+    
   }
 
 } /* ENDCLASS */
