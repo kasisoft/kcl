@@ -87,7 +87,7 @@ public class CsvTableModelTest {
     
   }
 
-  @Test(groups = "all", expectedExceptions = FailureException.class)
+  @Test(groups = "all")
   public void inconsistentColumnNumbersWithErrorHandling() {
     URL source = getClass().getClassLoader().getResource( "csv/text2.csv" );
     Assert.assertNotNull( source );
