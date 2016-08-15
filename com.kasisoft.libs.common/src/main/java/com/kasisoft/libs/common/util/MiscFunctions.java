@@ -13,6 +13,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.util.*;
 import java.util.Date;
 
@@ -34,23 +36,14 @@ public class MiscFunctions {
 
   static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
   
-  static final Set<String> TRUEVALUES;
+  static final Set<String> TRUEVALUES  = new HashSet<>( Arrays.asList(
+    "true", "ja", "yes", "on","ein", "an", "1", "-1"
+  ) );
   
-  static {
-    
-    TRUEVALUES  = new HashSet<>();
-    
-    TRUEVALUES  . add( "true"   );
-    TRUEVALUES  . add( "ja"     );
-    TRUEVALUES  . add( "yes"    );
-    TRUEVALUES  . add( "on"     );
-    TRUEVALUES  . add( "ein"    );
-    TRUEVALUES  . add( "an"     );
-    TRUEVALUES  . add( "1"      );
-    TRUEVALUES  . add( "-1"     );
-    
-  }
-
+  static final Set<String> FALSEVALUES = new HashSet<>( Arrays.asList(
+    "false", "nein", "no", "off","aus", "0"
+  ) );
+  
   /**
    * Prevent instantiation.
    */
@@ -189,15 +182,120 @@ public class MiscFunctions {
   }
   
   /**
+   * Returns <code>true</code> if the supplied value can be interpreted as a boolean.
+   * 
+   * @param value   The value which has to be test. Maybe <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The value can be interpreted as a boolean.
+   */
+  public static boolean isBoolean( String value ) {
+    if( value != null ) {
+      String lower = value.toLowerCase();
+      return TRUEVALUES.contains( lower ) || FALSEVALUES.contains( lower );
+    } else {
+      return false;
+    }
+  }
+
+  /**
    * Interpretes a value as a boolean.
    * 
-   * @param value   The value which has to be parsed. Not <code>null</code>.
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
    * 
    * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
    *           <code>false</code> <=> All other cases.
    */
-  public static boolean parseBoolean( @NonNull String value ) {
-    return TRUEVALUES.contains( value.toLowerCase() );
+  public static boolean parseBoolean( String value ) {
+    if( value != null ) {
+      return TRUEVALUES.contains( value.toLowerCase() );
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Interpretes a value as a byte.
+   * 
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * 
+   * @return   The byte value. Maybe <code>null</code>.
+   */
+  public static Byte parseByte( String value ) {
+    return parse( value, Byte::parseByte );
+  }
+
+  /**
+   * Interpretes a value as a short.
+   * 
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * 
+   * @return   The short value. Maybe <code>null</code>.
+   */
+  public static Short parseShort( String value ) {
+    return parse( value, Short::parseShort );
+  }
+
+  /**
+   * Interpretes a value as a integer.
+   * 
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * 
+   * @return   The integer value. Maybe <code>null</code>.
+   */
+  public static Integer parseInt( String value ) {
+    return parse( value, Integer::parseInt );
+  }
+
+  /**
+   * Interpretes a value as a long.
+   * 
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * 
+   * @return   The long value. Maybe <code>null</code>.
+   */
+  public static Long parseLong( String value ) {
+    return parse( value, Long::parseLong );
+  }
+
+  /**
+   * Interpretes a value as a float.
+   * 
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * 
+   * @return   The float value. Maybe <code>null</code>.
+   */
+  public static Float parseFloat( String value ) {
+    return parse( value, Float::parseFloat );
+  }
+
+  /**
+   * Interpretes a value as a double.
+   * 
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * 
+   * @return   The double value. Maybe <code>null</code>.
+   */
+  public static Double parseDouble( String value ) {
+    return parse( value, Double::parseDouble );
+  }
+
+  /**
+   * Parses a number and returns <code>null</code> if the value is invalid.
+   * 
+   * @param value   The value shall be parsed. Not <code>null</code>.
+   * @param parse   The function used to parse the value. Not <code>null</code>.
+   * 
+   * @return   The parsed value or <code>null</code>.
+   */
+  private static <T> T parse( String value, Function<String, T> parse ) {
+    if( value != null ) {
+      try {
+        return parse.apply( value );
+      } catch( NumberFormatException ex ) {
+        // cause to return null
+      }
+    }
+    return null;
   }
 
   /**
