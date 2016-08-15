@@ -615,7 +615,7 @@ public class CsvTableModel implements TableModel {
     List<CsvColumn> csvColumns = options.getColumns();
     for( int i = 0; i < columns; i++ ) {
       String current = i < result.size() ? result.get(i) : null;
-      if( (current == null) && (i < csvColumns.size()) ) {
+      if( (current == null) && (i < csvColumns.size()) && (csvColumns.get(i) != null) ) {
         // there was no title so use the title from the column spec if there's one
         current = csvColumns.get(i).getTitle();
       }

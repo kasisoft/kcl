@@ -41,7 +41,13 @@ public final class CsvOptions {
     result.disableCr          = disableCr;
     result.fillMissingColumns = fillMissingColumns;
     result.encoding           = encoding;
-    result.columns            = columns.stream().map( CsvColumn::copy ).collect( Collectors.toList() );
+    for( CsvColumn column : columns ) {
+      if( column != null ) {
+        result.columns.add( column.copy() );
+      } else {
+        result.columns.add( null );
+      }
+    }
     return result;
   }
   
@@ -94,7 +100,7 @@ public final class CsvOptions {
       return this;
     }
 
-    public CsvOptionsBuilder column( @NonNull CsvColumn column ) {
+    public CsvOptionsBuilder column( CsvColumn column ) {
       instance.columns.add( column );
       return this;
     }
