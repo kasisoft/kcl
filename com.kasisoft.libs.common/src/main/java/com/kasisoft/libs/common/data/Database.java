@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.data;
 
+import com.kasisoft.libs.common.base.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -16,26 +18,29 @@ import java.sql.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Database implements Predicate<String> {
 
-  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1" ),
-  h2          ( "org.h2.Driver"                                 , "SELECT 1" ),
-  hsql        ( "org.hsqldb.jdbcDriver"                         , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" ),
-  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , "SELECT 1" ),
-  mysql       ( "com.mysql.jdbc.Driver"                         , "SELECT 1" ),
-  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , null       ),
-  oracle      ( "oracle.jdbc.driver.OracleDriver"               , "SELECT 1 FROM DUAL" ),
-  postgresql  ( "org.postgresql.Driver"                         , "SELECT 1" ),
-  sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1" );
+  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" ),
+  h2          ( "org.h2.Driver"                                 , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
+  hsql        ( "org.hsqldb.jdbcDriver"                         , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   ),
+  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
+  mysql       ( "com.mysql.jdbc.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
+  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , null                                            , "SELECT * FROM %s LIMIT 1" ),
+  oracle      ( "oracle.jdbc.driver.OracleDriver"               , "SELECT 1 FROM DUAL"                            , "SELECT * FROM %s LIMIT 1" ),
+  postgresql  ( "org.postgresql.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
+  sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" );
+
 
   @Getter 
   String    driver;
   
   boolean   active;
   String    aliveQuery;
+  String    listColumnQuery;
 
-  Database( String driverclass, String query ) {
-    driver      = driverclass;
-    active      = false;
-    aliveQuery  = query;
+  Database( String driverclass, String query, String listColumns ) {
+    driver          = driverclass;
+    active          = false;
+    aliveQuery      = query;
+    listColumnQuery = listColumns;
   }
 
   /**
@@ -51,6 +56,19 @@ public enum Database implements Predicate<String> {
       throw new UnsupportedOperationException();
     }
     return aliveQuery;
+  }
+  
+  /**
+   * Returns the query for listing columns.
+   * 
+   * @return   The query for listing columns. Neither <code>null</code> nor empty.
+   */
+  public String getListColumnsQuery() {
+    if( listColumnQuery.length() == 0 ) {
+      // not available yet
+      throw new UnsupportedOperationException();
+    }
+    return listColumnQuery;
   }
   
   /**
@@ -76,12 +94,14 @@ public enum Database implements Predicate<String> {
    * @param url   The URL used to access the database. Neither <code>null</code> nor empty.
    * 
    * @return   The Connection used for the database. Not <code>null</code>.
-   * 
-   * @throws SQLException   Something went wrong while accessing the database.
    */
-  public Connection getConnection( @NonNull String url ) throws SQLException {
-    activate();
-    return DriverManager.getConnection( url );
+  public Connection getConnection( @NonNull String url ) {
+    try {
+      activate();
+      return DriverManager.getConnection( url );
+    } catch( SQLException ex ) {
+      throw FailureCode.SqlFailure.newException( ex );
+    }
   }
   
   /**
@@ -92,12 +112,14 @@ public enum Database implements Predicate<String> {
    * @param password   The password to be used. Maybe <code>null</code>.
    * 
    * @return   The Connection used for the database. Not <code>null</code>.
-   * 
-   * @throws SQLException   Something went wrong while accessing the database.
    */
-  public Connection getConnection( @NonNull String url, @NonNull String username, String password ) throws SQLException {
-    activate();
-    return DriverManager.getConnection( url, username, password );
+  public Connection getConnection( @NonNull String url, @NonNull String username, String password ) {
+    try {
+      activate();
+      return DriverManager.getConnection( url, username, password );
+    } catch( SQLException ex ) {
+      throw FailureCode.SqlFailure.newException( ex );
+    }
   }
   
   /**
