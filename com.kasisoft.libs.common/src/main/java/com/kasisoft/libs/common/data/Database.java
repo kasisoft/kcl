@@ -18,29 +18,34 @@ import java.sql.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Database implements Predicate<String> {
 
-  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" ),
-  h2          ( "org.h2.Driver"                                 , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
-  hsql        ( "org.hsqldb.jdbcDriver"                         , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   ),
-  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
-  mysql       ( "com.mysql.jdbc.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
-  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , null                                            , "SELECT * FROM %s LIMIT 1" ),
-  oracle      ( "oracle.jdbc.driver.OracleDriver"               , "SELECT 1 FROM DUAL"                            , "SELECT * FROM %s LIMIT 1" ),
-  postgresql  ( "org.postgresql.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" ),
-  sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" );
-
+  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
+  h2          ( "org.h2.Driver"                                 , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
+  hsql        ( "org.hsqldb.jdbcDriver"                         , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   , "SELECT * FROM %s" ),
+  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
+  mysql       ( "com.mysql.jdbc.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
+  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , null                                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
+  oracle      ( "oracle.jdbc.driver.OracleDriver"               , "SELECT 1 FROM DUAL"                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
+  postgresql  ( "org.postgresql.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
+  sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" );
 
   @Getter 
   String    driver;
   
   boolean   active;
   String    aliveQuery;
-  String    listColumnQuery;
+  
+  @Getter
+  String    listColumnsQuery;
+  
+  @Getter
+  String    selectAllQuery;
 
-  Database( String driverclass, String query, String listColumns ) {
-    driver          = driverclass;
-    active          = false;
-    aliveQuery      = query;
-    listColumnQuery = listColumns;
+  Database( String driverclass, String query, String listColumns, String selectAll ) {
+    driver           = driverclass;
+    active           = false;
+    aliveQuery       = query;
+    listColumnsQuery = listColumns;
+    selectAllQuery   = selectAll;
   }
 
   /**
@@ -56,19 +61,6 @@ public enum Database implements Predicate<String> {
       throw new UnsupportedOperationException();
     }
     return aliveQuery;
-  }
-  
-  /**
-   * Returns the query for listing columns.
-   * 
-   * @return   The query for listing columns. Neither <code>null</code> nor empty.
-   */
-  public String getListColumnsQuery() {
-    if( listColumnQuery.length() == 0 ) {
-      // not available yet
-      throw new UnsupportedOperationException();
-    }
-    return listColumnQuery;
   }
   
   /**

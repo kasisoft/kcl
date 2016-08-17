@@ -13,8 +13,6 @@ import java.util.function.*;
 import java.util.*;
 
 import java.math.*;
-import java.sql.*;
-import java.sql.Date;
 
 /**
  * A basic description of a csv column.
@@ -32,8 +30,6 @@ public final class CsvColumn<T> {
     DEFAULT_ADAPTERS.put( String.class      , CsvColumn::toStringValue      );
     DEFAULT_ADAPTERS.put( Boolean.class     , CsvColumn::toBooleanValue     );
     DEFAULT_ADAPTERS.put( byte[].class      , CsvColumn::toByteArrayValue   );
-    DEFAULT_ADAPTERS.put( Timestamp.class   , CsvColumn::toTimestampValue   );
-    DEFAULT_ADAPTERS.put( Date.class        , CsvColumn::toDateValue        );
     DEFAULT_ADAPTERS.put( BigDecimal.class  , CsvColumn::toBigDecimalValue  );
   }
   
