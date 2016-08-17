@@ -37,7 +37,10 @@ public enum FailureCode {
   XmlFailure                                          (  -9 ),
   
   /** a conversion failed. */
-  ConversionFailure                                   ( -11 );
+  ConversionFailure                                   ( -11 ),
+  
+  /** a jdbc operation failed */
+  SqlFailure                                          ( -12 );
   
   int      code;
   
