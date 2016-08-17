@@ -19,6 +19,8 @@ import javax.swing.table.*;
 
 import javax.swing.event.*;
 
+import javax.swing.*;
+
 import java.util.function.*;
 
 import java.util.stream.*;
@@ -66,20 +68,29 @@ public class CsvTableModel implements TableModel {
     
   } /* ENDENUM */
 
-  CsvOptions          options;
-  DefaultTableModel   tableModel;
-  EventListenerList   listeners;
+  CsvOptions            options;
+  DefaultTableModel     tableModel;
+  EventListenerList     listeners;
   
-  Consumer<String>    ehInvalidCellValue;
-  Consumer<String>    ehColumnSpecWithoutAdapter;
-  Consumer<String>    ehInconsitentColumnCount;
+  Consumer<String>      ehInvalidCellValue;
+  Consumer<String>      ehColumnSpecWithoutAdapter;
+  Consumer<String>      ehInconsistentColumnCount;
+  Consumer<String>      ehInvalidAddRow;
   
-  public CsvTableModel() {
+  private CsvTableModel() {
     ehInvalidCellValue          = this::ehDefault;
     ehColumnSpecWithoutAdapter  = this::ehDefault;
-    ehInconsitentColumnCount    = this::ehDefault;
+    ehInconsistentColumnCount   = this::ehDefault;
+    ehInvalidAddRow             = this::ehDefault;
     listeners                   = new EventListenerList();
     createNewDefaultTableModel();
+  }
+  
+  public CsvTableModel( @NonNull CsvOptions csvOptions ) {
+    this();
+    options = validateOptions( csvOptions );
+    consolidateColumns( csvOptions.getColumns().size(), Collections.emptyList(), getTitles( csvOptions.getColumns().size(), Collections.emptyList() ) );
+    options.getColumns().forEach( $ -> tableModel.addColumn( $.getTitle() ) );
   }
   
   /**
@@ -534,31 +545,28 @@ public class CsvTableModel implements TableModel {
   /**
    * Loads the csv data from the supplied location into this model.
    * 
-   * @param source       The source for the csv data. Not <code>null</code>.
-   * @param csvOptions   Some options to be used while loading the csv data.
+   * @param source   The source for the csv data. Not <code>null</code>.
    */
-  public void load( @NonNull Path source, @NonNull CsvOptions csvOptions ) {
-    IoFunctions.forInputStreamDo( source, csvOptions, this::load );
+  public void load( @NonNull Path source ) {
+    IoFunctions.forInputStreamDo( source, this::load );
   }
   
   /**
-   * Loads the csv data from the supplied {@link InputStream} into this model.
+   * Loads the csv data from the supplied {@link InputStream} into this model. 
    * 
    * @param source       The {@link InputStream} providing the csv data. Not <code>null</code>.
-   * @param csvOptions   Some options to be used while loading the csv data.
    */
-  public void load( @NonNull InputStream source, @NonNull CsvOptions csvOptions ) {
+  public void load( @NonNull InputStream source ) {
     
     createNewDefaultTableModel();
     
-    options                       = validateOptions( csvOptions );
     List<List<String>> lines      = loadCellData( source );
     int                columns    = determineColumnCount( lines );
     boolean            equalLen   = equalLengthForEachLine( lines, columns );
     if( ! equalLen ) {
-      ehInconsitentColumnCount.accept( Messages.error_csv_inconsistent_column_count );
+      ehInconsistentColumnCount.accept( Messages.error_csv_inconsistent_column_count );
       // if the error handler doesn't cause an exception we need to filter out each invalid row
-      lines                       = lines.stream().filter( $ -> $.size() == columns ).collect( Collectors.toList() );
+      lines = lines.stream().filter( $ -> $.size() == columns ).collect( Collectors.toList() );
     }
     
     consolidateColumns( columns, lines, getTitles( columns, lines ) );
@@ -569,6 +577,15 @@ public class CsvTableModel implements TableModel {
     // load the table content 
     lines.forEach( this::loadLine );
     
+    SwingUtilities.invokeLater( this::changeAll );
+    
+  }
+
+  /**
+   * Informs all listeners about the changed table.
+   */
+  private void changeAll() {
+    fireTableChanged( new TableModelEvent( this ) );
   }
 
   /**
@@ -758,6 +775,28 @@ public class CsvTableModel implements TableModel {
   }
   
   /**
+   * Adds the supplied row data to this model.
+   * 
+   * @param rowData   The row data that shall be added. Maybe <code>null</code>.
+   */
+  public void addRow( Object[] rowData ) {
+    if( rowData != null ) {
+      try {
+        for( int i = 0; i < rowData.length; i++ ) {
+          CsvColumn csvColumn = options.getColumns().get(i);
+          if( rowData[i] == null ) {
+            rowData[i] = csvColumn.getDefval();
+          }
+        }
+        tableModel.addRow( rowData );
+      } catch( Exception ex ) {
+        String message = Messages.error_csv_invalid_add_row.format( getRowCount(), StringFunctions.toString( rowData ), ex.getLocalizedMessage() );
+        ehInvalidAddRow.accept( message );
+      }
+    }
+  }
+
+  /**
    * A safe deserialization of a certain object representation.
    * 
    * @param adapter   The function that is used to convert the text into a dedicated object. Not <code>null</code>.
@@ -808,7 +847,7 @@ public class CsvTableModel implements TableModel {
    * @param handler   The new error handler.
    */
   public void setErrorHandlerForInconsistentColumnCount( Consumer<String> handler ) {
-    ehInconsitentColumnCount = handler != null ? handler : this::ehDefault;
+    ehInconsistentColumnCount = handler != null ? handler : this::ehDefault;
   }
   
   @Override

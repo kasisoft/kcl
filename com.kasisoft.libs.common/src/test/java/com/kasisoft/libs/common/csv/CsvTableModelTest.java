@@ -28,12 +28,13 @@ public class CsvTableModelTest {
     URL source = getClass().getClassLoader().getResource( "csv/text1.csv" );
     Assert.assertNotNull( source );
     
-    CsvTableModel model   = new CsvTableModel();
     CsvOptions    options = CsvOptions.builder()
         .fillMissingColumns()
         .build();
     
-    IoFunctions.forInputStreamDo( source, options, model::load );
+    CsvTableModel model   = new CsvTableModel( options );
+    
+    IoFunctions.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     assertThat( model.getRowCount(), is(8) );
@@ -49,7 +50,6 @@ public class CsvTableModelTest {
     URL source = getClass().getClassLoader().getResource( "csv/text1.csv" );
     Assert.assertNotNull( source );
     
-    CsvTableModel model   = new CsvTableModel();
     CsvOptions    options = CsvOptions.builder()
         .column( null )
         .column( null )
@@ -57,8 +57,9 @@ public class CsvTableModelTest {
         .column( CsvColumn.<Long>builder().type( Long.class ).adapter( MiscFunctions::parseLong ).defaultValue( 0L ).nullable().title( "longVal" ).build() )
         .fillMissingColumns()
         .build();
+    CsvTableModel model   = new CsvTableModel( options );
     
-    IoFunctions.forInputStreamDo( source, options, model::load );
+    IoFunctions.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     assertThat( model.getRowCount(), is(8) );
@@ -73,11 +74,11 @@ public class CsvTableModelTest {
     URL source = getClass().getClassLoader().getResource( "csv/text2.csv" );
     Assert.assertNotNull( source );
     
-    CsvTableModel model   = new CsvTableModel();
     CsvOptions    options = CsvOptions.builder()
         .build();
+    CsvTableModel model   = new CsvTableModel( options );
     
-    IoFunctions.forInputStreamDo( source, options, model::load );
+    IoFunctions.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     assertThat( model.getRowCount(), is(8) );
@@ -92,12 +93,12 @@ public class CsvTableModelTest {
     URL source = getClass().getClassLoader().getResource( "csv/text2.csv" );
     Assert.assertNotNull( source );
     
-    CsvTableModel model   = new CsvTableModel();
-    model.setErrorHandlerForInconsistentColumnCount( $ -> { /* do nothing */ } );
     CsvOptions    options = CsvOptions.builder()
         .build();
+    CsvTableModel model   = new CsvTableModel( options );
+    model.setErrorHandlerForInconsistentColumnCount( $ -> { /* do nothing */ } );
     
-    IoFunctions.forInputStreamDo( source, options, model::load );
+    IoFunctions.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     

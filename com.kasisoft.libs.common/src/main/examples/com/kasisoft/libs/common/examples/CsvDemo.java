@@ -72,8 +72,8 @@ public class CsvDemo extends AbstractDemo {
         .fillMissingColumns()
         .build();
       
-      CsvTableModel tableModel = new CsvTableModel();
-      tableModel.load( file.toPath(), options );
+      CsvTableModel tableModel = new CsvTableModel( options );
+      tableModel.load( file.toPath() );
     
       setModel( tableModel );
       

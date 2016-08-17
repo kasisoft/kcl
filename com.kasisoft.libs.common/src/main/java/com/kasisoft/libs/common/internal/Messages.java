@@ -17,6 +17,9 @@ public class Messages {
   @I18N("The number of columns for each line isn't consistent !")
   static String          error_csv_inconsistent_column_count;
 
+  @I18N("Cannot add row %d (data = %s). Error: %s !")
+  static I18NFormatter   error_csv_invalid_add_row;
+
   @I18N("The cell value '%s' at column %d cannot be parsed !")
   static I18NFormatter   error_csv_invalid_cell_value;
 
