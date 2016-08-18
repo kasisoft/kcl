@@ -102,6 +102,7 @@ public class DbConnection implements AutoCloseable {
         while( resultset.next() ) {
           tableNames.add( resultset.getString(3) );
         }
+        // Collections.sort( tableNames );
       } catch( Exception ex ) {
         ehException.accept( ex );
       }
@@ -283,14 +284,14 @@ public class DbConnection implements AutoCloseable {
   }
 
   /**
-   * List all records within a table.
+   * List some records.
    * 
-   * @param jdbcQuery   The name of the table. Neither <code>null</code> nor empty.
+   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
    * @param producer    The {@link Function} which creates a usable record from the jdbc outcome.
    * 
    * @return   A list with all records. Not <code>null</code>.
    */
-  public <T> List<T> selectAll( String jdbcQuery, Function<ResultSet, T> producer ) {
+  public <T> List<T> select( @NonNull String jdbcQuery, @NonNull Function<ResultSet, T> producer ) {
     List<T> result = new ArrayList<>(100);
     try {
       PreparedStatement query     = getQuery( jdbcQuery, null );
@@ -310,6 +311,44 @@ public class DbConnection implements AutoCloseable {
     }
     return result;
   }
+
+  /**
+   * List all records from a certain table.
+   * 
+   * @param table      The name of the table. Neither <code>null</code> nor empty.
+   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome.
+   * 
+   * @return   A list with all records. Not <code>null</code>.
+   */
+  public <T> List<T> selectAll( @NonNull String table, @NonNull Function<ResultSet, T> producer ) {
+    String name = canonicalTableName( table );
+    return select( String.format( config.getDb().getSelectAllQuery(), name ), producer );
+  }
+
+  /**
+   * Counts all records within a table.
+   * 
+   * @param table   The name of the table. Neither <code>null</code> nor empty.
+   * 
+   * @return   The number of available records. A negative number indicates an error.
+   */
+  public int count( @NonNull String table ) {
+    int    result = -1;
+    String name   = canonicalTableName( table );
+    if( name != null ) {
+      try {
+        PreparedStatement query     = getQuery( config.getDb().getCountQuery(), name );
+        ResultSet         resultset = query.executeQuery();
+        if( resultset.next() ) {
+          result = resultset.getInt(1);
+        }
+      } catch( Exception ex ) {
+        ehException.accept( ex );
+      }
+    }
+    return result;
+  }
+  
   
   /**
    * Derives the current row data from the jdbc source and applies it to the {@link CsvTableModel} instance.

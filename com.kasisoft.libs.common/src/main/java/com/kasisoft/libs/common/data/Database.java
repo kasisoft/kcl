@@ -18,15 +18,15 @@ import java.sql.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Database implements Predicate<String> {
 
-  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
-  h2          ( "org.h2.Driver"                                 , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
-  hsql        ( "org.hsqldb.jdbcDriver"                         , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   , "SELECT * FROM %s" ),
-  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
-  mysql       ( "com.mysql.jdbc.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
-  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , null                                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
-  oracle      ( "oracle.jdbc.driver.OracleDriver"               , "SELECT 1 FROM DUAL"                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
-  postgresql  ( "org.postgresql.Driver"                         , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" ),
-  sqlite      ( "org.sqlite.JDBC"                               , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" );
+  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , false , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  h2          ( "org.h2.Driver"                                 , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  hsql        ( "org.hsqldb.jdbcDriver"                         , false , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  mysql       ( "com.mysql.cj.jdbc.Driver"                      , true  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , false , null                                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  oracle      ( "oracle.jdbc.driver.OracleDriver"               , false , "SELECT 1 FROM DUAL"                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  postgresql  ( "org.postgresql.Driver"                         , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
+  sqlite      ( "org.sqlite.JDBC"                               , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" );
 
   @Getter 
   String    driver;
@@ -40,12 +40,16 @@ public enum Database implements Predicate<String> {
   @Getter
   String    selectAllQuery;
 
-  Database( String driverclass, String query, String listColumns, String selectAll ) {
+  @Getter
+  String    countQuery;
+
+  Database( String driverclass, boolean spi, String query, String listColumns, String selectAll, String count ) {
     driver           = driverclass;
-    active           = false;
+    active           = spi;
     aliveQuery       = query;
     listColumnsQuery = listColumns;
     selectAllQuery   = selectAll;
+    countQuery       = count;
   }
 
   /**
