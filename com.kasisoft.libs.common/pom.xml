@@ -281,22 +281,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <tags>
-            <tag>
-              <name>ks.spec</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>ks.note</name>
-              <placement>X</placement>
-            </tag>
-            <tag>
-              <name>ks.todo</name>
-              <placement>X</placement>
-            </tag>
-          </tags>
-        </configuration>
       </plugin>
       
       <plugin>

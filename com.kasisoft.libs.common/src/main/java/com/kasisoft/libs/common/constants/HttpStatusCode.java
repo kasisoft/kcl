@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.constants;
 
+import com.kasisoft.libs.common.annotation.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -7,10 +9,9 @@ import lombok.*;
 /**
  * Collection of HTTP stastus codes.
  * 
- * @ks.spec [10-Jun-2016:KASI]   http://tools.ietf.org/html/rfc2616#section-6.1
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Specification(value = "http://tools.ietf.org/html/rfc2616#section-6.1", date = "10-Jun-2016")
 @ToString(of = "name")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum HttpStatusCode {

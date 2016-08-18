@@ -4,6 +4,8 @@ import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.io.*;
 
+import com.kasisoft.libs.common.annotation.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -24,14 +26,11 @@ import java.nio.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Specification(value = "http://docs.oracle.com/javase/8/docs/api/java/nio/charset/Charset.html", date = "10-Jun-2016")
 @EqualsAndHashCode(of = "encoding")
 @ToString(of = "encoding")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Encoding {
-  
-  /**
-   * @ks.spec [10-Jun-2016:KASI]   http://docs.oracle.com/javase/8/docs/api/java/nio/charset/Charset.html
-   */
   
   public static final Encoding ASCII;
   public static final Encoding UTF8;

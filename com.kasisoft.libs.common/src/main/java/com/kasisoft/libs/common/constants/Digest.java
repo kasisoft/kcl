@@ -4,6 +4,8 @@ import com.kasisoft.libs.common.util.*;
 
 import com.kasisoft.libs.common.base.*;
 
+import com.kasisoft.libs.common.annotation.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -17,12 +19,9 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Specification(value = "http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest", date = "10-Jun-2016")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Digest {
-  
-  /**
-   * @ks.spec [10-Jun-2016:KASI]   http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest
-   */
   
   public static final Digest   MD2;
   public static final Digest   MD5;

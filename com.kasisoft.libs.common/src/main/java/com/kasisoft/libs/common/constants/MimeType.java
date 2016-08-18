@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.constants;
 
+import com.kasisoft.libs.common.annotation.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -7,15 +9,15 @@ import lombok.*;
 import java.util.*;
 
 /**
- * @ks.spec [10-Jun-2016:KASI]    http://de.selfhtml.org/diverses/mimetypen.htm
- * @ks.spec [10-Jun-2016:KASI]    http://www.ietf.org/rfc/rfc4627.txt
- * 
- * Alternate and more official: @ks.spec [10-Jun-2016:KASI]   http://www.iana.org/assignments/media-types
- * 
- * @ks.note [10-Jun-2016:KASI]   Not all types have been used here.
+ * Collection of supported mime types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Specifications({
+  @Specification(value = "http://de.selfhtml.org/diverses/mimetypen.htm", date = "10-Jun-2016"), 
+  @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "10-Jun-2016"), 
+  @Specification(value = "http://www.iana.org/assignments/media-types", date = "10-Jun-2016") 
+})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum MimeType {
 
