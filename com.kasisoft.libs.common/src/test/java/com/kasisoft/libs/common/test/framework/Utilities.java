@@ -10,6 +10,8 @@ import java.util.*;
 
 import java.net.*;
 
+import java.nio.file.*;
+
 import java.io.*;
 
 /**
@@ -43,6 +45,11 @@ public class Utilities {
       fail( ex.getLocalizedMessage(), ex );
       return null;
     }
+  }
+
+  public static Path getTestdataPath( String path ) {
+    File dir = getTestdataDir( path );
+    return dir.toPath();
   }
 
   public static List<File> createFileSystemStructure( File basedir ) {
