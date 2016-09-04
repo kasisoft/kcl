@@ -25,21 +25,34 @@ public class KFrame extends JFrame {
     super();
     init();
   }
-  
+
   /**
    * Initializes this frame using the supplied title.
    * 
    * @param title   The window title. Neither <code>null</code> nor empty.
    */
   public KFrame( String title ) {
+    this( title, false );
+  }
+
+  /**
+   * Initializes this frame using the supplied title.
+   * 
+   * @param title   The window title. Neither <code>null</code> nor empty.
+   * @param defer   <code>true</code> <=> The {@link #init()} method is called immediately. Otherwise the 
+   *                caller is supposed to invoke it.
+   */
+  public KFrame( String title, boolean defer ) {
     super( title );
-    init();
+    if( ! defer ) {
+      init();
+    }
   }
 
   /**
    * Run the initialization of this frame.
    */
-  private void init() {
+  protected void init() {
     
     setSize( 640, 480 );
     
