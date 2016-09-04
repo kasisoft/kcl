@@ -158,7 +158,7 @@ public class IoFunctions {
    */
   public static OutputStream newOutputStream( @NonNull Path path ) {
     try {
-      return Files.newOutputStream( path, StandardOpenOption.CREATE );
+      return Files.newOutputStream( path, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );
     }

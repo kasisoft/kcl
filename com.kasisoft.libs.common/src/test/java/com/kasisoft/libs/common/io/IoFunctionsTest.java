@@ -414,4 +414,22 @@ public class IoFunctionsTest {
     
   }
   
+  @Test(groups="all")
+  public void newOutputStream() throws IOException {
+    
+    Path dest = Files.createTempFile( "sample", ".txt" );
+    try( OutputStream outstream = IoFunctions.newOutputStream( dest ) ) {
+      outstream.write( Encoding.UTF8.encode( "Hello World with some greetings" ) );
+    }
+    String text1 = IoFunctions.readTextFully( dest );
+    assertThat( text1, is( "Hello World with some greetings" ) );
+    
+    try( OutputStream outstream = IoFunctions.newOutputStream( dest ) ) {
+      outstream.write( Encoding.UTF8.encode( "Hello World" ) );
+    }
+    String text2 = IoFunctions.readTextFully( dest );
+    assertThat( text2, is( "Hello World" ) );
+  
+  }
+  
 } /* ENDCLASS */
