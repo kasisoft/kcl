@@ -244,6 +244,26 @@ public class GraphicsFunctions {
       throw FailureCode.IO.newException( ex );
     }
   }
+
+  /**
+   * Creates a scaled image from an original one.
+   * 
+   * @param image        The image that is supposed to be scaled. Not <code>null</code>.
+   * @param newWidth     The new width. Must be bigger than 0.
+   * @param newHeight    The new height. Must be bigger than 0.
+   * 
+   * @return   The scaled image. Not <code>null</code>.
+   */
+  public static BufferedImage scaleImage( @NonNull Image image, int newWidth, int newHeight ) {
+    BufferedImage bufferedImage = null;
+    if( image instanceof BufferedImage ) {
+      bufferedImage = (BufferedImage) image;
+    } else {
+      bufferedImage = new BufferedImage( image.getWidth( null ), image.getHeight( null ), BufferedImage.TYPE_INT_ARGB );
+      bufferedImage.createGraphics().drawImage( image, 0, 0, null );
+    }
+    return scaleImage( bufferedImage, newWidth, newHeight );
+  }
   
   /**
    * Creates a scaled image from an original one.
