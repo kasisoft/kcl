@@ -34,7 +34,7 @@ public abstract class AbstractEventDispatcher<L, E> {
    * 
    * @param newhandler   The new error handler. If <code>null</code> there won't be any further notification.
    */
-  public synchronized void setErrorHandler( BiConsumer<Object,Exception> newhandler ) {
+  public synchronized void setErrorHandler( BiConsumer<Object, Exception> newhandler ) {
     errorhandler = newhandler;
   }
 
