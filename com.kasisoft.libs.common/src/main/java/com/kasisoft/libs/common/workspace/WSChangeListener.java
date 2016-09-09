@@ -12,7 +12,11 @@ import javax.swing.event.*;
  * A basic ChangeListener implementation which stores the settings of a source object to the Workspace.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [08-Sep-2016:KASI]   This type will be removed with version 2.5. Use {@link WorkspacePersistent}
+ *                                  instead.
  */
+@Deprecated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class WSChangeListener<T> implements ChangeListener {
 

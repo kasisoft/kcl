@@ -16,7 +16,11 @@ import java.awt.*;
  * A FocusListener implementation which stores the setting of a widget when it looses it's focus.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [08-Sep-2016:KASI]   This type will be removed with version 2.5. Use {@link WorkspacePersistent}
+ *                                  instead.
  */
+@Deprecated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WSFocusListener<T> extends FocusAdapter implements WSListener<Component> {
 

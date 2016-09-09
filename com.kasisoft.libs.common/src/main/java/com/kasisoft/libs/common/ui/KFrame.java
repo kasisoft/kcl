@@ -2,6 +2,12 @@ package com.kasisoft.libs.common.ui;
 
 import com.kasisoft.libs.common.workspace.*;
 
+import com.kasisoft.libs.common.config.*;
+
+import com.kasisoft.libs.common.xml.adapters.*;
+
+import com.kasisoft.libs.common.text.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -10,20 +16,25 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
+import java.awt.*;
+
 /**
  * A small extension to the {@link JFrame} which provides some helpful convenience functionalities.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KFrame extends JFrame {
+public class KFrame extends JFrame implements WorkspacePersistent {
 
+  String                      property;
+  SimpleProperty<Rectangle>   propertyBounds;
+  Rectangle                   initialBounds;
+  
   /**
    * Initializes this frame.
    */
   public KFrame() {
-    super();
-    init();
+    this( null, false, null );
   }
 
   /**
@@ -32,7 +43,7 @@ public class KFrame extends JFrame {
    * @param title   The window title. Neither <code>null</code> nor empty.
    */
   public KFrame( String title ) {
-    this( title, false );
+    this( title, false, null );
   }
 
   /**
@@ -42,8 +53,13 @@ public class KFrame extends JFrame {
    * @param defer   <code>true</code> <=> The {@link #init()} method is called immediately. Otherwise the 
    *                caller is supposed to invoke it.
    */
-  public KFrame( String title, boolean defer ) {
-    super( title );
+  public KFrame( String title, boolean defer, String wsprop ) {
+    super();
+    setTitle( title );
+    property = StringFunctions.cleanup( wsprop );
+    if( property != null ) {
+      propertyBounds = new SimpleProperty<>( String.format( "%s.bounds", property ), new RectangleAdapter() );
+    }
     if( ! defer ) {
       init();
     }
@@ -60,6 +76,7 @@ public class KFrame extends JFrame {
     components();
     configure();
     arrange();
+    wsConfiguration();
     listeners();
     finish();
    
@@ -71,6 +88,15 @@ public class KFrame extends JFrame {
     );
     addWindowListener( localbehaviour );
     
+  }
+  
+  /**
+   * Load all configuration for {@link WorkspacePersistent} components.
+   */
+  private void wsConfiguration() {
+    Workspace.getInstance().configure( this );
+    // register a shutdown hook, so everything will be persisted while closing
+    Workspace.getInstance().setShutdown( $ -> Workspace.getInstance().persist( KFrame.this ) );
   }
   
   /**
@@ -116,6 +142,36 @@ public class KFrame extends JFrame {
   }
 
   @Override
+  public String getPersistentProperty() {
+    return property;
+  }
+
+  @Override
+  public void loadPersistentSettings() {
+    if( property != null ) {
+      initialBounds = propertyBounds.getValue( Workspace.getInstance().getProperties() );
+    }
+  }
+
+  @Override
+  public void savePersistentSettings() {
+    if( property != null ) {
+      propertyBounds.setValue( Workspace.getInstance().getProperties(), getBounds() );
+    }
+  }
+  
+  @Override
+  public void setVisible( boolean enable ) {
+    if( initialBounds != null ) {
+      setBounds( initialBounds );
+    } else {
+      SwingFunctions.center( this );
+    }
+    super.setVisible( enable );
+  }
+
+  @SuppressWarnings("deprecation")
+  @Override
   public synchronized void addComponentListener( ComponentListener l ) {
     if( l instanceof WSComponentListener ) {
       ((WSComponentListener) l).configure( this );
@@ -142,5 +198,5 @@ public class KFrame extends JFrame {
     }
 
   } /* ENDCLASS */
-  
+
 } /* ENDCLASS */

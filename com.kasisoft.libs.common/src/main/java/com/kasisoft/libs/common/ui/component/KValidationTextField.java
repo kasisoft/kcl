@@ -39,20 +39,40 @@ public class KValidationTextField extends KTextField implements KValidationCompo
    * Sets up this validating text field.
    */
   public KValidationTextField() {
-    super();
-    commonInit();
+    this( null, null, null );
   }
-  
+
   /**
    * Sets up this validating text field with the supplied content.
    * 
    * @param content   The content to display initially. Not <code>null</code>.
    */
   public KValidationTextField( @NonNull String content ) {
-    super( content );
-    commonInit();
+    this( content, null, null );
+  }
+  
+  /**
+   * Sets up this validating text field with the supplied content.
+   * 
+   * @param content   The content to display initially. Not <code>null</code>.
+   * @param wsprop    A key used to store the data behind this field. Maybe <code>null</code>.
+   */
+  public KValidationTextField( @NonNull String content, String wsprop ) {
+    this( content, wsprop, null );
   }
 
+  /**
+   * Sets up this text field with the supplied content.
+   * 
+   * @param content   The content to display initially. Maybe <code>null</code>.
+   * @param wsprop    A key used to store the data behind this field. Maybe <code>null</code>.
+   * @param phColor   The color to be used for the placeholder. Maybe <code>null</code>.
+   */
+  protected KValidationTextField( String content, String wsprop, Color phColor ) {
+    super( content, wsprop, phColor );
+    commonInit();
+  }
+  
   /**
    * Do some common initialisations.
    */

@@ -1,12 +1,18 @@
-package com.kasisoft.libs.common.ui;
+package com.kasisoft.libs.common.ui.component;
 
-import com.kasisoft.libs.common.ui.component.*;
+import com.kasisoft.libs.common.workspace.*;
+
+import com.kasisoft.libs.common.config.*;
+
+import com.kasisoft.libs.common.xml.adapters.*;
 
 import com.kasisoft.libs.common.ui.layout.*;
 
 import com.kasisoft.libs.common.ui.event.*;
 
 import com.kasisoft.libs.common.io.*;
+
+import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;
 
@@ -33,7 +39,7 @@ import java.io.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KPathPanel extends JPanel {
+public class KPathPanel extends JPanel implements WorkspacePersistent {
 
   PathChangeEventDispatcher   dispatcher;
   JButton                     select;
@@ -46,6 +52,10 @@ public class KPathPanel extends JPanel {
   FileFilter                  filefilter;
   boolean                     saving;
   Path                        lastvalid;
+  
+  String                      property;
+  SimpleProperty<Path>        pathProperty;
+  
   
   /**
    * Initialises this panel used to enter a Path for opening.
@@ -82,7 +92,9 @@ public class KPathPanel extends JPanel {
     super( new SmartGridLayout( 1, 2, 3, 3 ) );
     init( wsprop );
     setup();
-    setPath( path );
+    if( path != null ) {
+      setPath( path );
+    }
   }
   
   /**
@@ -98,11 +110,15 @@ public class KPathPanel extends JPanel {
     filefilter     = null;
     errorColor     = Color.red;
     localbehaviour = new LocalBehaviour();
-    filechooser    = new KPathChooser( wsprop );
+    filechooser    = new KPathChooser();
     select         = new JButton( "..." );
-    textfield      = new KTextField( wsprop );
+    textfield      = new KTextField();
     foreground     = textfield.getForeground();
     textfield.setDocument( localbehaviour );
+    property       = StringFunctions.cleanup( wsprop );
+    if( property != null ) {
+      pathProperty = new SimpleProperty<>( property, new NioPathAdapter() );
+    }
   }
 
   /**
@@ -139,7 +155,7 @@ public class KPathPanel extends JPanel {
    * 
    * @param listener   The listener which becomes informed upon changes. Not <code>null</code>.
    */
-  public void addFileChangeListener( @NonNull PathChangeListener listener ) {
+  public void addPathChangeListener( @NonNull PathChangeListener listener ) {
     dispatcher.addListener( listener );
   }
   
@@ -148,7 +164,7 @@ public class KPathPanel extends JPanel {
    * 
    * @param listener   The listener that won't be notified anymore. Not <code>null</code>.
    */
-  public void removeFileChangeListener( @NonNull PathChangeListener listener ) {
+  public void removePathChangeListener( @NonNull PathChangeListener listener ) {
     dispatcher.removeListener( listener );
   }
   
@@ -156,9 +172,11 @@ public class KPathPanel extends JPanel {
     path = newpath;
     if( path != null ) {
       if( Files.isDirectory( path ) ) {
+        filechooser.setCurrentDirectory( path.toFile() );
         filechooser.setSelectedFile( path.toFile() );
       } else {
         filechooser.setSelectedFile( path.getParent().toAbsolutePath().toFile() );
+        filechooser.setSelectedFile( path.toFile() );
       }
     }
   }
@@ -333,6 +351,29 @@ public class KPathPanel extends JPanel {
     }
   }
   
+  @Override
+  public String getPersistentProperty() {
+    return property;
+  }
+  
+
+  @Override
+  public void loadPersistentSettings() {
+    if( property != null ) {
+      Path path = pathProperty.getValue( Workspace.getInstance().getProperties() );
+      if( path != null ) {
+        setPath( path );
+      }
+    }
+  }
+
+  @Override
+  public void savePersistentSettings() {
+    if( property != null ) {
+      pathProperty.setValue( Workspace.getInstance().getProperties(), getPath() );
+    }
+  }
+
   /**
    * Implementation of custom behaviour.
    */
@@ -375,5 +416,5 @@ public class KPathPanel extends JPanel {
     }
 
   } /* ENDCLASS */
-  
+
 } /* ENDCLASS */

@@ -12,6 +12,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.util.*;
 
 import java.net.*;
@@ -78,7 +80,40 @@ public final class Workspace {
       isnew = false;
       loadSettings();
     }
-    shutdown      = new ShutdownWorkspace( this );
+    shutdown = new ShutdownWorkspace( this, null );
+  }
+  
+  public synchronized void setShutdown( Consumer<Void> consumer ) {
+    shutdown.finalizer = consumer;
+  }
+  
+  public synchronized void configure( @NonNull Component component ) {
+    iterate( component, this::loadWorkspacePersistent );
+  }
+
+  public synchronized void persist( @NonNull Component component ) {
+    iterate( component, this::saveWorkspacePersistent );
+  }
+
+  private void loadWorkspacePersistent( WorkspacePersistent object ) {
+    object.loadPersistentSettings();
+  }
+
+  private void saveWorkspacePersistent( WorkspacePersistent object ) {
+    object.savePersistentSettings();
+  }
+
+  private void iterate( Component component, Consumer<WorkspacePersistent> action ) {
+    if( component instanceof WorkspacePersistent ) {
+      action.accept( (WorkspacePersistent) component );
+    }
+    if( component instanceof Container ) {
+      Container   container = (Container) component;
+      Component[] children  = container.getComponents();
+      for( Component child : children ) {
+        iterate( child, action );
+      }
+    }
   }
   
   /**
@@ -187,10 +222,14 @@ public final class Workspace {
   @AllArgsConstructor
   private class ShutdownWorkspace extends Thread {
     
-    private Workspace   workspace;
+    Workspace       workspace;
+    Consumer<Void>  finalizer;
     
     @Override
     public void run() {
+      if( finalizer != null ) {
+        finalizer.accept( null );
+      }
       workspace.saveSettings();
     }
     

@@ -14,7 +14,11 @@ import java.awt.*;
  * A ComponentListener implementation which stores the settings of a Component to the Workspace.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [08-Sep-2016:KASI]   This type will be removed with version 2.5. Use {@link WorkspacePersistent}
+ *                                  instead.
  */
+@Deprecated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WSComponentListener extends ComponentAdapter implements WSListener<Component> {
 
