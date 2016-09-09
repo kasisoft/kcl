@@ -173,11 +173,10 @@ public class KPathPanel extends JPanel implements WorkspacePersistent {
     if( path != null ) {
       if( Files.isDirectory( path ) ) {
         filechooser.setCurrentDirectory( path.toFile() );
-        filechooser.setSelectedFile( path.toFile() );
       } else {
-        filechooser.setSelectedFile( path.getParent().toAbsolutePath().toFile() );
-        filechooser.setSelectedFile( path.toFile() );
+        filechooser.setCurrentDirectory( path.getParent().toAbsolutePath().toFile() );
       }
+      filechooser.setSelectedFile( path.toFile() );
     }
   }
   
