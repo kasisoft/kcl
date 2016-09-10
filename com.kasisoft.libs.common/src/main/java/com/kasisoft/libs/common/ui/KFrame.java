@@ -170,15 +170,6 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     super.setVisible( enable );
   }
 
-  @SuppressWarnings("deprecation")
-  @Override
-  public synchronized void addComponentListener( ComponentListener l ) {
-    if( l instanceof WSComponentListener ) {
-      ((WSComponentListener) l).configure( this );
-    }
-    super.addComponentListener( l );
-  }
-
   private static class LocalBehaviour extends WindowAdapter implements ActionListener {
 
     KFrame   pthis;

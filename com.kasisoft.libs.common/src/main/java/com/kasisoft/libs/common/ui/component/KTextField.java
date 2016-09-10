@@ -14,8 +14,6 @@ import lombok.*;
 
 import javax.swing.*;
 
-import java.awt.event.*;
-
 import java.awt.*;
 
 /**
@@ -80,15 +78,6 @@ public class KTextField extends JTextField implements WorkspacePersistent {
     }
     setColumns(6);
     placeHolderColor = phColor != null ? phColor : DEFAULT_PLACEHOLDER;
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  public synchronized void addFocusListener( FocusListener l ) {
-    if( l instanceof WSListener ) {
-      ((WSListener) l).configure( this );
-    }
-    super.addFocusListener( l );
   }
 
   @Override
