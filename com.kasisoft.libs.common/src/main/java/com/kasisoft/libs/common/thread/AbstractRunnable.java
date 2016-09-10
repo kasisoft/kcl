@@ -15,8 +15,14 @@ public abstract class AbstractRunnable implements Runnable {
   boolean   stopped;
   boolean   completed;
   
+  @Getter @Setter
+  String    name;
+  
   @Override
   public final void run() {
+    if( name != null ) {
+      Thread.currentThread().setName( name );
+    }
     stopped   = false;
     completed = false;
     try {
