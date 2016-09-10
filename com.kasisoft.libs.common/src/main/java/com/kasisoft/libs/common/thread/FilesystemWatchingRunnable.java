@@ -8,12 +8,13 @@ import lombok.experimental.*;
 
 import lombok.*;
 
-import java.util.*;
 import java.util.concurrent.*;
 
-import java.io.*;
+import java.util.*;
 
 import java.nio.file.*;
+
+import java.io.*;
 
 /**
  * This {@link Runnable} implementation allows to watch a directory for filesystem changes recursively.
@@ -27,6 +28,7 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
   
   WatchService    watcher;
   Set<WatchKey>   keys;
+  boolean         recursive;
   
   @Getter
   Path            root;
@@ -40,9 +42,7 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
    * @param dir   The directory that is supposed to be watched. Not <code>null</code>.
    */
   public FilesystemWatchingRunnable( @NonNull File dir ) {
-    keys        = new HashSet<>();
-    root        = Paths.get( dir.toURI() );
-    pollingTime = MIN_POLLINGTIME;
+    commonInit( Paths.get( dir.toURI() ), true );
   }
   
   /**
@@ -51,9 +51,35 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
    * @param dir   The directory that is supposed to be watched. Not <code>null</code>.
    */
   public FilesystemWatchingRunnable( @NonNull Path dir ) {
+    commonInit( dir, true );
+  }
+
+  /**
+   * Prepare to watch the supplied directory;
+   *  
+   * @param dir   The directory that is supposed to be watched. Not <code>null</code>.
+   * @param rec   <code>true</code> <=> Consider subdirectories as well. Otherwise only the directory is watched.
+   */
+  public FilesystemWatchingRunnable( @NonNull File dir, boolean rec ) {
+    commonInit( Paths.get( dir.toURI() ), rec );
+  }
+  
+  /**
+   * Prepare to watch the supplied directory;
+   *  
+   * @param dir   The directory that is supposed to be watched. Not <code>null</code>.
+   * @param rec   <code>true</code> <=> Consider subdirectories as well. Otherwise only the directory is watched.
+   */
+  public FilesystemWatchingRunnable( @NonNull Path dir, boolean rec ) {
+    commonInit( dir, rec );
+  }
+  
+  
+  private void commonInit( Path dir, boolean rec ) {
     keys        = new HashSet<>();
     root        = dir;
     pollingTime = MIN_POLLINGTIME;
+    recursive   = rec;
   }
 
   /**
@@ -74,7 +100,9 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
       
       // register all directories
       register( root );
-      registerChildren( root );
+      if( recursive ) {
+        registerChildren( root );
+      }
       
       startup();
       
@@ -209,6 +237,9 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
    */
   private void processWatchEvents( WatchKey key, List<WatchEvent<?>> events ) {
     for( WatchEvent<?> event : events ) {
+      if( isStopped() ) {
+        break;
+      }
       WatchEvent.Kind<?> kind = event.kind();
       if( kind == OVERFLOW ) {
         // can be ignored (it's always present)
@@ -229,7 +260,9 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
     Path               path     =  ((Path) key.watchable()).resolve( filename );
     WatchEvent.Kind<?> kind     = event.kind();
     if( Files.isDirectory( path ) && (kind == ENTRY_CREATE) ) {
-      register( path );
+      if( recursive ) {
+        register( path );
+      }
     }
     if( isInterestingPath( path, kind == ENTRY_DELETE ) ) {
       processPath( path );

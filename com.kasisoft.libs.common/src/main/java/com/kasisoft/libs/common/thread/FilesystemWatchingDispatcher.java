@@ -60,9 +60,35 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
    * @param dir   The directory which is supposed to be watched. Not <code>null</code>.
    * @param cse   The Consumer instance that will be called through this dispatcher. The implementation
    *              must be thread safe. Not <code>null</code>.
+   * @param rec   <code>true</code> <=> Consider subdirectories as well. Otherwise only the directory is watched.
+   */
+  public FilesystemWatchingDispatcher( @NonNull File dir, @NonNull Consumer<Path> cse, boolean rec ) {
+    super( dir, rec );
+    init( cse  );
+  }
+
+  /**
+   * Initializes this dispatcher to watch a certain directory.
+   * 
+   * @param dir   The directory which is supposed to be watched. Not <code>null</code>.
+   * @param cse   The Consumer instance that will be called through this dispatcher. The implementation
+   *              must be thread safe. Not <code>null</code>.
    */
   public FilesystemWatchingDispatcher( @NonNull Path dir, @NonNull Consumer<Path> cse ) {
     super( dir );
+    init( cse );
+  }
+
+  /**
+   * Initializes this dispatcher to watch a certain directory.
+   * 
+   * @param dir   The directory which is supposed to be watched. Not <code>null</code>.
+   * @param cse   The Consumer instance that will be called through this dispatcher. The implementation
+   *              must be thread safe. Not <code>null</code>.
+   * @param rec   <code>true</code> <=> Consider subdirectories as well. Otherwise only the directory is watched.
+   */
+  public FilesystemWatchingDispatcher( @NonNull Path dir, @NonNull Consumer<Path> cse, boolean rec ) {
+    super( dir, rec );
     init( cse );
   }
 
