@@ -11,6 +11,9 @@ import lombok.experimental.*;
 import lombok.*;
 
 import java.util.*;
+
+import java.nio.file.*;
+
 import java.util.zip.*;
 
 import java.io.*;
@@ -23,8 +26,8 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UnzipRunnable extends AbstractRunnable {
 
-  File      zip;
-  File      destination;
+  Path      zip;
+  Path      destination;
   Integer   buffersize;
 
   /**
@@ -34,7 +37,7 @@ public class UnzipRunnable extends AbstractRunnable {
    * @param destdir   The destination directory. Not <code>null</code>.
    */
   public UnzipRunnable( @NonNull File zipfile, @NonNull File destdir ) {
-    this( zipfile, destdir, null );
+    commonInit( zipfile.toPath(), destdir.toPath(), null );
   }
 
   /**
@@ -46,49 +49,73 @@ public class UnzipRunnable extends AbstractRunnable {
    *                  value.
    */
   public UnzipRunnable( @NonNull File zipfile, @NonNull File destdir, Integer size ) {
-    zip         = zipfile;
-    destination = destdir.getAbsoluteFile();
+    commonInit( zipfile.toPath(), destdir.toPath(), size );
+  }
+
+  /**
+   * Initializes this Thread used to unpack a ZIP file.
+   * 
+   * @param zipfile   The ZIP file to unpack. Not <code>null</code>.
+   * @param destdir   The destination directory. Not <code>null</code>.
+   */
+  public UnzipRunnable( @NonNull Path zipfile, @NonNull Path destdir ) {
+    commonInit( zipfile, destdir, null );
+  }
+
+  /**
+   * Initializes this Thread used to unpack a ZIP file.
+   * 
+   * @param zipfile   The ZIP file to unpack. Not <code>null</code>.
+   * @param destdir   The destination directory. Not <code>null</code>.
+   * @param size      The size for an internally used buffer. A value of <code>null</code> indicates the use of a default 
+   *                  value.
+   */
+  public UnzipRunnable( @NonNull Path zipfile, @NonNull Path destdir, Integer size ) {
+    commonInit( zipfile, destdir, size );
+  }
+  
+  private void commonInit( Path zipfile, Path destdir, Integer size ) {
+    zip         = zipfile.normalize();
+    destination = destdir.normalize();
     buffersize  = size;
   }
   
   @Override
   protected void execute() {
+    Primitive.PByte.withBufferDo( buffersize, this::unpack );
+  }
+  
+  private void unpack( byte[] buffer ) {
     
-    byte[] buffer  = Primitive.PByte.allocate( buffersize );
     ZipFile zipfile = null;
     try {
 
-      zipfile                                 = new ZipFile( zip );
+      zipfile                                 = new ZipFile( zip.toFile() );
       Enumeration<? extends ZipEntry> entries = zipfile.entries();
       while( (! isStopped()) && entries.hasMoreElements() ) {
         
         ZipEntry entry  = entries.nextElement();
         
-        File     file   = new File( destination, entry.getName() );
+        Path     file   = destination.resolve( entry.getName() );
         
         if( entry.isDirectory() ) {
           IoFunctions.mkdirs( file );
           continue;
         }
         
-        File parent = file.getParentFile();
-        if( ! parent.isDirectory() ) {
-          IoFunctions.mkdirs( file.getParentFile() );
+        Path parent = file.getParent();
+        if( ! Files.isDirectory( parent ) ) {
+          IoFunctions.mkdirs( parent );
         }
         
-        try(
-          OutputStream outstream = IoFunctions.newOutputStream( file );
-          InputStream  instream  = zipfile.getInputStream( entry );
-        ) {
-          IoFunctions.copy( instream, outstream, buffer );
+        try( InputStream instream = zipfile.getInputStream( entry ) ) {
+          IoFunctions.forOutputStreamDo( file, $ -> IoFunctions.copy( instream, $, buffer ) );
         }
         
       }
       
-    } catch( IOException  ex ) {
+    } catch( IOException ex ) {
       handleIOFailure( ex );
-    } finally {
-      Primitive.PByte.release( buffer );
     }
     
   }

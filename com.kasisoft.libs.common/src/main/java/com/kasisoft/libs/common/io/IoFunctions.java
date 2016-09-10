@@ -1199,6 +1199,21 @@ public class IoFunctions {
   }
 
   /**
+   * Compresses the supplied directory into a zip file.
+   *
+   * @param zipfile      The destination zipfile. Not <code>null</code>.
+   * @param dir          The directory with the whole content. Not <code>null<code>.
+   * @param buffersize   The size to use for a buffer while compressing. Maybe <code>null</code>.
+   * 
+   * @return   <code>true</code> if the process could successfully complete.
+   */
+  public static boolean zip( @NonNull Path zipfile, @NonNull Path dir, Integer buffersize ) {
+    ZipRunnable runnable = new ZipRunnable( zipfile, dir, buffersize );
+    runnable.run();
+    return runnable.hasCompleted();
+  }
+
+  /**
    * Unpacks a ZIP file into a destination directory.
    * 
    * @param zipfile      The ZIP file. Not <code>null</code>.
@@ -1215,6 +1230,22 @@ public class IoFunctions {
   }
 
   /**
+   * Unpacks a ZIP file into a destination directory.
+   * 
+   * @param zipfile      The ZIP file. Not <code>null</code>.
+   * @param destdir      The destination directory. Not <code>null</code>.
+   * @param buffersize   The buffer size used within the extraction process. A value of <code>null</code>
+   *                     indicates to use the default size.
+   * 
+   * @return   <code>true</code> if the process could successfully complete.
+   */
+  public static boolean unzip( @NonNull Path zipfile, @NonNull Path destdir, Integer buffersize ) {
+    UnzipRunnable runnable = new UnzipRunnable( zipfile, destdir, buffersize );
+    runnable.run();
+    return runnable.hasCompleted();
+  }
+
+  /**
    * GZIPs the supplied file.
    * 
    * @param file   The file which has to be gzipped. Not <code>null</code>.
@@ -1222,10 +1253,26 @@ public class IoFunctions {
    * @return   The gzipped file. <code>null</code> in case of an error.
    */
   public static File gzip( @NonNull File file ) {
-    File gzfile = new File( file.getParentFile(), String.format( "%s.gz", file.getName() ) );
+    Path result = gzip( file.toPath() );
+    if( result != null ) {
+      return result.toFile();
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * GZIPs the supplied file.
+   * 
+   * @param file   The file which has to be gzipped. Not <code>null</code>.
+   * 
+   * @return   The gzipped file. <code>null</code> in case of an error.
+   */
+  public static Path gzip( @NonNull Path file ) {
+    Path gzfile = Paths.get( file.toString() + ".gz" );
     try( 
-      GZIPOutputStream outstream = new GZIPOutputStream( new FileOutputStream( gzfile ) );
-      InputStream      filein    = new FileInputStream( file );
+      GZIPOutputStream outstream = new GZIPOutputStream( newOutputStream( gzfile ) );
+      InputStream      filein    = newInputStream( file );
     ) {
       copy( filein, outstream );
       return gzfile;
@@ -1239,16 +1286,33 @@ public class IoFunctions {
    * 
    * @param gzfile   The gzipped file which must end with <i>.gz</i>. Not <code>null</code>.
    * 
-   * @return   The original file. <code>null</code> in case of an error.
+   * @return   The uncompressed file. <code>null</code> in case of an error.
    */
   public static File ungzip( @NonNull File gzfile ) {
-    if( ! gzfile.getName().endsWith( ".gz" ) ) {
+    Path result = ungzip( gzfile.toPath() );
+    if( result != null ) {
+      return result.toFile();
+    } else {
       return null;
     }
-    File file = new File( gzfile.getParentFile(), gzfile.getName().substring( 0, gzfile.getName().length() - ".gz".length() ) );
+  }
+
+  /**
+   * Ungzips the supplied file.
+   * 
+   * @param gzfile   The gzipped file which must end with <i>.gz</i>. Not <code>null</code>.
+   * 
+   * @return   The uncompressed file. <code>null</code> in case of an error.
+   */
+  public static Path ungzip( @NonNull Path gzfile ) {
+    if( ! gzfile.getFileName().toString().endsWith( ".gz" ) ) {
+      return null;
+    }
+    String fullpath = gzfile.toString();
+    Path   file     = Paths.get( fullpath.substring( 0, fullpath.length() - ".gz".length() ) );
     try( 
-      OutputStream outstream = new FileOutputStream( file );
-      InputStream  filein    = new GZIPInputStream( new FileInputStream( gzfile ) );
+      OutputStream outstream = newOutputStream( file );
+      InputStream  filein    = new GZIPInputStream( newInputStream( gzfile ) );
     ) {
       copy( filein, outstream );
       return file;
@@ -1256,7 +1320,7 @@ public class IoFunctions {
       return null;
     }
   }
-
+  
   private static final String[] ARCHIVE_PREFIXES = new String[] {
     "jar:", "ear:", "zip:", "war:"
   };
@@ -1339,6 +1403,23 @@ public class IoFunctions {
     }
     if( ! dir.isDirectory() ) {
       throw FailureCode.IO.newException( null, null, dir );
+    }
+  }
+
+  /**
+   * Creates a directory.
+   * 
+   * @param dir   The directory that needs to be created. Not <code>null</code> and must be a valid file.
+   * 
+   * @throws FailureException   The supplied directory cannot be assured to be an existing directory.
+   */
+  public static void mkdirs( @NonNull Path dir ) {
+    if( ! Files.isDirectory( dir ) ) {
+      try {
+        Files.createDirectories( dir );
+      } catch( IOException ex ) {
+        throw FailureCode.IO.newException( null, ex, dir );
+      }
     }
   }
 
