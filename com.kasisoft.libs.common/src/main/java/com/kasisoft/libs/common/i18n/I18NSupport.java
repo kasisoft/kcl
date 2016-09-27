@@ -101,13 +101,30 @@ public class I18NSupport {
       }
       
       try( Reader reader = Encoding.UTF8.openReader( url.openStream() ) ) {
-        result.load( reader );
+        Properties props = new Properties();
+        props.load( reader );
+        apply( result, props );
       } catch( IOException ex ) {
         throw FailureCode.IO.newException( ex );
       }
       
     }
     return result;
+  }
+  
+  /**
+   * Applies all new properties to the supplied receiver.
+   * 
+   * @param receiver   The result properties.
+   * @param source     The source properties.
+   */
+  private static void apply( Properties receiver, Properties source ) {
+    Set<String> names = source.stringPropertyNames();
+    for( String name : names ) {
+      if( ! receiver.containsKey( name ) ) {
+        receiver.setProperty( name, source.getProperty( name ) );
+      }
+    }
   }
   
   /**
