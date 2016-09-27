@@ -111,4 +111,28 @@ public class StringFacade implements CharSequenceFacade<String> {
     builder.append( sequence );
   }
 
+  @Override
+  public String firstUp( String sequence ) {
+    if( sequence.length() > 0 ) {
+      if( sequence.length() > 1 ) {
+        sequence = Character.toUpperCase( sequence.charAt(0) ) + sequence.substring(1);
+      } else {
+        sequence = "" + Character.toUpperCase( sequence.charAt(0) );
+      }
+    }
+    return sequence;
+  }
+
+  @Override
+  public String firstDown( String sequence ) {
+    if( sequence.length() > 0 ) {
+      if( sequence.length() > 1 ) {
+        sequence = Character.toLowerCase( sequence.charAt(0) ) + sequence.substring(1);
+      } else {
+        sequence = "" + Character.toLowerCase( sequence.charAt(0) );
+      }
+    }
+    return sequence;
+  }
+
 } /* ENDCLASS */

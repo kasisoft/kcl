@@ -78,4 +78,20 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
     builder.append( sequence );
   }
 
+  @Override
+  public StringBuffer firstUp( StringBuffer sequence ) {
+    if( sequence.length() > 0 ) {
+      sequence.setCharAt( 0, Character.toUpperCase( sequence.charAt(0) ) );
+    }
+    return sequence;
+  }
+
+  @Override
+  public StringBuffer firstDown( StringBuffer sequence ) {
+    if( sequence.length() > 0 ) {
+      sequence.setCharAt( 0, Character.toLowerCase( sequence.charAt(0) ) );
+    }
+    return sequence;
+  }
+
 } /* ENDCLASS */

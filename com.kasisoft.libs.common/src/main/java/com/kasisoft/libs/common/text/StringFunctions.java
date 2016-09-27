@@ -228,6 +228,30 @@ public class StringFunctions {
       return result;
     }
   }
+  
+  /**
+   * Makes the first character upper case if there's one.
+   * 
+   * @param input   The CharSequence where the first character has to be altered. Neither <code>null</code> nor empty.
+   * 
+   * @return   A possibly in-place altered input. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T firstUp( @NonNull T input ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.firstUp( input );
+  }
+  
+  /**
+   * Makes the first character lower case if there's one.
+   * 
+   * @param input   The CharSequence where the first character has to be altered. Neither <code>null</code> nor empty.
+   * 
+   * @return   A possibly in-place altered input. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T firstDown( @NonNull T input ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.firstDown( input );
+  }
 
   /**
    * Makes sure that the supplied String is either <code>null</code> or not empty. The text will be trimmed so there 

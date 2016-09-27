@@ -214,5 +214,25 @@ public interface CharSequenceFacade<T extends CharSequence> {
    */
   void write( T sequence, StringBuilder builder );
   
+  /**
+   * Makes the first character an upper case one.
+   * 
+   * @param sequence   The sequence which has to be altered. Not <code>null</code>.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T firstUp( T sequence );
+  
+  /**
+   * Makes the first character a lower case one.
+   * 
+   * @param sequence   The sequence which has to be altered. Not <code>null</code>.
+   * 
+   * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
+   *           Not <code>null</code>.
+   */
+  T firstDown( T sequence );
+  
 } /* ENDINTERFACE */
 

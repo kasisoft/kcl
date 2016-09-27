@@ -78,4 +78,20 @@ public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
     builder.append( sequence );
   }
 
+  @Override
+  public StringBuilder firstUp( StringBuilder sequence ) {
+    if( sequence.length() > 0 ) {
+      sequence.setCharAt( 0, Character.toUpperCase( sequence.charAt(0) ) );
+    }
+    return sequence;
+  }
+
+  @Override
+  public StringBuilder firstDown( StringBuilder sequence ) {
+    if( sequence.length() > 0 ) {
+      sequence.setCharAt( 0, Character.toLowerCase( sequence.charAt(0) ) );
+    }
+    return sequence;
+  }
+  
 } /* ENDCLASS */

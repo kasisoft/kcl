@@ -80,4 +80,20 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
     builder.append( sequence );
   }
 
+  @Override
+  public StringFBuffer firstUp( StringFBuffer sequence ) {
+    if( sequence.length() > 0 ) {
+      sequence.setCharAt( 0, Character.toUpperCase( sequence.charAt(0) ) );
+    }
+    return sequence;
+  }
+
+  @Override
+  public StringFBuffer firstDown( StringFBuffer sequence ) {
+    if( sequence.length() > 0 ) {
+      sequence.setCharAt( 0, Character.toLowerCase( sequence.charAt(0) ) );
+    }
+    return sequence;
+  }
+
 } /* ENDCLASS */
