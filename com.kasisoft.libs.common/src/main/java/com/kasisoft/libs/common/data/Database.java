@@ -8,6 +8,8 @@ import lombok.*;
 
 import java.util.function.*;
 
+import java.util.*;
+
 import java.sql.*;
 
 /**
@@ -18,38 +20,46 @@ import java.sql.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Database implements Predicate<String> {
 
-  derby       ( "org.apache.derby.jdbc.EmbeddedDriver"          , false , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  h2          ( "org.h2.Driver"                                 , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  hsql        ( "org.hsqldb.jdbcDriver"                         , false , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  mssql       ( "com.microsoft.jdbc.sqlserver.SQLServerDriver"  , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  mysql       ( "com.mysql.cj.jdbc.Driver"                      , true  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  odbc        ( "sun.jdbc.odbc.JdbcOdbcDriver"                  , false , null                                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  oracle      ( "oracle.jdbc.driver.OracleDriver"               , false , "SELECT 1 FROM DUAL"                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  postgresql  ( "org.postgresql.Driver"                         , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" ),
-  sqlite      ( "org.sqlite.JDBC"                               , false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" );
+  derby       ( false , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.apache.derby.jdbc.EmbeddedDriver" ),
+  h2          ( false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.h2.Driver" ),
+  hsql        ( false , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.hsqldb.jdbcDriver" ),
+  mssql       ( false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "com.microsoft.jdbc.sqlserver.SQLServerDriver", "net.sourceforge.jtds.jdbc.Driver" ),
+  mysql       ( true  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "com.mysql.cj.jdbc.Driver" ),
+  odbc        ( false , null                                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "sun.jdbc.odbc.JdbcOdbcDriver" ),
+  oracle      ( false , "SELECT 1 FROM DUAL"                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "oracle.jdbc.driver.OracleDriver" ),
+  postgresql  ( false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.postgresql.Driver" ),
+  sqlite      ( false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.sqlite.JDBC" );
 
   @Getter 
-  String    driver;
+  String        driver;
   
-  boolean   active;
-  String    aliveQuery;
+  List<String>  secondaryDrivers;
+  
+  boolean       active;
+  String        aliveQuery;
   
   @Getter
-  String    listColumnsQuery;
+  String        listColumnsQuery;
   
   @Getter
-  String    selectAllQuery;
+  String        selectAllQuery;
 
   @Getter
-  String    countQuery;
+  String        countQuery;
 
-  Database( String driverclass, boolean spi, String query, String listColumns, String selectAll, String count ) {
-    driver           = driverclass;
+  Database( boolean spi, String query, String listColumns, String selectAll, String count, String ... driverclasses ) {
+    driver           = driverclasses[0];
     active           = spi;
     aliveQuery       = query;
     listColumnsQuery = listColumns;
     selectAllQuery   = selectAll;
     countQuery       = count;
+    if( driverclasses.length > 1 ) {
+      secondaryDrivers = new ArrayList<>( Arrays.asList( driverclasses ) );
+      secondaryDrivers.remove(0);
+    } else {
+      secondaryDrivers = Collections.emptyList();
+    }
   }
 
   /**
@@ -74,13 +84,31 @@ public enum Database implements Predicate<String> {
    */
   private synchronized void activate() throws SQLException {
     if( ! active ) {
-      try {
-        // only required for non v4 jdbc drivers
-        Class.forName( driver );
-        active = true;
-      } catch( ClassNotFoundException ex ) {
-        throw new SQLException( ex );
+      // only required for non v4 jdbc drivers
+      active = activate( driver );
+      if( (! active) && (! secondaryDrivers.isEmpty()) ) {
+        for( String secondary : secondaryDrivers ) {
+          active = activate( secondary );
+          if( active ) {
+            String oldPrimary = driver;
+            driver            = secondary;
+            secondaryDrivers.add( oldPrimary );
+            break;
+          }
+        }
       }
+      if( ! active ) {
+        throw new SQLException();
+      }
+    }
+  }
+  
+  private boolean activate( String classname ) {
+    try {
+      Class.forName( classname );
+      return true; 
+    } catch( ClassNotFoundException ex ) {
+      return false;
     }
   }
 
