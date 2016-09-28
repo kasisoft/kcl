@@ -22,7 +22,7 @@ public class I18NSupportTest {
     assertThat( Messages1.m1, is( "Translation.1" ) );
     assertThat( Messages1.m2, is( "Translation.2" ) );
     assertThat( Messages1.m3, is( "Translation.3" ) );
-    assertThat( Messages1.m4, is( "correct"       ) );
+    assertThat( Messages1.m4, is( "wrong"         ) );
   }
 
   @Test(groups="all")
@@ -31,7 +31,7 @@ public class I18NSupportTest {
     assertThat( Messages2.m1, is( "Translation.1" ) );
     assertThat( Messages2.m2, is( "Translation.2" ) );
     assertThat( Messages2.m3, is( "Translation.3" ) );
-    assertThat( Messages2.m4, is( "correct"       ) );
+    assertThat( Messages2.m4, is( "wrong"         ) );
   }
 
   @Test(groups="all")
@@ -40,7 +40,7 @@ public class I18NSupportTest {
     assertThat( Messages3.m1, is( "Translation.1" ) );
     assertThat( Messages3.m2, is( "Translation.2" ) );
     assertThat( Messages3.m3, is( "Translation.3" ) );
-    assertThat( Messages3.m4, is( "correct"       ) );
+    assertThat( Messages3.m4, is( "wrong"         ) );
   }
 
   @Test(groups="all")
@@ -63,7 +63,7 @@ public class I18NSupportTest {
     assertThat( Messages5.m1, is( "Übersetzung.1" ) );
     assertThat( Messages5.m2, is( "Übersetzung.2" ) );
     assertThat( Messages5.m3, is( "Translation.3" ) );
-    assertThat( Messages5.m4, is( "correct"       ) );
+    assertThat( Messages5.m4, is( "falsch"        ) );
     assertThat( Messages5.m5.format( "Huppi" ), is( "Der Text war 'Huppi'" ) );
     assertThat( Messages5.m6, is( "Gollum"        ) );
     
@@ -74,7 +74,7 @@ public class I18NSupportTest {
     assertThat( Messages5.m1, is( "Translation.1" ) );
     assertThat( Messages5.m2, is( "Translation.2" ) );
     assertThat( Messages5.m3, is( "Translation.3" ) );
-    assertThat( Messages5.m4, is( "correct"       ) );
+    assertThat( Messages5.m4, is( "wrong"         ) );
     assertThat( Messages5.m5.format( "Huppi" ), is( "The us text was 'Huppi'" ) );
     assertThat( Messages5.m6, is( "Gollum"        ) );
 
