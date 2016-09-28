@@ -582,6 +582,55 @@ public class CsvTableModel implements TableModel {
   }
 
   /**
+   * Saves the csv data to the supplied location.
+   * 
+   * @note [28-Sep-2016:KASI]   Doesn't support encoding yet.
+   * 
+   * @param dest   The destination for the csv data. Not <code>null</code>.
+   */
+  public void save( @NonNull Path dest ) {
+    IoFunctions.forOutputStreamDo( dest, this::save );
+  }
+  
+  /**
+   * Saves the csv data to the supplied {@link OutputStream}. 
+   * 
+   * @param dest   The {@link OutputStream} receceiving the csv data. Not <code>null</code>.
+   */
+  public void save( @NonNull OutputStream dest ) {
+    try( PrintWriter writer = new PrintWriter( new OutputStreamWriter( dest, "UTF-8" ) ) ) {
+      writeColumnTitles( writer );
+      for( int i = 0; i < getRowCount(); i++ ) {
+        writeRow( writer, i );
+      }
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException(ex);
+    }
+  }
+
+  private void writeColumnTitles( PrintWriter writer ) {
+    int last = getColumnCount() - 1;
+    for( int i = 0; i < getColumnCount(); i++ ) {
+      writer.append( String.format( "\"%s\"", getColumnName(i) ) );
+      if( i < last ) {
+        writer.append(",");
+      }
+    }
+    writer.append("\n");
+  }
+
+  private void writeRow( PrintWriter writer, int row ) {
+    int last = getColumnCount() - 1;
+    for( int i = 0; i < getColumnCount(); i++ ) {
+      writer.append( String.format( "\"%s\"", getValueAt( row, i ) ) );
+      if( i < last ) {
+        writer.append(",");
+      }
+    }
+    writer.append("\n");
+  }
+  
+  /**
    * Informs all listeners about the changed table.
    */
   private void changeAll() {
