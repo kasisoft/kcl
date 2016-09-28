@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.data;
 
+import com.kasisoft.libs.common.xml.adapters.*;
+
 import com.kasisoft.libs.common.csv.*;
 import com.kasisoft.libs.common.model.*;
 
@@ -29,18 +31,28 @@ public class DbConnection implements AutoCloseable {
   Map<String, List<String>>                 columnNames;
   Map<String, List<Pair<String, Integer>>>  columnTypes;
   Map<String, List<CsvColumn>>              columnSpecs; 
-  
+
   /**
    * Sets up the connection which will be opened right away.
    * 
    * @param configuration   The configuration for the connection. Not <code>null</code>.
    */
   public DbConnection( @NonNull DbConfig configuration ) {
+    this( configuration, true );
+  }
+  
+  /**
+   * Sets up the connection which will be opened right away.
+   * 
+   * @param configuration   The configuration for the connection. Not <code>null</code>.
+   * @param cache           <code>true</code> <=> Use a primitive internal cache (no eviction policies here).
+   */
+  public DbConnection( @NonNull DbConfig configuration, boolean cache ) {
     config          = configuration;
     tableNames      = new ArrayList<>();
-    columnNames     = new HashMap<>();
-    columnTypes     = new HashMap<>();
-    columnSpecs     = new HashMap<>();
+    columnNames     = cache ? new HashMap<>() : new Uncacheable<>();
+    columnTypes     = cache ? new HashMap<>() : new Uncacheable<>();
+    columnSpecs     = cache ? new HashMap<>() : new Uncacheable<>();
     ehException     = this::errorHandler;
     connection      = null;
     queries         = new HashMap<>();
@@ -223,6 +235,64 @@ public class DbConnection implements AutoCloseable {
     return result;
   }
 
+  private <T> CsvColumn<T> newCsvColumn( String name, Function<String, T> adapter ) {
+    CsvColumn<T> result = new CsvColumn<>();
+    result.setTitle( name );
+    result.setAdapter( adapter );
+    return result;
+  }
+  
+  /**
+   * Creates a CsvTableModel instance providing the metadata description of the supplied table.
+   * 
+   * @param table   The table which column names shall be returned. Neither <code>null</code> nor empty.
+   * 
+   * @return  The CsvTableModel instance. Not <code>null</code>.
+   */
+  public CsvTableModel createCsvMetaData( @NonNull String table ) {
+
+    List<CsvColumn> specs = Arrays.asList(
+      newCsvColumn( "name"        , new StringAdapter() ),
+      newCsvColumn( "label"       , new StringAdapter() ),
+      newCsvColumn( "schema"      , new StringAdapter() ),
+      newCsvColumn( "catalog"     , new StringAdapter() ),
+      newCsvColumn( "class"       , new StringAdapter() ),
+      newCsvColumn( "type"        , new StringAdapter() ),
+      newCsvColumn( "typename"    , new StringAdapter() ),
+      newCsvColumn( "displaysize" , new StringAdapter() ),
+      newCsvColumn( "precision"   , new StringAdapter() ),
+      newCsvColumn( "scale"       , new StringAdapter() )
+    );
+
+    CsvTableModel result = new CsvTableModel( CsvOptions.builder().columns( specs ).titleRow().build() );
+    String        name   = canonicalTableName( table );
+    if( name != null ) {
+      try {
+        PreparedStatement query     = getQuery( config.getDb().getListColumnsQuery(), name );
+        ResultSet         resultset = query.executeQuery();
+        ResultSetMetaData metadata  = resultset.getMetaData();
+        for( int i = 1; i <= metadata.getColumnCount(); i++ ) {
+          result.addRow( new Object[] {
+            metadata.getColumnName(i),
+            metadata.getColumnLabel(i),
+            metadata.getSchemaName(i),
+            metadata.getCatalogName(i),
+            metadata.getColumnClassName(i),
+            metadata.getColumnType(i),
+            metadata.getColumnTypeName(i),
+            metadata.getColumnDisplaySize(i),
+            metadata.getPrecision(i),
+            metadata.getScale(i)
+          });
+        }
+      } catch( Exception ex ) {
+        // if the handler doesn't abort we're returning an empty list
+        ehException.accept( ex );
+      }
+    }
+    return result;
+  }
+
   /**
    * Creates a CsvTableModel instance providing the data of the supplied table.
    * 
@@ -375,5 +445,19 @@ public class DbConnection implements AutoCloseable {
       connection = null;
     }
   }
+  
+  private static class Uncacheable<K, V> extends HashMap<K, V> {
+
+    @Override
+    public boolean containsKey( Object key ) {
+      return false;
+    }
+
+    @Override
+    public V put( K key, V value ) {
+      return super.get( key );
+    }
+    
+  } /* ENDCLASS */
 
 } /* ENDCLASS */
