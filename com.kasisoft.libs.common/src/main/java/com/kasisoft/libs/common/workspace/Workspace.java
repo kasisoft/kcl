@@ -84,7 +84,9 @@ public final class Workspace {
   }
   
   public synchronized void setShutdown( Consumer<Void> consumer ) {
-    shutdown.finalizer = consumer;
+    if( shutdown != null ) {
+      shutdown.finalizer = consumer;
+    }
   }
   
   public synchronized void configure( @NonNull Component component ) {
