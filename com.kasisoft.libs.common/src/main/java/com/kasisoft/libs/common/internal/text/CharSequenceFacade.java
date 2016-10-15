@@ -37,7 +37,7 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * 
    * @return   The index of the first occurrence or <code>-1</code> if none was found.
    */
-  int indexOf( T sequence, String str, int first );
+  int indexOf( T sequence, CharSequence str, int first );
 
   /**
    * Returns the last occurrence of the supplied character starting by a specified index.
@@ -59,7 +59,7 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * 
    * @return   The index of the first occurrence or <code>-1</code> if none was found.
    */
-  int lastIndexOf( T sequence, String str, int first );
+  int lastIndexOf( T sequence, CharSequence str, int first );
   
   /**
    * Returns a part of the supplied object.
@@ -192,7 +192,7 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   The supplied sequence if possible. Otherwise it must be a correspondingly altered copy. 
    *           Not <code>null</code>.
    */
-  T insert( T sequence, int offset, String value );
+  T insert( T sequence, int offset, CharSequence value );
 
   /**
    * Inserts a String into the supplied sequence.
@@ -243,13 +243,7 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   <code>true</code> <=> The supplied sequence starts with the test literal.
    */
   default boolean startsWith( T sequence, CharSequence totest ) {
-    boolean result = sequence.length() >= totest.length();
-    for( int i = 0; result && (i < totest.length()); i++ ) {
-      char current  = sequence . charAt(i);
-      char expected = totest   . charAt(i);
-      result        = current == expected;
-    }
-    return result;
+    return containsAt( sequence, 0, totest );
   }
 
   /**
@@ -261,11 +255,23 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   <code>true</code> <=> The supplied sequence ends with the test literal.
    */
   default boolean endsWith( T sequence, CharSequence totest ) {
-    boolean result = sequence.length() >= totest.length();
-    int     start  = sequence.length() - totest.length();
+    return containsAt( sequence, sequence.length() - totest.length(), totest );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence contains a string at a certain location.
+   * 
+   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
+   * @param idx        The index where to test from.
+   * @param totest     The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence contains the test literal at the specified location.
+   */
+  default boolean containsAt( T sequence, int idx, CharSequence totest ) {
+    boolean result = (idx >= 0) && (sequence.length() - idx) >= totest.length();
     for( int i = 0; result && (i < totest.length()); i++ ) {
-      char current  = sequence . charAt( start + i );
-      char expected = totest   . charAt( i         );
+      char current  = sequence . charAt(i + idx);
+      char expected = totest   . charAt(i);
       result        = current == expected;
     }
     return result;
@@ -280,13 +286,7 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   <code>true</code> <=> The supplied sequence starts with the test literal.
    */
   default boolean startsWithCI( T sequence, CharSequence totest ) {
-    boolean result = sequence.length() >= totest.length();
-    for( int i = 0; result && (i < totest.length()); i++ ) {
-      char current  = Character.toLowerCase( sequence . charAt(i) );
-      char expected = Character.toLowerCase( totest   . charAt(i) );
-      result        = current == expected;
-    }
-    return result;
+    return containsAtCI( sequence, 0, totest );
   }
 
   /**
@@ -298,11 +298,24 @@ public interface CharSequenceFacade<T extends CharSequence> {
    * @return   <code>true</code> <=> The supplied sequence ends with the test literal.
    */
   default boolean endsWithCI( T sequence, CharSequence totest ) {
-    boolean result = sequence.length() >= totest.length();
-    int     start  = sequence.length() - totest.length();
+    return containsAtCI( sequence, sequence.length() - totest.length(), totest );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence contains a string at a certain location while ignoring
+   * the character casing.
+   * 
+   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
+   * @param idx        The index where to test from.
+   * @param totest     The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence contains the test literal at the specified location.
+   */
+  default boolean containsAtCI( T sequence, int idx, CharSequence totest ) {
+    boolean result = (idx >= 0) && (sequence.length() - idx) >= totest.length();
     for( int i = 0; result && (i < totest.length()); i++ ) {
-      char current  = Character.toLowerCase( sequence . charAt( start + i ) );
-      char expected = Character.toLowerCase( totest   . charAt( i         ) );
+      char current  = Character.toLowerCase( sequence . charAt( i + idx ) );
+      char expected = Character.toLowerCase( totest   . charAt(i) );
       result        = current == expected;
     }
     return result;

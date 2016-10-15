@@ -819,5 +819,86 @@ public class StringFunctions {
     CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     return facade.camelCase( input );
   }
-  
+
+  /**
+   * Returns <code>true</code> if the supplied sequence starts with the test string.
+   * 
+   * @param input   The sequence which has to be tested. Not <code>null</code>.
+   * @param test    The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence starts with the test literal.
+   */
+  public static <T extends CharSequence> boolean startsWith( @NonNull T input, CharSequence test ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.startsWith( input, test );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence starts with the test string indepently of the character case.
+   * 
+   * @param input   The sequence which has to be tested. Not <code>null</code>.
+   * @param test    The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence starts with the test literal.
+   */
+  public static <T extends CharSequence> boolean startsWithCI( @NonNull T input, CharSequence test ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.startsWithCI( input, test );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence ends with the test string.
+   * 
+   * @param input   The sequence which has to be tested. Not <code>null</code>.
+   * @param test    The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence ends with the test literal.
+   */
+  public static <T extends CharSequence> boolean endsWith( @NonNull T input, CharSequence test ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.endsWith( input, test );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence ends with the test string indepently of the character case.
+   * 
+   * @param input   The sequence which has to be tested. Not <code>null</code>.
+   * @param test    The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence ends with the test literal.
+   */
+  public static <T extends CharSequence> boolean endsWithCI( @NonNull T input, CharSequence test ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.endsWithCI( input, test );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence contains a string at a certain location.
+   * 
+   * @param input   The sequence which has to be tested. Not <code>null</code>.
+   * @param idx     The index where to test from.
+   * @param test    The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence contains the test literal at the specified location.
+   */
+  public static <T extends CharSequence> boolean containsAt( @NonNull T input, int idx, CharSequence test ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.containsAt( input, idx, test );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence contains a string at a certain location while ignoring
+   * character casing.
+   * 
+   * @param input   The sequence which has to be tested. Not <code>null</code>.
+   * @param idx     The index where to test from.
+   * @param test    The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence contains the test literal at the specified location.
+   */
+  public static <T extends CharSequence> boolean containsAtCI( @NonNull T input, int idx, CharSequence test ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.containsAtCI( input, idx, test );
+  }
+
 } /* ENDCLASS */

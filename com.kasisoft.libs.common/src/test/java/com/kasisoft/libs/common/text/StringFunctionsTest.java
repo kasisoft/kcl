@@ -633,4 +633,58 @@ public class StringFunctionsTest {
     assertThat( StringFunctions.trim( current, chars, left ).toString(), is( expected ) );
   }
   
+  @Test(groups="all")
+  public void startsWith() {
+    StringBuilder builder = new StringBuilder( "my little pony" );
+    assertTrue( StringFunctions.startsWith( builder, "my little pony" ) );
+    assertTrue( StringFunctions.startsWith( builder, "" ) );
+    assertTrue( StringFunctions.startsWith( builder, "my little" ) );
+    assertFalse( StringFunctions.startsWith( builder, "bobo" ) );
+  }
+
+  @Test(groups="all")
+  public void endsWith() {
+    StringBuilder builder = new StringBuilder( "my little pony" );
+    assertTrue( StringFunctions.endsWith( builder, "my little pony" ) );
+    assertTrue( StringFunctions.endsWith( builder, "" ) );
+    assertTrue( StringFunctions.endsWith( builder, "little pony" ) );
+    assertFalse( StringFunctions.endsWith( builder, "bobo" ) );
+  }
+
+  @Test(groups="all")
+  public void startsWithCI() {
+    StringBuilder builder = new StringBuilder( "my little pony" );
+    assertTrue( StringFunctions.startsWithCI( builder, "my little pony" ) );
+    assertTrue( StringFunctions.startsWithCI( builder, "" ) );
+    assertTrue( StringFunctions.startsWithCI( builder, "my LITtle" ) );
+    assertFalse( StringFunctions.startsWithCI( builder, "BObo" ) );
+  }
+
+  @Test(groups="all")
+  public void endsWithCI() {
+    StringBuilder builder = new StringBuilder( "my little pony" );
+    assertTrue( StringFunctions.endsWithCI( builder, "my little pony" ) );
+    assertTrue( StringFunctions.endsWithCI( builder, "" ) );
+    assertTrue( StringFunctions.endsWithCI( builder, "little PONY" ) );
+    assertFalse( StringFunctions.endsWithCI( builder, "boBO" ) );
+  }
+
+  @Test(groups="all")
+  public void containsAt() {
+    StringBuilder builder = new StringBuilder( "my little pony" );
+    assertTrue( StringFunctions.containsAt( builder, 0, "my little pony" ) );
+    assertTrue( StringFunctions.containsAt( builder, 5, "" ) );
+    assertTrue( StringFunctions.containsAt( builder, 3, "little pony" ) );
+    assertFalse( StringFunctions.containsAt( builder, 0, "bobO" ) );
+  }
+
+  @Test(groups="all")
+  public void containsAtCI() {
+    StringBuilder builder = new StringBuilder( "my little pony" );
+    assertTrue( StringFunctions.containsAtCI( builder, 0, "my liTTle pony" ) );
+    assertTrue( StringFunctions.containsAtCI( builder, 5, "" ) );
+    assertTrue( StringFunctions.containsAtCI( builder, 3, "littLE pony" ) );
+    assertFalse( StringFunctions.containsAtCI( builder, 0, "bobO" ) );
+  }
+
 } /* ENDCLASS */

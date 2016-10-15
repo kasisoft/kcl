@@ -13,8 +13,8 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
   }
 
   @Override
-  public int indexOf( StringBuffer sequence, String str, int first ) {
-    return sequence.indexOf( str, first );
+  public int indexOf( StringBuffer sequence, CharSequence str, int first ) {
+    return sequence.indexOf( str.toString(), first );
   }
 
   @Override
@@ -23,8 +23,8 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
   }
 
   @Override
-  public int lastIndexOf( StringBuffer sequence, String str, int first ) {
-    return sequence.lastIndexOf( str, first );
+  public int lastIndexOf( StringBuffer sequence, CharSequence str, int first ) {
+    return sequence.lastIndexOf( str.toString(), first );
   }
 
   @Override
@@ -62,7 +62,7 @@ public class StringBufferFacade implements CharSequenceFacade<StringBuffer> {
   }
 
   @Override
-  public StringBuffer insert( StringBuffer sequence, int offset, String value ) {
+  public StringBuffer insert( StringBuffer sequence, int offset, CharSequence value ) {
     sequence.insert( offset, value );
     return sequence;
   }

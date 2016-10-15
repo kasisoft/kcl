@@ -15,8 +15,8 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
   }
 
   @Override
-  public int indexOf( StringFBuffer sequence, String str, int first ) {
-    return sequence.indexOf( str, first );
+  public int indexOf( StringFBuffer sequence, CharSequence str, int first ) {
+    return sequence.indexOf( str.toString(), first );
   }
 
   @Override
@@ -25,8 +25,8 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
   }
 
   @Override
-  public int lastIndexOf( StringFBuffer sequence, String str, int first ) {
-    return sequence.lastIndexOf( str, first );
+  public int lastIndexOf( StringFBuffer sequence, CharSequence str, int first ) {
+    return sequence.lastIndexOf( str.toString(), first );
   }
 
   @Override
@@ -64,7 +64,7 @@ public class StringFBufferFacade implements CharSequenceFacade<StringFBuffer> {
   }
 
   @Override
-  public StringFBuffer insert( StringFBuffer sequence, int offset, String value ) {
+  public StringFBuffer insert( StringFBuffer sequence, int offset, CharSequence value ) {
     sequence.insert( offset, value );
     return sequence;
   }

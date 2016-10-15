@@ -13,8 +13,8 @@ public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
   }
 
   @Override
-  public int indexOf( StringBuilder sequence, String str, int first ) {
-    return sequence.indexOf( str, first );
+  public int indexOf( StringBuilder sequence, CharSequence str, int first ) {
+    return sequence.indexOf( str.toString(), first );
   }
 
   @Override
@@ -23,8 +23,8 @@ public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
   }
 
   @Override
-  public int lastIndexOf( StringBuilder sequence, String str, int first ) {
-    return sequence.lastIndexOf( str, first );
+  public int lastIndexOf( StringBuilder sequence, CharSequence str, int first ) {
+    return sequence.lastIndexOf( str.toString(), first );
   }
 
   @Override
@@ -62,7 +62,7 @@ public class StringBuilderFacade implements CharSequenceFacade<StringBuilder> {
   }
 
   @Override
-  public StringBuilder insert( StringBuilder sequence, int offset, String value ) {
+  public StringBuilder insert( StringBuilder sequence, int offset, CharSequence value ) {
     sequence.insert( offset, value );
     return sequence;
   }
