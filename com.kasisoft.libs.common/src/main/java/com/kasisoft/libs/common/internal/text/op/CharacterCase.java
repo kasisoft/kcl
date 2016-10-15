@@ -9,7 +9,7 @@ import lombok.*;
 import java.util.function.*;
 
 /**
- * This function performs a trimming operation. This operation prefers an in-place operation.
+ * This function performs a change for the character cases.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
