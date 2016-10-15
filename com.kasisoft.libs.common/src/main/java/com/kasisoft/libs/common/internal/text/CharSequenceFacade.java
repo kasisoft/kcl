@@ -234,5 +234,102 @@ public interface CharSequenceFacade<T extends CharSequence> {
    */
   T firstDown( T sequence );
   
+  /**
+   * Returns <code>true</code> if the supplied sequence starts with the test string.
+   * 
+   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
+   * @param totest     The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence starts with the test literal.
+   */
+  default boolean startsWith( T sequence, CharSequence totest ) {
+    boolean result = sequence.length() >= totest.length();
+    for( int i = 0; result && (i < totest.length()); i++ ) {
+      char current  = sequence . charAt(i);
+      char expected = totest   . charAt(i);
+      result        = current == expected;
+    }
+    return result;
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence ends with the test string.
+   * 
+   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
+   * @param totest     The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence ends with the test literal.
+   */
+  default boolean endsWith( T sequence, CharSequence totest ) {
+    boolean result = sequence.length() >= totest.length();
+    int     start  = sequence.length() - totest.length();
+    for( int i = 0; result && (i < totest.length()); i++ ) {
+      char current  = sequence . charAt( start + i );
+      char expected = totest   . charAt( i         );
+      result        = current == expected;
+    }
+    return result;
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence starts with the test string ignoring case sensitivity.
+   * 
+   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
+   * @param totest     The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence starts with the test literal.
+   */
+  default boolean startsWithCI( T sequence, CharSequence totest ) {
+    boolean result = sequence.length() >= totest.length();
+    for( int i = 0; result && (i < totest.length()); i++ ) {
+      char current  = Character.toLowerCase( sequence . charAt(i) );
+      char expected = Character.toLowerCase( totest   . charAt(i) );
+      result        = current == expected;
+    }
+    return result;
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied sequence ends with the test string ignoring case sensitivity.
+   * 
+   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
+   * @param totest     The character sequence to be used for testing. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied sequence ends with the test literal.
+   */
+  default boolean endsWithCI( T sequence, CharSequence totest ) {
+    boolean result = sequence.length() >= totest.length();
+    int     start  = sequence.length() - totest.length();
+    for( int i = 0; result && (i < totest.length()); i++ ) {
+      char current  = Character.toLowerCase( sequence . charAt( start + i ) );
+      char expected = Character.toLowerCase( totest   . charAt( i         ) );
+      result        = current == expected;
+    }
+    return result;
+  }
+
+  /**
+   * Creates a camelcase representation of the supplied sequence.
+   * 
+   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
+   * 
+   * @return   The camelcase representation. Not <code>null</code>
+   */
+  default T camelCase( T sequence ) {
+    T result = sequence;
+    for( int i = result.length() - 2, j = result.length() - 1; i >= 0; i--, j-- ) {
+      char current = result.charAt(i);
+      char next    = result.charAt(j);
+      if( ! Character.isLetter( current ) ) {
+        result = setCharAt( result, j, Character.toUpperCase( next ) );
+        result = deleteCharAt( result, i );
+      }
+    }
+    if( result.length() > 0 ) {
+      result = firstDown( result );
+    }
+    return result;
+  }
+
 } /* ENDINTERFACE */
 

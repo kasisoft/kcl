@@ -97,6 +97,11 @@ public class TextProcessingFactoryImpl<T extends CharSequence> implements TextPr
   }
 
   @Override
+  public Function<T, T> camelCase() {
+    return Functions.nullSafe( new CamelCase( facade ) );
+  }
+
+  @Override
   public Function<T, T> trim() {
     return trim( null );
   }

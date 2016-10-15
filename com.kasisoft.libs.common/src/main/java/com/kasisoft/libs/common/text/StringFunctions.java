@@ -807,4 +807,17 @@ public class StringFunctions {
     return result;
   }
 
+  /**
+   * Transforms the supplied value into a camelcase representation.
+   * 
+   * @param input   The object which has to be changed. Not <code>null</code>.
+   *                      
+   * @return   The supplied sequence if possible. The content is altered to a camelcase variety. 
+   *           Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T camelCase( @NonNull T input ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return facade.camelCase( input );
+  }
+  
 } /* ENDCLASS */

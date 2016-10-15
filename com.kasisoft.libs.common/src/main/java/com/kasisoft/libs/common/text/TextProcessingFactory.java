@@ -302,5 +302,12 @@ public interface TextProcessingFactory<T extends CharSequence> {
    * @return   The operation. Not <code>null</code>.
    */
   Function<T, T> xmlDecoder( boolean lineEndings );
-  
+
+  /**
+   * Returns an operation that creates a camelcase representation. 
+   * 
+   * @return   An operation that creates a camelcase representation. Not <code>null</code>.
+   */
+  Function<T, T> camelCase();
+    
 } /* ENDINTERFACE */

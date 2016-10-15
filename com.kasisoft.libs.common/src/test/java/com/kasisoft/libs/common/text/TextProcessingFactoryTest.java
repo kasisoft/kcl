@@ -29,6 +29,10 @@ public class TextProcessingFactoryTest {
     + "  This is my text.\t\r"
     ;
 
+  private static final String CAMELCASE_TEXT = ""
+    + " fredo-MarchZ_dk"
+    ;
+
   private static final String XML_TEXT = ""
     + "<tag>This is my &#252; and ö text</tag>"
     ;
@@ -70,6 +74,17 @@ public class TextProcessingFactoryTest {
     };
   }
 
+  @DataProvider(name="createCamelCaseContent")
+  public Object[][] createCamelCaseContent() {
+    return new Object[][] {
+      { TextProcessingFactory.STRING         , CAMELCASE_TEXT , (Function<String, String>)         $ -> $                     },
+      { TextProcessingFactory.STRINGBUFFER   , CAMELCASE_TEXT , (Function<String, StringBuffer>)   $ -> new StringBuffer($)   },
+      { TextProcessingFactory.STRINGBUILDER  , CAMELCASE_TEXT , (Function<String, StringBuilder>)  $ -> new StringBuilder($)  },
+      { TextProcessingFactory.STRINGFBUFFER  , CAMELCASE_TEXT , (Function<String, StringFBuffer>)  $ -> new StringFBuffer($)  },
+      { TextProcessingFactory.STRINGFBUILDER , CAMELCASE_TEXT , (Function<String, StringFBuilder>) $ -> new StringFBuilder($) }
+    };
+  }
+  
   @Test(dataProvider="createTextProcessingFactories", groups="all")
   public <T extends CharSequence> void replaceByKeyValue( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
     
@@ -380,6 +395,15 @@ public class TextProcessingFactoryTest {
     T text4    = supplier.apply( text3.toString() );
     T outcome4 = factory.xmlDecoder( true ).apply( text4 );
     assertThat( outcome4.toString(), is( text ) );
+
+  }
+
+  @Test(dataProvider="createCamelCaseContent", groups="all")
+  public <T extends CharSequence> void camelCase( TextProcessingFactory<T> factory, String text, Function<String, T> supplier ) {
+
+    T text1    = supplier.apply( text );
+    T outcome1 = factory.camelCase().apply( text1 );
+    assertThat( outcome1.toString(), is( "fredoMarchZDk" ) );
 
   }
 

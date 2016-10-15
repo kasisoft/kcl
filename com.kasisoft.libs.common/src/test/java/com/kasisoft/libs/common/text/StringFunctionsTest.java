@@ -247,6 +247,17 @@ public class StringFunctionsTest {
   }
 
   @Test(groups="all")
+  public void camelCase() {
+    assertThat( StringFunctions.camelCase( "" ), is( "" ) );
+    assertThat( StringFunctions.camelCase( "simple" ), is( "simple" ) );
+    assertThat( StringFunctions.camelCase( "simpleTon" ), is( "simpleTon" ) );
+    assertThat( StringFunctions.camelCase( "simple_ton" ), is( "simpleTon" ) );
+    assertThat( StringFunctions.camelCase( "simple__ton" ), is( "simpleTon" ) );
+    assertThat( StringFunctions.camelCase( "simple ton" ), is( "simpleTon" ) );
+    assertThat( StringFunctions.camelCase( "Simple-ton" ), is( "simpleTon" ) );
+  }
+  
+  @Test(groups="all")
   public void concatenate() {
 
     // String array
