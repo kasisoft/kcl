@@ -687,4 +687,42 @@ public class StringFunctionsTest {
     assertFalse( StringFunctions.containsAtCI( builder, 0, "bobO" ) );
   }
 
+  @DataProvider(name="createRegionReplace")
+  private Object[][] createRegionReplace() {
+    return new Object[][] {
+      { "this is /* my text */ without a section /* dodo */", "", false, "this is  without a section " },
+      { "this is /* /* my text */ without a section /* dodo */", "", false, "this is /*  without a section " },
+      { "this is /* /* my text */ without a section /* dodo */ */", "", false, "this is /*  without a section  */" },
+      { "this is /* /* my text */ without a section /* dodo */ */", "", true, "this is " },
+      { "this is /* my text */ without a section /* dodo */", "bibo", false, "this is bibo without a section bibo" },
+      { "this is /* /* my text */ without a section /* dodo */", "bibo", false, "this is /* bibo without a section bibo" },
+      { "this is /* /* my text */ without a section /* dodo */ */", "bibo", false, "this is /* bibo without a section bibo */" },
+      { "this is /* /* my text */ without a section /* dodo */ */", "bibo", true, "this is bibo" },
+    };
+  }
+  
+  @Test(groups="all", dataProvider="createRegionReplace")
+  public void regionReplace( String text, String replacement, boolean nested, String expected ) {
+    assertThat( StringFunctions.replaceRegions( text, "/*", "*/", replacement, nested ), is( expected ) );
+  }
+
+  @DataProvider(name="createRegionReplaceSimple")
+  private Object[][] createRegionReplaceSimple() {
+    return new Object[][] {
+      { "this is // my text // without a section // dodo //", "", false, "this is  without a section " },
+      { "this is // // my text // without a section // dodo //", "", false, "this is  my text  dodo //" },
+      { "this is // // my text // without a section // dodo // //", "", false, "this is  my text  dodo " },
+      { "this is // // my text // without a section // dodo // //", "", true, "this is  my text  dodo " },
+      { "this is // my text // without a section // dodo //", "bibo", false, "this is bibo without a section bibo" },
+      { "this is // // my text // without a section // dodo //", "bibo", false, "this is bibo my text bibo dodo //" },
+      { "this is // // my text // without a section // dodo // //", "bibo", false, "this is bibo my text bibo dodo bibo" },
+      { "this is // // my text // without a section // dodo // //", "bibo", true, "this is bibo my text bibo dodo bibo" },
+    };
+  }
+  
+  @Test(groups="all", dataProvider="createRegionReplaceSimple")
+  public void regionReplaceSimple( String text, String replacement, boolean nested, String expected ) {
+    assertThat( StringFunctions.replaceRegions( text, "//", replacement, nested ), is( expected ) );
+  }
+
 } /* ENDCLASS */

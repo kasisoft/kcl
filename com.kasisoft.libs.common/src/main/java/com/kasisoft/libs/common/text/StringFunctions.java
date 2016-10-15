@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.text;
 
 import com.kasisoft.libs.common.internal.text.*;
+import com.kasisoft.libs.common.internal.text.op.*;
 
 import com.kasisoft.libs.common.constants.*;
 
@@ -899,6 +900,36 @@ public class StringFunctions {
   public static <T extends CharSequence> boolean containsAtCI( @NonNull T input, int idx, CharSequence test ) {
     CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
     return facade.containsAtCI( input, idx, test );
+  }
+
+  /**
+   * Replaces regions within some text.
+   * 
+   * @param input         The text which might be altered. Not <code>null</code>.
+   * @param sep           The opening/closing of a region (f.e. "(*"). Not <code>null</code>.
+   * @param replacement   The replacement value. Not <code>null</code>.
+   * @param nested        <code>true</code> <=> Repeat the replacement process to replace nested elements as well.
+   
+   * @return   The altered text. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T replaceRegions( @NonNull T input, CharSequence sep, CharSequence replacement, boolean nested ) {
+    return replaceRegions( input, sep, sep, replacement, nested );
+  }
+  
+  /**
+   * Replaces regions within some text.
+   * 
+   * @param input         The text which might be altered. Not <code>null</code>.
+   * @param open          The opening of a region (f.e. "(*"). Not <code>null</code>.
+   * @param close         The closing of a region (f.e. "*)"). Not <code>null</code>.
+   * @param replacement   The replacement value. Not <code>null</code>.
+   * @param nested        <code>true</code> <=> Repeat the replacement process to replace nested elements as well.
+   
+   * @return   The altered text. Not <code>null</code>.
+   */
+  public static <T extends CharSequence> T replaceRegions( @NonNull T input, @NonNull CharSequence open, @NonNull CharSequence close, @NonNull CharSequence replacement, boolean nested ) {
+    CharSequenceFacade<T> facade = CharSequenceFacades.getFacade( input );
+    return new RegionReplacer<>( facade, open, close, replacement, nested ).apply( input );
   }
 
 } /* ENDCLASS */
