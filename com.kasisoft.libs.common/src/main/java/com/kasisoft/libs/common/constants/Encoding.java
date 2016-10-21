@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.annotation.*;

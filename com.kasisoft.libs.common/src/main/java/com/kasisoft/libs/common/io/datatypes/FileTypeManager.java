@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.io.datatypes;
 
-import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.spi.*;
 
 import com.kasisoft.libs.common.io.*;

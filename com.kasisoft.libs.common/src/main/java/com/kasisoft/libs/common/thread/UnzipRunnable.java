@@ -87,10 +87,8 @@ public class UnzipRunnable extends AbstractRunnable {
   
   private void unpack( byte[] buffer ) {
     
-    ZipFile zipfile = null;
-    try {
+    try( ZipFile zipfile = new ZipFile( zip.toFile() ) ) {
 
-      zipfile                                 = new ZipFile( zip.toFile() );
       Enumeration<? extends ZipEntry> entries = zipfile.entries();
       while( (! isStopped()) && entries.hasMoreElements() ) {
         

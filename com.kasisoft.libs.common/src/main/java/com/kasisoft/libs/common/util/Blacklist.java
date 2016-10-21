@@ -180,11 +180,10 @@ public class Blacklist implements Predicate<String> {
    * @param reader   The reader providing the blacklisted content. Not <code>null</code>.
    */
   public synchronized void load( @NonNull Reader reader ) {
-    BufferedReader buffered = IoFunctions.newBufferedReader( reader );
-    try {
+    try( BufferedReader buffered = IoFunctions.newBufferedReader( reader ) ) {
       String line   = buffered.readLine();
       while( line != null ) {
-        if( (line != null) && (!line.startsWith( commentPrefix )) ) {
+        if( ! line.startsWith( commentPrefix ) ) {
           add( line );
         }
         line = buffered.readLine();

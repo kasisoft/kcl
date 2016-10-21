@@ -44,7 +44,7 @@ public class XmlNumerical<T extends CharSequence> implements Function<T, T> {
   private T applyEncoding( T input ) {
     T result = input;
     for( int i = input.length() - 1; i >= 0; i-- ) {
-      int ch = (int) input.charAt(i);
+      int ch = input.charAt(i);
       if( encodingTest.test( ch ) ) {
         result = facade.deleteCharAt( result, i );
         result = facade.insert( result, i, String.format( "&#%d;", ch ) );

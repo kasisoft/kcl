@@ -1249,6 +1249,7 @@ public class ArrayFunctions {
    * 
    * @return   A joined array. Maybe <code>null</code>.
    */
+  @SuppressWarnings("null")
   public static <T> T[] joinArrays( T[] defaultval, T[] ... arrays ) {
     int length = 0;
     int j      = -1;

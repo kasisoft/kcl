@@ -326,6 +326,7 @@ public class KPathPanel extends JPanel implements WorkspacePersistent {
   /**
    * Checks the validity of the current input and adjusts the foreground of the displa according to this.
    */
+  @SuppressWarnings("null")
   private void checkValidity() {
     Path    path  = getPath();
     boolean valid = path != null;
