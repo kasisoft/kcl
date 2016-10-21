@@ -265,7 +265,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
       if( arguments.get(i).type == ArgumentType.Flag ) {
         Argument argument = arguments.get(i);
         if( args.contains( argument.key ) ) {
-          args.remove(i);
+          args.remove( argument.key );
           applications[i] = applications[i] + 1;
           argument.applicator.accept( Boolean.TRUE );
         }
