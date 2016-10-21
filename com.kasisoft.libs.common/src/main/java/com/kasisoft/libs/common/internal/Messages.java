@@ -32,6 +32,9 @@ public class Messages {
   @I18N("The filesystem watching dispatcher has already been started.")
   static String          error_fswatcher_already_started;
 
+  @I18N("Missing required command line option '%s' !")
+  static I18NFormatter   error_missing_required_option;
+
   @I18N("(default=%s)")
   static I18NFormatter   format_default;
   
@@ -46,6 +49,9 @@ public class Messages {
   
   @I18N("Unsupported CharSequence type '%s'")
   static I18NFormatter   unsupported_charsequence;
+
+  @I18N("The argument '%s' had not been used !")
+  static I18NFormatter   unused_argument;
 
   static {
     I18NSupport.initialize( Messages.class );

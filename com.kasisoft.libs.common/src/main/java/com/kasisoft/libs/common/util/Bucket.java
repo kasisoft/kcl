@@ -45,7 +45,7 @@ public class Bucket<T> {
    * 
    * @return   A new object.
    */
-  public <P extends T> T allocate() {
+  public T allocate() {
     T result = null;
     synchronized( references ) {
       while( (result == null) && (! references.isEmpty()) ) {
