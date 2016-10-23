@@ -4,6 +4,7 @@ import com.kasisoft.libs.common.xml.adapters.*;
 
 import com.kasisoft.libs.common.csv.*;
 import com.kasisoft.libs.common.model.*;
+import com.kasisoft.libs.common.util.*;
 
 import lombok.experimental.*;
 
@@ -20,6 +21,7 @@ import java.sql.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("resource")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DbConnection implements AutoCloseable {
   
@@ -108,15 +110,17 @@ public class DbConnection implements AutoCloseable {
   public List<String> listTables() {
     List<String> result = Collections.unmodifiableList( tableNames );
     if( tableNames.isEmpty() ) {
+      ResultSet resultset = null;
       try {
         DatabaseMetaData metadata  = connection.getMetaData();
-        ResultSet        resultset = metadata.getTables( null, null, "%", new String[] { "TABLE" } );
+        resultset = metadata.getTables( null, null, "%", new String[] { "TABLE" } );
         while( resultset.next() ) {
           tableNames.add( resultset.getString(3) );
         }
-        // Collections.sort( tableNames );
       } catch( Exception ex ) {
         ehException.accept( ex );
+      } finally {
+        MiscFunctions.close( resultset );
       }
     }
     return result;
@@ -213,11 +217,13 @@ public class DbConnection implements AutoCloseable {
     String   name   = canonicalTableName( table );
     if( name != null ) {
       if( ! cache.containsKey( name ) ) {
+        PreparedStatement query     = null;
+        ResultSet         resultset = null;
         try {
-          result = new ArrayList<>();
-          PreparedStatement query     = getQuery( config.getDb().getListColumnsQuery(), name );
-          ResultSet         resultset = query.executeQuery();
-          ResultSetMetaData metadata  = resultset.getMetaData();
+          result                     = new ArrayList<>();
+          query                      = getQuery( config.getDb().getListColumnsQuery(), name );
+          resultset                  = query.executeQuery();
+          ResultSetMetaData metadata = resultset.getMetaData();
           for( int i = 0; i < metadata.getColumnCount(); i++ ) {
             T value = producer.apply( metadata, i + 1 );
             if( value != null ) {
@@ -228,6 +234,8 @@ public class DbConnection implements AutoCloseable {
         } catch( Exception ex ) {
           // if the handler doesn't abort we're returning an empty list
           ehException.accept( ex );
+        } finally {
+          MiscFunctions.close( resultset );
         }
       }
       result = cache.get( name );
@@ -267,9 +275,11 @@ public class DbConnection implements AutoCloseable {
     CsvTableModel result = new CsvTableModel( CsvOptions.builder().columns( specs ).titleRow().build() );
     String        name   = canonicalTableName( table );
     if( name != null ) {
+      PreparedStatement query     = null;
+      ResultSet         resultset = null;
       try {
-        PreparedStatement query     = getQuery( config.getDb().getListColumnsQuery(), name );
-        ResultSet         resultset = query.executeQuery();
+        query     = getQuery( config.getDb().getListColumnsQuery(), name );
+        resultset = query.executeQuery();
         ResultSetMetaData metadata  = resultset.getMetaData();
         for( int i = 1; i <= metadata.getColumnCount(); i++ ) {
           result.addRow( new Object[] {
@@ -288,6 +298,8 @@ public class DbConnection implements AutoCloseable {
       } catch( Exception ex ) {
         // if the handler doesn't abort we're returning an empty list
         ehException.accept( ex );
+      } finally {
+        MiscFunctions.close( resultset );
       }
     }
     return result;
@@ -341,14 +353,18 @@ public class DbConnection implements AutoCloseable {
   private void importAllRows( String table, Consumer<ResultSet> consumer ) {
     String name = canonicalTableName( table );
     if( name != null ) {
+      PreparedStatement query     = null;
+      ResultSet         resultset = null;
       try {
-        PreparedStatement query     = getQuery( config.getDb().getSelectAllQuery(), name );
-        ResultSet         resultset = query.executeQuery();
+        query     = getQuery( config.getDb().getSelectAllQuery(), name );
+        resultset = query.executeQuery();
         while( resultset.next() ) {
           consumer.accept( resultset );
         }
       } catch( Exception ex ) {
         ehException.accept( ex );
+      } finally {
+        MiscFunctions.close( resultset );
       }
     }
   }
@@ -362,10 +378,12 @@ public class DbConnection implements AutoCloseable {
    * @return   A list with all records. Not <code>null</code>.
    */
   public <T> List<T> select( @NonNull String jdbcQuery, @NonNull Function<ResultSet, T> producer ) {
-    List<T> result = new ArrayList<>(100);
+    List<T>           result    = new ArrayList<>(100);
+    PreparedStatement query     = null;
+    ResultSet         resultset = null;
     try {
-      PreparedStatement query     = getQuery( jdbcQuery, null );
-      ResultSet         resultset = query.executeQuery();
+      query     = getQuery( jdbcQuery, null );
+      resultset = query.executeQuery();
       while( resultset.next() ) {
         try {
           result.add( producer.apply( resultset ) );
@@ -375,6 +393,8 @@ public class DbConnection implements AutoCloseable {
       }
     } catch( Exception ex ) {
       ehException.accept( ex );
+    } finally {
+      MiscFunctions.close( resultset );
     }
     if( result.isEmpty() ) {
       result = Collections.emptyList();
@@ -406,14 +426,18 @@ public class DbConnection implements AutoCloseable {
     int    result = -1;
     String name   = canonicalTableName( table );
     if( name != null ) {
+      PreparedStatement query     = null;
+      ResultSet         resultset = null;
       try {
-        PreparedStatement query     = getQuery( config.getDb().getCountQuery(), name );
-        ResultSet         resultset = query.executeQuery();
+        query     = getQuery( config.getDb().getCountQuery(), name );
+        resultset = query.executeQuery();
         if( resultset.next() ) {
           result = resultset.getInt(1);
         }
       } catch( Exception ex ) {
         ehException.accept( ex );
+      } finally {
+        MiscFunctions.close( resultset );
       }
     }
     return result;
@@ -440,6 +464,8 @@ public class DbConnection implements AutoCloseable {
   
   @Override
   public void close() throws Exception {
+    queries.values().forEach( MiscFunctions::close );
+    queries.clear();
     if( connection != null ) {
       connection.close();
       connection = null;

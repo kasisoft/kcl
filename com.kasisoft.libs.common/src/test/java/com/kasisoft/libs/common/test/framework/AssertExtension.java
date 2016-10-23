@@ -18,6 +18,7 @@ import java.io.*;
  */
 public class AssertExtension {
  
+  @SuppressWarnings("null")
   public static void assertEquals(final File actual, final File expected ) {
     if(expected == actual) {
       return;

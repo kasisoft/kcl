@@ -158,6 +158,7 @@ public class SystemProcess {
    *               
    * @return  The exitcode from the subprocess or a failure code.
    */
+  @SuppressWarnings("resource")
   public synchronized FailureCode execute( @NonNull String ... args ) {
 
     FailureCode result    = FailureCode.Success;

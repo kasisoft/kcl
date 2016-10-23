@@ -39,6 +39,7 @@ public class FlatXmlHandlerTest {
     assertTrue( simplexml.isFile() );
   }
   
+  @SuppressWarnings("resource")
   @Test(groups="all")
   public void flatXml() throws Exception {
     

@@ -390,7 +390,7 @@ public class MiscFunctions {
    * 
    * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
    */
-  public static void close( Closeable closeable ) {
+  public static void close( AutoCloseable closeable ) {
     if( closeable != null ) {
       try {
         closeable.close();
@@ -420,7 +420,7 @@ public class MiscFunctions {
    * 
    * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
    */
-  public static void closeQuietly( Closeable closeable ) {
+  public static void closeQuietly( AutoCloseable closeable ) {
     if( closeable != null ) {
       try {
         closeable.close();

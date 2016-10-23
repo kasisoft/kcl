@@ -204,6 +204,7 @@ public class IoFunctionsTest {
 
   }
 
+  @SuppressWarnings("resource")
   @Test(groups="all")
   public void loadTest() {
     
@@ -301,6 +302,7 @@ public class IoFunctionsTest {
     }
   }
   
+  @SuppressWarnings("resource")
   @Test(groups="all")
   public void writeText() {
     
