@@ -48,7 +48,24 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * @return   this
    */
   public <T> R withParameter( @NonNull String key, boolean required, String description, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator ) {
-    arguments.add( new Argument( ArgumentType.Parameter, required, key, description, transformer, applicator ) );
+    arguments.add( new Argument( ArgumentType.Parameter, required, key, description, transformer, applicator, null ) );
+    return (R) this;
+  }
+
+  /**
+   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
+   * 
+   * @param key           The value indicates enablement.
+   * @param required      <code>true</code> <=> At least one value must be provided.
+   * @param description   An optional description for this option.
+   * @param transformer   The transformer for the textual representation.
+   * @param applicator    The function to call when this option had been identified.
+   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public <T> R withParameter( @NonNull String key, boolean required, String description, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator, Predicate<T> test ) {
+    arguments.add( new Argument( ArgumentType.Parameter, required, key, description, transformer, applicator, test ) );
     return (R) this;
   }
 
@@ -83,6 +100,20 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
    * 
    * @param key          The value indicates enablement.
+   * @param required     <code>true</code> <=> At least one value must be provided.
+   * @param applicator   The function to call when this option had been identified.
+   * @param test         A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public R withParameter( @NonNull String key, boolean required, @NonNull Consumer<String> applicator, Predicate<String> test ) {
+    return withParameter( key, required, null, String::valueOf, applicator, test );
+  }
+
+  /**
+   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
+   * 
+   * @param key          The value indicates enablement.
    * @param applicator   The function to call when this option had been identified.
    * 
    * @return   this
@@ -99,12 +130,28 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * @param description   An optional description for this option.
    * @param transformer   The transformer for the textual representation.
    * @param applicator    The function to call when this option had been identified.
+   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
    * 
    * @return   this
    */
-  public <T> R withManyParameter( @NonNull String key, boolean required, String description, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator ) {
-    arguments.add( new Argument( ArgumentType.ManyParameter, required, key, description, transformer, applicator ) );
+  public <T> R withManyParameter( @NonNull String key, boolean required, String description, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator, Predicate<T> test ) {
+    arguments.add( new Argument( ArgumentType.ManyParameter, required, key, description, transformer, applicator, test ) );
     return (R) this;
+  }
+
+  /**
+   * Registers a parameter which is allowed to occurs more than once.
+   * 
+   * @param key           The value indicates enablement.
+   * @param required      <code>true</code> <=> At least one value must be provided.
+   * @param transformer   The transformer for the textual representation.
+   * @param applicator    The function to call when this option had been identified.
+   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public <T> R withManyParameter( @NonNull String key, boolean required, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator, Predicate<T> test ) {
+    return withManyParameter( key, required, null, transformer, applicator, test );
   }
 
   /**
@@ -118,7 +165,21 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * @return   this
    */
   public <T> R withManyParameter( @NonNull String key, boolean required, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator ) {
-    return withManyParameter( key, required, null, transformer, applicator );
+    return withManyParameter( key, required, null, transformer, applicator, null );
+  }
+
+  /**
+   * Registers a parameter which is allowed to occurs more than once.
+   * 
+   * @param key           The value indicates enablement.
+   * @param required      <code>true</code> <=> At least one value must be provided.
+   * @param applicator    The function to call when this option had been identified.
+   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public R withManyParameter( @NonNull String key, boolean required, @NonNull Consumer<String> applicator, Predicate<String> test ) {
+    return withManyParameter( key, required, null, String::valueOf, applicator, test );
   }
 
   /**
@@ -131,7 +192,20 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * @return   this
    */
   public R withManyParameter( @NonNull String key, boolean required, @NonNull Consumer<String> applicator ) {
-    return withManyParameter( key, required, null, String::valueOf, applicator );
+    return withManyParameter( key, required, null, String::valueOf, applicator, null );
+  }
+
+  /**
+   * Registers a parameter which is allowed to occurs more than once.
+   * 
+   * @param key          The value indicates enablement.
+   * @param applicator   The function to call when this option had been identified.
+   * @param test         A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
+   * 
+   * @return   this
+   */
+  public R withManyParameter( @NonNull String key, @NonNull Consumer<String> applicator, Predicate<String> test ) {
+    return withManyParameter( key, false, null, String::valueOf, applicator, test );
   }
 
   /**
@@ -143,7 +217,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * @return   this
    */
   public R withManyParameter( @NonNull String key, @NonNull Consumer<String> applicator ) {
-    return withManyParameter( key, false, null, String::valueOf, applicator );
+    return withManyParameter( key, false, null, String::valueOf, applicator, null );
   }
 
   /**
@@ -156,7 +230,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * @return   this
    */
   public R withFlag( @NonNull String key, String description, @NonNull Consumer<Boolean> applicator ) {
-    arguments.add( new Argument( ArgumentType.Flag, false, key, description, key::equals, applicator ) );
+    arguments.add( new Argument( ArgumentType.Flag, false, key, description, key::equals, applicator, null ) );
     return (R) this;
   }
 
@@ -234,9 +308,11 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     if( (i != -1) && (i < args.size() - 1) ) {
       applications[ pos ] = applications[ pos ] + 1;
       Object value = argument.transformer.apply( args.get( i + 1 ) );
-      argument.applicator.accept( value );
-      args.remove(i);
-      args.remove(i);
+      if( (argument.test == null) || argument.test.test( value ) ) {
+        argument.applicator.accept( value );
+        args.remove(i);
+        args.remove(i);
+      }
     }
   }
   
@@ -253,9 +329,11 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     while( (i != -1) && (i < args.size() - 1) ) {
       applications[ pos ] = applications[ pos ] + 1;
       Object value = argument.transformer.apply( args.get( i + 1 ) );
-      argument.applicator.accept( value );
-      args.remove(i);
-      args.remove(i);
+      if( (argument.test == null) || argument.test.test( value ) ) {
+        argument.applicator.accept( value );
+        args.remove(i);
+        args.remove(i);
+      }
       i = args.indexOf( argument.key );
     }
   }
@@ -332,6 +410,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     String         description;
     Function       transformer;
     Consumer       applicator;
+    Predicate      test;
     
     @Override
     public int compareTo( Argument o ) {
