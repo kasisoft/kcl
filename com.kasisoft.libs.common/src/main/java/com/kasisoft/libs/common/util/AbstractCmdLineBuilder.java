@@ -265,7 +265,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     for( int i = 0; i < arguments.size(); i++ ) {
       if( (arguments.get(i).defaultVal != null) && (applications[i] == 0) ) {
         Object value = arguments.get(i).transformer.apply( arguments.get(i).defaultVal );
-        if( (arguments.get(i).test == null) || arguments.get(i).test.test( value ) ) {
+        if( arguments.get(i).test.test( value ) ) {
           arguments.get(i).applicator.accept( value );
           applications[i] = 1;
         }
@@ -306,7 +306,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     if( (i != -1) && (i < args.size() - 1) ) {
       applications[ pos ] = applications[ pos ] + 1;
       Object value = argument.transformer.apply( args.get( i + 1 ) );
-      if( (argument.test == null) || argument.test.test( value ) ) {
+      if( argument.test.test( value ) ) {
         argument.applicator.accept( value );
       }
       args.remove(i);
@@ -327,7 +327,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     while( (i != -1) && (i < args.size() - 1) ) {
       applications[ pos ] = applications[ pos ] + 1;
       Object value = argument.transformer.apply( args.get( i + 1 ) );
-      if( (argument.test == null) || argument.test.test( value ) ) {
+      if( argument.test.test( value ) ) {
         argument.applicator.accept( value );
       }
       args.remove(i);
