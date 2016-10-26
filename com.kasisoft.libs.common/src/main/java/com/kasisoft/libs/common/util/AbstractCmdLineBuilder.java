@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.util;
 
-import com.kasisoft.libs.common.internal.*;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
+import com.kasisoft.libs.common.function.*;
 
 import java.util.function.*;
 
 import java.util.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Base type to simplify the handling of command lines.
@@ -26,230 +28,166 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     
   }
   
-  List<Argument>   arguments;
-  List<String>     messages;
-  boolean          error;
+  List<Argument>           arguments;
+  Consumer<List<String>>   errorHandler;
+  boolean                  error;
+  boolean                  treatUnusedArgsAsErrors;
   
   public AbstractCmdLineBuilder() {
-    arguments = new ArrayList<>();
-    messages  = new ArrayList<>();
-    error     = false;
+    arguments               = new ArrayList<>();
+    errorHandler            = this::ehDefault;
+    error                   = false;
+    treatUnusedArgsAsErrors = false;
+  }
+
+  public R treatUnusedArgsAsErrors() {
+    return treatUnusedArgsAsErrors( true );
+  }
+  
+  public R treatUnusedArgsAsErrors( boolean errors ) {
+    treatUnusedArgsAsErrors = errors;
+    return (R) this;
+  }
+ 
+  public R errorHandler( @NonNull Consumer<List<String>> consumer ) {
+    errorHandler = consumer;
+    return (R) this;
   }
   
   /**
-   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
+   * Starts the configuration of a flag.
    * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param description   An optional description for this option.
-   * @param transformer   The transformer for the textual representation.
-   * @param applicator    The function to call when this option had been identified.
+   * @param option    The main option key.
+   * @param options   Alternative option keys.
    * 
-   * @return   this
+   * @return this
    */
-  public <T> R withParameter( @NonNull String key, boolean required, String description, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator ) {
-    arguments.add( new Argument( ArgumentType.Parameter, required, key, description, transformer, applicator, null ) );
+  public R flag( @NonNull String option, String ... options ) {
+    Argument argument = new Argument( ArgumentType.Flag, option, options );
+    arguments.add( argument );
     return (R) this;
   }
 
   /**
-   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
+   * Starts the configuration of single parameter.
    * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param description   An optional description for this option.
-   * @param transformer   The transformer for the textual representation.
-   * @param applicator    The function to call when this option had been identified.
-   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
+   * @param option    The main option key.
+   * @param options   Alternative option keys.
    * 
-   * @return   this
+   * @return this
    */
-  public <T> R withParameter( @NonNull String key, boolean required, String description, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator, Predicate<T> test ) {
-    arguments.add( new Argument( ArgumentType.Parameter, required, key, description, transformer, applicator, test ) );
+  public R single( @NonNull String option, String ... options ) {
+    Argument argument = new Argument( ArgumentType.Parameter, option, options );
+    arguments.add( argument );
     return (R) this;
   }
 
   /**
-   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
+   * Starts the configuration of multiple parameters.
    * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param transformer   The transformer for the textual representation.
-   * @param applicator    The function to call when this option had been identified.
+   * @param option    The main option key.
+   * @param options   Alternative option keys.
    * 
-   * @return   this
+   * @return this
    */
-  public <T> R withParameter( @NonNull String key, boolean required, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator ) {
-    return withParameter( key, required, null, transformer, applicator );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
-   * 
-   * @param key          The value indicates enablement.
-   * @param required     <code>true</code> <=> At least one value must be provided.
-   * @param applicator   The function to call when this option had been identified.
-   * 
-   * @return   this
-   */
-  public R withParameter( @NonNull String key, boolean required, @NonNull Consumer<String> applicator ) {
-    return withParameter( key, required, null, String::valueOf, applicator );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
-   * 
-   * @param key          The value indicates enablement.
-   * @param required     <code>true</code> <=> At least one value must be provided.
-   * @param applicator   The function to call when this option had been identified.
-   * @param test         A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
-   * 
-   * @return   this
-   */
-  public R withParameter( @NonNull String key, boolean required, @NonNull Consumer<String> applicator, Predicate<String> test ) {
-    return withParameter( key, required, null, String::valueOf, applicator, test );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs only once. Additional parameters values will be logged as warnings.
-   * 
-   * @param key          The value indicates enablement.
-   * @param applicator   The function to call when this option had been identified.
-   * 
-   * @return   this
-   */
-  public R withParameter( @NonNull String key, @NonNull Consumer<String> applicator ) {
-    return withParameter( key, false, null, String::valueOf, applicator );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs more than once.
-   * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param description   An optional description for this option.
-   * @param transformer   The transformer for the textual representation.
-   * @param applicator    The function to call when this option had been identified.
-   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
-   * 
-   * @return   this
-   */
-  public <T> R withManyParameter( @NonNull String key, boolean required, String description, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator, Predicate<T> test ) {
-    arguments.add( new Argument( ArgumentType.ManyParameter, required, key, description, transformer, applicator, test ) );
+  public R many( @NonNull String option, String ... options ) {
+    Argument argument = new Argument( ArgumentType.ManyParameter, option, options );
+    arguments.add( argument );
     return (R) this;
   }
-
-  /**
-   * Registers a parameter which is allowed to occurs more than once.
-   * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param transformer   The transformer for the textual representation.
-   * @param applicator    The function to call when this option had been identified.
-   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
-   * 
-   * @return   this
-   */
-  public <T> R withManyParameter( @NonNull String key, boolean required, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator, Predicate<T> test ) {
-    return withManyParameter( key, required, null, transformer, applicator, test );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs more than once.
-   * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param transformer   The transformer for the textual representation.
-   * @param applicator    The function to call when this option had been identified.
-   * 
-   * @return   this
-   */
-  public <T> R withManyParameter( @NonNull String key, boolean required, @NonNull Function<String, T> transformer, @NonNull Consumer<T> applicator ) {
-    return withManyParameter( key, required, null, transformer, applicator, null );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs more than once.
-   * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param applicator    The function to call when this option had been identified.
-   * @param test          A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
-   * 
-   * @return   this
-   */
-  public R withManyParameter( @NonNull String key, boolean required, @NonNull Consumer<String> applicator, Predicate<String> test ) {
-    return withManyParameter( key, required, null, String::valueOf, applicator, test );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs more than once.
-   * 
-   * @param key           The value indicates enablement.
-   * @param required      <code>true</code> <=> At least one value must be provided.
-   * @param applicator    The function to call when this option had been identified.
-   * 
-   * @return   this
-   */
-  public R withManyParameter( @NonNull String key, boolean required, @NonNull Consumer<String> applicator ) {
-    return withManyParameter( key, required, null, String::valueOf, applicator, null );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs more than once.
-   * 
-   * @param key          The value indicates enablement.
-   * @param applicator   The function to call when this option had been identified.
-   * @param test         A test for the value. If the value doesn't pass it will be ignored. Maybe <code>null</code>.
-   * 
-   * @return   this
-   */
-  public R withManyParameter( @NonNull String key, @NonNull Consumer<String> applicator, Predicate<String> test ) {
-    return withManyParameter( key, false, null, String::valueOf, applicator, test );
-  }
-
-  /**
-   * Registers a parameter which is allowed to occurs more than once.
-   * 
-   * @param key          The value indicates enablement.
-   * @param applicator   The function to call when this option had been identified.
-   * 
-   * @return   this
-   */
-  public R withManyParameter( @NonNull String key, @NonNull Consumer<String> applicator ) {
-    return withManyParameter( key, false, null, String::valueOf, applicator, null );
-  }
-
-  /**
-   * Registers an option for a flag.
-   * 
-   * @param key           The value indicates enablement.
-   * @param description   An optional description for this option.
-   * @param applicator    The function to call when this option had been identified.
-   * 
-   * @return   this
-   */
-  public R withFlag( @NonNull String key, String description, @NonNull Consumer<Boolean> applicator ) {
-    arguments.add( new Argument( ArgumentType.Flag, false, key, description, key::equals, applicator, null ) );
-    return (R) this;
-  }
-
-  /**
-   * Registers an option for a flag.
-   * 
-   * @param key          The value indicates enablement.
-   * @param applicator   The function to call when this option had been identified.
-   * 
-   * @return   this
-   */
-  public R withFlag( @NonNull String key, @NonNull Consumer<Boolean> applicator ) {
-    return withFlag( key, null, applicator );
+  
+  private Argument argument() {
+    if( arguments.isEmpty() ) {
+      throw new IllegalArgumentException( error_missing_argument );
+    }
+    return arguments.get( arguments.size() - 1 );
   }
   
   /**
-   * Builds an actual data structure from the parsed settings.
+   * Marks the current argument as required.
+   * 
+   * @return   this
+   */
+  public R required() {
+    return required( true );
+  }
+  
+  /**
+   * Marks the current argument as required or not.
+   * 
+   * @param required   <code>true</code> <=> At least one value must be provided.
+   * 
+   * @return   this
+   */
+  public R required( boolean required ) {
+    argument().required = required;
+    return (R) this;
+  }
+
+  /**
+   * Configures default values.
+   * 
+   * @param defValue   The default value (untransformed).
+   * 
+   * @return   this
+   */
+  public R defaultValue( String defValue ) {
+    argument().defaultVal = defValue;
+    return (R) this;
+  }
+  
+  /**
+   * Provides an informal description for this argument.
+   * 
+   * @param description   An optional description for this option.
+   * 
+   * @return   this
+   */
+  public R description( @NonNull String description ) {
+    argument().description = description;
+    return (R) this;
+  }
+  
+  /**
+   * Provides a transformer for this argument.
+   * 
+   * @param transformer   The transformer for the textual representation.
+   * 
+   * @return   this
+   */
+  public <T> R transformer( @NonNull Function<String, T> transformer ) {
+    argument().transformer = transformer;
+    return (R) this;
+  }
+
+  /**
+   * Provides an applicator (setter) for this argument.
+   * 
+   * @param applicator   The function to call when this option had been identified.
+   * 
+   * @return   this
+   */
+  public <T> R applicator( @NonNull Consumer<T> applicator ) {
+    argument().applicator = applicator;
+    return (R) this;
+  }
+
+  /**
+   * Provides a test for the transformed value.
+   * 
+   * @param test   A test for the value. If the value doesn't pass it will be ignored.
+   * 
+   * @return   this
+   */
+  public <T> R test( @NonNull Predicate<T> test ) {
+    argument().test = test;
+    return (R) this;
+  }
+
+  /**
+   * Creates a new record instance.
    *  
-   * @return   The build data structure. Maybe <code>null</code>.
+   * @return   A new record instance.
    */
   protected abstract V buildImpl();
   
@@ -267,6 +205,29 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     return result;
   }
   
+  private int indexOf( List<String> args, Argument argument ) {
+    return indexOf( args, argument, 0 );
+  }
+  
+  private int indexOf( List<String> args, Argument argument, int offset ) {
+    int result = -1;
+    for( int i = offset; i < args.size(); i++ ) {
+      if( argument.test( args.get(i) ) ) {
+        result = i;
+        break;
+      }
+    }
+    return result;
+  }
+  
+  private void validateConfiguration() {
+    for( Argument arg : arguments ) {
+      if( ! arg.isValid() ) {
+        throw new IllegalArgumentException( arg.option );
+      }
+    }
+  }
+  
   /**
    * Parses the supplied arguments.
    * 
@@ -275,26 +236,61 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * @return   this
    */
   public R parse( @NonNull String[] argarray ) {
+    
+    validateConfiguration();
+    
     List<String> args         = new ArrayList<>( Arrays.asList( argarray ) );
     int[]        applications = new int[ arguments.size() ];
     Arrays.fill( applications, 0 );
-    parseFlags         ( args, applications );
-    parseManyParameter ( args, applications );
-    parseParameter     ( args, applications );
-    if( ! args.isEmpty() ) {
-      for( String arg : args ) {
-        messages.add( Messages.unused_argument.format( arg ) );
+    
+    parseFlags          ( args, applications );
+    parseManyParameter  ( args, applications );
+    parseParameter      ( args, applications );
+    handleDefaultValues ( applications );
+    
+    List<String> errors = new ArrayList<>();
+    
+    checkForRemainingArgs( args, errors );
+    checkForMissingRequiredArgs( applications, errors );
+    
+    if( ! errors.isEmpty() ) {
+      errorHandler.accept( errors );
+      error = true;
+    }
+    
+    return (R) this;
+  }
+  
+  private void handleDefaultValues( int[] applications ) {
+    for( int i = 0; i < arguments.size(); i++ ) {
+      if( (arguments.get(i).defaultVal != null) && (applications[i] == 0) ) {
+        Object value = arguments.get(i).transformer.apply( arguments.get(i).defaultVal );
+        arguments.get(i).applicator.accept( value );
+        applications[i] = 1;
       }
     }
+  }
+  
+  private void checkForMissingRequiredArgs( int[] applications, List<String> errors ) {
     for( int i = 0; i < arguments.size(); i++ ) {
       if( arguments.get(i).required && (applications[i] == 0) ) {
-        messages.add( Messages.error_missing_required_option.format( arguments.get(i).key ) );
-        error = true;
+        errors.add( error_missing_required_option.format( arguments.get(i).option ) );
       }
     }
-    return (R) this;
-  }  
+  }
 
+  private void checkForRemainingArgs( List<String> args, List<String> errors ) {
+    if( (! args.isEmpty()) && treatUnusedArgsAsErrors ) {
+      for( String arg : args ) {
+        errors.add( unused_argument.format( arg ) );
+      }
+    }
+  }
+  
+  private void ehDefault( List<String> messages ) {
+    // do nothing by default
+  }
+  
   private void parseParameter( List<String> args, int[] applications ) {
     for( int i = 0; i < arguments.size(); i++ ) {
       if( arguments.get(i).type == ArgumentType.Parameter ) {
@@ -304,15 +300,15 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
   }
   
   private void parseParameter( List<String> args, Argument argument, int pos, int[] applications ) {
-    int i = args.indexOf( argument.key );
+    int i = indexOf( args, argument );
     if( (i != -1) && (i < args.size() - 1) ) {
       applications[ pos ] = applications[ pos ] + 1;
       Object value = argument.transformer.apply( args.get( i + 1 ) );
       if( (argument.test == null) || argument.test.test( value ) ) {
         argument.applicator.accept( value );
-        args.remove(i);
-        args.remove(i);
       }
+      args.remove(i);
+      args.remove(i);
     }
   }
   
@@ -325,16 +321,16 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
   }
   
   private void parseManyParameter( List<String> args, Argument argument, int pos, int[] applications ) {
-    int i = args.indexOf( argument.key );
+    int i = indexOf( args, argument );
     while( (i != -1) && (i < args.size() - 1) ) {
       applications[ pos ] = applications[ pos ] + 1;
       Object value = argument.transformer.apply( args.get( i + 1 ) );
       if( (argument.test == null) || argument.test.test( value ) ) {
         argument.applicator.accept( value );
-        args.remove(i);
-        args.remove(i);
       }
-      i = args.indexOf( argument.key );
+      args.remove(i);
+      args.remove(i);
+      i = indexOf( args, argument );
     }
   }
   
@@ -342,8 +338,9 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     for( int i = 0; i < arguments.size(); i++ ) {
       if( arguments.get(i).type == ArgumentType.Flag ) {
         Argument argument = arguments.get(i);
-        if( args.contains( argument.key ) ) {
-          args.remove( argument.key );
+        int      idx      = indexOf( args, argument );
+        if( idx != -1 ) {
+          args.remove( idx );
           applications[i] = applications[i] + 1;
           argument.applicator.accept( Boolean.TRUE );
         }
@@ -375,7 +372,16 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
       if( ! arg.required ) {
         builder.append( "[" );
       }
-      builder.append( arg.key );
+      builder.append( arg.option );
+      if( ! arg.options.isEmpty() ) {
+        builder.append( "(alternatives: " );
+        for( String option : arg.options ) {
+          builder.append( option );
+          builder.append( "," );
+        }
+        builder.deleteCharAt( builder.length() - 1 );
+        builder.append( ")" );
+      }
       if( arg.type != ArgumentType.Flag ) {
         builder.append( " " ).append( "<value>" );
       }
@@ -394,27 +400,49 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     if( ! shortUsage ) {
       for( Argument arg : args ) {
         if( arg.description != null ) {
-          builder.append( "\t" ).append( arg.key ).append( " : " ).append( arg.description ).append( "\n" );
+          builder.append( "\t" ).append( arg.option ).append( " : " ).append( arg.description ).append( "\n" );
         }
       }
     }
     return builder.toString();
   }
 
-  @AllArgsConstructor
-  private static final class Argument implements Comparable<Argument> {
+  private static final class Argument implements Comparable<Argument>, Predicate<String> {
     
     ArgumentType   type;
-    boolean        required;
-    String         key;
-    String         description;
-    Function       transformer;
+    String         option;
     Consumer       applicator;
-    Predicate      test;
+    boolean        required    = false;
+    Set<String>    options     = Collections.emptySet();
+    String         description = null;
+    Function       transformer = String::valueOf;
+    Predicate      test        = Predicates.acceptAll();
+    String         defaultVal  = null;
+    
+    private Argument( ArgumentType argType, String argOption, String ... argOptions ) {
+      type    = argType;
+      option  = argOption;
+      if( (argOptions != null) && (argOptions.length > 0) ) {
+        options = new HashSet<>( Arrays.asList( argOptions ) ); 
+      }
+    }
+    
+    public boolean isValid() {
+      return applicator != null;
+    }
     
     @Override
     public int compareTo( Argument o ) {
-      return key.compareTo( o.key );
+      return option.compareTo( o.option );
+    }
+
+    @Override
+    public boolean test( String t ) {
+      boolean result = option.equals(t);
+      if( ! result ) {
+        result = options.contains(t);
+      }
+      return result;
     }
     
   } /* ENDCLASS */

@@ -32,6 +32,9 @@ public class Messages {
   @I18N("The filesystem watching dispatcher has already been started.")
   static String          error_fswatcher_already_started;
 
+  @I18N("Start the configuration of an argument first (flag, single, many) !")
+  static String          error_missing_argument;
+  
   @I18N("Missing required command line option '%s' !")
   static I18NFormatter   error_missing_required_option;
 

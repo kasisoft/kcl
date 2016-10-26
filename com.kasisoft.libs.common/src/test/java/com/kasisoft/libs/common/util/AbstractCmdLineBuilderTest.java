@@ -22,10 +22,59 @@ public class AbstractCmdLineBuilderTest {
     String         stringValue;
     Path           pathValue;
     List<String>   stringValues = new ArrayList<>();
-    List<Path>     pathValues = new ArrayList<>();
+    List<Path>     pathValues   = new ArrayList<>();
     
   } /* ENDCLASS */
   
+  private static class InvalidResultBuilder extends AbstractCmdLineBuilder<InvalidResultBuilder, Result> {
+
+    Result   obj;
+    
+    public InvalidResultBuilder() {
+      obj = new Result();
+    }
+    
+    @Override
+    protected Result buildImpl() {
+      return obj;
+    }
+     
+    public InvalidResultBuilder cfgFlag() {
+      flag( "--value" );
+      return this;
+    }
+  
+  }
+  
+  private static class DefaultValueResultBuilder extends AbstractCmdLineBuilder<DefaultValueResultBuilder, Result> {
+
+    Result   obj;
+    
+    public DefaultValueResultBuilder() {
+      obj = new Result();
+    }
+    
+    @Override
+    protected Result buildImpl() {
+      return obj;
+    }
+     
+    public DefaultValueResultBuilder pathValue( Path value ) {
+      obj.pathValue = value;
+      return this;
+    }
+    
+    public DefaultValueResultBuilder cfgPath( boolean required ) {
+      single( "--path" )
+        .required( required )
+        .defaultValue( "/tmp" )
+        .transformer( Paths::get )
+        .applicator( this::pathValue );
+      return this;
+    }
+  
+  }
+
   private static class ResultBuilder extends AbstractCmdLineBuilder<ResultBuilder, Result> {
 
     Result   obj;
@@ -34,28 +83,44 @@ public class AbstractCmdLineBuilderTest {
       obj = new Result();
     }
     
+    @Override
+    protected Result buildImpl() {
+      return obj;
+    }
+     
     public ResultBuilder cfgFlag() {
-      withFlag( "--value", this::value );
+      flag( "--value", "-v" )
+        .applicator( this::value );
       return this;
     }
 
     public ResultBuilder cfgString( boolean required ) {
-      withParameter( "--string", required, String::valueOf, this::stringValue );
+      single( "--string", "-s" )
+        .required( required )
+        .applicator( this::stringValue );
       return this;
     }
 
     public ResultBuilder cfgPath( boolean required ) {
-      withParameter( "--path", required, Paths::get, this::pathValue );
+      single( "--path" )
+        .required( required )
+        .transformer( Paths::get )
+        .applicator( this::pathValue );
       return this;
     }
 
     public ResultBuilder cfgStrings( boolean required ) {
-      withManyParameter( "--strings", required, String::valueOf, this::stringValues );
+      many( "--strings" )
+        .required( required )
+        .applicator( this::stringValues );
       return this;
     }
 
     public ResultBuilder cfgPaths( boolean required ) {
-      withManyParameter( "--paths", required, Paths::get, this::pathValues );
+      many( "--paths" )
+        .required( required )
+        .transformer( Paths::get )
+        .applicator( this::pathValues );
       return this;
     }
 
@@ -84,11 +149,6 @@ public class AbstractCmdLineBuilderTest {
       return this;
     }
 
-    @Override
-    protected Result buildImpl() {
-      return obj;
-    }
-    
   } /* ENDCLASS */
   
   @Test(groups="all")
@@ -108,6 +168,11 @@ public class AbstractCmdLineBuilderTest {
     Result   result3 = new ResultBuilder().cfgFlag().parse( args3 ).build();
     assertNotNull( result3 );
     assertTrue( result3.value );
+
+    String[] args5   = new String[] { "-v" };
+    Result   result5 = new ResultBuilder().cfgFlag().parse( args5 ).build();
+    assertNotNull( result5 );
+    assertTrue( result5.value );
 
   }
 
@@ -307,4 +372,24 @@ public class AbstractCmdLineBuilderTest {
     
   }
 
+  @Test(groups="all", expectedExceptions=IllegalArgumentException.class)
+  public void invalidConfiguration() {
+
+    String[] args1   = new String[] {};
+    Result   result1 = new InvalidResultBuilder().cfgFlag().parse( args1 ).build();
+    assertNotNull( result1 );
+    assertFalse( result1.value );
+    
+  }
+
+  @Test(groups="all")
+  public void defaultValue() {
+
+    String[] args1   = new String[] {};
+    Result   result1 = new DefaultValueResultBuilder().cfgPath( false ).parse( args1 ).build();
+    assertNotNull( result1 );
+    assertThat( result1.pathValue, is( Paths.get( "/tmp" ) ) );
+    
+  }
+  
 } /* ENDCLASS */
