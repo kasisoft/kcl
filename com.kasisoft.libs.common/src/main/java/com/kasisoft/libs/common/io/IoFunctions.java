@@ -2047,4 +2047,35 @@ public class IoFunctions {
     }
   }
   
+  /**
+   * Returns the nearest existing path.
+   * 
+   * @param path   The current path. Not <code>null</code>.
+   * 
+   * @return   An existing parent path or <code>null</code> if there's none.
+   */
+  public static Path getExisting( @NonNull Path path ) {
+    Path result = path;
+    while( (result != null) && (! Files.exists( result )) ) {
+      result = result.getParent();
+    }
+    return result;
+  }
+  
+  /**
+   * Returns <code>true</code> if the supplied path allows to be written.
+   * 
+   * @param path   The path under test. Not <code>null</code>.
+   * 
+   * @return   <code>true</code> <=> The supplied path allows to be written.
+   */
+  public static boolean isWritable( @NonNull Path path ) {
+    boolean result   = false;
+    Path    existing = getExisting( path );
+    if( existing != null ) {
+      result = Files.isWritable( existing );
+    }
+    return result;
+  }
+  
 } /* ENDCLASS */
