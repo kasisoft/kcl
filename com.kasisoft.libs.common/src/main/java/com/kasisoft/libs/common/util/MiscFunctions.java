@@ -545,7 +545,26 @@ public class MiscFunctions {
     }
     return result;
   }
-  
+
+  /**
+   * Creates a map from the supplied entries.
+   * 
+   * @param entries   The entries that will be returned as a map. Maybe <code>null</code>.
+   * 
+   * @return   A map providing all entries (unless the list length is odd). Not <code>null</code>.
+   */
+  public static <R1, R2> Map<R1, R2> toMap( Object ... entries ) {
+    Map<R1, R2> result = Collections.emptyMap();
+    if( entries != null ) {
+      int count = entries.length / 2;
+      result    = new HashMap<>( count );
+      for( int i = 0; i < count; i++ ) {
+        result.put( (R1) entries[ i * 2 + 0 ], (R2) entries[ i * 2 + 1 ] );
+      }
+    }
+    return result;
+  }
+
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */
