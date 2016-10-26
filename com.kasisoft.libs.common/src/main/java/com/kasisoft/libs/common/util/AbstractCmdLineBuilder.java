@@ -265,8 +265,10 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     for( int i = 0; i < arguments.size(); i++ ) {
       if( (arguments.get(i).defaultVal != null) && (applications[i] == 0) ) {
         Object value = arguments.get(i).transformer.apply( arguments.get(i).defaultVal );
-        arguments.get(i).applicator.accept( value );
-        applications[i] = 1;
+        if( (arguments.get(i).test == null) || arguments.get(i).test.test( value ) ) {
+          arguments.get(i).applicator.accept( value );
+          applications[i] = 1;
+        }
       }
     }
   }
