@@ -48,14 +48,14 @@ public class DefaultBucketFactory<T, P> implements BucketFactory<T> {
   }
   
   @Override
-  public <R extends T> R create() {
-    return (R) create.get();
+  public T create() {
+    return create.get();
   }
 
   @Override
-  public <R extends T> R reset( @NonNull T object ) {
+  public T reset( @NonNull T object ) {
     reset.accept( object, param );
-    return (R) object;
+    return object;
   }
 
 } /* ENDCLASS */

@@ -14,7 +14,7 @@ public interface BucketFactory<T> {
    * 
    * @return   A new instance. Not <code>null</code>.
    */
-  <P extends T> P create();
+  T create();
 
   /**
    * Resets the supplied object.
@@ -23,7 +23,7 @@ public interface BucketFactory<T> {
    *          
    * @return   The supplied object. Not <code>null</code>.
    */
-  <P extends T> P reset( T object );
+  T reset( T object );
   
   /**
    * Executes the supplied function with the desired instance.

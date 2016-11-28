@@ -42,14 +42,14 @@ public class BucketTest {
   private static class ListBucketFactory<T> implements BucketFactory<List<T>> {
 
     @Override
-    public <P extends List<T>> P create() {
-      return (P) new ArrayList<>();
+    public List<T> create() {
+      return new ArrayList<>();
     }
 
     @Override
-    public <P extends List<T>> P reset( List<T> object ) {
+    public List<T> reset( List<T> object ) {
       object.clear();
-      return (P) object;
+      return object;
     }
     
   } /* ENDCLASS */
