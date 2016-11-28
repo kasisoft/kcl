@@ -42,6 +42,23 @@ public interface BucketFactory<T> {
   }
 
   /**
+   * Executes the supplied function with the desired instance.
+   * 
+   * @param function      The function that is supposed to be executed. Not <code>null</code>.
+   * @param secondParam   The second parameter.
+   * 
+   * @return   The return value of the supplied function. Maybe <code>null<code>.
+   */
+  default <R, O> R forInstance( BiFunction<T, O, R> function, O secondParam ) {
+    T instance = create();
+    try {
+      return function.apply( instance, secondParam );
+    } finally {
+      reset( instance );
+    }
+  }
+
+  /**
    * Executes the supplied consumer with the desired instance.
    * 
    * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
@@ -50,6 +67,21 @@ public interface BucketFactory<T> {
     T instance = create();
     try {
       consumer.accept( instance );
+    } finally {
+      reset( instance );
+    }
+  }
+
+  /**
+   * Executes the supplied consumer with the desired instance.
+   * 
+   * @param consumer      The consumer that is supposed to be executed. Not <code>null</code>.
+   * @param secondParam   The second parameter.
+   */
+  default <O> void forInstanceDo( BiConsumer<T, O> consumer, O secondParam ) {
+    T instance = create();
+    try {
+      consumer.accept( instance, secondParam );
     } finally {
       reset( instance );
     }
