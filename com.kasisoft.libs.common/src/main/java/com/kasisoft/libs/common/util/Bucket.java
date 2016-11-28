@@ -65,7 +65,7 @@ public class Bucket<T> {
    * 
    * @param object   The object that shall be freed. Not <code>null</code>.
    */
-  public void free( @NonNull T object ) {
+  public <R extends T> void free( @NonNull R object ) {
     synchronized( references ) {
       references.add( new SoftReference<>( factory.reset( object ) ) );
     }
@@ -78,10 +78,27 @@ public class Bucket<T> {
    * 
    * @return   The return value of the supplied function. Maybe <code>null<code>.
    */
-  public <R> R forInstance( @NonNull Function<T,R> function ) {
+  public <R> R forInstance( @NonNull Function<T, R> function ) {
     T instance = allocate();
     try {
       return function.apply( instance );
+    } finally {
+      free( instance );
+    }
+  }
+
+  /**
+   * Executes the supplied function with the desired instance.
+   * 
+   * @param function   The function that is supposed to be executed. Not <code>null</code>.
+   * @param param      An additional parameter for the function.
+   * 
+   * @return   The return value of the supplied function. Maybe <code>null<code>.
+   */
+  public <R, P> R forInstance( @NonNull BiFunction<T, P, R> function, P param ) {
+    T instance = allocate();
+    try {
+      return function.apply( instance, param );
     } finally {
       free( instance );
     }
@@ -100,5 +117,20 @@ public class Bucket<T> {
       free( instance );
     }
   }
-  
+
+  /**
+   * Executes the supplied consumer with the desired instance.
+   * 
+   * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
+   * @param param      An additional parameter for the function.
+   */
+  public <P> void forInstanceDo( BiConsumer<T, P> consumer, P param ) {
+    T instance = allocate();
+    try {
+      consumer.accept( instance, param );
+    } finally {
+      free( instance );
+    }
+  }
+
 } /* ENDCLASS */

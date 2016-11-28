@@ -125,7 +125,7 @@ public final class Digest {
   @AllArgsConstructor
   private static class DigestFactory implements BucketFactory<MessageDigest> {
     
-    private String   algorithm;
+    String   algorithm;
 
     @Override
     public MessageDigest create() {
