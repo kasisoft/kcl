@@ -105,6 +105,10 @@ public enum MimeType {
    * @return   The MimeType if it could be found or <code>null</code>.
    */
   public static MimeType valueByMimeType( @NonNull String type ) {
+    int idx = type.indexOf(';');
+    if( idx != -1 ) {
+      type = idx > 0 ? type.substring( 0, idx ) : "";
+    }
     return LocalData.valuebymimetype.get( type );
   }
   
@@ -125,8 +129,8 @@ public enum MimeType {
   
   private static class LocalData {
     
-    static Map<String, MimeType>       valuebymimetype = new Hashtable<>();
-    static Map<String, Set<MimeType>>  valuebysuffix   = new Hashtable<>();
+    static Map<String, MimeType>       valuebymimetype = new HashMap<>();
+    static Map<String, Set<MimeType>>  valuebysuffix   = new HashMap<>();
     
   } /* ENDCLASS */
   

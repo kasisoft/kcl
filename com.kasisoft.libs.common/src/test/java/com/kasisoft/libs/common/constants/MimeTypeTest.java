@@ -23,5 +23,12 @@ public class MimeTypeTest {
     assertTrue( result.contains( MimeType.LaTeX ) );
     assertTrue( result.contains( MimeType.TeX ) );
   }
-  
+
+  @Test(groups="all")
+  public void withOption() {
+    MimeType result = MimeType.valueByMimeType( "text/html;charset=UTF-8" );
+    assertThat( result, is( notNullValue() ) );
+    assertThat( result, is( MimeType.Html ) );
+  }
+
 } /* ENDCLASS */
