@@ -8,6 +8,8 @@ import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.xml.adapters.*;
 
+import javax.swing.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -109,13 +111,25 @@ public final class Workspace {
     if( component instanceof WorkspacePersistent ) {
       action.accept( (WorkspacePersistent) component );
     }
-    if( component instanceof Container ) {
-      Container   container = (Container) component;
-      Component[] children  = container.getComponents();
+    Component[] children = getChildren( component );
+    if( children != null ) {
       for( Component child : children ) {
         iterate( child, action );
       }
     }
+  }
+  
+  private Component[] getChildren( Component parent ) {
+    Component[] result = null;
+    if( parent instanceof JMenu ) {
+      result = ((JMenu) parent).getMenuComponents();
+    } else if( parent instanceof Container ) {
+      result = ((Container) parent).getComponents();
+    }
+    if( (result != null) && (result.length == 0) ) {
+      result = null;
+    }
+    return result;
   }
   
   /**
