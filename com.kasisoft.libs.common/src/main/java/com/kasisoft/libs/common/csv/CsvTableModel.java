@@ -39,26 +39,26 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CsvTableModel implements TableModel {
 
-  static final char CR = '\r';
-  static final char DQ = '\"';
-  static final char LF = '\n';
-  static final char SQ = '\'';
+  private static final char CR = '\r';
+  private static final char DQ = '\"';
+  private static final char LF = '\n';
+  private static final char SQ = '\'';
   
-  static final String CR_STR = "\r";
-  static final String DQ_STR = "\"";
-  static final String LF_STR = "\n";
-  static final String SQ_STR = "\'";
+  private static final String CR_STR = "\r";
+  private static final String DQ_STR = "\"";
+  private static final String LF_STR = "\n";
+  private static final String SQ_STR = "\'";
 
-  static final String CRLF_STR = "\r\n";
+  private static final String CRLF_STR = "\r\n";
 
-  static final String   DEFVAL_STRING   = "";
-  static final Double   DEFVAL_DOUBLE   = Double  . valueOf(0);
-  static final Float    DEFVAL_FLOAT    = Float   . valueOf(0);
-  static final Long     DEFVAL_LONG     = Long    . valueOf(0);
-  static final Integer  DEFVAL_INTEGER  = Integer . valueOf(0);
-  static final Short    DEFVAL_SHORT    = Short   . valueOf( (short) 0 );
-  static final Byte     DEFVAL_BYTE     = Byte    . valueOf( (byte)  0 );
-  static final Boolean  DEFVAL_BOOLEAN  = Boolean . FALSE;
+  private static final String   DEFVAL_STRING   = "";
+  private static final Double   DEFVAL_DOUBLE   = Double  . valueOf(0);
+  private static final Float    DEFVAL_FLOAT    = Float   . valueOf(0);
+  private static final Long     DEFVAL_LONG     = Long    . valueOf(0);
+  private static final Integer  DEFVAL_INTEGER  = Integer . valueOf(0);
+  private static final Short    DEFVAL_SHORT    = Short   . valueOf( (short) 0 );
+  private static final Byte     DEFVAL_BYTE     = Byte    . valueOf( (byte)  0 );
+  private static final Boolean  DEFVAL_BOOLEAN  = Boolean . FALSE;
 
   private enum ContentType {
     

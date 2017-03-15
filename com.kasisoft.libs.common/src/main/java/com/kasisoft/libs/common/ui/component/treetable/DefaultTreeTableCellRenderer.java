@@ -21,7 +21,7 @@ import java.awt.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DefaultTreeTableCellRenderer implements TreeTableCellRenderer {
 
-  static final JLabel DUMMY = new JLabel();
+  private static final JLabel DUMMY = new JLabel();
 
   DefaultTreeCellRenderer    treecellrenderer;
   DefaultTableCellRenderer   tablecellrenderer;

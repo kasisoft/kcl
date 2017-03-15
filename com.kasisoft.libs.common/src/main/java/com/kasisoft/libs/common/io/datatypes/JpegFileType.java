@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.util.*;
  */
 public class JpegFileType implements FileType {
 
-  static final byte[] MAGIC = "JFIF".getBytes(); 
+  private static final byte[] MAGIC = "JFIF".getBytes(); 
   
   @Override
   public int getMinSize() {

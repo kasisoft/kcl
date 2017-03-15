@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.util.*;
  */
 public class PdfFileType implements FileType {
 
-  static final byte[] MAGIC = "%PDF".getBytes(); 
+  private static final byte[] MAGIC = "%PDF".getBytes(); 
   
   @Override
   public int getMinSize() {

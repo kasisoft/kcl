@@ -40,10 +40,10 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctions {
 
-  static final byte[] NO_DATA = new byte[0];
+  private static final byte[] NO_DATA = new byte[0];
 
-  static final String WC1 = "([^/]+)";    // *
-  static final String WC2 = "(.+)";       // **
+  private static final String WC1 = "([^/]+)";    // *
+  private static final String WC2 = "(.+)";       // **
 
   /**
    * Prevent instantiation.

@@ -17,7 +17,7 @@ import java.util.concurrent.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomThreadFactory implements ThreadFactory {
 
-  static final AtomicInteger POOLNUMBER = new AtomicInteger(1);
+  private static final AtomicInteger POOLNUMBER = new AtomicInteger(1);
   
   ThreadGroup     group;
   AtomicInteger   threadNumber;

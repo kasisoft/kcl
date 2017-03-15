@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.thread;
 
+import static com.kasisoft.libs.common.constants.Empty.*;
+
 import com.kasisoft.libs.common.io.*;
 
 import lombok.experimental.*;
@@ -20,8 +22,6 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileListRunnable extends AbstractRunnable {
 
-  static final File[] EMPTY_LIST = new File[0];
-  
   @Getter @Setter boolean       includeDirs;
   @Getter @Setter boolean       includeFiles;
   @Getter @Setter FileFilter    filter;
@@ -101,7 +101,7 @@ public class FileListRunnable extends AbstractRunnable {
   public void configure( File ... files ) {
     roots       = files;
     if( roots == null ) {
-      roots = EMPTY_LIST;
+      roots = NO_FILES;
     }
     configured  = true;
   }

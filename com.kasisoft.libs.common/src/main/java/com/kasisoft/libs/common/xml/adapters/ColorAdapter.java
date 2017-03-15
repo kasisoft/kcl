@@ -26,7 +26,7 @@ import java.awt.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColorAdapter extends TypeAdapter<String, Color> {
 
-  static final String RGB = "rgb";
+  private static final String RGB = "rgb";
   
   Map<String,Color>   colors;
   

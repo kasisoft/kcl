@@ -54,7 +54,7 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MapProperty<T> extends AbstractProperty<T, Map<String, T>, MapProperty> {
 
-  static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(.+)\\s*\\])";
+  private static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(.+)\\s*\\])";
 
   Pattern                 pattern;
   
@@ -105,7 +105,7 @@ public class MapProperty<T> extends AbstractProperty<T, Map<String, T>, MapPrope
    * @param propertykeys   The supplied keys backing the map. Not <code>null</code>.
    */
   private void removeProperties( Set<?> propertykeys ) {
-    List<String> toremove = new ArrayList<>( (Set<String>) propertykeys );
+    val toremove = new ArrayList<String>( (Set<String>) propertykeys );
     for( int i = toremove.size() - 1; i >= 0; i-- ) {
       if( ! pattern.matcher( toremove.get(i) ).matches() ) {
         toremove.remove(i);
@@ -138,7 +138,7 @@ public class MapProperty<T> extends AbstractProperty<T, Map<String, T>, MapPrope
     removeProperties( props.keySet() );
     if( newvalue != null ) {
       for( Map.Entry<String, T> entry : newvalue.entrySet() ) {
-        String key = String.format( "%s[%s]", getKey(), entry.getKey() );
+        val key = String.format( "%s[%s]", getKey(), entry.getKey() );
         setProperty( props, key, entry.getValue() );
       }
     }
@@ -176,12 +176,12 @@ public class MapProperty<T> extends AbstractProperty<T, Map<String, T>, MapPrope
    * @return   The map value providing the content. Not <code>null</code>. 
    */
   private Map<String, String> getValueImpl( Map<?, ?> map ) {
-    Map<String, String> result = new Hashtable<>();
+    val result = new Hashtable<String, String>();
     for( Object propkey : map.keySet() ) {
       Matcher matcher = pattern.matcher( (String) propkey );
       if( matcher.matches() ) {
-        String key    = matcher.group(2);
-        String value  = getProperty( map, (String) propkey );
+        val key    = matcher.group(2);
+        val value  = getProperty( map, (String) propkey );
         if( value != null ) {
           result.put( key, value );
         }
@@ -199,7 +199,7 @@ public class MapProperty<T> extends AbstractProperty<T, Map<String, T>, MapPrope
    * @return   The typed values. Not <code>null</code>.
    */
   private Map<String, T> getTypedValues( Map<String, String> values, Map<String, T> defvalues ) {
-    Map<String, T> result = new HashMap<>();
+    val result = new HashMap<String, T>();
     if( defaultValue != null ) {
       result.putAll( defaultValue );
     }

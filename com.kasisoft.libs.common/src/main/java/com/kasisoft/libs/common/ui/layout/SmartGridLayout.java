@@ -23,18 +23,18 @@ import java.awt.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SmartGridLayout extends GridLayout implements LayoutManager2 {
 
-  static final int MASK_MINWIDTH        = 0x08; // %001000
-  static final int MASK_MAXWIDTH        = 0x10; // %010000
-  static final int MASK_PREFWIDTH       = 0x18; // %011000
-  static final int MASK_UNLIMITEDWIDTH  = 0x20; // %100000
+  private static final int MASK_MINWIDTH        = 0x08; // %001000
+  private static final int MASK_MAXWIDTH        = 0x10; // %010000
+  private static final int MASK_PREFWIDTH       = 0x18; // %011000
+  private static final int MASK_UNLIMITEDWIDTH  = 0x20; // %100000
 
-  static final int MASK_MINHEIGHT       = 0x01; // %000001
-  static final int MASK_MAXHEIGHT       = 0x02; // %000010
-  static final int MASK_PREFHEIGHT      = 0x03; // %000011
-  static final int MASK_UNLIMITEDHEIGHT = 0x04; // %000100
+  private static final int MASK_MINHEIGHT       = 0x01; // %000001
+  private static final int MASK_MAXHEIGHT       = 0x02; // %000010
+  private static final int MASK_PREFHEIGHT      = 0x03; // %000011
+  private static final int MASK_UNLIMITEDHEIGHT = 0x04; // %000100
 
-  static final int MASK_WIDTH           = 0x38; // %111000
-  static final int MASK_HEIGHT          = 0x07; // %000111
+  private static final int MASK_WIDTH           = 0x38; // %111000
+  private static final int MASK_HEIGHT          = 0x07; // %000111
 
   // Internal constants for controlling purposes
   private enum SizeType {

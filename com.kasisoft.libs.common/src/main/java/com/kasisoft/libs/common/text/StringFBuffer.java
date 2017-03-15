@@ -19,8 +19,6 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StringFBuffer implements Serializable, CharSequence {
 
-  static final long serialVersionUID = 0x7ABEDA21D57AD988L;
-  
   // only used for temporary purposes
   transient List<String>   collector;
   

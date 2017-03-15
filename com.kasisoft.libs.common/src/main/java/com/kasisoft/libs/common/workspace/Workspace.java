@@ -32,7 +32,7 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Workspace {
 
-  static Workspace       instance = null;
+  private static Workspace       instance = null;
   
   @Getter
   Properties                  properties;

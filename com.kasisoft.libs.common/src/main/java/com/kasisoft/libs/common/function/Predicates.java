@@ -17,8 +17,12 @@ public class Predicates {
   
   public static final Predicate         IS_NULL = IS_NOT_NULL.negate();
   
-  public static final Predicate<String> IS_JAVA_CLASS_FILE = new IsJavaClassFile();
-  
+  public static final Predicate<String> IS_JAVA_CLASS_FILE = new SuffixPredicate( ".class" );
+
+  public static final Predicate<String> IS_JAVA_YAML_FILE = new SuffixPredicate( ".yaml", ".yml" );
+
+  public static final Predicate<String> IS_JSON_FILE = new SuffixPredicate( ".json" );
+
   public static final Predicate<String> IS_RESOURCE = IS_JAVA_CLASS_FILE.negate();
 
   public static final Predicate<String> IS_RESOURCE_FILE = IS_RESOURCE.and( $ -> !$.endsWith("/") );
@@ -107,10 +111,21 @@ public class Predicates {
     }
       
   }
-  
-  private static class IsJavaClassFile implements Predicate<String> {
 
-    Pattern pattern = Pattern.compile( "^(.+)(.class)$" );
+  private static class SuffixPredicate implements Predicate<String> {
+    
+    Pattern   pattern;
+    
+    public SuffixPredicate( String ... suffices ) {
+      StringBuilder builder = new StringBuilder( "^(.+)(" );
+      builder.append( suffices[0] );
+      for( int i = 1; i < suffices.length; i++ ) {
+        builder.append( "|" );
+        builder.append( suffices[i] );
+      }
+      builder.append( ")$" );
+      pattern = Pattern.compile( builder.toString() );
+    }
     
     @Override
     public boolean test( String resource ) {

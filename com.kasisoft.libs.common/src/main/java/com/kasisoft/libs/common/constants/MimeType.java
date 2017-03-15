@@ -61,7 +61,7 @@ public enum MimeType {
   ZLib                        ( "application/x-compress"        , "z"                                 );  // ZLib compressed files 
 
   static {
-    for( Map.Entry<String, Set<MimeType>> entry : LocalData.valuebysuffix.entrySet() ) {
+    for( val entry : LocalData.valuebysuffix.entrySet() ) {
       LocalData.valuebysuffix.put( entry.getKey(), Collections.unmodifiableSet( entry.getValue() ) );
     }
   }

@@ -31,9 +31,9 @@ public class ConfigurationHelper {
    * @return   A simple help text about the supplied properties. Not <code>null</code>.
    */
   public static String help( AbstractProperty<?, ?, ?> ... properties ) {
-    StringFBuffer                          buffer = new StringFBuffer();
-    Map<String, AbstractProperty<?, ?, ?>> map    = new Hashtable<>();
-    List<String>                           keys   = new ArrayList<>();
+    val buffer = new StringFBuffer();
+    val map    = new Hashtable<String, AbstractProperty<?, ?, ?>>();
+    val keys   = new ArrayList<String>();
     if( properties != null ) {
       for( AbstractProperty<?, ?, ?> property : properties ) {
         keys.add( property.getKey() );
@@ -49,7 +49,7 @@ public class ConfigurationHelper {
     buffer.appendF( "%s ", key );
     buffer.appendF( "(%s) ", property.isRequired() ? label_mandatory : label_optional );
     if( property instanceof SimpleProperty ) {
-      SimpleProperty simpleproperty = (SimpleProperty) property;
+      val simpleproperty = (SimpleProperty) property;
       if( simpleproperty.getDefaultValue() != null ) {
         buffer.append( format_default.format( simpleproperty.getDefaultValue() ) );
         buffer.append( " " );
@@ -67,7 +67,7 @@ public class ConfigurationHelper {
    * @return   A map of replacements with regex quoted keys. Not <code>null</code>.
    */
   public static Map<Pattern, String> quoteKeys( @NonNull Map<String, String> replacementmap ) {
-    Map<Pattern, String> result = new HashMap<>();
+    val result = new HashMap<Pattern, String>();
     replacementmap.forEach( (k, v) ->  result.put( Pattern.compile( Pattern.quote(k) ), v ) );
     return result;
   }
@@ -157,11 +157,11 @@ public class ConfigurationHelper {
   private static Map<String, String> createReplacementMapImpl( 
     Map props, String format, String nullvalue, SimpleProperty<?> ... properties 
   ) {
-    Map<String, String> result = new HashMap<>();
+    val result = new HashMap<String, String>();
     if( (properties == null) || (properties.length == 0) ) {
       // process all properties (if the type is a map it must provide String values !)
       for( Object keyobj : props.keySet() ) {
-        String keypattern = String.format( format, keyobj );
+        val    keypattern = String.format( format, keyobj );
         String value      = StringFunctions.cleanup( (String) props.get( keyobj ) );
         if( value == null ) {
           value = nullvalue;
@@ -195,7 +195,7 @@ public class ConfigurationHelper {
    */
   public static Map<String, String> createReplacementMap( @NonNull String varformatter ) {
     
-    Map<String, String> result = new Hashtable<>();
+    val result = new Hashtable<String, String>();
     
     // record the env entries
     System.getenv().forEach( (k, v) -> result.put( newKey( varformatter, PREFIX_ENV, k ), v ) );

@@ -1,12 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
-
-import java.text.*;
 
 /**
  * Values to identify a month.
@@ -14,7 +12,7 @@ import java.text.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public enum Month {
+public enum Month implements TemporalValue {
 
   January     ( Calendar.JANUARY   , 31 ),
   February    ( Calendar.FEBRUARY  , 28 ),
@@ -73,12 +71,8 @@ public enum Month {
    * 
    * @return   A long presentable text for this month. Neither <code>null</code> nor empty.
    */
-  @SuppressWarnings("deprecation")
   public String getPresentable( @NonNull Locale locale ) {
-    SimpleDateFormat formatter = new SimpleDateFormat( "MMMM", locale );
-    Date             date      = new Date();
-    date.setMonth( jreMonth );
-    return formatter.format( date );
+    return getPresentable( locale, "MMMM", createDate() );
   }
 
   /**
@@ -88,14 +82,17 @@ public enum Month {
    * 
    * @return   A short presentable text for this month. Neither <code>null</code> nor empty.
    */
-  @SuppressWarnings("deprecation")
   public String getShortPresentable( @NonNull Locale locale ) {
-    SimpleDateFormat formatter = new SimpleDateFormat( "MMM", locale );
-    Date             date      = new Date();
-    date.setMonth( jreMonth );
-    return formatter.format( date );
+    return getPresentable( locale, "MMM", createDate() );
   }
 
+  @SuppressWarnings("deprecation")
+  private Date createDate() {
+    val result = new Date();
+    result.setMonth( jreMonth );
+    return result;
+  }
+  
   /**
    * Returns the numbering within a year. January = 1, February = 2 and so on.
    * 
@@ -258,7 +255,7 @@ public enum Month {
    * @return   The month for the supplied jre month constant. 
    */
   public static Month valueOf( int jremonth ) {
-    for( Month month : Month.values() ) {
+    for( val month : Month.values() ) {
       if( month.jreMonth == jremonth ) {
         return month;
       }

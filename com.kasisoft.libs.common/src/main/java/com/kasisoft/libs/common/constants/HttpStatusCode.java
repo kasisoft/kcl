@@ -79,7 +79,7 @@ public enum HttpStatusCode {
    * @return   The code if it could be found. <code>null</code> otherwise.
    */
   public static HttpStatusCode valueByStatusCode( int statuscode ) {
-    for( HttpStatusCode code : HttpStatusCode.values() ) {
+    for( val code : HttpStatusCode.values() ) {
       if( code.code == statuscode ) {
         return code;
       }

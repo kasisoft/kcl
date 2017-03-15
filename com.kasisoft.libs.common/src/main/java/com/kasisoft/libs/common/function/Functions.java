@@ -11,6 +11,9 @@ import java.util.function.*;
  */
 public class Functions {
 
+  private Functions() {
+  }
+  
   /**
    * Protects the supplied function while testing for a null input.
    *  

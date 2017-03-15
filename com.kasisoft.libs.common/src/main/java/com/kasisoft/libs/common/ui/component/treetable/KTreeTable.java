@@ -27,7 +27,7 @@ import java.awt.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KTreeTable extends JTable {
 
-  static final TreeTableCellRenderer  DEFAULT_RENDERER = new DefaultTreeTableCellRenderer();
+  private static final TreeTableCellRenderer  DEFAULT_RENDERER = new DefaultTreeTableCellRenderer();
   
   @Getter
   TreeTableModel      treeTableModel;

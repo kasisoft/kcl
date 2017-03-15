@@ -49,7 +49,7 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleListProperty<T> extends AbstractProperty<T, List<T>, SimpleListProperty> {
 
-  static final String DELIMITER = ",";
+  private static final String DELIMITER = ",";
   
   /** Maybe <code>null</code>. */
   @Getter List<T>   defaultValue;

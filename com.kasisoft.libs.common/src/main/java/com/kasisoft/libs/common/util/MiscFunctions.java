@@ -34,13 +34,13 @@ import java.sql.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctions {
 
-  static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
+  private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
   
-  static final Set<String> TRUEVALUES  = new HashSet<>( Arrays.asList(
+  private static final Set<String> TRUEVALUES  = new HashSet<>( Arrays.asList(
     "true", "ja", "yes", "on","ein", "an", "1", "-1"
   ) );
   
-  static final Set<String> FALSEVALUES = new HashSet<>( Arrays.asList(
+  private static final Set<String> FALSEVALUES = new HashSet<>( Arrays.asList(
     "false", "nein", "no", "off","aus", "0"
   ) );
   

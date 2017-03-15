@@ -73,7 +73,7 @@ public enum ByteOrderMark {
    * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
    */
   public static ByteOrderMark identify( @NonNull byte[] data, int offset ) {
-    ByteOrderMark[] marks = ByteOrderMark.values();
+    val marks = ByteOrderMark.values();
     for( ByteOrderMark mark : marks ) {
       if( mark.startsWith( data, offset ) ) {
         return mark;

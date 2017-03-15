@@ -14,8 +14,8 @@ import java.util.function.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LongAdapter extends TypeAdapter<String,Long> {
 
-  static final String MAX   = "MAX";
-  static final String MIN   = "MIN";
+  private static final String MAX   = "MAX";
+  private static final String MIN   = "MIN";
   
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

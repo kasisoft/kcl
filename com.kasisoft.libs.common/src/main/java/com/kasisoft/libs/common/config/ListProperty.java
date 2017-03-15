@@ -53,7 +53,7 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> {
 
-  static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
+  private static final String FMT_PATTERN = "\\Q%s\\E\\s*(\\[\\s*(\\d+)\\s*\\])";
 
   Pattern           pattern;
   
@@ -103,7 +103,7 @@ public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> 
    * @param propertykeys   The supplied keys backing the map. Not <code>null</code>.
    */
   private void removeProperties( @NonNull Set<?> propertykeys ) {
-    List<String> toremove = new ArrayList<>( (Set<String>) propertykeys );
+    val toremove = new ArrayList<String>( (Set<String>) propertykeys );
     for( int i = toremove.size() - 1; i >= 0; i-- ) {
       if( ! pattern.matcher( toremove.get(i) ).matches() ) {
         toremove.remove(i);
@@ -142,7 +142,7 @@ public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> 
     removeProperties( props.keySet() );
     if( newvalue != null ) {
       for( int i = 0; i < newvalue.size(); i++ ) {
-        String key = String.format( "%s[%s]", getKey(), Integer.valueOf(i) );
+        val key = String.format( "%s[%s]", getKey(), Integer.valueOf(i) );
         setProperty( props, key, newvalue.get(i) );
       }
     }
@@ -194,10 +194,10 @@ public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> 
   private List<String> getValueImpl( Map<?,?> map ) {
     Map<Integer, String> result = new Hashtable<>();
     for( Object propkey : map.keySet() ) {
-      Matcher matcher = pattern.matcher( (String) propkey );
+      val matcher = pattern.matcher( (String) propkey );
       if( matcher.matches() ) {
-        Integer index = Integer.valueOf( matcher.group(2) );
-        String  value = getProperty( map, (String) propkey );
+        val index = Integer.valueOf( matcher.group(2) );
+        val value = getProperty( map, (String) propkey );
         if( value != null ) {
           result.put( index, value );
         }
@@ -206,9 +206,9 @@ public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> 
     if( result.isEmpty() ) {
       return null;
     }
-    List<Integer> sorted = new ArrayList<>( result.keySet() );
+    val sorted = new ArrayList<Integer>( result.keySet() );
     Collections.sort( sorted );
-    List<String>  list   = new ArrayList<>();
+    val list   = new ArrayList<String>();
     sorted.forEach( s -> list.add( result.get(s) ) );
     return list;
   }

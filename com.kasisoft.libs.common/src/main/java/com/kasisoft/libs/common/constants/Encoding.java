@@ -37,7 +37,7 @@ public final class Encoding {
   public static final Encoding UTF16LE;
   public static final Encoding ISO88591;
   
-  static final Map<String,Encoding>   ENCODINGS;
+  private static final Map<String,Encoding>   ENCODINGS;
   
   static {
     ENCODINGS   = new Hashtable<>();
@@ -210,7 +210,7 @@ public final class Encoding {
    */
   public byte[] encode( @NonNull String text ) {
     ByteBuffer buffer = charset.encode( CharBuffer.wrap( text ) );
-    byte[]     result = new byte[ buffer.limit() ];
+    val        result = new byte[ buffer.limit() ];
     buffer.get( result );
     return result;
   }
@@ -417,7 +417,7 @@ public final class Encoding {
    * @return   The encoding value or <code>null</code> if it cannot be identified.
    */
   public static Encoding valueByName( @NonNull String name ) {
-    for( Encoding encoding : Encoding.values() ) {
+    for( val encoding : Encoding.values() ) {
       if( encoding.encoding.equalsIgnoreCase( name ) ) {
         return encoding;
       }

@@ -30,7 +30,7 @@ public final class Digest {
   public static final Digest   SHA384;
   public static final Digest   SHA512;
   
-  static final Map<String,Digest>   DIGESTS;
+  private static final Map<String,Digest>   DIGESTS;
   
   static {
     DIGESTS   = new Hashtable<>();
@@ -114,7 +114,7 @@ public final class Digest {
    * @return   The digest value or <code>null</code> if it cannot be identified.
    */
   public static Digest valueByName( @NonNull String name ) {
-    for( Digest digest : Digest.values() ) {
+    for( val digest : Digest.values() ) {
       if( digest.algorithm.equalsIgnoreCase( name ) ) {
         return digest;
       }

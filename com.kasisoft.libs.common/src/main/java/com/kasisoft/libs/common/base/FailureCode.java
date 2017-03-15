@@ -116,7 +116,7 @@ public enum FailureCode {
   }
   
   private String createMessage( String message, Object[] params ) {
-    StringBuilder builder = new StringBuilder();
+    val builder = new StringBuilder();
     builder.append( String.valueOf( this ) );
     if( message != null ) {
       builder.append( ": " );

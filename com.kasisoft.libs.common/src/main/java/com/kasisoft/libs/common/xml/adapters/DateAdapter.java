@@ -18,7 +18,7 @@ import java.text.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DateAdapter extends TypeAdapter<String, Date> {
 
-  static final String FORMAT_DEFAULT = "yyyy-MM-dd";
+  private static final String FORMAT_DEFAULT = "yyyy-MM-dd";
   
   SimpleDateFormat   formatter;
   

@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.util.*;
  */
 public class PngFileType implements FileType {
 
-  static final byte[] MAGIC = "PNG".getBytes(); 
+  private static final byte[] MAGIC = "PNG".getBytes(); 
   
   @Override
   public int getMinSize() {

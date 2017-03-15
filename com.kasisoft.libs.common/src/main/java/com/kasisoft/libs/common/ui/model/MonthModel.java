@@ -20,8 +20,8 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MonthModel extends DefaultTableModel {
 
-  static final int TITLEROW     = 0;
-  static final int WEEKDAYCOUNT = 7;
+  private static final int TITLEROW     = 0;
+  private static final int WEEKDAYCOUNT = 7;
 
   @Getter
   Month       month;

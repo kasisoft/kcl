@@ -18,8 +18,8 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CharSequenceFacades {
 
-  static final Map<String, CharSequenceFacade>      FACADES;
-  static final Map<String, TextProcessingFactory>   FACTORIES;
+  private static final Map<String, CharSequenceFacade>      FACADES;
+  private static final Map<String, TextProcessingFactory>   FACTORIES;
   
   static {
     FACADES = new HashMap<>();

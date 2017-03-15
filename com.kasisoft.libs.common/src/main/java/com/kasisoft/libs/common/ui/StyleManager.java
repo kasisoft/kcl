@@ -22,9 +22,9 @@ import java.awt.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StyleManager {
 
-  static final float DEFAULT_SIZE = 12;
+  private static final float DEFAULT_SIZE = 12;
 
-  static StyleManager     instance = null;
+  private static StyleManager     instance = null;
   
   Map<String, Style>                 styles;
   Map<String, WriteProtectedStyle>   writeprotected;

@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.util.*;
  */
 public class Bzip2FileType implements FileType {
 
-  static final byte[] MAGIC = "BZh".getBytes(); 
+  private static final byte[] MAGIC = "BZh".getBytes(); 
   
   @Override
   public int getMinSize() {

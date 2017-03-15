@@ -14,15 +14,15 @@ import java.util.function.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoubleAdapter extends TypeAdapter<String, Double> {
 
-  static final String NAN           = "NaN";
-  static final String NEG_INF       = "-INF";
-  static final String NEG_INFINITY  = "-INFINITY";
-  static final String POS_INF       = "+INF";
-  static final String POS_INFINITY  = "+INFINITY";
-  static final String INF           = "INF";
-  static final String INFINITY      = "INFINITY";
-  static final String MAX           = "MAX";
-  static final String MIN           = "MIN";
+  private static final String NAN           = "NaN";
+  private static final String NEG_INF       = "-INF";
+  private static final String NEG_INFINITY  = "-INFINITY";
+  private static final String POS_INF       = "+INF";
+  private static final String POS_INFINITY  = "+INFINITY";
+  private static final String INF           = "INF";
+  private static final String INFINITY      = "INFINITY";
+  private static final String MAX           = "MAX";
+  private static final String MIN           = "MIN";
   
   /**
    * Initializes this adapter which does NOT provide any kind of error information. Errors will only result in 

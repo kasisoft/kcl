@@ -17,11 +17,11 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnhancedFileFilter extends BasicFileFilter {
   
-  static final String[] DEFAULT_EXCLUDEDDIRS = new String[] {
+  private static final String[] DEFAULT_EXCLUDEDDIRS = new String[] {
     ".git", ".svn", "_svn", "CVS"
   };
   
-  static final String[] DEFAULT_EXCLUDEDFILES = new String[] {
+  private static final String[] DEFAULT_EXCLUDEDFILES = new String[] {
   };
 
   String        suffixlistasstring;

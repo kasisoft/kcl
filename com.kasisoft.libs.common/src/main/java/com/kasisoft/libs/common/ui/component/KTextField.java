@@ -24,7 +24,7 @@ import java.awt.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KTextField extends JTextField implements WorkspacePersistent {
 
-  static final Color DEFAULT_PLACEHOLDER = Color.lightGray;
+  private static final Color DEFAULT_PLACEHOLDER = Color.lightGray;
   
   @Getter @Setter
   String                   placeHolder;
@@ -97,7 +97,7 @@ public class KTextField extends JTextField implements WorkspacePersistent {
 
   @Override
   public String getPersistentProperty() {
-    return property.getKey();
+    return property != null ? property.getKey() : null;
   }
 
   @Override

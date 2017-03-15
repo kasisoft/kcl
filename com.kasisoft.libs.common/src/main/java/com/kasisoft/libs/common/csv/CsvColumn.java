@@ -23,7 +23,7 @@ import java.math.*;
 @Data
 public final class CsvColumn<T> {
   
-  static Map<Class<?>, Function<String, ?>> DEFAULT_ADAPTERS = new HashMap<>();
+  private static Map<Class<?>, Function<String, ?>> DEFAULT_ADAPTERS = new HashMap<>();
   
   static {
     DEFAULT_ADAPTERS.put( Integer.class     , CsvColumn::toIntegerValue     );
@@ -58,7 +58,7 @@ public final class CsvColumn<T> {
    * @return   A copy of this instance. Not <code>null</code>.
    */
   public CsvColumn<T> copy() {
-    CsvColumn<T> result = new CsvColumn<>();
+    val result = new CsvColumn<T>();
     result.type         = type;
     result.nullable     = nullable;
     result.defval       = defval;

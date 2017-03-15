@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class DefaultTreeTableModel extends DefaultTreeModel implements TreeTableModel {
 
-  static final TreeTableNode EMPTY = new DefaultTreeTableNode( "EMPTY", new Object[0] );
+  private static final TreeTableNode EMPTY = new DefaultTreeTableNode( "EMPTY", new Object[0] );
   
   Map<TreeTableNode, RowRecord>   mapping;
   int                             columnCount;

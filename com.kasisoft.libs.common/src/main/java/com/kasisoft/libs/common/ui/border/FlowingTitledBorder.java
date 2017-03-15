@@ -21,8 +21,8 @@ import java.awt.geom.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FlowingTitledBorder extends TitledBorder {
 
-  static final String KEY_FROMCOLOR = "FlowingTitledBorder.fromColor" ;
-  static final String KEY_TOCOLOR   = "FlowingTitledBorder.toColor"   ;
+  private static final String KEY_FROMCOLOR = "FlowingTitledBorder.fromColor" ;
+  private static final String KEY_TOCOLOR   = "FlowingTitledBorder.toColor"   ;
 
   /** Not <code>null</code>. */
   @Getter Color   fromColor;

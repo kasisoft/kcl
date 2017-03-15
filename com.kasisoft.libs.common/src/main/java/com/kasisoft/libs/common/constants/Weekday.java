@@ -1,12 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
-
-import java.text.*;
 
 /**
  * Constants used to describe a weekday.
@@ -14,7 +12,7 @@ import java.text.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public enum Weekday {
+public enum Weekday implements TemporalValue {
 
   Monday    ( Calendar.MONDAY    ) ,
   Tuesday   ( Calendar.TUESDAY   ) ,
@@ -50,14 +48,8 @@ public enum Weekday {
    * 
    * @return   A long presentable text for this weekday. Neither <code>null</code> nor empty.
    */
-  @SuppressWarnings("deprecation")
   public String getPresentable( @NonNull Locale locale ) {
-    SimpleDateFormat formatter = new SimpleDateFormat( "EEEE", locale );
-    Date             date      = new Date();
-    while( date.getDay() != (jreday - 1) ) {
-      date.setDate( date.getDate() + 1 );
-    }
-    return formatter.format( date );
+    return getPresentable( locale, "EEEE", createDate() );
   }
 
   /**
@@ -67,16 +59,19 @@ public enum Weekday {
    * 
    * @return   A short presentable text for this weekday. Neither <code>null</code> nor empty.
    */
-  @SuppressWarnings("deprecation")
   public String getShortPresentable( @NonNull Locale locale ) {
-    SimpleDateFormat formatter = new SimpleDateFormat( "EEE", locale );
-    Date             date      = new Date();
-    while( date.getDay() != (jreday - 1) ) {
-      date.setDate( date.getDate() + 1 );
-    }
-    return formatter.format( date );
+    return getPresentable( locale, "EEE", createDate() );
   }
   
+  @SuppressWarnings("deprecation")
+  private Date createDate() {
+    val result = new Date();
+    while( result.getDay() != (jreday - 1) ) {
+      result.setDate( result.getDate() + 1 );
+    }
+    return result;
+  }
+
   /**
    * Returns the Weekday which follows this one.
    * 

@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.util.*;
  */
 public class ZipFileType implements FileType {
 
-  static final byte[] MAGIC = new byte[] { 'P', 'K', 3, 4 }; 
+  private static final byte[] MAGIC = new byte[] { 'P', 'K', 3, 4 }; 
   
   @Override
   public int getMinSize() {

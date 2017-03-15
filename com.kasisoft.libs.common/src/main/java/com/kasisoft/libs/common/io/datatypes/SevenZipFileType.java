@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.util.*;
  */
 public class SevenZipFileType implements FileType {
 
-  static final byte[] MAGIC = new byte[] { (byte) 0x37, (byte) 0x7A, (byte) 0xBC, (byte) 0xAF, (byte) 0x27, (byte) 0x1C  }; 
+  private static final byte[] MAGIC = new byte[] { (byte) 0x37, (byte) 0x7A, (byte) 0xBC, (byte) 0xAF, (byte) 0x27, (byte) 0x1C  }; 
   
   @Override
   public int getMinSize() {

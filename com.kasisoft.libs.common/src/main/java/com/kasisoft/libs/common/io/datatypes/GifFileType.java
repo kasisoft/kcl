@@ -11,8 +11,8 @@ import com.kasisoft.libs.common.util.*;
  */
 public class GifFileType implements FileType {
 
-  static final byte[] MAGIC1 = "GIF87a".getBytes(); 
-  static final byte[] MAGIC2 = "GIF89a".getBytes();
+  private static final byte[] MAGIC1 = "GIF87a".getBytes(); 
+  private static final byte[] MAGIC2 = "GIF89a".getBytes();
   
   @Override
   public int getMinSize() {

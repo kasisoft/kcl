@@ -245,8 +245,8 @@ public class I18NSupport {
       prefix  = "";
     }
     
-    String[] candidates = new String[3];
-    String   country    = StringFunctions.cleanup( locale.getCountry() );
+    val candidates = new String[3];
+    val country    = StringFunctions.cleanup( locale.getCountry() );
     if( country != null ) {
       candidates[0] = String.format( "%s_%s_%s.properties", base, locale.getLanguage(), country ); // f.e. de_DE
     }
@@ -256,5 +256,5 @@ public class I18NSupport {
     applyTranslations( prefix, loadTranslations( candidates ), collectFields( clazz ) );
     
   }
-
+  
 } /* ENDCLASS */

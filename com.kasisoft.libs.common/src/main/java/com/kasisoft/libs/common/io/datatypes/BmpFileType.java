@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.util.*;
  */
 public class BmpFileType implements FileType {
 
-  static final byte[] MAGIC = "BM".getBytes(); 
+  private static final byte[] MAGIC = "BM".getBytes(); 
   
   @Override
   public int getMinSize() {

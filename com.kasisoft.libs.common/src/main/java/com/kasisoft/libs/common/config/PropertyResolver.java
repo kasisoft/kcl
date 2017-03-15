@@ -69,7 +69,7 @@ public class PropertyResolver {
    * @return   A Properties instance with resolved properties. Not <code>null</code>.
    */
   public synchronized Properties toProperties() {
-    Properties result = new Properties();
+    val result = new Properties();
     return storeProperties( result, result::setProperty, null );
   }
   
@@ -79,7 +79,7 @@ public class PropertyResolver {
    * @return   A map with resolved properties. Not <code>null</code>.
    */
   public synchronized Map<String, String> toMap() {
-    Map<String, String> result = new HashMap<>();
+    val result = new HashMap<String, String>();
     return storeProperties( result, result::put, result::put );
   }
 
@@ -246,7 +246,7 @@ public class PropertyResolver {
    * @throws IOException   Loading failed for some reason.
    */
   public synchronized PropertyResolver load( @NonNull String resourcepath ) throws IOException {
-    List<URL>        postponed = new ArrayList<>();
+    val              postponed = new ArrayList<URL>();
     Enumeration<URL> resources = classloader.getResources( resourcepath );
     while( resources.hasMoreElements() ) {
       URL    resource = resources.nextElement();
@@ -329,8 +329,8 @@ public class PropertyResolver {
    */
   private void loadSetting( InputStream instream ) {
     try {
-      Properties  newprops = new Properties();
-      try( Reader reader = Encoding.UTF8.openReader( instream ) ) {
+      val newprops = new Properties();
+      try( val reader = Encoding.UTF8.openReader( instream ) ) {
         newprops.load( reader );
       }
       putProperties( newprops );
@@ -369,7 +369,7 @@ public class PropertyResolver {
    * @param properties   The properties that shall be loaded. Not <code>null</code>.
    */
   private void putProperties( Properties properties ) {
-    Enumeration<String> names = (Enumeration<String>) properties.propertyNames();
+    val names = (Enumeration<String>) properties.propertyNames();
     while( names.hasMoreElements() ) {
       String name   = names.nextElement();
       String value  = properties.getProperty( name );
@@ -399,7 +399,7 @@ public class PropertyResolver {
    */
   private String resolveProperty( String value ) {
     if( (value != null) && (value.length() > 0) && (! substitutions.isEmpty()) ) {
-      for( Map.Entry<Pattern,String> replacement : substitutions.entrySet() ) {
+      for( val replacement : substitutions.entrySet() ) {
         Matcher matcher = replacement.getKey().matcher( value );
         value = replaceAll( matcher, value, replacement.getValue() );
       }
@@ -417,8 +417,8 @@ public class PropertyResolver {
    * @return   The substituted value. Not <code>null</code>.
    */
   private String replaceAll( Matcher matcher, String value, String replacement ) {
-    StringBuilder builder   = new StringBuilder();
-    int           laststart = 0;
+    val builder   = new StringBuilder();
+    int laststart = 0;
     while( matcher.find() ) {
       int start = matcher.start();
       int end   = matcher.end();

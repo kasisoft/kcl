@@ -30,7 +30,7 @@ import java.io.*;
 @EqualsAndHashCode(of = {"list", "commentPrefix"})
 public class Blacklist implements Predicate<String> {
   
-  static final Comparator<String> LENGTH_COMPARATOR = new Comparator<String>() {
+  private static final Comparator<String> LENGTH_COMPARATOR = new Comparator<String>() {
 
     @Override
     public int compare( String o1, String o2 ) {
