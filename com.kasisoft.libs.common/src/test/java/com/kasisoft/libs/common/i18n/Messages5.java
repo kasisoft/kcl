@@ -24,7 +24,7 @@ public class Messages5 {
   public static I18NFormatter  m5;
 
   @I18N(value="DEFAULT", key="overridden.key")
-  static String m6;
+  public static String m6;
   
   static {
     I18NSupport.initialize( Locale.GERMANY, Messages5.class );
