@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.annotation.*;
 
+import java.util.function.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
@@ -14,7 +16,7 @@ import lombok.*;
 @Specification(value = "http://tools.ietf.org/html/rfc2616#section-6.1", date = "10-Jun-2016")
 @ToString(of = "name")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public enum HttpStatusCode {
+public enum HttpStatusCode implements Predicate<Integer> {
 
   Accepted                      ( 202, "Accepted"                         ),
   BadGateway                    ( 502, "Bad Gateway"                      ),
@@ -105,11 +107,15 @@ public enum HttpStatusCode {
   
   @Getter String   name;
   
-  
   HttpStatusCode( int statuscode, String text ) {
     name        = text;
     code        = statuscode;
     textualCode = String.valueOf( code );
+  }
+  
+  @Override
+  public boolean test( Integer statuscode ) {
+    return statuscode != null ? statuscode.intValue() == code : false;
   }
   
   /**
