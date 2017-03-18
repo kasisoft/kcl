@@ -6,6 +6,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.util.*;
 
 /**
@@ -19,7 +21,7 @@ import java.util.*;
   @Specification(value = "http://www.iana.org/assignments/media-types", date = "10-Jun-2016") 
 })
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public enum MimeType {
+public enum MimeType implements Predicate<String> {
 
   AdobePdf                    ( "application/pdf"               , "pdf"                               ),  // Adobe PDF
   Bitmap                      ( "image/bmp"                     , "bmp"                               ),  // BMP-Files
@@ -84,6 +86,15 @@ public enum MimeType {
       }
       set.add( this );
     }
+  }
+  
+  @Override
+  public boolean test( String mime ) {
+    boolean result = false;
+    if( mime != null ) {
+      result = mimeType.equalsIgnoreCase( mime );
+    }
+    return result;
   }
   
   /**
