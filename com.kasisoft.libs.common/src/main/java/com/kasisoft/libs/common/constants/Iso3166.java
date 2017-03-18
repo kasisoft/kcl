@@ -4,6 +4,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.function.*;
+
 import java.util.*;
 
 /**
@@ -12,7 +14,7 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public enum Iso3166 {
+public enum Iso3166 implements Predicate<String> {
 
   Afghanistan                          ( "AFG", "AF",   4 ),
   Albania                              ( "ALB", "AL",   8 ),
@@ -284,6 +286,15 @@ public enum Iso3166 {
     LocalData . valuebynum    . put( Integer.valueOf( value ), this );
   }
   
+  @Override
+  public boolean test( String langcode ) {
+    boolean result = false;
+    if( langcode != null ) {
+      result = alpha2.equalsIgnoreCase( langcode ) || alpha3.equalsIgnoreCase( langcode );
+    }
+    return result;
+  }
+
   /**
    * Returns the iso value for a specific alpha-3 code.
    * 
