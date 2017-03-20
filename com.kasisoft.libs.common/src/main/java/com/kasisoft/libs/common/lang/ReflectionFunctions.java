@@ -1,8 +1,11 @@
 package com.kasisoft.libs.common.lang;
 
+import com.kasisoft.libs.common.annotation.*;
 import com.kasisoft.libs.common.base.*;
 
 import lombok.*;
+
+import java.util.*;
 
 import java.lang.reflect.*;
 
@@ -111,4 +114,32 @@ public class ReflectionFunctions {
     return null;
   }
   
+  @NonNull
+  public List<Class> getGenericsTypes( @NonNull Method method ) {
+    return getGenericsTypesFromMember( method );
+  }
+
+  @NonNull
+  public List<Class> getGenericsTypes( @NonNull Field field ) {
+    return getGenericsTypesFromMember( field );
+  }
+
+  private List<Class> getGenericsTypesFromMember( AnnotatedElement member ) {
+    List<Class>   result  = Collections.emptyList();
+    GenericsType  type    = member.getAnnotation( GenericsType.class );
+    GenericsTypes types   = member.getAnnotation( GenericsTypes.class );
+    List<Class>   list1   = type  != null ? Arrays.asList( type.value() ) : null;
+    List<Class>   list2   = (types != null) && (types.value().length > 0) ? Arrays.asList( types.value() ) : null;
+    if( (list1 != null) && (list2 != null) ) {
+      result = new ArrayList<>( list1 );
+      result.addAll( list2 );
+    } else if( list1 != null ) {
+      result = list1;
+    } else if( list2 != null ) {
+      result = list2;
+    }
+    return result;
+  }
+
 } /* ENDCLASS */
+
