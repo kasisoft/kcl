@@ -1,10 +1,9 @@
 package com.kasisoft.libs.common.comparator;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
- */
-/**
  * A comparator based upon the Class names of classes.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ClassNameComparator extends AbstractStringComparator<Class> {
 

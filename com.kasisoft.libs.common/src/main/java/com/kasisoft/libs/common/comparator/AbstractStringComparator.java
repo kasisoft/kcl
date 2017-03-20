@@ -9,10 +9,9 @@ import lombok.experimental.*;
 import lombok.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
- */
-/**
  * Abstract comparator.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 abstract class AbstractStringComparator<T> implements Comparator<T> {

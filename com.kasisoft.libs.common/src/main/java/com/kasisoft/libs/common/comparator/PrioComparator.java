@@ -9,7 +9,9 @@ import lombok.experimental.*;
 import lombok.*;
 
 /**
- * A comparator for prioritized types. 
+ * A comparator for prioritized types.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PrioComparator implements Comparator<Class> {
