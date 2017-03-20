@@ -351,5 +351,15 @@ public class SwingFunctions {
       collectChildren( receiver, child );
     }
   }
+  
+  public static Frame getFrame( Component component ) {
+    Frame result = null;
+    if( component instanceof Frame ) {
+      result = (Frame) component;
+    } else if( component != null ) {
+      result = getFrame( component.getParent() );
+    }
+    return result;
+  }
 
 } /* ENDCLASS */
