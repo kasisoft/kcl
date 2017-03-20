@@ -63,7 +63,7 @@ public enum MimeType implements Predicate<String> {
   ZLib                        ( "application/x-compress"        , "z"                                 );  // ZLib compressed files 
 
   static {
-    for( val entry : LocalData.valuebysuffix.entrySet() ) {
+    for( Map.Entry<String, Set<MimeType>> entry : LocalData.valuebysuffix.entrySet() ) {
       LocalData.valuebysuffix.put( entry.getKey(), Collections.unmodifiableSet( entry.getValue() ) );
     }
   }

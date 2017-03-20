@@ -399,7 +399,7 @@ public class PropertyResolver {
    */
   private String resolveProperty( String value ) {
     if( (value != null) && (value.length() > 0) && (! substitutions.isEmpty()) ) {
-      for( val replacement : substitutions.entrySet() ) {
+      for( Map.Entry<Pattern, String> replacement : substitutions.entrySet() ) {
         Matcher matcher = replacement.getKey().matcher( value );
         value = replaceAll( matcher, value, replacement.getValue() );
       }
