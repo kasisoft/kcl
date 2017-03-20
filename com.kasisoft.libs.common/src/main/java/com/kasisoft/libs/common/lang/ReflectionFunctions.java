@@ -115,16 +115,16 @@ public class ReflectionFunctions {
   }
   
   @NonNull
-  public List<Class> getGenericsTypes( @NonNull Method method ) {
+  public static List<Class> getGenericsTypes( @NonNull Method method ) {
     return getGenericsTypesFromMember( method );
   }
 
   @NonNull
-  public List<Class> getGenericsTypes( @NonNull Field field ) {
+  public static List<Class> getGenericsTypes( @NonNull Field field ) {
     return getGenericsTypesFromMember( field );
   }
 
-  private List<Class> getGenericsTypesFromMember( AnnotatedElement member ) {
+  private static List<Class> getGenericsTypesFromMember( AnnotatedElement member ) {
     List<Class>   result  = Collections.emptyList();
     GenericsType  type    = member.getAnnotation( GenericsType.class );
     GenericsTypes types   = member.getAnnotation( GenericsTypes.class );
