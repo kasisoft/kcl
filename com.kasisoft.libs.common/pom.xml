@@ -382,6 +382,7 @@
   </reporting>
   
   <distributionManagement>
+
   
     <snapshotRepository>
       <id>libs-kasisoft</id>
