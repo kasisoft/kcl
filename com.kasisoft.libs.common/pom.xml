@@ -308,9 +308,11 @@
               <key>false</key>
             </property>
           </properties>
+          <!-- 
           <systemPropertyVariables>
             <java.io.tmpdir>${env.TMP}</java.io.tmpdir>
           </systemPropertyVariables>
+          -->
         </configuration>
       </plugin>
       
