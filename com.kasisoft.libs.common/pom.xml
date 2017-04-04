@@ -33,9 +33,9 @@
   </organization>
   
   <scm>
-    <url>https://kasisoft.com/bitbucket/projects/LIBS/repos/kasisoft-common</url>
-    <connection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</connection>
-    <developerConnection>scm:git:ssh://kasisoft.com:7999/libs/kasisoft-common.git</developerConnection>
+    <url>https://kasisoft.com/bitbucket/projects/LIBS/repos/com.kasisoft.libs.common</url>
+    <connection>scm:git:ssh://kasisoft.com:7999/libs/com.kasisoft.libs.common.git</connection>
+    <developerConnection>scm:git:ssh://kasisoft.com:7999/libs/com.kasisoft.libs.common.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   
@@ -53,7 +53,7 @@
     <developer>
       <id>costamojan</id>
       <name>Daniel Kasmeroglu</name>
-      <email>Daniel.Kasmeroglu@kasisoft.net</email>
+      <email>daniel.kasmeroglu@kasisoft.net</email>
     </developer>
   </developers>
   
