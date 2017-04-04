@@ -14,7 +14,7 @@
   
   <groupId>com.kasisoft</groupId>
   <artifactId>com.kasisoft.libs.common</artifactId>
-  <version>2.7-SNAPSHOT</version>
+  <version>2.7</version>
 
   <name>KCL :: Kasisoft Common Library</name>
   <!-- url>https://kasisoft.com/software/kasisoftcommon.html</url -->
