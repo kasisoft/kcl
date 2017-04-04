@@ -383,6 +383,7 @@
   
   <distributionManagement>
   
+  
     <snapshotRepository>
       <id>libs-kasisoft</id>
       <name>libs-kasisoft</name>
