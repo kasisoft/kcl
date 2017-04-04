@@ -81,7 +81,6 @@
     <plugin-version-maven-eclipse>2.9</plugin-version-maven-eclipse>
     <plugin-version-maven-gpg>1.6</plugin-version-maven-gpg>
     <plugin-version-maven-jar>2.6</plugin-version-maven-jar>
-    <plugin-version-maven-javadoc>2.10.3</plugin-version-maven-javadoc>
     <plugin-version-maven-release>2.5.2</plugin-version-maven-release>
     <plugin-version-maven-source>2.4</plugin-version-maven-source>
     <plugin-version-maven-surefire>2.18.1</plugin-version-maven-surefire>
@@ -180,14 +179,6 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${plugin-version-maven-javadoc}</version>
-          <configuration>
-            <failOnError>false</failOnError>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>${plugin-version-maven-jar}</version>
         </plugin>
@@ -266,19 +257,6 @@
             <phase>verify</phase>
             <goals>
               <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
             </goals>
           </execution>
         </executions>
