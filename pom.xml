@@ -46,7 +46,7 @@
   
   <ciManagement>
     <system>Jenkins</system>
-    <url>https://kasisoft.com/ci/job/libs.com.kasisoft.libs.common/</url>
+    <url>https://kasisoft.com/jenkins/job/libs.com.kasisoft.libs.common/</url>
   </ciManagement>
   
   <developers>
