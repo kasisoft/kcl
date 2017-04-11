@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.util;
 
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
