@@ -22,9 +22,10 @@ public class I18NFormatterTest {
   @Test(groups="all")
   public void format() {
     
-    assertThat( formatterWithArgs    . format( null             ), is( "Hello '%s' %s"   ) );
+    Object[] args = null;
+    assertThat( formatterWithArgs    . format( args             ), is( "Hello '%s' %s"   ) );
     assertThat( formatterWithArgs    . format( Empty.NO_OBJECTS ), is( "Hello '%s' %s"   ) );
-    assertThat( formatterWithoutArgs . format( null             ), is( "Constant string" ) );
+    assertThat( formatterWithoutArgs . format( args             ), is( "Constant string" ) );
     assertThat( formatterWithoutArgs . format( Empty.NO_OBJECTS ), is( "Constant string" ) );
     
     assertThat( formatterWithArgs    . format( "World"          ), is( "Hello '%s' %s"   ) );
