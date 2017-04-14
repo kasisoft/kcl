@@ -13,7 +13,7 @@ import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.io.*;
-
+import com.kasisoft.libs.common.text.*;
 import com.kasisoft.libs.common.function.*;
 
 import lombok.experimental.*;
@@ -397,6 +397,16 @@ public final class XmlFunctions {
     }
   }
   
+  public static Element findElement( @NonNull Element parent, @NonNull String tag ) {
+    List<Element> children = XmlFunctions.getChildElements( parent, tag );
+    return (children != null) && (! children.isEmpty()) ? children.get(0) : null; 
+  }
+
+  public static String getElementText( @NonNull Element parent, @NonNull String tag ) {
+    Element element = findElement( parent, tag );
+    return element != null ? StringFunctions.cleanup( element.getTextContent() ) : null;
+  }
+
   /**
    * Returns a map with all attributes.
    * 
