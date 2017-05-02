@@ -398,8 +398,8 @@ public final class XmlFunctions {
   }
   
   public static Element findElement( @NonNull Element parent, @NonNull String tag ) {
-    List<Element> children = XmlFunctions.getChildElements( parent, tag );
-    return (children != null) && (! children.isEmpty()) ? children.get(0) : null; 
+    List<Element> children = getChildElements( parent, tag );
+    return (! children.isEmpty()) ? children.get(0) : null; 
   }
 
   public static String getElementText( @NonNull Element parent, @NonNull String tag ) {
