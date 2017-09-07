@@ -28,7 +28,7 @@ public class ReflectionFunctions {
     try {
       return type.getDeclaredConstructor( params );
     } catch( Exception ex ) {
-      throw null;
+      return null;
     }
   }
   
@@ -45,7 +45,7 @@ public class ReflectionFunctions {
     try {
       return type.getDeclaredMethod( name, params );
     } catch( Exception ex ) {
-      throw null;
+      return null;
     }
   }
 
