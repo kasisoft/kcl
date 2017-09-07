@@ -96,7 +96,9 @@ public final class Digest {
       }
       return digest.digest();
     } finally {
-      bucket.free( digest );
+      if( digest != null ) {
+        bucket.free( digest );
+      }
     }
   }
 
