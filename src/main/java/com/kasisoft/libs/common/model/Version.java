@@ -84,7 +84,7 @@ public class Version implements Comparable<Version> {
    * 
    * @throws ParseException   The textual presentation is invalid.
    */
-  public Version( @NonNull String version, boolean hasmicro, boolean hasqualifier ) throws ParseException {
+  public Version( String version, boolean hasmicro, boolean hasqualifier ) throws ParseException {
     this( version, Boolean.valueOf( hasmicro ), Boolean.valueOf( hasqualifier ) );
   }
 
@@ -95,7 +95,7 @@ public class Version implements Comparable<Version> {
    * 
    * @throws ParseException   The textual presentation is invalid.
    */
-  public Version( @NonNull String version ) throws ParseException {
+  public Version( String version ) throws ParseException {
     this( version, null, null );
   }
 
