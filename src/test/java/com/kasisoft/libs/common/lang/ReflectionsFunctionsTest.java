@@ -37,11 +37,13 @@ public class ReflectionsFunctionsTest {
   @Test(groups="all")
   public void getConstructor() {
     assertThat( ReflectionFunctions.getConstructor( ByteArrayOutputStream.class ), is( notNullValue() ) );
+    assertNull( ReflectionFunctions.getConstructor( ByteArrayInputStream.class ) );
   }
 
   @Test(groups="all")
   public void getMethod() {
     assertThat( ReflectionFunctions.getMethod( ByteArrayOutputStream.class, "reset" ), is( notNullValue() ) );
+    assertNull( ReflectionFunctions.getMethod( ByteArrayOutputStream.class, "bibo" ) );
   }
   
 } /* ENDCLASS */
