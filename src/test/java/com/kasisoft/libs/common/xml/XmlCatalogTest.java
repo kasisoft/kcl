@@ -60,5 +60,18 @@ public class XmlCatalogTest {
     assertThat( content4, is( notNullValue() ) );
 
   }
-  
+
+  @Test(groups="all")
+  public void test() throws MalformedURLException {
+    
+    XmlCatalog catalog1     = new XmlCatalog();
+    URL        xmlschemadtd = getClass().getResource( "/dtds/XMLSchema.dtd" ); 
+    assertThat( xmlschemadtd, is( notNullValue() ) );
+    catalog1.registerSystemID( xmlschemadtd );
+    
+    assertTrue  ( catalog1.test( xmlschemadtd.toExternalForm() ) );
+    assertFalse ( catalog1.test( httpxsd.toURI().toURL().toExternalForm() ) );
+
+  }
+
 } /* ENDCLASS */

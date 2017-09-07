@@ -272,8 +272,8 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     boolean result = false;
     if( candidate != null ) {
       PublicId publicid = new PublicId( candidate );
-      result = catalogdata.keySet().contains( publicid ) || // public/system id is known
-               systemIds.values().contains( publicid );     // the url is known
+      // public/system id/url is known
+      result = catalogdata.keySet().contains( publicid ); 
     }
     return result;
   }
