@@ -31,7 +31,7 @@ public class FileDeleteRunnableTest {
     thread.start();
     thread.join();
     assertTrue( runnable.hasCompleted() );
-    File[] children = files;
+    File[] children = tempdir.listFiles();
     assertThat( children, is( notNullValue() ) );
     assertThat( children.length, is(0) );
   }
