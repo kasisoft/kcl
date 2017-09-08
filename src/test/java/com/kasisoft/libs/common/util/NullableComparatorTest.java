@@ -30,7 +30,7 @@ public class NullableComparatorTest {
     data      = new ExtArrayList<>();
     int nulls = 0;
     while( nulls < NULLCOUNT ) {
-      int irand = (int) Math.random() * 1000;
+      int irand = (int) (Math.random() * 1000);
       if( irand % 3 == 0 ) {
         data.add( null );
         nulls++;
