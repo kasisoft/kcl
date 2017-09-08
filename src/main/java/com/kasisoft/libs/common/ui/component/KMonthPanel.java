@@ -456,9 +456,6 @@ public class KMonthPanel extends JPanel {
     }
     
     private String getStylename( int row, Date date, boolean selected ) {
-      if( row == 0 ) {
-        return pthis.styleTitle;
-      }
       if( date == null ) {
         return pthis.styleNormal;
       }
