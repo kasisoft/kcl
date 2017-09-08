@@ -29,7 +29,7 @@ public class ListAdapter<T> extends TypeAdapter<String, List<T>> {
    * 
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( @NonNull TypeAdapter<String, T> adapter ) {
+  public ListAdapter( TypeAdapter<String, T> adapter ) {
     this( null, null, adapter );
   }
 
@@ -40,7 +40,7 @@ public class ListAdapter<T> extends TypeAdapter<String, List<T>> {
    *                  ',' is used.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( String delim, @NonNull TypeAdapter<String, T> adapter ) {
+  public ListAdapter( String delim, TypeAdapter<String, T> adapter ) {
     this( null, delim, adapter );
   }
 
@@ -50,7 +50,7 @@ public class ListAdapter<T> extends TypeAdapter<String, List<T>> {
    * @param handler   A custom error handler. Maybe <code>null</code>.
    * @param adapter   The adapter that will be used for the element types. Not <code>null</code>.
    */
-  public ListAdapter( BiConsumer<Object, Exception> handler, @NonNull TypeAdapter<String, T> adapter ) {
+  public ListAdapter( BiConsumer<Object, Exception> handler, TypeAdapter<String, T> adapter ) {
     this( handler, null, adapter );
   }
 

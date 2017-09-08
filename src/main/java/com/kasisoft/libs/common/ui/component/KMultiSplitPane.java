@@ -35,7 +35,7 @@ public class KMultiSplitPane extends JPanel {
    * @param orientation   The orientation for the contained fields. Not <code>null</code>.
    * @param count         The number of fields to be provided. Minimum allowed value is 2.
    */
-  public KMultiSplitPane( @NonNull Orientation orientation, int count ) {
+  public KMultiSplitPane( Orientation orientation, int count ) {
     this( orientation, count, false );
   }
   
@@ -48,6 +48,7 @@ public class KMultiSplitPane extends JPanel {
    *                                                 being changed.
    */
   public KMultiSplitPane( @NonNull Orientation orientation, int count, boolean continuouslayout ) {
+    
     super( new BorderLayout() );
     
     changeeventdispatcher = new ChangeEventDispatcher();

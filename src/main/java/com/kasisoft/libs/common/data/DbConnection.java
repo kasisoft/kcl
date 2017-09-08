@@ -39,7 +39,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @param configuration   The configuration for the connection. Not <code>null</code>.
    */
-  public DbConnection( @NonNull DbConfig configuration ) {
+  public DbConnection( DbConfig configuration ) {
     this( configuration, true );
   }
   

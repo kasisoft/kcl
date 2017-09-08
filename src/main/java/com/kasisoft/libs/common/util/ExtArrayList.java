@@ -39,7 +39,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * 
    * @param collection   The initial data for this list. Not <code>null</code>.
    */
-  public ExtArrayList( @NonNull Collection<? extends T> collection ) {
+  public ExtArrayList( Collection<? extends T> collection ) {
     this( false, collection );
   }
 
@@ -48,7 +48,7 @@ public class ExtArrayList<T> extends ArrayList<T> {
    * 
    * @param items   The initial data for this list. Not <code>null</code>.
    */
-  public ExtArrayList( @NonNull T ... items ) {
+  public ExtArrayList( T ... items ) {
     this( false, items );
   }
 

@@ -42,7 +42,7 @@ public class FlowingTitledBorder extends TitledBorder {
    *
    * @param title   The title the border should display. Neither <code>null</code> nor empty.
    */
-  public FlowingTitledBorder( @NonNull String title ) {
+  public FlowingTitledBorder( String title ) {
     this( title, Alignment.Left, null, Color.black, Color.cyan, Color.white  );
   }
 
@@ -52,7 +52,7 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param title           The title the border should display. Neither <code>null</code> nor empty.
    * @param justification   The justification for the title.
    */
-  public FlowingTitledBorder( @NonNull String title, Alignment justification ) {
+  public FlowingTitledBorder( String title, Alignment justification ) {
     this( title, justification, null, Color.black, Color.cyan, Color.white  );
   }
 
@@ -63,7 +63,7 @@ public class FlowingTitledBorder extends TitledBorder {
    * @param justification   The justification for the title.
    * @param font            The font for rendering the title.
    */
-  public FlowingTitledBorder( @NonNull String title, Alignment justification, Font font ) {
+  public FlowingTitledBorder( String title, Alignment justification, Font font ) {
     this( title, justification, font, Color.black, Color.cyan, Color.white );
   }
 

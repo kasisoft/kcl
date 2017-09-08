@@ -27,7 +27,7 @@ public class DefaultBucketFactory<T, P> implements BucketFactory<T> {
    * @throws FailureException   There's neither a default constructor nor a method named <code>reset</code> or
    *                            <code>clear</code>.
    */
-  public DefaultBucketFactory( @NonNull Supplier<T> creator, @NonNull Consumer<T> resetter ) {
+  public DefaultBucketFactory( Supplier<T> creator, @NonNull Consumer<T> resetter ) {
     this( creator, (x,y) -> resetter.accept(x), null );
   }
   

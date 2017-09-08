@@ -26,7 +26,7 @@ public class DefaultPartitioner<T, K, S, R extends Collection<S>> implements Par
    * @param test    The predicate used to determine whether we can select a record or not. Not <code>null</code>.
    * @param model   The model used to collect the data. Not <code>null</code>.
    */
-  public DefaultPartitioner( @NonNull Predicate<T> test, @NonNull R model ) {
+  public DefaultPartitioner( Predicate<T> test, R model ) {
     this( test, (BiFunction<K, T, S>) null, model );
   }
 
@@ -38,7 +38,7 @@ public class DefaultPartitioner<T, K, S, R extends Collection<S>> implements Par
    *                If <code>null</code> each record will be collected as is.
    * @param model   The model used to collect the data. Not <code>null</code>.
    */
-  public DefaultPartitioner( @NonNull Predicate<T> test, Function<T, S> alter, @NonNull R model ) {
+  public DefaultPartitioner( Predicate<T> test, Function<T, S> alter, R model ) {
     this( test, ($, v) -> alter.apply(v), model );
   }
   

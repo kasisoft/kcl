@@ -61,7 +61,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T, List<T>, SimpleLi
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
+  public SimpleListProperty( String property, TypeAdapter<String, T> typeadapter ) {
     super( property, typeadapter, false );
   }
   
@@ -73,7 +73,7 @@ public class SimpleListProperty<T> extends AbstractProperty<T, List<T>, SimpleLi
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public SimpleListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter, boolean req ) {
+  public SimpleListProperty( String property, TypeAdapter<String, T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
   }
   

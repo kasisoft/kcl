@@ -32,7 +32,7 @@ public class FilesystemChangeRunnable extends FilesystemWatchingRunnable {
    *  
    * @param dir   The directory that is supposed to be watched. Not <code>null</code>.
    */
-  public FilesystemChangeRunnable( @NonNull File dir ) {
+  public FilesystemChangeRunnable( File dir ) {
     super( dir );
     init();
   }
@@ -42,7 +42,7 @@ public class FilesystemChangeRunnable extends FilesystemWatchingRunnable {
    *  
    * @param dir   The directory that is supposed to be watched. Not <code>null</code>.
    */
-  public FilesystemChangeRunnable( @NonNull Path dir ) {
+  public FilesystemChangeRunnable( Path dir ) {
     super( dir );
     init();
   }

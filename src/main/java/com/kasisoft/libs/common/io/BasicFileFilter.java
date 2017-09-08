@@ -25,7 +25,7 @@ public class BasicFileFilter extends javax.swing.filechooser.FileFilter implemen
    * 
    * @param suffix   The suffix to be used with this filter. Neither <code>null</code> nor empty.
    */
-  public BasicFileFilter( @NonNull String suffix ) {
+  public BasicFileFilter( String suffix ) {
     this( suffix, null );
   }
 

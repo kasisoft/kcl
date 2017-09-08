@@ -49,7 +49,7 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
    * @param cse   The Consumer instance that will be called through this dispatcher. The implementation
    *              must be thread safe. Not <code>null</code>.
    */
-  public FilesystemWatchingDispatcher( @NonNull File dir, @NonNull Consumer<Path> cse ) {
+  public FilesystemWatchingDispatcher( File dir, @NonNull Consumer<Path> cse ) {
     super( dir );
     init( cse  );
   }
@@ -62,7 +62,7 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
    *              must be thread safe. Not <code>null</code>.
    * @param rec   <code>true</code> <=> Consider subdirectories as well. Otherwise only the directory is watched.
    */
-  public FilesystemWatchingDispatcher( @NonNull File dir, @NonNull Consumer<Path> cse, boolean rec ) {
+  public FilesystemWatchingDispatcher( File dir, @NonNull Consumer<Path> cse, boolean rec ) {
     super( dir, rec );
     init( cse  );
   }
@@ -74,7 +74,7 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
    * @param cse   The Consumer instance that will be called through this dispatcher. The implementation
    *              must be thread safe. Not <code>null</code>.
    */
-  public FilesystemWatchingDispatcher( @NonNull Path dir, @NonNull Consumer<Path> cse ) {
+  public FilesystemWatchingDispatcher( Path dir, @NonNull Consumer<Path> cse ) {
     super( dir );
     init( cse );
   }
@@ -87,7 +87,7 @@ public class FilesystemWatchingDispatcher extends FilesystemWatchingRunnable {
    *              must be thread safe. Not <code>null</code>.
    * @param rec   <code>true</code> <=> Consider subdirectories as well. Otherwise only the directory is watched.
    */
-  public FilesystemWatchingDispatcher( @NonNull Path dir, @NonNull Consumer<Path> cse, boolean rec ) {
+  public FilesystemWatchingDispatcher( Path dir, @NonNull Consumer<Path> cse, boolean rec ) {
     super( dir, rec );
     init( cse );
   }

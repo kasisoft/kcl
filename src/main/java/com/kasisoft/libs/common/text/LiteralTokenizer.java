@@ -27,7 +27,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param data             The String content that has to be tokenized. Not <code>null</code>.
    * @param delimiters       A list of delimiting literals. Not <code>null</code>.
    */
-  public LiteralTokenizer( @NonNull String data, @NonNull String ... delimiters ) {
+  public LiteralTokenizer( String data, String ... delimiters ) {
     this( data, false, delimiters );
   }
 

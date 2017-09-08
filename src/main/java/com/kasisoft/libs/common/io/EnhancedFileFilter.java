@@ -34,7 +34,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * 
    * @param suffix   The suffix to be used with this filter. Neither <code>null</code> nor empty.
    */
-  public EnhancedFileFilter( @NonNull String suffix ) {
+  public EnhancedFileFilter( String suffix ) {
     super( suffix );
     suffixlist          = new ArrayList<>();
     excludeddirs        = new HashSet<>();
@@ -48,7 +48,7 @@ public class EnhancedFileFilter extends BasicFileFilter {
    * @param suffix              The suffix to be used with this filter. Neither <code>null</code> nor empty.
    * @param filterdescription   The description which will be displayed.
    */
-  public EnhancedFileFilter( @NonNull String suffix, String filterdescription ) {
+  public EnhancedFileFilter( String suffix, String filterdescription ) {
     super( suffix, filterdescription );
     suffixlist          = new ArrayList<>();
     excludeddirs        = new HashSet<>();

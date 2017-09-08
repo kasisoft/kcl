@@ -35,7 +35,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String, T> {
    * 
    * @param type   The class of the enumeration which shall be adapted. Not <code>null</code>.
    */
-  public EnumerationAdapter( @NonNull Class<T> type ) {
+  public EnumerationAdapter( Class<T> type ) {
     this( null, null, null, type, false );
   }
 
@@ -45,7 +45,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String, T> {
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    * @param caseinsensitive   <code>true</code> <=> Disable case sensitivity.
    */
-  public EnumerationAdapter( @NonNull Class<T> type, boolean caseinsensitive ) {
+  public EnumerationAdapter( Class<T> type, boolean caseinsensitive ) {
     this( null, null, null, type, caseinsensitive );
   }
 
@@ -57,7 +57,7 @@ public class EnumerationAdapter<T> extends TypeAdapter<String, T> {
    * @param defval2           A default value for the target type. Maybe <code>null</code>.
    * @param type              The class of the enumeration which shall be adapted. Not <code>null</code>.
    */
-  public EnumerationAdapter( BiConsumer<Object, Exception> handler, String defval1, T defval2, @NonNull Class<T> type ) {
+  public EnumerationAdapter( BiConsumer<Object, Exception> handler, String defval1, T defval2, Class<T> type ) {
     this( handler, defval1, defval2, type, false );
   }
   

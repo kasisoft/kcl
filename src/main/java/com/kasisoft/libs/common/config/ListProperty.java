@@ -67,7 +67,7 @@ public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> 
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
+  public ListProperty( String property, TypeAdapter<String, T> typeadapter ) {
     super( property, typeadapter, false );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }
@@ -80,7 +80,7 @@ public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> 
    * @param req           <code>true</code> <=> The property must be available which means it's value is not allowed
    *                                            to be <code>null</code>.
    */
-  public ListProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter, boolean req ) {
+  public ListProperty( String property, TypeAdapter<String, T> typeadapter, boolean req ) {
     super( property, typeadapter, req );
     pattern  = Pattern.compile( String.format( FMT_PATTERN, property ) );
   }

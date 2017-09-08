@@ -32,7 +32,7 @@ public abstract class AbstractProperty<T, V, C extends AbstractProperty> {
    * @param property      The textual property key. Neither <code>null</code> nor empty.
    * @param typeadapter   The {@link TypeAdapter} instance which performs the actual conversion. Not <code>null</code>.
    */
-  public AbstractProperty( @NonNull String property, @NonNull TypeAdapter<String, T> typeadapter ) {
+  public AbstractProperty( String property, TypeAdapter<String, T> typeadapter ) {
     this( property, typeadapter, false );
   }
   
