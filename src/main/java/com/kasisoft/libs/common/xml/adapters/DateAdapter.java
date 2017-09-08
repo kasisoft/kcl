@@ -72,7 +72,7 @@ public class DateAdapter extends TypeAdapter<String, Date> {
     if( format == null ) {
       format  = FORMAT_DEFAULT;
     }
-    formatter = new SimpleDateFormat( format );
+    formatter = new SimpleDateFormat( format, locale );
   }
   
   @Override
