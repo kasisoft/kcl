@@ -22,22 +22,16 @@ import java.io.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SystemProcess {
 
-  /** Maybe <code>null</code>. */
-  @Getter OutputStream          outputStream;
+  OutputStream          outputStream;
+  OutputStream          errorStream;
+  File                  workingDir;
+  Map<String, String>   variables;
   
-  /** Maybe <code>null</code>. */
-  @Getter OutputStream          errorStream;
-  
-  @Getter Exception             exception;
-  @Getter File                  executable;
-  
-  /** Maybe <code>null</code>. */
-  @Getter File                  workingDir;
-  
-  @Getter boolean               inheritEnvironment;
-  @Getter int                   returncode;
+  @Getter Exception     exception;
+  @Getter File          executable;
+  @Getter boolean       inheritEnvironment;
+  @Getter int           returncode;
 
-          Map<String, String>   variables;
   
   /**
    * Sets up this convenience class to use the supplied executable for the creation of a system process.
@@ -92,6 +86,10 @@ public class SystemProcess {
   public synchronized void setWorkingDir( File newworkingdir ) {
     workingDir = newworkingdir;
   }
+  
+  public synchronized File getWorkingDir() {
+    return workingDir;
+  }
 
   /**
    * Changes the OutputStream used to delegate the output to. The default is <code>System.out</code>.
@@ -102,6 +100,10 @@ public class SystemProcess {
     outputStream   = output;
   }
 
+  public synchronized OutputStream getOutputStream() {
+    return outputStream;
+  }
+  
   /**
    * Changes the error stream used to delegate the output to. The default is <code>System.err</code>.
    * 
@@ -111,6 +113,10 @@ public class SystemProcess {
     errorStream   = output;
   }
 
+  public synchronized OutputStream getErrorStream() {
+    return errorStream;
+  }
+  
   /**
    * Creates a list of environment variables depending on the current settings.
    * 

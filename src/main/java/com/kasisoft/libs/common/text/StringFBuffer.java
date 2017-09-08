@@ -162,7 +162,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull Object obj ) {
     synchronized( origin ) {
-      origin = origin.append( obj );
+      origin.append( obj );
       return this;
     }
   }
@@ -172,7 +172,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull String str ) {
     synchronized( origin ) {
-      origin = origin.append( str );
+      origin.append( str );
       return this;
     }
   }
@@ -182,7 +182,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull StringBuffer buffer ) {
     synchronized( origin ) {
-      origin = origin.append( buffer );
+      origin.append( buffer );
       return this;
     }
   }
@@ -192,7 +192,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull StringFBuffer buffer ) {
     synchronized( origin ) {
-      origin = origin.append( buffer.origin );
+      origin.append( buffer.origin );
       return this;
     }
   }
@@ -202,7 +202,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull CharSequence sequence ) {
     synchronized( origin ) {
-      origin = origin.append( sequence );
+      origin.append( sequence );
       return this;
     }
   }
@@ -212,7 +212,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull CharSequence sequence, int start, int end ) {
     synchronized( origin ) {
-      origin = origin.append( sequence, start, end );
+      origin.append( sequence, start, end );
       return this;
     }
   }
@@ -222,7 +222,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull char[] charray ) {
     synchronized( origin ) {
-      origin = origin.append( charray );
+      origin.append( charray );
       return this;
     }
   }
@@ -232,7 +232,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( @NonNull char[] charray, int offset, int length ) {
     synchronized( origin ) {
-      origin = origin.append( charray, offset, length );
+      origin.append( charray, offset, length );
       return this;
     }
   }
@@ -242,7 +242,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( boolean value ) {
     synchronized( origin ) {
-      origin = origin.append( value );
+      origin.append( value );
       return this;
     }
   }
@@ -252,7 +252,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( char value ) {
     synchronized( origin ) {
-      origin = origin.append( value );
+      origin.append( value );
       return this;
     }
   }
@@ -262,7 +262,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( int value ) {
     synchronized( origin ) {
-      origin = origin.append( value );
+      origin.append( value );
       return this;
     }
   }
@@ -284,7 +284,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer appendCodePoint( int codepoint ) {
     synchronized( origin ) {
-      origin = origin.appendCodePoint( codepoint );
+      origin.appendCodePoint( codepoint );
       return this;
     }
   }
@@ -294,7 +294,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( long value ) {
     synchronized( origin ) {
-      origin = origin.append( value );
+      origin.append( value );
       return this;
     }
   }
@@ -304,7 +304,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( float value ) {
     synchronized( origin ) {
-      origin = origin.append( value );
+      origin.append( value );
       return this;
     }
   }
@@ -314,7 +314,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer append( double value ) {
     synchronized( origin ) {
-      origin = origin.append( value );
+      origin.append( value );
       return this;
     }
   }
@@ -324,7 +324,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer delete( int start, int end ) {
     synchronized( origin ) {
-      origin = origin.delete( adjustIndex( start ), adjustIndex( end ) );
+      origin.delete( adjustIndex( start ), adjustIndex( end ) );
       return this;
     }
   }
@@ -334,7 +334,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer deleteCharAt( int index ) {
     synchronized( origin ) {
-      origin = origin.deleteCharAt( adjustIndex( index ) );
+      origin.deleteCharAt( adjustIndex( index ) );
       return this;
     }
   }
@@ -344,7 +344,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer replace( int start, int end, @NonNull String str ) {
     synchronized( origin ) {
-      origin = origin.replace( adjustIndex( start ), adjustIndex( end ), str );
+      origin.replace( adjustIndex( start ), adjustIndex( end ), str );
       return this;
     }
   }
@@ -382,7 +382,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int index, @NonNull char[] charray, int offset, int length ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( index ), charray, offset, length );
+      origin.insert( adjustIndex( index ), charray, offset, length );
       return this;
     }
   }
@@ -392,7 +392,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, @NonNull Object obj ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), obj );
+      origin.insert( adjustIndex( offset ), obj );
       return this;
     }
   }
@@ -402,7 +402,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, @NonNull String value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -427,7 +427,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, @NonNull char[] value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -437,7 +437,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, @NonNull CharSequence value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -447,7 +447,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, @NonNull CharSequence value, int start, int end ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value, start, end );
+      origin.insert( adjustIndex( offset ), value, start, end );
       return this;
     }
   }
@@ -457,7 +457,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, boolean value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -467,7 +467,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, char value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -477,7 +477,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, int value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -487,7 +487,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, long value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -497,7 +497,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, float value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -507,7 +507,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer insert( int offset, double value ) {
     synchronized( origin ) {
-      origin = origin.insert( adjustIndex( offset ), value );
+      origin.insert( adjustIndex( offset ), value );
       return this;
     }
   }
@@ -631,7 +631,7 @@ public class StringFBuffer implements Serializable, CharSequence {
    */
   public StringFBuffer reverse() {
     synchronized( origin ) {
-      origin = origin.reverse();
+      origin.reverse();
       return this;
     }
   }
