@@ -181,11 +181,13 @@ public class FilesystemWatchingRunnable extends AbstractRunnable {
    */
   private void registerChildren( Path parent ) {
     File[] files = parent.toFile().listFiles();
-    for( File file : files ) {
-      if( file.isDirectory() ) {
-        Path child = Paths.get( file.toURI() );
-        register( child );
-        registerChildren( child );
+    if( files != null ) {
+      for( File file : files ) {
+        if( file.isDirectory() ) {
+          Path child = Paths.get( file.toURI() );
+          register( child );
+          registerChildren( child );
+        }
       }
     }
   }

@@ -24,12 +24,14 @@ public class FileDeleteRunnableTest {
     File                tempdir   = IoFunctions.newTempFile( "temp-", null );
     tempdir.mkdirs();
     Utilities.createFileSystemStructure( tempdir );
-    FileDeleteRunnable  runnable  = new FileDeleteRunnable( tempdir.listFiles() );
+    File[]              files     = tempdir.listFiles();
+    assertNotNull( files );
+    FileDeleteRunnable  runnable  = new FileDeleteRunnable( files );
     Thread              thread    = new Thread( runnable );
     thread.start();
     thread.join();
     assertTrue( runnable.hasCompleted() );
-    File[] children = tempdir.listFiles();
+    File[] children = files;
     assertThat( children, is( notNullValue() ) );
     assertThat( children.length, is(0) );
   }

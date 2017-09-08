@@ -61,7 +61,9 @@ public class AssertExtension {
     }
     if(canexpected.isDirectory()) {
       File[] expectedchildren = canexpected.listFiles();
-      File[] actualchildren = canactual.listFiles();
+      File[] actualchildren   = canactual.listFiles();
+      assertNotNull( expectedchildren );
+      assertNotNull( actualchildren );
       if(expectedchildren.length != actualchildren.length) {
         fail("invalid.1");
       }
