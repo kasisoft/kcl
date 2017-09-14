@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.*;
 
+import java.lang.annotation.*;
 import java.lang.reflect.*;
 
 /**
@@ -15,6 +16,17 @@ import java.lang.reflect.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ReflectionFunctions {
+
+  public static boolean isAnnotated( @NonNull Class<?> toTest,  Class<? extends Annotation> ... annotations ) {
+    if( (annotations != null) && (annotations.length > 0) ) {
+      for( Class<? extends Annotation> annotation : annotations ) {
+        if( toTest.getAnnotation( annotation ) != null ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   /**
    * Returns the constructor associated with a specific type.
