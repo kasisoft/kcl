@@ -1,44 +1,41 @@
-Purpose
-=======
+# Purpose
 
 This library is a simple collection of useful utility functions that grew over the past. It doesn't serve a specific 
 purpose other than providing some handy functionalities.
 
 
+# Infos
 
-Contact
--------
-
-* daniel.kasmeroglu@kasisoft.net
-
-
-Requirements
-------------
-
- * Java 8
+* [eMail: daniel.kasmeroglu@kasisoft.net](mailto:daniel.kasmeroglu@kasisoft.net)
+* [Jira](https://kasisoft.com/jira/projects/KCOM)
+* [Jenkins](https://kasisoft.com/jenkins/job/libs.com.kasisoft.libs.common)
+* [GIT](https://kasisoft.com/bitbucket/projects/LIBS/repos/com.kasisoft.libs.common)
 
 
-Development Setup
------------------
+# Development Setup
 
 I assume that you're familiar with Maven. If not I suggest to visit the following page:
 
 * https://maven.apache.org/
 
 
-Maven
------
+## Requirements
 
-Releases
-========
-
-Releases can be found in Maven Central:
-
-* http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.kasisoft%22%20AND%20a%3A%22com.kasisoft.libs.common%22
+* Java 8
 
 
-Snapshots
-=========
+## Maven
+
+### Releases
+
+     <dependency>
+         <groupId>com.kasisoft</groupId>
+         <artifactId>com.kasisoft.libs.common</artifactId>
+         <version>2.8</version>
+     </dependency>
+
+
+### Snapshots
 
 Snapshots can be used while accessing a dedicated maven repository. Your POM needs the following settings:
 
@@ -63,8 +60,7 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
      
      
 
-License
--------
+# License
 
 MIT License
 
