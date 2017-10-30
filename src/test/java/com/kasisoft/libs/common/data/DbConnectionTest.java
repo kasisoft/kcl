@@ -4,25 +4,26 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
+import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.io.*;
+
 import org.testng.annotations.*;
 
 import org.h2.tools.*;
-
-import com.kasisoft.libs.common.constants.*;
-
-import com.kasisoft.libs.common.io.*;
-
-import lombok.experimental.*;
-
-import lombok.extern.slf4j.*;
-
-import lombok.*;
 
 import java.util.*;
 
 import java.net.*;
 
 import java.nio.file.*;
+import java.sql.*;
+
+import lombok.extern.slf4j.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Tests for 'DbConnection'.
@@ -98,6 +99,59 @@ public class DbConnectionTest {
       
     }
     
+  }
+
+  @Test
+  public void selectAll() throws Exception {
+    
+    List<String> expectedCountries = Arrays.asList(
+      "Argentina"   , "Australia"       , "Belgium"                   , "Brazil"  , "Canada"      ,
+      "Switzerland" , "China"           , "Germany"                   , "Denmark" , "Egypt"       ,
+      "France"      , "HongKong"        , "Israel"                    , "India"   , "Italy"       ,
+      "Japan"       , "Kuwait"          , "Mexico"                    , "Nigeria" , "Netherlands" ,
+      "Singapore"   , "United Kingdom"  , "United States of America"  , "Zambia"  , "Zimbabwe"
+    );
+     
+    try( DbConnection connection = new DbConnection( newDbConfig( "test", "mysql/script.sql" ) ) ) {
+      
+      List<String> countries = connection.selectAll( "countries", $ -> getString( $, "CountryName" ) );
+      assertNotNull( countries );
+      assertThat( countries.size(), is(expectedCountries.size()) );
+      assertThat( countries, is( expectedCountries ) );
+
+    }
+    
+  }
+
+  @Test
+  public void selectAllDo() throws Exception {
+    
+    List<String> expectedCountries = Arrays.asList(
+      "Argentina"   , "Australia"       , "Belgium"                   , "Brazil"  , "Canada"      ,
+      "Switzerland" , "China"           , "Germany"                   , "Denmark" , "Egypt"       ,
+      "France"      , "HongKong"        , "Israel"                    , "India"   , "Italy"       ,
+      "Japan"       , "Kuwait"          , "Mexico"                    , "Nigeria" , "Netherlands" ,
+      "Singapore"   , "United Kingdom"  , "United States of America"  , "Zambia"  , "Zimbabwe"
+    );
+    
+    List<String> countries = new ArrayList<>( expectedCountries.size() );
+    try( DbConnection connection = new DbConnection( newDbConfig( "test", "mysql/script.sql" ) ) ) {
+      
+      connection.selectAllDo( "countries", $ -> countries.add( getString( $, "CountryName" ) ) );
+      assertNotNull( countries );
+      assertThat( countries.size(), is(expectedCountries.size()) );
+      assertThat( countries, is( expectedCountries ) );
+
+    }
+    
+  }
+
+  private static String getString( ResultSet rs, String column ) {
+    try {
+      return rs.getString( column );
+    } catch( Exception ex ) {
+      throw FailureCode.SqlFailure.newException( ex );
+    }
   }
 
 } /* ENDCLASS */

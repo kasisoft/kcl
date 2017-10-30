@@ -370,14 +370,59 @@ public class DbConnection implements AutoCloseable {
   }
 
   /**
+   * Processes some records.
+   * 
+   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
+   * @param context     Some contextual object that shall be passed to the producer. Maybe <code>null</code>.
+   * @param consumer    The {@link BiConsumer} which processes the jdbc outcome. Not <code>null</code>.
+   */
+  public <C> void selectDo( @NonNull String jdbcQuery, C context, @NonNull BiConsumer<ResultSet, C> consumer ) {
+    select( jdbcQuery, context, ($1, $2) -> { consumer.accept( $1, $2 ); return null; } );
+  }
+
+  /**
+   * Processes some records.
+   * 
+   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
+   * @param consumer    The {@link Consumer} which processes the jdbc outcome.
+   */
+  public void selectDo( @NonNull String jdbcQuery, @NonNull Consumer<ResultSet> consumer ) {
+    selectDo( jdbcQuery, null, ($1, $2) -> consumer.accept($1) );
+  }
+
+  /**
+   * Processes all records.
+   * 
+   * @param table      The name of the table. Neither <code>null</code> nor empty.
+   * @param context    Some contextual object that shall be passed to the producer. Maybe <code>null</code>.
+   * @param consumer   The {@link BiConsumer} which processes the jdbc outcome. Not <code>null</code>.
+   */
+  public <C> void selectAllDo( @NonNull String table, C context, @NonNull BiConsumer<ResultSet, C> consumer ) {
+    String name = canonicalTableName( table );
+    selectDo( String.format( config.getDb().getSelectAllQuery(), name ), context, consumer );
+  }
+
+  /**
+   * Processes all records.
+   * 
+   * @param table      The name of the table. Neither <code>null</code> nor empty.
+   * @param consumer   The {@link Consumer} which processes the jdbc outcome. Not <code>null</code>.
+   */
+  public void selectAllDo( @NonNull String table, @NonNull Consumer<ResultSet> consumer ) {
+    String name = canonicalTableName( table );
+    selectDo( String.format( config.getDb().getSelectAllQuery(), name ), consumer );
+  }
+
+  /**
    * List some records.
    * 
    * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
-   * @param producer    The {@link Function} which creates a usable record from the jdbc outcome.
+   * @param context     Some contextual object that shall be passed to the producer. Maybe <code>null</code>.
+   * @param producer    The {@link BiFunction} which creates a usable record from the jdbc outcome. Not <code>null</code>.
    * 
    * @return   A list with all records. Not <code>null</code>.
    */
-  public <T> List<T> select( @NonNull String jdbcQuery, @NonNull Function<ResultSet, T> producer ) {
+  public <T, C> List<T> select( @NonNull String jdbcQuery, C context, @NonNull BiFunction<ResultSet, C, T> producer ) {
     List<T>           result    = new ArrayList<>(100);
     PreparedStatement query     = null;
     ResultSet         resultset = null;
@@ -386,7 +431,7 @@ public class DbConnection implements AutoCloseable {
       resultset = query.executeQuery();
       while( resultset.next() ) {
         try {
-          result.add( producer.apply( resultset ) );
+          result.add( producer.apply( resultset, context ) );
         } catch( Exception ex ) {
           ehException.accept( ex );
         }
@@ -403,10 +448,35 @@ public class DbConnection implements AutoCloseable {
   }
 
   /**
+   * List some records.
+   * 
+   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
+   * @param producer    The {@link Function} which creates a usable record from the jdbc outcome. Not <code>null</code>.
+   * 
+   * @return   A list with all records. Not <code>null</code>.
+   */
+  public <T> List<T> select( @NonNull String jdbcQuery, @NonNull Function<ResultSet, T> producer ) {
+    return select( jdbcQuery, null, ($1, $2) -> producer.apply($1) );
+  }
+  
+  /**
    * List all records from a certain table.
    * 
    * @param table      The name of the table. Neither <code>null</code> nor empty.
-   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome.
+   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome. Not <code>null</code>.
+   * 
+   * @return   A list with all records. Not <code>null</code>.
+   */
+  public <T, C> List<T> selectAll( @NonNull String table, C context, @NonNull BiFunction<ResultSet, C, T> producer ) {
+    String name = canonicalTableName( table );
+    return select( String.format( config.getDb().getSelectAllQuery(), name ), context, producer );
+  }
+
+  /**
+   * List all records from a certain table.
+   * 
+   * @param table      The name of the table. Neither <code>null</code> nor empty.
+   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome. Not <code>null</code>.
    * 
    * @return   A list with all records. Not <code>null</code>.
    */
