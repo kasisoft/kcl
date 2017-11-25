@@ -21,6 +21,7 @@ import java.util.*;
  */
 @Specification(value = "http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest", date = "10-Jun-2016")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString(of = "algorithm")
 public final class Digest {
   
   public static final Digest   MD2;
@@ -66,6 +67,38 @@ public final class Digest {
     DIGESTS.put( algorithm, this );
   }
   
+  /**
+   * Processes the supplied data blocks in order to calculate a hash.
+   * 
+   * @param data   The data used to be digested. Not <code>null</code>.
+   * 
+   * @return   The hash value. Neither <code>null</code> nor empty.
+   */
+  public String digestToString( @NonNull byte[] ... data ) {
+    return digestToString( 1, data );
+  }
+
+  /**
+   * Processes the supplied data blocks in order to calculate a hash.
+   *
+   * @param count   The number of times used to run the digestion.
+   * @param data    The data used to be digested. Not <code>null</code>.
+   * 
+   * @return   The hash value. Neither <code>null</code> nor empty.
+   */
+  public String digestToString( int count, @NonNull byte[] ... data ) {
+    byte[]        checksum = digest( count, data );
+    StringBuilder builder  = new StringBuilder();
+    for( byte b : checksum ) {
+      String asbyte = Integer.toString( ( b & 0xff ), 16 );
+      if( asbyte.length() == 1 ) {
+        builder.append( '0' );
+      }
+      builder.append( asbyte );
+    }
+    return builder.toString();
+  }
+
   /**
    * Processes the supplied data blocks in order to calculate a hash.
    * 
