@@ -96,6 +96,10 @@ public abstract class AbstractProperty<T, V, C extends AbstractProperty> {
     return result;
   }
   
+  protected String getProperty( @NonNull String key ) {
+    return getProperty( System.getProperties(), key );
+  }
+  
   /**
    * Returns the value of a property.
    * 

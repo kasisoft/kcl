@@ -168,6 +168,10 @@ public class MapProperty<T> extends AbstractProperty<T, Map<String, T>, MapPrope
     return checkForResult( getTypedValues( values, null ) );
   }
 
+  public Map<String, T> getValue() {
+    return getValue( System.getProperties() );
+  }
+  
   /**
    * Returns the map value provided by the supplied properties.
    * 

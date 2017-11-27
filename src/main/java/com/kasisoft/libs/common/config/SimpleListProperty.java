@@ -150,6 +150,10 @@ public class SimpleListProperty<T> extends AbstractProperty<T, List<T>, SimpleLi
     return checkForResult( result );
   }
 
+  public List<T> getValue() {
+    return getValue( System.getProperties() );
+  }
+  
   private List<T> getTypedValues( List<String> values ) {
     List<T> result = null;
     if( values != null ) {

@@ -136,6 +136,10 @@ public class SimpleProperty<T> extends AbstractProperty<T, T, SimpleProperty> {
     return checkForResult( getTypedValue( getProperty( properties, getKey() ), getDefaultValue() ) );
   }
 
+  public T getValue() {
+    return getValue( System.getProperties() );
+  }
+
   /**
    * Returns the textual value provides with the supplied properties.
    * 

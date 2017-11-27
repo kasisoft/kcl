@@ -183,6 +183,10 @@ public class ListProperty<T> extends AbstractProperty<T, List<T>, ListProperty> 
     }
     return checkForResult( result );
   }
+  
+  public List<T> getValue() {
+    return getValue( System.getProperties() );
+  }
 
   /**
    * Returns the list values provided with the supplied map.
