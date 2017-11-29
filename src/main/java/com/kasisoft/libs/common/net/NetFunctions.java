@@ -1,6 +1,8 @@
 package com.kasisoft.libs.common.net;
 
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.text.*;
 
 import lombok.*;
 
@@ -88,6 +90,21 @@ public class NetFunctions {
     } catch( IOException ex ) {
       return false;
     }
+  }
+  
+  public static String getGravatarLink( String email, Integer size ) {
+    // @spec [25-11-2017:KASI] https://en.gravatar.com/site/implement/hash/ 
+    String result = null;
+    if( email != null ) {
+      result = StringFunctions.cleanup( email.toLowerCase() );
+      result = Digest.MD5.digestToString( result.getBytes() );
+      result = String.format( "https://www.gravatar.com/avatar/%s", result );
+      if( size != null ) {
+        result += String.format( "?s=%d", size );
+      }
+    }
+    return result;
+
   }
 
 } /* ENDCLASS */
