@@ -31,7 +31,7 @@ I assume that you're familiar with Maven. If not I suggest to visit the followin
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>2.8</version>
+         <version>2.9</version>
      </dependency>
 
 
