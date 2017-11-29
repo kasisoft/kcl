@@ -1,36 +1,29 @@
 package com.kasisoft.libs.common.io;
 
-import com.kasisoft.libs.common.constants.*;
-
-import com.kasisoft.libs.common.thread.*;
-
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.base.*;
-
-import com.kasisoft.libs.common.sys.*;
-
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
+import com.kasisoft.libs.common.sys.*;
+import com.kasisoft.libs.common.thread.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.function.*;
 
 import java.util.regex.*;
 
-import java.util.zip.*;
-
 import java.util.*;
+import java.util.zip.*;
 
 import java.net.*;
 
-import java.nio.file.attribute.*;
+import java.io.*;
 
 import java.nio.file.*;
+import java.nio.file.attribute.*;
 
-import java.io.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of functions used for IO operations.
@@ -921,6 +914,12 @@ public class IoFunctions {
       lines.forEach( printer::println );
     }
   }
+  
+  public static void writeText( @NonNull Writer writer, @NonNull String text ) {
+    try( PrintWriter printer = new PrintWriter( writer ) ) {
+      printer.print( text ); 
+    }
+  }
 
   /**
    * Writes the supplied text into an OutputStream.
@@ -969,6 +968,24 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );
     }
+  }
+  
+  public static Properties readProperties( @NonNull Path path ) {
+    return forReader( path, IoFunctions::newProperties );
+  }
+
+  public static Properties readProperties( @NonNull InputStream instream ) {
+    return forReader( instream, Encoding.UTF8, IoFunctions::newProperties );
+  }
+
+  private static Properties newProperties( Reader reader ) {
+    Properties result = new Properties();
+    try {
+      result.load( reader );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+    return result;
   }
   
   /**
