@@ -63,11 +63,13 @@ public class Bucket<T> {
   /**
    * Frees the supplied object, so it's allowed to be reused.
    * 
-   * @param object   The object that shall be freed. Not <code>null</code>.
+   * @param object   The object that shall be freed. Maybe <code>null</code>.
    */
-  public <R extends T> void free( @NonNull R object ) {
-    synchronized( references ) {
-      references.add( new SoftReference<>( factory.reset( object ) ) );
+  public <R extends T> void free( R object ) {
+    if( object != null ) {
+      synchronized( references ) {
+        references.add( new SoftReference<>( factory.reset( object ) ) );
+      }
     }
   }
 
