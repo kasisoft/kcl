@@ -307,6 +307,46 @@ public class MiscFunctions {
     return new KeyComparator<>();
   }
   
+  public static <T> Comparator<T> newComparator( @NonNull Function<T, Comparable> ... getters ) {
+    return newComparator( true, getters );
+  }
+  
+  public static <T> Comparator<T> newComparator( boolean nullsLow, @NonNull Function<T, Comparable> ... getters ) {
+    return newComparator( nullsLow, Arrays.asList( getters ) );
+  }
+  
+  public static <T> Comparator<T> newComparator( @NonNull List<Function<T, Comparable>> getters ) {
+    return newComparator( true, getters );
+  }
+  
+  public static <T> Comparator<T> newComparator( boolean nullsLow, @NonNull List<Function<T, Comparable>> getters ) {
+    return new Comparator<T>() {
+
+      @Override
+      public int compare( T o1, T o2 ) {
+        int result = 0;
+        for( Function<T, Comparable> getter : getters ) {
+          Comparable lhs = getter.apply( o1 );
+          Comparable rhs = getter.apply( o2 );
+          if( (lhs != null) || (rhs != null) ) {
+            if( lhs == null ) {
+              result = nullsLow ? -1 : 1;
+            } else if( rhs == null ) {
+              result = nullsLow ? 1 : -1;
+            } else {
+              result = lhs.compareTo( rhs );
+            }
+            if( result != 0 ) {
+              break;
+            }
+          }
+        }
+        return result;
+      }
+      
+    };
+  }
+  
   /**
    * Sorts the supplied list and makes sure that every entry only occures once. 
    * 

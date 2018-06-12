@@ -3,17 +3,16 @@ package com.kasisoft.libs.common.util;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.*;
-
+import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.sys.*;
 
-import com.kasisoft.libs.common.model.*;
+import org.testng.annotations.*;
+
+import java.util.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
 
 /**
  * Test for various functions of the class 'MiscFunctions'.
@@ -227,5 +226,48 @@ public class MiscFunctionsTest {
     assertThat( stillOnePair.size(), is(1) );
 
   }
+  
+  @Test(groups="all")
+  public void newComparator() {
+    
+    Comparator<DummyPojo> comparator = MiscFunctions.newComparator( 
+      DummyPojo::getParam1, 
+      DummyPojo::getParam2, 
+      DummyPojo::getParam3, 
+      DummyPojo::isParam4
+    );
+    
+    DummyPojo obj1 = new DummyPojo( "a", 12, -3L, true );
+    DummyPojo obj2 = new DummyPojo( "a", 12, -3L, true );
+    assertThat( comparator.compare( obj1, obj2 ), is(0) );
 
+    DummyPojo obj3 = new DummyPojo( "a", 15, -3L, true );
+    DummyPojo obj4 = new DummyPojo( "a", 12, -3L, true );
+    assertThat( comparator.compare( obj3, obj4 ), is(1) );
+
+    DummyPojo obj5 = new DummyPojo( "a", 10, -3L, true );
+    DummyPojo obj6 = new DummyPojo( "a", 12, -3L, true );
+    assertThat( comparator.compare( obj5, obj6 ), is(-1) );
+
+    DummyPojo obj7 = new DummyPojo( "a", 12, null, true );
+    DummyPojo obj8 = new DummyPojo( "a", 12, -3L, true );
+    assertThat( comparator.compare( obj7, obj8 ), is(-1) );
+
+    DummyPojo obj9  = new DummyPojo( "a", 12, -3L, true );
+    DummyPojo obj10 = new DummyPojo( "a", 12, null, true );
+    assertThat( comparator.compare( obj9, obj10 ), is(1) );
+
+  }
+
+  @Data @AllArgsConstructor
+  @FieldDefaults(level = AccessLevel.PRIVATE)
+  private static class DummyPojo {
+  
+    String    param1;
+    int       param2;
+    Long      param3;
+    boolean   param4;
+    
+  } /* ENDCLASS */
+  
 } /* ENDCLASS */
