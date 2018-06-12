@@ -4,6 +4,8 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import java.util.stream.*;
+
 import java.util.*;
 
 /**
@@ -124,6 +126,18 @@ public class ExtArrayList<T> extends ArrayList<T> {
     }
   }
   
+  public boolean addIfNotNull( T element ) {
+    if( element != null ) {
+      return super.add( element );
+    } else {
+      return true;
+    }
+  }
+
+  public boolean addAllIfNotNull( Collection<? extends T> collection ) {
+    return addAll( collection.stream().filter( $ -> $ != null ).collect( Collectors.toList() ) );
+  }
+
   @Override
   public void add( int index, T element ) {
     if( isValid( element ) ) {
