@@ -7,6 +7,8 @@ import java.io.*;
  */
 public class Empty {
 
+  public static final byte[]    NO_BYTES      = new byte[0];
+  
   public static final Object[]  NO_OBJECTS    = new Object[0];
 
   public static final File[]    NO_FILES      = new File[0];

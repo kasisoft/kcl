@@ -40,6 +40,9 @@ public class XmlParserConfiguration {
   // run a normalization after a document has been loaded
   boolean                           normalize;
   
+  // <code>true</code> <=> Requested schemas that cannot be found will be delivered as empty files (effectively no rules).
+  boolean                           satisfyUnknownSchemas;
+  
   @Setter(AccessLevel.PRIVATE)
   Map<DomConfigParameter, Object>   parameters;
   
@@ -60,6 +63,15 @@ public class XmlParserConfiguration {
     
     XmlParserConfigurationBuilder() {
       result = new XmlParserConfiguration();
+    }
+    
+    public XmlParserConfigurationBuilder satisfyUnknownSchemas() {
+      return satisfyUnknownSchemas( true );
+    }
+    
+    public XmlParserConfigurationBuilder satisfyUnknownSchemas( boolean satisfy ) {
+      result.setSatisfyUnknownSchemas( satisfy );
+      return this;
     }
     
     public XmlParserConfigurationBuilder baseurl( URL baseurl ) {

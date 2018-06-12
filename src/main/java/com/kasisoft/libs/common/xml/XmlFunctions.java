@@ -1,24 +1,15 @@
 package com.kasisoft.libs.common.xml;
 
-import org.xml.sax.*;
-
-import org.w3c.dom.*;
-
-import com.kasisoft.libs.common.internal.text.*;
-
-import com.kasisoft.libs.common.constants.*;
-
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.base.*;
-
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.function.*;
+import com.kasisoft.libs.common.internal.text.*;
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.text.*;
-import com.kasisoft.libs.common.function.*;
+import com.kasisoft.libs.common.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -29,13 +20,16 @@ import java.util.function.*;
 
 import java.util.*;
 
-import java.lang.reflect.*;
-
 import java.net.*;
 
+import java.io.*;
+
+import java.lang.reflect.*;
 import java.nio.file.*;
 
-import java.io.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of xml related functions.
@@ -144,8 +138,16 @@ public final class XmlFunctions {
     }
     try {
       DocumentBuilder result = factory.newDocumentBuilder();
-      if( config.getResolver() != null ) {
-        result.setEntityResolver( config.getResolver() );
+      if( config.isSatisfyUnknownSchemas() ) {
+        if( config.getResolver() != null ) {
+          result.setEntityResolver( new SatisfyingEntityResolver( config.getResolver() ) );
+        } else {
+          result.setEntityResolver( new SatisfyingEntityResolver() );
+        }
+      } else {
+        if( config.getResolver() != null ) {
+          result.setEntityResolver( config.getResolver() );
+        }
       }
       if( config.getHandler() != null ) {
         result.setErrorHandler( config.getHandler() );
@@ -157,7 +159,7 @@ public final class XmlFunctions {
       throw FailureCode.XmlFailure.newException( ex );
     }
   }
-  
+
   /**
    * Decodes a String in place that contains XML specific entities.
    * 
@@ -442,5 +444,36 @@ public final class XmlFunctions {
       return attribute.getName();
     }
   }
+
+  @FieldDefaults(level = AccessLevel.PRIVATE)
+  private static class SatisfyingEntityResolver implements EntityResolver {
+
+    EntityResolver    resolver;
+    
+    public SatisfyingEntityResolver() {
+      this( null );
+    }
+    
+    public SatisfyingEntityResolver( EntityResolver entityResolver ) {
+      resolver = entityResolver;
+    }
+    
+    @Override
+    public InputSource resolveEntity( String publicId, String systemId ) throws SAXException, IOException {
+      InputSource result = null;
+      if( resolver != null ) {
+        try {
+          result = resolver.resolveEntity( publicId, systemId );
+        } catch( Exception ex ) {
+          // we're not rethrowing exceptions
+        }
+      }
+      if( result == null ) {
+        result = new InputSource( new ByteArrayInputStream( Empty.NO_BYTES ) );
+      }
+      return result;
+    }
+    
+  } /* ENDCLASS */
   
 } /* ENDCLASS */
