@@ -209,6 +209,20 @@ public final class XmlFunctions {
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
    * 
+   * @param file       The destination file to write the content to. Not <code>null</code>.
+   * @param node       The DOM tree which will be saved. Not <code>null</code>.
+   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
+   *                   encoding is used. 
+   *                       
+   * @throws FailureException   Saving the XML datastructure failed.
+   */
+  public static void writeDocument( @NonNull Path file, @NonNull Node node, Encoding encoding ) throws FailureException {
+    IoFunctions.forOutputStreamDo( file, $ -> writeDocument( $, node, encoding ));
+  }
+  
+  /**
+   * Writes the XML content from a DOM tree into an OutputStream.
+   * 
    * @param output     The OutputStream used to receive the content. Not <code>null</code>.
    * @param node       The DOM tree which will be saved. Not <code>null</code>.
    * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
