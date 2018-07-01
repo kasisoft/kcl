@@ -853,6 +853,22 @@ public class IoFunctions {
    * 
    * @return   <code>true</code> <=> Deletion of all files succeeded.
    */
+  public static boolean delete( @NonNull Path ... pathes ) {
+    File[] files = new File[ pathes.length ];
+    for( int i = 0; i < files.length; i++ ) {
+      files[i] = pathes[i].toFile();
+    }
+    return delete( files );
+  }
+  
+  /**
+   * Returns <code>true</code> if the supplied list of files could be deletes. This method tries
+   * to attempt the deletion several times if necessary.
+   * 
+   * @param files    A list of files. Must be not <code>null</code> (even it's elements).
+   * 
+   * @return   <code>true</code> <=> Deletion of all files succeeded.
+   */
   public static boolean delete( @NonNull File ... files ) {
     
     List<File> entries = listRecursive( null, files );
