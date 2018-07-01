@@ -1,30 +1,33 @@
 package com.kasisoft.libs.common.util;
 
-import com.kasisoft.libs.common.constants.*;
-
 import com.kasisoft.libs.common.base.*;
-
-import com.kasisoft.libs.common.sys.*;
-
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.model.*;
+import com.kasisoft.libs.common.sys.*;
 import com.kasisoft.libs.common.text.*;
 
-import lombok.experimental.*;
+import javax.swing.tree.*;
 
-import lombok.*;
+import java.text.*;
 
 import java.util.function.*;
 
+import java.util.stream.*;
+
 import java.util.*;
 import java.util.Date;
-
-import java.text.*;
 
 import java.net.*;
 
 import java.io.*;
 
+import java.nio.file.*;
 import java.sql.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Collection of various functions.
@@ -49,6 +52,57 @@ public class MiscFunctions {
    */
   private MiscFunctions() {
   }
+
+  /**
+   * Returns the parent directory of the class folder or the jar.
+   * 
+   * @param clazz   The class used to identify the directory. Not <code>null</code>.
+   * 
+   * @return  The parent directory. Not <code>null</code>.
+   */
+  public static Path locateDirectory( @NonNull Class<?> clazz ) {
+    return locateDirectory( clazz.getClassLoader(), clazz.getName().replace('.', '/') + ".class" );
+  }
+
+  /**
+   * Returns the parent directory of the class folder or the jar.
+   * 
+   * @param lookupResource   The resource used for the lookup. Not <code>null</code>.
+   * 
+   * @return  The parent directory. <code>null</code> if the resource is not available.
+   */
+  public static Path locateDirectory( @NonNull String lookupResource ) {
+    return locateDirectory( ResourceExtractor.class.getClassLoader(), lookupResource );
+  }
+
+  /**
+   * Returns the parent directory of the class folder or the jar.
+   * 
+   * @param cl               The {@link ClassLoader} to be used. Not <code>null</code>.
+   * @param lookupResource   The resource used for the lookup. Not <code>null</code>.
+   * 
+   * @return  The parent directory. <code>null</code> if the resource is not available.
+   */
+  public static Path locateDirectory( @NonNull ClassLoader cl, @NonNull String lookupResource ) {
+    Path    result   = null;
+    URL     resource = cl.getResource( lookupResource );
+    if( resource != null ) {
+      String  location = resource.toExternalForm();
+      boolean isjar    = resource.toExternalForm().contains( "jar:" );
+      int     idx      = location.indexOf( "file:" );
+      location         = location.substring( idx + "file:".length() );
+      if( isjar ) {
+        idx       = location.indexOf( ".jar!" );
+        location  = location.substring( 0, idx + ".jar".length() );
+      } else {
+        idx       = location.indexOf( lookupResource );
+        location  = location.substring( 0, idx );
+      }
+      result = Paths.get( location ).getParent().toAbsolutePath();
+    }
+    return result;
+  }
+  
   
   /**
    * Returns the 'minimum' of two {@link Comparable} objects.
