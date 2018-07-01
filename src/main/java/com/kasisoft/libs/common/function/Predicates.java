@@ -6,6 +6,8 @@ import java.util.function.*;
 
 import java.util.regex.*;
 
+import java.nio.file.*;
+
 /**
  * Collection of predicates.
  * 
@@ -19,7 +21,11 @@ public class Predicates {
   
   public static final Predicate<String> IS_JAVA_CLASS_FILE = new SuffixPredicate( ".class" );
 
+  /** @deprecated   Use IS_YAML_FILE instrad. Will be removed with version 3.1 */
+  @Deprecated
   public static final Predicate<String> IS_JAVA_YAML_FILE = new SuffixPredicate( ".yaml", ".yml" );
+  
+  public static final Predicate<String> IS_YAML_FILE = new SuffixPredicate( ".yaml", ".yml" );
 
   public static final Predicate<String> IS_JSON_FILE = new SuffixPredicate( ".json" );
 
@@ -73,6 +79,10 @@ public class Predicates {
 
   public static <T> Predicate<T> acceptNone() {
     return $ -> false;
+  }
+  
+  public static Predicate<Path> path( Predicate<String> predicate ) {
+    return $ -> predicate.test( $.toString() );
   }
 
   private static class IsMavenFile implements Predicate<String> {
