@@ -2111,4 +2111,45 @@ public class IoFunctions {
     return result;
   }
   
+  public static Properties loadProperties( @NonNull URL url ) {
+    return forReader( url, $ -> load( new Properties(), $ ) );
+  }
+
+  public static Properties loadProperties( @NonNull Path path ) {
+    return forReader( path, $ -> load( new Properties(), $ ) );
+  }
+
+  public static Properties loadProperties( @NonNull Reader reader ) {
+    return load( new Properties(), reader );
+  }
+
+  private static Properties load( Properties properties, Reader reader ) {
+    try {
+      properties.load( reader );
+      return properties;
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
+  }
+  
+  public static boolean isValidZip( @NonNull Path path ) {
+    boolean result = false;
+    if( Files.isRegularFile( path ) ) {
+      ZipFile zipfile = null;
+      try {
+        zipfile                                 = new ZipFile(path.toFile());
+        Enumeration<? extends ZipEntry> entries = zipfile.entries();
+        while( entries.hasMoreElements() ) {
+          entries.nextElement();
+        }
+        result = true;
+      } catch( Exception ex ) {
+        // return false if an error occurs 
+      } finally {
+        MiscFunctions.close( zipfile );
+      }
+    }
+    return result;
+  }
+  
 } /* ENDCLASS */
