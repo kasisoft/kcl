@@ -9,6 +9,7 @@ import lombok.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tupel<T> {
 
