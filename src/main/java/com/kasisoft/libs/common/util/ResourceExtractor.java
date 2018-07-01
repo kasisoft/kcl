@@ -32,6 +32,7 @@ public class ResourceExtractor {
   Predicate<Path>       canBeSubstituted;
   Map<String, String>   substitutions;
   String                varFormatter;
+  Consumer<String>      handleMissingResource;
   
   public ResourceExtractor() {
     argExtract            = "--extract";
@@ -43,6 +44,12 @@ public class ResourceExtractor {
     canBeSubstituted      = Predicates.acceptNone();
     substitutions         = new HashMap<>();
     varFormatter          = "${%s}";
+    handleMissingResource = $ -> {};
+  }
+
+  public ResourceExtractor handleMissingResource( Consumer<String> handler ) {
+    handleMissingResource = handler != null ? handler : handleMissingResource;
+    return this;
   }
 
   public ResourceExtractor varFormatter( String formatter ) {
@@ -126,6 +133,8 @@ public class ResourceExtractor {
         String value = properties.getProperty( name );
         extract( destination, StringFunctions.trim( name, "/", true ), StringFunctions.trim( value, "/", true ), force );
       }
+    } else {
+      handleMissingResource.accept( extractionManifest );
     }
   }
   
@@ -140,15 +149,19 @@ public class ResourceExtractor {
   
   private void extract( String source, Path dest ) {
     URL url = ResourceExtractor.class.getClassLoader().getResource( source );
-    IoFunctions.forOutputStreamDo( dest, $o -> {
-      IoFunctions.forInputStreamDo( url, $i -> {
-        IoFunctions.copy( $i, $o );
+    if( url != null ) {
+      IoFunctions.forOutputStreamDo( dest, $o -> {
+        IoFunctions.forInputStreamDo( url, $i -> {
+          IoFunctions.copy( $i, $o );
+        });
       });
-    });
-    if( canBeSubstituted.test( dest ) && (!substitutions.isEmpty()) ) {
-      String text = IoFunctions.forReader( dest, IoFunctions::readTextFully );
-      text        = StringFunctions.replace( text, substitutions );
-      IoFunctions.forWriterDo( dest, text, IoFunctions::writeText );
+      if( canBeSubstituted.test( dest ) && (!substitutions.isEmpty()) ) {
+        String text = IoFunctions.forReader( dest, IoFunctions::readTextFully );
+        text        = StringFunctions.replace( text, substitutions );
+        IoFunctions.forWriterDo( dest, text, IoFunctions::writeText );
+      }
+    } else {
+      handleMissingResource.accept( extractionManifest );
     }
   }
   
