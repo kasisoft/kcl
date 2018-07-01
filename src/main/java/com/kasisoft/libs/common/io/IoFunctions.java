@@ -1499,11 +1499,19 @@ public class IoFunctions {
   }
 
   public static <R> R forInputStream( @NonNull URL url, @NonNull Function<InputStream, R> function ) {
-    return forInputStream( toPath( url ), function );
+    try( InputStream instream = url.openStream() ) {
+      return function.apply( instream );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
 
   public static <R, C> R forInputStream( @NonNull URL url, C context, @NonNull BiFunction<InputStream, C, R> function ) {
-    return forInputStream( toPath( url ), context, function );
+    try( InputStream instream = url.openStream() ) {
+      return function.apply( instream, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
   
   public static void forInputStreamDo( @NonNull Path path, @NonNull Consumer<InputStream> consumer ) {
@@ -1547,11 +1555,19 @@ public class IoFunctions {
   }
 
   public static void forInputStreamDo( @NonNull URL url, @NonNull Consumer<InputStream> consumer ) {
-    forInputStreamDo( toPath( url ), consumer );
+    try( InputStream instream = url.openStream() ) {
+      consumer.accept( instream );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
 
   public static <C> void forInputStreamDo( @NonNull URL url, C context, @NonNull BiConsumer<InputStream, C> consumer ) {
-    forInputStreamDo( toPath( url ), context, consumer );
+    try( InputStream instream = url.openStream() ) {
+      consumer.accept( instream, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
   
   /* forOutputStream */
@@ -1711,11 +1727,19 @@ public class IoFunctions {
   }
 
   public static <R> R forReader( @NonNull URL url, Encoding encoding, @NonNull Function<Reader, R> function ) {
-    return forReader( toPath( url ), encoding, function );
+    try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
+      return function.apply( reader );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
 
   public static <R, C> R forReader( @NonNull URL url, Encoding encoding, C context, @NonNull BiFunction<Reader, C, R> function ) {
-    return forReader( toPath( url ), encoding, context, function );
+    try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
+      return function.apply( reader, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
   
   public static <R> R forReader( @NonNull Path path, @NonNull Function<Reader, R> function ) {
@@ -1751,11 +1775,11 @@ public class IoFunctions {
   }
 
   public static <R> R forReader( @NonNull URL url, @NonNull Function<Reader, R> function ) {
-    return forReader( toPath( url ), null, function );
+    return forReader( url, null, function );
   }
 
   public static <R, C> R forReader( @NonNull URL url, C context, @NonNull BiFunction<Reader, C, R> function ) {
-    return forReader( toPath( url ), null, context, function );
+    return forReader( url, null, context, function );
   }
 
   public static void forReaderDo( @NonNull InputStream inputstream, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
@@ -1815,11 +1839,19 @@ public class IoFunctions {
   }
 
   public static void forReaderDo( @NonNull URL url, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
-    forReaderDo( toPath( url ), encoding, consumer );
+    try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
+      consumer.accept( reader );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
 
   public static <C> void forReaderDo( @NonNull URL url, Encoding encoding, C context, @NonNull BiConsumer<Reader, C> consumer ) {
-    forReaderDo( toPath( url ), encoding, context, consumer );
+    try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
+      consumer.accept( reader, context );
+    } catch( IOException ex ) {
+      throw FailureCode.IO.newException( ex );
+    }
   }
   
   public static void forReaderDo( @NonNull Path path, @NonNull Consumer<Reader> consumer ) {
@@ -1855,11 +1887,11 @@ public class IoFunctions {
   }
 
   public static void forReaderDo( @NonNull URL url, @NonNull Consumer<Reader> consumer ) {
-    forReaderDo( toPath( url ), null, consumer );
+    forReaderDo( url, null, consumer );
   }
 
   public static <C> void forReaderDo( @NonNull URL url, C context, @NonNull BiConsumer<Reader, C> consumer ) {
-    forReaderDo( toPath( url ), null, context, consumer );
+    forReaderDo( url, null, context, consumer );
   }
   
   /* forWriter */
