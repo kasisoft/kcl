@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.util;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.sys.*;
@@ -258,7 +259,59 @@ public class MiscFunctionsTest {
     assertThat( comparator.compare( obj9, obj10 ), is(1) );
 
   }
+  
+  private static final List<String> PARENTHESIZE_DATA = Arrays.asList( new String[] {
+    "/root1",
+    "/root1/child1",
+    "/root1/child1/child7",
+    "/root1/child1/child8",
+    "/root1/child1/child9",
+    "/root1/child1/child10",
+    "/root1/child2",
+    "/root1/child2/child11",
+    "/root1/child2/child12",
+    "/root1/child2/child13",
+    "/root1/child3",
+    "/root1/child3/child14",
+    "/root1/child4",
+    "/root1/child5",
+    "/root1/child6",
+    "/root2",
+    "/root2/child1",
+    "/root2/child1/child7",
+    "/root2/child1/child8",
+    "/root2/child1/child9",
+    "/root2/child1/child10",
+    "/root2/child2",
+    "/root2/child2/child11",
+    "/root2/child2/child12",
+    "/root2/child2/child13",
+    "/root2/child3",
+    "/root2/child3/child14",
+    "/root2/child4",
+    "/root2/child5",
+    "/root2/child6",
+    "/root3/child1/child2/child3"
+  });
 
+  @Test(groups = "all")
+  public void parenthesize() {
+    Set<Tupel<String>> children  = new HashSet<>();
+    MiscFunctions.parenthesize(
+      PARENTHESIZE_DATA,
+      $ -> $,
+      ($s, $p, $c) -> children.add( new Tupel<>( $s, $p, $c ) )
+    );
+    assertThat( children.size(), is(34) );
+    for( Tupel<String> child : children ) {
+      if( child.getValues()[1] != null ) {
+        String parent = child.getValues()[1];
+        String sub    = child.getValues()[2];
+        assertTrue( sub.startsWith( parent ) );
+      }
+    }
+  }
+  
   @Data @AllArgsConstructor
   @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class DummyPojo {
