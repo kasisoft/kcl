@@ -31,10 +31,10 @@ public final class Digest {
   public static final Digest   SHA384;
   public static final Digest   SHA512;
   
-  private static final Map<String,Digest>   DIGESTS;
+  private static final Map<String, Digest>   DIGESTS;
   
   static {
-    DIGESTS   = new Hashtable<>();
+    DIGESTS   = new HashMap<>();
     MD2       = new Digest( "MD2"     );
     MD5       = new Digest( "MD5"     );
     SHA1      = new Digest( "SHA-1"   );
