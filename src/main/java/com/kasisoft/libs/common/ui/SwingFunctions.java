@@ -1,5 +1,6 @@
 package com.kasisoft.libs.common.ui;
 
+import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.util.*;
 
 import lombok.*;
@@ -358,6 +359,23 @@ public class SwingFunctions {
       result = (Frame) component;
     } else if( component != null ) {
       result = getFrame( component.getParent() );
+    }
+    return result;
+  }
+
+  /**
+   * Returns a list of available screens for the current setup.
+   * 
+   * @return  A list of available screens for the current setup. Not <code>null</code>
+   */
+  public static List<ScreenInfo> getScreenInfos() {
+    GraphicsEnvironment ge      = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice[]    screens = ge.getScreenDevices();
+    List<ScreenInfo>    result  = new ArrayList<>( screens.length );
+    for( GraphicsDevice screen : screens ) {
+      GraphicsConfiguration gc      = screen.getDefaultConfiguration();
+      Rectangle             bounds  = gc.getBounds();
+      result.add( new ScreenInfo( screen.getIDstring(), bounds.width, bounds.height ) );
     }
     return result;
   }
