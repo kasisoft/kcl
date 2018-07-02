@@ -21,10 +21,6 @@ public class Predicates {
   
   public static final Predicate<String> IS_JAVA_CLASS_FILE = new SuffixPredicate( ".class" );
 
-  /** @deprecated   Use IS_YAML_FILE instrad. Will be removed with version 3.1 */
-  @Deprecated
-  public static final Predicate<String> IS_JAVA_YAML_FILE = new SuffixPredicate( ".yaml", ".yml" );
-  
   public static final Predicate<String> IS_YAML_FILE = new SuffixPredicate( ".yaml", ".yml" );
 
   public static final Predicate<String> IS_JSON_FILE = new SuffixPredicate( ".json" );
