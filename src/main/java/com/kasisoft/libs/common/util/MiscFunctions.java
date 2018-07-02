@@ -569,6 +569,22 @@ public class MiscFunctions {
   }
   
   /**
+   * Calculates the biggest common divisor.
+   * 
+   * @param a   One number.
+   * @param b   Another number.
+   * 
+   * @return   The biggest common divisor.
+   */
+  public static int gcd( int a, int b ) {
+    if( b == 0 ) {
+      return a;
+    } else {
+      return gcd( b, a % b );
+    }
+  }
+  
+  /**
    * Returns the resource which might be provided by a ClassLoader instance accessible in this function.
    * 
    * @param resource   The resource that shall be loaded. Not blank.
