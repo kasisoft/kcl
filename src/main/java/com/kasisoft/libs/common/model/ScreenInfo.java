@@ -17,6 +17,10 @@ public class ScreenInfo {
 
   public static final Comparator<ScreenInfo> BY_PIXEL_COUNT = ScreenInfo::compareByPixelCount;
   
+  public static final Comparator<ScreenInfo> BY_WIDTH       = ScreenInfo::compareByWidth;
+  
+  public static final Comparator<ScreenInfo> BY_HEIGHT      = ScreenInfo::compareByHeight;
+  
   String   id;
   int      width;
   int      height;
@@ -45,5 +49,13 @@ public class ScreenInfo {
   private static int compareByPixelCount( ScreenInfo s1, ScreenInfo s2 ) {
     return Integer.compare( s1.pixels, s2.pixels );
   }
-  
+
+  private static int compareByWidth( ScreenInfo s1, ScreenInfo s2 ) {
+    return Integer.compare( s1.width, s2.width );
+  }
+
+  private static int compareByHeight( ScreenInfo s1, ScreenInfo s2 ) {
+    return Integer.compare( s1.height, s2.height );
+  }
+
 } /* ENDCLASS */
