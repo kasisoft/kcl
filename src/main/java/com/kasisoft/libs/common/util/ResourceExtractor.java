@@ -33,6 +33,7 @@ public class ResourceExtractor {
   Map<String, String>   substitutions;
   String                varFormatter;
   Consumer<String>      handleMissingResource;
+  Runnable              handleAfterExtraction;
   
   public ResourceExtractor() {
     argExtract            = "--extract";
@@ -45,6 +46,12 @@ public class ResourceExtractor {
     substitutions         = new HashMap<>();
     varFormatter          = "${%s}";
     handleMissingResource = $ -> {};
+    handleAfterExtraction = () -> {};
+  }
+  
+  public ResourceExtractor handleAfterExtraction( Runnable runnable ) {
+    handleAfterExtraction = runnable != null ? runnable : handleAfterExtraction;
+    return this;
   }
 
   public ResourceExtractor handleMissingResource( Consumer<String> handler ) {
@@ -118,12 +125,15 @@ public class ResourceExtractor {
       }
     }
     if( extract ) {
-      extract( force );
+      if( extract( force ) ) {
+        handleAfterExtraction.run();
+      }
     }
   }
   
-  public void extract( boolean force ) {
-    URL manifesturl = MiscFunctions.getResource( extractionManifest );
+  public boolean extract( boolean force ) {
+    boolean result      = false;
+    URL     manifesturl = MiscFunctions.getResource( extractionManifest );
     if( manifesturl != null ) {
       Path                destination = destinationDir.get();
       Properties          properties  = IoFunctions.loadProperties( manifesturl );
@@ -131,24 +141,32 @@ public class ResourceExtractor {
       while( names.hasMoreElements() ) {
         String name  = names.nextElement();
         String value = properties.getProperty( name );
-        extract( destination, StringFunctions.trim( name, "/", true ), StringFunctions.trim( value, "/", true ), force );
+        result = result || extract( destination, removeLeadingSlash( name ), removeLeadingSlash( value ), force );
       }
     } else {
       handleMissingResource.accept( extractionManifest );
     }
+    return result;
   }
   
-  private void extract( Path destdir, String source, String destination, boolean force ) {
-    Path dest   = destdir.resolve( destination );
-    Path parent = dest.getParent();
+  private String removeLeadingSlash( String value ) {
+    return StringFunctions.trim( value, "/", true );
+  }
+  
+  private boolean extract( Path destdir, String source, String destination, boolean force ) {
+    boolean result = false;
+    Path    dest   = destdir.resolve( destination );
+    Path    parent = dest.getParent();
     IoFunctions.mkdirs( parent );
     if( (! Files.isRegularFile( dest )) || force ) {
-      extract( source, dest );
+      result = extract( source, dest );
     }
+    return result;
   }
   
-  private void extract( String source, Path dest ) {
-    URL url = ResourceExtractor.class.getClassLoader().getResource( source );
+  private boolean extract( String source, Path dest ) {
+    boolean result = false;
+    URL     url    = ResourceExtractor.class.getClassLoader().getResource( source );
     if( url != null ) {
       IoFunctions.forOutputStreamDo( dest, $o -> {
         IoFunctions.forInputStreamDo( url, $i -> {
@@ -160,9 +178,11 @@ public class ResourceExtractor {
         text        = StringFunctions.replace( text, substitutions );
         IoFunctions.forWriterDo( dest, text, IoFunctions::writeText );
       }
+      result = true;
     } else {
       handleMissingResource.accept( extractionManifest );
     }
+    return result;
   }
   
 } /* ENDCLASS */
