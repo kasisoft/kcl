@@ -1,9 +1,8 @@
 package com.kasisoft.libs.common.ui;
 
 import com.kasisoft.libs.common.model.*;
+import com.kasisoft.libs.common.model.ScreenInfo.*;
 import com.kasisoft.libs.common.util.*;
-
-import lombok.*;
 
 import javax.swing.table.*;
 
@@ -16,6 +15,8 @@ import java.util.List;
 
 import java.awt.*;
 import java.awt.image.*;
+
+import lombok.*;
 
 /**
  * Collection of Swing related utility functions.
@@ -280,6 +281,22 @@ public class SwingFunctions {
   }
 
   /**
+   * Modifies the boundaries of the supplied component so it will be centered on the screen. If the size of the 
+   * component exceeds the size of the screen it's location will be modified accordingly to make sure it's in a visible 
+   * area.
+   * 
+   * @param relocatable   The component which boundaries have to be adjusted. Not <code>null</code>.
+   * @param screenInfo    The screen where the component shall be centered on. Not <code>null</code>.
+   */
+  public static void center( @NonNull Component relocatable, @NonNull ScreenInfo screenInfo ) {
+    Dimension relosize    = relocatable.getSize();
+    int       width       = screenInfo.getWidth()  - relosize.width;
+    int       height      = screenInfo.getHeight() - relosize.height;
+    Rectangle bounds      = screenInfo.getGraphicsConfiguration().getBounds();
+    relocatable.setBounds( bounds.x + Math.max( width / 2, 0 ), bounds.y + Math.max( height / 2, 0 ), relosize.width, relosize.height );
+  }
+
+  /**
    * Invokes the supplied Runnable instance within the event dispatch thread and waits for it's completion. Any error
    * will be thrown as a {@link RuntimeException}.
    *  
@@ -375,9 +392,44 @@ public class SwingFunctions {
     for( GraphicsDevice screen : screens ) {
       GraphicsConfiguration gc      = screen.getDefaultConfiguration();
       Rectangle             bounds  = gc.getBounds();
-      result.add( new ScreenInfo( screen.getIDstring(), bounds.width, bounds.height ) );
+      result.add( new ScreenInfo( screen.getIDstring(), gc, screen, bounds.width, bounds.height ) );
     }
     return result;
   }
-
+  
+  public static ScreenInfo getScreenInfo( List<Pair<ComparisonMode, Integer>> priorization ) {
+    List<ScreenInfo> available = getScreenInfos();
+    ScreenInfo       result    = null;
+    if( (available.size() > 1) && (priorization != null) && (priorization.size() > 0) ) {
+      // reduce the list depending on the priorization of the comparators
+      int pos = 0;
+      while( (available.size() > 1) && (pos < priorization.size()) ) {
+        Pair<ComparisonMode, Integer> priority = priorization.get( pos++ );
+        reduceScreens( available, priority.getValue(), priority.getKey() );
+      }
+    }
+    if( available.size() == 1 ) {
+      // only one possibility available, so use it
+      result = available.get(0);
+    } else if( available.size() > 1 ) {
+      // if there are comparators available use the first one which has the highest priority
+      if( ! priorization.isEmpty() ) {
+        Collections.sort( available, priorization.get(0).getKey() );
+      }
+      result = available.get(0);
+    }
+    return result;
+  }
+  
+  private static void reduceScreens( List<ScreenInfo> screeninfos, int threshold, ComparisonMode mode ) {
+    Collections.sort( screeninfos, mode );
+    ScreenInfo first = screeninfos.get(0);
+    for( int i = screeninfos.size() - 1; i >= 1; i-- ) {
+      ScreenInfo other = screeninfos.get(i);
+      if( mode.difference( first, other ) > threshold ) {
+        screeninfos.remove(i);
+      }
+    }
+  }
+  
 } /* ENDCLASS */

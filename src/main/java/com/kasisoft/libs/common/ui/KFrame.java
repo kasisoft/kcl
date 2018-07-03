@@ -1,22 +1,22 @@
 package com.kasisoft.libs.common.ui;
 
-import com.kasisoft.libs.common.workspace.*;
-
 import com.kasisoft.libs.common.config.*;
-
+import com.kasisoft.libs.common.model.*;
+import com.kasisoft.libs.common.text.*;
+import com.kasisoft.libs.common.workspace.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
-import com.kasisoft.libs.common.text.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
-
 import javax.swing.*;
+
+import java.util.*;
 
 import java.awt.event.*;
 
 import java.awt.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * A small extension to the {@link JFrame} which provides some helpful convenience functionalities.
@@ -29,6 +29,12 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   String                      property;
   SimpleProperty<Rectangle>   propertyBounds;
   Rectangle                   initialBounds;
+  ScreenInfo                  screenInfo;
+  boolean                     isCurrentlyFullscreen;
+  Map<String, Runnable>       actions;
+  
+  @Getter @Setter
+  boolean                     fullScreen;
   
   /**
    * Initializes this frame.
@@ -47,6 +53,22 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   }
 
   /**
+   * Initializes this frame.
+   */
+  public KFrame( @NonNull ScreenInfo screenInfo ) {
+    this( null, false, null, screenInfo );
+  }
+
+  /**
+   * Initializes this frame using the supplied title.
+   * 
+   * @param title   The window title. Neither <code>null</code> nor empty.
+   */
+  public KFrame( String title, @NonNull ScreenInfo screenInfo ) {
+    this( title, false, null, screenInfo );
+  }
+
+  /**
    * Initializes this frame using the supplied title.
    * 
    * @param title   The window title. Neither <code>null</code> nor empty.
@@ -55,16 +77,54 @@ public class KFrame extends JFrame implements WorkspacePersistent {
    */
   public KFrame( String title, boolean defer, String wsprop ) {
     super();
+    init( title, defer, wsprop );
+  }
+
+  /**
+   * Initializes this frame using the supplied title.
+   * 
+   * @param title       The window title. Neither <code>null</code> nor empty.
+   * @param defer       <code>true</code> <=> The {@link #init()} method is called immediately. Otherwise the 
+   *                    caller is supposed to invoke it.
+   * @param screenInfo  The screen that should be used.
+   */
+  public KFrame( String title, boolean defer, String wsprop, ScreenInfo sInfo ) {
+    super( sInfo.getGraphicsConfiguration() );
+    screenInfo  = sInfo;
+    init( title, defer, wsprop );
+  }
+  
+  private void init( String title, boolean defer, String wsprop ) {
     setTitle( title );
-    property = StringFunctions.cleanup( wsprop );
+    actions         = new HashMap<>();
+    property        = StringFunctions.cleanup( wsprop );
     if( property != null ) {
       propertyBounds = new SimpleProperty<>( String.format( "%s.bounds", property ), new RectangleAdapter() );
     }
     if( ! defer ) {
       init();
     }
+    registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::onShutdown       );
+    registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_F11    , 0 ), this::switchFullscreen );
+  }  
+  
+  public void registerAction( KeyStroke keyStroke, Runnable action ) {
+    actions.put( action.getClass().getName(), action );
+    getRootPane().registerKeyboardAction( 
+      this::executeAction, 
+      action.getClass().getName(),
+      keyStroke, 
+      JComponent.WHEN_IN_FOCUSED_WINDOW 
+    );
   }
-
+  
+  private void executeAction( ActionEvent evt ) {
+    Runnable runnable = actions.get( evt.getActionCommand() );
+    if( runnable != null ) {
+      runnable.run();
+    }
+  }
+  
   /**
    * Run the initialization of this frame.
    */
@@ -79,14 +139,8 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     wsConfiguration();
     listeners();
     finish();
-   
-    LocalBehaviour localbehaviour = new LocalBehaviour( this );
-    getRootPane().registerKeyboardAction( 
-      localbehaviour, 
-      KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0 ), 
-      JComponent.WHEN_IN_FOCUSED_WINDOW 
-    );
-    addWindowListener( localbehaviour );
+    
+    addWindowListener( new LocalBehaviour( this::onShutdown ) );
     
   }
   
@@ -162,30 +216,59 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   
   @Override
   public void setVisible( boolean enable ) {
-    if( initialBounds != null ) {
-      setBounds( initialBounds );
+    
+    if( isFullScreen() ) {
+      if( screenInfo != null ) {
+        if( screenInfo.getScreen().isFullScreenSupported() ) {
+          screenInfo.getScreen().setFullScreenWindow( this );
+        } else {
+          setBounds( screenInfo.getScreen().getDefaultConfiguration().getBounds() );
+        }
+      } else {
+        setBounds( new Rectangle( Toolkit.getDefaultToolkit().getScreenSize() ) );
+      }
+      isCurrentlyFullscreen = true;
+    } else {
+      if( initialBounds != null ) {
+        setBounds( initialBounds );
+      } else {
+        centerThisWindow();
+      }
+    }
+    
+    super.setVisible( enable );
+  }
+  
+  private void switchFullscreen() {
+    isCurrentlyFullscreen = !isCurrentlyFullscreen;
+    if( isCurrentlyFullscreen ) {
+      screenInfo.getScreen().setFullScreenWindow( this );
+    } else {
+      screenInfo.getScreen().setFullScreenWindow( null );
+      if( initialBounds != null ) {
+        setBounds( initialBounds );
+      } else {
+        centerThisWindow();
+      }
+    }
+  }
+  
+  private void centerThisWindow() {
+    if( screenInfo != null ) {
+      SwingFunctions.center( this, screenInfo );
     } else {
       SwingFunctions.center( this );
     }
-    super.setVisible( enable );
   }
 
-  private static class LocalBehaviour extends WindowAdapter implements ActionListener {
+  @AllArgsConstructor
+  private static class LocalBehaviour extends WindowAdapter {
 
-    KFrame   pthis;
-    
-    public LocalBehaviour( KFrame ref ) {
-      pthis = ref;
-    }
+    Runnable  runnable;
     
     @Override
-    public void actionPerformed( ActionEvent evt ) {
-      pthis.onShutdown();
-    }
-    
-    @Override
-    public void windowClosing( WindowEvent e ) {
-      pthis.onShutdown();
+    public void windowClosing( WindowEvent evt ) {
+      runnable.run();
     }
 
   } /* ENDCLASS */
