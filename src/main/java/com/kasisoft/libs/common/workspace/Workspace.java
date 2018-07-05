@@ -1,18 +1,11 @@
 package com.kasisoft.libs.common.workspace;
 
-import com.kasisoft.libs.common.constants.*;
-
-import com.kasisoft.libs.common.model.*;
-
 import com.kasisoft.libs.common.base.*;
-
+import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import javax.swing.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 import java.util.function.*;
 
@@ -23,6 +16,12 @@ import java.net.*;
 import java.awt.*;
 
 import java.io.*;
+
+import java.nio.file.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * The Workspace allows to store various configuration information during the runtime.
@@ -176,7 +175,7 @@ public final class Workspace {
    * @throws FailureException   Loading existing settings failed for some reason.
    */
   public static synchronized Workspace getInstance() {
-    return getInstance( null, false );
+    return getInstance( (File) null, false );
   }
   
   /**
@@ -193,8 +192,41 @@ public final class Workspace {
    * 
    * @throws FailureException   Loading existing settings failed for some reason.
    */
+  public static synchronized Workspace getInstance( Path settings ) {
+    return getInstance( settings.toFile(), false );
+  }
+
+  /**
+   * Returns a Workspace instance used for the current runtime. This function primarily makes use of the supplied
+   * location <code>settings</code>. If this property also has not been set a dummy instance will be created.
+   * 
+   * @ks.note [19-Dec-2010:KASI]   Supplying a parameter won't have any effect if an instance already has been created 
+   *                               so it's advisable to create a new instance as early as possible when launching the 
+   *                               application.
+   *                            
+   * @param settings   The file where all settings will be written, to. Maybe <code>null</code>.
+   * 
+   * @return   A Workspace instance used for the current runtime. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading existing settings failed for some reason.
+   */
   public static synchronized Workspace getInstance( File settings ) {
     return getInstance( settings, false );
+  }
+  
+  /**
+   * Returns a Workspace instance used for the current runtime. This function primarily makes use of the supplied
+   * location <code>settings</code>. If this property also has not been set a dummy instance will be created.
+   * 
+   * @param settings   The file where all settings will be written, to. Maybe <code>null</code>.
+   * @param force      <code>true</code> <=> Enforces to recreate the instance. 
+   * 
+   * @return   A Workspace instance used for the current runtime. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading existing settings failed for some reason.
+   */
+  public static synchronized Workspace getInstance( Path settings, boolean force ) {
+    return getInstance( settings.toFile(), force );
   }
   
   /**

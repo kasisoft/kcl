@@ -50,6 +50,7 @@ public class ScreenInfo {
   String                  id;
   GraphicsConfiguration   graphicsConfiguration;
   GraphicsDevice          screen;
+  KSize                   size;
   int                     width;
   int                     height;
   int                     ratioX;
@@ -68,6 +69,11 @@ public class ScreenInfo {
     ratioX                = width  / div;
     ratioY                = height / div;
     ratioPixels           = ratioX * ratioY;
+    size                  = new KSize( width, height );
+  }
+  
+  public boolean isFullScreenSupported() {
+    return screen.isFullScreenSupported();
   }
 
   private static int compareByRatio( ScreenInfo s1, ScreenInfo s2 ) {

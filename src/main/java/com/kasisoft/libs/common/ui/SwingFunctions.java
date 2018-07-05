@@ -274,7 +274,7 @@ public class SwingFunctions {
    */
   public static void center( @NonNull Component relocatable ) {
     Dimension relosize    = relocatable.getSize();
-    Dimension screensize  = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension screensize  = relocatable.getGraphicsConfiguration().getBounds().getSize();
     int       width       = screensize.width  - relosize.width;
     int       height      = screensize.height - relosize.height;
     relocatable.setBounds( Math.max( width / 2, 0 ), Math.max( height / 2, 0 ), relosize.width, relosize.height );

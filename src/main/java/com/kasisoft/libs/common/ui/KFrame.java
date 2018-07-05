@@ -30,7 +30,6 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   SimpleProperty<Rectangle>   propertyBounds;
   Rectangle                   initialBounds;
   ScreenInfo                  screenInfo;
-  boolean                     isCurrentlyFullscreen;
   Map<String, Runnable>       actions;
   
   @Getter @Setter
@@ -97,6 +96,7 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   private void init( String title, boolean defer, String wsprop ) {
     setTitle( title );
     actions         = new HashMap<>();
+    initialBounds   = new Rectangle( 0, 0, 640, 480 );
     property        = StringFunctions.cleanup( wsprop );
     if( property != null ) {
       propertyBounds = new SimpleProperty<>( String.format( "%s.bounds", property ), new RectangleAdapter() );
@@ -104,9 +104,13 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     if( ! defer ) {
       init();
     }
-    registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::onShutdown       );
+    registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::closeFrame       );
     registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_F11    , 0 ), this::switchFullscreen );
   }  
+  
+  public void closeFrame() {
+    dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+  }
   
   public void registerAction( KeyStroke keyStroke, Runnable action ) {
     actions.put( action.getClass().getName(), action );
@@ -217,6 +221,10 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   @Override
   public void setVisible( boolean enable ) {
     
+    if( enable == isVisible() ) {
+      return;
+    }
+    
     if( isFullScreen() ) {
       if( screenInfo != null ) {
         if( screenInfo.getScreen().isFullScreenSupported() ) {
@@ -225,9 +233,8 @@ public class KFrame extends JFrame implements WorkspacePersistent {
           setBounds( screenInfo.getScreen().getDefaultConfiguration().getBounds() );
         }
       } else {
-        setBounds( new Rectangle( Toolkit.getDefaultToolkit().getScreenSize() ) );
+        setWindowAsFullscreen();
       }
-      isCurrentlyFullscreen = true;
     } else {
       if( initialBounds != null ) {
         setBounds( initialBounds );
@@ -236,20 +243,32 @@ public class KFrame extends JFrame implements WorkspacePersistent {
       }
     }
     
+    initialBounds = getBounds();
+    
     super.setVisible( enable );
   }
   
   private void switchFullscreen() {
-    isCurrentlyFullscreen = !isCurrentlyFullscreen;
-    if( isCurrentlyFullscreen ) {
-      screenInfo.getScreen().setFullScreenWindow( this );
+    if( !isCurrentlyFullscreen() ) {
+      initialBounds =  getBounds();
+      setWindowAsFullscreen();
     } else {
-      screenInfo.getScreen().setFullScreenWindow( null );
+      if( screenInfo != null ) {
+        screenInfo.getScreen().setFullScreenWindow( null );
+      }
       if( initialBounds != null ) {
         setBounds( initialBounds );
       } else {
         centerThisWindow();
       }
+    }
+  }
+  
+  private void setWindowAsFullscreen() {
+    if( (screenInfo != null) && screenInfo.isFullScreenSupported() ) {
+      screenInfo.getScreen().setFullScreenWindow( this );
+    } else {
+      setBounds( getGraphicsConfiguration().getBounds() );
     }
   }
   
@@ -261,6 +280,21 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     }
   }
 
+  private boolean isCurrentlyFullscreen() {
+    if( screenInfo != null ) {
+      return screenInfo.getScreen().getFullScreenWindow() != null;
+    } else {
+      Dimension currentSize  = getSize();
+      Dimension fullSize     = getGraphicsConfiguration().getBounds().getSize();
+      boolean   result       = fullSize.width == currentSize.width;
+      if( result ) {
+        /** @todo [04-Jul-2018:KASI]   Figure out a way to add the taskbar/menubar to the height */
+        result = Math.abs( fullSize.height - currentSize.height ) < 100;
+      }
+      return result;
+    }
+  }
+  
   @AllArgsConstructor
   private static class LocalBehaviour extends WindowAdapter {
 
