@@ -122,6 +122,11 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     );
   }
   
+  public void unregisterAction( KeyStroke keyStroke, Runnable action ) {
+    actions.remove( action.getClass().getName() );
+    getRootPane().unregisterKeyboardAction( keyStroke );
+  }
+  
   private void executeAction( ActionEvent evt ) {
     Runnable runnable = actions.get( evt.getActionCommand() );
     if( runnable != null ) {
