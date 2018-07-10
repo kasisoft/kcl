@@ -1,5 +1,6 @@
 package com.kasisoft.libs.common.ui;
 
+import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.model.ScreenInfo.*;
 import com.kasisoft.libs.common.util.*;
@@ -9,6 +10,7 @@ import javax.swing.table.*;
 import javax.swing.tree.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 import java.util.function.*;
 
@@ -246,14 +248,25 @@ public class SwingFunctions {
     }
   }
   
-  public static void forComponentTreeDo( @NonNull Component component, Predicate<Component> test, Consumer<Component> handler ) {
-    if( test.test( component ) ) {
-      handler.accept( component );
+  public static void forComponentTreeDo( @NonNull Component component, @NonNull Predicate<Component> testComponent, @NonNull Consumer<Component> handleComponent ) {
+    forComponentTreeDo( component, testComponent, handleComponent, Predicates.acceptNone(), ($c, $b) -> {} );
+  }
+  
+  public static void forComponentTreeDo( @NonNull Component component, @NonNull Predicate<Component> testComponent, @NonNull Consumer<Component> handleComponent, @NonNull Predicate<Border> testBorder, @NonNull BiConsumer<JComponent, Border> handleBorder ) {
+    if( component instanceof JComponent ) {
+      JComponent jcomponent = (JComponent) component;
+      Border     border     = jcomponent.getBorder();
+      if( (border != null) && testBorder.test( border ) ) {
+        handleBorder.accept( jcomponent, border );
+      }
+    }
+    if( testComponent.test( component ) ) {
+      handleComponent.accept( component );
     }
     if( component instanceof Container ) {
       Container container = (Container) component;
       for( int i = 0; i < container.getComponentCount(); i++ ) {
-        forComponentTreeDo( container.getComponent(i), test, handler );
+        forComponentTreeDo( container.getComponent(i), testComponent, handleComponent, testBorder, handleBorder );
       }
     }
   }

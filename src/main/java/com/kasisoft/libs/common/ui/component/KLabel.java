@@ -1,14 +1,17 @@
 package com.kasisoft.libs.common.ui.component;
 
+import com.kasisoft.libs.common.i18n.*;
 import com.kasisoft.libs.common.ui.*;
+
+import javax.swing.*;
+
+import java.util.*;
+
+import java.awt.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import javax.swing.*;
-
-import java.awt.*;
 
 /**
  * A small extension to the original {@link JLabel} which provides the possibility to preconfigure the sizes easily. 
@@ -17,9 +20,10 @@ import java.awt.*;
  */
 @Setter @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KLabel extends JLabel {
+public class KLabel extends JLabel implements I18NSensitive {
 
-  int   minCharacters;
+  int           minCharacters;
+  I18NString    i18n;
   
   public KLabel() {
     super();
@@ -45,6 +49,21 @@ public class KLabel extends JLabel {
     super( text );
   }
 
+  public KLabel( I18NString text, Icon icon, int horizontalAlignment ) {
+    super( text.toString(), icon, horizontalAlignment );
+    i18n = text;
+  }
+
+  public KLabel( I18NString text, int horizontalAlignment ) {
+    super( text.toString(), horizontalAlignment );
+    i18n = text;
+  }
+
+  public KLabel( I18NString text ) {
+    super( text.toString() );
+    i18n = text;
+  }
+
   @Override
   public Dimension getPreferredSize() {
     return SwingFunctions.getAdjustedPreferredSize( super.getPreferredSize(), this, minCharacters );
@@ -58,6 +77,20 @@ public class KLabel extends JLabel {
   @Override
   public Dimension getMaximumSize() {
     return SwingFunctions.getAdjustedMaximumSize( super.getMaximumSize(), this );
+  }
+
+  public void setText( I18NString text ) {
+    if( text != null ) {
+      setText( text.toString() );
+    }
+    i18n = text;
+  }
+  
+  @Override
+  public void onLocaleChange( Locale newLocale ) {
+    if( i18n != null ) {
+      setText( i18n.toString() );
+    }
   }
   
 } /* ENDCLASS */

@@ -6,6 +6,7 @@ import com.kasisoft.libs.common.text.*;
 import com.kasisoft.libs.common.ui.*;
 import com.kasisoft.libs.common.util.*;
 
+import javax.swing.border.*;
 import javax.swing.*;
 
 import java.util.function.*;
@@ -58,12 +59,13 @@ public class I18NSupport {
    * 
    * @return   <code>true</code> <=> The supplied field is a translation field.
    */
+  @SuppressWarnings("deprecation")
   private static boolean isTranslationField( Field field ) {
     int modifier = field.getModifiers();
     if( modifier != MODIFIERS ) {
       return false;
     }
-    return (field.getType() == String.class) || (field.getType() == I18NString.class);
+    return (field.getType() == String.class) || (field.getType() == I18NString.class) || (field.getType() == I18NFormatter.class);
   }
   
   /**
@@ -194,18 +196,26 @@ public class I18NSupport {
    * @param field   The field which is supposed to be edited. Not <code>null</code>.
    * @param value   The value which has to be set. Either <code>null</code> or not empty.
    */
+  @SuppressWarnings("deprecation")
   private static void applyFieldValue( Field field, String value ) {
     if( value != null ) {
       try {
         if( field.getType() == String.class ) {
           field.set( null, value );
-        } else {
-          I18NString formatter = (I18NString) field.get( null );
+        } else if( field.getType() == I18NFormatter.class ) {
+          I18NFormatter formatter = (I18NFormatter) field.get( null );
           if( formatter == null ) {
-            formatter = new I18NString( value );
+            formatter = new I18NFormatter( value );
             field.set( null, formatter );
           }
           formatter.setValue( value );
+        } else {
+          I18NString i18nstring = (I18NString) field.get( null );
+          if( i18nstring == null ) {
+            i18nstring = new I18NString( value );
+            field.set( null, i18nstring );
+          }
+          i18nstring.setValue( value );
         }
       } catch( IllegalAccessException ex ) {
         // won't happen as the supplied fields are definitely accessible
@@ -274,9 +284,11 @@ public class I18NSupport {
   
   public static void updateUI( Component parent, Locale newLocale ) {
     SwingUtilities.invokeLater(() -> {
-      Predicate<Component> test     = $ -> $ instanceof I18NSensitive;
-      Consumer<Component>  handler  = $ -> ((I18NSensitive) $).onLocaleChange( newLocale );
-      SwingFunctions.forComponentTreeDo( parent, test, handler );
+      Predicate<Component>           test         = $ -> $ instanceof I18NSensitive;
+      Predicate<Border>              testBorder   = $ -> $ instanceof I18NSensitive;
+      Consumer<Component>            handle       = $ -> ((I18NSensitive) $).onLocaleChange( newLocale );
+      BiConsumer<JComponent, Border> handleBorder = ($c, $b) -> ((I18NSensitive) $b).onLocaleChange( newLocale );
+      SwingFunctions.forComponentTreeDo( parent, test, handle, testBorder, handleBorder );
     });
   }
   
