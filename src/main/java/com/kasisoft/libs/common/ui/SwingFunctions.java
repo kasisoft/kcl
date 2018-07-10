@@ -10,6 +10,8 @@ import javax.swing.tree.*;
 
 import javax.swing.*;
 
+import java.util.function.*;
+
 import java.util.*;
 import java.util.List;
 
@@ -241,6 +243,18 @@ public class SwingFunctions {
       runnable.run();
     } else {
       SwingUtilities.invokeLater( runnable );
+    }
+  }
+  
+  public static void forComponentTreeDo( @NonNull Component component, Predicate<Component> test, Consumer<Component> handler ) {
+    if( test.test( component ) ) {
+      handler.accept( component );
+    }
+    if( component instanceof Container ) {
+      Container container = (Container) component;
+      for( int i = 0; i < container.getComponentCount(); i++ ) {
+        forComponentTreeDo( container.getComponent(i), test, handler );
+      }
     }
   }
 
