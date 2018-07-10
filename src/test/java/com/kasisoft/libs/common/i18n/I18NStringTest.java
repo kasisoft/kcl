@@ -14,10 +14,10 @@ import com.kasisoft.libs.common.constants.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class I18NFormatterTest {
+public class I18NStringTest {
 
-  I18NFormatter   formatterWithArgs    = new I18NFormatter( "Hello '%s' %s" );
-  I18NFormatter   formatterWithoutArgs = new I18NFormatter( "Constant string" );
+  I18NString   formatterWithArgs    = new I18NString( "Hello '%s' %s" );
+  I18NString   formatterWithoutArgs = new I18NString( "Constant string" );
   
   @Test(groups="all")
   public void format() {

@@ -21,7 +21,7 @@ public class Messages5 {
   public static String m4;
   
   @I18N("The text was '%s'")
-  public static I18NFormatter  m5;
+  public static I18NString  m5;
 
   @I18N(value="DEFAULT", key="overridden.key")
   public static String m6;

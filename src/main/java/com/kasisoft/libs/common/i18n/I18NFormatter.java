@@ -1,38 +1,15 @@
 package com.kasisoft.libs.common.i18n;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
- * Helper which provides formatting capabilities to a translation.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [10-Jul-2018:KASI]   Use {@link I18NString} instead.
  */
-@AllArgsConstructor
-@Data @FieldDefaults(level = AccessLevel.PRIVATE)
-public final class I18NFormatter {
+@Deprecated
+public final class I18NFormatter extends I18NString {
 
-  String   value;
-  
-  /**
-   * @see String#format(String, Object...)
-   */
-  public String format( Object ... args ) {
-    if( (args == null) || (args.length == 0) ) {
-      return value;
-    } else {
-      try {
-        return String.format( value, args );
-      } catch( Exception ex ) {
-        return value;
-      }
-    }
+  public I18NFormatter( String value ) {
+    super( value );
   }
   
-  @Override
-  public String toString() {
-    return value;
-  }
-        
 } /* ENDCLASS */
