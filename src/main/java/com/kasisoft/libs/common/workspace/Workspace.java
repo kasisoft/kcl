@@ -81,13 +81,19 @@ public final class Workspace {
       isnew = false;
       loadSettings();
     }
-    shutdown = new ShutdownWorkspace( this, null );
+    shutdown = new ShutdownWorkspace( this, new HashSet<>() );
   }
   
-  public synchronized void setShutdown( Consumer<Void> consumer ) {
+  public synchronized void addShutdown( Runnable finalizer ) {
     if( shutdown != null ) {
-      shutdown.finalizer = consumer;
+      shutdown.finalizer.add( finalizer );
     }
+  }
+  
+  /** @deprecated [10-JUL-2018:KASI]   Use {@link #addShutdown(Runnable)} instead. */
+  @Deprecated
+  public synchronized void setShutdown( Consumer<Void> consumer ) {
+    addShutdown( () -> consumer.accept( null ) );
   }
   
   public synchronized void configure( @NonNull Component component ) {
@@ -271,12 +277,12 @@ public final class Workspace {
   private class ShutdownWorkspace extends Thread {
     
     Workspace       workspace;
-    Consumer<Void>  finalizer;
+    Set<Runnable>   finalizer;
     
     @Override
     public void run() {
-      if( finalizer != null ) {
-        finalizer.accept( null );
+      if( (finalizer != null) && (!finalizer.isEmpty()) ) {
+        finalizer.stream().forEach( Runnable::run );
       }
       workspace.saveSettings();
     }

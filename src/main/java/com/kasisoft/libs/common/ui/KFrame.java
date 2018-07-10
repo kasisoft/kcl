@@ -159,7 +159,7 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   private void wsConfiguration() {
     Workspace.getInstance().configure( this );
     // register a shutdown hook, so everything will be persisted while closing
-    Workspace.getInstance().setShutdown( $ -> Workspace.getInstance().persist( KFrame.this ) );
+    Workspace.getInstance().addShutdown( () -> Workspace.getInstance().persist( KFrame.this ) );
   }
   
   /**
