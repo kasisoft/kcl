@@ -45,6 +45,27 @@ public final class XmlFunctions {
   private XmlFunctions() {
   }
 
+  public static Function<Element, String> getAttribute( String attribute ) {
+    return $ -> StringFunctions.cleanup( $.getAttribute( attribute ) );
+  }
+
+  public static Function<Element, String> getElementText( String tag ) {
+    return $ -> getElementText( $, tag );
+  }
+  
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param input    The stream which provides the xml content. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull InputStream input ) throws FailureException {
+    return readDocument( input, XmlParserConfiguration.builder().build() );
+  }
+  
   /**
    * Reads the content of the supplied stream.
    * 
@@ -78,6 +99,62 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
+   * @param input    The stream which provides the xml content. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull Reader input ) throws FailureException {
+    return readDocument( input, XmlParserConfiguration.builder().build() );
+  }
+  
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param input    The stream which provides the xml content. Not <code>null</code>.
+   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull Reader input, @NonNull XmlParserConfiguration config ) throws FailureException {
+    DocumentBuilder builder = newDocumentBuilder( config );
+    Document        result  = null;
+    try {
+      InputSource insource = new InputSource( input );
+      if( config.getBaseurl() != null ) {
+        insource.setSystemId( config.getBaseurl().toExternalForm() );
+      }
+      result = builder.parse( insource );
+      DOMConfiguration domconfig = result.getDomConfig();
+      config.getParameters().forEach( (k,v) -> k.set( domconfig, v ) );
+      if( config.isNormalize() ) {
+        result.normalizeDocument();
+      }
+    } catch( SAXException | IOException ex ) {
+      throw FailureCode.XmlFailure.newException( ex );
+    }
+    return result;
+  }
+
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param uri      The resource which provides the xml content. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull URI uri ) throws FailureException {
+    return readDocument( uri, XmlParserConfiguration.builder().build() );
+  }
+  
+  /**
+   * Reads the content of the supplied stream.
+   * 
    * @param uri      The resource which provides the xml content. Not <code>null</code>.
    * @param config   A configuration for the xml parser. Not <code>null</code>.
    * 
@@ -93,6 +170,19 @@ public final class XmlFunctions {
    * Reads the content of the supplied stream.
    * 
    * @param path     The path which provides the xml content. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull Path path ) throws FailureException {
+    return readDocument( path, XmlParserConfiguration.builder().build() );
+  }
+  
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param path     The path which provides the xml content. Not <code>null</code>.
    * @param config   A configuration for the xml parser. Not <code>null</code>.
    * 
    * @return   The Document node itself. Not <code>null</code>.
@@ -101,6 +191,19 @@ public final class XmlFunctions {
    */
   public static Document readDocument( @NonNull Path path, @NonNull XmlParserConfiguration config ) throws FailureException {
     return IoFunctions.forInputStream( path, config, XmlFunctions::readDocument );
+  }
+ 
+  /**
+   * Reads the content of the supplied stream.
+   * 
+   * @param file     The file which provides the xml content. Not <code>null</code>.
+   * 
+   * @return   The Document node itself. Not <code>null</code>.
+   * 
+   * @throws FailureException   Loading the xml content failed for some reason.
+   */
+  public static Document readDocument( @NonNull File file ) throws FailureException {
+    return readDocument( file, XmlParserConfiguration.builder().build() );
   }
   
   /**
@@ -410,6 +513,31 @@ public final class XmlFunctions {
       return result;
     } else {
       return Collections.emptyList();
+    }
+  }
+  
+  public static <T extends Node> List<T> getChildElements( NodeList nodeList ) {
+    List<T> result = Collections.emptyList();
+    if( (nodeList != null) && (nodeList.getLength() > 0) ) {
+      for( int i = 0; i < nodeList.getLength(); i++ ) {
+        result.add( (T) nodeList.item(i) );
+      }
+    }
+    return result;
+  }
+  
+  public static <T extends Node> void forNodeDo( @NonNull Consumer<T> handler, @NonNull Predicate<Node> test, @NonNull Node parent, boolean recursive ) {
+    NodeList childnodes = parent.getChildNodes();
+    if( (childnodes != null) && (childnodes.getLength() > 0) ) {
+      for( int i = 0; i < childnodes.getLength(); i++ ) {
+        Node current = childnodes.item(i);
+        if( test.test( current ) ) {
+          handler.accept( (T) current );
+        }
+        if( recursive ) {
+          forNodeDo( handler, test, current, recursive );
+        }
+      }
     }
   }
   
