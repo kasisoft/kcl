@@ -1,24 +1,28 @@
 package com.kasisoft.libs.common.i18n;
 
+import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
-
+import com.kasisoft.libs.common.text.*;
+import com.kasisoft.libs.common.ui.*;
 import com.kasisoft.libs.common.util.*;
 
-import com.kasisoft.libs.common.base.*;
+import javax.swing.*;
 
-import com.kasisoft.libs.common.text.*;
+import java.util.function.*;
+
+import java.util.*;
+
+import java.net.*;
+
+import java.awt.*;
+
+import java.io.*;
+
+import java.lang.reflect.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
-
-import java.lang.reflect.*;
-
-import java.net.*;
-
-import java.io.*;
 
 /**
  * A helper which initializes the translations managed by a class. Each translation class is supposed to provide fields
@@ -44,6 +48,8 @@ import java.io.*;
 public class I18NSupport {
 
   static final int MODIFIERS = Modifier.STATIC | Modifier.PUBLIC;
+  
+  static Set<Class<?>> CLASSES = new HashSet<>();
   
   /**
    * Returns <code>true</code> if the supplied field can be considered to be a translation field.
@@ -254,7 +260,24 @@ public class I18NSupport {
     candidates[2] = String.format( "%s.properties", base ); 
 
     applyTranslations( prefix, loadTranslations( candidates ), collectFields( clazz ) );
-    
+  
+    CLASSES.add( clazz );
+  
+  }
+  
+  public static void setLocale( Locale newLocale ) {
+    if( newLocale != null ) {
+      CLASSES.forEach( $ -> initialize( newLocale, $ ) );
+      Locale.setDefault( newLocale );
+    }
+  }
+  
+  public static void updateUI( Component parent, Locale newLocale ) {
+    SwingUtilities.invokeLater(() -> {
+      Predicate<Component> test     = $ -> $ instanceof I18NSensitive;
+      Consumer<Component>  handler  = $ -> ((I18NSensitive) $).onLocaleChange( newLocale );
+      SwingFunctions.forComponentTreeDo( parent, test, handler );
+    });
   }
   
 } /* ENDCLASS */
