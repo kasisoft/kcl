@@ -141,7 +141,7 @@ public class ResourceExtractor {
       while( names.hasMoreElements() ) {
         String name  = names.nextElement();
         String value = properties.getProperty( name );
-        result = result || extract( destination, removeLeadingSlash( name ), removeLeadingSlash( value ), force );
+        result = extract( destination, removeLeadingSlash( name ), removeLeadingSlash( value ), force ) || result;
       }
     } else {
       handleMissingResource.accept( extractionManifest );
