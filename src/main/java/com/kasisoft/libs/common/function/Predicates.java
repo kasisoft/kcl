@@ -2,11 +2,15 @@ package com.kasisoft.libs.common.function;
 
 import com.kasisoft.libs.common.util.*;
 
+import org.w3c.dom.*;
+
 import java.util.function.*;
 
 import java.util.regex.*;
 
 import java.nio.file.*;
+
+import lombok.*;
 
 /**
  * Collection of predicates.
@@ -69,6 +73,10 @@ public class Predicates {
     return false;
   }
 
+  public static Predicate<Node> isXmlElement( String tag ) {
+    return new IsXmlElement( tag );
+  }
+  
   public static <T> Predicate<T> acceptAll() {
     return $ -> true;
   }
@@ -81,6 +89,22 @@ public class Predicates {
     return $ -> predicate.test( $.toString() );
   }
 
+  @AllArgsConstructor
+  private static class IsXmlElement implements Predicate<Node> {
+
+    String   tag;
+    
+    @Override
+    public boolean test( Node node ) {
+      boolean result = false;
+      if( (node != null) && (node.getNodeType() == Node.ELEMENT_NODE)) {
+        result = tag.equals( ((Element) node).getTagName() );
+      }
+      return result;
+    }
+    
+  } /* ENDCLASS */
+  
   private static class IsMavenFile implements Predicate<String> {
     
     @Override
