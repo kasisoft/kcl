@@ -90,12 +90,6 @@ public final class Workspace {
     }
   }
   
-  /** @deprecated [10-JUL-2018:KASI]   Use {@link #addShutdown(Runnable)} instead. */
-  @Deprecated
-  public synchronized void setShutdown( Consumer<Void> consumer ) {
-    addShutdown( () -> consumer.accept( null ) );
-  }
-  
   public synchronized void configure( @NonNull Component component ) {
     iterate( component, this::loadWorkspacePersistent );
   }

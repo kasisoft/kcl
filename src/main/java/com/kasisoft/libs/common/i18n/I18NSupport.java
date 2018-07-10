@@ -65,7 +65,7 @@ public class I18NSupport {
     if( modifier != MODIFIERS ) {
       return false;
     }
-    return (field.getType() == String.class) || (field.getType() == I18NString.class) || (field.getType() == I18NFormatter.class);
+    return (field.getType() == String.class) || (field.getType() == I18NString.class);
   }
   
   /**
@@ -202,13 +202,6 @@ public class I18NSupport {
       try {
         if( field.getType() == String.class ) {
           field.set( null, value );
-        } else if( field.getType() == I18NFormatter.class ) {
-          I18NFormatter formatter = (I18NFormatter) field.get( null );
-          if( formatter == null ) {
-            formatter = new I18NFormatter( value );
-            field.set( null, formatter );
-          }
-          formatter.setValue( value );
         } else {
           I18NString i18nstring = (I18NString) field.get( null );
           if( i18nstring == null ) {
