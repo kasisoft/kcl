@@ -98,6 +98,9 @@ public class MiscFunctions {
         idx       = location.indexOf( lookupResource );
         location  = location.substring( 0, idx );
       }
+      if( SystemInfo.getRunningOS().isWindowsLike() ) {
+        location = StringFunctions.trim( location, "/", true );
+      }
       result = Paths.get( location ).getParent().toAbsolutePath();
     }
     return result;
