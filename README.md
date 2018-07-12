@@ -31,7 +31,7 @@ I assume that you're familiar with Maven. If not I suggest to visit the followin
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>3.2</version>
+         <version>3.3</version>
      </dependency>
 
 
@@ -42,7 +42,7 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>3.3-SNAPSHOT</version>
+         <version>3.4-SNAPSHOT</version>
      </dependency>
      
      <repositories>
