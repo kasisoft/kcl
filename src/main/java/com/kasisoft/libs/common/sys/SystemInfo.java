@@ -27,6 +27,7 @@ public enum SystemInfo {
   WindowsXP     ( "Windows XP"    , false , "%%%s%%" ),
   WindowsVista  ( "Windows Vista" , false , "%%%s%%" ),
   Windows7      ( "Windows 7"     , false , "%%%s%%" ),
+  Windows10     ( "Windows 10"    , false , "%%%s%%" ),
   Amiga         ( "Amiga OS"      , false , "$%s" ),
   Aros          ( "AROS"          , false , "$%s" ),
   MacOS         ( "Mac OS"        , false , "$%s" ),
@@ -101,10 +102,15 @@ public enum SystemInfo {
    * @return  <code>true</code> <=> We're working on a Windows system.
    */
   public boolean isWindowsLike() {
-    return
+    boolean result =
      ( this == Windows95   ) || ( this == Windows98 ) || ( this == WindowsME ) || 
      ( this == Windows2000 ) || ( this == WindowsNT ) || ( this == WindowsXP ) ||
-     ( this == WindowsVista) || ( this == Windows7    );
+     ( this == WindowsVista) || ( this == Windows7  ) || ( this == Windows10 );
+    if( ! result ) {
+      // just to be on the safe side
+      result = key.toLowerCase().indexOf( "windows" ) != -1;
+    }
+    return result;
   }
   
   /**
