@@ -29,10 +29,11 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   String                      property;
   SimpleProperty<Rectangle>   propertyBounds;
   Rectangle                   initialBounds;
+  Rectangle                   lastBounds; 
   ScreenInfo                  screenInfo;
   Map<String, Runnable>       actions;
   
-  @Getter @Setter
+  @Getter
   boolean                     fullScreen;
   
   /**
@@ -107,6 +108,19 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::closeFrame       );
     registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_F11    , 0 ), this::switchFullscreen );
   }  
+  
+  public void setFullScreen( boolean enable ) {
+    fullScreen = enable;
+    if( enable && (screenInfo != null) && screenInfo.isFullScreenSupported()) {
+      setExtendedState( Frame.MAXIMIZED_BOTH ); 
+      setUndecorated( true );
+      setResizable( true );
+    } else {
+      setExtendedState( Frame.NORMAL );
+      setUndecorated( false );
+      setResizable( false );
+    }
+  }
   
   public void closeFrame() {
     dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
@@ -219,7 +233,8 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   @Override
   public void savePersistentSettings() {
     if( property != null ) {
-      propertyBounds.setValue( Workspace.getInstance().getProperties(), getBounds() );
+      Rectangle bounds = lastBounds != null ? lastBounds : getBounds();
+      propertyBounds.setValue( Workspace.getInstance().getProperties(), bounds );
     }
   }
   
@@ -228,6 +243,10 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     
     if( enable == isVisible() ) {
       return;
+    }
+
+    if( ! enable ) {
+      lastBounds = getBounds();
     }
     
     if( isFullScreen() ) {
