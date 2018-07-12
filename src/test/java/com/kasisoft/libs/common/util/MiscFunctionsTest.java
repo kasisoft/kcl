@@ -323,4 +323,52 @@ public class MiscFunctionsTest {
     
   } /* ENDCLASS */
   
+  @Test(groups = "all")
+  public void createSystemReplacements() {
+    Map<String, String> replacements = MiscFunctions.createSystemPropertiesReplacements();
+    Properties          sysprops     = System.getProperties();
+    assertThat( replacements.size(), is( sysprops.keySet().size() ) );
+    sysprops.stringPropertyNames().forEach( $ -> {
+      String key = String.format("${sys:%s}", $ );
+      assertTrue( replacements.containsKey( key ) );
+      assertThat( replacements.get( key ), is( sysprops.getProperty($) ) );
+    } );
+  }
+
+  @Test(groups = "all")
+  public void createSystemReplacementsWithFormat() {
+    Map<String, String> replacements = MiscFunctions.createSystemPropertiesReplacements( "%%%s%%" );
+    Properties          sysprops     = System.getProperties();
+    assertThat( replacements.size(), is( sysprops.keySet().size() ) );
+    sysprops.stringPropertyNames().forEach( $ -> {
+      String key = String.format("%%sys:%s%%", $ );
+      assertTrue( replacements.containsKey( key ) );
+      assertThat( replacements.get( key ), is( sysprops.getProperty($) ) );
+    } );
+  }
+
+  @Test(groups = "all")
+  public void createEnvironmentReplacements() {
+    Map<String, String> replacements = MiscFunctions.createEnvironmentReplacements();
+    Map<String, String> environment  = System.getenv();
+    assertThat( replacements.size(), is( environment.size() ) );
+    environment.keySet().forEach( $ -> {
+      String key = String.format("${env:%s}", $ );
+      assertTrue( replacements.containsKey( key ) );
+      assertThat( replacements.get( key ), is( environment.get($) ) );
+    } );
+  }
+
+  @Test(groups = "all")
+  public void createEnvironmentReplacementsWithFormat() {
+    Map<String, String> replacements = MiscFunctions.createEnvironmentReplacements( "%%%s%%" );
+    Map<String, String> environment  = System.getenv();
+    assertThat( replacements.size(), is( environment.size() ) );
+    environment.keySet().forEach( $ -> {
+      String key = String.format("%%env:%s%%", $ );
+      assertTrue( replacements.containsKey( key ) );
+      assertThat( replacements.get( key ), is( environment.get($) ) );
+    } );
+  }
+
 } /* ENDCLASS */

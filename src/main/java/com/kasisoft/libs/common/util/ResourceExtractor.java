@@ -1,6 +1,5 @@
 package com.kasisoft.libs.common.util;
 
-import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.text.*;
@@ -69,8 +68,13 @@ public class ResourceExtractor {
     return this;
   }
 
+  public ResourceExtractor environment() {
+    substitutions.putAll( MiscFunctions.createEnvironmentReplacements( varFormatter ) );
+    return this;
+  }
+
   public ResourceExtractor systemProperties() {
-    substitutions.putAll( SysProperty.createReplacementMap( varFormatter ) );
+    substitutions.putAll( MiscFunctions.createSystemPropertiesReplacements( varFormatter ) );
     return this;
   }
   

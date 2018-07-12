@@ -3,14 +3,17 @@ package com.kasisoft.libs.common.config;
 import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.text.*;
+import com.kasisoft.libs.common.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
+import java.util.function.*;
 
 import java.util.regex.*;
 
 import java.util.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * A helper which allows to deal with the configuration properties.
@@ -157,19 +160,12 @@ public class ConfigurationHelper {
   private static Map<String, String> createReplacementMapImpl( 
     Map props, String format, String nullvalue, SimpleProperty<?> ... properties 
   ) {
-    val result = new HashMap<String, String>();
+    Map<String, String> result = Collections.emptyMap();
     if( (properties == null) || (properties.length == 0) ) {
-      // process all properties (if the type is a map it must provide String values !)
-      for( Object keyobj : props.keySet() ) {
-        val    keypattern = String.format( format, keyobj );
-        String value      = StringFunctions.cleanup( (String) props.get( keyobj ) );
-        if( value == null ) {
-          value = nullvalue;
-        }
-        result.put( keypattern, value );
-      }
+      result = MiscFunctions.createReplacementMap( props, null, format, Map::keySet, Function.identity(), ($m, $k) -> (String) $m.get($k) );
     } else {
       // process simple properties
+      result = new HashMap<>();
       for( SimpleProperty<?> property : properties ) {
         result.put( String.format( format, property.getKey() ), getValueAsText( property, props, nullvalue ) );
       }

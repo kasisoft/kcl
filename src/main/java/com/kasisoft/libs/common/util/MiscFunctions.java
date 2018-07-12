@@ -37,7 +37,10 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctions {
 
+  @SuppressWarnings("deprecation")
   private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
+  
+  private static final String DEFAULT_FORMAT = "${%s}";
   
   private static final Set<String> TRUEVALUES  = new HashSet<>( Arrays.asList(
     "true", "ja", "yes", "on","ein", "an", "1", "-1"
@@ -53,6 +56,123 @@ public class MiscFunctions {
   private MiscFunctions() {
   }
 
+  /**
+   * Creates a replacement map for system properties.
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createEnvironmentReplacements() {
+    return createEnvironmentReplacements( DEFAULT_FORMAT );
+  }
+
+  /**
+   * Creates a replacement map for system properties.
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createSystemPropertiesReplacements() {
+    return createSystemPropertiesReplacements( DEFAULT_FORMAT );
+  }
+  
+  /**
+   * Creates a replacement map for environment variables.
+   * 
+   * @param format   A format which describes the look of a variable expression. F.e. ${%s} and varname = basedir -> ${basedir}
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createEnvironmentReplacements( @NonNull String format ) {
+    return createReplacementMap( System.getenv(), "env", format, Map::keySet, Function.<String>identity(), ($m, $k) -> $m.get($k) );
+  }
+
+  /**
+   * Creates a replacement map for system properties.
+   * 
+   * @param format        A format which describes the look of a variable expression. F.e. ${%s} and varname = basedir -> ${basedir}
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createSystemPropertiesReplacements( @NonNull String format ) {
+    return createReplacementMap( System.getProperties(), "sys", format, Properties::stringPropertyNames, Function.<String>identity(), ($p, $k) -> $p.getProperty($k) );
+  }
+  
+  /**
+   * Creates a map allowing to variable based replacements.
+   * 
+   * @param settings      The object providing the variables.
+   * @param prefix        An optional prefix. If set each variablename will use this prefix. F.e. prefix = sys and varname = basedir -> sys:basedir
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createReplacementMap( @NonNull Properties settings, String prefix ) {
+    return createReplacementMap( settings, prefix, DEFAULT_FORMAT, Properties::stringPropertyNames, Function.<String>identity(), ($p, $k) -> $p.getProperty($k) );
+  }
+
+  /**
+   * Creates a map allowing to variable based replacements.
+   * 
+   * @param settings      The object providing the variables.
+   * @param prefix        An optional prefix. If set each variablename will use this prefix. F.e. prefix = sys and varname = basedir -> sys:basedir
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createReplacementMap( @NonNull Map<String, String> settings, String prefix ) {
+    return createReplacementMap( settings, prefix, DEFAULT_FORMAT, Map::keySet, Function.<String>identity(), ($m, $k) -> $m.get($k) );
+  }
+
+  
+  /**
+   * Creates a map allowing to variable based replacements.
+   * 
+   * @param settings      The object providing the variables.
+   * @param prefix        An optional prefix. If set each variablename will use this prefix. F.e. prefix = sys and varname = basedir -> sys:basedir
+   * @param format        A format which describes the look of a variable expression. F.e. ${%s} and varname = basedir -> ${basedir}
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createReplacementMap( @NonNull Properties settings, String prefix, @NonNull String format ) {
+    return createReplacementMap( settings, prefix, format, Properties::stringPropertyNames, Function.<String>identity(), ($p, $k) -> $p.getProperty($k) );
+  }
+
+  /**
+   * Creates a map allowing to variable based replacements.
+   * 
+   * @param settings      The object providing the variables.
+   * @param prefix        An optional prefix. If set each variablename will use this prefix. F.e. prefix = sys and varname = basedir -> sys:basedir
+   * @param format        A format which describes the look of a variable expression. F.e. ${%s} and varname = basedir -> ${basedir}
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static Map<String, String> createReplacementMap( @NonNull Map<String, String> settings, String prefix, @NonNull String format ) {
+    return createReplacementMap( settings, prefix, format, Map::keySet, Function.<String>identity(), ($m, $k) -> $m.get($k) );
+  }
+  
+  /**
+   * Creates a map allowing to variable based replacements.
+   * 
+   * @param settings      The object providing the variables.
+   * @param prefix        An optional prefix. If set each variablename will use this prefix. F.e. prefix = sys and varname = basedir -> sys:basedir
+   * @param format        A format which describes the look of a variable expression. F.e. ${%s} and varname = basedir -> ${basedir}
+   * @param getKeys       A function to get all keys of the settings object.
+   * @param keyToStr      A function transforming the key into a literal.
+   * @param getValue      The function to retrieve the value.
+   * 
+   * @return   A map with the text replacements for expressions.
+   */
+  public static <T, K> Map<String, String> createReplacementMap( @NonNull T settings, String prefix, @NonNull String format, @NonNull Function<T, ? extends Collection<K>> getKeys, @NonNull Function<K, String> keyToStr, @NonNull BiFunction<T, K, String> getValue ) {
+    Map<String, String> result = new HashMap<>();
+    Collection<K>       keys   = getKeys.apply( settings );
+    if( (keys != null) && (!keys.isEmpty()) ) {
+      String                   p        = StringFunctions.cleanup( prefix );
+      Function<String, String> prefixer = prefix != null ? $ -> p + ":" + $ : Function.identity();
+      keys.forEach( $ -> {
+        String textvalue = getValue.apply( settings, $ );
+        result.put( String.format( format, prefixer.apply( keyToStr.apply($) ) ), textvalue );
+      });
+    }
+    return result;
+  }
+  
   /**
    * Returns the parent directory of the class folder or the jar.
    * 

@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.config.*;
 import com.kasisoft.libs.common.model.*;
+import com.kasisoft.libs.common.util.*;
 import com.kasisoft.libs.common.xml.adapters.*;
 
 import java.util.*;
@@ -63,29 +64,29 @@ public class SysProperty {
    * Creates a replacement map used to substitute system properties. The key is encapsulated by '%' characters.
    * 
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   * 
+   * @deprecated [13-JUL-2018:KASI]   Use {@link MiscFunctions#createSystemPropertiesReplacements()} instead.
    */
-  public static Map<String,String> createReplacementMap() {
+  @Deprecated
+  public static Map<String, String> createReplacementMap() {
     return createReplacementMap( "%%%s%%" );
   }
   
   /**
    * Creates a replacement map used to substitute system properties.
    * 
-   * @param format     A formatting String with one %s format code. This is used in order to support various key 
-   *                   formats. Neither <code>null</code> nor empty.
+   * @param format  A formatting String with one %s format code. This is used in order to support various key 
+   *                formats. Neither <code>null</code> nor empty.
+   * @param prefix  A prefix to be used.
+   * @param all     <code>true</code> <=> Use all System properties and not only the ones defined in {@link SysProperty}.
    *
    * @return   A Map containing key-value pairs for a possible replacement. Not <code>null</code>.
+   * 
+   * @deprecated [13-JUL-2018:KASI]   Use {@link MiscFunctions#createSystemPropertiesReplacements(String)} instead.
    */
-  public static Map<String,String> createReplacementMap( @NonNull String format ) {
-    val result = new Hashtable<String, String>();
-    for( val sysprop : SysProperty.values() ) {
-      String textualvalue = sysprop.getTextualValue( System.getProperties() );
-      if( textualvalue == null ) {
-        textualvalue = "";
-      }
-      result.put( String.format( format, sysprop.getKey() ), textualvalue );
-    }
-    return result;
+  @Deprecated
+  public static Map<String, String> createReplacementMap( @NonNull String format ) {
+    return MiscFunctions.<SimpleProperty[], SimpleProperty>createReplacementMap( SysProperty.values(), null, format, Arrays::asList, SimpleProperty::getKey, ($l, $k) -> $k.getTextualValue( System.getProperties() ) );
   }
 
 } /* ENDCLASS */
