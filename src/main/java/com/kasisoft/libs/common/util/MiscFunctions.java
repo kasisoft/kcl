@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.util;
 
+import static com.kasisoft.libs.common.base.LibConfig.*;
+
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
@@ -40,16 +42,6 @@ public class MiscFunctions {
   @SuppressWarnings("deprecation")
   private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
   
-  private static final String DEFAULT_FORMAT = "${%s}";
-  
-  private static final Set<String> TRUEVALUES  = new HashSet<>( Arrays.asList(
-    "true", "ja", "yes", "on","ein", "an", "1", "-1"
-  ) );
-  
-  private static final Set<String> FALSEVALUES = new HashSet<>( Arrays.asList(
-    "false", "nein", "no", "off","aus", "0"
-  ) );
-  
   /**
    * Prevent instantiation.
    */
@@ -62,7 +54,7 @@ public class MiscFunctions {
    * @return   A map with the text replacements for expressions.
    */
   public static Map<String, String> createEnvironmentReplacements() {
-    return createEnvironmentReplacements( DEFAULT_FORMAT );
+    return createEnvironmentReplacements( cfgDefaultVarFormat() );
   }
 
   /**
@@ -71,7 +63,7 @@ public class MiscFunctions {
    * @return   A map with the text replacements for expressions.
    */
   public static Map<String, String> createSystemPropertiesReplacements() {
-    return createSystemPropertiesReplacements( DEFAULT_FORMAT );
+    return createSystemPropertiesReplacements( cfgDefaultVarFormat() );
   }
   
   /**
@@ -105,7 +97,7 @@ public class MiscFunctions {
    * @return   A map with the text replacements for expressions.
    */
   public static Map<String, String> createReplacementMap( @NonNull Properties settings, String prefix ) {
-    return createReplacementMap( settings, prefix, DEFAULT_FORMAT, Properties::stringPropertyNames, Function.<String>identity(), ($p, $k) -> $p.getProperty($k) );
+    return createReplacementMap( settings, prefix, cfgDefaultVarFormat(), Properties::stringPropertyNames, Function.<String>identity(), ($p, $k) -> $p.getProperty($k) );
   }
 
   /**
@@ -117,7 +109,7 @@ public class MiscFunctions {
    * @return   A map with the text replacements for expressions.
    */
   public static Map<String, String> createReplacementMap( @NonNull Map<String, String> settings, String prefix ) {
-    return createReplacementMap( settings, prefix, DEFAULT_FORMAT, Map::keySet, Function.<String>identity(), ($m, $k) -> $m.get($k) );
+    return createReplacementMap( settings, prefix, cfgDefaultVarFormat(), Map::keySet, Function.<String>identity(), ($m, $k) -> $m.get($k) );
   }
 
   
@@ -368,7 +360,7 @@ public class MiscFunctions {
   public static boolean isBoolean( String value ) {
     if( value != null ) {
       String lower = value.toLowerCase();
-      return TRUEVALUES.contains( lower ) || FALSEVALUES.contains( lower );
+      return cfgTrueValues().contains( lower ) || cfgFalseValues().contains( lower );
     } else {
       return false;
     }
@@ -384,7 +376,7 @@ public class MiscFunctions {
    */
   public static boolean parseBoolean( String value ) {
     if( value != null ) {
-      return TRUEVALUES.contains( value.toLowerCase() );
+      return cfgTrueValues().contains( value.toLowerCase() );
     } else {
       return false;
     }

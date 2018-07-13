@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.config;
 
 import com.kasisoft.libs.common.constants.*;
 
+import static com.kasisoft.libs.common.base.LibConfig.*;
+
 import com.kasisoft.libs.common.base.*;
 
 import com.kasisoft.libs.common.io.*;
@@ -56,7 +58,7 @@ public class PropertyResolver {
       classloader = ClassLoader.getSystemClassLoader();
     }
     substitutions = new Hashtable<>();
-    format        = "${%s}";
+    format        = cfgDefaultVarFormat();
     data          = new HashMap<>();
     resolveddata  = new HashMap<>();
   }

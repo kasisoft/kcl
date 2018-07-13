@@ -33,8 +33,6 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctions {
 
-  private static final byte[] NO_DATA = new byte[0];
-
   private static final String WC1 = "([^/]+)";    // *
   private static final String WC2 = "(.+)";       // **
 
@@ -781,7 +779,7 @@ public class IoFunctions {
         System.arraycopy( buffer, 0, result, 0, read );
         return result;
       } else {
-        return NO_DATA;
+        return Empty.NO_BYTES;
       }
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );

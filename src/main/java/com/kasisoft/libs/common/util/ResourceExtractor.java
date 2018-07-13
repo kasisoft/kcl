@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.util;
 
+import static com.kasisoft.libs.common.base.LibConfig.*;
+
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.text.*;
@@ -43,7 +45,7 @@ public class ResourceExtractor {
     destinationDir        = () -> getDestinationDir();
     canBeSubstituted      = Predicates.acceptNone();
     substitutions         = new HashMap<>();
-    varFormatter          = "${%s}";
+    varFormatter          = cfgDefaultVarFormat();
     handleMissingResource = $ -> {};
     handleAfterExtraction = () -> {};
   }
