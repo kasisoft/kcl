@@ -50,6 +50,14 @@ public class FailureException extends RuntimeException {
   public static void errorHandler( @NonNull Exception ex ) {
     throw wrap(ex);
   }
+  
+  public static Exception unwrap( @NonNull Exception ex ) {
+    Exception result = ex;
+    if( result instanceof FailureException ) {
+      result = unwrap( (Exception) ((FailureException) ex).getCause() );
+    }
+    return result;
+  }
 
   public static <T> Consumer<T> ensure( Consumer<T> consumer ) {
     return new Consumer<T>() {
