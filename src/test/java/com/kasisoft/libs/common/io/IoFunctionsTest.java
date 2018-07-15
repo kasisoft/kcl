@@ -27,6 +27,7 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 @Test
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctionsTest {

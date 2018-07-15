@@ -1456,6 +1456,10 @@ public class IoFunctions {
 
   /* forInputStream */
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R> R forInputStream( @NonNull Path path, @NonNull Function<InputStream, R> function ) {
     try( InputStream instream = Files.newInputStream( path ) ) {
       return function.apply( instream );
@@ -1464,6 +1468,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forInputStream( @NonNull Path path, C context, @NonNull BiFunction<InputStream, C, R> function ) {
     try( InputStream instream = Files.newInputStream( path ) ) {
       return function.apply( instream, context );
@@ -1472,30 +1480,58 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R> R forInputStream( @NonNull File file, @NonNull Function<InputStream, R> function ) {
     return forInputStream( Paths.get( file.toURI() ), function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forInputStream( @NonNull File file, C context, @NonNull BiFunction<InputStream, C, R> function ) {
     return forInputStream( Paths.get( file.toURI() ), context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R> R forInputStream( @NonNull String path, @NonNull Function<InputStream, R> function ) {
     return forInputStream( Paths.get( path ), function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forInputStream( @NonNull String path, C context, @NonNull BiFunction<InputStream, C, R> function ) {
     return forInputStream( Paths.get( path ), context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R> R forInputStream( @NonNull URI uri, @NonNull Function<InputStream, R> function ) {
     return forInputStream( Paths.get( uri ), function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forInputStream( @NonNull URI uri, C context, @NonNull BiFunction<InputStream, C, R> function ) {
     return forInputStream( Paths.get( uri ), context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R> R forInputStream( @NonNull URL url, @NonNull Function<InputStream, R> function ) {
     try( InputStream instream = url.openStream() ) {
       return function.apply( instream );
@@ -1504,6 +1540,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forInputStream( @NonNull URL url, C context, @NonNull BiFunction<InputStream, C, R> function ) {
     try( InputStream instream = url.openStream() ) {
       return function.apply( instream, context );
@@ -1512,6 +1552,10 @@ public class IoFunctions {
     }
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static void forInputStreamDo( @NonNull Path path, @NonNull Consumer<InputStream> consumer ) {
     try( InputStream instream = Files.newInputStream( path ) ) {
       consumer.accept( instream );
@@ -1520,6 +1564,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forInputStreamDo( @NonNull Path path, C context, @NonNull BiConsumer<InputStream, C> consumer ) {
     try( InputStream instream = Files.newInputStream( path ) ) {
       consumer.accept( instream, context );
@@ -1528,30 +1576,58 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static void forInputStreamDo( @NonNull File file, @NonNull Consumer<InputStream> consumer ) {
     forInputStreamDo( Paths.get( file.toURI() ), consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forInputStreamDo( @NonNull File file, C context, @NonNull BiConsumer<InputStream, C> consumer ) {
     forInputStreamDo( Paths.get( file.toURI() ), context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static void forInputStreamDo( @NonNull String path, @NonNull Consumer<InputStream> consumer ) {
     forInputStreamDo( Paths.get( path ), consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forInputStreamDo( @NonNull String path, C context, @NonNull BiConsumer<InputStream, C> consumer ) {
     forInputStreamDo( Paths.get( path ), context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static void forInputStreamDo( @NonNull URI uri, @NonNull Consumer<InputStream> consumer ) {
     forInputStreamDo( Paths.get( uri ), consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forInputStreamDo( @NonNull URI uri, C context, @NonNull BiConsumer<InputStream, C> consumer ) {
     forInputStreamDo( Paths.get( uri ), context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static void forInputStreamDo( @NonNull URL url, @NonNull Consumer<InputStream> consumer ) {
     try( InputStream instream = url.openStream() ) {
       consumer.accept( instream );
@@ -1560,6 +1636,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forInputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forInputStreamDo( @NonNull URL url, C context, @NonNull BiConsumer<InputStream, C> consumer ) {
     try( InputStream instream = url.openStream() ) {
       consumer.accept( instream, context );
@@ -1570,6 +1650,10 @@ public class IoFunctions {
   
   /* forOutputStream */
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R> R forOutputStream( @NonNull Path path, @NonNull Function<OutputStream, R> function ) {
     try( OutputStream outstream = Files.newOutputStream( path ) ) {
       return function.apply( outstream );
@@ -1578,6 +1662,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forOutputStream( @NonNull Path path, C context, @NonNull BiFunction<OutputStream, C, R> function ) {
     try( OutputStream outstream = Files.newOutputStream( path ) ) {
       return function.apply( outstream, context );
@@ -1586,38 +1674,74 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R> R forOutputStream( @NonNull File file, @NonNull Function<OutputStream,R> function ) {
     return forOutputStream( Paths.get( file.toURI() ), function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forOutputStream( @NonNull File file, C context, @NonNull BiFunction<OutputStream, C, R> function ) {
     return forOutputStream( Paths.get( file.toURI() ), context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R> R forOutputStream( @NonNull String path, @NonNull Function<OutputStream, R> function ) {
     return forOutputStream( Paths.get( path ), function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forOutputStream( @NonNull String path, C context, @NonNull BiFunction<OutputStream, C, R> function ) {
     return forOutputStream( Paths.get( path ), context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R> R forOutputStream( @NonNull URI uri, @NonNull Function<OutputStream, R> function ) {
     return forOutputStream( Paths.get( uri ), function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forOutputStream( @NonNull URI uri, C context, @NonNull BiFunction<OutputStream, C, R> function ) {
     return forOutputStream( Paths.get( uri ), context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R> R forOutputStream( @NonNull URL url, @NonNull Function<OutputStream, R> function ) {
     return forOutputStream( toPath( url ), function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStream} instead.
+   */
+  @Deprecated
   public static <R, C> R forOutputStream( @NonNull URL url, C context, @NonNull BiFunction<OutputStream, C, R> function ) {
     return forOutputStream( toPath( url ), context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static void forOutputStreamDo( @NonNull Path path, @NonNull Consumer<OutputStream> consumer ) {
     try( OutputStream outstream = Files.newOutputStream( path ) ) {
       consumer.accept( outstream );
@@ -1626,6 +1750,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forOutputStreamDo( @NonNull Path path, C context, @NonNull BiConsumer<OutputStream, C> consumer ) {
     try( OutputStream outstream = Files.newOutputStream( path ) ) {
       consumer.accept( outstream, context );
@@ -1634,40 +1762,76 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static void forOutputStreamDo( @NonNull File file, @NonNull Consumer<OutputStream> consumer ) {
     forOutputStreamDo( Paths.get( file.toURI() ), consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forOutputStreamDo( @NonNull File file, C context, @NonNull BiConsumer<OutputStream, C> consumer ) {
     forOutputStreamDo( Paths.get( file.toURI() ), context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static void forOutputStreamDo( @NonNull String path, @NonNull Consumer<OutputStream> consumer ) {
     forOutputStreamDo( Paths.get( path ), consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forOutputStreamDo( @NonNull String path, C context, @NonNull BiConsumer<OutputStream, C> consumer ) {
     forOutputStreamDo( Paths.get( path ), context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static void forOutputStreamDo( @NonNull URI uri, @NonNull Consumer<OutputStream> consumer ) {
     forOutputStreamDo( Paths.get( uri ), consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forOutputStreamDo( @NonNull URI uri, C context, @NonNull BiConsumer<OutputStream, C> consumer ) {
     forOutputStreamDo( Paths.get( uri ), context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static void forOutputStreamDo( @NonNull URL url, @NonNull Consumer<OutputStream> consumer ) {
     forOutputStreamDo( toPath( url ), consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forOutputStreamDo} instead.
+   */
+  @Deprecated
   public static <C> void forOutputStreamDo( @NonNull URL url, C context, @NonNull BiConsumer<OutputStream, C> consumer ) {
     forOutputStreamDo( toPath( url ), context, consumer );
   }
   
   /* forReader */
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull InputStream inputstream, Encoding encoding, @NonNull Function<Reader, R> function ) {
     try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
       return function.apply( reader );
@@ -1676,6 +1840,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull InputStream inputstream, Encoding encoding, C context, @NonNull BiFunction<Reader, C, R> function ) {
     try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
       return function.apply( reader, context );
@@ -1684,6 +1852,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull Path path, Encoding encoding, @NonNull Function<Reader, R> function ) {
     try( Reader reader = Encoding.openReader( path, encoding ) ) {
       return function.apply( reader );
@@ -1692,6 +1864,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull Path path, Encoding encoding, C context, @NonNull BiFunction<Reader, C, R> function ) {
     try( Reader reader = Encoding.openReader( path, encoding ) ) {
       return function.apply( reader, context );
@@ -1700,30 +1876,58 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull File file, Encoding encoding, @NonNull Function<Reader, R> function ) {
     return forReader( Paths.get( file.toURI() ), encoding, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull File file, Encoding encoding, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( Paths.get( file.toURI() ), encoding, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull String path, Encoding encoding, @NonNull Function<Reader, R> function ) {
     return forReader( Paths.get( path ), encoding, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull String path, Encoding encoding, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( Paths.get( path ), encoding, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull URI path, Encoding encoding, @NonNull Function<Reader, R> function ) {
     return forReader( Paths.get( path ), encoding, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull URI uri, Encoding encoding, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( Paths.get( uri ), encoding, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull URL url, Encoding encoding, @NonNull Function<Reader, R> function ) {
     try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
       return function.apply( reader );
@@ -1732,6 +1936,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull URL url, Encoding encoding, C context, @NonNull BiFunction<Reader, C, R> function ) {
     try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
       return function.apply( reader, context );
@@ -1740,46 +1948,90 @@ public class IoFunctions {
     }
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull Path path, @NonNull Function<Reader, R> function ) {
     return forReader( path, null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull Path path, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( path, null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull File file, @NonNull Function<Reader, R> function ) {
     return forReader( Paths.get( file.toURI() ), null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull File file, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( Paths.get( file.toURI() ), null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull String path, @NonNull Function<Reader, R> function ) {
     return forReader( Paths.get( path ), null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull String path, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( Paths.get( path ), null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull URI path, @NonNull Function<Reader, R> function ) {
     return forReader( Paths.get( path ), null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull URI uri, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( Paths.get( uri ), null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R> R forReader( @NonNull URL url, @NonNull Function<Reader, R> function ) {
     return forReader( url, null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReader} instead.
+   */
+  @Deprecated
   public static <R, C> R forReader( @NonNull URL url, C context, @NonNull BiFunction<Reader, C, R> function ) {
     return forReader( url, null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull InputStream inputstream, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
     try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
       consumer.accept( reader );
@@ -1788,6 +2040,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull InputStream inputstream, Encoding encoding, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     try( Reader reader = Encoding.openReader( inputstream, encoding ) ) {
       consumer.accept( reader, context );
@@ -1796,6 +2052,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull Path path, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
     try( Reader reader = Encoding.openReader( path, encoding ) ) {
       consumer.accept( reader );
@@ -1804,6 +2064,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull Path path, Encoding encoding, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     try( Reader reader = Encoding.openReader( path, encoding ) ) {
       consumer.accept( reader, context );
@@ -1812,30 +2076,58 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull File file, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( Paths.get( file.toURI() ), encoding, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull File file, Encoding encoding, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( Paths.get( file.toURI() ), encoding, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull String path, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( Paths.get( path ), encoding, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull String path, Encoding encoding, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( Paths.get( path ), encoding, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull URI path, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( Paths.get( path ), encoding, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull URI uri, Encoding encoding, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( Paths.get( uri ), encoding, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull URL url, Encoding encoding, @NonNull Consumer<Reader> consumer ) {
     try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
       consumer.accept( reader );
@@ -1844,6 +2136,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull URL url, Encoding encoding, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     try( Reader reader = Encoding.openReader( url.openStream(), encoding ) ) {
       consumer.accept( reader, context );
@@ -1852,48 +2148,92 @@ public class IoFunctions {
     }
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull Path path, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( path, null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull Path path, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( path, null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull File file, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( Paths.get( file.toURI() ), null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull File file, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( Paths.get( file.toURI() ), null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull String path, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( Paths.get( path ), null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull String path, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( Paths.get( path ), null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull URI path, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( Paths.get( path ), null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull URI uri, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( Paths.get( uri ), null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static void forReaderDo( @NonNull URL url, @NonNull Consumer<Reader> consumer ) {
     forReaderDo( url, null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forReaderDo} instead.
+   */
+  @Deprecated
   public static <C> void forReaderDo( @NonNull URL url, C context, @NonNull BiConsumer<Reader, C> consumer ) {
     forReaderDo( url, null, context, consumer );
   }
   
   /* forWriter */
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull OutputStream outputstream, Encoding encoding, @NonNull Function<Writer, R> function ) {
     try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
       return function.apply( writer );
@@ -1902,6 +2242,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull OutputStream outputstream, Encoding encoding, C context, @NonNull BiFunction<Writer, C, R> function ) {
     try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
       return function.apply( writer, context );
@@ -1910,6 +2254,10 @@ public class IoFunctions {
     }
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull Path path, Encoding encoding, @NonNull Function<Writer, R> function ) {
     try( Writer writer = Encoding.openWriter( path, encoding ) ) {
       return function.apply( writer );
@@ -1918,6 +2266,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull Path path, Encoding encoding, C context, @NonNull BiFunction<Writer, C, R> function ) {
     try( Writer writer = Encoding.openWriter( path, encoding ) ) {
       return function.apply( writer, context );
@@ -1926,78 +2278,154 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull File file, Encoding encoding, @NonNull Function<Writer, R> function ) {
     return forWriter( Paths.get( file.toURI() ), encoding, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull File file, Encoding encoding, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( Paths.get( file.toURI() ), encoding, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull String path, Encoding encoding, @NonNull Function<Writer, R> function ) {
     return forWriter( Paths.get( path ), encoding, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull String path, Encoding encoding, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( Paths.get( path ), encoding, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull URI uri, Encoding encoding, @NonNull Function<Writer, R> function ) {
     return forWriter( Paths.get( uri ), encoding, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull URI uri, Encoding encoding, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( Paths.get( uri ), encoding, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull URL url, Encoding encoding, @NonNull Function<Writer, R> function ) {
     return forWriter( toPath( url ), encoding, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull URL url, Encoding encoding, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( toPath( url ), encoding, context, function );
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull Path path, @NonNull Function<Writer, R> function ) {
     return forWriter( path, null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R,C> R forWriter( @NonNull Path path, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( path, null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull File file, @NonNull Function<Writer, R> function ) {
     return forWriter( Paths.get( file.toURI() ), null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull File file, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( Paths.get( file.toURI() ), null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull String path, @NonNull Function<Writer, R> function ) {
     return forWriter( Paths.get( path ), null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull String path, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( Paths.get( path ), null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull URI uri, @NonNull Function<Writer, R> function ) {
     return forWriter( Paths.get( uri ), null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull URI uri, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( Paths.get( uri ), null, context, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R> R forWriter( @NonNull URL url, @NonNull Function<Writer, R> function ) {
     return forWriter( toPath( url ), null, function );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriter} instead.
+   */
+  @Deprecated
   public static <R, C> R forWriter( @NonNull URL url, C context, @NonNull BiFunction<Writer, C, R> function ) {
     return forWriter( toPath( url ), null, context, function );
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull OutputStream outputstream, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
     try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
       consumer.accept( writer );
@@ -2006,6 +2434,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull OutputStream outputstream, Encoding encoding, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     try( Writer writer = Encoding.openWriter( outputstream, encoding ) ) {
       consumer.accept( writer, context );
@@ -2014,6 +2446,10 @@ public class IoFunctions {
     }
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull Path path, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
     try( Writer writer = Encoding.openWriter( path, encoding ) ) {
       consumer.accept( writer );
@@ -2022,6 +2458,10 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull Path path, Encoding encoding, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     try( Writer writer = Encoding.openWriter( path, encoding ) ) {
       consumer.accept( writer, context );
@@ -2030,74 +2470,146 @@ public class IoFunctions {
     }
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull File file, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( Paths.get( file.toURI() ), encoding, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull File file, Encoding encoding, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( Paths.get( file.toURI() ), encoding, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull String path, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( Paths.get( path ), encoding, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull String path, Encoding encoding, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( Paths.get( path ), encoding, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull URI uri, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( Paths.get( uri ), encoding, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull URI uri, Encoding encoding, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( Paths.get( uri ), encoding, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull URL url, Encoding encoding, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( toPath( url ), encoding, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull URL url, Encoding encoding, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( toPath( url ), encoding, context, consumer );
   }
   
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull Path path, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( path, null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull Path path, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( path, null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull File file, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( Paths.get( file.toURI() ), null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull File file, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( Paths.get( file.toURI() ), null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull String path, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( Paths.get( path ), null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull String path, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( Paths.get( path ), null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull URI uri, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( Paths.get( uri ), null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull URI uri, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( Paths.get( uri ), null, context, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static void forWriterDo( @NonNull URL url, @NonNull Consumer<Writer> consumer ) {
     forWriterDo( toPath( url ), null, consumer );
   }
 
+  /**
+   * @deprecated [13-JUL-2018:KASI]   Use {@link StreamFunctions#forWriterDo} instead.
+   */
+  @Deprecated
   public static <C> void forWriterDo( @NonNull URL url, C context, @NonNull BiConsumer<Writer, C> consumer ) {
     forWriterDo( toPath( url ), null, context, consumer );
   }
