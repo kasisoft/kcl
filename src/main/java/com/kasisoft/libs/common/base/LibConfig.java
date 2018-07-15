@@ -14,17 +14,28 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LibConfig {
 
-  public static final LibConfig INSTANCE = new LibConfig();
+  private static final String[] DEFAULT_TRUE_VALUES;
+  private static final String[] DEFAULT_FALSE_VALUES;
+  private static final String   DEFAULT_VAR_FORMAT;
+  private static final String[] DEFAULT_ARCHIVE_PREFIXES;
   
-  private static final String[] DEFAULT_TRUE_VALUES       = { "true", "ja", "yes", "on","ein", "an", "1", "-1" };
-  private static final String[] DEFAULT_FALSE_VALUES      = { "false", "nein", "no", "off","aus", "0" };
-  private static final String   DEFAULT_VAR_FORMAT        = "${%s}";
-  private static final String[] DEFAULT_ARCHIVE_PREFIXES  = { "jar:", "ear:", "zip:", "war:" };
+  public static final LibConfig INSTANCE;
+  
+  static {
+    
+    DEFAULT_TRUE_VALUES       = new String[] { "true", "ja", "yes", "on","ein", "an", "1", "-1" };
+    DEFAULT_FALSE_VALUES      = new String[] { "false", "nein", "no", "off","aus", "0" };
+    DEFAULT_VAR_FORMAT        = "${%s}";
+    DEFAULT_ARCHIVE_PREFIXES  = new String[] { "jar:", "ear:", "zip:", "war:" };
+    
+    INSTANCE = new LibConfig();
+    
+  }
 
-  Set<String>             trueValues;
-  Set<String>             falseValues;
-  Set<String>             archivePrefixes;
-  String                  defaultVarFormat;
+  Set<String>                     trueValues;
+  Set<String>                     falseValues;
+  Set<String>                     archivePrefixes;
+  String                          defaultVarFormat;
   
   private LibConfig() {
     trueValues        ( true, DEFAULT_TRUE_VALUES      );
