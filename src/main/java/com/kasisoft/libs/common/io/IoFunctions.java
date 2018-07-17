@@ -265,13 +265,30 @@ public class IoFunctions {
   /**
    * Copies some content from an InputStream to an OutputStream.
    * 
+   * @param input    The stream providing the content. Not <code>null</code>.
+   * @param output   The stream receiving the content. Not <code>null</code>.
+   * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
+   *
+   * @throws FailureException   Whenever the copying failed for some reason.
+   */
+  public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
+    if( buffer != null ) {
+      copy( buffer, input, output, null );
+    } else {
+      Primitive.PByte.withBufferDo( $ -> copy( $, input, output, null ) );
+    }
+  }
+
+  /**
+   * Copies some content from an InputStream to an OutputStream.
+   * 
    * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    * @param input    The stream providing the content. Not <code>null</code>.
    * @param output   The stream receiving the content. Not <code>null</code>.
    *
    * @throws FailureException   Whenever the copying failed for some reason.
    */
-  private static void copy( byte[] buffer, InputStream input, OutputStream output ) {
+  private static boolean copy( byte[] buffer, InputStream input, OutputStream output, Consumer<Exception> errHandler ) {
     byte[] data = buffer;
     try {
       int read = input.read( data );
@@ -281,28 +298,17 @@ public class IoFunctions {
         }
         read = input.read( data );
       }
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+      return true;
+    } catch( Exception ex ) {
+      if( errHandler != null ) {
+        errHandler.accept(ex);
+      } else {
+        throw FailureCode.IO.newException( ex );
+      }
+      return false;
     }
   }
-
-  /**
-   * Copies some content from an InputStream to an OutputStream.
-   * 
-   * @param input    The stream providing the content. Not <code>null</code>.
-   * @param output   The stream receiving the content. Not <code>null</code>.
-   * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
-   *
-   * @throws FailureException   Whenever the copying failed for some reason.
-   */
-  public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
-    if( buffer != null ) {
-      copy( buffer, input, output );
-    } else {
-      Primitive.PByte.<byte[]>withBufferDo( $ -> copy( $, input, output ) );
-    }
-  }
-
+  
   /**
    * Copies some content from an InputStream to an OutputStream.
    * 
@@ -325,7 +331,7 @@ public class IoFunctions {
    * @throws FailureException   Whenever the copying failed for some reason.
    */
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
-    Primitive.PByte.<byte[]>withBufferDo( buffersize, $ -> copy( input, output, $ ) );
+    Primitive.PByte.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
 
   /**
@@ -350,7 +356,7 @@ public class IoFunctions {
    * @throws FailureException when the copying process fails for some reason.
    */
   public static void copy( @NonNull File input, @NonNull File output ) {
-    copy( Paths.get( input.toURI() ), Paths.get( output.toURI() ) );
+    copy( input.toPath(), output.toPath() );
   }
   
   /**
@@ -472,7 +478,7 @@ public class IoFunctions {
    * @throws FailureException whenever the copying failed for some reason.
    */
   public static void copy( @NonNull Reader input, @NonNull Writer output, Integer buffersize ) {
-    Primitive.PChar.<char[]>withBufferDo( buffersize, $ -> copy( input, output, $ ) );
+    Primitive.PChar.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
 
   /**
@@ -674,7 +680,7 @@ public class IoFunctions {
    */
   public static String readTextFully( @NonNull Reader reader ) {
     StringWriter writer = new StringWriter();
-    Primitive.PChar.<char[]>withBufferDo( null, $ -> copy( reader, writer, $ ) );
+    Primitive.PChar.withBufferDo( null, $ -> copy( reader, writer, $ ) );
     return writer.toString();
   }
 
@@ -827,7 +833,7 @@ public class IoFunctions {
    * @throws FailureException if the accessing the stream failed for some reason.
    */
   public static long crc32( @NonNull InputStream instream, CRC32 crc, Integer buffersize ) {
-    return Primitive.PByte.<byte[], Long>withBuffer( buffersize, $ -> crc32( $, instream, crc ) );
+    return Primitive.PByte.<Long>withBuffer( buffersize, $ -> crc32( $, instream, crc ) );
   }
 
   /**
