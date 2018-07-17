@@ -21,14 +21,14 @@ import java.lang.reflect.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Primitive<PA, O> implements Comparable<Primitive>{
 
-  public static Primitive <boolean [], Boolean  > PBoolean = new Primitive( "PBoolean"  , boolean . class , boolean [] . class , Boolean   . class , Boolean   [] . class , 0                   , 0                   );
-  public static Primitive <byte    [], Byte     > PByte    = new Primitive( "PByte"     , byte    . class , byte    [] . class , Byte      . class , Byte      [] . class , Byte    . MIN_VALUE , Byte    . MAX_VALUE );
-  public static Primitive <char    [], Character> PChar    = new Primitive( "PChar"     , char    . class , char    [] . class , Character . class , Character [] . class , 0                   , 0                   );
-  public static Primitive <short   [], Short    > PShort   = new Primitive( "PShort"    , short   . class , short   [] . class , Short     . class , Short     [] . class , Short   . MIN_VALUE , Short   . MAX_VALUE );
-  public static Primitive <int     [], Integer  > PInt     = new Primitive( "PInt"      , int     . class , int     [] . class , Integer   . class , Integer   [] . class , Integer . MIN_VALUE , Integer . MAX_VALUE );
-  public static Primitive <long    [], Long     > PLong    = new Primitive( "PLong"     , long    . class , long    [] . class , Long      . class , Long      [] . class , Long    . MIN_VALUE , Long    . MAX_VALUE );
-  public static Primitive <float   [], Float    > PFloat   = new Primitive( "PFloat"    , float   . class , float   [] . class , Float     . class , Float     [] . class , 0                   , 0                   );
-  public static Primitive <double  [], Double   > PDouble  = new Primitive( "PDouble"   ,double  . class , double  [] . class , Double    . class , Double    [] . class , 0                   , 0                   );
+  public static Primitive <boolean [], Boolean  > PBoolean = new Primitive<>( "PBoolean"  , boolean . class , boolean [] . class , Boolean   . class , Boolean   [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
+  public static Primitive <byte    [], Byte     > PByte    = new Primitive<>( "PByte"     , byte    . class , byte    [] . class , Byte      . class , Byte      [] . class , Primitive::toPrimitive, Primitive::toObject, Byte    . MIN_VALUE , Byte    . MAX_VALUE );
+  public static Primitive <char    [], Character> PChar    = new Primitive<>( "PChar"     , char    . class , char    [] . class , Character . class , Character [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
+  public static Primitive <short   [], Short    > PShort   = new Primitive<>( "PShort"    , short   . class , short   [] . class , Short     . class , Short     [] . class , Primitive::toPrimitive, Primitive::toObject, Short   . MIN_VALUE , Short   . MAX_VALUE );
+  public static Primitive <int     [], Integer  > PInt     = new Primitive<>( "PInt"      , int     . class , int     [] . class , Integer   . class , Integer   [] . class , Primitive::toPrimitive, Primitive::toObject, Integer . MIN_VALUE , Integer . MAX_VALUE );
+  public static Primitive <long    [], Long     > PLong    = new Primitive<>( "PLong"     , long    . class , long    [] . class , Long      . class , Long      [] . class , Primitive::toPrimitive, Primitive::toObject, Long    . MIN_VALUE , Long    . MAX_VALUE );
+  public static Primitive <float   [], Float    > PFloat   = new Primitive<>( "PFloat"    , float   . class , float   [] . class , Float     . class , Float     [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
+  public static Primitive <double  [], Double   > PDouble  = new Primitive<>( "PDouble"   , double  . class , double  [] . class , Double    . class , Double    [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
   
   @Getter Class<?>      primitiveClass;
   @Getter Class<PA>     arrayClass;
@@ -42,13 +42,17 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
   InternalBuffers<PA>   ibuffers;
   boolean               supportsMinMax;
   String                name;
+  BiConsumer<O[], PA>   toPrimitive;
+  BiConsumer<PA, O[]>   toObject;
   
-  private Primitive( String pname, Class<?> primitive, Class<PA> arraytype, Class<O> objclazz, Class<O[]> objclazzarray, long minval, long maxval ) {
+  private Primitive( String pname, Class<?> primitive, Class<PA> arraytype, Class<O> objclazz, Class<O[]> objclazzarray, BiConsumer<O[], PA> toprimitive, BiConsumer<PA, O[]> toobject, long minval, long maxval ) {
     name              = pname;
     primitiveClass    = primitive;
     arrayClass        = arraytype;
     objectClass       = objclazz;
     objectArrayClass  = objclazzarray;
+    toPrimitive       = toprimitive;
+    toObject          = toobject;
     min               = minval;
     max               = maxval;
     supportsMinMax    = minval != maxval;
@@ -59,6 +63,94 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
     LocalData.primitivemap.put( objectArrayClass , this );
   }
   
+  public PA cleanup( PA input ) {
+    PA result = null;
+    return result;
+  }
+  
+  public O[] cleanup( O[] input ) {
+    return cleanup( input, null );
+  }
+  
+  public O[] cleanup( O[] input, Predicate<O> isNotSet ) {
+    O[] result = null;
+    if( input != null ) {
+      if( isNotSet == null ) {
+        isNotSet = $ -> $ == null;
+      }
+      Predicate<O> isSet = isNotSet.negate();
+      int count = countUnset( input, isNotSet );
+      if( count == 0 ) {
+        result = input;
+      } else {
+        result = newObjectArray( input.length - count );
+        for( int i = 0, j = 0; i < input.length; i++ ) {
+          if( isSet.test( input[i] ) ) {
+            result[j++] = input[i];
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public int countSet( O[] input ) {
+    return countSet( input, null );
+  }
+  
+  public int countSet( O[] input, Predicate<O> isSet ) {
+    if( isSet == null ) {
+      isSet = $ -> $ != null;
+    }
+    return count( input, isSet );
+  }
+  
+  public int countUnset( O[] input ) {
+    return countUnset( input, null );
+  }
+  
+  public int countUnset( O[] input, Predicate<O> isNotSet ) {
+    if( isNotSet == null ) {
+      isNotSet = $ -> $ == null;
+    }
+    return count( input, isNotSet );
+  }
+
+  private int count( O[] input, Predicate<O> test ) {
+    int result = 0;
+    for( int i = 0; i < input.length; i++ ) {
+      if( test.test( input[i] ) ) {
+        result++;
+      }
+    }
+    return result;
+  }
+
+  public List<O> toList( PA primitiveArray ) {
+    return new ArrayList<>( Arrays.asList( toObjectArray( primitiveArray ) ) );
+  }
+
+  public O[] toObjectArray( PA primitiveArray ) {
+    O[] result = null;
+    if( primitiveArray != null ) {
+      int length  = length( primitiveArray );
+      result      = newObjectArray( length );
+      toObject.accept( primitiveArray, result );
+    }
+    return result;
+  }
+
+  public PA toPrimitiveArray( O[] objectArray ) {
+    PA result = null;
+    if( objectArray != null ) {
+      objectArray = cleanup( objectArray );
+      int length  = length( objectArray );
+      result      = newArray( length );
+      toPrimitive.accept( objectArray, result );
+    }
+    return result;
+  }
+
   /**
    * Returns <code>true</code> if this type supports the usage of {@link #getMin()} and {@link #getMax()}.
    * 
@@ -224,6 +316,102 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
     return name.compareTo( o.name );
   }
 
+  private static void toPrimitive( Boolean[] array, boolean[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toPrimitive( Byte[] array, byte[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toPrimitive( Character[] array, char[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toPrimitive( Short[] array, short[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toPrimitive( Integer[] array, int[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toPrimitive( Long[] array, long[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toPrimitive( Float[] array, float[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toPrimitive( Double[] array, double[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( boolean[] array, Boolean[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( byte[] array, Byte[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( char[] array, Character[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( short[] array, Short[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( int[] array, Integer[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( long[] array, Long[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( float[] array, Float[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+
+  private static void toObject( double[] array, Double[] dest ) {
+    for( int i = 0; i < array.length; i++ ) {
+      dest[i] = array[i];
+    }
+  }
+  
   public static Primitive[] values() {
     Primitive[] result = LocalData.primitivemap.values().toArray( new Primitive[ LocalData.primitivemap.size() ] );
     Arrays.sort( result );
