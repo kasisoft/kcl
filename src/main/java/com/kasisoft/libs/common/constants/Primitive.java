@@ -4,11 +4,14 @@ import lombok.experimental.*;
 
 import lombok.*;
 
+import com.kasisoft.libs.common.base.*;
+
 import java.util.function.*;
 
 import java.util.*;
 
 import java.lang.ref.*;
+import java.lang.reflect.*;
 
 /**
  * Declarations used to identify primitive types.
@@ -16,58 +19,44 @@ import java.lang.ref.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public enum Primitive {
+public class Primitive<PA, O> implements Comparable<Primitive>{
 
-  PBoolean  ( Boolean   . TYPE , Boolean   . class , boolean [] . class , Boolean   [] . class, 0                   , 0                   ) ,
-  PByte     ( Byte      . TYPE , Byte      . class , byte    [] . class , Byte      [] . class, Byte    . MIN_VALUE , Byte    . MAX_VALUE ) ,
-  PChar     ( Character . TYPE , Character . class , char    [] . class , Character [] . class, 0                   , 0                   ) ,
-  PShort    ( Short     . TYPE , Short     . class , short   [] . class , Short     [] . class, Short   . MIN_VALUE , Short   . MAX_VALUE ) ,
-  PInt      ( Integer   . TYPE , Integer   . class , int     [] . class , Integer   [] . class, Integer . MIN_VALUE , Integer . MAX_VALUE ) ,
-  PLong     ( Long      . TYPE , Long      . class , long    [] . class , Long      [] . class, Long    . MIN_VALUE , Long    . MAX_VALUE ) ,
-  PFloat    ( Float     . TYPE , Float     . class , float   [] . class , Float     [] . class, 0                   , 0                   ) ,
-  PDouble   ( Double    . TYPE , Double    . class , double  [] . class , Double    [] . class, 0                   , 0                   ) ;
+  public static Primitive <boolean [], Boolean  > PBoolean = new Primitive( "PBoolean"  , boolean . class , boolean [] . class , Boolean   . class , Boolean   [] . class , 0                   , 0                   );
+  public static Primitive <byte    [], Byte     > PByte    = new Primitive( "PByte"     , byte    . class , byte    [] . class , Byte      . class , Byte      [] . class , Byte    . MIN_VALUE , Byte    . MAX_VALUE );
+  public static Primitive <char    [], Character> PChar    = new Primitive( "PChar"     , char    . class , char    [] . class , Character . class , Character [] . class , 0                   , 0                   );
+  public static Primitive <short   [], Short    > PShort   = new Primitive( "PShort"    , short   . class , short   [] . class , Short     . class , Short     [] . class , Short   . MIN_VALUE , Short   . MAX_VALUE );
+  public static Primitive <int     [], Integer  > PInt     = new Primitive( "PInt"      , int     . class , int     [] . class , Integer   . class , Integer   [] . class , Integer . MIN_VALUE , Integer . MAX_VALUE );
+  public static Primitive <long    [], Long     > PLong    = new Primitive( "PLong"     , long    . class , long    [] . class , Long      . class , Long      [] . class , Long    . MIN_VALUE , Long    . MAX_VALUE );
+  public static Primitive <float   [], Float    > PFloat   = new Primitive( "PFloat"    , float   . class , float   [] . class , Float     . class , Float     [] . class , 0                   , 0                   );
+  public static Primitive <double  [], Double   > PDouble  = new Primitive( "PDouble"   ,double  . class , double  [] . class , Double    . class , Double    [] . class , 0                   , 0                   );
   
-  /** Not <code>null</code>. */
-  @Getter Class<?>    primitiveClass;
+  @Getter Class<?>      primitiveClass;
+  @Getter Class<PA>     arrayClass;
   
-  /** Not <code>null</code>. */
-  @Getter Class<?>    arrayClass;
+  @Getter Class<O>      objectClass;
+  @Getter Class<O[]>    objectArrayClass;
   
-  /** Not <code>null</code>. */
-  @Getter Class<?>    objectClass;
+  @Getter long          min;
+  @Getter long          max;
   
-  /** Not <code>null</code>. */
-  @Getter Class<?>    objectArrayClass;
+  InternalBuffers<PA>   ibuffers;
+  boolean               supportsMinMax;
+  String                name;
   
-  @Getter long        min;
-  @Getter long        max;
-  
-  InternalBuffers     ibuffers;
-  boolean             supportsMinMax;
-  
-  /**
-   * Sets up this enumeration value.
-   * 
-   * @param primitive         The primitive type class. Not <code>null</code>.
-   * @param objclazz          The object type class. Not <code>null</code>.
-   * @param arraytype         The array type class. Not <code>null</code>.
-   * @param objectarraytype   The object array type class. Not <code>null</code>. 
-   * @param minval            The minimum value.
-   * @param maxval            The maximum value.
-   */
-  Primitive( Class<?> primitive, Class<?> objclazz, Class<?> arraytype, Class<?> objectarraytype, long minval, long maxval ) {
+  private Primitive( String pname, Class<?> primitive, Class<PA> arraytype, Class<O> objclazz, Class<O[]> objclazzarray, long minval, long maxval ) {
+    name              = pname;
     primitiveClass    = primitive;
-    objectClass       = objclazz;
-    objectArrayClass  = objectarraytype;
     arrayClass        = arraytype;
+    objectClass       = objclazz;
+    objectArrayClass  = objclazzarray;
     min               = minval;
     max               = maxval;
     supportsMinMax    = minval != maxval;
-    LocalData.primitivemap.put( primitive       , this );
-    LocalData.primitivemap.put( objclazz        , this );
-    LocalData.primitivemap.put( arraytype       , this );
-    LocalData.primitivemap.put( objectarraytype , this );
-    ibuffers          = new InternalBuffers( this );
+    ibuffers          = new InternalBuffers<PA>( this::newArray, this::length );
+    LocalData.primitivemap.put( primitive        , this );
+    LocalData.primitivemap.put( objclazz         , this );
+    LocalData.primitivemap.put( arraytype        , this );
+    LocalData.primitivemap.put( objectArrayClass , this );
   }
   
   /**
@@ -98,18 +87,8 @@ public enum Primitive {
    * 
    * @return   The array of this type. Not <code>null</code>.
    */
-  public <T> T newArray( int size ) {
-    switch( this ) {
-    case PBoolean : return (T) new boolean [ size ];
-    case PByte    : return (T) new byte    [ size ];
-    case PChar    : return (T) new char    [ size ];
-    case PShort   : return (T) new short   [ size ];
-    case PInt     : return (T) new int     [ size ];
-    case PLong    : return (T) new long    [ size ];
-    case PFloat   : return (T) new float   [ size ];
-    /* case PDouble: */
-    default       : return (T) new double  [ size ];
-    }
+  public PA newArray( int size ) {
+    return (PA) Array.newInstance( primitiveClass, size );
   }
 
   /**
@@ -119,43 +98,22 @@ public enum Primitive {
    * 
    * @return   The array of the corresponding object type. Not <code>null</code>.
    */
-  public <T> T newObjectArray( int size ) {
-    switch( this ) {
-    case PBoolean : return (T) new Boolean    [ size ];
-    case PByte    : return (T) new Byte       [ size ];
-    case PChar    : return (T) new Character  [ size ];
-    case PShort   : return (T) new Short      [ size ];
-    case PInt     : return (T) new Integer    [ size ];
-    case PLong    : return (T) new Long       [ size ];
-    case PFloat   : return (T) new Float      [ size ];
-    /* case PDouble: */
-    default       : return (T) new Double     [ size ];
-    }
+  public O[] newObjectArray( int size ) {
+    return (O[]) Array.newInstance( objectClass, size );
   }
 
   /**
    * Returns the length of an array instance.
    * 
-   * @param arrayobj    An array instance. Not <code>null</code>.
+   * @param arrayobj    An array instance. Maybe <code>null</code>.
    * 
    * @return   The length of an array instance.
    */
-  public int length( @NonNull Object arrayobj ) {
-    boolean primitivevariety = arrayobj.getClass() == arrayClass;
-    if( primitivevariety ) {
-      switch( this ) {
-      case PBoolean : return ((boolean []) arrayobj).length;
-      case PByte    : return ((byte    []) arrayobj).length;
-      case PChar    : return ((char    []) arrayobj).length;
-      case PShort   : return ((short   []) arrayobj).length;
-      case PInt     : return ((int     []) arrayobj).length;
-      case PLong    : return ((long    []) arrayobj).length;
-      case PFloat   : return ((float   []) arrayobj).length;
-      /* case PDouble: */
-      default       : return ((double  []) arrayobj).length;
-      }
+  public int length( Object arrayobj ) {
+    if( arrayobj != null ) {
+      return Array.getLength( arrayobj );
     } else {
-      return ((Object[]) arrayobj).length;
+      return 0;
     }
   }
   
@@ -180,7 +138,7 @@ public enum Primitive {
    * 
    * @return  A block with the current default size. Neither <code>null</code> nor empty.
    */
-  public synchronized <T> T allocate() {
+  public synchronized PA allocate() {
     return allocate( null );
   }
   
@@ -194,8 +152,8 @@ public enum Primitive {
    * @return   A block with the requested size. Neither <code>null</code> nor empty.
    */
   @SuppressWarnings("unchecked")
-  public synchronized <T> T allocate( Integer size ) {
-    return ((InternalBuffers<T>) ibuffers).allocate( size );
+  public synchronized PA allocate( Integer size ) {
+    return ibuffers.allocate( size );
   }  
   
   /**
@@ -203,8 +161,8 @@ public enum Primitive {
    * 
    * @param data   The data that can be reallocated later. Not <code>null</code>.
    */
-  public synchronized <T> void release( @NonNull T data ) {
-    ((InternalBuffers<T>) ibuffers).release( data );
+  public synchronized void release( @NonNull PA data ) {
+    ibuffers.release( data );
   }
 
   /**
@@ -214,7 +172,7 @@ public enum Primitive {
    * 
    * @return   The result of the supplied function. Maybe <code>null</code>.
    */
-  public <T, R> R withBuffer( @NonNull Function<T, R> function ) {
+  public <R> R withBuffer( @NonNull Function<PA, R> function ) {
     return withBuffer( null, function );
   }
 
@@ -227,8 +185,8 @@ public enum Primitive {
    * 
    * @return   The result of the supplied function. Maybe <code>null</code>.
    */
-  public <T, R> R withBuffer( Integer size, Function<T, R> function ) {
-    T buffer = allocate( size );
+  public <R> R withBuffer( Integer size, Function<PA, R> function ) {
+    PA buffer = allocate( size );
     try {
       return function.apply( buffer );
     } finally {
@@ -241,7 +199,7 @@ public enum Primitive {
    * 
    * @param function   The function that will be executed using the buffer. Not <code>null</code>.
    */
-  public <T> void withBufferDo( Consumer<T> consumer ) {
+  public void withBufferDo( Consumer<PA> consumer ) {
     withBufferDo( null, consumer ); 
   }
 
@@ -252,15 +210,26 @@ public enum Primitive {
    *                   size has to be used (see {@link CommonProperty#BufferCount}).
    * @param function   The function that will be executed using the buffer. Not <code>null</code>.
    */
-  public <T> void withBufferDo( Integer size, Consumer<T> consumer ) {
-    T buffer = allocate( size );
+  public void withBufferDo( Integer size, Consumer<PA> consumer ) {
+    PA buffer = allocate( size );
     try {
       consumer.accept( buffer );
     } finally {
       release( buffer );
     }
   }
+  
+  @Override
+  public int compareTo(Primitive o) {
+    return name.compareTo( o.name );
+  }
 
+  public static Primitive[] values() {
+    Primitive[] result = LocalData.primitivemap.values().toArray( new Primitive[ LocalData.primitivemap.size() ] );
+    Arrays.sort( result );
+    return result;
+  }
+  
   private static class LocalData {
     
     private static Map<Class<?>, Primitive>   primitivemap = new Hashtable<>();
@@ -268,42 +237,33 @@ public enum Primitive {
   } /* ENDCLASS */
   
   @FieldDefaults(level = AccessLevel.PRIVATE)
-  private static class InternalBuffers<T> {
+  private static class InternalBuffers<PA> implements Comparator<SoftReference<PA>> {
 
-    List<SoftReference<T>>        allocated;
-    Primitive                     type;
-    Comparator<SoftReference<T>>  comparator0;
+    List<SoftReference<PA>>        allocated;
     
-    /**
-     * Initialises these instance with the supplied primitive type identification.
-     * 
-     * @param primitive   The primitive type identification. Not <code>null</code>.
-     */
-    private InternalBuffers( @NonNull Primitive primitive ) {
+    Function<Integer, PA>          newArray;
+    Function<PA, Integer>          length;
+    
+    private InternalBuffers( Function<Integer, PA> createArray, Function<PA, Integer> getlength ) {
+      newArray    = createArray;
+      length      = getlength;
       allocated   = new ArrayList<>();
-      type        = primitive;
-      comparator0 = new Comparator<SoftReference<T>>() {
-
-        @Override
-        public int compare( SoftReference<T> o1, SoftReference<T> o2 ) {
-          int l1 = length( o1 );
-          int l2 = length( o2 );
-          if( (l1 == 0) || (l2 == 0) ) {
-            // this element have been cleared by the GC so return 0 in order to sustain the current position
-            return 0;
-          }
-          return l1 - l2;
-        }
-        
-      };
     }
-    
-    private void cleanup() {
-      for( int i = allocated.size() - 1; i >= 0; i-- ) {
-        if( allocated.get(i).get() == null ) {
-          allocated.remove(i);
-        }
+
+    @Override
+    public int compare( SoftReference<PA> o1, SoftReference<PA> o2 ) {
+      int l1 = length.apply( o1.get() );
+      int l2 = length.apply( o2.get() );
+      if( (l1 == 0) || (l2 == 0) ) {
+        // this element have been cleared by the GC so return 0 in order to sustain the current position
+        return 0;
       }
+      return l1 - l2;
+    }
+
+    private synchronized void cleanup() {
+      // remove all empty soft references
+      allocated.removeIf( $ -> $.get() == null );
     }
     
     /**
@@ -313,15 +273,15 @@ public enum Primitive {
      * 
      * @return   The block with the apropriate space or <code>null</code>.
      */
-    private T getBlock( int size ) {
+    private synchronized PA getBlock( int size ) {
       if( allocated.isEmpty() ) {
         return null;
       }
-      cleanup();
       for( int i = 0; i < allocated.size(); i++ ) {
-        SoftReference<T> ref    = allocated.get(i);
-        T                result = ref.get();
-        if( length( ref ) >= size ) {
+        SoftReference<PA> ref    = allocated.get(i);
+        PA                result = ref.get();
+        if( length.apply( result ) >= size ) {
+          // we're giving away this memory block, so drop the reference
           ref.clear();
           allocated.remove( ref );
           return result;
@@ -340,15 +300,16 @@ public enum Primitive {
      * @return   A block with the requested size. Neither <code>null</code> nor empty.
      */
     @SuppressWarnings("unchecked")
-    public synchronized T allocate( Integer size ) {
+    public synchronized PA allocate( Integer size ) {
+      cleanup();
       if( size == null ) {
-        size = CommonProperty.BufferCount.getValue( System.getProperties() );
+        size = LibConfig.cfgBufferSize();
       }
       int value  = size.intValue();
-      T   result = getBlock( value );
+      PA  result = getBlock( value );
       if( result == null ) {
         value  = ((value / 1024) + 1) * 1024;
-        result = (T) type.newArray( value );
+        result = newArray.apply( value );
       }
       return result;
     }
@@ -358,13 +319,13 @@ public enum Primitive {
      * 
      * @param data   The data that can be reallocated later. Not <code>null</code>.
      */
-    public synchronized void release( @NonNull T data ) {
+    public synchronized void release( @NonNull PA data ) {
       cleanup();
-      SoftReference<T> newref = new SoftReference<>( data ); 
+      SoftReference<PA> newref = new SoftReference<>( data ); 
       if( allocated.isEmpty() ) {
         allocated.add( newref );
       } else {
-        int pos = Collections.binarySearch( allocated, newref, comparator0 );
+        int pos = Collections.binarySearch( allocated, newref, this );
         if( pos < 0 ) {
           pos = -(pos + 1);
         }
@@ -372,15 +333,6 @@ public enum Primitive {
       }
     }
     
-    private int length( SoftReference<T> data ) {
-      T content = data.get();
-      if( content != null ) {
-        return type.length( content );
-      } else {
-        return 0;
-      }
-    }
-    
   } /* ENDCLASS */
-  
+
 } /* ENDENUM */
