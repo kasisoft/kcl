@@ -36,12 +36,19 @@ public class LibConfig {
   Set<String>                     falseValues;
   Set<String>                     archivePrefixes;
   String                          defaultVarFormat;
+  int                             bufferSize;
   
   private LibConfig() {
     trueValues        ( true, DEFAULT_TRUE_VALUES      );
     falseValues       ( true, DEFAULT_FALSE_VALUES     );
     archivePrefixes   ( true, DEFAULT_ARCHIVE_PREFIXES );
     defaultVarFormat  ( null );
+    bufferSize        ( 0 );
+  }
+
+  public synchronized LibConfig bufferSize( int size ) {
+    bufferSize = size > 0 ? size : 16384;
+    return this;
   }
 
   public synchronized LibConfig trueValues( boolean add, String ... values ) {
@@ -100,6 +107,12 @@ public class LibConfig {
   public static Set<String> cfgArchivePrefixes() {
     synchronized( INSTANCE ) {
       return INSTANCE.archivePrefixes;
+    }
+  }
+
+  public static int cfgBufferSize() {
+    synchronized( INSTANCE ) {
+      return INSTANCE.bufferSize;
     }
   }
 
