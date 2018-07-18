@@ -24,6 +24,7 @@ public class KLabel extends JLabel implements I18NSensitive {
 
   int           minCharacters;
   I18NString    i18n;
+  Object[]      args;
   
   public KLabel() {
     super();
@@ -49,21 +50,28 @@ public class KLabel extends JLabel implements I18NSensitive {
     super( text );
   }
 
-  public KLabel( I18NString text, Icon icon, int horizontalAlignment ) {
+  public KLabel( I18NString text, Icon icon, int horizontalAlignment, Object ... arguments ) {
     super( text.toString(), icon, horizontalAlignment );
     i18n = text;
+    args = arguments;
   }
 
-  public KLabel( I18NString text, int horizontalAlignment ) {
+  public KLabel( I18NString text, int horizontalAlignment, Object ... arguments ) {
     super( text.toString(), horizontalAlignment );
     i18n = text;
+    args = arguments;
   }
 
-  public KLabel( I18NString text ) {
+  public KLabel( I18NString text, Object ... arguments ) {
     super( text.toString() );
     i18n = text;
+    args = arguments;
   }
 
+  public void setI18NArguments( Object ... arguments ) {
+    args = arguments;
+  }
+  
   @Override
   public Dimension getPreferredSize() {
     return SwingFunctions.getAdjustedPreferredSize( super.getPreferredSize(), this, minCharacters );
@@ -79,9 +87,10 @@ public class KLabel extends JLabel implements I18NSensitive {
     return SwingFunctions.getAdjustedMaximumSize( super.getMaximumSize(), this );
   }
 
-  public void setText( I18NString text ) {
+  public void setText( I18NString text, Object ... arguments ) {
+    args = arguments;
     if( text != null ) {
-      setText( text.toString() );
+      setText( text.format( args ) );
     }
     i18n = text;
   }
@@ -89,7 +98,7 @@ public class KLabel extends JLabel implements I18NSensitive {
   @Override
   public void onLocaleChange( Locale newLocale ) {
     if( i18n != null ) {
-      setText( i18n.toString() );
+      setText( i18n.format( args ) );
     }
   }
   

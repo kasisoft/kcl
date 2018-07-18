@@ -17,6 +17,7 @@ import lombok.*;
 public class KButton extends JButton implements I18NSensitive {
 
   I18NString    i18n;
+  Object[]      args;
   
   public KButton() {
     super();
@@ -38,19 +39,26 @@ public class KButton extends JButton implements I18NSensitive {
     super( text );
   }
 
-  public KButton( I18NString text, Icon icon ) {
+  public KButton( I18NString text, Icon icon, Object ... arguments ) {
     super( text.toString(), icon );
     i18n = text;
+    args = arguments;
   }
 
-  public KButton( I18NString text ) {
+  public KButton( I18NString text, Object ... arguments ) {
     super( text.toString() );
     i18n = text;
+    args = arguments;
   }
   
-  public void setText( I18NString text ) {
+  public void setI18NArguments( Object ... arguments ) {
+    args = arguments;
+  }
+  
+  public void setText( I18NString text, Object ... arguments ) {
+    args = arguments;
     if( text != null ) {
-      setText( text.toString() );
+      setText( text.format( args ) );
     }
     i18n = text;
   }
@@ -58,7 +66,7 @@ public class KButton extends JButton implements I18NSensitive {
   @Override
   public void onLocaleChange( Locale newLocale ) {
     if( i18n != null ) {
-      setText( i18n.toString() );
+      setText( i18n.format( args ) );
     }
   }
 

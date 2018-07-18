@@ -16,7 +16,8 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KMenuItem extends JMenuItem implements I18NSensitive {
 
-  I18NString   i18n;
+  I18NString    i18n;
+  Object[]      args;
   
   public KMenuItem() {
     super();
@@ -30,24 +31,32 @@ public class KMenuItem extends JMenuItem implements I18NSensitive {
     super( icon );
   }
 
-  public KMenuItem( I18NString text, Icon icon ) {
+  public KMenuItem( I18NString text, Icon icon, Object ... arguments ) {
     super( text.toString(), icon );
     i18n = text;
+    args = arguments;
   }
 
-  public KMenuItem( I18NString text, int mnemonic ) {
+  public KMenuItem( I18NString text, int mnemonic, Object ... arguments ) {
     super( text.toString(), mnemonic );
     i18n = text;
+    args = arguments;
   }
 
-  public KMenuItem( I18NString text ) {
+  public KMenuItem( I18NString text, Object ... arguments ) {
     super( text.toString() );
     i18n = text;
+    args = arguments;
   }
   
-  public void setText( I18NString text ) {
+  public void setI18NArguments( Object ... arguments ) {
+    args = arguments;
+  }
+  
+  public void setText( I18NString text, Object ... arguments ) {
+    args = arguments;
     if( text != null ) {
-      setText( text.toString() );
+      setText( text.format( args ) );
     }
     i18n = text;
   }
@@ -55,7 +64,7 @@ public class KMenuItem extends JMenuItem implements I18NSensitive {
   @Override
   public void onLocaleChange( Locale newLocale ) {
     if( i18n != null ) {
-      setText( i18n.toString() );
+      setText( i18n.format( args ) );
     }
   }
 
