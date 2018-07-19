@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
@@ -17,7 +18,7 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlToTypeAdapterTest {
 
-  XmlToTypeAdapter<String,Long> adapter = new XmlToTypeAdapter<>( new LongAdapter() );
+  XmlToTypeAdapter<String, Long> adapter = new XmlToTypeAdapter<>( new LongAdapter() );
   
   @DataProvider(name="createUnmarshalling")
   public Object[][] createUnmarshalling() {
@@ -36,7 +37,7 @@ public class XmlToTypeAdapterTest {
   @DataProvider(name="createInvalidUnmarshalling")
   public Object[][] createInvalidUnmarshalling() {
     return new Object[][] {
-      { "3.7"   , Double.valueOf( 3.7 ) },
+      { "3.7" },
     };
   }
 
@@ -62,9 +63,9 @@ public class XmlToTypeAdapterTest {
     assertThat( adapter.marshal( value ), is( expected ) );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", groups="all", expectedExceptions=IllegalArgumentException.class)
-  public void invalidUnmarshal( String value, Long expected ) throws Exception {
-    assertThat( adapter.unmarshal( value ), is( expected ) );
+  @Test(dataProvider="createInvalidUnmarshalling", groups="all")
+  public void invalidUnmarshal( String value ) throws Exception {
+    assertNull( adapter.unmarshal( value ) );
   }
   
 } /* ENDCLASS */

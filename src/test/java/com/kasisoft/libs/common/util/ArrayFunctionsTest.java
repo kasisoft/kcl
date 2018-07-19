@@ -92,49 +92,49 @@ public class ArrayFunctionsTest {
     
     // Boolean
     assertThat( ArrayFunctions.toObjectArray( (boolean[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new boolean[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new boolean[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new boolean[] { true } ), is( new Boolean[] { Boolean.TRUE } ) );
     assertThat( ArrayFunctions.toObjectArray( new boolean[] { false, true } ), is( new Boolean[] { Boolean.FALSE, Boolean.TRUE } ) );
 
     // Char
     assertThat( ArrayFunctions.toObjectArray( (char[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new char[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new char[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new char[] { '\n' } ), is( new Character[] { Character.valueOf('\n') } ) );
     assertThat( ArrayFunctions.toObjectArray( new char[] { '\r', '\n' } ), is( new Character[] { Character.valueOf('\r'), Character.valueOf('\n') } ) );
 
     // Byte
     assertThat( ArrayFunctions.toObjectArray( (byte[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new byte[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new byte[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new byte[] { (byte) 0 } ), is( new Byte[] { Byte.valueOf((byte) 0) } ) );
     assertThat( ArrayFunctions.toObjectArray( new byte[] { (byte) 1, (byte) 0 } ), is( new Byte[] { Byte.valueOf((byte) 1), Byte.valueOf((byte) 0) } ) );
 
     // Short
     assertThat( ArrayFunctions.toObjectArray( (short[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new short[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new short[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new short[] { (short) 0 } ), is( new Short[] { Short.valueOf((short) 0) } ) );
     assertThat( ArrayFunctions.toObjectArray( new short[] { (short) 1, (short) 0 } ), is( new Short[] { Short.valueOf((short) 1), Short.valueOf((short) 0) } ) );
 
     // Integer
     assertThat( ArrayFunctions.toObjectArray( (int[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new int[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new int[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new int[] { 0 } ), is( new Integer[] { Integer.valueOf(0) } ) );
     assertThat( ArrayFunctions.toObjectArray( new int[] { 1, 0 } ), is( new Integer[] { Integer.valueOf(1), Integer.valueOf(0) } ) );
 
     // Long
     assertThat( ArrayFunctions.toObjectArray( (long[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new long[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new long[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new long[] { 0 } ), is( new Long[] { Long.valueOf(0) } ) );
     assertThat( ArrayFunctions.toObjectArray( new long[] { 1, 0 } ), is( new Long[] { Long.valueOf(1), Long.valueOf(0) } ) );
 
     // Float
     assertThat( ArrayFunctions.toObjectArray( (float[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new float[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new float[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new float[] { 0 } ), is( new Float[] { Float.valueOf(0) } ) );
     assertThat( ArrayFunctions.toObjectArray( new float[] { 1, 0 } ), is( new Float[] { Float.valueOf(1), Float.valueOf(0) } ) );
 
     // Double
     assertThat( ArrayFunctions.toObjectArray( (double[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toObjectArray( new double[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toObjectArray( new double[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toObjectArray( new double[] { 0 } ), is( new Double[] { Double.valueOf(0) } ) );
     assertThat( ArrayFunctions.toObjectArray( new double[] { 1, 0 } ), is( new Double[] { Double.valueOf(1), Double.valueOf(0) } ) );
 
@@ -194,56 +194,56 @@ public class ArrayFunctionsTest {
     
     // Boolean
     assertThat( ArrayFunctions.toPrimitiveArray( (Boolean[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Boolean[0] ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Boolean[0] ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Boolean[] { Boolean.TRUE } ), is( new boolean[] { true } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Boolean[] { Boolean.FALSE, Boolean.TRUE } ), is( new boolean[] { false, true } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Boolean[] { Boolean.FALSE, null, Boolean.TRUE } ), is( new boolean[] { false, true } ) );
 
     // Char
     assertThat( ArrayFunctions.toPrimitiveArray( (Character[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Character[0] ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Character[0] ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Character[] { Character.valueOf('\n') } ), is( new char[] { '\n' } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Character[] { Character.valueOf('\r'), Character.valueOf('\n') } ), is( new char[] { '\r', '\n' } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Character[] { Character.valueOf('\r'), null, Character.valueOf('\n') } ), is( new char[] { '\r', '\n' } ) );
 
     // Byte
     assertThat( ArrayFunctions.toPrimitiveArray( (Byte[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Byte[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Byte[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Byte[] { Byte.valueOf((byte) 0) } ), is( new byte[] { (byte) 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Byte[] { Byte.valueOf((byte) 1), Byte.valueOf((byte) 0) } ), is( new byte[] { (byte) 1, (byte) 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Byte[] { Byte.valueOf((byte) 1), null, Byte.valueOf((byte) 0) } ), is( new byte[] { (byte) 1, (byte) 0 } ) );
 
     // Short
     assertThat( ArrayFunctions.toPrimitiveArray( (Short[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Short[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Short[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Short[] { Short.valueOf((short) 0) } ), is( new short[] { (short) 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Short[] { Short.valueOf((short) 1), Short.valueOf((short) 0) } ), is( new short[] { (short) 1, (short) 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Short[] { Short.valueOf((short) 1), null, Short.valueOf((short) 0) } ), is( new short[] { (short) 1, (short) 0 } ) );
 
     // Integer
     assertThat( ArrayFunctions.toPrimitiveArray( (Integer[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Integer[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Integer[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Integer[] { Integer.valueOf(0) } ), is( new int[] { 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Integer[] { Integer.valueOf(1), Integer.valueOf(0) } ), is( new int[] { 1, 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Integer[] { Integer.valueOf(1), null, Integer.valueOf(0) } ), is( new int[] { 1, 0 } ) );
 
     // Long
     assertThat( ArrayFunctions.toPrimitiveArray( (Long[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Long[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Long[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Long[] { Long.valueOf(0) } ), is( new long[] { 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Long[] { Long.valueOf(1), Long.valueOf(0) } ), is( new long[] { 1, 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Long[] { Long.valueOf(1), null, Long.valueOf(0) } ), is( new long[] { 1, 0 } ) );
 
     // Float
     assertThat( ArrayFunctions.toPrimitiveArray( (Float[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Float[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Float[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Float[] { Float.valueOf(0) } ), is( new float[] { 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Float[] { Float.valueOf(1), Float.valueOf(0) } ), is( new float[] { 1, 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Float[] { Float.valueOf(1), null, Float.valueOf(0) } ), is( new float[] { 1, 0 } ) );
 
     // Double
     assertThat( ArrayFunctions.toPrimitiveArray( (Double[]) null ), is( nullValue() ) );
-    assertThat( ArrayFunctions.toPrimitiveArray( new Double[] {} ), is( nullValue() ) );
+    assertThat( ArrayFunctions.toPrimitiveArray( new Double[] {} ), is( notNullValue() ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Double[] { Double.valueOf(0) } ), is( new double[] { 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Double[] { Double.valueOf(1), Double.valueOf(0) } ), is( new double[] { 1, 0 } ) );
     assertThat( ArrayFunctions.toPrimitiveArray( new Double[] { Double.valueOf(1), null, Double.valueOf(0) } ), is( new double[] { 1, 0 } ) );
@@ -580,7 +580,6 @@ public class ArrayFunctionsTest {
       { "".toCharArray(), "Hello World".toCharArray(), Integer.valueOf(5), "" },  
       { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(0), " small Hello World" },  
       { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(5), "Hello small  World" },  
-      { "Hello World".toCharArray(), " small ".toCharArray(), Integer.valueOf(50), "Hello World" },  
     };
   }
 
@@ -591,7 +590,6 @@ public class ArrayFunctionsTest {
       { "".getBytes(), "Hello World".getBytes(), Integer.valueOf(5), "" },  
       { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(0), " small Hello World" },  
       { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(5), "Hello small  World" },  
-      { "Hello World".getBytes(), " small ".getBytes(), Integer.valueOf(50), "Hello World" },  
     };
   }
   

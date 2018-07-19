@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.xml.adapters;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
@@ -36,7 +37,7 @@ public class IntegerAdapterTest {
   @DataProvider(name="createInvalidUnmarshalling")
   public Object[][] createInvalidUnmarshalling() {
     return new Object[][] {
-      { "3.7"   , Double.valueOf( 3.7 ) },
+      { "3.7" },
     };
   }
 
@@ -62,9 +63,9 @@ public class IntegerAdapterTest {
     assertThat( adapter.marshal( value ), is( expected ) );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", groups="all", expectedExceptions=IllegalArgumentException.class)
-  public void invalidUnmarshal( String value, Integer expected ) throws Exception {
-    assertThat( adapter.unmarshal( value ), is( expected ) );
+  @Test(dataProvider="createInvalidUnmarshalling", groups="all")
+  public void invalidUnmarshal( String value ) throws Exception {
+    assertNull( adapter.unmarshal( value ) );
   }
 
 } /* ENDCLASS */

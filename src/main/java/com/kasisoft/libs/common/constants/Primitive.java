@@ -122,23 +122,7 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
    * @return   The index of the char sequence or -1 in case there's no sequence.
    */
   public int indexOf( @NonNull PA buffer, @NonNull PA sequence, int pos ) {
-//    int bufferlength = length( buffer  );
-//    int seqlength    = length( sequence );
-//    int last         = bufferlength - seqlength;
-//    if( (last < 0) || (pos > last) ) {
-//      // the sequence can't fit completely, so it's not available
-//      return -1;
-//    }
-//    for( int i = pos; i < last; i++ ) {
-//      if( isEqual.test( buffer, i, sequence, 0 ) ) {
-//        // we're having a possible match, so compare the sequence
-//        if( compare( buffer, sequence, i ) ) {
-//          return i;
-//        }
-//      }
-//    }
-//    return -1;
-    return indexOfOp( buffer, sequence, pos, false, ($idx, $val) -> $idx < $val, $ -> $++ );
+    return indexOfOp( buffer, sequence, pos, true, ($idx, $val) -> $idx < $val, $ -> $ + 1 );
   }
   
   /**
@@ -163,25 +147,7 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
    * @return   The index of the last byte sequence or -1 in case there's no sequence.
    */
   public int lastIndexOf( @NonNull PA buffer, @NonNull PA sequence, int pos ) {
-//    int bufferlength = length( buffer  );
-//    int seqlength    = length( sequence );
-//    int last         = bufferlength - seqlength;
-//    if( (last < 0) || (pos > last) ) {
-//      // the sequence doesn't fit, so it's not available
-//      return -1;
-//    }
-//    for( int i = last; i >= pos; i-- ) {
-//      if( isEqual.test( buffer, i, sequence, 0 ) ) {
-//        // we're having a possible match, so compare the sequence
-//        if( compare( buffer, sequence, i ) ) {
-//          return i;
-//        }
-//      }
-//    }
-//    return -1;
-//    
-//    
-    return indexOfOp( buffer, sequence, pos, false, ($idx, $val) -> $idx >= $val, $ -> $-- );
+    return indexOfOp( buffer, sequence, pos, false, ($idx, $val) -> $idx >= $val, $ -> $ - 1 );
   }
   
   private int indexOfOp( PA buffer, PA sequence, int pos, boolean first, BiPredicate<Integer, Integer> test, Function<Integer, Integer> op ) {
@@ -192,8 +158,9 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
       // the sequence doesn't fit, so it's not available
       return -1;
     }
-    int boundary = first ? pos : last;
-    for( int i = boundary; test.test(i, boundary); i = op.apply(i) ) {
+    int start    = first ? pos  : last;
+    int boundary = first ? last : pos;
+    for( int i = start; test.test(i, boundary); i = op.apply(i) ) {
       if( isEqual.test( buffer, i, sequence, 0 ) ) {
         // we're having a possible match, so compare the sequence
         if( compare( buffer, sequence, i ) ) {
@@ -216,18 +183,12 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
    */
   public PA insert( @NonNull PA source, @NonNull PA additional, int index ) {
     int destinationlength = length( source );
-    if( (index < 0) || (index >= destinationlength) ) {
-      throw new IllegalArgumentException();
-    }
     int additionallength  = length( additional );
-    if( (destinationlength == 0) && (additionallength == 0) ) {
+    if( (destinationlength == 0) || (additionallength == 0) ) {
       return empty;
     }
-    if( (destinationlength == 0) && (additionallength > 0) ) {
-      return copy( additional );
-    }
-    if( (destinationlength > 0) && (additionallength == 0) ) {
-      return copy( source );
+    if( (index < 0) || (index >= destinationlength) ) {
+      return empty;
     }
     int totalsize = destinationlength + additionallength;
     PA  result    = newArray( totalsize );

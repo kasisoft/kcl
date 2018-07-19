@@ -444,12 +444,20 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static <T> int nonNullLength( T ... objects ) {
-    Primitive primitive = Primitive.byType( objects );
-    if( primitive == null ) {
-      return 0;
-    } else {
-      return primitive.countSet( objects );
-    }
+    int result = 0;
+    if( (objects != null) && (objects.length > 0) ) {
+      Primitive primitive = Primitive.byType( objects[0] );
+      if( primitive != null ) {
+        result = primitive.countSet( objects );
+      } else {
+        for( Object obj : objects ) {
+          if( obj != null ) {
+            result++;
+          }
+        }
+      }
+    } 
+    return result;
   }
 
   /**
