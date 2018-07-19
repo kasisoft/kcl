@@ -2,11 +2,9 @@ package com.kasisoft.libs.common.util;
 
 import com.kasisoft.libs.common.constants.*;
 
-import lombok.*;
-
 import java.util.*;
 
-import java.io.*;
+import lombok.*;
 
 /**
  * Collection of functions useful in conjunction with arrays.
@@ -30,25 +28,12 @@ public class ArrayFunctions {
    * @param index         The location where to insert the byte sequence.
    * 
    * @return   The modified data block. Not <code>null</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte#insert instead.
    */
+  @Deprecated
   public static byte[] insert( @NonNull byte[] destination, @NonNull byte[] newsequence, int index ) {
-    if( destination.length == 0 ) {
-      return new byte[0];
-    }
-    if( index >= destination.length ) {
-      return Arrays.copyOf( destination, destination.length );
-    }
-    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-    if( index > 0 ) {
-      byteout.write( destination, 0, index );
-    }
-    if( newsequence.length > 0 ) {
-      byteout.write( newsequence, 0, newsequence.length );
-    }
-    if( index < destination.length ) {
-      byteout.write( destination, index, destination.length - index );
-    }
-    return byteout.toByteArray();
+    return Primitive.PByte.insert( destination, newsequence, index );
   }
 
   /**
@@ -60,25 +45,12 @@ public class ArrayFunctions {
    * @param index         The location where to insert the char sequence.
    * 
    * @return   The modified data block. Not <code>null</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar#insert instead.
    */
+  @Deprecated
   public static char[] insert( @NonNull char[] destination, @NonNull char[] newsequence, int index ) {
-    if( destination.length == 0 ) {
-      return new char[0];
-    }
-    if( index >= destination.length ) {
-      return Arrays.copyOf( destination, destination.length );
-    }
-    CharArrayWriter charout = new CharArrayWriter();
-    if( index > 0 ) {
-      charout.write( destination, 0, index );
-    }
-    if( newsequence.length > 0 ) {
-      charout.write( newsequence, 0, newsequence.length );
-    }
-    if( index < destination.length ) {
-      charout.write( destination, index, destination.length - index );
-    }
-    return charout.toCharArray();
+    return Primitive.PChar.insert( destination, newsequence, index );
   }
   
   /**
@@ -87,23 +59,12 @@ public class ArrayFunctions {
    * @param buffers   A list of buffers which has to be joined. Not <code>null</code>.
    * 
    * @return   A joined buffer. Not <code>null</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte#concat instead
    */
+  @Deprecated
   public static byte[] joinBuffers( @NonNull byte[] ... buffers ) {
-    int size = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        size += buffers[i].length;
-      }
-    }
-    byte[] result = new byte[ size ];
-    int    offset = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        System.arraycopy( buffers[i], 0, result, offset, buffers[i].length );
-        offset += buffers[i].length;
-      }
-    }
-    return result;
+    return Primitive.PByte.concat( buffers );
   }
 
   /**
@@ -112,23 +73,12 @@ public class ArrayFunctions {
    * @param buffers   A list of buffers which has to be joined. Not <code>null</code>.
    * 
    * @return   A joined buffer. Not <code>null</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar#concat instead
    */
+  @Deprecated
   public static char[] joinBuffers( @NonNull char[] ... buffers ) {
-    int size = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        size += buffers[i].length;
-      }
-    }
-    char[] result = new char[ size ];
-    int    offset = 0;
-    for( int i = 0; i < buffers.length; i++ ) {
-      if( buffers[i] != null ) {
-        System.arraycopy( buffers[i], 0, result, offset, buffers[i].length );
-        offset += buffers[i].length;
-      }
-    }
-    return result;
+    return Primitive.PChar.concat( buffers );
   }
 
   /**
@@ -628,16 +578,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the maximum. Must have at least the length 1.
    * 
    * @return   The maximum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PInt#max instead.
    */
+  @Deprecated
   public static int maxInt( @NonNull int ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    int result = Math.max( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.max( args[i], result );
-    }
-    return result;
+    return Primitive.PInt.max( args );
   }
 
   /**
@@ -646,16 +592,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the maximum. Must have at least the length 1.
    * 
    * @return   The maximum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PLong#max instead.
    */
+  @Deprecated
   public static long maxLong( @NonNull long ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    long result = Math.max( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.max( args[i], result );
-    }
-    return result;
+    return Primitive.PLong.max( args );
   }
 
   /**
@@ -664,16 +606,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the maximum. Must have at least the length 1.
    * 
    * @return   The maximum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PFloat#max instead.
    */
+  @Deprecated
   public static float maxFloat( @NonNull float ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    float result = Math.max( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.max( args[i], result );
-    }
-    return result;
+    return Primitive.PFloat.max( args );
   }
 
   /**
@@ -682,16 +620,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the maximum. Must have at least the length 1.
    * 
    * @return   The maximum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PDouble#max instead.
    */
+  @Deprecated
   public static double maxDouble( @NonNull double ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    double result = Math.max( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.max( args[i], result );
-    }
-    return result;
+    return Primitive.PDouble.max( args );
   }
 
   /**
@@ -700,16 +634,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the minimum. Must have at least the length 1.
    * 
    * @return   The minimum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PInt#min instead.
    */
+  @Deprecated
   public static int minInt( @NonNull int ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    int result = Math.min( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.min( args[i], result );
-    }
-    return result;
+    return Primitive.PInt.min( args );
   }
 
   /**
@@ -718,16 +648,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the minimum. Must have at least the length 1.
    * 
    * @return   The minimum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PLong#min instead.
    */
+  @Deprecated
   public static long minLong( @NonNull long ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    long result = Math.min( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.min( args[i], result );
-    }
-    return result;
+    return Primitive.PLong.min( args );
   }
 
   /**
@@ -736,16 +662,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the minimum. Must have at least the length 1.
    * 
    * @return   The minimum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PFloat#min instead.
    */
+  @Deprecated
   public static float minFloat( @NonNull float ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    float result = Math.min( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.min( args[i], result );
-    }
-    return result;
+    return Primitive.PFloat.min( args );
   }
 
   /**
@@ -754,16 +676,12 @@ public class ArrayFunctions {
    * @param args   The values used to determine the minimum. Must have at least the length 1.
    * 
    * @return   The minimum of all values.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PDouble#min instead.
    */
+  @Deprecated
   public static double minDouble( @NonNull double ... args ) {
-    if( args.length == 1 ) {
-      return args[0];
-    }
-    double result = Math.min( args[0], args[1] );
-    for( int i = 2; i < args.length; i++ ) {
-      result = Math.min( args[i], result );
-    }
-    return result;
+    return Primitive.PDouble.min( args );
   }
   
   /**
@@ -772,13 +690,12 @@ public class ArrayFunctions {
    * @param atoms   Atomic expressions. Not <code>null</code>.
    * 
    * @return   The boolean result. Not <code>null</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PBoolean#and instead.
    */
+  @Deprecated
   public static Boolean objectAnd( @NonNull Boolean ... atoms ) {
-    boolean result = atoms[0].booleanValue();
-    for( int i = 0; (i < atoms.length) && result; i++ ) {
-      result = result && atoms[i].booleanValue();
-    }
-    return Boolean.valueOf( result );
+    return Primitive.PBoolean.and( atoms );
   }
 
   /**
@@ -787,13 +704,12 @@ public class ArrayFunctions {
    * @param atoms   Atomic expressions. Not <code>null</code>.
    * 
    * @return   The boolean result. Not <code>null</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PBoolean#or instead.
    */
+  @Deprecated
   public static Boolean objectOr( @NonNull Boolean ... atoms ) {
-    boolean result = atoms[0].booleanValue();
-    for( int i = 0; (i < atoms.length) && (! result); i++ ) {
-      result = result || atoms[i].booleanValue();
-    }
-    return Boolean.valueOf( result );
+    return Primitive.PBoolean.or( atoms );
   }
 
   /**
@@ -802,13 +718,12 @@ public class ArrayFunctions {
    * @param args   A list of booleans to be combined. Must have at least the length 1.
    * 
    * @return   <code>true</code> <=> Each argument was <code>true</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PBoolean#and instead.
    */
+  @Deprecated
   public static boolean and( @NonNull boolean ... args ) {
-    boolean result = args[0];
-    for( int i = 1; (i < args.length) && result; i++ ) {
-      result = result && args[i];
-    }
-    return result;
+    return Primitive.PBoolean.and( args );
   }
 
   /**
@@ -817,13 +732,12 @@ public class ArrayFunctions {
    * @param args   A list of booleans to be combined. Must have at least the length 1.
    * 
    * @return   <code>true</code> <=> At least one argument was <code>true</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PBoolean#or instead.
    */
+  @Deprecated
   public static boolean or( @NonNull boolean ... args ) {
-    boolean result = args[0];
-    for( int i = 1; (i < args.length) && (! result); i++ ) {
-      result = result || args[i];
-    }
-    return result;
+    return Primitive.PBoolean.or( args );
   }
 
   /**
@@ -834,7 +748,10 @@ public class ArrayFunctions {
    * @param input      The data items which have to be added. Maybe <code>null</code>.
    * 
    * @return   The list that has been supplied. Not <code>null</code>.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   There's no replacement for this function.
    */
+  @Deprecated
   public static <T> List<T> addAll( @NonNull List<T> receiver, T ... input ) {
     if( input != null ) {
       for( T object : input ) {
@@ -850,7 +767,10 @@ public class ArrayFunctions {
    * @param input   The array which should be traversed. Not <code>null</code>.
    * 
    * @return   The enumeration which is used to traverse the array.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Arrays.asList instead.
    */
+  @Deprecated
   public static <T> Enumeration<T> enumeration( @NonNull T ... input ) {
     return new ArrayTraversal<>( input );
   }
@@ -861,7 +781,10 @@ public class ArrayFunctions {
    * @param input   The array which should be traversed. Not <code>null</code>.
    * 
    * @return   The Iterator which is used to traverse the array.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Arrays.asList instead.
    */
+  @Deprecated
   public static <T> Iterator<T> iterator( @NonNull T ... input ) {
     return new ArrayTraversal<>( input );
   }
@@ -872,15 +795,12 @@ public class ArrayFunctions {
    * @param values  Array of numbers. Maybe <code>null</code>.
    *
    * @return  Sum of these numbers.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PInt#forValues instead
    */
+  @Deprecated
   public static int sumInt( int ... values ) {
-    int result = 0;
-    if( (values != null) && (values.length > 0) ) {
-      for( int i = 0; i < values.length; i++ ) {
-        result += values[i];
-      }
-    }
-    return result;
+    return Primitive.PInt.forValues( values, 0, ($a, $b) -> $a + $b );
   }
 
   /**
@@ -889,15 +809,12 @@ public class ArrayFunctions {
    * @param values  Array of numbers. Maybe <code>null</code>.
    *
    * @return  Sum of these numbers.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PDouble#forValues instead
    */
+  @Deprecated
   public static double sumDouble( double ... values ) {
-    double result = 0;
-    if( (values != null) && (values.length > 0) ) {
-      for( int i = 0; i < values.length; i++ ) {
-        result += values[i];
-      }
-    }
-    return result;
+    return Primitive.PDouble.forValues( values, 0.0, ($a, $b) -> $a + $b );
   }
 
   /**
@@ -906,15 +823,12 @@ public class ArrayFunctions {
    * @param values  Array of numbers. Maybe <code>null</code>.
    *
    * @return  Sum of these numbers.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PLong#forValues instead
    */
+  @Deprecated
   public static long sumLong( long ... values ) {
-    long result = 0;
-    if( (values != null) && (values.length > 0) ) {
-      for( int i = 0; i < values.length; i++ ) {
-        result += values[i];
-      }
-    }
-    return result;
+    return Primitive.PLong.forValues( values, 0L, ($a, $b) -> $a + $b );
   }
 
   /**
@@ -924,9 +838,12 @@ public class ArrayFunctions {
    * @param sequence   The byte sequence to search for. Not <code>null</code>.
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte#indexOf instead.
    */
+  @Deprecated
   public static int indexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
-    return indexOf( data, sequence, 0 );
+    return Primitive.PByte.indexOf( data, sequence, 0 );
   }
 
   /**
@@ -937,22 +854,12 @@ public class ArrayFunctions {
    * @param pos        The offset where to begin the search.
    * 
    * @return   The index of the byte sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte#indexOf instead.
    */
+  @Deprecated
   public static int indexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
-    int last = buffer.length - sequence.length;
-    if( (last < 0) || (pos > last) ) {
-      // the sequence can't fit completely, so it's not available
-      return -1;
-    }
-    for( int i = pos; i < last; i++ ) {
-      if( buffer[i] == sequence[0] ) {
-        // we're having a possible match, so compare the sequence
-        if( compare( buffer, sequence, i ) ) {
-          return i;
-        }
-      }
-    }
-    return -1;
+    return Primitive.PByte.indexOf( buffer, sequence, pos );
   }
   
   /**
@@ -962,9 +869,12 @@ public class ArrayFunctions {
    * @param sequence   The byte sequence to search for. Not <code>null</code>.
    * 
    * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte.lastIndexOf instead
    */
+  @Deprecated
   public static int lastIndexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
-    return lastIndexOf( data, sequence, 0 );
+    return Primitive.PByte.lastIndexOf( data, sequence, 0 );
   }
 
   /**
@@ -975,22 +885,12 @@ public class ArrayFunctions {
    * @param pos        The offset where to begin the search.
    * 
    * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte.lastIndexOf instead
    */
+  @Deprecated
   public static int lastIndexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
-    int last = buffer.length - sequence.length;
-    if( (last < 0) || (pos > last) ) {
-      // the sequence doesn't fit, so it's not available
-      return -1;
-    }
-    for( int i = last; i >= pos; i-- ) {
-      if( buffer[i] == sequence[0] ) {
-        // we're having a possible match, so compare the sequence
-        if( compare( buffer, sequence, i ) ) {
-          return i;
-        }
-      }
-    }
-    return -1;
+    return Primitive.PByte.lastIndexOf( buffer, sequence, pos );
   }
 
   /**
@@ -1001,94 +901,12 @@ public class ArrayFunctions {
    * @param offset      The offset within the data block where the sequence seems to be located.
    * 
    * @return   <code>true</code> <=> The byte sequence is available at the specified offset.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte#compare instead.
    */
+  @Deprecated
   public static boolean compare( @NonNull byte[] data, @NonNull byte[] tocompare, int offset ) {
-    for( int i = 0; i < tocompare.length; i++, offset++ ) {
-      if( offset == data.length ) {
-        // premature end of the comparison process
-        return false;
-      }
-      if( data[ offset ] != tocompare[i] ) {
-        return false;
-      }
-    }
-    return true; 
-  }
-  
-  /**
-   * Tries to find a char sequence within a data block.
-   * 
-   * @param data       The data block being investigated. Not <code>null</code>.
-   * @param sequence   The char sequence to search for. Not <code>null</code>.
-   * 
-   * @return   The index of the char sequence or -1 in case there's no sequence.
-   */
-  public static int indexOf( @NonNull char[] data, @NonNull char[] sequence ) {
-    return indexOf( data, sequence, 0 );
-  }
-  
-  /**
-   * Tries to find a char sequence within a data block.
-   * 
-   * @param buffer     The data block being investigated. Not <code>null</code>.
-   * @param sequence   The char sequence to search for. Not <code>null</code>.
-   * @param pos        The offset where to begin the search.
-   * 
-   * @return   The index of the char sequence or -1 in case there's no sequence.
-   */
-  public static int indexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
-    int last = buffer.length - sequence.length;
-    if( (last < 0) || (pos > last) ) {
-      // the sequence can't fit completely, so it's not available
-      return -1;
-    }
-    for( int i = pos; i < last; i++ ) {
-      if( buffer[i] == sequence[0] ) {
-        // we're having a possible match, so compare the sequence
-        if( compare( buffer, sequence, i ) ) {
-          return i;
-        }
-      }
-    }
-    return -1;
-  }
-  
-  /**
-   * Tries to find the last char sequence within a data block.
-   * 
-   * @param data       The data block being investigated. Not <code>null</code>.
-   * @param sequence   The char sequence to search for. Not <code>null</code>.
-   * 
-   * @return   The index of the last char sequence or -1 in case there's no sequence.
-   */
-  public static int lastIndexOf( @NonNull char[] data, @NonNull char[] sequence ) {
-    return lastIndexOf( data, sequence, 0 );
-  }
-
-  /**
-   * Tries to find the last character sequence within a data block.
-   * 
-   * @param buffer     The data block being investigated. Not <code>null</code>.
-   * @param sequence   The character sequence to search for. Not <code>null</code>.
-   * @param pos        The offset where to begin the search.
-   * 
-   * @return   The index of the last character sequence or -1 in case there's no sequence.
-   */
-  public static int lastIndexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
-    int last = buffer.length - sequence.length;
-    if( (last < 0) || (pos > last) ) {
-      // the sequence doesn't fit, so it's not available
-      return -1;
-    }
-    for( int i = last; i >= pos; i-- ) {
-      if( buffer[i] == sequence[0] ) {
-        // we're having a possible match, so compare the sequence
-        if( compare( buffer, sequence, i ) ) {
-          return i;
-        }
-      }
-    }
-    return -1;
+    return Primitive.PByte.compare(data, tocompare, offset );
   }
   
   /**
@@ -1099,18 +917,74 @@ public class ArrayFunctions {
    * @param offset      The offset within the data block where the sequence seems to be located.
    * 
    * @return   <code>true</code> <=> The char sequence is available at the specified offset.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar#compare instead.
    */
+  @Deprecated
   public static boolean compare( @NonNull char[] data, @NonNull char[] tocompare, int offset ) {
-    for( int i = 0; i < tocompare.length; i++, offset++ ) {
-      if( offset == data.length ) {
-        // premature end of the comparison process
-        return false;
-      }
-      if( data[ offset ] != tocompare[i] ) {
-        return false;
-      }
-    }
-    return true; 
+    return Primitive.PChar.compare(data, tocompare, offset );
+  }
+  
+  /**
+   * Tries to find a char sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the char sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar#indexOf instead.
+   */
+  @Deprecated
+  public static int indexOf( @NonNull char[] data, @NonNull char[] sequence ) {
+    return Primitive.PChar.indexOf( data, sequence, 0 );
+  }
+  
+  /**
+   * Tries to find a char sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the char sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar#indexOf instead.
+   */
+  @Deprecated
+  public static int indexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
+    return Primitive.PChar.indexOf( buffer, sequence, pos );
+  }
+  
+  /**
+   * Tries to find the last char sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the last char sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar.lastIndexOf instead
+   */
+  @Deprecated
+  public static int lastIndexOf( @NonNull char[] data, @NonNull char[] sequence ) {
+    return Primitive.PChar.lastIndexOf( data, sequence, 0 );
+  }
+
+  /**
+   * Tries to find the last character sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The character sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the last character sequence or -1 in case there's no sequence.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar.lastIndexOf instead
+   */
+  @Deprecated
+  public static int lastIndexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
+    return Primitive.PChar.lastIndexOf( buffer, sequence, pos );
   }
   
   /**
@@ -1121,11 +995,12 @@ public class ArrayFunctions {
    * @param length   The amount of bytes which have to be copied. Must be greater than 0.
    * 
    * @return   A copy of the desired range. Neither <code>null</code> nor empty.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PByte#copyOfRange instead.
    */
+  @Deprecated
   public static byte[] copyRange( @NonNull byte[] source, int offset, int length ) {
-    byte[] result = new byte[ length ];
-    System.arraycopy( source, offset, result, 0, length );
-    return result;
+    return Primitive.PByte.copyOfRange( source, offset, offset + length );
   }
 
   /**
@@ -1136,11 +1011,12 @@ public class ArrayFunctions {
    * @param length   The amount of bytes which have to be copied. Must be greater than 0.
    * 
    * @return   A copy of the desired range. Neither <code>null</code> nor empty.
+   * 
+   * @deprecated [19-JUL-2018:KASI]   Use Primitive.PChar#copyOfRange instead.
    */
+  @Deprecated
   public static char[] copyRange( @NonNull char[] source, int offset, int length ) {
-    char[] result = new char[ length ];
-    System.arraycopy( source, offset, result, 0, length );
-    return result;
+    return Primitive.PChar.copyOfRange( source, offset, offset + length );
   }
 
   /**

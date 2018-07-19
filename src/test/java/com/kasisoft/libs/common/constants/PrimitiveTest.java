@@ -7,6 +7,10 @@ import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
+import java.util.*;
+
+import java.lang.reflect.*;
+
 /**
  * Tests for the constants 'Primitive'.
  * 
@@ -154,7 +158,7 @@ public class PrimitiveTest {
   }
   
   @Test(dataProvider="createRunAllocations", groups="all")
-  public void runAllocations( Object array, Primitive expected ) {
+  public void allocate( Object array, Primitive expected ) {
     
     Primitive  primitive  = Primitive.byType( array );
     assertThat( primitive, is( expected ) );
@@ -174,6 +178,67 @@ public class PrimitiveTest {
     assertTrue( primitive.length( datablock3 ) >= 100 );
     assertTrue( primitive.length( datablock3 ) < count.intValue() );
     
+  }
+
+  @DataProvider(name="createCompareSimpleData")
+  public Object[][] createCompareSimpleData() {
+    List<Object[]> result = new ArrayList<>();
+    for( Primitive p : Primitive.values() ) {
+      
+      // compare identical arrays
+      Object array      = p.randomArray(13);
+      Object exactcopy  = p.copy( array );
+      result.add( new Object[] { array, exactcopy, true } );
+
+      // compare different arrays
+      Object failcopy   = p.copy( array );
+      changeValue( failcopy, 7, p );
+      result.add( new Object[] { array, failcopy, false } );
+      
+    }
+    return result.toArray(new Object[result.size()][]);
+  }
+  
+  @Test(dataProvider="createCompareSimpleData", groups="all")
+  public void compareSimple( Object array1, Object array2, boolean expected ) {
+    Primitive primitive = Primitive.byType( array1 );
+    assertThat( primitive.compare( array1, array2 ), is( expected ) );
+  }
+
+  @DataProvider(name="createCompareWithOffsetData")
+  public Object[][] createCompareWithOffsetData() {
+    List<Object[]> result = new ArrayList<>();
+    for( Primitive p : Primitive.values() ) {
+      
+      // compare identical arrays
+      Object array      = p.randomArray(13);
+      Object exactcopy  = p.copyOfRange( array, 4, 13 );
+      result.add( new Object[] { array, exactcopy, true } );
+
+      // compare different arrays
+      Object failcopy   = p.copyOfRange( array, 4, 13 );
+      changeValue( failcopy, 2, p );
+      result.add( new Object[] { array, failcopy, false } );
+      
+      // break;
+      
+    }
+    return result.toArray(new Object[result.size()][]);
+  }
+  
+  private void changeValue( Object array, int idx, Primitive p ) {
+    Object current = Array.get( array, idx );
+    Object changed = p.randomValue();
+    while( current.equals( changed ) ) {
+      changed = p.randomValue();
+    }
+    Array.set( array, idx, changed );
+  }
+
+  @Test(dataProvider="createCompareWithOffsetData", groups="all")
+  public void compareWithOffset( Object array1, Object array2, boolean expected ) {
+    Primitive primitive = Primitive.byType( array1 );
+    assertThat( primitive.compare( array1, array2, 4 ), is( expected ) );
   }
 
 } /* ENDCLASS */

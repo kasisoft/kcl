@@ -1,10 +1,7 @@
 package com.kasisoft.libs.common.constants;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.function.*;
 
 import java.util.function.*;
 
@@ -12,6 +9,10 @@ import java.util.*;
 
 import java.lang.ref.*;
 import java.lang.reflect.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Declarations used to identify primitive types.
@@ -21,31 +22,60 @@ import java.lang.reflect.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Primitive<PA, O> implements Comparable<Primitive>{
 
-  public static Primitive <boolean [], Boolean  > PBoolean = new Primitive<>( "PBoolean"  , boolean . class , boolean [] . class , Boolean   . class , Boolean   [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
-  public static Primitive <byte    [], Byte     > PByte    = new Primitive<>( "PByte"     , byte    . class , byte    [] . class , Byte      . class , Byte      [] . class , Primitive::toPrimitive, Primitive::toObject, Byte    . MIN_VALUE , Byte    . MAX_VALUE );
-  public static Primitive <char    [], Character> PChar    = new Primitive<>( "PChar"     , char    . class , char    [] . class , Character . class , Character [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
-  public static Primitive <short   [], Short    > PShort   = new Primitive<>( "PShort"    , short   . class , short   [] . class , Short     . class , Short     [] . class , Primitive::toPrimitive, Primitive::toObject, Short   . MIN_VALUE , Short   . MAX_VALUE );
-  public static Primitive <int     [], Integer  > PInt     = new Primitive<>( "PInt"      , int     . class , int     [] . class , Integer   . class , Integer   [] . class , Primitive::toPrimitive, Primitive::toObject, Integer . MIN_VALUE , Integer . MAX_VALUE );
-  public static Primitive <long    [], Long     > PLong    = new Primitive<>( "PLong"     , long    . class , long    [] . class , Long      . class , Long      [] . class , Primitive::toPrimitive, Primitive::toObject, Long    . MIN_VALUE , Long    . MAX_VALUE );
-  public static Primitive <float   [], Float    > PFloat   = new Primitive<>( "PFloat"    , float   . class , float   [] . class , Float     . class , Float     [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
-  public static Primitive <double  [], Double   > PDouble  = new Primitive<>( "PDouble"   , double  . class , double  [] . class , Double    . class , Double    [] . class , Primitive::toPrimitive, Primitive::toObject, 0                   , 0                   );
+  public static Primitive <boolean [], Boolean  > PBoolean = new Primitive<>( "PBoolean"  , boolean . class , boolean [] . class , Boolean   . class , Boolean   [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomBoolean , Arrays::copyOfRange, null               , 0                   , 0                   );
+  public static Primitive <byte    [], Byte     > PByte    = new Primitive<>( "PByte"     , byte    . class , byte    [] . class , Byte      . class , Byte      [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomByte    , Arrays::copyOfRange, Primitive::isBigger, Byte    . MIN_VALUE , Byte    . MAX_VALUE );
+  public static Primitive <char    [], Character> PChar    = new Primitive<>( "PChar"     , char    . class , char    [] . class , Character . class , Character [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomChar    , Arrays::copyOfRange, null               , 0                   , 0                   );
+  public static Primitive <short   [], Short    > PShort   = new Primitive<>( "PShort"    , short   . class , short   [] . class , Short     . class , Short     [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomShort   , Arrays::copyOfRange, Primitive::isBigger, Short   . MIN_VALUE , Short   . MAX_VALUE );
+  public static Primitive <int     [], Integer  > PInt     = new Primitive<>( "PInt"      , int     . class , int     [] . class , Integer   . class , Integer   [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomInt     , Arrays::copyOfRange, Primitive::isBigger, Integer . MIN_VALUE , Integer . MAX_VALUE );
+  public static Primitive <long    [], Long     > PLong    = new Primitive<>( "PLong"     , long    . class , long    [] . class , Long      . class , Long      [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomLong    , Arrays::copyOfRange, Primitive::isBigger, Long    . MIN_VALUE , Long    . MAX_VALUE );
+  public static Primitive <float   [], Float    > PFloat   = new Primitive<>( "PFloat"    , float   . class , float   [] . class , Float     . class , Float     [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomFloat   , Arrays::copyOfRange, Primitive::isBigger, 0                   , 0                   );
+  public static Primitive <double  [], Double   > PDouble  = new Primitive<>( "PDouble"   , double  . class , double  [] . class , Double    . class , Double    [] . class , Primitive::toPrimitive, Primitive::toObject, Primitive::isEqual, Primitive::randomDouble  , Arrays::copyOfRange, Primitive::isBigger, 0                   , 0                   );
   
-  @Getter Class<?>      primitiveClass;
-  @Getter Class<PA>     arrayClass;
+  @Getter 
+  Class<?>                                  primitiveClass;
   
-  @Getter Class<O>      objectClass;
-  @Getter Class<O[]>    objectArrayClass;
+  @Getter 
+  Class<PA>                                 arrayClass;
   
-  @Getter long          min;
-  @Getter long          max;
+  @Getter 
+  Class<O>                                  objectClass;
   
-  InternalBuffers<PA>   ibuffers;
-  boolean               supportsMinMax;
-  String                name;
-  BiConsumer<O[], PA>   toPrimitive;
-  BiConsumer<PA, O[]>   toObject;
+  @Getter 
+  Class<O[]>                                objectArrayClass;
   
-  private Primitive( String pname, Class<?> primitive, Class<PA> arraytype, Class<O> objclazz, Class<O[]> objclazzarray, BiConsumer<O[], PA> toprimitive, BiConsumer<PA, O[]> toobject, long minval, long maxval ) {
+  @Getter 
+  long                                      min;
+  
+  @Getter 
+  long                                      max;
+  
+  InternalBuffers<PA>                       ibuffers;
+  boolean                                   supportsMinMax;
+  String                                    name;
+  BiConsumer<O[], PA>                       toPrimitive;
+  BiConsumer<PA, O[]>                       toObject;
+  QPredicate<PA>                            isEqual;
+  Supplier                                  randomValue;
+  TriFunction<PA, Integer, Integer, PA>     copy;
+  PA                                        empty;
+  BiPredicate<O, O>                         isBigger;
+  BiPredicate<O, O>                         isSmaller;
+  
+  private Primitive( 
+    String                                      pname, 
+    Class<?>                                    primitive, 
+    Class<PA>                                   arraytype, 
+    Class<O>                                    objclazz, 
+    Class<O[]>                                  objclazzarray, 
+    BiConsumer<O[], PA>                         toprimitive, 
+    BiConsumer<PA, O[]>                         toobject, 
+    QPredicate<PA>                              isequal, 
+    Supplier                                    randomvalue, 
+    TriFunction<PA, Integer, Integer, PA>       copyfunction,
+    BiPredicate<O, O>                           isbigger,
+    long                                        minval, 
+    long                                        maxval 
+  ) {
     name              = pname;
     primitiveClass    = primitive;
     arrayClass        = arraytype;
@@ -53,14 +83,352 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
     objectArrayClass  = objclazzarray;
     toPrimitive       = toprimitive;
     toObject          = toobject;
+    isEqual           = isequal;
+    randomValue       = randomvalue;
+    copy              = copyfunction;
     min               = minval;
     max               = maxval;
     supportsMinMax    = minval != maxval;
+    empty             = (PA) Array.newInstance( primitiveClass, 0 );
+    isBigger          = isbigger;
+    isSmaller         = isBigger != null ? isBigger.negate() : null;
     ibuffers          = new InternalBuffers<PA>( this::newArray, this::length );
+    Number.class.isAssignableFrom( objectClass );
     LocalData.primitivemap.put( primitive        , this );
     LocalData.primitivemap.put( objclazz         , this );
     LocalData.primitivemap.put( arraytype        , this );
     LocalData.primitivemap.put( objectArrayClass , this );
+  }
+  
+  /**
+   * Tries to find a char sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the char sequence or -1 in case there's no sequence.
+   */
+  public int indexOf( @NonNull PA buffer, @NonNull PA sequence ) {
+    return indexOf( buffer, sequence, 0 );
+  }
+  
+  /**
+   * Tries to find a char sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The char sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the char sequence or -1 in case there's no sequence.
+   */
+  public int indexOf( @NonNull PA buffer, @NonNull PA sequence, int pos ) {
+//    int bufferlength = length( buffer  );
+//    int seqlength    = length( sequence );
+//    int last         = bufferlength - seqlength;
+//    if( (last < 0) || (pos > last) ) {
+//      // the sequence can't fit completely, so it's not available
+//      return -1;
+//    }
+//    for( int i = pos; i < last; i++ ) {
+//      if( isEqual.test( buffer, i, sequence, 0 ) ) {
+//        // we're having a possible match, so compare the sequence
+//        if( compare( buffer, sequence, i ) ) {
+//          return i;
+//        }
+//      }
+//    }
+//    return -1;
+    return indexOfOp( buffer, sequence, pos, false, ($idx, $val) -> $idx < $val, $ -> $++ );
+  }
+  
+  /**
+   * Tries to find the last byte sequence within a data block.
+   * 
+   * @param data       The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * 
+   * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   */
+  public int lastIndexOf( @NonNull PA buffer, @NonNull PA sequence ) {
+    return lastIndexOf( buffer, sequence, 0 );
+  }
+
+  /**
+   * Tries to find the last byte sequence within a data block.
+   * 
+   * @param buffer     The data block being investigated. Not <code>null</code>.
+   * @param sequence   The byte sequence to search for. Not <code>null</code>.
+   * @param pos        The offset where to begin the search.
+   * 
+   * @return   The index of the last byte sequence or -1 in case there's no sequence.
+   */
+  public int lastIndexOf( @NonNull PA buffer, @NonNull PA sequence, int pos ) {
+//    int bufferlength = length( buffer  );
+//    int seqlength    = length( sequence );
+//    int last         = bufferlength - seqlength;
+//    if( (last < 0) || (pos > last) ) {
+//      // the sequence doesn't fit, so it's not available
+//      return -1;
+//    }
+//    for( int i = last; i >= pos; i-- ) {
+//      if( isEqual.test( buffer, i, sequence, 0 ) ) {
+//        // we're having a possible match, so compare the sequence
+//        if( compare( buffer, sequence, i ) ) {
+//          return i;
+//        }
+//      }
+//    }
+//    return -1;
+//    
+//    
+    return indexOfOp( buffer, sequence, pos, false, ($idx, $val) -> $idx >= $val, $ -> $-- );
+  }
+  
+  private int indexOfOp( PA buffer, PA sequence, int pos, boolean first, BiPredicate<Integer, Integer> test, Function<Integer, Integer> op ) {
+    int bufferlength = length( buffer  );
+    int seqlength    = length( sequence );
+    int last         = bufferlength - seqlength;
+    if( (last < 0) || (pos > last) ) {
+      // the sequence doesn't fit, so it's not available
+      return -1;
+    }
+    int boundary = first ? pos : last;
+    for( int i = boundary; test.test(i, boundary); i = op.apply(i) ) {
+      if( isEqual.test( buffer, i, sequence, 0 ) ) {
+        // we're having a possible match, so compare the sequence
+        if( compare( buffer, sequence, i ) ) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+  
+  /**
+   * Creates a new byte sequence while inserting one into a data block. If the index is outside of the destination no 
+   * insertion takes place.
+   * 
+   * @param source      The current data block which will be modified. Not <code>null</code>.
+   * @param additional  The byte sequence which has to be inserted. Not <code>null</code>.
+   * @param index       The location where to insert the byte sequence.
+   * 
+   * @return   The modified data block. Not <code>null</code>.
+   */
+  public PA insert( @NonNull PA source, @NonNull PA additional, int index ) {
+    int destinationlength = length( source );
+    if( (index < 0) || (index >= destinationlength) ) {
+      throw new IllegalArgumentException();
+    }
+    int additionallength  = length( additional );
+    if( (destinationlength == 0) && (additionallength == 0) ) {
+      return empty;
+    }
+    if( (destinationlength == 0) && (additionallength > 0) ) {
+      return copy( additional );
+    }
+    if( (destinationlength > 0) && (additionallength == 0) ) {
+      return copy( source );
+    }
+    int totalsize = destinationlength + additionallength;
+    PA  result    = newArray( totalsize );
+    int offset    = 0;
+    if( index > 0 ) {
+      System.arraycopy( source, 0, result, offset, index );
+      offset += index;
+    }
+    System.arraycopy( additional, 0, result, offset, additionallength );
+    offset += additionallength;
+    if( index < destinationlength ) {
+      System.arraycopy( source, index, result, offset, destinationlength - index );
+    }
+    return result;
+  }
+
+  public <R> R forValues( O[] values, BiFunction<O, R, R> func ) {
+    return forValues( values, null, func );
+  }
+  
+  public <R> R forValues( O[] values, R initial, BiFunction<O, R, R> func ) {
+    R   result = initial;
+    int length = length( values );
+    for( int i = 0; i < length; i++ ) {
+      result = func.apply( values[i], result );
+    }
+    return result;
+  }
+
+  public <R> R forValues( PA values, BiFunction<O, R, R> func ) {
+    return forValues( values, null, func );
+  }
+  
+  public <R> R forValues( PA values, R initial, BiFunction<O, R, R> func ) {
+    R   result = initial;
+    int length = length( values );
+    for( int i = 0; i < length; i++ ) {
+      result = func.apply( (O) Array.get( values, i ), result );
+    }
+    return result;
+  }
+  
+  public O or( PA values ) {
+    return booleanOp( values, $ -> $, Boolean.FALSE, Boolean.TRUE);
+  }
+
+  public O and( PA values ) {
+    return booleanOp( values, $ -> !$, Boolean.TRUE, Boolean.FALSE );
+  }
+
+  public O or( O[] values ) {
+    return booleanOp( values, $ -> $, Boolean.FALSE, Boolean.TRUE);
+  }
+
+  public O and( O[] values ) {
+    return booleanOp( values, $ -> !$, Boolean.TRUE, Boolean.FALSE );
+  }
+
+  private O booleanOp( PA values, Predicate<Boolean> test, Boolean success, Boolean failure ) {
+    if( primitiveClass != boolean.class ) {
+      return null;
+    }
+    boolean[] array = (boolean[]) values;
+    if( array.length == 0 ) {
+      return null;
+    }
+    for( int i = 0; i < array.length; i++ ) {
+      if( test.test( array[i] ) ) {
+        return (O) failure;
+      }
+    }
+    return (O) success;
+  }
+  
+  private O booleanOp( O[] values, Predicate<Boolean> test, Boolean success, Boolean failure ) {
+    if( primitiveClass != boolean.class ) {
+      return null;
+    }
+    Boolean[] array = (Boolean[]) values;
+    if( array.length == 0 ) {
+      return null;
+    }
+    for( int i = 0; i < array.length; i++ ) {
+      if( (array[i] != null) && test.test( array[i] ) ) {
+        return (O) failure;
+      }
+    }
+    return (O) success;
+  }
+
+  public O max( PA values ) {
+    O   result = null;
+    int length = length( values );
+    if( (isBigger != null) && (length > 0) ) {
+      result = (O) Array.get( values, 0 );
+      if( length > 1 ) {
+        for( int i = 1; i < length; i++ ) {
+          O current = (O) Array.get( values, i );
+          if( isBigger.test( current, result ) ) {
+            result = current;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public O min( PA values ) {
+    O   result = null;
+    int length = length( values );
+    if( (isBigger != null) && (length > 0) ) {
+      result = (O) Array.get( values, 0 );
+      if( length > 1 ) {
+        for( int i = 1; i < length; i++ ) {
+          O current = (O) Array.get( values, i );
+          if( isSmaller.test( current, result ) ) {
+            result = current;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public PA concat( PA ... parts ) {
+    PA  result = empty;
+    if( (parts != null) && (parts.length > 0) ) {
+      int total  = 0;
+      for( PA part : parts ) {
+        total += length( part );
+      }
+      result  = (PA) Array.newInstance( primitiveClass, total );
+      int idx = 0;
+      for( PA part : parts ) {
+        int size = length( part );
+        if( size > 0 ) {
+          System.arraycopy( part, 0, result, idx, size );
+          idx += size;
+        }
+      }
+    }
+    return result;
+  }
+       
+  public PA copy( @NonNull PA input ) {
+    int length = length( input );
+    return copy( input, length );
+  }
+
+  public PA copy( @NonNull PA input, int newlength ) {
+    return copy.apply( input, 0, newlength );
+  }
+
+  public PA copyOfRange( @NonNull PA input, int from, int to ) {
+    return copy.apply( input, from, to );
+  }
+
+  public O randomValue() {
+    return (O) randomValue.get();
+  }
+
+  public PA randomArray( int length ) {
+    return randomArray( length, null );
+  }
+  
+  public PA randomArray( int length, Supplier<O> random ) {
+    if( random == null ) {
+      random = this::randomValue;
+    }
+    PA result = (PA) Array.newInstance( primitiveClass, length );
+    for( int i = 0; i < length; i++ ) {
+      Array.set(result, i, random.get() );
+    }
+    return result;
+  }
+
+  public boolean compare( @NonNull PA data, @NonNull PA tocompare ) {
+    int l1 = length( data      );
+    int l2 = length( tocompare );
+    if( l1 != l2 ) {
+      return false;
+    }
+    if( l1 == 0 ) {
+      return true;
+    }
+    return compare( data, tocompare, 0 );
+  }
+  
+  public boolean compare( @NonNull PA data, @NonNull PA tocompare, int offset ) {
+    int length      = length( tocompare );
+    int datalength  = length( data );
+    for( int i = 0; i < length; i++, offset++ ) {
+      if( offset == datalength ) {
+        // premature end of the comparison process
+        return false;
+      }
+      if( ! isEqual.test( data, offset, tocompare, i ) ) {
+        return false;
+      }
+    }
+    return true; 
   }
   
   public PA cleanup( PA input ) {
@@ -82,7 +450,7 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
       int count = countUnset( input, isNotSet );
       if( count == 0 ) {
         result = input;
-      } else {
+      } else if( count < input.length ) {
         result = newObjectArray( input.length - count );
         for( int i = 0, j = 0; i < input.length; i++ ) {
           if( isSet.test( input[i] ) ) {
@@ -316,6 +684,43 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
     return name.compareTo( o.name );
   }
 
+  @Override
+  public String toString() {
+    return name;
+  }
+  
+  private static boolean isEqual( boolean[] dest1, int idx1, boolean[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+
+  private static boolean isEqual( byte[] dest1, int idx1, byte[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+
+  private static boolean isEqual( char[] dest1, int idx1, char[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+
+  private static boolean isEqual( short[] dest1, int idx1, short[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+
+  private static boolean isEqual( int[] dest1, int idx1, int[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+
+  private static boolean isEqual( long[] dest1, int idx1, long[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+
+  private static boolean isEqual( float[] dest1, int idx1, float[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+
+  private static boolean isEqual( double[] dest1, int idx1, double[] dest2, int idx2 ) {
+    return dest1[idx1] == dest2[idx2];
+  }
+  
   private static void toPrimitive( Boolean[] array, boolean[] dest ) {
     for( int i = 0; i < array.length; i++ ) {
       dest[i] = array[i];
@@ -412,6 +817,67 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
     }
   }
   
+  private static double randomVal() {
+    return Math.random() * System.currentTimeMillis();
+  }
+
+  private static boolean randomBoolean() {
+    long val = (long) randomVal();
+    return (boolean) ((val % 2) == 0);
+  }
+
+  private static double randomDouble() {
+    return (randomBoolean() ? 1.0 : -1.0) * randomVal();
+  }
+  
+  private static float randomFloat() {
+    return (float) randomDouble();
+  }
+
+  private static long randomLong() {
+    return (long) randomDouble();
+  }
+
+  private static int randomInt() {
+    return (int) randomLong();
+  }
+
+  private static short randomShort() {
+    return (short) randomLong();
+  }
+
+  private static byte randomByte() {
+    return (byte) randomLong();
+  }
+
+  private static char randomChar() {
+    return (char) randomShort();
+  }
+  
+  private static boolean isBigger( Byte c1, Byte c2 ) {
+    return c1.byteValue() > c2.byteValue();
+  }
+
+  private static boolean isBigger( Short c1, Short c2 ) {
+    return c1.shortValue() > c2.shortValue();
+  }
+
+  private static boolean isBigger( Integer c1, Integer c2 ) {
+    return c1.intValue() > c2.intValue();
+  }
+  
+  private static boolean isBigger( Long c1, Long c2 ) {
+    return c1.longValue() > c2.longValue();
+  }
+  
+  private static boolean isBigger( Float c1, Float c2 ) {
+    return c1.floatValue() > c2.floatValue();
+  }
+
+  private static boolean isBigger( Double c1, Double c2 ) {
+    return c1.doubleValue() > c2.doubleValue();
+  }
+
   public static Primitive[] values() {
     Primitive[] result = LocalData.primitivemap.values().toArray( new Primitive[ LocalData.primitivemap.size() ] );
     Arrays.sort( result );
@@ -523,4 +989,10 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
     
   } /* ENDCLASS */
 
-} /* ENDENUM */
+  private static interface QPredicate<AR> {
+    
+    boolean test( AR ar1, int idx1, AR ar2, int idx2 );
+    
+  } /* ENDINTERFACE */
+  
+} /* ENDCLASS */

@@ -13,6 +13,7 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("deprecation")
 public class ArrayFunctionsTest {
 
   @Test(groups="all")
