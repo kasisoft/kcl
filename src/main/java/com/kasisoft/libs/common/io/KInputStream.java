@@ -7,11 +7,7 @@ import java.util.function.*;
 
 import java.util.*;
 
-import java.net.*;
-
 import java.io.*;
-
-import java.nio.file.*;
 
 import lombok.experimental.*;
 
@@ -22,12 +18,6 @@ import lombok.*;
  */
 public interface KInputStream<T> {
   
-  KInputStream<String>  STRING_PATH_INPUTSTREAM = builder(String.class).build();
-  KInputStream<Path>    PATH_INPUTSTREAM        = builder(Path.class).build();
-  KInputStream<File>    FILE_INPUTSTREAM        = builder(File.class).build();
-  KInputStream<URI>     URI_INPUTSTREAM         = builder(URI.class).build();
-  KInputStream<URL>     URL_INPUTSTREAM         = builder(URL.class).build();
-    
   <R> Optional<R> forInputStream( @NonNull T input, Function<InputStream, R> function );
 
   <C1, R> Optional<R> forInputStream( @NonNull T input, C1 context1, BiFunction<InputStream, C1, R> function );

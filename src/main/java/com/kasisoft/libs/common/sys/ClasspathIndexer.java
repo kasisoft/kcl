@@ -245,8 +245,8 @@ public class ClasspathIndexer {
       if( Files.isDirectory( path ) ) {
         entries.addAll( IoFunctions.listPathes( path, getResourceFilter() ) );
       } else if( Files.isRegularFile( path ) ) {
-        byte[] fragment = IoFunctions.forInputStream( path, zipTest.getMinSize(), IoFunctions::loadFragment );
-        if( zipTest.test( fragment ) ) {
+        Optional<byte[]> fragment = DefaultIO.PATH_INPUTSTREAM_EX.forInputStream( path, zipTest.getMinSize(), IoFunctions::loadFragment );
+        if( fragment.filter( zipTest ).isPresent() ) {
           entries.addAll( IoFunctions.listPathesInZip( path, getZipResourceFilter() ) );
         }
       }

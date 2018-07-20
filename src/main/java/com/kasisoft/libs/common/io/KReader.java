@@ -8,11 +8,7 @@ import java.util.function.*;
 
 import java.util.*;
 
-import java.net.*;
-
 import java.io.*;
-
-import java.nio.file.*;
 
 import lombok.experimental.*;
 
@@ -23,13 +19,6 @@ import lombok.*;
  */
 public interface KReader<T> {
   
-  KReader<String>       STRING_PATH_READER  = builder(String.class).build();
-  KReader<Path>         PATH_READER         = builder(Path.class).build();
-  KReader<File>         FILE_READER         = builder(File.class).build();
-  KReader<URI>          URI_READER          = builder(URI.class).build();
-  KReader<URL>          URL_READER          = builder(URL.class).build();
-  KReader<InputStream>  INPUTSTREAM_READER  = builder(InputStream.class).build();
-
   <R> Optional<R> forReader( @NonNull T input, Function<Reader, R> function );
 
   <C1, R> Optional<R> forReader( @NonNull T input, C1 context1, BiFunction<Reader, C1, R> function );

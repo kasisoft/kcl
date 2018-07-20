@@ -1,18 +1,10 @@
 package com.kasisoft.libs.common.config;
 
-import com.kasisoft.libs.common.constants.*;
-
 import static com.kasisoft.libs.common.base.LibConfig.*;
 
 import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.io.*;
-
 import com.kasisoft.libs.common.text.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 import java.util.function.*;
 
@@ -22,9 +14,13 @@ import java.util.*;
 
 import java.net.*;
 
+import java.io.*;
+
 import java.nio.file.*;
 
-import java.io.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Helper class which allows to resolve properties from the classpath.
@@ -276,7 +272,7 @@ public class PropertyResolver {
    * @throws FailureException   Loading failed for some reason.
    */
   public synchronized PropertyResolver load( @NonNull URL resource ) {
-    IoFunctions.forInputStreamDo( resource, this::loadSetting );
+    loadSetting( DefaultIO.URL_READER_EX, resource );
     return this;
   }
 
@@ -290,7 +286,7 @@ public class PropertyResolver {
    * @throws FailureException   Loading failed for some reason.
    */
   public synchronized PropertyResolver load( @NonNull Path file ) {
-    IoFunctions.forInputStreamDo( file, this::loadSetting );
+    loadSetting( DefaultIO.PATH_READER_EX, file );
     return this;
   }
 
@@ -304,7 +300,7 @@ public class PropertyResolver {
    * @throws FailureException   Loading failed for some reason.
    */
   public synchronized PropertyResolver load( @NonNull File file ) {
-    IoFunctions.forInputStreamDo( file, this::loadSetting );
+    loadSetting( DefaultIO.FILE_READER_EX, file );
     return this;
   }
 
@@ -318,7 +314,7 @@ public class PropertyResolver {
    * @throws FailureException   Loading failed for some reason.
    */
   public synchronized PropertyResolver load( @NonNull InputStream instream ) {
-    loadSetting( instream );
+    loadSetting( DefaultIO.INPUTSTREAM_READER_EX, instream );
     return this;
   }
 
@@ -329,14 +325,18 @@ public class PropertyResolver {
    * 
    * @throws FailureException   Loading failed for some reason.
    */
-  private void loadSetting( InputStream instream ) {
+  private <T> void loadSetting( KReader<T> kreader, T input ) {
     try {
-      val newprops = new Properties();
-      try( val reader = Encoding.UTF8.openReader( instream ) ) {
-        newprops.load( reader );
-      }
+      Properties newprops = new Properties();
+      kreader.forReaderDo( input, $ -> {
+        try {
+          newprops.load($);
+        } catch( Exception ex ) {
+          throw FailureCode.IO.newException( ex );
+        }
+      } );
       putProperties( newprops );
-    } catch( IOException ex ) {
+    } catch( Exception ex ) {
       throw FailureCode.IO.newException( ex );
     }
   }

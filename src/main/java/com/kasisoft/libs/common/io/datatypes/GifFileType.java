@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.io.datatypes;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * FileType for 'gif' files.
@@ -22,7 +22,7 @@ public class GifFileType implements FileType {
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ArrayFunctions.compare( data, MAGIC1, 0 ) || ArrayFunctions.compare( data, MAGIC2, 0 );
+      return PByte.compare( data, MAGIC1 ) || PByte.compare( data, MAGIC2 );
     } else {
       return false;
     }

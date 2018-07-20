@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.xml;
 
+import static com.kasisoft.libs.common.io.DefaultIO.*;
+
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
@@ -25,7 +27,6 @@ import java.net.*;
 import java.io.*;
 
 import java.lang.reflect.*;
-import java.nio.file.*;
 
 import lombok.experimental.*;
 
@@ -66,36 +67,6 @@ public final class XmlFunctions {
     return readDocument( input, XmlParserConfiguration.builder().build() );
   }
   
-  /**
-   * Reads the content of the supplied stream.
-   * 
-   * @param input    The stream which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   */
-  public static Document readDocument( @NonNull InputStream input, @NonNull XmlParserConfiguration config ) throws FailureException {
-    DocumentBuilder builder = newDocumentBuilder( config );
-    Document        result  = null;
-    try {
-      if( config.getBaseurl() != null ) {
-        result = builder.parse( input, config.getBaseurl().toExternalForm() );
-      } else {
-        result = builder.parse( input );
-      }
-      DOMConfiguration domconfig = result.getDomConfig();
-      config.getParameters().forEach( (k,v) -> k.set( domconfig, v ) );
-      if( config.isNormalize() ) {
-        result.normalizeDocument();
-      }
-    } catch( SAXException | IOException ex ) {
-      throw FailureCode.XmlFailure.newException( ex );
-    }
-    return result;
-  }
-
   /**
    * Reads the content of the supplied stream.
    * 
@@ -142,57 +113,33 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
-   * @param uri      The resource which provides the xml content. Not <code>null</code>.
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   */
-  public static Document readDocument( @NonNull URI uri ) throws FailureException {
-    return readDocument( uri, XmlParserConfiguration.builder().build() );
-  }
-  
-  /**
-   * Reads the content of the supplied stream.
-   * 
-   * @param uri      The resource which provides the xml content. Not <code>null</code>.
+   * @param input    The stream which provides the xml content. Not <code>null</code>.
    * @param config   A configuration for the xml parser. Not <code>null</code>.
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
    */
-  public static Document readDocument( @NonNull URI uri, @NonNull XmlParserConfiguration config ) throws FailureException {
-    return IoFunctions.forInputStream( uri, config, XmlFunctions::readDocument );
-  }
-
-  /**
-   * Reads the content of the supplied stream.
-   * 
-   * @param path     The path which provides the xml content. Not <code>null</code>.
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   */
-  public static Document readDocument( @NonNull Path path ) throws FailureException {
-    return readDocument( path, XmlParserConfiguration.builder().build() );
+  public static Document readDocument( @NonNull InputStream input, @NonNull XmlParserConfiguration config ) throws FailureException {
+    DocumentBuilder builder = newDocumentBuilder( config );
+    Document        result  = null;
+    try {
+      if( config.getBaseurl() != null ) {
+        result = builder.parse( input, config.getBaseurl().toExternalForm() );
+      } else {
+        result = builder.parse( input );
+      }
+      DOMConfiguration domconfig = result.getDomConfig();
+      config.getParameters().forEach( (k,v) -> k.set( domconfig, v ) );
+      if( config.isNormalize() ) {
+        result.normalizeDocument();
+      }
+    } catch( SAXException | IOException ex ) {
+      throw FailureCode.XmlFailure.newException( ex );
+    }
+    return result;
   }
   
-  /**
-   * Reads the content of the supplied stream.
-   * 
-   * @param path     The path which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
-   * 
-   * @return   The Document node itself. Not <code>null</code>.
-   * 
-   * @throws FailureException   Loading the xml content failed for some reason.
-   */
-  public static Document readDocument( @NonNull Path path, @NonNull XmlParserConfiguration config ) throws FailureException {
-    return IoFunctions.forInputStream( path, config, XmlFunctions::readDocument );
-  }
- 
   /**
    * Reads the content of the supplied stream.
    * 
@@ -202,8 +149,8 @@ public final class XmlFunctions {
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
    */
-  public static Document readDocument( @NonNull File file ) throws FailureException {
-    return readDocument( file, XmlParserConfiguration.builder().build() );
+  public static <T> Document readDocument( @NonNull T input ) throws FailureException {
+    return readDocument( input, XmlParserConfiguration.builder().build() );
   }
   
   /**
@@ -216,8 +163,9 @@ public final class XmlFunctions {
    * 
    * @throws FailureException   Loading the xml content failed for some reason.
    */
-  public static Document readDocument( @NonNull File file, @NonNull XmlParserConfiguration config ) throws FailureException {
-    return IoFunctions.forInputStream( file, config, XmlFunctions::readDocument );
+  public static <T> Document readDocument( @NonNull T input, @NonNull XmlParserConfiguration config ) throws FailureException {
+    Optional<Reader> reader = readerEx( input ).open( input );
+    return reader.map( $ -> readDocument( $, config ) ).get();
   }
   
   /**
@@ -312,20 +260,6 @@ public final class XmlFunctions {
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
    * 
-   * @param file       The destination file to write the content to. Not <code>null</code>.
-   * @param node       The DOM tree which will be saved. Not <code>null</code>.
-   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
-   *                   encoding is used. 
-   *                       
-   * @throws FailureException   Saving the XML datastructure failed.
-   */
-  public static void writeDocument( @NonNull Path file, @NonNull Node node, Encoding encoding ) throws FailureException {
-    IoFunctions.forOutputStreamDo( file, $ -> writeDocument( $, node, encoding ));
-  }
-  
-  /**
-   * Writes the XML content from a DOM tree into an OutputStream.
-   * 
    * @param output     The OutputStream used to receive the content. Not <code>null</code>.
    * @param node       The DOM tree which will be saved. Not <code>null</code>.
    * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
@@ -360,6 +294,20 @@ public final class XmlFunctions {
     } catch( IOException | TransformerException ex ) {
       throw FailureCode.XmlFailure.newException( ex );
     }
+  }
+
+  /**
+   * Writes the XML content from a DOM tree into an OutputStream.
+   * 
+   * @param file       The destination file to write the content to. Not <code>null</code>.
+   * @param node       The DOM tree which will be saved. Not <code>null</code>.
+   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
+   *                   encoding is used. 
+   *                       
+   * @throws FailureException   Saving the XML datastructure failed.
+   */
+  public static <T> void writeDocument( @NonNull T output, @NonNull Node node, Encoding encoding ) throws FailureException {
+    outputstream( output ).forOutputStreamDo( output, $ -> writeDocument( $, node, encoding ) );
   }
   
   /**

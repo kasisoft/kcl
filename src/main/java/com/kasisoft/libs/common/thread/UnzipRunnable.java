@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.thread;
 
+import static com.kasisoft.libs.common.io.DefaultIO.*;
+
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.base.*;
@@ -106,8 +108,9 @@ public class UnzipRunnable extends AbstractRunnable {
           IoFunctions.mkdirs( parent );
         }
         
+        
         try( InputStream instream = zipfile.getInputStream( entry ) ) {
-          IoFunctions.forOutputStreamDo( file, $ -> IoFunctions.copy( instream, $, buffer ) );
+          PATH_OUTPUTSTREAM_EX.forOutputStreamDo( file, $ -> IoFunctions.copy( instream, $, buffer ) );
         }
         
       }

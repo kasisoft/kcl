@@ -1,18 +1,13 @@
 package com.kasisoft.libs.common.io.datatypes;
 
+import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.spi.*;
 
-import com.kasisoft.libs.common.io.*;
+import java.util.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
-
-import java.net.*;
-
-import java.io.*;
 
 /**
  * Management for file type recognizers.
@@ -48,32 +43,24 @@ public class FileTypeManager {
   }
   
   /**
-   * Identifies the FileType for the supplied file.
-   * 
-   * @param file   The File which type shall be identified. Not <code>null</code>.
-   * 
-   * @return   The FileType if it could be identified. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Accessing the file failed for some reason.
-   */
-  public FileType identify( @NonNull File file ) {
-    if( file.isFile() && (file.length() > 0) ) {
-      return identify( IoFunctions.<byte[],Integer>forInputStream( file, maxspace, IoFunctions::loadFragment ) );
-    }
-    return null;
-  }
-
-  /**
    * Identifies the FileType for the supplied resource.
    * 
-   * @param url   The URL which type shall be identified. Not <code>null</code>.
+   * @param input   The input type which may be one of the following types:
+   *                    <ul>
+   *                        <li>String</li>
+   *                        <li>Path</li>
+   *                        <li>URL</li>
+   *                        <li>URI</li>
+   *                        <li>InputStream</li>
+   *                    </ul>
    * 
    * @return   The FileType if it could be identified. Maybe <code>null</code>.
    * 
    * @throws FailureException   Accessing the resource failed for some reason.
    */
-  public FileType identify( @NonNull URL url ) {
-    return identify( IoFunctions.<byte[],Integer>forInputStream( url, maxspace, IoFunctions::loadFragment ) );
+  public <T> FileType identify( @NonNull T input ) {
+    Optional<byte[]> data = DefaultIO.inputstream( input ).forInputStream( input, maxspace, IoFunctions::loadFragment );
+    return data.map( this::identify ).orElse( null );
   }
 
   /**

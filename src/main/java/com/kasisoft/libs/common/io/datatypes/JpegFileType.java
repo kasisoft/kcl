@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.io.datatypes;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * FileType for 'jpeg' files.
@@ -21,7 +21,7 @@ public class JpegFileType implements FileType {
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ArrayFunctions.compare( data, MAGIC, 6 );
+      return PByte.compare( data, MAGIC, 6 );
     } else {
       return false;
     }

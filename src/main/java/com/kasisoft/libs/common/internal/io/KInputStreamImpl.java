@@ -165,7 +165,12 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   }
 
   private InputStream newInputStream( String input ) {
-    return newInputStream( Paths.get( input ) );
+    Path path = Paths.get( input );
+    if( Files.isRegularFile( path ) ) {
+      return newInputStream( Paths.get( input ) );
+    } else {
+      return newInputStream( MiscFunctions.getResource( input ) );
+    }
   }
 
   @AllArgsConstructor

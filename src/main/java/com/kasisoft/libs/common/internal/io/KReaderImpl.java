@@ -6,6 +6,7 @@ import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.function.*;
 
@@ -122,9 +123,14 @@ public class KReaderImpl<T> implements KReader<T> {
   }
   
   private Reader newReader( @NonNull String source, Encoding encoding ) {
-    return newReader( Paths.get( source ), encoding );
+    Path path = Paths.get( source );
+    if( Files.isRegularFile( path ) ) {
+      return newReader( path, encoding );
+    } else {
+      return newReader( MiscFunctions.getResource( source ), encoding );
+    }
   }
-
+  
   private Reader newReader( @NonNull Path source, Encoding encoding ) {
     try {
       return newReader( Files.newInputStream( source ), encoding );

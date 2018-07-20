@@ -366,20 +366,16 @@ public class Primitive<PA, O> implements Comparable<Primitive>{
   }
 
   public boolean compare( @NonNull PA data, @NonNull PA tocompare ) {
-    int l1 = length( data      );
-    int l2 = length( tocompare );
-    if( l1 != l2 ) {
-      return false;
-    }
+    int l1 = length( data );
     if( l1 == 0 ) {
-      return true;
+      return false;
     }
     return compare( data, tocompare, 0 );
   }
   
   public boolean compare( @NonNull PA data, @NonNull PA tocompare, int offset ) {
+    int datalength  = length( data      );
     int length      = length( tocompare );
-    int datalength  = length( data );
     for( int i = 0; i < length; i++, offset++ ) {
       if( offset == datalength ) {
         // premature end of the comparison process

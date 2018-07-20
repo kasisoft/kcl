@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.ui;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
@@ -29,7 +27,7 @@ public class FontPool {
   public FontPool() {
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment(); 
     fonts                   = new Hashtable<>();
-    familynames             = ArrayFunctions.addAll( new ArrayList<String>(), env.getAvailableFontFamilyNames() );
+    familynames             = new ArrayList<>( Arrays.asList( env.getAvailableFontFamilyNames() ) );
     Font[] fontlist         = env.getAllFonts();
     for( int i = 0; i < fontlist.length; i++ ) {
       if( fontlist[i].isPlain() ) {

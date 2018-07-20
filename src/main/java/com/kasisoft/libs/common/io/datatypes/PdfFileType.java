@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.io.datatypes;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * FileType for 'pdf' files.
@@ -21,7 +21,7 @@ public class PdfFileType implements FileType {
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ArrayFunctions.compare( data, MAGIC, 0 );
+      return PByte.compare( data, MAGIC );
     } else {
       return false;
     }

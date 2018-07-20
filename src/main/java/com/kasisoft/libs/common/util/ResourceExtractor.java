@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.util;
 
 import static com.kasisoft.libs.common.base.LibConfig.*;
+import static com.kasisoft.libs.common.io.DefaultIO.*;
 
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.io.*;
@@ -174,15 +175,12 @@ public class ResourceExtractor {
     boolean result = false;
     URL     url    = ResourceExtractor.class.getClassLoader().getResource( source );
     if( url != null ) {
-      IoFunctions.forOutputStreamDo( dest, $o -> {
-        IoFunctions.forInputStreamDo( url, $i -> {
-          IoFunctions.copy( $i, $o );
-        });
-      });
+      PATH_OUTPUTSTREAM_EX.forOutputStreamDo( dest, $ -> URL_INPUTSTREAM_EX.forInputStreamDo( url, $, IoFunctions::copy ) );
       if( canBeSubstituted.test( dest ) && (!substitutions.isEmpty()) ) {
-        String text = IoFunctions.forReader( dest, IoFunctions::readTextFully );
-        text        = StringFunctions.replace( text, substitutions );
-        IoFunctions.forWriterDo( dest, text, IoFunctions::writeText );
+        String text = PATH_READER_EX.forReader( dest, IoFunctions::readTextFully )
+          .map( $ -> StringFunctions.replace( $, substitutions ) )
+          .get();
+        PATH_WRITER_EX.forWriterDo( dest, text, IoFunctions::writeText );
       }
       result = true;
     } else {

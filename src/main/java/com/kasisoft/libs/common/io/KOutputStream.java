@@ -7,11 +7,7 @@ import java.util.function.*;
 
 import java.util.*;
 
-import java.net.*;
-
 import java.io.*;
-
-import java.nio.file.*;
 
 import lombok.experimental.*;
 
@@ -21,12 +17,6 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface KOutputStream<T> {
-
-  KOutputStream<String> STRING_PATH_OUTPUTSTREAM    = builder(String.class).build();
-  KOutputStream<Path>   PATH_OUTPUTSTREAM           = builder(Path.class).build();
-  KOutputStream<File>   FILE_OUTPUTSTREAM           = builder(File.class).build();
-  KOutputStream<URI>    URI_OUTPUTSTREAM            = builder(URI.class).build();
-  KOutputStream<URL>    URL_OUTPUTSTREAM            = builder(URL.class).build();
 
   <R> Optional<R> forOutputStream( @NonNull T output, Function<OutputStream, R> function );
 

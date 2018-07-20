@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.io.datatypes;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.constants.*;
 
 /**
  * FileType for 'png' files.
@@ -21,7 +21,7 @@ public class PngFileType implements FileType {
   @Override
   public boolean test( byte[] data ) {
     if( getMinSize() <= data.length ) {
-      return ArrayFunctions.compare( data, MAGIC, 1 );
+      return PByte.compare( data, MAGIC, 1 );
     } else {
       return false;
     }

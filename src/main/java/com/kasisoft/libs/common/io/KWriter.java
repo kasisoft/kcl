@@ -8,11 +8,7 @@ import java.util.function.*;
 
 import java.util.*;
 
-import java.net.*;
-
 import java.io.*;
-
-import java.nio.file.*;
 
 import lombok.experimental.*;
 
@@ -23,12 +19,6 @@ import lombok.*;
  */
 public interface KWriter<T> {
   
-  KWriter<String>       STRING_PATH_READER  = builder(String.class).build();
-  KWriter<Path>         PATH_READER         = builder(Path.class).build();
-  KWriter<File>         FILE_READER         = builder(File.class).build();
-  KWriter<URI>          URI_READER          = builder(URI.class).build();
-  KWriter<URL>          URL_READER          = builder(URL.class).build();
-
   <R> Optional<R> forWriter( @NonNull T output, Function<Writer, R> function );
 
   <C1, R> Optional<R> forWriter( @NonNull T output, C1 context1, BiFunction<Writer, C1, R> function );

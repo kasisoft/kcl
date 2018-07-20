@@ -146,33 +146,13 @@ public class Blacklist implements Predicate<String> {
     return commentPrefix;
   }
 
-  /**
-   * Loads the blacklist from the supplied url.
-   * 
-   * @param url   The URL pointing to the blacklist. Not <code>null</code>.
-   */
-  public synchronized void load( @NonNull URL url ) {
-    IoFunctions.forReaderDo( url, this::load );
+  public synchronized <T> void load( @NonNull T source ) {
+    Optional<Reader> reader = DefaultIO.readerEx( source ).open( source );
+    if( reader.isPresent() ) {
+      load( reader.get() );
+    }
   }
 
-  /**
-   * Loads the blacklist from a resource on the classpath.
-   * 
-   * @param resource   A blacklist resource on the classpath. Not blank.
-   */
-  public synchronized void load( @NonNull String resource ) {
-    URL url = MiscFunctions.getResource( getClass(), resource );
-    IoFunctions.forReaderDo( url, this::load );
-  }
-  
-  /**
-   * Loads the blacklist from a specific filesystem location.
-   * 
-   * @param path   The filesystem location of the blacklist. Not <code>null</code>.
-   */
-  public synchronized void load( @NonNull Path path ) {
-    IoFunctions.forReaderDo( path, this::load );
-  }
   
   /**
    * Loads the blacklist supplied by the reader.

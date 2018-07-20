@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.ui.layout;
 
-import com.kasisoft.libs.common.util.*;
-
 import lombok.experimental.*;
 
 import lombok.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
@@ -283,8 +283,8 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
       width      -= columns * super.getHgap();
       height     -= rows    * super.getVgap();
 
-      int swidth  = ArrayFunctions.sumInt( colwidth );
-      int sheight = ArrayFunctions.sumInt( rowheight );
+      int swidth  = IntStream.of( colwidth  ).sum();
+      int sheight = IntStream.of( rowheight ).sum();
 
       int[] srowheight = new int[ rows    ];
       int[] scolwidth  = new int[ columns ];
@@ -531,8 +531,8 @@ public class SmartGridLayout extends GridLayout implements LayoutManager2 {
         rowheight[i] = Math.max( rowheight[i], 0 );
       }
 
-      int swidth  = ArrayFunctions.sumInt( colwidth );
-      int sheight = ArrayFunctions.sumInt( rowheight );
+      int swidth  = IntStream.of( colwidth  ).sum();
+      int sheight = IntStream.of( rowheight ).sum();
 
       Dimension result = new Dimension(
         insets.left + insets.right  + swidth  + (rcols - 1) * super.getHgap(),
