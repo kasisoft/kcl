@@ -161,7 +161,9 @@ public class KWriterImpl<T> implements KWriter<T> {
   public boolean writeAll( @NonNull T output, char[] data ) {
     return forWriterDo( output, $ -> { 
       CharArrayReader charin = new CharArrayReader( data );
-      IoFunctions.copy( charin, $ );
+      Primitive.PChar.withBufferDo( $b -> {
+        IoFunctions.copy( charin, $, $b, $ex -> errHandler.accept( $ex, output ) );
+      } );
     } );
   }
   

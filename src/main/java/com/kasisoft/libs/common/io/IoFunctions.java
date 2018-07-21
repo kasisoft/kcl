@@ -270,7 +270,10 @@ public class IoFunctions {
    * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    *
    * @throws FailureException   Whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(InputStream, OutputStream, byte[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, byte[] buffer ) {
     if( buffer != null ) {
       copy( buffer, input, output, null );
@@ -316,7 +319,10 @@ public class IoFunctions {
    * @param output   The stream receiving the content. Not <code>null</code>.
    *
    * @throws FailureException whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(InputStream, OutputStream, byte[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output ) {
     copy( input, output, (byte[]) null );
   }
@@ -329,7 +335,10 @@ public class IoFunctions {
    * @param buffersize   The buffer size to use while copying. Maybe <code>null</code>.
    *
    * @throws FailureException   Whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(InputStream, OutputStream, byte[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
     Primitive.PByte.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
@@ -342,7 +351,10 @@ public class IoFunctions {
    * @param buffersize   The buffer size to use while copying.
    *
    * @throws FailureException whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(InputStream, OutputStream, byte[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, int buffersize ) {
     copy( input, output, Integer.valueOf( buffersize ) );
   }
@@ -377,6 +389,65 @@ public class IoFunctions {
     } catch( Exception ex ) {
       throw FailureCode.IO.newException(ex);
     }
+  }
+
+  public static boolean copy( @NonNull Reader reader, @NonNull Writer writer, @NonNull char[] buffer, Consumer<Exception> errhandler ) {
+    boolean result = false;
+    try {
+      int read = reader.read( buffer );
+      while( read != -1 ) {
+        if( read > 0 ) {
+          writer.write( buffer, 0, read );
+        }
+        read = reader.read( buffer );
+      }
+      result = true;
+    } catch( Exception ex ) {
+      if( errhandler != null ) {
+        errhandler.accept(ex);
+      } else {
+        throw FailureCode.IO.newException( ex );
+      }
+    }
+    return result;
+  }
+
+  public static boolean copy( @NonNull InputStream input, @NonNull OutputStream output, @NonNull byte[] buffer, Consumer<Exception> errhandler ) {
+    boolean result = false;
+    try {
+      int read = input.read( buffer );
+      while( read != -1 ) {
+        if( read > 0 ) {
+          output.write( buffer, 0, read );
+        }
+        read = input.read( buffer );
+      }
+      result = true;
+    } catch( Exception ex ) {
+      if( errhandler != null ) {
+        errhandler.accept(ex);
+      } else {
+        throw FailureCode.IO.newException( ex );
+      }
+    }
+    return result;
+  }
+  
+  public static boolean copyFile( @NonNull Path input, @NonNull Path output, Consumer<Exception> errhandler ) {
+    boolean result = false;
+    if( Files.isRegularFile( input ) ) {
+      try {
+        Files.copy( input, output, StandardCopyOption.REPLACE_EXISTING );
+        result = true;
+      } catch( Exception ex ) {
+        if( errhandler != null ) {
+          errhandler.accept(ex);
+        } else {
+          throw FailureCode.IO.newException(ex);
+        }
+      }
+    }
+    return result;
   }
   
   private static void copyDir( final Path input, final Path output, final FileVisitResult fileVisitResult ) throws Exception {
@@ -434,7 +505,10 @@ public class IoFunctions {
    * @param buffer   The buffer to use while copying. Maybe <code>null</code>.
    *
    * @throws FailureException   Whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(Reader, Writer, char[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull Reader input, @NonNull Writer output, char[] buffer ) {
     char[] data = buffer;
     if( buffer == null ) {
@@ -463,7 +537,10 @@ public class IoFunctions {
    * @param output   The writer receiving the content. Not <code>null</code>.
    *
    * @throws FailureException whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(Reader, Writer, char[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull Reader input, @NonNull Writer output ) {
     copy( input, output, (char[]) null );
   }
@@ -476,7 +553,10 @@ public class IoFunctions {
    * @param buffersize   The buffer size to use while copying. Maybe <code>null</code>.
    *
    * @throws FailureException whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(Reader, Writer, char[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull Reader input, @NonNull Writer output, Integer buffersize ) {
     Primitive.PChar.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
@@ -489,7 +569,10 @@ public class IoFunctions {
    * @param buffersize   The buffer size to use while copying.
    *
    * @throws FailureException whenever the copying failed for some reason.
+   * 
+   * @deprecated [21-JUL-2018:KASI]   Uwe {@link #copy(Reader, Writer, char[], Consumer)} instead.
    */
+  @Deprecated
   public static void copy( @NonNull Reader input, @NonNull Writer output, int buffersize ) {
     copy( input, output, Integer.valueOf( buffersize ) );
   }

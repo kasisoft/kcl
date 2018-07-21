@@ -172,7 +172,9 @@ public class KReaderImpl<T> implements KReader<T> {
   public Optional<char[]> readAll( @NonNull T input ) {
     return forReader( input, $ -> { 
       CharArrayWriter writer = new CharArrayWriter();
-      IoFunctions.copy( $, writer );
+      Primitive.PChar.withBufferDo( $b -> {
+        IoFunctions.copy( $, writer, $b, $ex -> errHandler.accept( $ex, input ) );
+      } );
       return writer.toCharArray();
     } );
   }

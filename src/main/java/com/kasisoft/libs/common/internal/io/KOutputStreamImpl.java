@@ -3,6 +3,7 @@ package com.kasisoft.libs.common.internal.io;
 import static com.kasisoft.libs.common.function.Functions.*;
 
 import com.kasisoft.libs.common.base.*;
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.io.*;
 
@@ -148,7 +149,9 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
   public boolean writeAll( @NonNull T output, byte[] data ) {
     return forOutputStreamDo( output, $ -> { 
       ByteArrayInputStream bytein = new ByteArrayInputStream( data );
-      IoFunctions.copy( bytein, $ );
+      Primitive.PByte.withBufferDo( $b -> {
+        IoFunctions.copy( bytein, $, $b, $ex -> errHandler.accept( $ex, output ) );
+      } );
     } );
   }
   
