@@ -421,6 +421,7 @@ public class SwingFunctions {
       Rectangle             bounds  = gc.getBounds();
       result.add( new ScreenInfo( screen.getIDstring(), gc, screen, bounds.width, bounds.height ) );
     }
+    Collections.sort( result );
     return result;
   }
   
