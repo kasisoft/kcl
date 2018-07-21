@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.internal.io;
 
 import static com.kasisoft.libs.common.function.Functions.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
@@ -172,7 +173,7 @@ public class KReaderImpl<T> implements KReader<T> {
   public Optional<char[]> readAll( @NonNull T input ) {
     return forReader( input, $ -> { 
       CharArrayWriter writer = new CharArrayWriter();
-      Primitive.PChar.withBufferDo( $b -> {
+      PChar.withBufferDo( $b -> {
         IoFunctions.copy( $, writer, $b, $ex -> errHandler.accept( $ex, input ) );
       } );
       return writer.toCharArray();

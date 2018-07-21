@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.util;
 
+import static com.kasisoft.libs.common.constants.Primitive.*;
+
 import com.kasisoft.libs.common.constants.*;
 
 import java.util.*;
@@ -33,7 +35,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static byte[] insert( @NonNull byte[] destination, @NonNull byte[] newsequence, int index ) {
-    return Primitive.PByte.insert( destination, newsequence, index );
+    return PByte.insert( destination, newsequence, index );
   }
 
   /**
@@ -50,7 +52,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static char[] insert( @NonNull char[] destination, @NonNull char[] newsequence, int index ) {
-    return Primitive.PChar.insert( destination, newsequence, index );
+    return PChar.insert( destination, newsequence, index );
   }
   
   /**
@@ -64,7 +66,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static byte[] joinBuffers( @NonNull byte[] ... buffers ) {
-    return Primitive.PByte.concat( buffers );
+    return PByte.concat( buffers );
   }
 
   /**
@@ -78,7 +80,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static char[] joinBuffers( @NonNull char[] ... buffers ) {
-    return Primitive.PChar.concat( buffers );
+    return PChar.concat( buffers );
   }
 
   /**
@@ -92,7 +94,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Byte> asList( @NonNull byte ... values ) {
-    return Primitive.PByte.toList( values );
+    return PByte.toList( values );
   }
 
   /**
@@ -106,7 +108,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Short> asList( @NonNull short ... values ) {
-    return Primitive.PShort.toList( values );
+    return PShort.toList( values );
   }
 
   /**
@@ -120,7 +122,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Integer> asList( @NonNull int ... values ) {
-    return Primitive.PInt.toList( values );
+    return PInt.toList( values );
   }
 
   /**
@@ -134,7 +136,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Long> asList( @NonNull long ... values ) {
-    return Primitive.PLong.toList( values );
+    return PLong.toList( values );
   }
 
   /**
@@ -148,7 +150,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Float> asList( @NonNull float ... values ) {
-    return Primitive.PFloat.toList( values );
+    return PFloat.toList( values );
   }
 
   /**
@@ -162,7 +164,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Double> asList( @NonNull double ... values ) {
-    return Primitive.PDouble.toList( values );
+    return PDouble.toList( values );
   }
 
   /**
@@ -176,7 +178,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Boolean> asList( @NonNull boolean ... values ) {
-    return Primitive.PBoolean.toList( values );
+    return PBoolean.toList( values );
   }
 
   /**
@@ -190,7 +192,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static List<Character> asList( @NonNull char ... values ) {
-    return Primitive.PChar.toList( values );
+    return PChar.toList( values );
   }
   
   /**
@@ -205,7 +207,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Boolean[] toObjectArray( boolean[] values ) {
-    return Primitive.PBoolean.toObjectArray( values );
+    return PBoolean.toObjectArray( values );
   }
 
   /**
@@ -220,7 +222,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Byte[] toObjectArray( byte[] values ) {
-    return Primitive.PByte.toObjectArray( values );
+    return PByte.toObjectArray( values );
   }
   
   /**
@@ -235,7 +237,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Character[] toObjectArray( char[] values ) {
-    return Primitive.PChar.toObjectArray( values );
+    return PChar.toObjectArray( values );
   }
 
   /**
@@ -250,7 +252,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Short[] toObjectArray( short[] values ) {
-    return Primitive.PShort.toObjectArray( values );
+    return PShort.toObjectArray( values );
   }
 
   /**
@@ -265,7 +267,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Integer[] toObjectArray( int[] values ) {
-    return Primitive.PInt.toObjectArray( values );
+    return PInt.toObjectArray( values );
   }
 
   /**
@@ -280,7 +282,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Long[] toObjectArray( long[] values ) {
-    return Primitive.PLong.toObjectArray( values );
+    return PLong.toObjectArray( values );
   }
 
   /**
@@ -295,7 +297,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Float[] toObjectArray( float[] values ) {
-    return Primitive.PFloat.toObjectArray( values );
+    return PFloat.toObjectArray( values );
   }
 
   /**
@@ -310,7 +312,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Double[] toObjectArray( double[] values ) {
-    return Primitive.PDouble.toObjectArray( values );
+    return PDouble.toObjectArray( values );
   }
  
   /**
@@ -325,7 +327,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static boolean[] toPrimitiveArray( Boolean[] values ) {
-    return Primitive.PBoolean.toPrimitiveArray( values );
+    return PBoolean.toPrimitiveArray( values );
   }
 
   /**
@@ -340,7 +342,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static byte[] toPrimitiveArray( Byte[] values ) {
-    return Primitive.PByte.toPrimitiveArray( values );
+    return PByte.toPrimitiveArray( values );
   }
   
   /**
@@ -355,7 +357,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static char[] toPrimitiveArray( Character[] values ) {
-    return Primitive.PChar.toPrimitiveArray( values );
+    return PChar.toPrimitiveArray( values );
   }
 
   /**
@@ -370,7 +372,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static short[] toPrimitiveArray( Short[] values ) {
-    return Primitive.PShort.toPrimitiveArray( values );
+    return PShort.toPrimitiveArray( values );
   }
 
   /**
@@ -385,7 +387,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int[] toPrimitiveArray( Integer[] values ) {
-    return Primitive.PInt.toPrimitiveArray( values );
+    return PInt.toPrimitiveArray( values );
   }
 
   /**
@@ -400,7 +402,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static long[] toPrimitiveArray( Long[] values ) {
-    return Primitive.PLong.toPrimitiveArray( values );
+    return PLong.toPrimitiveArray( values );
   }
 
   /**
@@ -415,7 +417,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static float[] toPrimitiveArray( Float[] values ) {
-    return Primitive.PFloat.toPrimitiveArray( values );
+    return PFloat.toPrimitiveArray( values );
   }
 
   /**
@@ -430,7 +432,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static double[] toPrimitiveArray( Double[] values ) {
-    return Primitive.PDouble.toPrimitiveArray( values );
+    return PDouble.toPrimitiveArray( values );
   }
   
   /**
@@ -472,7 +474,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Boolean[] cleanup( Boolean ... values ) {
-    return Primitive.PBoolean.cleanup( values );
+    return PBoolean.cleanup( values );
   }
 
   /**
@@ -487,7 +489,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Character[] cleanup( Character ... values ) {
-    return Primitive.PChar.cleanup( values );
+    return PChar.cleanup( values );
   }
 
   /**
@@ -502,7 +504,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Byte[] cleanup( Byte ... values ) {
-    return Primitive.PByte.cleanup( values );
+    return PByte.cleanup( values );
   }
 
   /**
@@ -517,7 +519,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Short[] cleanup( Short ... values ) {
-    return Primitive.PShort.cleanup( values );
+    return PShort.cleanup( values );
   }
 
   /**
@@ -532,7 +534,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Integer[] cleanup( Integer ... values ) {
-    return Primitive.PInt.cleanup( values );
+    return PInt.cleanup( values );
   }
 
   /**
@@ -547,7 +549,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Long[] cleanup( Long ... values ) {
-    return Primitive.PLong.cleanup( values );
+    return PLong.cleanup( values );
   }
   
   /**
@@ -562,7 +564,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Float[] cleanup( Float ... values ) {
-    return Primitive.PFloat.cleanup( values );
+    return PFloat.cleanup( values );
   }
 
   /**
@@ -577,7 +579,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Double[] cleanup( Double ... values ) {
-    return Primitive.PDouble.cleanup( values );
+    return PDouble.cleanup( values );
   }
 
   /**
@@ -591,7 +593,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int maxInt( @NonNull int ... args ) {
-    return Primitive.PInt.max( args );
+    return PInt.max( args );
   }
 
   /**
@@ -605,7 +607,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static long maxLong( @NonNull long ... args ) {
-    return Primitive.PLong.max( args );
+    return PLong.max( args );
   }
 
   /**
@@ -619,7 +621,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static float maxFloat( @NonNull float ... args ) {
-    return Primitive.PFloat.max( args );
+    return PFloat.max( args );
   }
 
   /**
@@ -633,7 +635,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static double maxDouble( @NonNull double ... args ) {
-    return Primitive.PDouble.max( args );
+    return PDouble.max( args );
   }
 
   /**
@@ -647,7 +649,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int minInt( @NonNull int ... args ) {
-    return Primitive.PInt.min( args );
+    return PInt.min( args );
   }
 
   /**
@@ -661,7 +663,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static long minLong( @NonNull long ... args ) {
-    return Primitive.PLong.min( args );
+    return PLong.min( args );
   }
 
   /**
@@ -675,7 +677,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static float minFloat( @NonNull float ... args ) {
-    return Primitive.PFloat.min( args );
+    return PFloat.min( args );
   }
 
   /**
@@ -689,7 +691,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static double minDouble( @NonNull double ... args ) {
-    return Primitive.PDouble.min( args );
+    return PDouble.min( args );
   }
   
   /**
@@ -703,7 +705,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Boolean objectAnd( @NonNull Boolean ... atoms ) {
-    return Primitive.PBoolean.and( atoms );
+    return PBoolean.and( atoms );
   }
 
   /**
@@ -717,7 +719,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static Boolean objectOr( @NonNull Boolean ... atoms ) {
-    return Primitive.PBoolean.or( atoms );
+    return PBoolean.or( atoms );
   }
 
   /**
@@ -731,7 +733,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static boolean and( @NonNull boolean ... args ) {
-    return Primitive.PBoolean.and( args );
+    return PBoolean.and( args );
   }
 
   /**
@@ -745,7 +747,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static boolean or( @NonNull boolean ... args ) {
-    return Primitive.PBoolean.or( args );
+    return PBoolean.or( args );
   }
 
   /**
@@ -808,7 +810,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int sumInt( int ... values ) {
-    return Primitive.PInt.forValues( values, 0, ($a, $b) -> $a + $b );
+    return PInt.forValues( values, 0, ($a, $b) -> $a + $b );
   }
 
   /**
@@ -822,7 +824,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static double sumDouble( double ... values ) {
-    return Primitive.PDouble.forValues( values, 0.0, ($a, $b) -> $a + $b );
+    return PDouble.forValues( values, 0.0, ($a, $b) -> $a + $b );
   }
 
   /**
@@ -836,7 +838,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static long sumLong( long ... values ) {
-    return Primitive.PLong.forValues( values, 0L, ($a, $b) -> $a + $b );
+    return PLong.forValues( values, 0L, ($a, $b) -> $a + $b );
   }
 
   /**
@@ -851,7 +853,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int indexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
-    return Primitive.PByte.indexOf( data, sequence, 0 );
+    return PByte.indexOf( data, sequence, 0 );
   }
 
   /**
@@ -867,7 +869,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int indexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
-    return Primitive.PByte.indexOf( buffer, sequence, pos );
+    return PByte.indexOf( buffer, sequence, pos );
   }
   
   /**
@@ -882,7 +884,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int lastIndexOf( @NonNull byte[] data, @NonNull byte[] sequence ) {
-    return Primitive.PByte.lastIndexOf( data, sequence, 0 );
+    return PByte.lastIndexOf( data, sequence, 0 );
   }
 
   /**
@@ -898,7 +900,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int lastIndexOf( @NonNull byte[] buffer, @NonNull byte[] sequence, int pos ) {
-    return Primitive.PByte.lastIndexOf( buffer, sequence, pos );
+    return PByte.lastIndexOf( buffer, sequence, pos );
   }
 
   /**
@@ -914,7 +916,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static boolean compare( @NonNull byte[] data, @NonNull byte[] tocompare, int offset ) {
-    return Primitive.PByte.compare(data, tocompare, offset );
+    return PByte.compare(data, tocompare, offset );
   }
   
   /**
@@ -930,7 +932,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static boolean compare( @NonNull char[] data, @NonNull char[] tocompare, int offset ) {
-    return Primitive.PChar.compare(data, tocompare, offset );
+    return PChar.compare(data, tocompare, offset );
   }
   
   /**
@@ -945,7 +947,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int indexOf( @NonNull char[] data, @NonNull char[] sequence ) {
-    return Primitive.PChar.indexOf( data, sequence, 0 );
+    return PChar.indexOf( data, sequence, 0 );
   }
   
   /**
@@ -961,7 +963,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int indexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
-    return Primitive.PChar.indexOf( buffer, sequence, pos );
+    return PChar.indexOf( buffer, sequence, pos );
   }
   
   /**
@@ -976,7 +978,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int lastIndexOf( @NonNull char[] data, @NonNull char[] sequence ) {
-    return Primitive.PChar.lastIndexOf( data, sequence, 0 );
+    return PChar.lastIndexOf( data, sequence, 0 );
   }
 
   /**
@@ -992,7 +994,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static int lastIndexOf( @NonNull char[] buffer, @NonNull char[] sequence, int pos ) {
-    return Primitive.PChar.lastIndexOf( buffer, sequence, pos );
+    return PChar.lastIndexOf( buffer, sequence, pos );
   }
   
   /**
@@ -1008,7 +1010,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static byte[] copyRange( @NonNull byte[] source, int offset, int length ) {
-    return Primitive.PByte.copyOfRange( source, offset, offset + length );
+    return PByte.copyOfRange( source, offset, offset + length );
   }
 
   /**
@@ -1024,7 +1026,7 @@ public class ArrayFunctions {
    */
   @Deprecated
   public static char[] copyRange( @NonNull char[] source, int offset, int length ) {
-    return Primitive.PChar.copyOfRange( source, offset, offset + length );
+    return PChar.copyOfRange( source, offset, offset + length );
   }
 
   /**

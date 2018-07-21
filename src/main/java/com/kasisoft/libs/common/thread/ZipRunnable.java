@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import com.kasisoft.libs.common.base.*;
 
@@ -84,7 +84,7 @@ public class ZipRunnable extends AbstractRunnable {
   
   @Override
   protected void execute() {
-    Primitive.PByte.withBufferDo( buffersize, this::pack );
+    PByte.withBufferDo( buffersize, this::pack );
   }
   
   private void pack( byte[] buffer ) {

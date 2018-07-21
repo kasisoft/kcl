@@ -1,24 +1,21 @@
 package com.kasisoft.libs.common.thread;
 
+import static com.kasisoft.libs.common.constants.Primitive.*;
 import static com.kasisoft.libs.common.io.DefaultIO.*;
 
-import com.kasisoft.libs.common.constants.*;
-
 import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.io.*;
+
+import java.util.*;
+import java.util.zip.*;
+
+import java.io.*;
+
+import java.nio.file.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
-
-import java.nio.file.*;
-
-import java.util.zip.*;
-
-import java.io.*;
 
 /**
  * A Runnable that is used to perform an unzip process.
@@ -84,7 +81,7 @@ public class UnzipRunnable extends AbstractRunnable {
   
   @Override
   protected void execute() {
-    Primitive.PByte.withBufferDo( buffersize, this::unpack );
+    PByte.withBufferDo( buffersize, this::unpack );
   }
   
   private void unpack( byte[] buffer ) {

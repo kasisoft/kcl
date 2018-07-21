@@ -1,9 +1,9 @@
 package com.kasisoft.libs.common.internal.io;
 
 import static com.kasisoft.libs.common.function.Functions.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.util.*;
@@ -124,7 +124,7 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   public Optional<byte[]> readAll( @NonNull T input ) {
     return forInputStream( input, $ -> { 
       ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-      Primitive.PByte.withBufferDo( $b -> {
+      PByte.withBufferDo( $b -> {
         IoFunctions.copy( $, byteout, $b, $ex -> errHandler.accept( $ex, input ) );
       } );
       return byteout.toByteArray();

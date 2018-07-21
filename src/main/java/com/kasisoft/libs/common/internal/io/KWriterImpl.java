@@ -1,5 +1,6 @@
 package com.kasisoft.libs.common.internal.io;
 
+import static com.kasisoft.libs.common.constants.Primitive.*;
 import static com.kasisoft.libs.common.function.Functions.*;
 
 import com.kasisoft.libs.common.base.*;
@@ -161,7 +162,7 @@ public class KWriterImpl<T> implements KWriter<T> {
   public boolean writeAll( @NonNull T output, char[] data ) {
     return forWriterDo( output, $ -> { 
       CharArrayReader charin = new CharArrayReader( data );
-      Primitive.PChar.withBufferDo( $b -> {
+      PChar.withBufferDo( $b -> {
         IoFunctions.copy( charin, $, $b, $ex -> errHandler.accept( $ex, output ) );
       } );
     } );

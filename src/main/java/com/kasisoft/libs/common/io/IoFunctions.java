@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.io;
 
+import static com.kasisoft.libs.common.constants.Primitive.*;
+
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
@@ -278,7 +280,7 @@ public class IoFunctions {
     if( buffer != null ) {
       copy( buffer, input, output, null );
     } else {
-      Primitive.PByte.withBufferDo( $ -> copy( $, input, output, null ) );
+      PByte.withBufferDo( $ -> copy( $, input, output, null ) );
     }
   }
 
@@ -340,7 +342,7 @@ public class IoFunctions {
    */
   @Deprecated
   public static void copy( @NonNull InputStream input, @NonNull OutputStream output, Integer buffersize ) {
-    Primitive.PByte.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
+    PByte.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
 
   /**
@@ -512,7 +514,7 @@ public class IoFunctions {
   public static void copy( @NonNull Reader input, @NonNull Writer output, char[] buffer ) {
     char[] data = buffer;
     if( buffer == null ) {
-      data = Primitive.PChar.allocate();
+      data = PChar.allocate();
     }
     try {
       int read = input.read( data );
@@ -526,7 +528,7 @@ public class IoFunctions {
       throw FailureCode.IO.newException( ex );
     }
     if( buffer == null ) {
-      Primitive.PChar.release( data );
+      PChar.release( data );
     }
   }
 
@@ -558,7 +560,7 @@ public class IoFunctions {
    */
   @Deprecated
   public static void copy( @NonNull Reader input, @NonNull Writer output, Integer buffersize ) {
-    Primitive.PChar.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
+    PChar.withBufferDo( buffersize, $ -> copy( input, output, $ ) );
   }
 
   /**
@@ -763,7 +765,7 @@ public class IoFunctions {
    */
   public static String readTextFully( @NonNull Reader reader ) {
     StringWriter writer = new StringWriter();
-    Primitive.PChar.withBufferDo( null, $ -> copy( reader, writer, $ ) );
+    PChar.withBufferDo( null, $ -> copy( reader, writer, $ ) );
     return writer.toString();
   }
 
@@ -860,7 +862,7 @@ public class IoFunctions {
    */
   public static byte[] loadFragment( @NonNull InputStream input, int offset, int length ) {
     skip( input, offset );
-    byte[] buffer = Primitive.PByte.allocate( Integer.valueOf( length ) );
+    byte[] buffer = PByte.allocate( Integer.valueOf( length ) );
     try {
       int read = input.read( buffer, 0, length );
       if( (read != -1) && (read > 0) ) {
@@ -873,7 +875,7 @@ public class IoFunctions {
     } catch( IOException ex ) {
       throw FailureCode.IO.newException( ex );
     } finally {
-      Primitive.PByte.release( buffer );
+      PByte.release( buffer );
     }
   }
   
@@ -916,7 +918,7 @@ public class IoFunctions {
    * @throws FailureException if the accessing the stream failed for some reason.
    */
   public static long crc32( @NonNull InputStream instream, CRC32 crc, Integer buffersize ) {
-    return Primitive.PByte.<Long>withBuffer( buffersize, $ -> crc32( $, instream, crc ) );
+    return PByte.<Long>withBuffer( buffersize, $ -> crc32( $, instream, crc ) );
   }
 
   /**

@@ -1,14 +1,14 @@
 package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import com.kasisoft.libs.common.base.*;
+
+import java.io.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.io.*;
 
 /**
  * A Runnable which is used to copy data from an InputStream to an OutputStream.
@@ -88,7 +88,7 @@ public class ByteCopierRunnable extends AbstractRunnable {
     try {
       
       if( owned ) {
-        buffer  = Primitive.PByte.allocate( size );
+        buffer  = PByte.allocate( size );
       }
       
       int read = source.read( buffer );
@@ -106,7 +106,7 @@ public class ByteCopierRunnable extends AbstractRunnable {
       handleIOFailure( ex );
     } finally {
       if( owned ) {
-        Primitive.PByte.release( buffer );
+        PByte.release( buffer );
         buffer = null;
       }
       reset();

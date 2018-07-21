@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import com.kasisoft.libs.common.base.*;
 
@@ -88,7 +88,7 @@ public class CharCopierRunnable extends AbstractRunnable {
     try {
       
       if( owned ) {
-        buffer  = Primitive.PChar.allocate( size );
+        buffer  = PChar.allocate( size );
       }
       
       int read = source.read( buffer );
@@ -106,7 +106,7 @@ public class CharCopierRunnable extends AbstractRunnable {
       handleIOFailure( ex );
     } finally {
       if( owned ) {
-        Primitive.PChar.release( buffer );
+        PChar.release( buffer );
         buffer = null;
       }
       reset();
