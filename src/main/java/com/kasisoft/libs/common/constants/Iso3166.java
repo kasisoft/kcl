@@ -336,10 +336,10 @@ public enum Iso3166 implements Predicate<String> {
   
   private static class LocalData {
     
-    private static Map<String, Iso3166>    valuebyalpha2 = new Hashtable<>();
-    private static Map<String, Iso3166>    valuebyalpha3 = new Hashtable<>();
-    private static Map<Integer, Iso3166>   valuebynum    = new Hashtable<>();
+    private static Map<String, Iso3166>    valuebyalpha2 = new HashMap<>();
+    private static Map<String, Iso3166>    valuebyalpha3 = new HashMap<>();
+    private static Map<Integer, Iso3166>   valuebynum    = new HashMap<>();
     
   } /* ENDCLASS */
 
-} /* ENDCLASS */
+} /* ENDENUM */
