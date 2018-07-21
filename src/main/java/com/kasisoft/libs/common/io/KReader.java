@@ -75,30 +75,4 @@ public interface KReader<T> {
     
   } /* ENDCLASS */
   
-//  /* copy */
-//
-//  public static boolean copy( @NonNull Reader reader, @NonNull Writer writer, @NonNull char[] buffer ) {
-//    return copy( reader, writer, buffer, $ -> {} );
-//  }
-//  
-//  public static boolean copy( @NonNull Reader reader, @NonNull Writer writer, @NonNull char[] buffer, Consumer<Exception> errHandler ) {
-//    try {
-//      int read = reader.read( buffer );
-//      while( read != -1 ) {
-//        if( read > 0 ) {
-//          writer.write( buffer, 0, read );
-//        }
-//        read = reader.read( buffer );
-//      }
-//      return true;
-//    } catch( Exception ex ) {
-//      if( errHandler != null ) {
-//        errHandler.accept( ex );
-//      } else {
-//        throw FailureCode.IO.newException(ex);
-//      }
-//      return false;
-//    }
-//  }
-  
 } /* ENDCLASS */
