@@ -16,9 +16,10 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Getter
+@EqualsAndHashCode(of = "id")
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ScreenInfo {
+public class ScreenInfo implements Comparable<ScreenInfo> {
   
   @FieldDefaults(level = AccessLevel.PRIVATE)
   public enum ComparisonMode implements Comparator<ScreenInfo> {
@@ -76,6 +77,18 @@ public class ScreenInfo {
     return screen.isFullScreenSupported();
   }
 
+  @Override
+  public int compareTo( ScreenInfo other ) {
+    int result = Integer.compare( width,  other.width );
+    if( result == 0 ) {
+      result = Integer.compare( height, other.height );
+    }
+    if( result == 0 ) {
+      result = id.compareTo( other.id );
+    }
+    return result;
+  }
+  
   private static int compareByRatio( ScreenInfo s1, ScreenInfo s2 ) {
     return Integer.compare( s2.ratioPixels, s1.ratioPixels );
   }
@@ -100,5 +113,5 @@ public class ScreenInfo {
     double  v    = (max - min) / max;
     return (int) (v * 100.0);
   }
-  
+
 } /* ENDCLASS */
