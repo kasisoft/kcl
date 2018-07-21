@@ -1,23 +1,18 @@
 package com.kasisoft.libs.common.csv;
 
-import com.kasisoft.libs.common.internal.*;
-
-import com.kasisoft.libs.common.util.*;
+import static com.kasisoft.libs.common.io.DefaultIO.*;
 
 import com.kasisoft.libs.common.base.*;
-
-import com.kasisoft.libs.common.io.*;
-
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
+import com.kasisoft.libs.common.internal.*;
+import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.text.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
-
-import javax.swing.table.*;
+import com.kasisoft.libs.common.util.*;
 
 import javax.swing.event.*;
+
+import javax.swing.table.*;
 
 import javax.swing.*;
 
@@ -27,9 +22,13 @@ import java.util.stream.*;
 
 import java.util.*;
 
+import java.io.*;
+
 import java.nio.file.*;
 
-import java.io.*;
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * A TableModel implementation that can be fed by CSV data.
@@ -192,7 +191,15 @@ public class CsvTableModel implements TableModel {
    */
   private StringBuilder readContent( InputStream source ) {
     CharArrayWriter writer = new CharArrayWriter();
-    IoFunctions.forReaderDo( source, options.getEncoding(), $ -> IoFunctions.copy( $, writer ) );
+    if( options.getEncoding() == Encoding.UTF8 ) {
+      DefaultIO.INPUTSTREAM_READER_EX.forReaderDo( source, $ -> IoFunctions.copy( $, writer, null ) );
+    } else {
+      KReader<InputStream> reader = KReader.builder( InputStream.class )
+        .encoding( options.getEncoding() )
+        .errorHandler( ($ex, $i) -> { throw FailureCode.IO.newException( $ex ); } )
+        .build();
+      reader.forReaderDo( source, $ -> IoFunctions.copy( $, writer, null ) );
+    }
     return new StringBuilder( writer.toString() );
   }
   
@@ -552,7 +559,7 @@ public class CsvTableModel implements TableModel {
    * @param source   The source for the csv data. Not <code>null</code>.
    */
   public void load( @NonNull Path source ) {
-    IoFunctions.forInputStreamDo( source, this::load );
+    PATH_INPUTSTREAM_EX.forInputStreamDo( source, this::load );
   }
   
   /**
@@ -593,7 +600,7 @@ public class CsvTableModel implements TableModel {
    * @param dest   The destination for the csv data. Not <code>null</code>.
    */
   public void save( @NonNull Path dest ) {
-    IoFunctions.forOutputStreamDo( dest, this::save );
+    PATH_OUTPUTSTREAM_EX.forOutputStreamDo( dest, this::save );
   }
   
   /**

@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.io;
 
+import static com.kasisoft.libs.common.io.DefaultIO.*;
+
 import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -72,10 +74,8 @@ public class IoFunctionsTest {
   @Test(groups="all")
   public void allocateAndRelease() {
     
-    Integer defaultsize = CommonProperty.BufferCount.getValue( System.getProperties() );
     byte[]  data1       = PByte.allocate( null );
     assertThat( data1, is( notNullValue() ) );
-    assertTrue( data1.length >= defaultsize.intValue() );
 
     PByte.release( data1 );
     PByte.release( data1 ); // just to be sure that double release won't do any bad
@@ -103,20 +103,14 @@ public class IoFunctionsTest {
     byte[]                data    = "MY DATA".getBytes();
     ByteArrayInputStream  bytein  = new ByteArrayInputStream( data );
     ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-    IoFunctions.copy( bytein, byteout );
+    IoFunctions.copy( bytein, byteout, null );
     assertThat( byteout.toByteArray(), is( data ) );
     
     bytein.reset();
     byteout.reset();
     
     byte[]                buffer  = new byte[1024];
-    IoFunctions.copy( bytein, byteout, buffer );
-    assertThat( byteout.toByteArray(), is( data ) );
-
-    bytein.reset();
-    byteout.reset();
-
-    IoFunctions.copy( bytein, byteout, 1024 );
+    IoFunctions.copy( bytein, byteout, buffer, null );
     assertThat( byteout.toByteArray(), is( data ) );
 
   }
@@ -147,20 +141,14 @@ public class IoFunctionsTest {
     char[]           data    = "MY DATA".toCharArray();
     CharArrayReader  charin  = new CharArrayReader( data );
     CharArrayWriter  charout = new CharArrayWriter();
-    IoFunctions.copy( charin, charout );
+    IoFunctions.copy( charin, charout, null );
     assertThat( charout.toCharArray(), is( data ) );
     
     charin.reset();
     charout.reset();
     
     char[]           buffer  = new char[1024];
-    IoFunctions.copy( charin, charout, buffer );
-    assertThat( charout.toCharArray(), is( data ) );
-
-    charin.reset();
-    charout.reset();
-
-    IoFunctions.copy( charin, charout, 1024 );
+    IoFunctions.copy( charin, charout, buffer, null );
     assertThat( charout.toCharArray(), is( data ) );
 
   }
@@ -170,7 +158,7 @@ public class IoFunctionsTest {
     
     byte[] data     = Utilities.createByteBlock();
     File   tempfile = IoFunctions.newTempFile();
-    IoFunctions.forOutputStreamDo( tempfile, $ -> IoFunctions.writeBytes( $, data ) );
+    FILE_OUTPUTSTREAM_EX.forOutputStreamDo( tempfile, $ -> $.eWrite( data ) );
     
     byte[] loaded1  = IoFunctions.loadBytes( tempfile, null );
     assertThat( loaded1, is( data ) );
@@ -191,7 +179,7 @@ public class IoFunctionsTest {
     
     char[] data     = Utilities.createCharacterBlock();
     File   tempfile = IoFunctions.newTempFile();
-    IoFunctions.forWriterDo( tempfile, Encoding.UTF8, $ -> IoFunctions.writeCharacters( $, data ) );
+    FILE_WRITER_EX.forWriterDo( tempfile, $ -> $.eWrite( data ) );
     
     char[] loaded1  = IoFunctions.loadChars( tempfile, null, Encoding.UTF8 );
     assertThat( loaded1, is( data ) );
@@ -213,17 +201,17 @@ public class IoFunctionsTest {
     
     File          testfile  = new File( testdata, "testfile.txt" );
   
-    List<String>  text1     = IoFunctions.forReader( testfile, Encoding.UTF8, $ -> IoFunctions.readText( $, false, true ) );
+    List<String>  text1     = FILE_READER_EX.forReader( testfile, $ -> IoFunctions.readText( $, false, true ) ).orElse( null );
     assertThat( text1, is( notNullValue() ) );
     assertThat( 7, is( text1.size() ) );
     assertThat( text1.toArray(), is( new Object[] { "BEGIN BLÖD", "", "LINE 1", "", "   LINE 2   ", "", "BLABLUB" } ) );
 
-    List<String>  text2     = IoFunctions.forReader( testfile, Encoding.UTF8, $ -> IoFunctions.readText( $, false, false ) );
+    List<String>  text2     = FILE_READER_EX.forReader( testfile, $ -> IoFunctions.readText( $, false, false ) ).orElse( null );
     assertThat( text2, is( notNullValue() ) );
     assertThat( 4, is( text2.size() ) );
     assertThat( text2.toArray(), is( new Object[] { "BEGIN BLÖD", "LINE 1", "   LINE 2   ", "BLABLUB" } ) );
 
-    List<String>  text3     = IoFunctions.forReader( testfile, Encoding.UTF8, $ -> IoFunctions.readText( $, true, false ) );
+    List<String>  text3     = FILE_READER_EX.forReader( testfile, $ -> IoFunctions.readText( $, true, false ) ).orElse( null );
     assertThat( text3, is( notNullValue() ) );
     assertThat( 4, is( text3.size() ) );
     assertThat( text3.toArray(), is( new Object[] { "BEGIN BLÖD", "LINE 1", "LINE 2", "BLABLUB" } ) );
@@ -277,7 +265,7 @@ public class IoFunctionsTest {
     assertThat( result1, is( "BLUB" ) );
     
     File                  testfile  = new File( testdata, "testfile.txt" );
-    String                result2   = Encoding.UTF8.decode( IoFunctions.forInputStream( testfile, $ -> IoFunctions.loadFragment( $, 15, 6 ) ) );
+    String                result2   = Encoding.UTF8.decode( FILE_INPUTSTREAM_EX.forInputStream( testfile, $ -> IoFunctions.loadFragment( $, 15, 6 ) ).orElse( null ) );
     assertThat( result2, is( "LINE 1" ) );
     
   }
@@ -287,7 +275,7 @@ public class IoFunctionsTest {
    
     File    testfile  = new File( testdata, "testfile.gz" );
     
-    assertThat( IoFunctions.forInputStream( testfile, IoFunctions::crc32 ), is( 1699530864L ) );
+    assertThat( FILE_INPUTSTREAM_EX.forInputStream( testfile, IoFunctions::crc32 ).orElse(0L), is( 1699530864L ) );
     
     byte[]  data      = IoFunctions.loadBytes( testfile, null );
     assertThat( IoFunctions.crc32( new ByteArrayInputStream( data ) ), is( 1699530864L ) );
@@ -326,8 +314,8 @@ public class IoFunctionsTest {
     assertThat( loaded1, is( lines ) );
     
     File         tempfile1  = IoFunctions.newTempFile();
-    IoFunctions.forWriterDo( tempfile1, Encoding.UTF8, $ -> IoFunctions.writeText( $, lines ) );
-    List<String> loaded2    = IoFunctions.forReader( tempfile1, Encoding.UTF8, $ -> IoFunctions.readText( $, false, true ) );
+    FILE_WRITER_EX.forWriterDo( tempfile1, $ -> IoFunctions.writeText( $, lines ) );
+    List<String> loaded2    = FILE_READER_EX.forReader( tempfile1, $ -> IoFunctions.readText( $, false, true ) ).orElse( null );
     assertThat( loaded2, is( lines ) );
     
     StringBuilder buffer    = new StringBuilder();
@@ -337,9 +325,9 @@ public class IoFunctionsTest {
     }
     
     File         tempfile2  = IoFunctions.newTempFile();
-    IoFunctions.forWriterDo( tempfile2, Encoding.UTF8, $ -> IoFunctions.writeText( $, lines ) );
+    FILE_WRITER_EX.forWriterDo( tempfile2, $ -> IoFunctions.writeText( $, lines ) );
     
-    List<String> loaded3    = IoFunctions.forReader( tempfile2, Encoding.UTF8, $ -> IoFunctions.readText( $, false, true ) );
+    List<String> loaded3    = FILE_READER_EX.forReader( tempfile2, $ -> IoFunctions.readText( $, false, true ) ).orElse( null );
     assertThat( loaded3, is( lines ) );
     
   }
@@ -357,7 +345,7 @@ public class IoFunctionsTest {
     
     String               text    = builder.toString();
     ByteArrayInputStream bytein  = new ByteArrayInputStream( Encoding.UTF8.encode( text ) ); 
-    String               current = IoFunctions.forReader( bytein, Encoding.UTF8, IoFunctions::readTextFully );
+    String               current = INPUTSTREAM_READER_EX.forReader( bytein, IoFunctions::readTextFully ).orElse( null );
     assertThat( current, is( text ) );
     
   }

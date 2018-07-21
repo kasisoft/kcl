@@ -18,19 +18,19 @@ import lombok.*;
  */
 public interface KInputStream<T> {
   
-  <R> Optional<R> forInputStream( @NonNull T input, Function<InputStream, R> function );
+  <R> Optional<R> forInputStream( @NonNull T input, Function<ExtInputStream, R> function );
 
-  <C1, R> Optional<R> forInputStream( @NonNull T input, C1 context1, BiFunction<InputStream, C1, R> function );
+  <C1, R> Optional<R> forInputStream( @NonNull T input, C1 context1, BiFunction<ExtInputStream, C1, R> function );
   
-  <C1, C2, R> Optional<R> forInputStream( @NonNull T input, C1 context1, C2 context2, TriFunction<InputStream, C1, C2, R> function );
+  <C1, C2, R> Optional<R> forInputStream( @NonNull T input, C1 context1, C2 context2, TriFunction<ExtInputStream, C1, C2, R> function );
   
-  <R> boolean forInputStreamDo( @NonNull T input, Consumer<InputStream> consumer );
+  <R> boolean forInputStreamDo( @NonNull T input, Consumer<ExtInputStream> consumer );
 
-  <C1, R> boolean forInputStreamDo( @NonNull T input, C1 context1, BiConsumer<InputStream, C1> consumer );
+  <C1, R> boolean forInputStreamDo( @NonNull T input, C1 context1, BiConsumer<ExtInputStream, C1> consumer );
   
-  <C1, C2> boolean forInputStreamDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<InputStream, C1, C2> function );
+  <C1, C2> boolean forInputStreamDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<ExtInputStream, C1, C2> function );
   
-  Optional<InputStream> open( @NonNull T input );
+  Optional<ExtInputStream> open( @NonNull T input );
   
   Optional<byte[]> readAll( @NonNull T input );
   

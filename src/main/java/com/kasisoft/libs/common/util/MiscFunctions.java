@@ -3,7 +3,6 @@ package com.kasisoft.libs.common.util;
 import static com.kasisoft.libs.common.base.LibConfig.*;
 
 import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.sys.*;
@@ -39,9 +38,6 @@ import lombok.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctions {
 
-  @SuppressWarnings("deprecation")
-  private static final Map<String,String> REPLACEMENTS = SysProperty.createReplacementMap();
-  
   /**
    * Prevent instantiation.
    */
@@ -307,7 +303,7 @@ public class MiscFunctions {
    * @return   The File location which has been evaluated. Not <code>null</code>.
    */
   public static File expandFileLocation( @NonNull String format ) {
-    return new File( StringFunctions.replace( format, REPLACEMENTS ) );
+    return new File( StringFunctions.replace( format, MiscFunctions.createSystemPropertiesReplacements() ) );
   }
 
   /**

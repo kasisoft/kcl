@@ -4,11 +4,9 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import org.testng.annotations.*;
-
-import com.kasisoft.libs.common.constants.*;
-
 import com.kasisoft.libs.common.test.framework.*;
+
+import org.testng.annotations.*;
 
 import java.util.*;
 
@@ -52,8 +50,6 @@ public class StringFunctionsTest {
   public void allocateAndReleaseChars() {
     
     char[]  buffer1 = StringFunctions.allocateChars( null );
-    Integer count   = CommonProperty.BufferCount.getValue( System.getProperties() );
-    assertTrue( buffer1.length >= count.intValue() );
     
     Integer size    = Integer.valueOf( 4552 );
     char[]  buffer2 = StringFunctions.allocateChars( size );

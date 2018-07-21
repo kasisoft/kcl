@@ -1,7 +1,6 @@
 package com.kasisoft.libs.common.internal.io;
 
 import static com.kasisoft.libs.common.function.Functions.*;
-import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.function.*;
@@ -61,26 +60,26 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   }
   
   @Override
-  public <R> Optional<R> forInputStream( @NonNull T input, Function<InputStream, R> function ) {
+  public <R> Optional<R> forInputStream( @NonNull T input, Function<ExtInputStream, R> function ) {
     return forInputStream( input, null, null, adaptToTri( function ) );
   }
 
   @Override
-  public <C1, R> Optional<R> forInputStream( @NonNull T input, C1 context1, BiFunction<InputStream, C1, R> function ) {
+  public <C1, R> Optional<R> forInputStream( @NonNull T input, C1 context1, BiFunction<ExtInputStream, C1, R> function ) {
     return forInputStream( input, context1, null, adaptToTri( function ) );
   }
   
   @SuppressWarnings("resource")
-  private InputStream openInputStream( T input ) {
+  private ExtInputStream openInputStream( T input ) {
     InputStream result = openInput.apply( input );
     if( buffered && (! (result instanceof BufferedInputStream))) {
       result = new BufferedInputStream( result );
     }
-    return new InternalInputStream<>( result, input, errHandler );
+    return new ExtInputStream<>( result, input, errHandler );
   }
   
   @Override
-  public Optional<InputStream> open( T input ) {
+  public Optional<ExtInputStream> open( T input ) {
     try {
       return Optional.of( openInputStream( input ) );
     } catch( Exception ex ) {
@@ -90,8 +89,8 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   }
 
   @Override
-  public <C1, C2, R> Optional<R> forInputStream( @NonNull T input, C1 context1, C2 context2, TriFunction<InputStream, C1, C2, R> function ) {
-    try( InputStream instream = openInputStream( input ) ) {
+  public <C1, C2, R> Optional<R> forInputStream( @NonNull T input, C1 context1, C2 context2, TriFunction<ExtInputStream, C1, C2, R> function ) {
+    try( ExtInputStream instream = openInputStream( input ) ) {
       return Optional.ofNullable( function.apply( instream, context1, context2 ) );
     } catch( Exception ex ) {
       errHandler.accept( FailureException.unwrap( ex ), input );
@@ -100,18 +99,18 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   }
   
   @Override
-  public <R> boolean forInputStreamDo( @NonNull T input, Consumer<InputStream> consumer ) {
+  public <R> boolean forInputStreamDo( @NonNull T input, Consumer<ExtInputStream> consumer ) {
     return forInputStreamDo( input, null, null, adaptToTri( consumer ) );
   }
 
   @Override
-  public <C1, R> boolean forInputStreamDo( @NonNull T input, C1 context1, BiConsumer<InputStream, C1> consumer ) {
+  public <C1, R> boolean forInputStreamDo( @NonNull T input, C1 context1, BiConsumer<ExtInputStream, C1> consumer ) {
     return forInputStreamDo( input, context1, null, adaptToTri( consumer ) );
   }
   
   @Override
-  public <C1, C2> boolean forInputStreamDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<InputStream, C1, C2> function ) {
-    try( InputStream instream = openInputStream( input ) ) {
+  public <C1, C2> boolean forInputStreamDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<ExtInputStream, C1, C2> function ) {
+    try( ExtInputStream instream = openInputStream( input ) ) {
       function.accept( instream, context1, context2 );
       return true;
     } catch( Exception ex ) {
@@ -124,9 +123,7 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   public Optional<byte[]> readAll( @NonNull T input ) {
     return forInputStream( input, $ -> { 
       ByteArrayOutputStream byteout = new ByteArrayOutputStream();
-      PByte.withBufferDo( $b -> {
-        IoFunctions.copy( $, byteout, $b, $ex -> errHandler.accept( $ex, input ) );
-      } );
+      IoFunctions.copy( $, byteout, $ex -> errHandler.accept( $ex, input ) );
       return byteout.toByteArray();
     } );
   }
@@ -171,102 +168,5 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
       return newInputStream( MiscFunctions.getResource( input ) );
     }
   }
-
-  @AllArgsConstructor
-  @FieldDefaults(level = AccessLevel.PRIVATE)
-  private static class InternalInputStream<T> extends InputStream {
-
-    InputStream                     instream;
-    T                               input;
-    BiConsumer<Exception, T>        errHandler;
-    
-    @Override
-    public int read() throws IOException {
-      try {
-        return instream.read();
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-        return -1;
-      }
-    }
-
-    @Override
-    public int read( byte[] b ) throws IOException {
-      try {
-        return instream.read(b);
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-        return -1;
-      }
-    }
-
-    @Override
-    public int read( byte[] b, int off, int len ) throws IOException {
-      try {
-        return instream.read( b, off, len );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-        return -1;
-      }
-    }
-
-    @Override
-    public long skip( long n ) throws IOException {
-      try {
-        return instream.skip(n);
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-        return -1;
-      }
-    }
-
-    @Override
-    public int available() throws IOException {
-      try {
-        return instream.available();
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-        return -1;
-      }
-    }
-
-    @Override
-    public void close() throws IOException {
-      try {
-        instream.close();
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public synchronized void mark( int readlimit ) {
-      try {
-        instream.mark( readlimit );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public synchronized void reset() throws IOException {
-      try {
-        instream.reset();
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public boolean markSupported() {
-      try {
-        return instream.markSupported();
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-        return false;
-      }
-    }
-    
-  } /* ENDCLASS */
 
 } /* ENDCLASS */

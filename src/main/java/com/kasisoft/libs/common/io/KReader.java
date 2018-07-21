@@ -19,21 +19,23 @@ import lombok.*;
  */
 public interface KReader<T> {
   
-  <R> Optional<R> forReader( @NonNull T input, Function<Reader, R> function );
+  <R> Optional<R> forReader( @NonNull T input, Function<ExtReader, R> function );
 
-  <C1, R> Optional<R> forReader( @NonNull T input, C1 context1, BiFunction<Reader, C1, R> function );
+  <C1, R> Optional<R> forReader( @NonNull T input, C1 context1, BiFunction<ExtReader, C1, R> function );
   
-  <C1, C2, R> Optional<R> forReader( @NonNull T input, C1 context1, C2 context2, TriFunction<Reader, C1, C2, R> function );
+  <C1, C2, R> Optional<R> forReader( @NonNull T input, C1 context1, C2 context2, TriFunction<ExtReader, C1, C2, R> function );
   
-  <R> boolean forReaderDo( @NonNull T input, Consumer<Reader> consumer );
+  <R> boolean forReaderDo( @NonNull T input, Consumer<ExtReader> consumer );
 
-  <C1, R> boolean forReaderDo( @NonNull T input, C1 context1, BiConsumer<Reader, C1> consumer );
+  <C1, R> boolean forReaderDo( @NonNull T input, C1 context1, BiConsumer<ExtReader, C1> consumer );
   
-  <C1, C2> boolean forReaderDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<Reader, C1, C2> function );
+  <C1, C2> boolean forReaderDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<ExtReader, C1, C2> function );
 
-  Optional<Reader> open( @NonNull T input );
+  Optional<ExtReader> open( @NonNull T input );
   
   Optional<char[]> readAll( @NonNull T input );
+  
+  Optional<String> readText( @NonNull T input );
   
   public static <R> KReaderBuilder<R> builder( @NonNull BiFunction<R, Encoding, Reader> opener ) {
     return new KReaderBuilder<>( opener );

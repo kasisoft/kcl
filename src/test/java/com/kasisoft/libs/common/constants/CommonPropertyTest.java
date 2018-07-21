@@ -39,7 +39,6 @@ public class CommonPropertyTest {
   @DataProvider(name="createProperties")
   public Object[][] createProperties() {
     Object[][] result = new Object[][] {
-      { CommonProperty.BufferCount },
       { CommonProperty.IoRetries   },
       { CommonProperty.TempDir     }
     };
@@ -50,8 +49,6 @@ public class CommonPropertyTest {
   public void checkMissingProperties() {
     Integer ioretries   = CommonProperty.IoRetries.getValue( noproperties );
     assertThat( ioretries, is( Integer.valueOf(5) ) );
-    Integer buffersize  = CommonProperty.BufferCount.getValue( noproperties );
-    assertThat( buffersize, is( Integer.valueOf(8192) ) );
     File    tempdir     = CommonProperty.TempDir.getValue( noproperties );
     assertThat( tempdir, is( SysProperty.TempDir.getValue( System.getProperties() ) ) );
   }
@@ -60,8 +57,6 @@ public class CommonPropertyTest {
   public void checkAvailableProperties() {
     Integer ioretries   = CommonProperty.IoRetries.getValue( properties );
     assertThat( ioretries, is( Integer.valueOf(20) ) );
-    Integer buffersize  = CommonProperty.BufferCount.getValue( properties );
-    assertThat( buffersize, is( Integer.valueOf(8192) ) );
     File    tempdir     = CommonProperty.TempDir.getValue( properties );
     assertThat( tempdir, is( new File( "D:/temp".replace( '/', File.separatorChar ) ) ) );
   }

@@ -22,10 +22,7 @@ import lombok.*;
  * A small extension to the {@link JFrame} which provides some helpful convenience functionalities.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
- * 
- * @deprecated [21-JUL-2018:KASI]   Fullscreen capabilities will be removed with the upcoming version.
  */
-@Deprecated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KFrame extends JFrame implements WorkspacePersistent {
 
@@ -35,9 +32,6 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   Rectangle                   lastBounds; 
   ScreenInfo                  screenInfo;
   Map<String, Runnable>       actions;
-  
-  @Getter
-  boolean                     fullScreen;
   
   /**
    * Initializes this frame.
@@ -108,25 +102,11 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     if( ! defer ) {
       init();
     }
-    registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::closeFrame       );
-    registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_F11    , 0 ), this::switchFullscreen );
+    registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::closeFrame );
   }  
   
   protected void setInitialBounds( Rectangle bounds ) {
     initialBounds = bounds;
-  }
-  
-  public void setFullScreen( boolean enable ) {
-    fullScreen = enable;
-    if( enable && (screenInfo != null) && screenInfo.isFullScreenSupported()) {
-      setExtendedState( Frame.MAXIMIZED_BOTH ); 
-      setUndecorated( true );
-      setResizable( true );
-    } else {
-      setExtendedState( Frame.NORMAL );
-      setUndecorated( false );
-      setResizable( false );
-    }
   }
   
   public void closeFrame() {
@@ -256,22 +236,10 @@ public class KFrame extends JFrame implements WorkspacePersistent {
       lastBounds = getBounds();
     }
     
-    if( isFullScreen() ) {
-      if( screenInfo != null ) {
-        if( screenInfo.getScreen().isFullScreenSupported() ) {
-          screenInfo.getScreen().setFullScreenWindow( this );
-        } else {
-          setBounds( screenInfo.getScreen().getDefaultConfiguration().getBounds() );
-        }
-      } else {
-        setWindowAsFullscreen();
-      }
+    if( initialBounds != null ) {
+      setBounds( transformBounds( initialBounds ) );
     } else {
-      if( initialBounds != null ) {
-        setBounds( transformBounds( initialBounds ) );
-      } else {
-        centerThisWindow();
-      }
+      centerThisWindow();
     }
     
     initialBounds = getBounds();
@@ -288,30 +256,6 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     }
   }
   
-  private void switchFullscreen() {
-    if( !isCurrentlyFullscreen() ) {
-      initialBounds =  getBounds();
-      setWindowAsFullscreen();
-    } else {
-      if( screenInfo != null ) {
-        screenInfo.getScreen().setFullScreenWindow( null );
-      }
-      if( initialBounds != null ) {
-        setBounds( initialBounds );
-      } else {
-        centerThisWindow();
-      }
-    }
-  }
-  
-  private void setWindowAsFullscreen() {
-    if( (screenInfo != null) && screenInfo.isFullScreenSupported() ) {
-      screenInfo.getScreen().setFullScreenWindow( this );
-    } else {
-      setBounds( getGraphicsConfiguration().getBounds() );
-    }
-  }
-  
   private void centerThisWindow() {
     if( screenInfo != null ) {
       SwingFunctions.center( this, screenInfo );
@@ -320,21 +264,6 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     }
   }
 
-  private boolean isCurrentlyFullscreen() {
-    if( screenInfo != null ) {
-      return screenInfo.getScreen().getFullScreenWindow() != null;
-    } else {
-      Dimension currentSize  = getSize();
-      Dimension fullSize     = getGraphicsConfiguration().getBounds().getSize();
-      boolean   result       = fullSize.width == currentSize.width;
-      if( result ) {
-        /** @todo [04-Jul-2018:KASI]   Figure out a way to add the taskbar/menubar to the height */
-        result = Math.abs( fullSize.height - currentSize.height ) < 100;
-      }
-      return result;
-    }
-  }
-  
   @AllArgsConstructor
   private static class LocalBehaviour extends WindowAdapter {
 

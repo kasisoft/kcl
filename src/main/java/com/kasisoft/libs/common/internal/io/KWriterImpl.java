@@ -1,6 +1,5 @@
 package com.kasisoft.libs.common.internal.io;
 
-import static com.kasisoft.libs.common.constants.Primitive.*;
 import static com.kasisoft.libs.common.function.Functions.*;
 
 import com.kasisoft.libs.common.base.*;
@@ -62,27 +61,27 @@ public class KWriterImpl<T> implements KWriter<T> {
   }
   
   @Override
-  public <R> Optional<R> forWriter( @NonNull T output, Function<Writer, R> function ) {
+  public <R> Optional<R> forWriter( @NonNull T output, Function<ExtWriter, R> function ) {
     return forWriter( output, null, null, adaptToTri( function ) );
   }
 
   @Override
-  public <C1, R> Optional<R> forWriter( @NonNull T output, C1 context1, BiFunction<Writer, C1, R> function ) {
+  public <C1, R> Optional<R> forWriter( @NonNull T output, C1 context1, BiFunction<ExtWriter, C1, R> function ) {
     return forWriter( output, context1, null, adaptToTri( function ) );
   }
   
   @SuppressWarnings("resource")
-  private Writer openWriter( T output ) {
+  private ExtWriter openWriter( T output ) {
     Writer result = openOutput.apply( output, encoding );
     if( buffered && (! (result instanceof BufferedWriter)) ) {
       result = new BufferedWriter( result );
     }
-    return new InternalWriter<>( result, output, errHandler );
+    return new ExtWriter<>( result, output, errHandler );
   }
   
   @Override
-  public <C1, C2, R> Optional<R> forWriter( @NonNull T output, C1 context1, C2 context2, TriFunction<Writer, C1, C2, R> function ) {
-    try( Writer writer = openWriter( output ) ) {
+  public <C1, C2, R> Optional<R> forWriter( @NonNull T output, C1 context1, C2 context2, TriFunction<ExtWriter, C1, C2, R> function ) {
+    try( ExtWriter writer = openWriter( output ) ) {
       return Optional.ofNullable( function.apply( writer, context1, context2 ) );
     } catch( Exception ex ) {
       errHandler.accept( FailureException.unwrap( ex ), output );
@@ -91,18 +90,18 @@ public class KWriterImpl<T> implements KWriter<T> {
   }
   
   @Override
-  public <R> boolean forWriterDo( @NonNull T output, Consumer<Writer> consumer ) {
+  public <R> boolean forWriterDo( @NonNull T output, Consumer<ExtWriter> consumer ) {
     return forWriterDo( output, null, null, adaptToTri( consumer ) );
   }
 
   @Override
-  public <C1, R> boolean forWriterDo( @NonNull T output, C1 context1, BiConsumer<Writer, C1> consumer ) {
+  public <C1, R> boolean forWriterDo( @NonNull T output, C1 context1, BiConsumer<ExtWriter, C1> consumer ) {
     return forWriterDo( output, context1, null, adaptToTri( consumer ) );
   }
   
   @Override
-  public <C1, C2> boolean forWriterDo( @NonNull T output, C1 context1, C2 context2, TriConsumer<Writer, C1, C2> function ) {
-    try( Writer writer = openWriter( output ) ) {
+  public <C1, C2> boolean forWriterDo( @NonNull T output, C1 context1, C2 context2, TriConsumer<ExtWriter, C1, C2> function ) {
+    try( ExtWriter writer = openWriter( output ) ) {
       function.accept( writer, context1, context2 );
       return true;
     } catch( Exception ex ) {
@@ -112,7 +111,7 @@ public class KWriterImpl<T> implements KWriter<T> {
   }
   
   @Override
-  public Optional<Writer> open( @NonNull T output ) {
+  public Optional<ExtWriter> open( @NonNull T output ) {
     try {
       return Optional.of( openWriter( output ) );
     } catch( Exception ex ) {
@@ -162,113 +161,8 @@ public class KWriterImpl<T> implements KWriter<T> {
   public boolean writeAll( @NonNull T output, char[] data ) {
     return forWriterDo( output, $ -> { 
       CharArrayReader charin = new CharArrayReader( data );
-      PChar.withBufferDo( $b -> {
-        IoFunctions.copy( charin, $, $b, $ex -> errHandler.accept( $ex, output ) );
-      } );
+      IoFunctions.copy( charin, $, $ex -> errHandler.accept( $ex, output ) );
     } );
   }
-  
-  @AllArgsConstructor
-  @FieldDefaults(level = AccessLevel.PRIVATE)
-  private static class InternalWriter<T> extends Writer {
-
-    Writer                      writer;
-    T                           input;
-    BiConsumer<Exception, T>    errHandler;
-    
-    @Override
-    public void write( int c ) throws IOException {
-      try {
-        writer.write(c);
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public void write( char[] cbuf ) throws IOException {
-      try {
-        writer.write( cbuf );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public void write( char[] cbuf, int off, int len ) throws IOException {
-      try {
-        writer.write( cbuf, off, len );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public void write( String str ) throws IOException {
-      try {
-        writer.write( str );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public void write( String str, int off, int len ) throws IOException {
-      try {
-        writer.write( str, off, len );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public Writer append( CharSequence csq ) throws IOException {
-      try {
-        writer.append( csq );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-      return this;
-    }
-
-    @Override
-    public Writer append( CharSequence csq, int start, int end ) throws IOException {
-      try {
-        writer.append( csq, start, end );
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-      return this;
-    }
-
-    @Override
-    public Writer append( char c ) throws IOException {
-      try {
-        writer.append(c);
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-      return this;
-    }
-
-    @Override
-    public void flush() throws IOException {
-      try {
-        writer.flush();
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-
-    @Override
-    public void close() throws IOException {
-      try {
-        writer.close();
-      } catch( Exception ex ) {
-        errHandler.accept( ex, input );
-      }
-    }
-    
-  } /* ENDCLASS */
   
 } /* ENDCLASS */

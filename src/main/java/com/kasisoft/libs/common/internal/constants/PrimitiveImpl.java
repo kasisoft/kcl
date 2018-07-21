@@ -206,12 +206,12 @@ public class PrimitiveImpl<PA, O> implements Primitive<PA, O> {
   }
 
   @Override
-  public O or( O[] values ) {
+  public O or( O ... values ) {
     return booleanOp( values, $ -> $, Boolean.FALSE, Boolean.TRUE);
   }
 
   @Override
-  public O and( O[] values ) {
+  public O and( O ... values ) {
     return booleanOp( values, $ -> !$, Boolean.TRUE, Boolean.FALSE );
   }
 
@@ -374,19 +374,19 @@ public class PrimitiveImpl<PA, O> implements Primitive<PA, O> {
   }
   
   @Override
-  public O[] cleanup( O[] input ) {
-    return cleanup( input, null );
+  public O[] cleanup( O ... input ) {
+    return cleanup( null, input );
   }
   
   @Override
-  public O[] cleanup( O[] input, Predicate<O> isNotSet ) {
+  public O[] cleanup( Predicate<O> isNotSet, O ... input ) {
     O[] result = null;
     if( input != null ) {
       if( isNotSet == null ) {
         isNotSet = $ -> $ == null;
       }
       Predicate<O> isSet = isNotSet.negate();
-      int count = countUnset( input, isNotSet );
+      int count = countUnset( isNotSet, input );
       if( count == 0 ) {
         result = input;
       } else if( count < input.length ) {
@@ -402,12 +402,12 @@ public class PrimitiveImpl<PA, O> implements Primitive<PA, O> {
   }
 
   @Override
-  public int countSet( O[] input ) {
-    return countSet( input, null );
+  public int countSet( O ... input ) {
+    return countSet( null, input );
   }
   
   @Override
-  public int countSet( O[] input, Predicate<O> isSet ) {
+  public int countSet( Predicate<O> isSet, O ... input ) {
     if( isSet == null ) {
       isSet = $ -> $ != null;
     }
@@ -415,12 +415,12 @@ public class PrimitiveImpl<PA, O> implements Primitive<PA, O> {
   }
   
   @Override
-  public int countUnset( O[] input ) {
-    return countUnset( input, null );
+  public int countUnset( O ... input ) {
+    return countUnset( null, input );
   }
   
   @Override
-  public int countUnset( O[] input, Predicate<O> isNotSet ) {
+  public int countUnset( Predicate<O> isNotSet, O ... input ) {
     if( isNotSet == null ) {
       isNotSet = $ -> $ == null;
     }

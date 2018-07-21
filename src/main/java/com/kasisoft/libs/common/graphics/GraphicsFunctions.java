@@ -1,14 +1,10 @@
 package com.kasisoft.libs.common.graphics;
 
-import com.kasisoft.libs.common.constants.*;
+import static com.kasisoft.libs.common.io.DefaultIO.*;
 
 import com.kasisoft.libs.common.base.*;
-
+import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.ui.*;
-
-import com.kasisoft.libs.common.io.*;
-
-import lombok.*;
 
 import javax.swing.*;
 
@@ -20,9 +16,11 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 
+import java.io.*;
+
 import java.nio.file.*;
 
-import java.io.*;
+import lombok.*;
 
 /**
  * Several utility functions related to graphical operations.
@@ -45,7 +43,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull File file ) {
-    return IoFunctions.forInputStream( file, GraphicsFunctions::readImage );
+    return FILE_INPUTSTREAM_EX.forInputStream( file, GraphicsFunctions::readImage ).orElse( null );
   }
 
   /**
@@ -56,7 +54,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull URL url ) {
-    return IoFunctions.forInputStream( url, GraphicsFunctions::readImage );
+    return URL_INPUTSTREAM_EX.forInputStream( url, GraphicsFunctions::readImage ).orElse( null );
   }
 
   /**
@@ -67,7 +65,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull URI uri ) {
-    return IoFunctions.forInputStream( uri, GraphicsFunctions::readImage );
+    return URI_INPUTSTREAM_EX.forInputStream( uri, GraphicsFunctions::readImage ).orElse( null );
   }
 
   /**
@@ -78,7 +76,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull Path path ) {
-    return IoFunctions.forInputStream( path, GraphicsFunctions::readImage );
+    return PATH_INPUTSTREAM_EX.forInputStream( path, GraphicsFunctions::readImage ).orElse( null );
   }
 
   /**
@@ -89,7 +87,7 @@ public class GraphicsFunctions {
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
   public static BufferedImage readImage( @NonNull String path ) {
-    return IoFunctions.forInputStream( path, GraphicsFunctions::readImage );
+    return STRING_PATH_INPUTSTREAM_EX.forInputStream( path, GraphicsFunctions::readImage ).orElse( null );
   }
 
   /**
@@ -115,7 +113,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URL url, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( url, outstream -> writeImage( outstream, format, component ) );
+    URL_OUTPUTSTREAM_EX.forOutputStreamDo( url, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -126,7 +124,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URI uri, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, component ) );
+    URI_OUTPUTSTREAM_EX.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -137,7 +135,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull Path path, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
+    PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -148,7 +146,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( file, outstream -> writeImage( outstream, format, component ) );
+    FILE_OUTPUTSTREAM_EX.forOutputStreamDo( file, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -159,7 +157,7 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull String path, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
+    STRING_PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
   }  
 
   /**
@@ -181,7 +179,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URL url, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( url, outstream -> writeImage( outstream, format, image ) );
+    URL_OUTPUTSTREAM_EX.forOutputStreamDo( url, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -192,7 +190,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull URI uri, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, image ) );
+    URI_OUTPUTSTREAM_EX.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -203,7 +201,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull Path path, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
+    PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -214,7 +212,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( file, outstream -> writeImage( outstream, format, image ) );
+    FILE_OUTPUTSTREAM_EX.forOutputStreamDo( file, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**
@@ -225,7 +223,7 @@ public class GraphicsFunctions {
    * @param image       The image that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull String path, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    IoFunctions.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
+    STRING_PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
   }  
 
   /**

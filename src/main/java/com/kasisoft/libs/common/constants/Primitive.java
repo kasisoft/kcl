@@ -102,9 +102,9 @@ public interface Primitive<PA, O> extends Comparable<Primitive> {
 
   O and( PA values );
 
-  O or( O[] values );
+  O or( O ... values );
 
-  O and( O[] values );
+  O and( O ... values );
 
   O max( PA values );
 
@@ -130,17 +130,17 @@ public interface Primitive<PA, O> extends Comparable<Primitive> {
   
   PA cleanup( PA input );
   
-  O[] cleanup( O[] input );
+  O[] cleanup( O ... input );
   
-  O[] cleanup( O[] input, Predicate<O> isNotSet );
+  O[] cleanup( Predicate<O> isNotSet, O ... input );
 
-  int countSet( O[] input );
+  int countSet( O ... input );
   
-  int countSet( O[] input, Predicate<O> isSet );
+  int countSet( Predicate<O> isSet, O ... input );
   
-  int countUnset( O[] input );
+  int countUnset( O ... input );
   
-  int countUnset( O[] input, Predicate<O> isNotSet );
+  int countUnset( Predicate<O> isNotSet, O ... input );
 
   List<O> toList( PA primitiveArray );
 

@@ -164,7 +164,7 @@ public final class XmlFunctions {
    * @throws FailureException   Loading the xml content failed for some reason.
    */
   public static <T> Document readDocument( @NonNull T input, @NonNull XmlParserConfiguration config ) throws FailureException {
-    Optional<Reader> reader = readerEx( input ).open( input );
+    Optional<ExtReader> reader = readerEx( input ).open( input );
     return reader.map( $ -> readDocument( $, config ) ).get();
   }
   

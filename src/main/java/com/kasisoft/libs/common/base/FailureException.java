@@ -53,7 +53,7 @@ public class FailureException extends RuntimeException {
   
   public static Exception unwrap( @NonNull Exception ex ) {
     Exception result = ex;
-    if( result instanceof FailureException ) {
+    if( (result instanceof FailureException) && (result.getCause() != null) ) {
       result = unwrap( (Exception) ((FailureException) ex).getCause() );
     }
     return result;

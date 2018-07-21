@@ -107,7 +107,7 @@ public class UnzipRunnable extends AbstractRunnable {
         
         
         try( InputStream instream = zipfile.getInputStream( entry ) ) {
-          PATH_OUTPUTSTREAM_EX.forOutputStreamDo( file, $ -> IoFunctions.copy( instream, $, buffer ) );
+          PATH_OUTPUTSTREAM_EX.forOutputStreamDo( file, $ -> IoFunctions.copy( instream, $, null ) );
         }
         
       }

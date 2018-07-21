@@ -18,19 +18,19 @@ import lombok.*;
  */
 public interface KOutputStream<T> {
 
-  <R> Optional<R> forOutputStream( @NonNull T output, Function<OutputStream, R> function );
+  <R> Optional<R> forOutputStream( @NonNull T output, Function<ExtOutputStream, R> function );
 
-  <C1, R> Optional<R> forOutputStream( @NonNull T output, C1 context1, BiFunction<OutputStream, C1, R> function );
+  <C1, R> Optional<R> forOutputStream( @NonNull T output, C1 context1, BiFunction<ExtOutputStream, C1, R> function );
   
-  <C1, C2, R> Optional<R> forOutputStream( @NonNull T output, C1 context1, C2 context2, TriFunction<OutputStream, C1, C2, R> function );
+  <C1, C2, R> Optional<R> forOutputStream( @NonNull T output, C1 context1, C2 context2, TriFunction<ExtOutputStream, C1, C2, R> function );
   
-  <R> boolean forOutputStreamDo( @NonNull T output, Consumer<OutputStream> consumer );
+  <R> boolean forOutputStreamDo( @NonNull T output, Consumer<ExtOutputStream> consumer );
 
-  <C1, R> boolean forOutputStreamDo( @NonNull T output, C1 context1, BiConsumer<OutputStream, C1> consumer );
+  <C1, R> boolean forOutputStreamDo( @NonNull T output, C1 context1, BiConsumer<ExtOutputStream, C1> consumer );
   
-  <C1, C2> boolean forOutputStreamDo( @NonNull T output, C1 context1, C2 context2, TriConsumer<OutputStream, C1, C2> function );
+  <C1, C2> boolean forOutputStreamDo( @NonNull T output, C1 context1, C2 context2, TriConsumer<ExtOutputStream, C1, C2> function );
 
-  Optional<OutputStream> open( @NonNull T input );
+  Optional<ExtOutputStream> open( @NonNull T input );
   
   boolean writeAll( @NonNull T output, byte[] data );
   

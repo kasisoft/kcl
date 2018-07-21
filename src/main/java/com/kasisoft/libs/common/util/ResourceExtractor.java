@@ -175,7 +175,11 @@ public class ResourceExtractor {
     boolean result = false;
     URL     url    = ResourceExtractor.class.getClassLoader().getResource( source );
     if( url != null ) {
-      PATH_OUTPUTSTREAM_EX.forOutputStreamDo( dest, $ -> URL_INPUTSTREAM_EX.forInputStreamDo( url, $, IoFunctions::copy ) );
+      PATH_OUTPUTSTREAM_EX.forOutputStreamDo( dest, $o -> {
+        URL_INPUTSTREAM_EX.forInputStreamDo( url, $i -> {
+          IoFunctions.copy( $i, $o, null );
+        } );
+      } );
       if( canBeSubstituted.test( dest ) && (!substitutions.isEmpty()) ) {
         String text = PATH_READER_EX.forReader( dest, IoFunctions::readTextFully )
           .map( $ -> StringFunctions.replace( $, substitutions ) )

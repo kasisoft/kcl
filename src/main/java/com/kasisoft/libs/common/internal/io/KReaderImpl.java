@@ -1,7 +1,6 @@
 package com.kasisoft.libs.common.internal.io;
 
 import static com.kasisoft.libs.common.function.Functions.*;
-import static com.kasisoft.libs.common.constants.Primitive.*;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
@@ -17,7 +16,6 @@ import java.net.*;
 
 import java.io.*;
 
-import java.nio.*;
 import java.nio.file.*;
 
 import lombok.experimental.*;
@@ -64,17 +62,17 @@ public class KReaderImpl<T> implements KReader<T> {
   }
   
   @Override
-  public <R> Optional<R> forReader( @NonNull T input, Function<Reader, R> function ) {
+  public <R> Optional<R> forReader( @NonNull T input, Function<ExtReader, R> function ) {
     return forReader( input, null, null, adaptToTri( function ) );
   }
 
   @Override
-  public <C1, R> Optional<R> forReader( @NonNull T input, C1 context1, BiFunction<Reader, C1, R> function ) {
+  public <C1, R> Optional<R> forReader( @NonNull T input, C1 context1, BiFunction<ExtReader, C1, R> function ) {
     return forReader( input, context1, null, adaptToTri( function ) );
   }
   
   @Override
-  public Optional<Reader> open( @NonNull T input ) {
+  public Optional<ExtReader> open( @NonNull T input ) {
     try {
       return Optional.of( openReader( input ) );
     } catch( Exception ex ) {
@@ -84,17 +82,17 @@ public class KReaderImpl<T> implements KReader<T> {
   }
   
   @SuppressWarnings("resource")
-  private Reader openReader( T input ) {
+  private ExtReader openReader( T input ) {
     Reader result = openInput.apply( input, encoding );
     if( buffered && (! (result instanceof BufferedReader))) {
       result = new BufferedReader( result );
     }
-    return new InternalReader<>( result, input, errHandler );
+    return new ExtReader<>( result, input, errHandler );
   }
   
   @Override
-  public <C1, C2, R> Optional<R> forReader( @NonNull T input, C1 context1, C2 context2, TriFunction<Reader, C1, C2, R> function ) {
-    try( Reader instream = openReader( input ) ) {
+  public <C1, C2, R> Optional<R> forReader( @NonNull T input, C1 context1, C2 context2, TriFunction<ExtReader, C1, C2, R> function ) {
+    try( ExtReader instream = openReader( input ) ) {
       return Optional.ofNullable( function.apply( instream, context1, context2 ) );
     } catch( Exception ex ) {
       errHandler.accept( FailureException.unwrap( ex ), input );
@@ -103,18 +101,18 @@ public class KReaderImpl<T> implements KReader<T> {
   }
   
   @Override
-  public <R> boolean forReaderDo( @NonNull T input, Consumer<Reader> consumer ) {
+  public <R> boolean forReaderDo( @NonNull T input, Consumer<ExtReader> consumer ) {
     return forReaderDo( input, null, null, adaptToTri( consumer ) );
   }
 
   @Override
-  public <C1, R> boolean forReaderDo( @NonNull T input, C1 context1, BiConsumer<Reader, C1> consumer ) {
+  public <C1, R> boolean forReaderDo( @NonNull T input, C1 context1, BiConsumer<ExtReader, C1> consumer ) {
     return forReaderDo( input, context1, null, adaptToTri( consumer ) );
   }
   
   @Override
-  public <C1, C2> boolean forReaderDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<Reader, C1, C2> function ) {
-    try( Reader instream = openReader( input ) ) {
+  public <C1, C2> boolean forReaderDo( @NonNull T input, C1 context1, C2 context2, TriConsumer<ExtReader, C1, C2> function ) {
+    try( ExtReader instream = openReader( input ) ) {
       function.accept( instream, context1, context2 );
       return true;
     } catch( Exception ex ) {
@@ -173,118 +171,18 @@ public class KReaderImpl<T> implements KReader<T> {
   public Optional<char[]> readAll( @NonNull T input ) {
     return forReader( input, $ -> { 
       CharArrayWriter writer = new CharArrayWriter();
-      PChar.withBufferDo( $b -> {
-        IoFunctions.copy( $, writer, $b, $ex -> errHandler.accept( $ex, input ) );
-      } );
+      IoFunctions.copy( $, writer, $ex -> errHandler.accept( $ex, input ) );
       return writer.toCharArray();
     } );
   }
   
-  @AllArgsConstructor 
-  @FieldDefaults(level = AccessLevel.PRIVATE)
-  private static class InternalReader<T> extends Reader {
-
-    Reader                      reader;
-    T                           input;
-    BiConsumer<Exception, T>    errHandler;
-    
-    @Override
-    public int read( CharBuffer target ) throws IOException {
-      try {
-        return reader.read( target );
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-        return -1;
-      }
-    }
-
-    @Override
-    public int read() throws IOException {
-      try {
-        return reader.read();
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-        return -1;
-      }
-    }
-
-    @Override
-    public int read( char[] cbuf ) throws IOException {
-      try {
-        return reader.read( cbuf );
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-        return -1;
-      }
-    }
-
-    @Override
-    public long skip( long n ) throws IOException {
-      try {
-        return reader.skip(n);
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-        return -1;
-      }
-    }
-
-    @Override
-    public boolean ready() throws IOException {
-      try {
-        return reader.ready();
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-        return false;
-      }
-    }
-
-    @Override
-    public boolean markSupported() {
-      try {
-        return reader.markSupported();
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-        return false;
-      }
-    }
-
-    @Override
-    public void mark( int readAheadLimit ) throws IOException {
-      try {
-        reader.mark( readAheadLimit );
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-      }
-    }
-
-    @Override
-    public void reset() throws IOException {
-      try {
-        reader.reset();
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-      }
-    }
-
-    @Override
-    public int read( char[] cbuf, int off, int len ) throws IOException {
-      try {
-        return reader.read( cbuf, off, len );
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-        return -1;
-      }
-    }
-
-    @Override
-    public void close() throws IOException {
-      try {
-        reader.close();
-      } catch( Exception ex ) {
-        errHandler.accept( FailureException.unwrap( ex ), input );
-      }
-    }
-    
-  } /* ENDCLASS */
+  @Override
+  public Optional<String> readText( @NonNull T input ) {
+    return forReader( input, $ -> { 
+      StringWriter writer = new StringWriter();
+      IoFunctions.copy( $, writer, $ex -> errHandler.accept( $ex, input ) );
+      return writer.toString();
+    } );
+  }
   
 } /* ENDCLASS */

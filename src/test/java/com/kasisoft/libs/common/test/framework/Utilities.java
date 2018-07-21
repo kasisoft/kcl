@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.test.framework;
 
+import static com.kasisoft.libs.common.io.DefaultIO.*;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
@@ -78,7 +80,7 @@ public class Utilities {
         byte[] datablock = createByteBlock();
         File   destfile  = new File( basedir, filename );
         collector.add( destfile );
-        IoFunctions.forOutputStreamDo( destfile, $ -> IoFunctions.writeBytes( $, datablock ) );
+        FILE_OUTPUTSTREAM_EX.forOutputStreamDo( destfile, $ -> $.eWrite( datablock ) );
       }
     }
   }
@@ -106,7 +108,7 @@ public class Utilities {
   public static File createRandomBytesFile() {
     File    result  = IoFunctions.newTempFile();
     byte[]  data    = createByteBlock();
-    IoFunctions.forOutputStreamDo( result, $ -> IoFunctions.writeBytes( $, data ) );
+    FILE_OUTPUTSTREAM_EX.forOutputStreamDo( result, $ -> $.eWrite( data ) );
     return result;
   }
   
@@ -127,7 +129,7 @@ public class Utilities {
       fill( newchild, count );
     } else {
       byte[]  data    = createByteBlock();
-      IoFunctions.forOutputStreamDo( newchild, $ -> IoFunctions.writeBytes( $, data ) );
+      FILE_OUTPUTSTREAM_EX.forOutputStreamDo( newchild, $ -> IoFunctions.writeBytes( $, data ) );
       if( count > 0 ) {
         fill( dir, count );
       }

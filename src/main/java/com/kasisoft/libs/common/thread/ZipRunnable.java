@@ -134,7 +134,7 @@ public class ZipRunnable extends AbstractRunnable {
     try( InputStream input = IoFunctions.newInputStream( file ) ) {
       ZipEntry zentry = new ZipEntry( relative );
       zipout.putNextEntry( zentry );
-      IoFunctions.copy( input, zipout, buffer );
+      IoFunctions.copy( input, zipout, buffer, null );
       zipout.closeEntry();
     }
   }

@@ -147,7 +147,7 @@ public class Blacklist implements Predicate<String> {
   }
 
   public synchronized <T> void load( @NonNull T source ) {
-    Optional<Reader> reader = DefaultIO.readerEx( source ).open( source );
+    Optional<ExtReader> reader = DefaultIO.readerEx( source ).open( source );
     if( reader.isPresent() ) {
       load( reader.get() );
     }

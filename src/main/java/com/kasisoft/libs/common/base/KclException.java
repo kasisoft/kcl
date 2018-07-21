@@ -45,7 +45,7 @@ public class KclException extends RuntimeException {
   
   public static Exception unwrap( @NonNull Exception ex ) {
     Exception result = ex;
-    if( result instanceof KclException ) {
+    if( (result instanceof KclException) && (result.getCause() != null) ) {
       result = unwrap( (Exception) ((KclException) ex).getCause() );
     }
     return result;

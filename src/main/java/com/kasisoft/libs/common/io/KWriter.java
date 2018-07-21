@@ -19,19 +19,19 @@ import lombok.*;
  */
 public interface KWriter<T> {
   
-  <R> Optional<R> forWriter( @NonNull T output, Function<Writer, R> function );
+  <R> Optional<R> forWriter( @NonNull T output, Function<ExtWriter, R> function );
 
-  <C1, R> Optional<R> forWriter( @NonNull T output, C1 context1, BiFunction<Writer, C1, R> function );
+  <C1, R> Optional<R> forWriter( @NonNull T output, C1 context1, BiFunction<ExtWriter, C1, R> function );
   
-  <C1, C2, R> Optional<R> forWriter( @NonNull T output, C1 context1, C2 context2, TriFunction<Writer, C1, C2, R> function );
+  <C1, C2, R> Optional<R> forWriter( @NonNull T output, C1 context1, C2 context2, TriFunction<ExtWriter, C1, C2, R> function );
   
-  <R> boolean forWriterDo( @NonNull T output, Consumer<Writer> consumer );
+  <R> boolean forWriterDo( @NonNull T output, Consumer<ExtWriter> consumer );
 
-  <C1, R> boolean forWriterDo( @NonNull T output, C1 context1, BiConsumer<Writer, C1> consumer );
+  <C1, R> boolean forWriterDo( @NonNull T output, C1 context1, BiConsumer<ExtWriter, C1> consumer );
   
-  <C1, C2> boolean forWriterDo( @NonNull T output, C1 context1, C2 context2, TriConsumer<Writer, C1, C2> function );
+  <C1, C2> boolean forWriterDo( @NonNull T output, C1 context1, C2 context2, TriConsumer<ExtWriter, C1, C2> function );
   
-  Optional<Writer> open( @NonNull T output );
+  Optional<ExtWriter> open( @NonNull T output );
 
   boolean writeAll( @NonNull T output, char[] data );
   

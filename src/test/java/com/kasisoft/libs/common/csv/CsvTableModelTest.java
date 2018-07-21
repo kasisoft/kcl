@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.csv;
 
+import static com.kasisoft.libs.common.io.DefaultIO.*;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
@@ -11,8 +13,6 @@ import org.testng.*;
 import com.kasisoft.libs.common.util.*;
 
 import com.kasisoft.libs.common.base.*;
-
-import com.kasisoft.libs.common.io.*;
 
 import java.net.*;
 
@@ -34,7 +34,7 @@ public class CsvTableModelTest {
     
     CsvTableModel model   = new CsvTableModel( options );
     
-    IoFunctions.forInputStreamDo( source, model::load );
+    URL_INPUTSTREAM_EX.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     assertThat( model.getRowCount(), is(8) );
@@ -59,7 +59,7 @@ public class CsvTableModelTest {
         .build();
     CsvTableModel model   = new CsvTableModel( options );
     
-    IoFunctions.forInputStreamDo( source, model::load );
+    URL_INPUTSTREAM_EX.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     assertThat( model.getRowCount(), is(8) );
@@ -78,7 +78,7 @@ public class CsvTableModelTest {
         .build();
     CsvTableModel model   = new CsvTableModel( options );
     
-    IoFunctions.forInputStreamDo( source, model::load );
+    URL_INPUTSTREAM_EX.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     assertThat( model.getRowCount(), is(8) );
@@ -98,7 +98,7 @@ public class CsvTableModelTest {
     CsvTableModel model   = new CsvTableModel( options );
     model.setErrorHandlerForInconsistentColumnCount( $ -> { /* do nothing */ } );
     
-    IoFunctions.forInputStreamDo( source, model::load );
+    URL_INPUTSTREAM_EX.forInputStreamDo( source, model::load );
     
     assertThat( model.getColumnCount(), is(3) );
     

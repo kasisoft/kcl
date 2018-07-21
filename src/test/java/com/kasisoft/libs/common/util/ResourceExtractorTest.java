@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.util;
 
+import static com.kasisoft.libs.common.io.DefaultIO.*;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
@@ -63,9 +65,9 @@ public class ResourceExtractorTest {
   @Test(dependsOnMethods = "extract")
   public void extractButDontChange() {
     
-    IoFunctions.forWriterDo( fileXsd   , "", IoFunctions::writeText );
-    IoFunctions.forWriterDo( fileProps , "", IoFunctions::writeText );
-    IoFunctions.forWriterDo( fileVars  , "", IoFunctions::writeText );
+    PATH_WRITER_EX.forWriterDo( fileXsd   , "", IoFunctions::writeText );
+    PATH_WRITER_EX.forWriterDo( fileProps , "", IoFunctions::writeText );
+    PATH_WRITER_EX.forWriterDo( fileVars  , "", IoFunctions::writeText );
     
     assertThat( fileXsd   . toFile().length(), is(0L) );
     assertThat( fileProps . toFile().length(), is(0L) );
@@ -104,7 +106,7 @@ public class ResourceExtractorTest {
       .systemProperties()
       .substitution( "dir", currentdir.toString() );
     
-    IoFunctions.forWriterDo( fileXsd, "", IoFunctions::writeText );
+    PATH_WRITER_EX.forWriterDo( fileXsd, "", IoFunctions::writeText );
     IoFunctions.delete( fileProps );
     
     assertThat( fileXsd.toFile().length(), is(0L) );
@@ -117,7 +119,7 @@ public class ResourceExtractorTest {
     assertTrue( fileProps . toFile().length() > 0L );
     assertTrue( fileVars  . toFile().length() > 0L );
 
-    String text = IoFunctions.forReader( fileVars, IoFunctions::readTextFully );
+    String text = PATH_READER_EX.forReader( fileVars, IoFunctions::readTextFully ).orElse( null );
     assertTrue( text.contains( String.format( "directory=%s", currentdir.toString() ) ) );
     assertTrue( text.contains( String.format( "version=%s", SysProperty.ClassVersion.getValue().toString() ) ) );
     
