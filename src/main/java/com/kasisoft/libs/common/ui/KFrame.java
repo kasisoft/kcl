@@ -100,7 +100,7 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   private void init( String title, boolean defer, String wsprop ) {
     setTitle( title );
     actions         = new HashMap<>();
-    initialBounds   = new Rectangle( 0, 0, 640, 480 );
+    initialBounds   = null;
     property        = StringFunctions.cleanup( wsprop );
     if( property != null ) {
       propertyBounds = new SimpleProperty<>( String.format( "%s.bounds", property ), new RectangleAdapter() );
@@ -111,6 +111,10 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::closeFrame       );
     registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_F11    , 0 ), this::switchFullscreen );
   }  
+  
+  protected void setInitialBounds( Rectangle bounds ) {
+    initialBounds = bounds;
+  }
   
   public void setFullScreen( boolean enable ) {
     fullScreen = enable;
@@ -264,7 +268,7 @@ public class KFrame extends JFrame implements WorkspacePersistent {
       }
     } else {
       if( initialBounds != null ) {
-        setBounds( initialBounds );
+        setBounds( transformBounds( initialBounds ) );
       } else {
         centerThisWindow();
       }
@@ -273,6 +277,15 @@ public class KFrame extends JFrame implements WorkspacePersistent {
     initialBounds = getBounds();
     
     super.setVisible( enable );
+  }
+
+  public Rectangle transformBounds( Rectangle rectangle ) {
+    if( screenInfo != null ) {
+      Rectangle sinfo = screenInfo.getGraphicsConfiguration().getBounds();
+      return new Rectangle( rectangle.x + sinfo.x, rectangle.y + sinfo.y, rectangle.width, rectangle.height ); 
+    } else {
+      return rectangle;
+    }
   }
   
   private void switchFullscreen() {
