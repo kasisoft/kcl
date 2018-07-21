@@ -33,6 +33,8 @@ public interface KReader<T> {
 
   Optional<Reader> open( @NonNull T input );
   
+  Optional<char[]> readAll( @NonNull T input );
+  
   public static <R> KReaderBuilder<R> builder( @NonNull BiFunction<R, Encoding, Reader> opener ) {
     return new KReaderBuilder<>( opener );
   }

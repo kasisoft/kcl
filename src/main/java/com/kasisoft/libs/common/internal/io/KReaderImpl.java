@@ -168,6 +168,15 @@ public class KReaderImpl<T> implements KReader<T> {
     return Encoding.openReader( source, encoding );
   }
   
+  @Override
+  public Optional<char[]> readAll( @NonNull T input ) {
+    return forReader( input, $ -> { 
+      CharArrayWriter writer = new CharArrayWriter();
+      IoFunctions.copy( $, writer );
+      return writer.toCharArray();
+    } );
+  }
+  
   @AllArgsConstructor 
   @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class InternalReader<T> extends Reader {

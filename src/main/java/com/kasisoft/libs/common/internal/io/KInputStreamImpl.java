@@ -119,18 +119,14 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
     }
   }
   
-//  @Override
-//  public byte[] readAll( @NonNull T input ) {
-//    Optional<byte[]> data = forInputStream( input, $i -> {
-//      return byteouts.forInstance( $byteout -> {
-//        Primitive.PByte.withBufferDo( $buffer -> {
-//          copy( $i, $byteout, (byte[]) $buffer );
-//        } );
-//        return $byteout.toByteArray();
-//      } );
-//    } );
-//    return data.orElse( Empty.NO_BYTES );
-//  }
+  @Override
+  public Optional<byte[]> readAll( @NonNull T input ) {
+    return forInputStream( input, $ -> { 
+      ByteArrayOutputStream byteout = new ByteArrayOutputStream();
+      IoFunctions.copy( $, byteout );
+      return byteout.toByteArray();
+    } );
+  }
 
   private InputStream newInputStream( Path input ) {
     try {

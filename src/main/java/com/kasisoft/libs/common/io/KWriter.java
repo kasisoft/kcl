@@ -33,6 +33,8 @@ public interface KWriter<T> {
   
   Optional<Writer> open( @NonNull T output );
 
+  boolean writeAll( @NonNull T output, char[] data );
+  
   public static <R> KWriterBuilder<R> builder( @NonNull BiFunction<R, Encoding, Writer> opener ) {
     return new KWriterBuilder<>( opener );
   }

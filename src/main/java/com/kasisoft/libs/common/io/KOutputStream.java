@@ -32,6 +32,8 @@ public interface KOutputStream<T> {
 
   Optional<OutputStream> open( @NonNull T input );
   
+  boolean writeAll( @NonNull T output, byte[] data );
+  
   public static <R> KOutputStreamBuilder<R> builder( @NonNull Function<R, OutputStream> opener ) {
     return new KOutputStreamBuilder<>( opener );
   }

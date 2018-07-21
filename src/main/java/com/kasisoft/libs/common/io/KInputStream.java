@@ -32,7 +32,7 @@ public interface KInputStream<T> {
   
   Optional<InputStream> open( @NonNull T input );
   
-  // byte[] readAll( @NonNull T input );
+  Optional<byte[]> readAll( @NonNull T input );
   
   public static <R> KInputStreamBuilder<R> builder( @NonNull Function<R, InputStream> opener ) {
     return new KInputStreamBuilder<>( opener );

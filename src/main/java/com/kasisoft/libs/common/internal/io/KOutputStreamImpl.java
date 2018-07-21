@@ -144,6 +144,14 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
     return newOutputStream( Paths.get( input ) );
   }
   
+  @Override
+  public boolean writeAll( @NonNull T output, byte[] data ) {
+    return forOutputStreamDo( output, $ -> { 
+      ByteArrayInputStream bytein = new ByteArrayInputStream( data );
+      IoFunctions.copy( bytein, $ );
+    } );
+  }
+  
   @AllArgsConstructor
   @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class InternalOutputStream<T> extends OutputStream {

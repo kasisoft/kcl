@@ -157,6 +157,14 @@ public class KWriterImpl<T> implements KWriter<T> {
     return Encoding.openWriter( dest, encoding );
   }
   
+  @Override
+  public boolean writeAll( @NonNull T output, char[] data ) {
+    return forWriterDo( output, $ -> { 
+      CharArrayReader charin = new CharArrayReader( data );
+      IoFunctions.copy( charin, $ );
+    } );
+  }
+  
   @AllArgsConstructor
   @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class InternalWriter<T> extends Writer {
