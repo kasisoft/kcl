@@ -22,7 +22,10 @@ import lombok.*;
  * A small extension to the {@link JFrame} which provides some helpful convenience functionalities.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [21-JUL-2018:KASI]   Fullscreen capabilities will be removed with the upcoming version.
  */
+@Deprecated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KFrame extends JFrame implements WorkspacePersistent {
 
