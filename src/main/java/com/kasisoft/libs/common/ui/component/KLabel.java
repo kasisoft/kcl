@@ -68,8 +68,12 @@ public class KLabel extends JLabel implements I18NSensitive {
     args = arguments;
   }
 
-  public void setI18NArguments( Object ... arguments ) {
+  public void setI18N( I18NString text, Object ... arguments ) {
     args = arguments;
+    i18n = text != null ? text : i18n;
+    if( i18n != null ) {
+      setText( i18n.format( args ) );
+    }
   }
   
   @Override

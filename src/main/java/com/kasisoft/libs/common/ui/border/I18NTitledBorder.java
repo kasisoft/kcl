@@ -19,6 +19,7 @@ import lombok.*;
 public class I18NTitledBorder extends TitledBorder implements I18NSensitive {
 
   I18NString    i18n;
+  Object[]      i18nArgs;
   
   public I18NTitledBorder( Border border, I18NString title, int titleJustification, int titlePosition, Font titleFont, Color titleColor ) {
     super( border, title.toString(), titleJustification, titlePosition, titleFont, titleColor );
@@ -45,9 +46,17 @@ public class I18NTitledBorder extends TitledBorder implements I18NSensitive {
     i18n = title;
   }
 
+  public void setI18N( I18NString text, Object ... arguments ) {
+    i18nArgs = arguments;
+    i18n     = text != null ? text : i18n;
+    if( i18n != null ) {
+      setTitle( i18n.format( i18nArgs ) );
+    }
+  }
+  
   @Override
   public void onLocaleChange( Locale newLocale ) {
-    setTitle( i18n.toString() );
+    setTitle( i18n.format( i18nArgs ) );
   }
 
 } /* ENDCLASS */
