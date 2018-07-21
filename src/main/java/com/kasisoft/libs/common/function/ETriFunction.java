@@ -4,7 +4,10 @@ import java.util.function.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
+ * 
+ * @deprecated [21-JUL-2018:KASI]   Will be removed with the next version.
  */
+@Deprecated
 @FunctionalInterface
 public interface ETriFunction<T1, T2, T3, R, E extends Exception> {
 
