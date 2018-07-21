@@ -246,8 +246,10 @@ public class CsvTableModel implements TableModel {
     char first = content.charAt(0);
     if( (first == CR) || (first == LF) ) {
       consumeCRLF( receiver, content );
-    } else if( (first == DQ) || (first == SQ) ) {
-      consumeQuoted( receiver, content, first, first == DQ ? DQ_STR : SQ_STR );
+    } else if( (first == DQ) && options.isConsumeDoubleQuotes() ) {
+      consumeQuoted( receiver, content, first, DQ_STR );
+    } else if( (first == SQ) && options.isConsumeSingleQuotes() ) {
+      consumeQuoted( receiver, content, first, SQ_STR );
     } else if( first == options.getDelimiter() ) {
       consumeCellSeparator( receiver, content );
     } else {
@@ -392,10 +394,12 @@ public class CsvTableModel implements TableModel {
       }
       if( result.data != null ) {
         char ch = result.data.charAt(0);
-        if( (ch == DQ) || (ch == SQ) ) {
-          String asStr = ch == DQ ? DQ_STR : SQ_STR;
+        if( (ch == DQ) && options.isConsumeDoubleQuotes() ) {
           result.data  = result.data.substring( 1, result.data.length() - 1 );
-          result.data  = StringFunctions.replace( result.data, asStr + asStr, asStr );
+          result.data  = StringFunctions.replace( result.data, DQ_STR + DQ_STR, DQ_STR );
+        } else if( (ch == SQ) && options.isConsumeSingleQuotes() ) {
+          result.data  = result.data.substring( 1, result.data.length() - 1 );
+          result.data  = StringFunctions.replace( result.data, SQ_STR + SQ_STR, SQ_STR );
         }
       }
       if( options.isDisableCr() && (result.data != null) ) {

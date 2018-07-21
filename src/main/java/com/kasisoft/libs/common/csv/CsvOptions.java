@@ -17,12 +17,14 @@ import java.util.*;
 @Getter @ToString @EqualsAndHashCode
 public final class CsvOptions {
 
-  boolean           titleRow           = false;
-  char              delimiter          = ',';
-  boolean           disableCr          = true;
-  boolean           fillMissingColumns = false;
-  Encoding          encoding           = Encoding.UTF8;
-  List<CsvColumn>   columns            = new ArrayList<>();
+  boolean           titleRow            = false;
+  char              delimiter           = ',';
+  boolean           disableCr           = true;
+  boolean           fillMissingColumns  = false;
+  boolean           consumeSingleQuotes = true;
+  boolean           consumeDoubleQuotes = true;
+  Encoding          encoding            = Encoding.UTF8;
+  List<CsvColumn>   columns             = new ArrayList<>();
   
   private CsvOptions() {
   }
@@ -59,6 +61,16 @@ public final class CsvOptions {
     CsvOptions   instance = new CsvOptions();
     
     private CsvOptionsBuilder() {
+    }
+
+    public CsvOptionsBuilder singleQuotes( boolean consumeSingleQuotes) {
+      instance.consumeSingleQuotes = consumeSingleQuotes;
+      return this;
+    }
+
+    public CsvOptionsBuilder doubleQuotes( boolean consumeDoubleQuotes) {
+      instance.consumeDoubleQuotes = consumeDoubleQuotes;
+      return this;
     }
 
     public CsvOptionsBuilder encoding( @NonNull Encoding encoding ) {
