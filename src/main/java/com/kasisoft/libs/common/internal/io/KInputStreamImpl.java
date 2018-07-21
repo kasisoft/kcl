@@ -61,12 +61,12 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   
   @Override
   public <R> Optional<R> forInputStream( @NonNull T input, Function<InputStream, R> function ) {
-    return forInputStream( input, null, null, adapt( function ) );
+    return forInputStream( input, null, null, adaptToTri( function ) );
   }
 
   @Override
   public <C1, R> Optional<R> forInputStream( @NonNull T input, C1 context1, BiFunction<InputStream, C1, R> function ) {
-    return forInputStream( input, context1, null, adapt( function ) );
+    return forInputStream( input, context1, null, adaptToTri( function ) );
   }
   
   @SuppressWarnings("resource")
@@ -100,12 +100,12 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   
   @Override
   public <R> boolean forInputStreamDo( @NonNull T input, Consumer<InputStream> consumer ) {
-    return forInputStreamDo( input, null, null, adapt( consumer ) );
+    return forInputStreamDo( input, null, null, adaptToTri( consumer ) );
   }
 
   @Override
   public <C1, R> boolean forInputStreamDo( @NonNull T input, C1 context1, BiConsumer<InputStream, C1> consumer ) {
-    return forInputStreamDo( input, context1, null, adapt( consumer ) );
+    return forInputStreamDo( input, context1, null, adaptToTri( consumer ) );
   }
   
   @Override

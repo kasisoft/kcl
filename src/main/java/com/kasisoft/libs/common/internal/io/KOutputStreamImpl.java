@@ -58,12 +58,12 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
   
   @Override
   public <R> Optional<R> forOutputStream( @NonNull T output, Function<OutputStream, R> function ) {
-    return forOutputStream( output, null, null, adapt( function ) );
+    return forOutputStream( output, null, null, adaptToTri( function ) );
   }
 
   @Override
   public <C1, R> Optional<R> forOutputStream( @NonNull T output, C1 context1, BiFunction<OutputStream, C1, R> function ) {
-    return forOutputStream( output, context1, null, adapt( function ) );
+    return forOutputStream( output, context1, null, adaptToTri( function ) );
   }
   
   @SuppressWarnings("resource")
@@ -97,12 +97,12 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
   
   @Override
   public <R> boolean forOutputStreamDo( @NonNull T output, Consumer<OutputStream> consumer ) {
-    return forOutputStreamDo( output, null, null, adapt( consumer ) );
+    return forOutputStreamDo( output, null, null, adaptToTri( consumer ) );
   }
 
   @Override
   public <C1, R> boolean forOutputStreamDo( @NonNull T output, C1 context1, BiConsumer<OutputStream, C1> consumer ) {
-    return forOutputStreamDo( output, context1, null, adapt( consumer ) );
+    return forOutputStreamDo( output, context1, null, adaptToTri( consumer ) );
   }
   
   @Override

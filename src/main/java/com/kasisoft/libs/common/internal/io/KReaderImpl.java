@@ -64,12 +64,12 @@ public class KReaderImpl<T> implements KReader<T> {
   
   @Override
   public <R> Optional<R> forReader( @NonNull T input, Function<Reader, R> function ) {
-    return forReader( input, null, null, adapt( function ) );
+    return forReader( input, null, null, adaptToTri( function ) );
   }
 
   @Override
   public <C1, R> Optional<R> forReader( @NonNull T input, C1 context1, BiFunction<Reader, C1, R> function ) {
-    return forReader( input, context1, null, adapt( function ) );
+    return forReader( input, context1, null, adaptToTri( function ) );
   }
   
   @Override
@@ -103,12 +103,12 @@ public class KReaderImpl<T> implements KReader<T> {
   
   @Override
   public <R> boolean forReaderDo( @NonNull T input, Consumer<Reader> consumer ) {
-    return forReaderDo( input, null, null, adapt( consumer ) );
+    return forReaderDo( input, null, null, adaptToTri( consumer ) );
   }
 
   @Override
   public <C1, R> boolean forReaderDo( @NonNull T input, C1 context1, BiConsumer<Reader, C1> consumer ) {
-    return forReaderDo( input, context1, null, adapt( consumer ) );
+    return forReaderDo( input, context1, null, adaptToTri( consumer ) );
   }
   
   @Override

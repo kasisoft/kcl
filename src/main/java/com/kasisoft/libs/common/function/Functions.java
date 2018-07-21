@@ -26,22 +26,54 @@ public class Functions {
     return $ -> $ != null ? delegate.apply($) : null;
   }
   
-  public static <A, B, C, R> TriFunction<A, B, C, R> adapt( Function<A, R> function ) {
+  public static <A, B, C, R> TriFunction<A, B, C, R> adaptToTri( Function<A, R> function ) {
     return ($a, $b, $c) -> function.apply($a);
   }
 
-  public static <A, B, C, R> TriFunction<A, B, C, R> adapt( BiFunction<A, B, R> function ) {
+  public static <A, B, C, R> TriFunction<A, B, C, R> adaptToTri( BiFunction<A, B, R> function ) {
     return ($a, $b, $c) -> function.apply($a, $b);
   }
 
-  public static <A, B, C> TriConsumer<A, B, C> adapt( Consumer<A> consumer ) {
+  public static <A, B, C> TriConsumer<A, B, C> adaptToTri( Consumer<A> consumer ) {
     return ($a, $b, $c) -> consumer.accept($a);
   }
 
-  public static <A, B, C> TriConsumer<A, B, C> adapt( BiConsumer<A, B> consumer ) {
+  public static <A, B, C> TriConsumer<A, B, C> adaptToTri( BiConsumer<A, B> consumer ) {
     return ($a, $b, $c) -> consumer.accept($a, $b);
   }
 
+  public static <A, B, R> BiFunction<A, B, R> adaptToBi( Function<A, R> function ) {
+    return ($a, $b) -> function.apply($a);
+  }
+
+  public static <A, B> BiConsumer<A, B> adaptToBi( Consumer<A> consumer ) {
+    return ($a, $b) -> consumer.accept($a);
+  }
+
+  public static <A, B, R> BiFunction<A, B, R> adaptToBi( TriFunction<A, B, ?, R> function ) {
+    return ($a, $b) -> function.apply($a, $b, null);
+  }
+
+  public static <A, B> BiConsumer<A, B> adaptToBi( TriConsumer<A, B, ?> consumer ) {
+    return ($a, $b) -> consumer.accept($a, $b, null);
+  }
+  
+  public static <A, R> Function<A, R> adapt( BiFunction<A, ?, R> function ) {
+    return $ -> function.apply($, null);
+  }
+
+  public static <A, B> Consumer<A> adapt( BiConsumer<A, ?> consumer ) {
+    return $ -> consumer.accept($, null);
+  }
+
+  public static <A, R> Function<A, R> adapt( TriFunction<A, ?, ?, R> function ) {
+    return $ -> function.apply($, null, null);
+  }
+
+  public static <A> Consumer<A> adapt( TriConsumer<A, ?, ?> consumer ) {
+    return $ -> consumer.accept($, null, null);
+  }
+  
   public static <E extends Exception> void errorHandling( E exception, Consumer<E> errHandler, Consumer<E> defaultErrHandler ) {
     if( errHandler != null ) {
       errHandler.accept( exception );

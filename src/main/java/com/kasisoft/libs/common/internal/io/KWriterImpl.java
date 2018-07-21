@@ -62,12 +62,12 @@ public class KWriterImpl<T> implements KWriter<T> {
   
   @Override
   public <R> Optional<R> forWriter( @NonNull T output, Function<Writer, R> function ) {
-    return forWriter( output, null, null, adapt( function ) );
+    return forWriter( output, null, null, adaptToTri( function ) );
   }
 
   @Override
   public <C1, R> Optional<R> forWriter( @NonNull T output, C1 context1, BiFunction<Writer, C1, R> function ) {
-    return forWriter( output, context1, null, adapt( function ) );
+    return forWriter( output, context1, null, adaptToTri( function ) );
   }
   
   @SuppressWarnings("resource")
@@ -91,12 +91,12 @@ public class KWriterImpl<T> implements KWriter<T> {
   
   @Override
   public <R> boolean forWriterDo( @NonNull T output, Consumer<Writer> consumer ) {
-    return forWriterDo( output, null, null, adapt( consumer ) );
+    return forWriterDo( output, null, null, adaptToTri( consumer ) );
   }
 
   @Override
   public <C1, R> boolean forWriterDo( @NonNull T output, C1 context1, BiConsumer<Writer, C1> consumer ) {
-    return forWriterDo( output, context1, null, adapt( consumer ) );
+    return forWriterDo( output, context1, null, adaptToTri( consumer ) );
   }
   
   @Override
