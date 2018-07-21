@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.thread;
 
-import com.kasisoft.libs.common.constants.*;
-
-import lombok.*;
+import static com.kasisoft.libs.common.base.LibConfig.*;
 
 import java.util.*;
 
 import java.io.*;
+
+import lombok.*;
 
 /**
  * A Runnable implementation used to delete a file.
@@ -33,7 +33,7 @@ public class FileDeleteRunnable extends FileListRunnable {
     
     List<File>  files       = getFiles();
     List<File>  directories = getDirectories();
-    int         retries     = CommonProperty.IoRetries.getValue( System.getProperties() ).intValue();
+    int         retries     = cfgIoRetries();
     retries                *= (files.size() + directories.size());
     
     // 1. delete all files

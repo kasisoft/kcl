@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.io;
 
 import static com.kasisoft.libs.common.constants.Primitive.*;
+import static com.kasisoft.libs.common.base.LibConfig.*;
 import static com.kasisoft.libs.common.io.DefaultIO.*;
 
 import com.kasisoft.libs.common.base.*;
@@ -208,7 +209,7 @@ public class IoFunctions {
     if( basename == null ) {
       basename  = "";
     }
-    File dir        = CommonProperty.TempDir.getValue( System.getProperties() );
+    File dir        = cfgTempDir().toFile();
     File candidate  = null;
     do {
       long number = (long) (System.currentTimeMillis() * Math.random());
