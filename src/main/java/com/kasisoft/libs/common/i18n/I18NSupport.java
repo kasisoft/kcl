@@ -2,16 +2,18 @@ package com.kasisoft.libs.common.i18n;
 
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.text.*;
 import com.kasisoft.libs.common.ui.*;
 import com.kasisoft.libs.common.util.*;
 
-import javax.swing.border.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 import java.util.function.*;
 
 import java.util.*;
+import java.util.List;
 
 import java.net.*;
 
@@ -243,6 +245,30 @@ public class I18NSupport {
       locale = Locale.getDefault();
     }
     
+    Pair<String, String> baseAndPrefix = extractBaseAndPrefix( clazz );
+    String               base          = baseAndPrefix.getValue1();
+    String               prefix        = baseAndPrefix.getValue2();
+    
+    String[] candidates = getTranslationCandidates( locale, base );
+
+    applyTranslations( prefix, loadTranslations( candidates ), collectFields( clazz ) );
+  
+    CLASSES.add( clazz );
+  
+  }
+  
+  private static String[] getTranslationCandidates( Locale locale, String base ) {
+    String[] candidates = new String[3];
+    String   country    = StringFunctions.cleanup( locale.getCountry() );
+    if( country != null ) {
+      candidates[0] = String.format( "%s_%s_%s.properties", base, locale.getLanguage(), country ); // f.e. de_DE
+    }
+    candidates[1] = String.format( "%s_%s.properties", base, locale.getLanguage() ); // f.e. de 
+    candidates[2] = String.format( "%s.properties", base );
+    return candidates;
+  }
+  
+  private static Pair<String, String> extractBaseAndPrefix( Class<?> clazz ) {
     I18NBasename basename = clazz.getAnnotation( I18NBasename.class );
     String       base     = null;
     String       prefix   = null;
@@ -253,21 +279,60 @@ public class I18NSupport {
       base    = clazz.getName().toLowerCase().replace('.','/');
       prefix  = "";
     }
-    
-    val candidates = new String[3];
-    val country    = StringFunctions.cleanup( locale.getCountry() );
-    if( country != null ) {
-      candidates[0] = String.format( "%s_%s_%s.properties", base, locale.getLanguage(), country ); // f.e. de_DE
-    }
-    candidates[1] = String.format( "%s_%s.properties", base, locale.getLanguage() ); // f.e. de 
-    candidates[2] = String.format( "%s.properties", base ); 
-
-    applyTranslations( prefix, loadTranslations( candidates ), collectFields( clazz ) );
-  
-    CLASSES.add( clazz );
-  
+    return new Pair<>( base, prefix );
   }
   
+  @SuppressWarnings("null")
+  private static Map<String, String> collectTranslations( String prefix, Map<String, Field> fields ) {
+    Map<String, String> result = new HashMap<>( fields.size() );
+    for( Map.Entry<String, Field> entry : fields.entrySet() ) {
+      
+      Field  field    = entry.getValue();
+      I18N   i18n     = field.getAnnotation( I18N.class );
+      String property = null;
+      
+      // check whether the key is being overridden
+      if( i18n != null ) {
+        String key = StringFunctions.cleanup( i18n.key() );
+        if( key != null ) {
+          property  = key;
+        }
+      }
+      
+      // use the default key mechanism
+      if( property == null ) {
+        property = String.format( "%s%s", prefix, entry.getKey() );
+      }
+      
+      result.put( property, i18n.value() );
+      
+    }
+    return result;
+  }
+  
+  public static void writeProperties( Locale locale, @NonNull Class<?> clazz, @NonNull Writer writer ) {
+
+    if( locale == null ) {
+      locale = Locale.getDefault();
+    }
+    
+    Pair<String, String> baseAndPrefix = extractBaseAndPrefix( clazz );
+    String               prefix        = baseAndPrefix.getValue2();
+
+    Map<String, String>  translations  = collectTranslations( prefix, collectFields( clazz ) );
+    List<String>         keys          = new ArrayList<>( translations.keySet() );
+    Collections.sort( keys );
+    
+    for( String key : keys ) {
+      try {
+        writer.write( String.format( "%s=%s\n", key, translations.get( key ) ) );
+      } catch( Exception ex ) {
+        throw KclException.wrap( ex );
+      }
+    }
+    
+  }
+
   public static void setLocale( Locale newLocale ) {
     if( newLocale != null ) {
       CLASSES.forEach( $ -> initialize( newLocale, $ ) );
