@@ -1,7 +1,6 @@
 package com.kasisoft.libs.common.ui;
 
 import com.kasisoft.libs.common.model.*;
-import com.kasisoft.libs.common.workspace.*;
 
 import javax.swing.*;
 
@@ -21,9 +20,11 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KFullScreen extends JFrame implements WorkspacePersistent {
+public class KFullScreen extends JFrame {
 
+  @Getter
   ScreenInfo              screenInfo;
+  
   Map<String, Runnable>   actions;
   
   /**
@@ -69,7 +70,7 @@ public class KFullScreen extends JFrame implements WorkspacePersistent {
     registerAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE , 0 ), this::closeFrame       );
     setExtendedState( Frame.MAXIMIZED_BOTH ); 
     setUndecorated( true );
-    setResizable( false );
+    setResizable( true );
   }  
   
   public void closeFrame() {
@@ -109,21 +110,11 @@ public class KFullScreen extends JFrame implements WorkspacePersistent {
     components();
     configure();
     arrange();
-    wsConfiguration();
     listeners();
     finish();
     
     addWindowListener( new LocalBehaviour( this::onShutdown ) );
     
-  }
-  
-  /**
-   * Load all configuration for {@link WorkspacePersistent} components.
-   */
-  private void wsConfiguration() {
-    Workspace.getInstance().configure( this );
-    // register a shutdown hook, so everything will be persisted while closing
-    Workspace.getInstance().addShutdown( () -> Workspace.getInstance().persist( KFullScreen.this ) );
   }
   
   /**
@@ -168,19 +159,6 @@ public class KFullScreen extends JFrame implements WorkspacePersistent {
   protected void onShutdown() {
   }
 
-  @Override
-  public String getPersistentProperty() {
-    return null;
-  }
-
-  @Override
-  public void loadPersistentSettings() {
-  }
-
-  @Override
-  public void savePersistentSettings() {
-  }
-  
   @Override
   public void setVisible( boolean enable ) {
     
