@@ -1,18 +1,15 @@
 package com.kasisoft.libs.common.sys;
 
 import com.kasisoft.libs.common.thread.*;
-
 import com.kasisoft.libs.common.util.*;
-
-import com.kasisoft.libs.common.base.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 import java.util.*;
 
 import java.io.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Convenience class for the Runtime.exec method.
@@ -165,13 +162,13 @@ public class SystemProcess {
    * @return  The exitcode from the subprocess or a failure code.
    */
   @SuppressWarnings("resource")
-  public synchronized FailureCode execute( @NonNull String ... args ) {
+  public synchronized int execute( @NonNull String ... args ) {
 
-    FailureCode result    = FailureCode.Success;
-    Thread      outcopier = null;
-    Thread      errcopier = null;
-    exception             = null;
-    returncode            = 0;
+    int     result    = 0;
+    Thread  outcopier = null;
+    Thread  errcopier = null;
+    exception         = null;
+    returncode        = 0;
     
     try {
 
@@ -195,9 +192,9 @@ public class SystemProcess {
 
     } catch( IOException ex ) {
       exception = ex;
-      result    = FailureCode.IO;
+      result    = -1;
     } catch( InterruptedException ex ) {
-      result    = FailureCode.Timeout;
+      result    = -2;
     } finally {
       MiscFunctions.joinThread( outcopier );
       MiscFunctions.joinThread( errcopier );

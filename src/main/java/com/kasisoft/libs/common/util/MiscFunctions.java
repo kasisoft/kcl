@@ -600,7 +600,7 @@ public class MiscFunctions {
       try {
         closeable.close();
       } catch( Exception ex ) {
-        throw FailureCode.IO.newException( ex );
+        throw KclException.wrap( ex );
       }
     }
   }
@@ -615,7 +615,7 @@ public class MiscFunctions {
       try {
         connection.close();
       } catch( Exception ex ) {
-        throw FailureCode.IO.newException( ex );
+        throw KclException.wrap( ex );
       }
     }
   }

@@ -2,17 +2,15 @@ package com.kasisoft.libs.common.sys;
 
 import static org.testng.Assert.*;
 
+import com.kasisoft.libs.common.test.framework.*;
+
 import org.testng.annotations.*;
 
-import com.kasisoft.libs.common.base.*;
-
-import com.kasisoft.libs.common.test.framework.*;
+import java.io.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.io.*;
 
 /**
  * Test for the class 'SystemProcess'.
@@ -66,10 +64,10 @@ public class SystemProcessTest {
     return str.trim();
   }
   
-  private void checkResult( FailureCode code, int returncode, String err, String out ) {
+  private void checkResult( int code, int returncode, String err, String out ) {
     String  errstr = getStderr();
     String  outstr = getStdout();
-    boolean goterr = ( code != FailureCode.Success ) ||
+    boolean goterr = ( code != 0 ) ||
                      ( systemprocess.getReturncode() != returncode ) ||
                      ( ! err.equals( errstr ) ) ||
                      ( ! out.equals( outstr ) );
@@ -88,19 +86,19 @@ public class SystemProcessTest {
 
   @Test
   public void causeReturncode() {
-    FailureCode failurecode = systemprocess.execute( "-rc", "17" );
+    int failurecode = systemprocess.execute( "-rc", "17" );
     checkResult( failurecode, 17, "", "" );
   }
 
   @Test
   public void toStdout() {
-    FailureCode failurecode = systemprocess.execute();
+    int failurecode = systemprocess.execute();
     checkResult( failurecode, 0, "", "Hello World !" );
   }
 
   @Test
   public void toStderr() {
-    FailureCode failurecode = systemprocess.execute( "-stderr" );
+    int failurecode = systemprocess.execute( "-stderr" );
     checkResult( failurecode, 0, "Hello World !", "" );
   }
 

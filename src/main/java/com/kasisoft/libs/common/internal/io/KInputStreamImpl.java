@@ -93,7 +93,7 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
     try( ExtInputStream instream = openInputStream( input ) ) {
       return Optional.ofNullable( function.apply( instream, context1, context2 ) );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return Optional.empty();
     }
   }
@@ -114,7 +114,7 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
       function.accept( instream, context1, context2 );
       return true;
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return false;
     }
   }
@@ -132,7 +132,7 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
     try {
       return Files.newInputStream( input );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 
@@ -148,7 +148,7 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
     try {
       return input.openStream();
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 

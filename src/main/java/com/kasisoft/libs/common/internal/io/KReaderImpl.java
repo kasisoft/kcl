@@ -95,7 +95,7 @@ public class KReaderImpl<T> implements KReader<T> {
     try( ExtReader instream = openReader( input ) ) {
       return Optional.ofNullable( function.apply( instream, context1, context2 ) );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return Optional.empty();
     }
   }
@@ -116,7 +116,7 @@ public class KReaderImpl<T> implements KReader<T> {
       function.accept( instream, context1, context2 );
       return true;
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return false;
     }
   }
@@ -134,7 +134,7 @@ public class KReaderImpl<T> implements KReader<T> {
     try {
       return newReader( Files.newInputStream( source ), encoding );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 
@@ -159,7 +159,7 @@ public class KReaderImpl<T> implements KReader<T> {
     try {
       return newReader( source.openStream(), encoding );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 

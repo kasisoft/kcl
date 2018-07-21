@@ -130,7 +130,7 @@ public class KInputStreamAndKOutputStreamTest {
   }
   
   private String writeCausesError( OutputStream outputStream, String context1, String context2 ) {
-    throw FailureCode.IO.newException( new Exception() );
+    throw KclException.wrap( new Exception() );
   }
 
   private String read( InputStream inputStream, String context1, String context2, int length ) {

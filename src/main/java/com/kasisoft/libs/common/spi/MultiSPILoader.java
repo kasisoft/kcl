@@ -1,18 +1,16 @@
 package com.kasisoft.libs.common.spi;
 
-import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.wrapper.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 import java.util.function.*;
 
 import java.util.stream.*;
 
 import java.util.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Like SPILoader with the difference that it supports multiple service types.
@@ -41,7 +39,7 @@ public class MultiSPILoader {
    * 
    * @throws FailureException in case one SPI could not be configured properly.
    */
-  public <T> List<T> loadServices( Class<T> servicetype ) throws FailureException {
+  public <T> List<T> loadServices( Class<T> servicetype ) {
     List<T> result = new ArrayList<>();
     ServiceLoader.load( servicetype ).forEach( result::add );
     if( configuration != null ) {

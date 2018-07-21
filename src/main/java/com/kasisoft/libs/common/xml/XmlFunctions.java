@@ -61,9 +61,9 @@ public final class XmlFunctions {
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading the xml content failed for some reason.
+   * @throws KclException   Loading the xml content failed for some reason.
    */
-  public static Document readDocument( @NonNull InputStream input ) throws FailureException {
+  public static Document readDocument( @NonNull InputStream input ) {
     return readDocument( input, XmlParserConfiguration.builder().build() );
   }
   
@@ -74,9 +74,9 @@ public final class XmlFunctions {
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading the xml content failed for some reason.
+   * @throws KclException   Loading the xml content failed for some reason.
    */
-  public static Document readDocument( @NonNull Reader input ) throws FailureException {
+  public static Document readDocument( @NonNull Reader input ) {
     return readDocument( input, XmlParserConfiguration.builder().build() );
   }
   
@@ -88,9 +88,9 @@ public final class XmlFunctions {
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading the xml content failed for some reason.
+   * @throws KclException   Loading the xml content failed for some reason.
    */
-  public static Document readDocument( @NonNull Reader input, @NonNull XmlParserConfiguration config ) throws FailureException {
+  public static Document readDocument( @NonNull Reader input, @NonNull XmlParserConfiguration config ) {
     DocumentBuilder builder = newDocumentBuilder( config );
     Document        result  = null;
     try {
@@ -104,8 +104,8 @@ public final class XmlFunctions {
       if( config.isNormalize() ) {
         result.normalizeDocument();
       }
-    } catch( SAXException | IOException ex ) {
-      throw FailureCode.XmlFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
     return result;
   }
@@ -118,9 +118,9 @@ public final class XmlFunctions {
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading the xml content failed for some reason.
+   * @throws KclException   Loading the xml content failed for some reason.
    */
-  public static Document readDocument( @NonNull InputStream input, @NonNull XmlParserConfiguration config ) throws FailureException {
+  public static Document readDocument( @NonNull InputStream input, @NonNull XmlParserConfiguration config ) {
     DocumentBuilder builder = newDocumentBuilder( config );
     Document        result  = null;
     try {
@@ -134,8 +134,8 @@ public final class XmlFunctions {
       if( config.isNormalize() ) {
         result.normalizeDocument();
       }
-    } catch( SAXException | IOException ex ) {
-      throw FailureCode.XmlFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
     return result;
   }
@@ -147,9 +147,9 @@ public final class XmlFunctions {
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading the xml content failed for some reason.
+   * @throws KclException   Loading the xml content failed for some reason.
    */
-  public static <T> Document readDocument( @NonNull T input ) throws FailureException {
+  public static <T> Document readDocument( @NonNull T input ) {
     return readDocument( input, XmlParserConfiguration.builder().build() );
   }
   
@@ -161,9 +161,9 @@ public final class XmlFunctions {
    * 
    * @return   The Document node itself. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading the xml content failed for some reason.
+   * @throws KclException   Loading the xml content failed for some reason.
    */
-  public static <T> Document readDocument( @NonNull T input, @NonNull XmlParserConfiguration config ) throws FailureException {
+  public static <T> Document readDocument( @NonNull T input, @NonNull XmlParserConfiguration config ) {
     Optional<ExtReader> reader = readerEx( input ).open( input );
     return reader.map( $ -> readDocument( $, config ) ).get();
   }
@@ -175,7 +175,7 @@ public final class XmlFunctions {
    * 
    * @return   The {@link DocumentBuilder} instance. Not <code>null</code>.
    * 
-   * @throws FailureException   Configuring the builder failed for some reason.
+   * @throws KclException   Configuring the builder failed for some reason.
    */
   public static DocumentBuilder newDocumentBuilder( @NonNull XmlParserConfiguration config ) {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -206,8 +206,8 @@ public final class XmlFunctions {
         result.setErrorHandler( new XmlErrorHandler() );
       }
       return result;
-    } catch( ParserConfigurationException ex ) {
-      throw FailureCode.XmlFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 
@@ -265,9 +265,9 @@ public final class XmlFunctions {
    * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
    *                   encoding is used. 
    *                       
-   * @throws FailureException   Saving the XML datastructure failed.
+   * @throws KclException   Saving the XML datastructure failed.
    */
-  public static void writeDocument( @NonNull OutputStream output, @NonNull Node node, Encoding encoding ) throws FailureException {
+  public static void writeDocument( @NonNull OutputStream output, @NonNull Node node, Encoding encoding ) {
     TransformerFactory factory = TransformerFactory.newInstance();
     try {
       if( encoding == null ) {
@@ -291,8 +291,8 @@ public final class XmlFunctions {
       output.write( encoding.encode( xmldecl ) );
       output.flush();
       transformer.transform( new DOMSource( node ), new StreamResult( output ) );
-    } catch( IOException | TransformerException ex ) {
-      throw FailureCode.XmlFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 
@@ -304,9 +304,9 @@ public final class XmlFunctions {
    * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
    *                   encoding is used. 
    *                       
-   * @throws FailureException   Saving the XML datastructure failed.
+   * @throws KclException   Saving the XML datastructure failed.
    */
-  public static <T> void writeDocument( @NonNull T output, @NonNull Node node, Encoding encoding ) throws FailureException {
+  public static <T> void writeDocument( @NonNull T output, @NonNull Node node, Encoding encoding ) {
     outputstream( output ).forOutputStreamDo( output, $ -> writeDocument( $, node, encoding ) );
   }
   
@@ -318,13 +318,13 @@ public final class XmlFunctions {
    * @param encoding      The encoding to use while saving. <code>null</code> or an empty value means that the default 
    *                      encoding is used. 
    *                       
-   * @throws FailureException   Saving the XML datastructure failed.
+   * @throws KclException   Saving the XML datastructure failed.
    */
-  public static void writeDocument( @NonNull File destination, @NonNull Node node, Encoding encoding ) throws FailureException {
+  public static void writeDocument( @NonNull File destination, @NonNull Node node, Encoding encoding ) {
     try( OutputStream output = IoFunctions.newOutputStream( destination ) ) {
       writeDocument( output, node, encoding );
     } catch( Exception ex ) {
-      throw FailureCode.XmlFailure.newException( ex );  
+      throw KclException.wrap( ex );  
     }
   }
   
@@ -336,13 +336,13 @@ public final class XmlFunctions {
    * 
    * @return The transformer if the stylesheet could be loaded properly. Not <code>null</code>.
    * 
-   * @throws FailureException if loading the stylesheet failed for some reason.
+   * @throws KclException if loading the stylesheet failed for some reason.
    */
-  public static Transformer newTransformer( @NonNull File xsl ) throws FailureException {
+  public static Transformer newTransformer( @NonNull File xsl ) {
     try( InputStream instream = IoFunctions.newInputStream( xsl ) ) {
       return newTransformer( instream );
     } catch( Exception ex ) {
-      throw FailureCode.XmlFailure.newException( ex ); 
+      throw KclException.wrap( ex ); 
     }
   }
 
@@ -354,13 +354,13 @@ public final class XmlFunctions {
    * 
    * @return The transformer if the stylesheet could be loaded properly. Not <code>null</code>.
    * 
-   * @throws FailureException if loading the stylesheet failed for some reason.
+   * @throws KclException if loading the stylesheet failed for some reason.
    */
-  public static Transformer newTransformer( @NonNull URL resource ) throws FailureException {
+  public static Transformer newTransformer( @NonNull URL resource ) {
     try( InputStream instream = resource.openStream() ) {
       return newTransformer( instream );
     } catch( Exception ex ) {
-      throw FailureCode.XmlFailure.newException( null, ex, resource );
+      throw KclException.wrap( ex );
     }
   }
 
@@ -372,14 +372,14 @@ public final class XmlFunctions {
    * 
    * @return The transformer if the stylesheet could be loaded properly. Not <code>null</code>.
    * 
-   * @throws FailureException   If loading the stylesheet failed for some reason.
+   * @throws KclException   If loading the stylesheet failed for some reason.
    */
-  public static Transformer newTransformer( @NonNull InputStream xslinstream ) throws FailureException {
+  public static Transformer newTransformer( @NonNull InputStream xslinstream ) {
     TransformerFactory factory = TransformerFactory.newInstance();
     try {
       return factory.newTransformer( new StreamSource( xslinstream ) );
-    } catch( TransformerConfigurationException ex ) {
-      throw FailureCode.XmlFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 

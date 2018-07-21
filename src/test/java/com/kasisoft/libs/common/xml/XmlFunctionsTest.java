@@ -49,7 +49,7 @@ public class XmlFunctionsTest {
     tempfile      = IoFunctions.newTempFile( "xmlfunctions", ".xml" );
   }
 
-  @Test(expectedExceptions=FailureException.class)
+  @Test(expectedExceptions=KclException.class)
   public void readDocumentFailure() {
     XmlParserConfiguration config = XmlParserConfiguration
       .builder()

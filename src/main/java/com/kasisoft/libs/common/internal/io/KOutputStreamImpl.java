@@ -90,7 +90,7 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
     try( ExtOutputStream outstream = openOutputStream( output ) ) {
       return Optional.ofNullable( function.apply( outstream, context1, context2 ) );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), output );
+      errHandler.accept( KclException.unwrap( ex ), output );
       return Optional.empty();
     }
   }
@@ -111,7 +111,7 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
       function.accept( outstream, context1, context2 );
       return true;
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), output );
+      errHandler.accept( KclException.unwrap( ex ), output );
       return false;
     }
   }
@@ -120,7 +120,7 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
     try {
       return Files.newOutputStream( input );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 
@@ -128,7 +128,7 @@ public class KOutputStreamImpl<T> implements KOutputStream<T> {
     try {
       return newOutputStream( input.toURI() );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 

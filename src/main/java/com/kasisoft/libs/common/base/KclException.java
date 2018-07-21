@@ -14,6 +14,13 @@ import lombok.*;
 @Getter @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KclException extends RuntimeException {
 
+  public KclException() {
+  }
+  
+  public KclException( String message ) {
+    super( message );
+  }
+  
   KclException( String message, Throwable cause ) {
     super( message, cause );
   }

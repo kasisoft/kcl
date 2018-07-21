@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.spi;
 
-import com.kasisoft.libs.common.base.*;
-
 import java.util.*;
 
 /**
@@ -16,8 +14,8 @@ public interface Configurable {
    * 
    * @param properties   The settings which will be used for the configuration. Not <code>null</code>.
    * 
-   * @throws FailureException in case anything went wrong.
+   * @throws KclException in case anything went wrong.
    */
-  void configure( Map<String, Object> properties ) throws FailureException;
+  void configure( Map<String, Object> properties );
 
 } /* ENDINTERFACE */

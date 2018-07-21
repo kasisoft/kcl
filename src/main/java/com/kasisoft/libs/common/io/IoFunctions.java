@@ -93,8 +93,8 @@ public class IoFunctions {
   public static InputStream newInputStream( @NonNull File file ) {
     try {
       return new BufferedInputStream( new FileInputStream( file ) );
-    } catch( FileNotFoundException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 
@@ -108,8 +108,8 @@ public class IoFunctions {
   public static InputStream newInputStream( @NonNull Path path ) {
     try {
       return new BufferedInputStream( Files.newInputStream( path ) );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 
@@ -123,8 +123,8 @@ public class IoFunctions {
   public static InputStream newInputStream( @NonNull URL url ) {
     try {
       return new BufferedInputStream( url.openStream() );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     } 
   }
 
@@ -138,8 +138,8 @@ public class IoFunctions {
   public static OutputStream newOutputStream( @NonNull File file ) {
     try {
       return new BufferedOutputStream( new FileOutputStream( file ) );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     } 
   }
 
@@ -153,8 +153,8 @@ public class IoFunctions {
   public static OutputStream newOutputStream( @NonNull Path path ) {
     try {
       return Files.newOutputStream( path, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   
@@ -223,7 +223,7 @@ public class IoFunctions {
    * @param input    The file which contains the content. Must be a valid file.
    * @param output   The destination where to write the content to. Not <code>null</code>.
    * 
-   * @throws FailureException when the copying process fails for some reason.
+   * @throws KclException when the copying process fails for some reason.
    */
   public static void move( @NonNull Path input, @NonNull Path output ) {
     try {
@@ -233,7 +233,7 @@ public class IoFunctions {
         moveDir( input, output );
       }
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 
@@ -283,7 +283,7 @@ public class IoFunctions {
    * @param input    The file which contains the content. Must be a valid file.
    * @param output   The destination where to write the content to. Not <code>null</code>.
    * 
-   * @throws FailureException when the copying process fails for some reason.
+   * @throws KclException when the copying process fails for some reason.
    */
   public static void copy( @NonNull Path input, @NonNull Path output ) {
     try {
@@ -293,7 +293,7 @@ public class IoFunctions {
         copyDir( input, output, FileVisitResult.CONTINUE );
       }
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 
@@ -316,7 +316,7 @@ public class IoFunctions {
       if( errhandler != null ) {
         errhandler.accept(ex);
       } else {
-        throw FailureCode.IO.newException( ex );
+        throw KclException.wrap( ex );
       }
     }
     return result;
@@ -341,7 +341,7 @@ public class IoFunctions {
       if( errhandler != null ) {
         errhandler.accept(ex);
       } else {
-        throw FailureCode.IO.newException( ex );
+        throw KclException.wrap( ex );
       }
     }
     return result;
@@ -357,7 +357,7 @@ public class IoFunctions {
         if( errhandler != null ) {
           errhandler.accept(ex);
         } else {
-          throw FailureCode.IO.newException(ex);
+          throw KclException.wrap(ex);
         }
       }
     }
@@ -388,7 +388,7 @@ public class IoFunctions {
       });
       
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
   
@@ -407,7 +407,7 @@ public class IoFunctions {
       Path outputPath = Paths.get( output.toURI() );
       copyDir( inputPath, outputPath, recursive ? FileVisitResult.CONTINUE : FileVisitResult.SKIP_SUBTREE );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
   
@@ -552,7 +552,7 @@ public class IoFunctions {
    * 
    * @return   A list with the textual content. Not <code>null</code>.
    *
-   * @throws FailureException   In case of an io error.
+   * @throws KclException   In case of an io error.
    */
   public static List<String> readText( @NonNull Reader input, boolean trim, boolean emptylines ) {
     List<String>       result   = new ArrayList<>();
@@ -561,7 +561,7 @@ public class IoFunctions {
     runnable.setEmptyLines( emptylines );
     runnable.run();
     if( ! runnable.hasCompleted() ) {
-      throw FailureCode.IO.newException();
+      throw new KclException();
     }
     return result;
   }
@@ -627,16 +627,16 @@ public class IoFunctions {
    * @param input    The InputStream providing the content. Not <code>null</code>.
    * @param offset   The location where to read the data.
    * 
-   * @throws FailureException   If skipping didn't succeed.
+   * @throws KclException   If skipping didn't succeed.
    */
   public static void skip( @NonNull InputStream input, int offset ) {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
-          throw FailureCode.IO.newException();
+          throw new KclException();
         }
-      } catch( IOException ex ) {
-        throw FailureCode.IO.newException( ex );
+      } catch( Exception ex ) {
+        throw KclException.wrap( ex );
       }
     }
   }
@@ -647,16 +647,16 @@ public class IoFunctions {
    * @param input    The Reader providing the content. Not <code>null</code>.
    * @param offset   The location where to read the data.
    * 
-   * @throws FailureException   If skipping didn't succeed.
+   * @throws KclException   If skipping didn't succeed.
    */
   public static void skip( @NonNull Reader input, int offset ) {
     if( offset > 0 ) {
       try {
         if( input.skip( offset ) != offset ) {
-          throw FailureCode.IO.newException();
+          throw new KclException();
         }
-      } catch( IOException ex ) {
-        throw FailureCode.IO.newException( ex );
+      } catch( Exception ex ) {
+        throw KclException.wrap( ex );
       }
     }
   }
@@ -684,7 +684,7 @@ public class IoFunctions {
    * 
    * @return   The fragment or at least the beginning part of the desired fragment.
    * 
-   * @throws FailureException in case the fragment could not be read.
+   * @throws KclException in case the fragment could not be read.
    */
   public static byte[] loadFragment( @NonNull InputStream input, int offset, int length ) {
     skip( input, offset );
@@ -698,8 +698,8 @@ public class IoFunctions {
       } else {
         return Empty.NO_BYTES;
       }
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     } finally {
       PByte.release( buffer );
     }
@@ -714,7 +714,7 @@ public class IoFunctions {
    * 
    * @return   The CRC32 checksum value.
    * 
-   * @throws FailureException if the accessing the stream failed for some reason.
+   * @throws KclException if the accessing the stream failed for some reason.
    */
   private static long crc32( byte[] buffer, InputStream instream, CRC32 crc ) {
     crc = crc == null ? new CRC32() : crc;
@@ -726,8 +726,8 @@ public class IoFunctions {
         }
         read = instream.read( buffer );
       }
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
     return crc.getValue();
   }
@@ -880,8 +880,8 @@ public class IoFunctions {
   public static void writeBytes( @NonNull OutputStream outstream, @NonNull byte[] content ) {
     try {
       outstream.write( content );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   
@@ -896,8 +896,8 @@ public class IoFunctions {
   public static void writeCharacters( @NonNull Writer writer, @NonNull char[] content ) {
     try {
       writer.write( content );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   
@@ -913,8 +913,8 @@ public class IoFunctions {
     Properties result = new Properties();
     try {
       result.load( reader );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
     return result;
   }
@@ -1041,8 +1041,8 @@ public class IoFunctions {
         }
       });
       return result;
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 
@@ -1088,8 +1088,8 @@ public class IoFunctions {
           consumer.accept( zipfile, entry );
         }
       }
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 
@@ -1114,8 +1114,8 @@ public class IoFunctions {
         }
       }
       return result;
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   
@@ -1350,7 +1350,7 @@ public class IoFunctions {
       dir.mkdirs();
     }
     if( ! dir.isDirectory() ) {
-      throw FailureCode.IO.newException( null, null, dir );
+      throw new KclException();
     }
   }
 
@@ -1365,8 +1365,8 @@ public class IoFunctions {
     if( ! Files.isDirectory( dir ) ) {
       try {
         Files.createDirectories( dir );
-      } catch( IOException ex ) {
-        throw FailureCode.IO.newException( null, ex, dir );
+      } catch( Exception ex ) {
+        throw KclException.wrap(ex);
       }
     }
   }
@@ -1374,8 +1374,8 @@ public class IoFunctions {
   public static Path toPath( URL url ) {
     try {
       return Paths.get( url.toURI() );
-    } catch( URISyntaxException ex ) {
-      throw FailureCode.ConversionFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap(ex);
     }
   }
   
@@ -1426,8 +1426,8 @@ public class IoFunctions {
     try {
       properties.load( reader );
       return properties;
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   

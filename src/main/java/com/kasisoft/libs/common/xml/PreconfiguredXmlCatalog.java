@@ -60,9 +60,9 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
    * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
    *                  implementation can be found this could cause a FailureException.
    *                        
-   * @throws FailureException if a resource is missing and causing a failure has been enabled.
+   * @throws KclException if a resource is missing and causing a failure has been enabled.
    */
-  public PreconfiguredXmlCatalog( boolean lsaware ) throws FailureException {
+  public PreconfiguredXmlCatalog( boolean lsaware ) {
     super( lsaware );
     for( int i = 0; i < PRECONFIGURED.length; i += 2 ) {
       registerResource( PRECONFIGURED[ i + 0 ], PRECONFIGURED[ i + 1 ] );
@@ -87,7 +87,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
         registerSystemID( url );
       }
     } else {
-      throw FailureCode.XmlFailure.newException( resource );
+      throw new KclException( resource );
     }
   }
 

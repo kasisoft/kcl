@@ -1,18 +1,16 @@
 package com.kasisoft.libs.common.spi;
 
-import com.kasisoft.libs.common.base.*;
-
 import com.kasisoft.libs.common.wrapper.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 import java.util.function.*;
 
 import java.util.stream.*;
 
 import java.util.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -37,9 +35,9 @@ public class SPILoader<T> {
    * 
    * @return   A list with all SPI services currently available. Not <code>null</code>.
    * 
-   * @throws FailureException in case one SPI could not be configured properly.
+   * @throws KclException in case one SPI could not be configured properly.
    */
-  public List<T> loadServices() throws FailureException {
+  public List<T> loadServices() {
     List<T> result = new ArrayList<>();
     ServiceLoader.load( clazz ).forEach( result::add );
     if( configuration != null ) {

@@ -27,7 +27,7 @@ public class ExtReader<T> extends Reader {
     try {
       return reader.read( target );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return -1;
     }
   }
@@ -36,7 +36,7 @@ public class ExtReader<T> extends Reader {
     try {
       return reader.read();
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return -1;
     }
   }
@@ -45,7 +45,7 @@ public class ExtReader<T> extends Reader {
     try {
       return reader.read( cbuf );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return -1;
     }
   }
@@ -54,7 +54,7 @@ public class ExtReader<T> extends Reader {
     try {
       return reader.skip(n);
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return -1;
     }
   }
@@ -63,7 +63,7 @@ public class ExtReader<T> extends Reader {
     try {
       return reader.ready();
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return false;
     }
   }
@@ -72,7 +72,7 @@ public class ExtReader<T> extends Reader {
     try {
       return reader.markSupported();
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return false;
     }
   }
@@ -81,7 +81,7 @@ public class ExtReader<T> extends Reader {
     try {
       reader.mark( readAheadLimit );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
     }
   }
 
@@ -89,7 +89,7 @@ public class ExtReader<T> extends Reader {
     try {
       reader.reset();
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
     }
   }
 
@@ -97,7 +97,7 @@ public class ExtReader<T> extends Reader {
     try {
       return reader.read( cbuf, off, len );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
       return -1;
     }
   }
@@ -106,7 +106,7 @@ public class ExtReader<T> extends Reader {
     try {
       reader.close();
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), input );
+      errHandler.accept( KclException.unwrap( ex ), input );
     }
   }
   

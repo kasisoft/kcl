@@ -10,15 +10,11 @@ import javax.swing.*;
 
 import javax.imageio.*;
 
-import java.net.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 
 import java.io.*;
-
-import java.nio.file.*;
 
 import lombok.*;
 
@@ -38,56 +34,12 @@ public class GraphicsFunctions {
   /**
    * Reads an image supported by the ImageIO subsystem.
    * 
-   * @param file   The resource which has to be loaded. Must be a valid file.
+   * @param input   The resource which has to be loaded.
    * 
    * @return   The image. <code>null</code> if the resource could not be loaded.
    */
-  public static BufferedImage readImage( @NonNull File file ) {
-    return FILE_INPUTSTREAM_EX.forInputStream( file, GraphicsFunctions::readImage ).orElse( null );
-  }
-
-  /**
-   * Reads an image supported by the ImageIO subsystem.
-   * 
-   * @param url   The resource which has to be loaded. Not <code>null</code>.
-   * 
-   * @return   The image. <code>null</code> if the resource could not be loaded.
-   */
-  public static BufferedImage readImage( @NonNull URL url ) {
-    return URL_INPUTSTREAM_EX.forInputStream( url, GraphicsFunctions::readImage ).orElse( null );
-  }
-
-  /**
-   * Reads an image supported by the ImageIO subsystem.
-   * 
-   * @param uri   The resource which has to be loaded. Not <code>null</code>.
-   * 
-   * @return   The image. <code>null</code> if the resource could not be loaded.
-   */
-  public static BufferedImage readImage( @NonNull URI uri ) {
-    return URI_INPUTSTREAM_EX.forInputStream( uri, GraphicsFunctions::readImage ).orElse( null );
-  }
-
-  /**
-   * Reads an image supported by the ImageIO subsystem.
-   * 
-   * @param path   The resource which has to be loaded. Not <code>null</code>.
-   * 
-   * @return   The image. <code>null</code> if the resource could not be loaded.
-   */
-  public static BufferedImage readImage( @NonNull Path path ) {
-    return PATH_INPUTSTREAM_EX.forInputStream( path, GraphicsFunctions::readImage ).orElse( null );
-  }
-
-  /**
-   * Reads an image supported by the ImageIO subsystem.
-   * 
-   * @param path   The resource which has to be loaded. Not <code>null</code>.
-   * 
-   * @return   The image. <code>null</code> if the resource could not be loaded.
-   */
-  public static BufferedImage readImage( @NonNull String path ) {
-    return STRING_PATH_INPUTSTREAM_EX.forInputStream( path, GraphicsFunctions::readImage ).orElse( null );
+  public static <T> BufferedImage readImage( @NonNull T input ) {
+    return inputstreamEx( input ).forInputStream( input, GraphicsFunctions::readImage ).orElse( null );
   }
 
   /**
@@ -100,64 +52,20 @@ public class GraphicsFunctions {
   public static BufferedImage readImage( @NonNull InputStream instream ) {
     try {
       return ImageIO.read( instream );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   
   /**
    * Writes an image supported by the ImageIO subsystem.
    * 
-   * @param url         The URL which will receive the content. Not <code>null</code>.
+   * @param output      The destination to write to.
    * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
    * @param component   The component that has to be written. Not <code>null</code>.
    */
-  public static void writeImage( @NonNull URL url, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    URL_OUTPUTSTREAM_EX.forOutputStreamDo( url, outstream -> writeImage( outstream, format, component ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param uri         The URI which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param component   The component that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull URI uri, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    URI_OUTPUTSTREAM_EX.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, component ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param path        The path which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param component   The component that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull Path path, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param file        The File which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param component   The component that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    FILE_OUTPUTSTREAM_EX.forOutputStreamDo( file, outstream -> writeImage( outstream, format, component ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param path        The path which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param component   The component that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull String path, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    STRING_PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, component ) );
+  public static <T> boolean writeImage( @NonNull T output, @NonNull PictureFormat format, @NonNull JComponent component ) {
+    return outputstreamEx( output ).forOutputStreamDo( output, format, component, GraphicsFunctions::writeImage );
   }  
 
   /**
@@ -170,62 +78,18 @@ public class GraphicsFunctions {
   public static void writeImage( @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull JComponent component ) {
     writeImage( outstream, format, SwingFunctions.createImage( component ) );
   }
+
+  /**
+   * Writes an image supported by the ImageIO subsystem.
+   * 
+   * @param output      The destination to write to.
+   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
+   * @param image       The image that has to be written. Not <code>null</code>.
+   */
+  public static <T> boolean writeImage( @NonNull T output, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
+    return outputstreamEx( output ).forOutputStreamDo( output, format, image, GraphicsFunctions::writeImage );
+  }  
   
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param url         The URL which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param image       The image that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull URL url, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    URL_OUTPUTSTREAM_EX.forOutputStreamDo( url, outstream -> writeImage( outstream, format, image ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param uri         The URI which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param image       The image that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull URI uri, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    URI_OUTPUTSTREAM_EX.forOutputStreamDo( uri, outstream -> writeImage( outstream, format, image ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param path        The path which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param image       The image that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull Path path, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param file        The File which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param image       The image that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull File file, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    FILE_OUTPUTSTREAM_EX.forOutputStreamDo( file, outstream -> writeImage( outstream, format, image ) );
-  }  
-
-  /**
-   * Writes an image supported by the ImageIO subsystem.
-   * 
-   * @param path        The path which will receive the content. Not <code>null</code>.
-   * @param format      The desired output format. Must be a raster format. Not <code>null</code>.
-   * @param image       The image that has to be written. Not <code>null</code>.
-   */
-  public static void writeImage( @NonNull String path, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
-    STRING_PATH_OUTPUTSTREAM_EX.forOutputStreamDo( path, outstream -> writeImage( outstream, format, image ) );
-  }  
-
   /**
    * Writes an image supported by the ImageIO subsystem.
    * 
@@ -236,10 +100,10 @@ public class GraphicsFunctions {
   public static void writeImage( @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull BufferedImage image ) {
     try {
       if( ! ImageIO.write( image, format.getImageIOFormat(), outstream ) ) {
-        throw FailureCode.IO.newException();
+        throw new KclException();
       }
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 

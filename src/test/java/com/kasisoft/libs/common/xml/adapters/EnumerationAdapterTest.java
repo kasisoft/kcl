@@ -76,7 +76,7 @@ public class EnumerationAdapterTest {
     assertThat( adapter.unmarshal( value ), is( expected ) );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=FailureException.class, groups="all")
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions=KclException.class, groups="all")
   public void invalidUnmarshal( String value, LordOfTheRings expected ) throws Exception {
     assertThat( adapter.unmarshal( value ), is( expected ) );
   }

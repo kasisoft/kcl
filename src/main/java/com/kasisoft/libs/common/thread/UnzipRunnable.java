@@ -124,7 +124,7 @@ public class UnzipRunnable extends AbstractRunnable {
    * @param ex   The cause of the failure. Not <code>null</code>.
    */
   protected void handleIOFailure( @NonNull IOException ex ) {
-    throw FailureCode.IO.newException( ex );
+    throw KclException.wrap( ex );
   }
   
 } /* ENDCLASS */

@@ -112,8 +112,8 @@ public class I18NSupport {
         Properties props = new Properties();
         props.load( reader );
         apply( result, props );
-      } catch( IOException ex ) {
-        throw FailureCode.IO.newException( ex );
+      } catch( Exception ex ) {
+        throw KclException.wrap( ex );
       }
       
     }

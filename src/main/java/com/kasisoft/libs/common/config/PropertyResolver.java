@@ -323,7 +323,7 @@ public class PropertyResolver {
    * 
    * @param instream   The InputStream that provides the properties to be loaded. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading failed for some reason.
+   * @throws KclException   Loading failed for some reason.
    */
   private <T> void loadSetting( KReader<T> kreader, T input ) {
     try {
@@ -332,12 +332,12 @@ public class PropertyResolver {
         try {
           newprops.load($);
         } catch( Exception ex ) {
-          throw FailureCode.IO.newException( ex );
+          throw KclException.wrap( ex );
         }
       } );
       putProperties( newprops );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException( ex );
+      throw KclException.wrap( ex );
     }
   }
 

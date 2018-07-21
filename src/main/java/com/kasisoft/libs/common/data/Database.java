@@ -123,8 +123,8 @@ public enum Database implements Predicate<String> {
     try {
       activate();
       return DriverManager.getConnection( url );
-    } catch( SQLException ex ) {
-      throw FailureCode.SqlFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   
@@ -141,8 +141,8 @@ public enum Database implements Predicate<String> {
     try {
       activate();
       return DriverManager.getConnection( url, username, password );
-    } catch( SQLException ex ) {
-      throw FailureCode.SqlFailure.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   

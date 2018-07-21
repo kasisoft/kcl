@@ -65,10 +65,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         if( docbuilder.getDOMImplementation() instanceof DOMImplementationLS ) {
           domimpl = (DOMImplementationLS) docbuilder.getDOMImplementation();
         } else {
-          throw FailureCode.XmlFailure.newException();
+          throw new KclException();
         }
-      } catch( ParserConfigurationException ex ) {
-        throw FailureCode.XmlFailure.newException( ex );
+      } catch( Exception ex ) {
+        throw KclException.wrap( ex );
       }
     }
     
@@ -101,7 +101,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         byte[] data = IoFunctions.loadBytes( instream, null );
         catalogdata.put( publicid, data );
         systemIds.put( publicid, url.toExternalForm() );
-      } catch( IOException | FailureException ex ) {
+      } catch( Exception ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
         // we just register this url as 'invalid'
@@ -129,7 +129,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         } else {
           catalogdata.put( new PublicId( path ), data );
         }
-      } catch( IOException | FailureException ex ) {
+      } catch( Exception ex ) {
         // we're ignoring this which means that we weren't capable to access the resource
         // but the resolving process still might succeed. to prevent subsequent failures
         // we just register this url as 'invalid'

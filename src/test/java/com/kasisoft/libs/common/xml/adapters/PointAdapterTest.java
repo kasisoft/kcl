@@ -70,7 +70,7 @@ public class PointAdapterTest {
     assertThat( adapter.unmarshal( value ), is( expected ) );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class,NumberFormatException.class}, groups="all")
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={KclException.class,NumberFormatException.class}, groups="all")
   public void invalidUnmarshal( String value, Point expected ) throws Exception {
     assertThat( adapter.unmarshal( value ), is( expected ) );
   }

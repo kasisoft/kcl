@@ -75,7 +75,7 @@ public abstract class StructuralTypeAdapter<T> extends TypeAdapter<String,T> {
   protected T unmarshalImpl( @NonNull String v ) throws Exception {
     String[] parts = v.split( quoted );
     if( (parts == null) || (parts.length != count) ) {
-      throw FailureCode.ConversionFailure.newException( v );
+      throw new KclException( v );
     }
     return unmarshalListImpl( parts );
   }

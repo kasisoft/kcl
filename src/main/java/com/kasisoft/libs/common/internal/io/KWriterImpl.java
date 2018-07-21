@@ -84,7 +84,7 @@ public class KWriterImpl<T> implements KWriter<T> {
     try( ExtWriter writer = openWriter( output ) ) {
       return Optional.ofNullable( function.apply( writer, context1, context2 ) );
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), output );
+      errHandler.accept( KclException.unwrap( ex ), output );
       return Optional.empty();
     }
   }
@@ -105,7 +105,7 @@ public class KWriterImpl<T> implements KWriter<T> {
       function.accept( writer, context1, context2 );
       return true;
     } catch( Exception ex ) {
-      errHandler.accept( FailureException.unwrap( ex ), output );
+      errHandler.accept( KclException.unwrap( ex ), output );
       return false;
     }
   }
@@ -128,7 +128,7 @@ public class KWriterImpl<T> implements KWriter<T> {
     try {
       return newWriter( Files.newOutputStream( dest ), encoding );
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException(ex);
+      throw KclException.wrap(ex);
     }
   }
 
@@ -148,9 +148,9 @@ public class KWriterImpl<T> implements KWriter<T> {
         return newWriter( path, encoding );
       }
     } catch( Exception ex ) {
-      throw FailureCode.IO.newException( ex );
+      throw KclException.wrap( ex );
     }
-    throw FailureCode.IO.newException( new IOException( String.valueOf( dest ) ) );
+    throw new KclException( String.valueOf( dest ) );
   }
 
   private Writer newWriter( @NonNull OutputStream dest, Encoding encoding ) {

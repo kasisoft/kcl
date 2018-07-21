@@ -71,9 +71,9 @@ public final class Workspace {
    * 
    * @param settings   The File where the settings have to be stored. Must be a writable File. Not <code>null</code>.
    * 
-   * @throws FailureException   Loading failed for some reason.
+   * @throws KclException   Loading failed for some reason.
    */
-  private Workspace( @NonNull File settings ) throws FailureException {
+  private Workspace( @NonNull File settings ) {
     this();
     settingsfile = settings;
     isnew        = true;
@@ -143,13 +143,13 @@ public final class Workspace {
   /**
    * Stores the current settings.
    * 
-   * @throws FailureException   Saving the settings failed.
+   * @throws KclException   Saving the settings failed.
    */
-  public synchronized void saveSettings() throws FailureException {
+  public synchronized void saveSettings() {
     try( Writer writer = Encoding.UTF8.openWriter( settingsfile ) ) {
       properties.store( writer, null );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
     isnew  = false;
   }
@@ -157,13 +157,13 @@ public final class Workspace {
   /**
    * Loads the current settings.
    * 
-   * @throws FailureException   Loading the settings failed.
+   * @throws KclException   Loading the settings failed.
    */
-  private void loadSettings() throws FailureException {
+  private void loadSettings() {
     try( Reader reader = Encoding.UTF8.openReader( settingsfile ) ) {
       properties.load( reader );
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException( ex );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 

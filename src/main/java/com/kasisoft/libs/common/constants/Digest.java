@@ -54,13 +54,13 @@ public final class Digest {
    *  
    * @param algorithm   The name of the hash algorithm. Neither <code>null</code> nor empty.
    * 
-   * @throws FailureException   The supplied alorithm isn't known.
+   * @throws KclException   The supplied alorithm isn't known.
    */
   public Digest( @NonNull String algorithm ) {
     try {
       MessageDigest.getInstance( algorithm );
     } catch( NoSuchAlgorithmException ex ) {
-      throw FailureCode.Reflections.newException( null, ex, algorithm );
+      throw KclException.wrap( ex );
     }
     this.algorithm  = algorithm;
     bucket          = new Bucket<>( new DigestFactory( algorithm ) );

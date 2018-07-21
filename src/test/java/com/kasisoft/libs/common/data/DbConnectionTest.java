@@ -150,7 +150,7 @@ public class DbConnectionTest {
     try {
       return rs.getString( column );
     } catch( Exception ex ) {
-      throw FailureCode.SqlFailure.newException( ex );
+      throw KclException.wrap( ex );
     }
   }
 

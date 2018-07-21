@@ -103,7 +103,7 @@ public class LineReaderRunnable extends AbstractRunnable {
    * @param ex   The cause of the failure.
    */
   protected void handleIOFailure( @NonNull IOException ex ) {
-    throw FailureCode.IO.newException( ex );
+    throw KclException.wrap( ex );
   }
 
 } /* ENDCLASS */

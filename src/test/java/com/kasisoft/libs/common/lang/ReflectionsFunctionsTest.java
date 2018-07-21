@@ -30,7 +30,7 @@ public class ReflectionsFunctionsTest {
     assertThat( object, is( (Object) "Frosch" ) );
   }
 
-  @Test(expectedExceptions={FailureException.class}, groups="all")
+  @Test(expectedExceptions=KclException.class, groups="all")
   public void newInstanceFailure() {
     ReflectionFunctions.newInstance( String.class.getName(), new float[12] );
     fail();

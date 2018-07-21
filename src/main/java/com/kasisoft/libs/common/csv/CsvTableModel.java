@@ -196,7 +196,7 @@ public class CsvTableModel implements TableModel {
     } else {
       KReader<InputStream> reader = KReader.builder( InputStream.class )
         .encoding( options.getEncoding() )
-        .errorHandler( ($ex, $i) -> { throw FailureCode.IO.newException( $ex ); } )
+        .errorHandler( ($ex, $_) -> { throw KclException.wrap( $ex ); } )
         .build();
       reader.forReaderDo( source, $ -> IoFunctions.copy( $, writer, null ) );
     }
@@ -278,7 +278,7 @@ public class CsvTableModel implements TableModel {
       int idx1 = content.indexOf( quoteAsStr, pos );
       if( idx1 == -1 ) {
         // the format is invalid
-        throw FailureCode.IO.newException( Messages.error_csv_missing_closing_quote.format( content ) );
+        throw new KclException( Messages.error_csv_missing_closing_quote.format( content ) );
       }
       if( idx1 == content.length() - 1 ) {
         // this cell covers the full remaining content, so we're done here
@@ -614,8 +614,8 @@ public class CsvTableModel implements TableModel {
       for( int i = 0; i < getRowCount(); i++ ) {
         writeRow( writer, i );
       }
-    } catch( IOException ex ) {
-      throw FailureCode.IO.newException(ex);
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
 
@@ -880,7 +880,7 @@ public class CsvTableModel implements TableModel {
    * @param message   The error message.
    */
   private void ehDefault( String message ) {
-    throw FailureCode.ConversionFailure.newException( message );
+    throw new KclException( message );
   }
 
   /**

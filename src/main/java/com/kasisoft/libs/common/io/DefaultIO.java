@@ -176,7 +176,7 @@ public class DefaultIO {
   }
 
   private static <T> void errorHandler( Exception ex, T input ) {
-    throw FailureCode.IO.newException( ex );
+    throw KclException.wrap( ex );
   }
 
 } /* ENDCLAS */

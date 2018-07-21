@@ -83,7 +83,7 @@ public class ColorAdapterTest {
     assertThat( adapter.unmarshal( value ), is( expected ) );
   }
 
-  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={FailureException.class, NumberFormatException.class}, groups="all")
+  @Test(dataProvider="createInvalidUnmarshalling", expectedExceptions={KclException.class, NumberFormatException.class}, groups="all")
   public void invalidUnmarshal( String value, Color expected ) throws Exception {
     assertThat( adapter.unmarshal( value ), is( expected ) );
   }

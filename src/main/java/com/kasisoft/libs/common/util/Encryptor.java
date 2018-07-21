@@ -147,8 +147,8 @@ public class Encryptor {
     try {
       Cipher.getInstance( cipher );
       KeyGenerator.getInstance( algorithm );
-    } catch( NoSuchAlgorithmException | NoSuchPaddingException ex ) {
-      throw FailureCode.Reflections.newException( null, ex, cipher, algorithm );
+    } catch( Exception ex ) {
+      throw KclException.wrap( ex );
     }
   }
   

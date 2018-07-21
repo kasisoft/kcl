@@ -89,12 +89,12 @@ public class ReflectionFunctions {
           if( constructor != null ) {
             return constructor.newInstance( args );
           } else {
-            throw FailureCode.Reflections.newException( ex );
+            throw KclException.wrap( ex );
           }
         }
       }
     } catch( Exception ex ) { 
-      throw FailureCode.Reflections.newException( ex );
+      throw KclException.wrap( ex );
     }
   }
   

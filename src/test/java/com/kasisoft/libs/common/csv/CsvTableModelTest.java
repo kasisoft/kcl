@@ -69,7 +69,7 @@ public class CsvTableModelTest {
     
   }
 
-  @Test(groups = "all", expectedExceptions = FailureException.class)
+  @Test(groups = "all", expectedExceptions = KclException.class)
   public void inconsistentColumnNumbers() {
     URL source = getClass().getClassLoader().getResource( "csv/text2.csv" );
     Assert.assertNotNull( source );
