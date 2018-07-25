@@ -71,6 +71,11 @@ public class ResourceExtractor {
     return this;
   }
 
+  public ResourceExtractor substitution( @NonNull String key, @NonNull Object value ) {
+    substitutions.put( String.format( varFormatter, key ), value.toString() );
+    return this;
+  }
+
   public ResourceExtractor environment() {
     substitutions.putAll( MiscFunctions.createEnvironmentReplacements( varFormatter ) );
     return this;
