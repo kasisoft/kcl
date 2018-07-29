@@ -1,12 +1,10 @@
 package com.kasisoft.libs.common.ui.component;
 
+import com.kasisoft.libs.common.config.*;
 import com.kasisoft.libs.common.constants.*;
-
 import com.kasisoft.libs.common.ui.event.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
+import com.kasisoft.libs.common.workspace.*;
+import com.kasisoft.libs.common.xml.adapters.*;
 
 import javax.swing.event.*;
 
@@ -16,18 +14,26 @@ import java.awt.event.*;
 
 import java.awt.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 /**
  * A JSplitPane like variety that supports more than two parts.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KMultiSplitPane extends JPanel {
+public class KMultiSplitPane extends JPanel implements WorkspacePersistent {
 
   JSplitPane[]            chain;
   JPanel[]                panels;
   Component[]             components;
   ChangeEventDispatcher   changeeventdispatcher;
+  
+  @Getter
+  String                  persistentProperty;
+  SimpleProperty<int[]>   dividerProperty;
   
   /**
    * Initialises this instance without continuous layouting.
@@ -199,6 +205,30 @@ public class KMultiSplitPane extends JPanel {
     panels[ index ].add( component, BorderLayout.CENTER );
   }
   
+  public void setPersistentProperty( String prop ) {
+    persistentProperty  = prop;
+    dividerProperty     = new SimpleProperty<>( persistentProperty, new IntArrayAdapter() );
+  }
+  
+  @Override
+  public void loadPersistentSettings() {
+    if( persistentProperty != null ) {
+      int[] dividerLocations = dividerProperty.getValue( Workspace.getInstance().getProperties() );
+      if( (dividerLocations != null) && (dividerLocations.length > 0) ) {
+        setDividerLocations( dividerLocations );
+      }
+    }
+  }
+
+  @Override
+  public void savePersistentSettings() {
+    if( persistentProperty != null ) {
+      int[] dividerLocations = getDividerLocations();
+      dividerProperty.setValue( Workspace.getInstance().getProperties(), dividerLocations );
+    }
+  }
+  
+
   @AllArgsConstructor @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class LocalComponentListener implements ComponentListener {
     
@@ -225,5 +255,5 @@ public class KMultiSplitPane extends JPanel {
     }
     
   } /* ENDCLASS */
-  
+
 } /* ENDCLASS */
