@@ -1,10 +1,16 @@
 package com.kasisoft.libs.common.ui.component;
 
+import static com.kasisoft.libs.common.function.Functions.*;
+
 import com.kasisoft.libs.common.i18n.*;
 
 import javax.swing.*;
 
+import java.util.function.*;
+
 import java.util.*;
+
+import java.awt.event.*;
 
 import lombok.experimental.*;
 
@@ -49,6 +55,10 @@ public class KButton extends JButton implements I18NSensitive {
     super( text.toString() );
     i18n = text;
     args = arguments;
+  }
+  
+  public void addActionListener( Consumer<ActionEvent> listener ) {
+    addActionListener( adaptToActionListener( listener ) );
   }
   
   public void setI18N( I18NString text, Object ... arguments ) {
