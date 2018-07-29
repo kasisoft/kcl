@@ -3,9 +3,8 @@ package com.kasisoft.libs.common.workspace;
 import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.model.*;
+import com.kasisoft.libs.common.ui.*;
 import com.kasisoft.libs.common.xml.adapters.*;
-
-import javax.swing.*;
 
 import java.util.function.*;
 
@@ -107,28 +106,7 @@ public final class Workspace {
   }
 
   private void iterate( Component component, Consumer<WorkspacePersistent> action ) {
-    if( component instanceof WorkspacePersistent ) {
-      action.accept( (WorkspacePersistent) component );
-    }
-    Component[] children = getChildren( component );
-    if( children != null ) {
-      for( Component child : children ) {
-        iterate( child, action );
-      }
-    }
-  }
-  
-  private Component[] getChildren( Component parent ) {
-    Component[] result = null;
-    if( parent instanceof JMenu ) {
-      result = ((JMenu) parent).getMenuComponents();
-    } else if( parent instanceof Container ) {
-      result = ((Container) parent).getComponents();
-    }
-    if( (result != null) && (result.length == 0) ) {
-      result = null;
-    }
-    return result;
+    SwingFunctions.forComponentTreeDo( component, WorkspacePersistent.class::isInstance, $ -> action.accept( (WorkspacePersistent) $) );
   }
   
   /**
