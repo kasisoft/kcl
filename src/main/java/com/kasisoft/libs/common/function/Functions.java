@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.function;
 
 import java.util.function.*;
 
+import java.awt.event.*;
+
 import lombok.*;
 
 /**
@@ -12,6 +14,15 @@ import lombok.*;
 public class Functions {
 
   private Functions() {
+  }
+  
+  public static ActionListener adaptToActionListener( Consumer<ActionEvent> handler ) {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed( ActionEvent evt ) {
+        handler.accept(evt);
+      }
+    };
   }
   
   /**
