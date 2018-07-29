@@ -1,6 +1,10 @@
 package com.kasisoft.libs.common.io.datatypes;
 
+import com.kasisoft.libs.common.constants.*;
+
 import java.util.function.*;
+
+import lombok.*;
 
 /**
  * A simple definition of characteristics used to identify file types.
@@ -30,14 +34,24 @@ public interface FileType extends Predicate<byte[]> {
    * Returns the mime type corresponding to this type instance.
    * 
    * @return   The mime type corresponding to this type instance. Neither <code>null</code> nor empty.
+   * 
+   * @deprecated [29-JUL-2018:KASI]   Will be removed with version 3.5. Use {@link #getContentType()} instead.
    */
-  String getMimeType();
+  @Deprecated
+  default String getMimeType() {
+    return getContentType().getMimeType();
+  }
   
   /**
    * Returns the primary suffix for this file type.
    * 
    * @return   The primary suffix for this file type. Neither <code>null</code> nor empty.
    */
-  String getSuffix();
-  
+  default String getSuffix() {
+    return getContentType().getPrimarySuffixWithDot();
+  }
+
+  @NonNull
+  MimeType getContentType();
+
 } /* ENDINTERFACE */

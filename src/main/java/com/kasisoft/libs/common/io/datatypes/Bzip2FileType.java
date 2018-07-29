@@ -28,18 +28,13 @@ public class Bzip2FileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.Bzip2.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".bz2";
+  public MimeType getContentType() {
+    return MimeType.Bzip2;
   }
 
 } /* ENDCLASS */

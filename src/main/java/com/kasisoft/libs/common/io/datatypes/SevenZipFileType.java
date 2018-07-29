@@ -28,18 +28,13 @@ public class SevenZipFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.SevenZip.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".7z";
+  public MimeType getContentType() {
+    return MimeType.SevenZip;
   }
 
 } /* ENDCLASS */

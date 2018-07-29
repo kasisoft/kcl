@@ -26,18 +26,13 @@ public class GzipFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.GZip.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".gz";
+  public MimeType getContentType() {
+    return MimeType.GZip;
   }
 
 } /* ENDCLASS */

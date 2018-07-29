@@ -28,18 +28,13 @@ public class BmpFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.Bitmap.getMimeType();
+  public String toString() {
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String toString() {
-    return getMimeType();
-  }
-  
-  @Override
-  public String getSuffix() {
-    return ".bmp";
+  public MimeType getContentType() {
+    return MimeType.Bitmap;
   }
   
 } /* ENDCLASS */

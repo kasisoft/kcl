@@ -29,18 +29,13 @@ public class GifFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.Gif.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".gif";
+  public MimeType getContentType() {
+    return MimeType.Gif;
   }
 
 } /* ENDCLASS */

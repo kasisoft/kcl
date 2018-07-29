@@ -28,18 +28,13 @@ public class JpegFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.Jpeg.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".jpg";
+  public MimeType getContentType() {
+    return MimeType.Jpeg;
   }
 
 } /* ENDCLASS */

@@ -30,6 +30,7 @@ public class FileTypeManagerTest {
   
   @DataProvider(name="identifyData")
   public Object[][] identifyData() {
+    String resource = "/" + FileTypeManagerTest.class.getName().replace('.', '/') + ".class"; 
     return new Object[][] {
       { "/files/file0", "application/gzip"                },
       { "/files/file1", "application/pdf"                 },
@@ -40,6 +41,7 @@ public class FileTypeManagerTest {
       { "/files/file6", "application/x-bzip"              },
       { "/files/file7", "application/zip"                 },
       { "/files/file8", "application/x-7z-compressed"     },
+      { resource      , "application/java-vm"             }
     };
   }
   

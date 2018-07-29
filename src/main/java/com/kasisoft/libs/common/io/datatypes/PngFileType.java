@@ -28,18 +28,13 @@ public class PngFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.Png.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".png";
+  public MimeType getContentType() {
+    return MimeType.Png;
   }
 
 } /* ENDCLASS */

@@ -28,18 +28,13 @@ public class ZipFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.Zip.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".zip";
+  public MimeType getContentType() {
+    return MimeType.Zip;
   }
 
 } /* ENDCLASS */

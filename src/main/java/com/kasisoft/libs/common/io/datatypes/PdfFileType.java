@@ -28,18 +28,13 @@ public class PdfFileType implements FileType {
   }
 
   @Override
-  public String getMimeType() {
-    return MimeType.AdobePdf.getMimeType();
-  }
-
-  @Override
   public String toString() {
-    return getMimeType();
+    return getContentType().getMimeType();
   }
 
   @Override
-  public String getSuffix() {
-    return ".pdf";
+  public MimeType getContentType() {
+    return MimeType.AdobePdf;
   }
 
 } /* ENDCLASS */
