@@ -52,7 +52,7 @@ public class I18NSupport {
 
   static final int MODIFIERS = Modifier.STATIC | Modifier.PUBLIC;
   
-  static Set<Class<?>> CLASSES = new HashSet<>();
+  static Set<Class<?>>      CLASSES = new HashSet<>();
   
   /**
    * Returns <code>true</code> if the supplied field can be considered to be a translation field.
