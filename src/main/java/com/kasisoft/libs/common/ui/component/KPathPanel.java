@@ -350,12 +350,6 @@ public class KPathPanel extends JPanel implements WorkspacePersistent {
       lastvalid = null;
     }
   }
-  
-  @Override
-  public String getPersistentProperty() {
-    return property;
-  }
-  
 
   @Override
   public void loadPersistentSettings() {

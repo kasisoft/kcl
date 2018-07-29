@@ -62,11 +62,6 @@ public class KPathChooser extends JFileChooser implements WorkspacePersistent {
   }
 
   @Override
-  public String getPersistentProperty() {
-    return property;
-  }
-
-  @Override
   public void loadPersistentSettings() {
     if( property != null ) {
       Path value = propertyDir.getValue( Workspace.getInstance().getProperties() );

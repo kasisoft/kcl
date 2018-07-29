@@ -37,11 +37,6 @@ public class KPasswordTextField extends JPasswordField implements WorkspacePersi
   }
   
   @Override
-  public String getPersistentProperty() {
-    return property != null ? property.getKey() : null;
-  }
-
-  @Override
   public void loadPersistentSettings() {
     if( property != null ) {
       String pwd = StringFunctions.cleanup( property.getValue( Workspace.getInstance().getProperties() ) );

@@ -96,11 +96,6 @@ public class KTextField extends JTextField implements WorkspacePersistent {
   }
 
   @Override
-  public String getPersistentProperty() {
-    return property != null ? property.getKey() : null;
-  }
-
-  @Override
   public void loadPersistentSettings() {
     if( property != null ) {
       setText( property.getValue( Workspace.getInstance().getProperties() ) );

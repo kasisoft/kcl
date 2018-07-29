@@ -206,11 +206,6 @@ public class KFrame extends JFrame implements WorkspacePersistent {
   }
 
   @Override
-  public String getPersistentProperty() {
-    return property;
-  }
-
-  @Override
   public void loadPersistentSettings() {
     if( property != null ) {
       initialBounds = propertyBounds.getValue( Workspace.getInstance().getProperties() );

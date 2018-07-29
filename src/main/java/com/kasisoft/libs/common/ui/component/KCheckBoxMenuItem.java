@@ -33,11 +33,6 @@ public class KCheckBoxMenuItem extends JCheckBoxMenuItem implements WorkspacePer
   }
   
   @Override
-  public String getPersistentProperty() {
-    return property;
-  }
-
-  @Override
   public void loadPersistentSettings() {
     if( propertyChecked != null ) {
       Boolean checked = propertyChecked.getValue( Workspace.getInstance().getProperties() );
