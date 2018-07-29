@@ -22,12 +22,22 @@ public class Predicates {
   public static final Predicate         IS_NOT_NULL = $ -> $ != null;
   
   public static final Predicate         IS_NULL = IS_NOT_NULL.negate();
-  
+
   public static final Predicate<String> IS_JAVA_CLASS_FILE = new SuffixPredicate( ".class" );
+
+  public static final Predicate<Path>   IS_JAVA_CLASS_PATH = adaptPathToString( IS_JAVA_CLASS_FILE );
 
   public static final Predicate<String> IS_YAML_FILE = new SuffixPredicate( ".yaml", ".yml" );
 
+  public static final Predicate<Path>   IS_YAML_PATH = adaptPathToString( IS_YAML_FILE );
+
   public static final Predicate<String> IS_JSON_FILE = new SuffixPredicate( ".json" );
+
+  public static final Predicate<Path>   IS_JSON_PATH = adaptPathToString( IS_JSON_FILE );
+
+  public static final Predicate<String> IS_XML_FILE = new SuffixPredicate( ".xml" );
+
+  public static final Predicate<Path>   IS_XML_PATH = adaptPathToString( IS_XML_FILE );
 
   public static final Predicate<String> IS_RESOURCE = IS_JAVA_CLASS_FILE.negate();
 
@@ -75,6 +85,10 @@ public class Predicates {
 
   public static Predicate<Node> isXmlElement( String tag ) {
     return new IsXmlElement( tag );
+  }
+  
+  public static Predicate<Path> adaptPathToString( Predicate<String> impl ) {
+    return $ -> impl.test( $.toString() );
   }
   
   public static <T> Predicate<T> acceptAll() {

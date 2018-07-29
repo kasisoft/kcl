@@ -2,6 +2,7 @@ com.kasisoft.libs.common.io.datatypes.BmpFileType
 com.kasisoft.libs.common.io.datatypes.Bzip2FileType
 com.kasisoft.libs.common.io.datatypes.GifFileType
 com.kasisoft.libs.common.io.datatypes.GzipFileType
+com.kasisoft.libs.common.io.datatypes.JavaClassFileType
 com.kasisoft.libs.common.io.datatypes.JpegFileType
 com.kasisoft.libs.common.io.datatypes.PdfFileType
 com.kasisoft.libs.common.io.datatypes.PngFileType

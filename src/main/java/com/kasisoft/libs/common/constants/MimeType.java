@@ -16,9 +16,10 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specifications({
-  @Specification(value = "http://de.selfhtml.org/diverses/mimetypen.htm", date = "10-Jun-2016"), 
-  @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "10-Jun-2016"), 
-  @Specification(value = "http://www.iana.org/assignments/media-types", date = "10-Jun-2016") 
+  @Specification(value = "https://wiki.selfhtml.org/wiki/MIME-Type/%C3%9Cbersicht", date = "29-Jul-2018"), 
+  @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "29-Jul-2018"), 
+  @Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "29-Jul-2018"),
+  @Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "29-Jul-2018")
 })
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum MimeType implements Predicate<String> {
@@ -35,6 +36,7 @@ public enum MimeType implements Predicate<String> {
   GZip                        ( "application/gzip"              , "gz"                                ),  // GNU Zip
   Html                        ( "text/html"                     , "htm", "html", "shtml"              ),  // HTML files
   Icon                        ( "image/x-icon"                  , "ico"                               ),  // Icon-Files
+  JavaBytecode                ( "application/java-vm"           , "class"                             ),  // Java Bytecode
   Javascript                  ( "text/javascript"               , "js"                                ),  // JavaScript-Files
   Jpeg                        ( "image/jpeg"                    , "jpeg", "jpg", "jpe"                ),  // JPEG-Files
   Json                        ( "application/json"              , "json"                              ),  // JSON-files
@@ -74,6 +76,13 @@ public enum MimeType implements Predicate<String> {
   /** Not <code>null</code>. */
   @Getter List<String>   suffices;
   
+  @Getter
+  String                 primarySuffix;
+  
+  @Getter
+  String                 primarySuffixWithDot;
+  
+  
   MimeType( String type, String ... suffixlist ) {
     mimeType  = type;
     suffices  = Collections.unmodifiableList( Arrays.asList( suffixlist ) );
@@ -86,6 +95,8 @@ public enum MimeType implements Predicate<String> {
       }
       set.add( this );
     }
+    primarySuffix        = suffices.get(0);
+    primarySuffixWithDot = String.format( ".%s", primarySuffix );
   }
   
   @Override
