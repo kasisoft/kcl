@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.csv;
 
 import com.kasisoft.libs.common.constants.*;
 
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
 
 /**
  * A collection of options used for the csv processing.
@@ -23,10 +23,22 @@ public final class CsvOptions {
   boolean           fillMissingColumns  = false;
   boolean           consumeSingleQuotes = true;
   boolean           consumeDoubleQuotes = true;
+  
+  // Processing a simple formatted CSV is much faster as it's less robust but should be capable to read most CSV files.
+  // A CSV file must fulfill the following constraints:
+  // 
+  //   * One record per row (no records spanning multiple lines)
+  //   * If cell content is quoted it's not allowed to have whitespace outside of the quoted region
+  //   * All records must have the same amount of cells
+  // 
+  boolean           simpleFormat        = true;
+  // enable/disable whether the simple loading is allowed to mixup the record order
+  boolean           orderedSimpleFormat = true;
+  int               maxLines            = -1;
   Encoding          encoding            = Encoding.UTF8;
   List<CsvColumn>   columns             = new ArrayList<>();
   
-  private CsvOptions() {
+  public CsvOptions() {
   }
   
   /**
@@ -35,12 +47,17 @@ public final class CsvOptions {
    * @return   A deep copy of this instance. Not <code>null</code>.
    */
   public CsvOptions deepCopy() {
-    CsvOptions result         = new CsvOptions();
-    result.titleRow           = titleRow;
-    result.delimiter          = delimiter;
-    result.disableCr          = disableCr;
-    result.fillMissingColumns = fillMissingColumns;
-    result.encoding           = encoding;
+    CsvOptions result           = new CsvOptions();
+    result.titleRow             = titleRow;
+    result.delimiter            = delimiter;
+    result.disableCr            = disableCr;
+    result.fillMissingColumns   = fillMissingColumns;
+    result.consumeSingleQuotes  = consumeSingleQuotes;
+    result.consumeDoubleQuotes  = consumeDoubleQuotes;
+    result.simpleFormat         = simpleFormat;
+    result.orderedSimpleFormat  = orderedSimpleFormat;
+    result.maxLines             = maxLines;
+    result.encoding             = encoding;
     for( CsvColumn column : columns ) {
       if( column != null ) {
         result.columns.add( column.copy() );
@@ -63,12 +80,22 @@ public final class CsvOptions {
     private CsvOptionsBuilder() {
     }
 
-    public CsvOptionsBuilder singleQuotes( boolean consumeSingleQuotes) {
+    public CsvOptionsBuilder simpleFormat() {
+      instance.simpleFormat = true;
+      return this;
+    }
+    
+    public CsvOptionsBuilder maxLines( int maxLines ) {
+      instance.maxLines = maxLines;
+      return this;
+    }
+
+    public CsvOptionsBuilder singleQuotes( boolean consumeSingleQuotes ) {
       instance.consumeSingleQuotes = consumeSingleQuotes;
       return this;
     }
 
-    public CsvOptionsBuilder doubleQuotes( boolean consumeDoubleQuotes) {
+    public CsvOptionsBuilder doubleQuotes( boolean consumeDoubleQuotes ) {
       instance.consumeDoubleQuotes = consumeDoubleQuotes;
       return this;
     }
