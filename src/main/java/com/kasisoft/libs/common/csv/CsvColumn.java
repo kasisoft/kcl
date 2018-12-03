@@ -20,7 +20,7 @@ import java.math.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
+@Data @NoArgsConstructor @AllArgsConstructor
 public final class CsvColumn<T> {
   
   private static Map<Class<?>, Function<String, ?>> DEFAULT_ADAPTERS = new HashMap<>();
@@ -33,12 +33,28 @@ public final class CsvColumn<T> {
     DEFAULT_ADAPTERS.put( BigDecimal.class  , CsvColumn::toBigDecimalValue  );
   }
   
+  String                title;
   Class<T>              type;
   boolean               nullable;
   T                     defval;
-  String                title;
   Function<String, T>   adapter;
   
+  public CsvColumn( String title ) {
+    this( title, (Class<T>) String.class, true, null, null );
+  }
+
+  public CsvColumn( String title, Class<T> type, T defValue ) {
+    this( title, type, false, defValue, null );
+  }
+
+  public CsvColumn( String title, Class<T> type, boolean nullable, Function<String, T> adapter ) {
+    this( title, type, nullable, null, adapter );
+  }
+
+  public CsvColumn( String title, Class<T> type ) {
+    this( title, type, true, null, null );
+  }
+
   /**
    * Returns the current adapter associated with this column.
    * 
