@@ -2,13 +2,16 @@ package com.kasisoft.libs.common.csv;
 
 import static com.kasisoft.libs.common.io.DefaultIO.*;
 
-import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.util.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import com.kasisoft.libs.common.base.*;
 import com.kasisoft.libs.common.function.*;
 import com.kasisoft.libs.common.internal.*;
-import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.text.*;
-import com.kasisoft.libs.common.util.*;
 
 import javax.swing.event.*;
 
@@ -22,9 +25,9 @@ import java.util.stream.*;
 
 import java.util.*;
 
-import java.io.*;
-
 import java.nio.file.*;
+
+import java.io.*;
 
 import lombok.experimental.*;
 
@@ -92,6 +95,98 @@ public class CsvTableModel implements TableModel {
     options.getColumns().forEach( $ -> tableModel.addColumn( $.getTitle() ) );
   }
   
+  public CsvOptions getOptions() {
+    return options;
+  }
+  
+  public synchronized void removeRow( int row ) {
+    tableModel.removeRow( row );
+  }
+  
+  public synchronized void removeRow( Predicate<Object[]> isValid ) {
+    for( int i = tableModel.getRowCount() - 1; i >= 0; i-- ) {
+      Vector row = (Vector) tableModel.getDataVector().get(i);
+      if( !isValid.test( row.toArray() ) ) {
+        tableModel.removeRow(i);
+      }
+    }
+  }
+  
+  public synchronized int getColumnIndex( @NonNull String columnName ) {
+    int result = -1;
+    for( int i = 0; i < getColumnCount(); i++ ) {
+      String colName = tableModel.getColumnName(i);
+      if( columnName.equals( colName ) ) {
+        result = i;
+        break;
+      }
+    }
+    return result;
+  }
+  
+  public synchronized boolean isValidColumn( int column ) {
+    return (column >= 0) && (column < tableModel.getColumnCount());
+  }
+
+  public synchronized <C> void removeRow( Predicate<C> rowTest, String columnName ) {
+    removeRow( rowTest, getColumnIndex( columnName ) );
+  }
+
+  public synchronized <C> void removeRow( Predicate<C> isValid, int column ) {
+    if( isValidColumn( column ) ) {
+      removeRow( $ -> isValid.test( (C) $[ column ] ) );
+    }
+  }
+  
+  public synchronized void removeColumn( String name ) {
+    removeColumn( getColumnIndex( name ) );
+  }
+  
+  public synchronized void removeColumn( int column ) {
+    if( isValidColumn( column ) ) {
+      for( int row = 0; row < tableModel.getRowCount(); row++ ) {
+        Vector rowData = (Vector) tableModel.getDataVector().get( row );
+        rowData.remove( column );
+      }
+      options.getColumns().remove( column );
+    }
+  }
+
+  public synchronized <L, R, O> void joinColumns( String column1, String column2, BiFunction<L, R, O> joiner, String columnName ) {
+    joinColumns( getColumnIndex( column1 ), getColumnIndex( column2 ), joiner, columnName, true, null ); 
+  }
+
+  public synchronized <L, R, O> void joinColumns( int column1, int column2, BiFunction<L, R, O> joiner, String columnName ) {
+    joinColumns( column1, column2, joiner, columnName, true, null ); 
+  }
+
+  public synchronized <L, R, O> void joinColumns( String column1, String column2, BiFunction<L, R, O> joiner, String columnName, boolean nullable, O defaultVal ) {
+    joinColumns( getColumnIndex( column1 ), getColumnIndex( column2 ), joiner, columnName, nullable, defaultVal );
+  }
+  
+  public synchronized <L, R, O> void joinColumns( int column1, int column2, BiFunction<L, R, O> joiner, String columnName, boolean nullable, O defaultVal ) {
+    if( isValidColumn( column1 ) && isValidColumn( column2 ) ) {
+      CsvColumn<O> newColumn = new CsvColumn<>();
+      newColumn.setNullable( nullable );
+      newColumn.setTitle( columnName );
+      newColumn.setDefval( defaultVal );
+      options.getColumns().add(newColumn );
+      int idxMax = Math.max( column1, column2 );
+      int idxMin = Math.min( column1, column2 );
+      for( int row = 0; row < tableModel.getRowCount(); row++ ) {
+        Vector rowData = (Vector) tableModel.getDataVector().get( row );
+        L      left    = (L) rowData.get( column1 );
+        R      right   = (R) rowData.get( column2 );
+        O      joined  = joiner.apply( left, right );
+        rowData.add( joined );
+        rowData.remove( idxMax );
+        rowData.remove( idxMin );
+      }
+      options.getColumns().remove( idxMax );
+      options.getColumns().remove( idxMin );
+    }
+  }
+  
   /**
    * Creates a new DefaultTableModel instance used as the delegate.
    */
@@ -155,6 +250,14 @@ public class CsvTableModel implements TableModel {
    * @return   A normalized table of csv data. Not <code>null</code>.
    */
   private List<List<String>> loadCellData( InputStream source ) {
+    if( options.isSimpleFormat() ) {
+      return loadCellDataSimple( source );
+    } else {
+      return loadCellDataDefault( source );
+    }
+  }
+  
+  private List<List<String>> loadCellDataDefault( InputStream source ) {
     
     /* The import follows these steps:
      * 
@@ -166,9 +269,10 @@ public class CsvTableModel implements TableModel {
      * 6. Drop all separators.
      * 7. Turn the remaining content cells into Strings again. 
      */
-    
+
     StringBuilder  text      = readContent( source );
-    List<Content>  tokenized = tokenize( text ).stream()
+
+    List<Content>  tokenized = tokenize( text ).parallelStream()
       .map( this::toContent )
       .map( this::normalize )
       .collect( Collectors.toList() );
@@ -176,10 +280,55 @@ public class CsvTableModel implements TableModel {
     // fetch all lines and add potentially missing column data
     List<List<Content>> partitioned = partition( tokenized );
     artificialContent( partitioned );
-    
+
     // remove separators and get the texts only
     return cleanup( partitioned );
     
+  }
+  
+  private List<List<String>> loadCellDataSimple( InputStream source ) {
+    
+    /* The import follows these steps:
+     * 
+     * 1. Read the complete csv as a single text.
+     * 2. Remember the title row if any.
+     * 3. Split all lines assuming they are well formed.
+     * 4. Insert the title row. 
+     */
+
+    String       text  = readContent( source ).toString();
+    List<String> lines = StringFunctions.toLines( text );
+    
+    String titleRow = null;
+    if( options.isTitleRow() ) {
+      titleRow = lines.remove(0);
+    }
+    
+    List<List<String>> result = (options.isOrderedSimpleFormat() ? lines.stream() : lines.parallelStream())
+      .map( this::tokenizeSimple )
+      .collect( Collectors.toList() );
+    
+    if( titleRow != null ) {
+      result.add( 0, tokenizeSimple( titleRow ) );
+    }
+    
+    int max = result.parallelStream()
+      .map( $ -> $.size() )
+      .reduce( result.get(0).size(), Math::max )
+      .intValue();
+
+    result.parallelStream()
+      .filter( $ -> $.size() < max )
+      .forEach( $ -> fillUp( $, max ) );
+    
+    return result;
+    
+  }  
+  
+  private void fillUp( List<String> cells, int max ) {
+    while( cells.size() < max ) {
+      cells.add( "" );
+    }
   }
   
   /**
@@ -191,16 +340,20 @@ public class CsvTableModel implements TableModel {
    */
   private StringBuilder readContent( InputStream source ) {
     CharArrayWriter writer = new CharArrayWriter();
+    forReaderDo( source, $ -> IoFunctions.copy( $, writer, null ) );
+    return new StringBuilder( writer.toString() );
+  }
+  
+  private void forReaderDo( InputStream source, Consumer<ExtReader> consumer ) {
     if( options.getEncoding() == Encoding.UTF8 ) {
-      DefaultIO.INPUTSTREAM_READER_EX.forReaderDo( source, $ -> IoFunctions.copy( $, writer, null ) );
+      DefaultIO.INPUTSTREAM_READER_EX.forReaderDo( source, consumer );
     } else {
       KReader<InputStream> reader = KReader.builder( InputStream.class )
         .encoding( options.getEncoding() )
         .errorHandler( ($ex, $_) -> { throw KclException.wrap( $ex ); } )
         .build();
-      reader.forReaderDo( source, $ -> IoFunctions.copy( $, writer, null ) );
+      reader.forReaderDo( source, consumer );
     }
-    return new StringBuilder( writer.toString() );
   }
   
   /**
@@ -216,6 +369,42 @@ public class CsvTableModel implements TableModel {
       consume( result, text ); 
     }
     dropEmptySequences( result );
+    return result;
+  }
+
+  private List<String> tokenizeSimple( String text ) {
+    List<String> result = new ArrayList<>(10);
+    for( int i = 0; i < text.length(); i++ ) {
+      
+      char first    = text.charAt(i);
+      if( (first == DQ) && options.isConsumeDoubleQuotes() ) {
+        int close = text.indexOf( DQ, i + 1 );
+        if( close == -1 ) {
+          throw new KclException( Messages.error_csv_missing_closing_quote.format( text ) );
+        }
+        result.add( text.substring( i + 1, close ) );
+        i = close + 1;
+      } else if( (first == SQ) && options.isConsumeSingleQuotes() ) {
+        int close = text.indexOf( SQ, i + 1 );
+        if( close == -1 ) {
+          throw new KclException( Messages.error_csv_missing_closing_quote.format( text ) );
+        }
+        result.add( text.substring( i + 1, close ) );
+        i = close + 1;
+      } else if( first == options.getDelimiter() ) {
+        // empty cell
+        result.add( "" );
+      } else {
+        int end = text.indexOf( options.getDelimiter(), i + 1 );
+        if( end == -1 ) {
+          result.add( text.substring(i) );
+          i = text.length();
+        } else {
+          result.add( text.substring( i, end ) );
+          i = end;
+        }
+      }
+    }
     return result;
   }
 
@@ -263,7 +452,7 @@ public class CsvTableModel implements TableModel {
       consumeNormal( receiver, content );
     }
   }
-  
+
   /**
    * Consumes the next token which is a sequence of quoted text.
    * 
@@ -425,10 +614,11 @@ public class CsvTableModel implements TableModel {
    * @return   A table structured sequence of tokens. Not <code>null</code>.
    */
   private List<List<Content>> partition( List<Content> content ) {
-    List<List<Content>> result = new ArrayList<>();
-    List<Content>       line   = new ArrayList<>();
+    List<List<Content>> result      = new ArrayList<>();
+    List<Content>       line        = new ArrayList<>();
+    Predicate<List>     isfilled    = options.getMaxLines() != -1 ? $ -> $.size() >= options.getMaxLines() : $ -> false;
     result.add( line );
-    while( ! content.isEmpty() ) {
+    while( (! content.isEmpty()) && (!isfilled.test( result )) ) {
       Content current = content.remove(0);
       if( current.type == ContentType.LINE_DELIMITER ) {
         if( ! line.isEmpty() ) {
@@ -567,7 +757,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param source       The {@link InputStream} providing the csv data. Not <code>null</code>.
    */
-  public void load( @NonNull InputStream source ) {
+  public synchronized void load( @NonNull InputStream source ) {
     
     createNewDefaultTableModel();
     
@@ -599,7 +789,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param dest   The destination for the csv data. Not <code>null</code>.
    */
-  public void save( @NonNull Path dest ) {
+  public synchronized void save( @NonNull Path dest ) {
     PATH_OUTPUTSTREAM_EX.forOutputStreamDo( dest, this::save );
   }
   
@@ -608,7 +798,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param dest   The {@link OutputStream} receceiving the csv data. Not <code>null</code>.
    */
-  public void save( @NonNull OutputStream dest ) {
+  public synchronized void save( @NonNull OutputStream dest ) {
     try( PrintWriter writer = new PrintWriter( new OutputStreamWriter( dest, "UTF-8" ) ) ) {
       writeColumnTitles( writer );
       for( int i = 0; i < getRowCount(); i++ ) {
@@ -618,7 +808,7 @@ public class CsvTableModel implements TableModel {
       throw KclException.wrap( ex );
     }
   }
-
+  
   private void writeColumnTitles( PrintWriter writer ) {
     int last = getColumnCount() - 1;
     for( int i = 0; i < getColumnCount(); i++ ) {
@@ -718,21 +908,21 @@ public class CsvTableModel implements TableModel {
    * @param titles    A list of configured/generated titles per column. Not <code>null</code>.
    */
   private void consolidateColumns( int columns, List<List<String>> lines, List<String> titles ) {
+    Map<String, CsvColumn> columnsByName = new HashMap<>();
+    for( CsvColumn csvColumn : options.getColumns() ) {
+      columnsByName.put( csvColumn.getTitle(), csvColumn );
+    }
+    List<CsvColumn> reordered = new ArrayList<>( columns );
     for( int i = 0; i < columns; i++ ) {
-      CsvColumn csvColumn = i < options.getColumns().size() ? options.getColumns().get(i) : null; 
+      String    title     = titles.get(i);
+      CsvColumn csvColumn = columnsByName.get( title ); 
       if( csvColumn == null ) {
         csvColumn = guessColumn( lines, i );
+        csvColumn.setTitle( title );
       }
-      String title = StringFunctions.cleanup( csvColumn.getTitle() );
-      if( title == null ) {
-        title = titles.get(i);
-      }
-      csvColumn.setTitle( title );
-      if( i < options.getColumns().size() ) {
-        options.getColumns().set( i, csvColumn );
-      } else {
-        options.getColumns().add( csvColumn );
-      }
+      reordered.add( csvColumn );
+      options.getColumns().clear();
+      options.getColumns().addAll( reordered );
     }
   }
   
@@ -888,7 +1078,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param handler   The new error handler.
    */
-  public void setErrorHandlerForInvalidCellValue( Consumer<String> handler ) {
+  public synchronized void setErrorHandlerForInvalidCellValue( Consumer<String> handler ) {
     ehInvalidCellValue = handler != null ? handler : this::ehDefault;
   }
 
@@ -897,7 +1087,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param handler   The new error handler.
    */
-  public void setErrorHandlerForColumnSpecWithoutAdapter( Consumer<String> handler ) {
+  public synchronized void setErrorHandlerForColumnSpecWithoutAdapter( Consumer<String> handler ) {
     ehColumnSpecWithoutAdapter = handler != null ? handler : this::ehDefault;
   }
 
@@ -911,47 +1101,47 @@ public class CsvTableModel implements TableModel {
   }
   
   @Override
-  public int getRowCount() {
+  public synchronized int getRowCount() {
     return tableModel.getRowCount();
   }
 
   @Override
-  public int getColumnCount() {
+  public synchronized int getColumnCount() {
     return tableModel.getColumnCount();
   }
 
   @Override
-  public String getColumnName( int columnIndex ) {
+  public synchronized String getColumnName( int columnIndex ) {
     return tableModel.getColumnName( columnIndex );
   }
 
   @Override
-  public Class<?> getColumnClass( int columnIndex ) {
+  public synchronized Class<?> getColumnClass( int columnIndex ) {
     return options.getColumns().get( columnIndex ).getType();
   }
 
   @Override
-  public boolean isCellEditable( int rowIndex, int columnIndex ) {
+  public synchronized boolean isCellEditable( int rowIndex, int columnIndex ) {
     return tableModel.isCellEditable( rowIndex, columnIndex );
   }
 
   @Override
-  public Object getValueAt( int rowIndex, int columnIndex ) {
+  public synchronized  Object getValueAt( int rowIndex, int columnIndex ) {
     return tableModel.getValueAt( rowIndex, columnIndex );
   }
 
   @Override
-  public void setValueAt( Object aValue, int rowIndex, int columnIndex ) {
+  public synchronized  void setValueAt( Object aValue, int rowIndex, int columnIndex ) {
     tableModel.setValueAt( aValue, rowIndex, columnIndex );
   }
 
   @Override
-  public void addTableModelListener( TableModelListener l ) {
+  public synchronized void addTableModelListener( TableModelListener l ) {
     listeners.add( TableModelListener.class, l );
   }
 
   @Override
-  public void removeTableModelListener( TableModelListener l ) {
+  public synchronized void removeTableModelListener( TableModelListener l ) {
     listeners.remove( TableModelListener.class, l );
   }
 
