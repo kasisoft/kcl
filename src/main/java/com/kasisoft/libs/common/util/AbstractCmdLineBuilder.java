@@ -3,8 +3,11 @@ package com.kasisoft.libs.common.util;
 import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.function.*;
+import com.kasisoft.libs.common.text.*;
 
 import java.util.function.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
@@ -24,7 +27,8 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     
     Flag,
     Parameter,
-    ManyParameter
+    ManyParameter,
+    Indexed
     
   }
   
@@ -53,6 +57,24 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     errorHandler = consumer;
     return (R) this;
   }
+
+  public R errorHandler( @NonNull String applicationName ) {
+    return errorHandler( applicationName, null );
+  }
+  
+  public R errorHandler( @NonNull String applicationName, Runnable followup ) {
+    errorHandler = $ -> {
+      System.err.println( applicationName + " " + usage( false ) );
+      for( int i = 0; i < $.size(); i++ ) {
+        System.err.println( "=> " + $.get(i) );
+      }
+      System.err.println();
+      if( followup != null ) {
+        followup.run();
+      }
+    };
+    return (R) this;
+  }
   
   /**
    * Starts the configuration of a flag.
@@ -78,6 +100,30 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    */
   public R single( @NonNull String option, String ... options ) {
     Argument argument = new Argument( ArgumentType.Parameter, option, options );
+    arguments.add( argument );
+    return (R) this;
+  }
+
+  /**
+   * Starts the configuration for a single parameter without an option. Creating these arguments
+   * must comply with the ordering on the command line.
+   * 
+   * @return this
+   */
+  public R indexed() {
+    return indexed( null );
+  }
+
+  /**
+   * Starts the configuration for a single parameter without an option. Creating these arguments
+   * must comply with the ordering on the command line.
+   * 
+   * @param name   A name that will be used to identify this indexed parameter.
+   * 
+   * @return this
+   */
+  public R indexed( String name ) {
+    Argument argument = new Argument( ArgumentType.Indexed, name );
     arguments.add( argument );
     return (R) this;
   }
@@ -191,20 +237,6 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    */
   protected abstract V buildImpl();
   
-  /**
-   * Like {@link #buildImpl()} but this function returns <code>null</code> if there was an error while
-   * parsing command line arguments through {@link #parse(String[])}.
-   * 
-   * @return   The data structure.
-   */
-  public V build() {
-    V result = null;
-    if( ! error ) {
-      result = buildImpl();
-    }
-    return result;
-  }
-  
   private int indexOf( List<String> args, Argument argument ) {
     return indexOf( args, argument, 0 );
   }
@@ -235,7 +267,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
    * 
    * @return   this
    */
-  public R parse( @NonNull String[] argarray ) {
+  public V parse( @NonNull String[] argarray ) {
     
     validateConfiguration();
     
@@ -243,10 +275,11 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     int[]        applications = new int[ arguments.size() ];
     Arrays.fill( applications, 0 );
     
-    parseFlags          ( args, applications );
-    parseManyParameter  ( args, applications );
-    parseParameter      ( args, applications );
-    handleDefaultValues ( applications );
+    parseFlags            ( args, applications );
+    parseManyParameter    ( args, applications );
+    parseParameter        ( args, applications );
+    parseIndexedParameter ( args, applications );
+    handleDefaultValues   ( applications );
     
     List<String> errors = new ArrayList<>();
     
@@ -258,7 +291,12 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
       error = true;
     }
     
-    return (R) this;
+    V result = null;
+    if( ! error ) {
+      result = buildImpl();
+    }
+    return result;
+
   }
   
   private void handleDefaultValues( int[] applications ) {
@@ -274,9 +312,19 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
   }
   
   private void checkForMissingRequiredArgs( int[] applications, List<String> errors ) {
+    int idxCount = 1;
     for( int i = 0; i < arguments.size(); i++ ) {
       if( arguments.get(i).required && (applications[i] == 0) ) {
-        errors.add( error_missing_required_option.format( arguments.get(i).option ) );
+        String option = arguments.get(i).option;
+        if( option == null ) {
+          option = String.format( "arg%d", idxCount );
+        }
+        if( arguments.get(i).type == ArgumentType.Indexed ) {
+          errors.add( error_missing_required_argument.format( idxCount, option ) );
+          idxCount++;
+        } else {
+          errors.add( error_missing_required_option.format( option ) );
+        }
       }
     }
   }
@@ -300,7 +348,24 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
       }
     }
   }
-  
+
+  private void parseIndexedParameter( List<String> args, int[] applications ) {
+    for( int i = 0; (i < arguments.size()) && (!args.isEmpty()); i++ ) {
+      if( arguments.get(i).type == ArgumentType.Indexed ) {
+        parseIndexed( args, arguments.get(i), i, applications );
+      }
+    }
+  }
+
+  private void parseIndexed( List<String> args, Argument argument, int pos, int[] applications ) {
+    Object value = argument.transformer.apply( args.get(0) );
+    applications[ pos ] = applications[ pos ] + 1;
+    if( argument.test.test( value ) ) {
+      argument.applicator.accept( value );
+    }
+    args.remove(0);
+  }
+
   private void parseParameter( List<String> args, Argument argument, int pos, int[] applications ) {
     int i = indexOf( args, argument );
     if( (i != -1) && (i < args.size() - 1) ) {
@@ -362,19 +427,25 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
   /**
    * Returns the usage for the command line.
    * 
-   * @param shortUsage   <code>true</code> <=> Just return the commandline.
+   * @param shortUsage    <code>true</code> <=> Just return the commandline.
    * 
    * @return   The usage for the command line. Not <code>null</code>.
    */
   public String usage( boolean shortUsage ) {
-    List<Argument> args    = new ArrayList<>( arguments );
+    List<Argument> args     = arguments.stream().filter( $ -> $.type != ArgumentType.Indexed ).collect( Collectors.toList() );
     Collections.sort( args );
-    StringBuilder    builder = new StringBuilder();
+    arguments.stream().filter( $ -> $.type == ArgumentType.Indexed ).forEach( args::add );
+    int            idxCount = 1;
+    StringBuilder  builder  = new StringBuilder();
     for( Argument arg : args ) {
       if( ! arg.required ) {
         builder.append( "[" );
       }
-      builder.append( arg.option );
+      if( arg.option != null ) {
+        builder.append( arg.option );
+      } else if( arg.type == ArgumentType.Indexed ) {
+        builder.append( String.format( "arg%d", idxCount++ ) );
+      }
       if( ! arg.options.isEmpty() ) {
         builder.append( "(alternatives: " );
         for( String option : arg.options ) {
@@ -384,7 +455,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
         builder.deleteCharAt( builder.length() - 1 );
         builder.append( ")" );
       }
-      if( arg.type != ArgumentType.Flag ) {
+      if( (arg.type != ArgumentType.Flag) && (arg.type != ArgumentType.Indexed) ) {
         builder.append( " " ).append( "<value>" );
       }
       if( ! arg.required ) {
@@ -400,9 +471,24 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     }
     builder.append( "\n" );
     if( ! shortUsage ) {
+      builder.append( "\n" );
+      idxCount = 1;
+      List<String> names = new ArrayList<>();
       for( Argument arg : args ) {
         if( arg.description != null ) {
-          builder.append( "\t" ).append( arg.option ).append( " : " ).append( arg.description ).append( "\n" );
+          String option = arg.option;
+          if( (option == null) && (arg.type == ArgumentType.Indexed) ) {
+            option = String.format( "arg%d", idxCount++ );
+          }
+          names.add( option );
+        }
+      }
+      int maxLength = names.parallelStream().map( String::length ).reduce( 0, Math::max ).intValue() + 1;
+      for( Argument arg : args ) {
+        if( arg.description != null ) {
+          String name       = names.remove(0);
+          String padding    = StringFunctions.fillString( maxLength - name.length(), ' ' );
+          builder.append( "\t" ).append( name ).append( padding ).append( " : " ).append( arg.description ).append( "\n" );
         }
       }
     }
