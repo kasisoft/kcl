@@ -1,37 +1,62 @@
 package com.kasisoft.libs.common.csv;
 
-import static com.kasisoft.libs.common.io.DefaultIO.*;
+import static com.kasisoft.libs.common.io.DefaultIO.PATH_INPUTSTREAM_EX;
+import static com.kasisoft.libs.common.io.DefaultIO.PATH_OUTPUTSTREAM_EX;
 
-import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.constants.Encoding;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.util.MiscFunctions;
 
-import com.kasisoft.libs.common.io.*;
+import com.kasisoft.libs.common.io.DefaultIO;
+import com.kasisoft.libs.common.io.ExtReader;
+import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.KReader;
 
-import com.kasisoft.libs.common.base.*;
-import com.kasisoft.libs.common.function.*;
-import com.kasisoft.libs.common.internal.*;
-import com.kasisoft.libs.common.text.*;
+import com.kasisoft.libs.common.base.KclException;
+import com.kasisoft.libs.common.function.Functions;
+import com.kasisoft.libs.common.function.Predicates;
+import com.kasisoft.libs.common.internal.Messages;
+import com.kasisoft.libs.common.text.StringFunctions;
 
-import javax.swing.event.*;
+import javax.swing.event.EventListenerList;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
-import java.nio.file.*;
+import java.nio.file.Path;
 
-import java.io.*;
+import java.io.CharArrayWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * A TableModel implementation that can be fed by CSV data.
@@ -976,22 +1001,29 @@ public class CsvTableModel implements TableModel {
    * @param titles    A list of configured/generated titles per column. Not <code>null</code>.
    */
   private void consolidateColumns( int columns, List<List<String>> lines, List<String> titles ) {
+    
     Map<String, CsvColumn> columnsByName = new HashMap<>();
-    for( CsvColumn csvColumn : options.getColumns() ) {
-      columnsByName.put( csvColumn.getTitle(), csvColumn );
-    }
-    List<CsvColumn> reordered = new ArrayList<>( columns );
-    for( int i = 0; i < columns; i++ ) {
-      String    title     = titles.get(i);
-      CsvColumn csvColumn = columnsByName.get( title ); 
-      if( csvColumn == null ) {
-        csvColumn = guessColumn( lines, i );
-        csvColumn.setTitle( title );
+    List<String>           allTitles     = new ArrayList<>( titles );
+    
+    options.getColumns().parallelStream()
+      .filter( $ -> $ != null )
+      .forEach( $ -> columnsByName.put( $.getTitle(), $ ) );
+
+    allTitles.removeAll( columnsByName.keySet() );
+    
+    List<CsvColumn> reordered = new ArrayList<>();
+    for( int i = 0; i < titles.size(); i++ ) {
+      String    title  = titles.get(i);
+      CsvColumn column = columnsByName.get( title );
+      if( column == null ) {
+        column = guessColumn( lines, i );
+        column.setTitle( allTitles.remove(0) );
       }
-      reordered.add( csvColumn );
-      options.getColumns().clear();
-      options.getColumns().addAll( reordered );
+      reordered.add( column );
     }
+    options.getColumns().clear();
+    options.getColumns().addAll( reordered );
+    
   }
   
   /**
