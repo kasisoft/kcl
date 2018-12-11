@@ -31,7 +31,7 @@ public final class CsvOptions {
   //   * If cell content is quoted it's not allowed to have whitespace outside of the quoted region
   //   * All records must have the same amount of cells
   // 
-  boolean           simpleFormat        = true;
+  boolean           simpleFormat        = false;
   // enable/disable whether the simple loading is allowed to mixup the record order
   boolean           orderedSimpleFormat = true;
   int               maxLines            = -1;
