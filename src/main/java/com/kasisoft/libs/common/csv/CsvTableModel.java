@@ -104,11 +104,79 @@ public class CsvTableModel implements TableModel {
   }
   
   public synchronized void removeRow( Predicate<Object[]> isValid ) {
-    for( int i = tableModel.getRowCount() - 1; i >= 0; i-- ) {
+    int start = options.isTitleRow() ? 1 : 0;
+    for( int i = tableModel.getRowCount() - 1; i >= start; i-- ) {
       Vector row = (Vector) tableModel.getDataVector().get(i);
       if( !isValid.test( row.toArray() ) ) {
         tableModel.removeRow(i);
       }
+    }
+  }
+
+  public synchronized <I> void forEach( Consumer<I> rowConsumer, String column ) {
+    forEach( Functions.adaptToBi( rowConsumer ), null, column );
+  }
+  
+  public synchronized <C, I> void forEach( BiConsumer<I, C> rowConsumer, C context, String column ) {
+    int                        start  = options.isTitleRow() ? 1 : 0;
+    Function<Vector, Object[]> mapRow = getObjects( column );
+    for( int i = start; i < tableModel.getRowCount(); i++ ) {
+      Vector row = (Vector) tableModel.getDataVector().get(i);
+      rowConsumer.accept( (I) mapRow.apply( row )[0], context );
+    }
+  }
+
+  public synchronized void forEach( Consumer<Object[]> rowConsumer, String ... columns ) {
+    forEach( Functions.adaptToBi( rowConsumer ), null, columns );
+  }
+  
+  public synchronized <C> void forEach( BiConsumer<Object[], C> rowConsumer, C context, String ... columns ) {
+    int                        start  = options.isTitleRow() ? 1 : 0;
+    Function<Vector, Object[]> mapRow = getObjects( columns );
+    for( int i = start; i < tableModel.getRowCount(); i++ ) {
+      Vector row = (Vector) tableModel.getDataVector().get(i);
+      rowConsumer.accept( mapRow.apply( row ), context );
+    }
+  }
+
+  public synchronized <R, I> R reduce( R initial, BiFunction<R, I, R> operator, String column ) {
+    R                          result = initial;
+    int                        start  = options.isTitleRow() ? 1 : 0;
+    Function<Vector, Object[]> mapRow = getObjects( column );
+    for( int i = start; i < tableModel.getRowCount(); i++ ) {
+      Vector row = (Vector) tableModel.getDataVector().get(i);
+      result     = operator.apply( result, (I) mapRow.apply( row )[0] );
+    }
+    return result;
+  }
+
+  public synchronized <R> R reduce( R initial, BiFunction<R, Object[], R> operator, String ... columns ) {
+    R                          result = initial;
+    int                        start  = options.isTitleRow() ? 1 : 0;
+    Function<Vector, Object[]> mapRow = getObjects( columns );
+    for( int i = start; i < tableModel.getRowCount(); i++ ) {
+      Vector row = (Vector) tableModel.getDataVector().get(i);
+      result     = operator.apply( result, mapRow.apply( row ) );
+    }
+    return result;
+  }
+
+  private Function<Vector, Object[]> getObjects( String ... columns ) {
+    if( (columns == null) || (columns.length == 0) ) {
+      return $ -> $.toArray();
+    } else {
+      int[] indices = new int[ columns.length ];
+      for( int i = 0; i < indices.length; i++ ) {
+        indices[i] = getColumnIndex( columns[i] );
+      }
+      return $ -> {
+        Object[] in  = $.toArray();
+        Object[] out = new Object[ indices.length ];
+        for( int i = 0; i < indices.length; i++ ) {
+          out[i] = in[ indices[i] ];
+        }
+        return out;
+      };
     }
   }
   
@@ -814,7 +882,7 @@ public class CsvTableModel implements TableModel {
     for( int i = 0; i < getColumnCount(); i++ ) {
       writer.append( String.format( "\"%s\"", getColumnName(i) ) );
       if( i < last ) {
-        writer.append(",");
+        writer.append( options.getDelimiter() );
       }
     }
     writer.append("\n");
@@ -825,7 +893,7 @@ public class CsvTableModel implements TableModel {
     for( int i = 0; i < getColumnCount(); i++ ) {
       writer.append( String.format( "\"%s\"", getValueAt( row, i ) ) );
       if( i < last ) {
-        writer.append(",");
+        writer.append( options.getDelimiter() );
       }
     }
     writer.append("\n");
