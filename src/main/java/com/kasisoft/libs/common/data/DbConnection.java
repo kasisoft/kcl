@@ -25,7 +25,9 @@ import java.sql.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DbConnection implements AutoCloseable {
   
+  @Getter
   Connection                                connection;
+  
   DbConfig                                  config;
   Consumer<Exception>                       ehException;
   Map<String, PreparedStatement>            queries;
@@ -64,7 +66,7 @@ public class DbConnection implements AutoCloseable {
       connection = config.getDb().getConnection( config.getUrl() );
     }
   }
-
+  
   /**
    * Default error handler.
    * 
