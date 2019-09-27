@@ -8,5 +8,6 @@
 .launch/
 rebel.xml
 */test-output/
+test-output/
 
 /target/
