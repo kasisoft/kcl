@@ -11,3 +11,6 @@ rebel.xml
 test-output/
 
 /target/
+.factorypath
+pom.xml
+
