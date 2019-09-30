@@ -36,7 +36,7 @@ public class AbstractCmdLineBuilderTest {
     }
     
     @Override
-    protected Result buildImpl() {
+    protected Result buildImpl( List<String> remaining ) {
       return obj;
     }
      
@@ -56,7 +56,7 @@ public class AbstractCmdLineBuilderTest {
     }
     
     @Override
-    protected Result buildImpl() {
+    protected Result buildImpl( List<String> remaining ) {
       return obj;
     }
      
@@ -85,7 +85,7 @@ public class AbstractCmdLineBuilderTest {
     }
     
     @Override
-    protected Result buildImpl() {
+    protected Result buildImpl( List<String> remaining ) {
       return obj;
     }
      

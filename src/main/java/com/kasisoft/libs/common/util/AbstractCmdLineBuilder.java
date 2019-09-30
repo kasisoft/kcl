@@ -233,9 +233,11 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
   /**
    * Creates a new record instance.
    *  
+   * @param   remaining <=> List of remaining arguments (order is being preserved)
+   * 
    * @return   A new record instance.
    */
-  protected abstract V buildImpl();
+  protected abstract V buildImpl( @NonNull List<String> remaining );
   
   private int indexOf( List<String> args, Argument argument ) {
     return indexOf( args, argument, 0 );
@@ -293,7 +295,7 @@ public abstract class AbstractCmdLineBuilder<R extends AbstractCmdLineBuilder, V
     
     V result = null;
     if( ! error ) {
-      result = buildImpl();
+      result = buildImpl( args );
     }
     return result;
 
