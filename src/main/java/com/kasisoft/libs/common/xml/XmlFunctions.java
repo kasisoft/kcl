@@ -281,9 +281,10 @@ public final class XmlFunctions {
         }
       }
       Transformer transformer = factory.newTransformer();
-      transformer.setOutputProperty( OutputKeys.METHOD               , method                 );
-      transformer.setOutputProperty( OutputKeys.INDENT               , "yes"                  );
-      transformer.setOutputProperty( OutputKeys.ENCODING             , encoding.getEncoding() );
+      transformer.setOutputProperty( OutputKeys.METHOD                          , method                 );
+      transformer.setOutputProperty( OutputKeys.INDENT                          , "yes"                  );
+      transformer.setOutputProperty( OutputKeys.ENCODING                        , encoding.getEncoding() );
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount" , "2"                    );
       // a transformer can generate output in different formats, so it doesn't know
       // about the target format which means that we have to alter the pi by our own
       transformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION , "yes" );
