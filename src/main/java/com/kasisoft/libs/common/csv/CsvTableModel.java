@@ -860,15 +860,35 @@ public class CsvTableModel implements TableModel {
   public synchronized void save( @NonNull Path dest ) {
     PATH_OUTPUTSTREAM_EX.forOutputStreamDo( dest, this::save );
   }
-  
+
+  /**
+   * Saves the csv data to the supplied location.
+   * 
+   * @note [28-Sep-2016:KASI]   Doesn't support encoding yet.
+   * 
+   * @param dest   The destination for the csv data. Not <code>null</code>.
+   */
+  public synchronized void save( @NonNull Path dest, Function<String, String> overrideName ) {
+    PATH_OUTPUTSTREAM_EX.forOutputStreamDo( dest, $ -> save( $, overrideName ) );
+  }
+
   /**
    * Saves the csv data to the supplied {@link OutputStream}. 
    * 
    * @param dest   The {@link OutputStream} receceiving the csv data. Not <code>null</code>.
    */
   public synchronized void save( @NonNull OutputStream dest ) {
+    save( dest, null );
+  }
+  
+  /**
+   * Saves the csv data to the supplied {@link OutputStream}. 
+   * 
+   * @param dest   The {@link OutputStream} receceiving the csv data. Not <code>null</code>.
+   */
+  public synchronized void save( @NonNull OutputStream dest, Function<String, String> overrideName ) {
     try( PrintWriter writer = new PrintWriter( new OutputStreamWriter( dest, "UTF-8" ) ) ) {
-      writeColumnTitles( writer );
+      writeColumnTitles( writer, overrideName );
       for( int i = 0; i < getRowCount(); i++ ) {
         writeRow( writer, i );
       }
@@ -877,10 +897,15 @@ public class CsvTableModel implements TableModel {
     }
   }
   
-  private void writeColumnTitles( PrintWriter writer ) {
-    int last = getColumnCount() - 1;
+  private void writeColumnTitles( PrintWriter writer, Function<String, String> overrideName ) {
+    int      last  = getColumnCount() - 1;
+    String[] names = new String[ getColumnCount() ];
+    Function<String, String> change = overrideName != null ? overrideName : Function.identity();
     for( int i = 0; i < getColumnCount(); i++ ) {
-      writer.append( String.format( "\"%s\"", getColumnName(i) ) );
+      names[i] = change.apply( getColumnName(i) );
+    }
+    for( int i = 0; i < names.length; i++ ) {
+      writer.append( String.format( "\"%s\"", names[i] ) );
       if( i < last ) {
         writer.append( options.getDelimiter() );
       }
