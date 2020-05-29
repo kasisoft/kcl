@@ -34,7 +34,7 @@ dependencies {
 }
 
 group = 'com.kasisoft'
-version = '3.5-SNAPSHOT'
+version = '3.6-SNAPSHOT'
 description = 'KCL :: Kasisoft Common Library'
 buildDir = 'target'
 sourceCompatibility = '1.8'
