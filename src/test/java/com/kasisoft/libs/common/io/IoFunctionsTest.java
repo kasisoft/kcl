@@ -397,12 +397,15 @@ public class IoFunctionsTest {
     
     File dir1      = IoFunctions.locateDirectory( Iso3166Test.class );
     assertThat( dir1, is( notNullValue() ) );
-    File current1  = new File( "target/test-classes" ).getCanonicalFile();
+    File current1  = new File( "target/classes/java/test" ).getCanonicalFile();
+
     assertTrue( dir1.equals( current1 ) );
 
-    File dir2      = IoFunctions.locateDirectory( Iso3166Test.class, "target", "test-classes" );
+    File dir2      = IoFunctions.locateDirectory( Iso3166Test.class, "target", "classes", "java", "test" );
     assertThat( dir2, is( notNullValue() ) );
     File current2  = new File( "." ).getCanonicalFile();
+    System.err.println("### " + current2 );
+    System.err.println("### " + dir2 );
     assertTrue( dir2.equals( current2 ) );
     
   }
