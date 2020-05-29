@@ -28,16 +28,18 @@ dependencies {
     testImplementation 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
     
+    compileOnly 'javax.xml.ws:jaxws-api:2.3.1'
+    compileOnly 'javax.xml.bind:jaxb-api:2.3.1'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     
 }
 
 group = 'com.kasisoft'
-version = '3.6-SNAPSHOT'
+version = '3.7-SNAPSHOT'
 description = 'KCL :: Kasisoft Common Library'
 buildDir = 'target'
-sourceCompatibility = '1.8'
+sourceCompatibility = '13'
 
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
