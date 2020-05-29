@@ -39,6 +39,8 @@ description = 'KCL :: Kasisoft Common Library'
 buildDir = 'target'
 sourceCompatibility = '1.8'
 
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
 configurations.all {
 }
 
@@ -49,7 +51,7 @@ jacoco {
 
 java {
     withSourcesJar()
-    // withJavadocJar()
+    withJavadocJar()
 }
 
 publishing {
