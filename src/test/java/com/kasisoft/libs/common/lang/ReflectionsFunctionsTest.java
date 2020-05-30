@@ -6,7 +6,7 @@ import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
-import javax.xml.ws.*;
+// import javax.xml.ws.*;
 
 import com.kasisoft.libs.common.base.*;
 
@@ -48,16 +48,16 @@ public class ReflectionsFunctionsTest {
     assertNull( ReflectionFunctions.getMethod( ByteArrayOutputStream.class, "bibo" ) );
   }
 
-  @Test(groups="all")
-  public void isAnnotated() {
-    assertTrue( ReflectionFunctions.isAnnotated( IsAnnotated.class, SuppressWarnings.class, BindingType.class ) );
-    assertFalse( ReflectionFunctions.isAnnotated( IsAnnotated.class, SuppressWarnings.class ) );
-  }
-
-  @SuppressWarnings("")
-  @BindingType
-  public static class IsAnnotated {
-    
-  } /* ENDCLASS */
+//  @Test(groups="all")
+//  public void isAnnotated() {
+//    assertTrue( ReflectionFunctions.isAnnotated( IsAnnotated.class, SuppressWarnings.class, BindingType.class ) );
+//    assertFalse( ReflectionFunctions.isAnnotated( IsAnnotated.class, SuppressWarnings.class ) );
+//  }
+//
+//  @SuppressWarnings("")
+//  @BindingType
+//  public static class IsAnnotated {
+//    
+//  } /* ENDCLASS */
   
 } /* ENDCLASS */

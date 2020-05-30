@@ -4,8 +4,6 @@ import java.lang.annotation.*;
 
 /**
  * Container for multiple {@link Specification} elements.
- * 
- * @author noreply@aperto.com
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})

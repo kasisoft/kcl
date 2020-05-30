@@ -4,8 +4,9 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.model.*;
 import com.kasisoft.libs.common.sys.*;
+
+import com.kasisoft.libs.common.model.*;
 
 import org.testng.annotations.*;
 
@@ -92,6 +93,9 @@ public class MiscFunctionsTest {
   @Test(dataProvider="createDateValues", groups="all")
   public void parseDate( String datevalue, Date expected ) {
     Date currentdate = MiscFunctions.parseDate( datevalue, DATEPATTERNS );
+    if( currentdate == null ) {
+      System.err.println("##aa");
+    }
     assertThat( currentdate, is( expected ) );
   }
 

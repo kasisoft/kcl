@@ -7,8 +7,6 @@ import com.kasisoft.libs.common.xml.adapters.*;
 
 import javax.swing.*;
 
-import javax.xml.bind.*;
-
 import java.util.*;
 
 import lombok.experimental.*;
@@ -69,7 +67,7 @@ public class KPasswordTextField extends JPasswordField implements WorkspacePersi
         builder.append( "," );
       }
       Arrays.fill( passwd, '\2' );
-      result = DatatypeConverter.printBase64Binary( builder.toString().getBytes() );
+      result = Base64.getEncoder().encodeToString( builder.toString().getBytes() );
     }
     return result;
   }
@@ -77,7 +75,7 @@ public class KPasswordTextField extends JPasswordField implements WorkspacePersi
   private String decode( String passwdEnc, int[] shifts ) {
     String result = null;
     if( passwdEnc != null ) {
-      byte[]   data   = DatatypeConverter.parseBase64Binary( passwdEnc );
+      byte[]   data   = Base64.getDecoder().decode( passwdEnc );
       String[] strs   = new String( data ).split(",");
       char[]   chars  = new char[ strs.length ];
       int      i      = 0;

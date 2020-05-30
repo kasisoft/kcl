@@ -91,7 +91,7 @@ public class XmlFunctionsTest {
     assertThat( children.getLength(), is(1) );
     Element title = (Element) children.item(0);
     assertThat( reloaded.getXmlEncoding(), is( Encoding.ISO88591.getEncoding() ) );
-    assertThat( getText( title ), is( Encoding.UTF8.decode( Encoding.ISO88591.encode( "Blöde Schuhe" ) ) ) );
+    assertThat( getText( title ), is( "Blöde Schuhe" ) );
   }
 
   private String getText( Element element ) {

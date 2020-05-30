@@ -4,8 +4,6 @@ import java.lang.annotation.*;
 
 /**
  * This annotation is purely meant to be used for documentation purposes.
- * 
- * @author noreply@aperto.com
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})

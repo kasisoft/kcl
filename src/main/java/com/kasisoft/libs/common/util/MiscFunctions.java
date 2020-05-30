@@ -315,16 +315,15 @@ public class MiscFunctions {
    * @return   The date that has been parsed or <code>null</code> in case of a failure.
    */
   public static Date parseDate( @NonNull String value, @NonNull String ... patterns ) {
-    Date result = null;
     for( int i = 0; i < patterns.length; i++ ) {
-      SimpleDateFormat formatter = new SimpleDateFormat( patterns[i] );
+      SimpleDateFormat formatter = new SimpleDateFormat( patterns[i], Locale.ROOT );
       try {
-        result = formatter.parse( value );
+        return formatter.parse( value );
       } catch( ParseException ex ) {
         // simply ignore this. a failure is indicated by a null return value.
       }
     }
-    return result;
+    return null;
   }
 
   /**

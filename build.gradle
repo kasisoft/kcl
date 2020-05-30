@@ -22,14 +22,12 @@ dependencies {
     testImplementation 'com.h2database:h2:1.4.192'
     testImplementation 'mysql:mysql-connector-java:6.0.3'
     testImplementation 'org.hamcrest:hamcrest-all:1.3'
-    testImplementation 'org.testng:testng:6.14.3'
+    testImplementation 'org.testng:testng:7.0.0'
     testImplementation 'org.apache.commons:commons-lang3:3.3.2'
     testImplementation 'org.slf4j:slf4j-api:1.7.5'
     testImplementation 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
     
-    compileOnly 'javax.xml.ws:jaxws-api:2.3.1'
-    compileOnly 'javax.xml.bind:jaxb-api:2.3.1'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     
@@ -40,7 +38,7 @@ version = '3.7-SNAPSHOT'
 description = 'KCL :: Kasisoft Common Library'
 buildDir = 'target'
 sourceCompatibility = '13'
-
+compileJava.options.fork = true
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
 configurations.all {
