@@ -1,10 +1,10 @@
-package com.kasisoft.libs.common.examples;
+package com.kasisoft.libs.common.old.old.examples;
 
 import org.w3c.dom.*;
 
-import com.kasisoft.libs.common.xml.*;
+import com.kasisoft.libs.common.old.old.xml.*;
 
-import com.kasisoft.libs.common.ui.component.treetable.*;
+import com.kasisoft.libs.common.old.old.ui.component.treetable.*;
 
 import lombok.experimental.*;
 

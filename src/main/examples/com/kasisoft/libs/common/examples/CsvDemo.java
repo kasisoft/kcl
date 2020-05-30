@@ -1,6 +1,6 @@
-package com.kasisoft.libs.common.examples;
+package com.kasisoft.libs.common.old.old.examples;
 
-import com.kasisoft.libs.common.csv.*;
+import com.kasisoft.libs.common.old.old.csv.*;
 
 import lombok.experimental.*;
 

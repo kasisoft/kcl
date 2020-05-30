@@ -8,7 +8,7 @@
     <version>0.3</version>
     <relativePath></relativePath>
   </parent>
-  <artifactId>com.kasisoft.libs.common</artifactId>
+  <artifactId>com.kasisoft.libs.common.old.old</artifactId>
   <version>3.5-SNAPSHOT</version>
   <name>KCL :: Kasisoft Common Library</name>
   <description>Collection of general purpose functionalities.</description>

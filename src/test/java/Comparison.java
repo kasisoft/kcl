@@ -1,7 +1,7 @@
 
-import org.apache.commons.lang3.text.translate.*;
+import com.kasisoft.libs.common.old.text.*;
 
-import com.kasisoft.libs.common.text.*;
+import org.apache.commons.lang3.text.translate.*;
 
 import lombok.experimental.*;
 

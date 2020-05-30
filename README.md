@@ -9,7 +9,7 @@ purpose other than providing some handy functionalities.
 * [eMail: daniel.kasmeroglu@kasisoft.net](mailto:daniel.kasmeroglu@kasisoft.net)
 * [Jira](https://kasisoft.com/jira/projects/KCOM)
 * [Jenkins](https://kasisoft.com/jenkins/job/libs.com.kasisoft.libs.common)
-* [GIT](https://kasisoft.com/bitbucket/projects/LIBS/repos/com.kasisoft.libs.common)
+* [GIT](https://kasisoft.com/bitbucket/projects/LIBS/repos/com.kasisoft.libs.common.old.old)
 
 
 # Development Setup
@@ -30,7 +30,7 @@ I assume that you're familiar with Maven. If not I suggest to visit the followin
 
      <dependency>
          <groupId>com.kasisoft</groupId>
-         <artifactId>com.kasisoft.libs.common</artifactId>
+         <artifactId>com.kasisoft.libs.common.old.old</artifactId>
          <version>3.5</version>
      </dependency>
 
@@ -41,7 +41,7 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
 
      <dependency>
          <groupId>com.kasisoft</groupId>
-         <artifactId>com.kasisoft.libs.common</artifactId>
+         <artifactId>com.kasisoft.libs.common.old.old</artifactId>
          <version>3.6-SNAPSHOT</version>
      </dependency>
      

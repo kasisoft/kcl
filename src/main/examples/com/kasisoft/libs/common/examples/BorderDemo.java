@@ -1,12 +1,12 @@
-package com.kasisoft.libs.common.examples;
+package com.kasisoft.libs.common.old.old.examples;
 
 import static javax.swing.BorderFactory.*;
 
-import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.old.old.constants.*;
 
-import com.kasisoft.libs.common.ui.layout.*;
+import com.kasisoft.libs.common.old.old.ui.layout.*;
 
-import com.kasisoft.libs.common.ui.border.*;
+import com.kasisoft.libs.common.old.old.ui.border.*;
 
 import lombok.experimental.*;
 
