@@ -4,7 +4,6 @@ import static com.kasisoft.libs.common.old.io.DefaultIO.*;
 
 import com.kasisoft.libs.common.old.base.*;
 import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.ui.*;
 
 import javax.swing.*;
 
@@ -76,7 +75,20 @@ public class GraphicsFunctions {
    * @param component   The component that has to be written. Not <code>null</code>.
    */
   public static void writeImage( @NonNull OutputStream outstream, @NonNull PictureFormat format, @NonNull JComponent component ) {
-    writeImage( outstream, format, SwingFunctions.createImage( component ) );
+    writeImage( outstream, format, createImage( component ) );
+  }
+
+  /**
+   * Creates an Image from the supplied component.
+   *
+   * @param comp   The Component which has to be returned as an Image. Not <code>null</code>.
+   *
+   * @return   A visual representation of the supplied component. Not <code>null</code>.
+   */
+  public static BufferedImage createImage( @NonNull Component comp ) {
+    BufferedImage image = new BufferedImage( comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_RGB );
+    comp.paint( image.getGraphics() );
+    return image;
   }
 
   /**
