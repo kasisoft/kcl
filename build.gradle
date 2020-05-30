@@ -42,6 +42,15 @@ compileJava.options.fork = true
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
 configurations.all {
+
+    resolutionStrategy {
+
+        failOnVersionConflict()
+
+        preferProjectModules()
+
+    }
+  
 }
 
 jacoco {
