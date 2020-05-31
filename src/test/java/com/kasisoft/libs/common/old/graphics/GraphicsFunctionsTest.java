@@ -1,24 +1,29 @@
 package com.kasisoft.libs.common.old.graphics;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.sys.*;
-import com.kasisoft.libs.common.old.test.framework.*;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.sys.SystemInfo;
+import com.kasisoft.libs.common.old.test.framework.Utilities;
 
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 
-import java.io.*;
+import java.io.File;
+import java.io.FilenameFilter;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Tests for the utility class 'GraphicsFunctions'.

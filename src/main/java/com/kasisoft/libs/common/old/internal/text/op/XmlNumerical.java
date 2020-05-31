@@ -1,12 +1,15 @@
 package com.kasisoft.libs.common.old.internal.text.op;
 
-import com.kasisoft.libs.common.old.internal.text.*;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacade;
 
-import java.util.function.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Xml encoding/decoding for specific characters.

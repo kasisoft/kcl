@@ -1,17 +1,22 @@
 package com.kasisoft.libs.common.old.ui;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.constants.Alignment;
 
-import lombok.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.border.Border;
 
-import com.kasisoft.libs.common.old.constants.*;
+import java.util.Hashtable;
+import java.util.Map;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.Color;
+import java.awt.Font;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.awt.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Management class which allows to control various styles by their names. The use of styles is similar to their use in 

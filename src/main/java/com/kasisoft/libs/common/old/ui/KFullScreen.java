@@ -1,18 +1,27 @@
 package com.kasisoft.libs.common.old.ui;
 
-import com.kasisoft.libs.common.old.model.*;
+import com.kasisoft.libs.common.old.model.ScreenInfo;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import java.awt.*;
+import java.awt.Frame;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * A small extension to the {@link JFrame} which provides some helpful convenience functionalities.

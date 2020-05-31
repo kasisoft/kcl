@@ -1,18 +1,23 @@
 package com.kasisoft.libs.common.old.io;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.internal.io.*;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.function.TriConsumer;
+import com.kasisoft.libs.common.old.function.TriFunction;
+import com.kasisoft.libs.common.old.internal.io.KWriterImpl;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-import java.util.*;
+import java.util.Optional;
 
-import java.io.*;
+import java.io.Writer;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

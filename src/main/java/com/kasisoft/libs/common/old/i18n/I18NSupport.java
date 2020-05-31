@@ -1,31 +1,45 @@
 package com.kasisoft.libs.common.old.i18n;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.text.*;
-import com.kasisoft.libs.common.old.ui.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.model.Pair;
+import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.old.ui.SwingFunctions;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import java.net.*;
+import java.net.URL;
 
-import java.awt.*;
+import java.awt.Component;
 
-import java.io.*;
+import java.io.Reader;
+import java.io.Writer;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * A helper which initializes the translations managed by a class. Each translation class is supposed to provide fields

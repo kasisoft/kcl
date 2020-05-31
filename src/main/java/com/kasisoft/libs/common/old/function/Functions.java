@@ -1,10 +1,14 @@
 package com.kasisoft.libs.common.old.function;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import lombok.*;
+import lombok.NonNull;
 
 /**
  * Collection of useful functions.

@@ -1,14 +1,18 @@
 package com.kasisoft.libs.common.old.base;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.SysProperty;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * A helper which allows to change/update the behaviour of the library functions. 

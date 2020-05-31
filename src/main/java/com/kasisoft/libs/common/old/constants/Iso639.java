@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.old.constants;
 
-import com.kasisoft.libs.common.old.annotation.*;
+import com.kasisoft.libs.common.old.annotation.Specification;
 
-import java.util.function.*;
+import java.util.function.Predicate;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * Collection of iso-639 codes.

@@ -1,8 +1,11 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.val;
 
 /**
  * Constants the different byte order marks.

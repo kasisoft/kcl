@@ -1,14 +1,18 @@
 package com.kasisoft.libs.common.old.xml;
 
-import org.xml.sax.*;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
 
-import lombok.experimental.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import lombok.*;
+import java.net.URL;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.net.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
 
 /**
  * Simple POJO used to configure an xml parser. 

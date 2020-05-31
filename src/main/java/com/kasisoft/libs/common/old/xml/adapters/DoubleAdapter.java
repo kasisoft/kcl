@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import java.util.function.BiConsumer;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.function.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Simple adapter for double types.

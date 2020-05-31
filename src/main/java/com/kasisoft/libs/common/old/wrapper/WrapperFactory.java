@@ -1,12 +1,17 @@
 package com.kasisoft.libs.common.old.wrapper;
 
-import lombok.experimental.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-import lombok.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,33 +1,79 @@
 package com.kasisoft.libs.common.old.io;
 
-import static com.kasisoft.libs.common.old.base.LibConfig.*;
-import static com.kasisoft.libs.common.old.constants.Primitive.*;
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgTempDir;
+import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
+import static com.kasisoft.libs.common.old.constants.Primitive.PChar;
+import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_INPUTSTREAM_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_READER_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.INPUTSTREAM_READER_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_READER_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.URL_INPUTSTREAM_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.URL_READER_EX;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.sys.*;
-import com.kasisoft.libs.common.old.thread.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.Empty;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.old.sys.SystemInfo;
+import com.kasisoft.libs.common.old.thread.LineReaderRunnable;
+import com.kasisoft.libs.common.old.thread.UnzipRunnable;
+import com.kasisoft.libs.common.old.thread.ZipRunnable;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
-import java.util.*;
-import java.util.zip.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.zip.CRC32;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
-import java.net.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
-import java.io.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.BasicFileAttributes;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.CharArrayWriter;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Collection of functions used for IO operations.

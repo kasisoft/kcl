@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.constants;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Collection of constants used to indicate empty elements.

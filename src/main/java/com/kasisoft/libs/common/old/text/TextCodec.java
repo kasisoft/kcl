@@ -1,17 +1,20 @@
 package com.kasisoft.libs.common.old.text;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
+import com.kasisoft.libs.common.old.model.Pair;
 
-import lombok.*;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.internal.text.*;
-import com.kasisoft.libs.common.old.model.*;
+import java.util.stream.Collectors;
 
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import java.util.stream.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * An decoded/encoder for texts.

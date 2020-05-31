@@ -1,12 +1,13 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Simple adapter for boolean array types.

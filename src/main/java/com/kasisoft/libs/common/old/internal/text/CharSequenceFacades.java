@@ -1,13 +1,17 @@
 package com.kasisoft.libs.common.old.internal.text;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.internal.Messages;
+import com.kasisoft.libs.common.old.text.StringFBuffer;
+import com.kasisoft.libs.common.old.text.StringFBuilder;
+import com.kasisoft.libs.common.old.text.TextProcessingFactory;
 
-import lombok.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.kasisoft.libs.common.old.internal.*;
-import com.kasisoft.libs.common.old.text.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Collection of facades that can be used for char sequence related operations.

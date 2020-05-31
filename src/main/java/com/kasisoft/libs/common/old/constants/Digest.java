@@ -1,16 +1,24 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.annotation.Specification;
+import com.kasisoft.libs.common.old.util.Bucket;
+import com.kasisoft.libs.common.old.util.BucketFactory;
 
-import lombok.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
-import com.kasisoft.libs.common.old.annotation.*;
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.security.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
+import lombok.val;
 
 /**
  * Collection of supported MessageDigest implementations.

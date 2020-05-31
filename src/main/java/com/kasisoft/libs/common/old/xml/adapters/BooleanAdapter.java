@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.*;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import com.kasisoft.libs.common.old.util.*;
+import java.util.function.BiConsumer;
 
-import java.util.function.*;
+import lombok.NonNull;
 
 /**
  * This is an adapter that allows to handle boolean values.

@@ -1,16 +1,23 @@
 package com.kasisoft.libs.common.old.spi;
 
-import com.kasisoft.libs.common.old.wrapper.*;
+import com.kasisoft.libs.common.old.wrapper.WrapperFactory;
 
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ServiceLoader;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Like SPILoader with the difference that it supports multiple service types.

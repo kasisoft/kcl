@@ -1,26 +1,54 @@
 package com.kasisoft.libs.common.old.workspace;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.ui.*;
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.model.Version;
+import com.kasisoft.libs.common.old.ui.SwingFunctions;
+import com.kasisoft.libs.common.old.xml.adapters.BooleanAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.ByteAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.DoubleAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.FileAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.FloatAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.InsetsAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.PointAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.RectangleAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.ShortAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.URIAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.URLAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.VersionAdapter;
 
-import java.util.function.*;
+import java.util.function.Consumer;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import java.net.*;
+import java.net.URI;
+import java.net.URL;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 
-import java.io.*;
+import java.nio.file.Path;
 
-import java.nio.file.*;
+import java.io.File;
+import java.io.Reader;
+import java.io.Writer;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * The Workspace allows to store various configuration information during the runtime.

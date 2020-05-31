@@ -1,22 +1,27 @@
 package com.kasisoft.libs.common.old.config;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import com.kasisoft.libs.common.old.constants.SysProperty;
+import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
 
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import org.testng.*;
+import org.testng.Assert;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 
-import java.awt.*;
+import java.awt.Color;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Tests for the class 'SimpleProperty'.

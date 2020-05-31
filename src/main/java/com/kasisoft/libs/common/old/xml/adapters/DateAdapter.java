@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import java.text.SimpleDateFormat;
 
-import lombok.*;
+import java.util.function.BiConsumer;
 
-import java.util.function.*;
+import java.util.Date;
+import java.util.Locale;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.text.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * An adapter used to convert a Date into a String and vice versa.

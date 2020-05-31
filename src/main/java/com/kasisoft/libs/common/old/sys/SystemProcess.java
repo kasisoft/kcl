@@ -1,15 +1,21 @@
 package com.kasisoft.libs.common.old.sys;
 
-import com.kasisoft.libs.common.old.thread.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.old.thread.ByteCopierRunnable;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Convenience class for the Runtime.exec method.

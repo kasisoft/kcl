@@ -1,12 +1,15 @@
 package com.kasisoft.libs.common.old.annotation;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.comparator.*;
+import com.kasisoft.libs.common.old.comparator.PrioComparator;
+import com.kasisoft.libs.common.old.comparator.SimpleNameComparator;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,27 +1,36 @@
 package com.kasisoft.libs.common.old.xml;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.test.framework.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.test.framework.Utilities;
 
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Tests for the class 'XmlFunctions'.

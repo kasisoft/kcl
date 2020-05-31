@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * An adapter for file pathes.

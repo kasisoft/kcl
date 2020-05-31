@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.sys;
 
-import lombok.*;
+import java.security.Permission;
 
-import java.security.*;
+import lombok.NonNull;
 
 /**
  * System specific functions.

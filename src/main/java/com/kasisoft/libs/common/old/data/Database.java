@@ -1,16 +1,23 @@
 package com.kasisoft.libs.common.old.data;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.KclException;
 
-import lombok.*;
+import java.util.function.Predicate;
 
-import com.kasisoft.libs.common.old.base.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import java.util.function.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.sql.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Simple wrapper for various database types.

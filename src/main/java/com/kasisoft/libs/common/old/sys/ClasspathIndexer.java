@@ -1,25 +1,42 @@
 package com.kasisoft.libs.common.old.sys;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.constants.SysProperty;
+import com.kasisoft.libs.common.old.data.Partitioner;
+import com.kasisoft.libs.common.old.io.DefaultIO;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.io.datatypes.FileType;
+import com.kasisoft.libs.common.old.io.datatypes.ZipFileType;
 
-import lombok.*;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.data.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.io.datatypes.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.zip.ZipEntry;
 
-import java.util.function.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 
-import java.util.zip.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import java.util.*;
+import java.io.File;
 
-import java.net.*;
+import lombok.experimental.FieldDefaults;
 
-import java.nio.file.*;
-
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 /**
  * A simple helper allowing to index the content of the classpath.

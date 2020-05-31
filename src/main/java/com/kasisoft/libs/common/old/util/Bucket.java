@@ -1,14 +1,19 @@
 package com.kasisoft.libs.common.old.util;
 
-import lombok.experimental.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-import lombok.*;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.util.function.*;
+import java.lang.ref.SoftReference;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.lang.ref.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
  
 /**
  * Collector for often used objects like collections, maps etc. .

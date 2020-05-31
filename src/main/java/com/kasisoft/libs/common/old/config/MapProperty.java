@@ -1,14 +1,24 @@
 package com.kasisoft.libs.common.old.config;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
 
-import lombok.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import java.util.regex.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.val;
 
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following

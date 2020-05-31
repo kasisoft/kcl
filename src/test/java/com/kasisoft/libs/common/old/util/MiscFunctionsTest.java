@@ -1,19 +1,33 @@
 package com.kasisoft.libs.common.old.util;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.sys.*;
+import com.kasisoft.libs.common.old.model.Pair;
+import com.kasisoft.libs.common.old.model.Tupel;
+import com.kasisoft.libs.common.old.sys.SystemInfo;
 
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * Test for various functions of the class 'MiscFunctions'.

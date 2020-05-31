@@ -1,11 +1,16 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Values to specify an alignment.

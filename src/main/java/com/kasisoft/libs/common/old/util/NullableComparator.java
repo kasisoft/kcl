@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.old.util;
 
-import lombok.experimental.*;
+import java.util.Comparator;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
 
 /**
  * A Comparator implementation that is capable to handle <code>null</code> values. The default implementation which

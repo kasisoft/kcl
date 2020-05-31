@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.old.test.framework;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
-import com.kasisoft.libs.common.old.io.*;
+import com.kasisoft.libs.common.old.io.IoFunctions;
 
-import java.util.*;
+import java.util.Arrays;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Assertion tool class. Presents assertion methods with a more natural parameter order.

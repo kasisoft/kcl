@@ -1,16 +1,20 @@
 package com.kasisoft.libs.common.old.io;
 
-import com.kasisoft.libs.common.old.base.*;
+import com.kasisoft.libs.common.KclException;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.net.*;
+import java.net.URI;
+import java.net.URL;
 
-import java.io.*;
+import java.nio.file.Path;
 
-import java.nio.file.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import lombok.*;
+import lombok.NonNull;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

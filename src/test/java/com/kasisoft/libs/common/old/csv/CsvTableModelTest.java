@@ -1,18 +1,18 @@
 package com.kasisoft.libs.common.old.csv;
 
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static com.kasisoft.libs.common.old.io.DefaultIO.URL_INPUTSTREAM_EX;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertEquals;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import org.testng.*;
+import org.testng.Assert;
 
-import java.net.*;
+import java.net.URL;
 
 /**
  * Tests for 'CsvTableModel'.

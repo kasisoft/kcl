@@ -1,21 +1,27 @@
 package com.kasisoft.libs.common.old.graphics;
 
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
+import static com.kasisoft.libs.common.old.io.DefaultIO.inputstreamEx;
+import static com.kasisoft.libs.common.old.io.DefaultIO.outputstreamEx;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.Alignment;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
-import javax.imageio.*;
+import javax.imageio.ImageIO;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
+import java.awt.AlphaComposite;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import lombok.*;
+import lombok.NonNull;
 
 /**
  * Several utility functions related to graphical operations.

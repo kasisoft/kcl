@@ -1,25 +1,41 @@
 package com.kasisoft.libs.common.old.internal.io;
 
-import static com.kasisoft.libs.common.old.function.Functions.*;
+import static com.kasisoft.libs.common.old.function.Functions.adaptToTri;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.function.TriConsumer;
+import com.kasisoft.libs.common.old.function.TriFunction;
+import com.kasisoft.libs.common.old.io.ExtInputStream;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.io.KInputStream;
+import com.kasisoft.libs.common.old.util.Bucket;
+import com.kasisoft.libs.common.old.util.BucketFactories;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-import java.util.*;
+import java.util.Optional;
 
-import java.net.*;
+import java.net.URI;
+import java.net.URL;
 
-import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import java.nio.file.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.InputStream;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

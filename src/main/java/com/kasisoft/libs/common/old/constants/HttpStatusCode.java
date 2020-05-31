@@ -1,12 +1,15 @@
 package com.kasisoft.libs.common.old.constants;
 
-import com.kasisoft.libs.common.old.annotation.*;
+import com.kasisoft.libs.common.old.annotation.Specification;
 
-import java.util.function.*;
+import java.util.function.Predicate;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.val;
 
 /**
  * Collection of HTTP stastus codes.

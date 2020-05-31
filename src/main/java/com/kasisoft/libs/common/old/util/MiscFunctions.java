@@ -1,34 +1,63 @@
 package com.kasisoft.libs.common.old.util;
 
-import static com.kasisoft.libs.common.old.base.LibConfig.*;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgFalseValues;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgTrueValues;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.sys.*;
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.function.TriConsumer;
+import com.kasisoft.libs.common.old.model.Pair;
+import com.kasisoft.libs.common.old.sys.SystemInfo;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import javax.swing.tree.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-import java.util.function.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import java.net.*;
+import java.net.URL;
 
-import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import java.nio.file.*;
-import java.sql.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-import lombok.experimental.*;
+import java.sql.Connection;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Collection of various functions.

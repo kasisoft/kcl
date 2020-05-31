@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.old.model;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).

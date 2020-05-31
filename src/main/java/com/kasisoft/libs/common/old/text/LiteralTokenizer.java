@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.old.text;
 
-import lombok.experimental.*;
+import java.util.Enumeration;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 

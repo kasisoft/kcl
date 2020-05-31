@@ -1,15 +1,17 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.test.framework.*;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.test.framework.Utilities;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Test for the class 'FileDeleteRunnable'.

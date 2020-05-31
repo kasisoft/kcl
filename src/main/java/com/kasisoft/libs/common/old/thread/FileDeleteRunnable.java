@@ -1,12 +1,13 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static com.kasisoft.libs.common.old.base.LibConfig.*;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgIoRetries;
 
-import java.util.*;
+import java.util.List;
 
-import java.io.*;
+import java.io.File;
 
-import lombok.*;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * A Runnable implementation used to delete a file.

@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.old.sys;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 /**
  * Tests for the type 'SystemInfo'.

@@ -1,10 +1,13 @@
 package com.kasisoft.libs.common.old.util;
 
-import lombok.experimental.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.function.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Default implementation of a BucketFactory.

@@ -1,13 +1,14 @@
 package com.kasisoft.libs.common.old.xml;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import lombok.*;
+import java.net.URL;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.net.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 

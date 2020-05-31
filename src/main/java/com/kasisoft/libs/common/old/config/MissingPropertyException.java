@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.old.config;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Exception type that indicates that a required property is missing.

@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.old.net;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.TimeUnit;
 
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  * Testcases for the class 'NetFunctions'.

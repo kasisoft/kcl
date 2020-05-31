@@ -1,26 +1,37 @@
 package com.kasisoft.libs.common.old.config;
 
-import static com.kasisoft.libs.common.old.base.LibConfig.*;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.io.DefaultIO;
+import com.kasisoft.libs.common.old.io.KReader;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 
-import java.net.*;
+import java.net.URL;
 
-import java.io.*;
+import java.nio.file.Path;
 
-import java.nio.file.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
+import lombok.val;
 
 /**
  * Helper class which allows to resolve properties from the classpath.

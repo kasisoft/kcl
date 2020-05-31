@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.*;
+import java.util.function.BiConsumer;
 
-import java.util.function.*;
+import java.awt.Insets;
 
-import java.awt.*;
+import lombok.NonNull;
 
 /**
  * Adapter used to convert a String into a Insets and vice versa.

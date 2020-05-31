@@ -1,15 +1,26 @@
 package com.kasisoft.libs.common.old.xml;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.text.StringFBuilder;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import lombok.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.text.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+import java.util.StringTokenizer;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Helper class which allows to generate xml files.

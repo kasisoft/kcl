@@ -1,12 +1,16 @@
 package com.kasisoft.libs.common.old.constants;
 
-import com.kasisoft.libs.common.old.internal.constants.*;
+import com.kasisoft.libs.common.old.internal.constants.PrimitiveImpl;
 
-import java.util.function.*;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-import java.util.*;
+import java.util.List;
 
-import lombok.*;
+import lombok.NonNull;
 
 /**
  * Declarations used to identify primitive types.

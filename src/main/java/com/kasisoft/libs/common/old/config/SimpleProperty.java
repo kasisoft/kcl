@@ -1,12 +1,15 @@
 package com.kasisoft.libs.common.old.config;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
 
-import lombok.*;
+import java.util.Map;
+import java.util.Properties;
 
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * This type allows to easily make use of typed properties. It's being essentially used as specified in the following

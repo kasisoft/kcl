@@ -1,16 +1,18 @@
 package com.kasisoft.libs.common.old.function;
 
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-import java.util.function.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
-import java.nio.file.*;
+import java.nio.file.Path;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
 
 /**
  * Collection of predicates.

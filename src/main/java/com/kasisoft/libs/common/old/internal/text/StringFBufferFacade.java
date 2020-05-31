@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.internal.text;
 
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.old.text.StringFBuffer;
 
 /**
  * Facade for StringFBuffer.

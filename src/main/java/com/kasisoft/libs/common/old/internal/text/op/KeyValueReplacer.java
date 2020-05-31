@@ -1,13 +1,14 @@
 package com.kasisoft.libs.common.old.internal.text.op;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.constants.Empty;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacade;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
 
-import lombok.*;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.internal.text.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.function.*;
+import lombok.AccessLevel;
 
 /**
  * This function simple replaces a key by a corresponding value. This operation prefers an in-place operation.

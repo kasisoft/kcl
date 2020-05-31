@@ -1,23 +1,33 @@
 package com.kasisoft.libs.common.old.util;
 
-import static com.kasisoft.libs.common.old.base.LibConfig.*;
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_OUTPUTSTREAM_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_READER_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_WRITER_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.URL_INPUTSTREAM_EX;
 
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
-import java.net.*;
+import java.net.URL;
 
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

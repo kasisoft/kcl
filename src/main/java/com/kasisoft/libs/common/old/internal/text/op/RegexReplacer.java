@@ -1,16 +1,19 @@
 package com.kasisoft.libs.common.old.internal.text.op;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacade;
 
-import lombok.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.internal.text.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.regex.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
 
 /**
  * This function simple replaces a key by a corresponding value. This operation prefers an in-place operation.

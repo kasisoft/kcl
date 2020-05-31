@@ -1,30 +1,37 @@
 package com.kasisoft.libs.common.old.data;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.io.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.SysProperty;
+import com.kasisoft.libs.common.old.io.IoFunctions;
 
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import org.h2.tools.*;
+import org.h2.tools.Server;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import java.net.*;
+import java.net.URL;
 
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import java.sql.*;
+import java.sql.ResultSet;
 
-import lombok.extern.slf4j.*;
+import lombok.extern.slf4j.Slf4j;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Tests for 'DbConnection'.

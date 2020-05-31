@@ -1,10 +1,15 @@
 package com.kasisoft.libs.common.old.constants;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.val;
 
 /**
  * Constants used to describe a weekday.

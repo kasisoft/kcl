@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import javax.swing.JSplitPane;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import javax.swing.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * Constants used to specify orientations for various purposes.

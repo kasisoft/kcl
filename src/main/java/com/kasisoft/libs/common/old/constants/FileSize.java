@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * A collection of file sizes. Calculation won't work on {@link #TerraByte} due to value limits.

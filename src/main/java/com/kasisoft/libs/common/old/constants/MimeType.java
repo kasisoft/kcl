@@ -1,14 +1,23 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.annotation.Specification;
+import com.kasisoft.libs.common.old.annotation.Specifications;
 
-import lombok.*;
+import java.util.function.Predicate;
 
-import com.kasisoft.libs.common.old.annotation.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Collection of supported mime types.

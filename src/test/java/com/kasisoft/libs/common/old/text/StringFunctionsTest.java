@@ -1,14 +1,20 @@
 package com.kasisoft.libs.common.old.text;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.test.framework.*;
+import com.kasisoft.libs.common.old.test.framework.Utilities;
 
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Tests for the class 'StringFunctions'.

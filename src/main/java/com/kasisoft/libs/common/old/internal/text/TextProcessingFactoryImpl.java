@@ -1,19 +1,29 @@
 package com.kasisoft.libs.common.old.internal.text;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.function.Functions;
+import com.kasisoft.libs.common.old.internal.text.op.CamelCase;
+import com.kasisoft.libs.common.old.internal.text.op.CharacterCase;
+import com.kasisoft.libs.common.old.internal.text.op.KeyValueReplacer;
+import com.kasisoft.libs.common.old.internal.text.op.KeyValuesReplacer;
+import com.kasisoft.libs.common.old.internal.text.op.RegexReplacer;
+import com.kasisoft.libs.common.old.internal.text.op.Trim;
+import com.kasisoft.libs.common.old.internal.text.op.XmlNumerical;
+import com.kasisoft.libs.common.old.model.Pair;
+import com.kasisoft.libs.common.old.text.TextProcessingFactory;
 
-import lombok.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.internal.text.op.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.text.*;
+import java.util.regex.Pattern;
 
-import java.util.function.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.regex.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Default implementation of a factory providing text operations. This implementation is based upon the use

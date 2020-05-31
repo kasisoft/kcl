@@ -1,19 +1,34 @@
 package com.kasisoft.libs.common.old.internal.constants;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.function.*;
+import com.kasisoft.libs.common.old.base.LibConfig;
+import com.kasisoft.libs.common.old.constants.CommonProperty;
+import com.kasisoft.libs.common.old.constants.Primitive;
+import com.kasisoft.libs.common.old.function.TriFunction;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
-import java.lang.ref.*;
-import java.lang.reflect.*;
+import java.lang.ref.SoftReference;
+import java.lang.reflect.Array;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

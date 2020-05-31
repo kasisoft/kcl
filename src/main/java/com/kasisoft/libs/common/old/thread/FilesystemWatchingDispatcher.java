@@ -1,26 +1,33 @@
 package com.kasisoft.libs.common.old.thread;
 
-import lombok.experimental.*;
+import static com.kasisoft.libs.common.old.internal.Messages.error_fswatcher_already_started;
 
-import lombok.*;
+import com.kasisoft.libs.common.old.function.Predicates;
 
-import java.util.concurrent.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-import static com.kasisoft.libs.common.old.internal.Messages.*;
+import java.util.stream.Collectors;
 
-import com.kasisoft.libs.common.old.function.*;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-import java.util.function.*;
+import java.net.URI;
 
-import java.util.stream.*;
+import java.nio.file.Path;
 
-import java.util.*;
+import java.io.File;
 
-import java.net.*;
+import lombok.experimental.FieldDefaults;
 
-import java.nio.file.*;
-
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 /**
  * This extension of the FilesystemWatchingRunnable allows to easily watch a directory and process the files

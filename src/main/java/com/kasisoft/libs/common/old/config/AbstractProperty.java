@@ -1,13 +1,17 @@
 package com.kasisoft.libs.common.old.config;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
 
-import lombok.*;
+import java.util.Map;
 
-import com.kasisoft.libs.common.old.text.*;
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Base type which allows to realize typed property values.

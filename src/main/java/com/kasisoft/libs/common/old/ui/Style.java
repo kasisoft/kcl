@@ -1,12 +1,16 @@
 package com.kasisoft.libs.common.old.ui;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.constants.Alignment;
 
-import lombok.*;
+import java.awt.Color;
+import java.awt.Font;
 
-import com.kasisoft.libs.common.old.constants.*;
+import lombok.experimental.FieldDefaults;
 
-import java.awt.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.Setter;
 
 /**
  * Simple style which combines some visualisations attributes. This class is mainly considered to be a simple data 

@@ -1,21 +1,23 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import static com.kasisoft.libs.common.old.internal.Messages.invalid_color;
 
-import lombok.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import static com.kasisoft.libs.common.old.internal.Messages.*;
+import java.util.function.BiConsumer;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.text.*;
+import java.util.Hashtable;
+import java.util.Map;
 
-import java.util.function.*;
+import java.awt.Color;
 
-import java.util.*;
+import java.lang.reflect.Field;
 
-import java.lang.reflect.*;
+import lombok.experimental.FieldDefaults;
 
-import java.awt.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Adapter used to convert a String into a Color and vice versa.

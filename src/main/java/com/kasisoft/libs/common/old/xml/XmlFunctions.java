@@ -1,36 +1,66 @@
 package com.kasisoft.libs.common.old.xml;
 
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
+import static com.kasisoft.libs.common.old.io.DefaultIO.outputstream;
+import static com.kasisoft.libs.common.old.io.DefaultIO.readerEx;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.internal.text.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.text.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.Empty;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.constants.SysProperty;
+import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
+import com.kasisoft.libs.common.old.io.ExtReader;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import org.w3c.dom.Attr;
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeMap;
 
-import java.net.*;
+import java.net.URL;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Collection of xml related functions.

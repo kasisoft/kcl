@@ -1,20 +1,23 @@
 package com.kasisoft.libs.common.old.config;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 
-import java.awt.*;
+import java.awt.Color;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Tests for the class 'MapProperty'.

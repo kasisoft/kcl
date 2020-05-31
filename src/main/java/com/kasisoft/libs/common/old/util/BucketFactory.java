@@ -1,6 +1,9 @@
 package com.kasisoft.libs.common.old.util;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Factory implementation used to fill up the Bucket.

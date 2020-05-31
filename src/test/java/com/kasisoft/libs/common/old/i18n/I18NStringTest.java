@@ -1,11 +1,11 @@
 package com.kasisoft.libs.common.old.i18n;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.Empty;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 /**
  * Tests for the i18n class 'I18NSupport'.

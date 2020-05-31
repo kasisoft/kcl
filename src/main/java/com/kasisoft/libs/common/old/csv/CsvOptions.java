@@ -1,12 +1,17 @@
 package com.kasisoft.libs.common.old.csv;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.Encoding;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * A collection of options used for the csv processing.

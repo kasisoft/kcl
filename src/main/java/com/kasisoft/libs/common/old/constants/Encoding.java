@@ -1,22 +1,39 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.annotation.Specification;
+import com.kasisoft.libs.common.old.io.IoFunctions;
 
-import lombok.*;
+import java.util.Hashtable;
+import java.util.Map;
 
-import com.kasisoft.libs.common.old.annotation.*;
-import com.kasisoft.libs.common.old.io.*;
+import java.net.URL;
 
-import java.util.*;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
 
-import java.net.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
-import java.io.*;
+import lombok.experimental.FieldDefaults;
 
-import java.nio.charset.*;
-import java.nio.file.*;
-
-import java.nio.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
+import lombok.val;
 
 /**
  * Collection of supported encodings.

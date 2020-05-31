@@ -1,20 +1,33 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static java.nio.file.StandardWatchEventKinds.*;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
+import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
-import com.kasisoft.libs.common.old.base.*;
+import com.kasisoft.libs.common.KclException;
 
-import lombok.experimental.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-import lombok.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 
-import java.util.concurrent.*;
+import java.io.File;
+import java.io.IOException;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.nio.file.*;
-
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * This {@link Runnable} implementation allows to watch a directory for filesystem changes recursively.

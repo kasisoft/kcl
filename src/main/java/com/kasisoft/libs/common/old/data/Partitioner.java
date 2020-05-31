@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.data;
 
-import java.util.function.*;
+import java.util.function.Predicate;
 
 /**
  * Each implementor allows to collect data.

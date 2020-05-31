@@ -1,12 +1,18 @@
 package com.kasisoft.libs.common.old.data;
 
-import lombok.experimental.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import lombok.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Default implementation for Partitioner instances.

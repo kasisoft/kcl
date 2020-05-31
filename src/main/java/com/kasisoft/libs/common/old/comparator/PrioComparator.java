@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.old.comparator;
 
-import com.kasisoft.libs.common.old.annotation.*;
+import com.kasisoft.libs.common.old.annotation.Prio;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * A comparator for prioritized types.

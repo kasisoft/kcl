@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.old.thread;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Basic implementation for a Runnable.

@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.io.datatypes;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.MimeType;
 
-import java.util.zip.*;
+import java.util.zip.GZIPInputStream;
 
 /**
  * FileType for 'gzip' files.

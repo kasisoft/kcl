@@ -1,18 +1,24 @@
 package com.kasisoft.libs.common.old.xml;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.constants.SysProperty;
+import com.kasisoft.libs.common.old.text.StringFBuilder;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
-import lombok.experimental.*;
+import java.util.Arrays;
+import java.util.Stack;
 
-import lombok.*;
+import java.io.IOException;
+import java.io.OutputStream;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Simple converter which allows to create flat representations of a XML document. This converter simply implements a 

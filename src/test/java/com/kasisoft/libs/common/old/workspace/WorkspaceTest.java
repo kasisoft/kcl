@@ -1,18 +1,35 @@
 package com.kasisoft.libs.common.old.workspace;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertNull;
 
-import com.kasisoft.libs.common.old.config.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import com.kasisoft.libs.common.old.config.SimpleProperty;
+import com.kasisoft.libs.common.old.model.Version;
+import com.kasisoft.libs.common.old.xml.adapters.BooleanAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.ByteAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.DoubleAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.FileAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.FloatAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.InsetsAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.PointAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.RectangleAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.ShortAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.URIAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.URLAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.VersionAdapter;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Tests for the class 'Workspace'.

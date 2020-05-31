@@ -1,22 +1,26 @@
 package com.kasisoft.libs.common.old.util;
 
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_READER_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_WRITER_EX;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.io.*;
+import com.kasisoft.libs.common.old.constants.SysProperty;
+import com.kasisoft.libs.common.old.io.IoFunctions;
 
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import java.io.*;
+import java.io.File;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

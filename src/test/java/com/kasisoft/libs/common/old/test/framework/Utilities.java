@@ -1,19 +1,24 @@
 package com.kasisoft.libs.common.old.test.framework;
 
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_OUTPUTSTREAM_EX;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.testng.Assert.fail;
 
-import com.kasisoft.libs.common.old.io.*;
+import com.kasisoft.libs.common.old.io.IoFunctions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.net.*;
+import java.net.URL;
 
-import java.nio.file.*;
+import java.nio.file.Path;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Collection of utility functions.

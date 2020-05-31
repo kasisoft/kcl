@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.old.internal.text.op;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacade;
 
-import lombok.*;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.internal.text.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.function.*;
+import lombok.AccessLevel;
 
 /**
  * This function performs a camelcase transformation.

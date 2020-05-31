@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import java.util.function.BiConsumer;
 
-import lombok.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.nio.file.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Simple adapter for File types.

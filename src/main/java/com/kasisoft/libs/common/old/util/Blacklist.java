@@ -1,22 +1,34 @@
 package com.kasisoft.libs.common.old.util;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.io.DefaultIO;
+import com.kasisoft.libs.common.old.io.ExtReader;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import lombok.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.text.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
-import java.util.function.*;
+import java.net.URL;
 
-import java.util.*;
+import java.nio.file.Path;
 
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.Reader;
 
-import java.nio.file.*;
+import lombok.experimental.FieldDefaults;
 
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * A simple helper allowing to manage blacklists. It obviously can be used as a whitelist. 

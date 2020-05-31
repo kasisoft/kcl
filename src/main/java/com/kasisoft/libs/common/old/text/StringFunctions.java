@@ -1,20 +1,30 @@
 package com.kasisoft.libs.common.old.text;
 
-import lombok.*;
+import static com.kasisoft.libs.common.old.constants.Primitive.PChar;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.*;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacade;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
+import com.kasisoft.libs.common.old.internal.text.op.RegionReplacer;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.model.Tupel;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import com.kasisoft.libs.common.old.internal.text.*;
-import com.kasisoft.libs.common.old.internal.text.op.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.Reader;
+import java.io.StringReader;
 
-import java.io.*;
+import lombok.NonNull;
 
 /**
  * Collection of functions used for String processing. Whenever an api uses a CharSequence as a type it's safe to

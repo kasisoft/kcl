@@ -1,6 +1,8 @@
 package com.kasisoft.libs.common.old.spi;
 
-import java.util.*;
+import com.kasisoft.libs.common.KclException;
+
+import java.util.Map;
 
 /**
  * Each implementor allows to be configured after being setup.

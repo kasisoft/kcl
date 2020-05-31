@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.*;
+import java.util.function.BiConsumer;
 
-import java.util.function.*;
+import lombok.NonNull;
 
 /**
  * Simple adapter for String identity.

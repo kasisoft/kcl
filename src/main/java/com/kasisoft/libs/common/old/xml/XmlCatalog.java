@@ -1,26 +1,41 @@
 package com.kasisoft.libs.common.old.xml;
 
-import org.xml.sax.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.io.IoFunctions;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.io.*;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSResourceResolver;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import org.w3c.dom.ls.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.URIResolver;
 
-import lombok.experimental.*;
+import java.util.function.Predicate;
 
-import lombok.*;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Set;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import java.util.function.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.net.*;
-
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Basic data structure used to store entity ids together with the urls.

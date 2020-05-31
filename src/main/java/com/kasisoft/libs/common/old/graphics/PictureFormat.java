@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.old.graphics;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.MimeType;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * Collection of constants used to identify image formats.

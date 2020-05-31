@@ -1,19 +1,28 @@
 package com.kasisoft.libs.common.old.config;
 
-import static com.kasisoft.libs.common.old.internal.Messages.*;
+import static com.kasisoft.libs.common.old.internal.Messages.format_default;
+import static com.kasisoft.libs.common.old.internal.Messages.label_mandatory;
+import static com.kasisoft.libs.common.old.internal.Messages.label_optional;
 
-import com.kasisoft.libs.common.old.text.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.old.text.StringFBuffer;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import java.util.function.*;
+import java.util.function.Function;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
+import lombok.val;
 
 /**
  * A helper which allows to deal with the configuration properties.

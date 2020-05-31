@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.old.model;
 
-import java.awt.*;
+import java.awt.Dimension;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

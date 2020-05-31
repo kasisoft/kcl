@@ -1,14 +1,18 @@
 package com.kasisoft.libs.common.old.xml;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.SysProperty;
 
-import org.xml.sax.*;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
-import lombok.experimental.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Default implementation of an ErrorHandler.

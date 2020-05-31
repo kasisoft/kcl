@@ -1,10 +1,13 @@
 package com.kasisoft.libs.common.old.xml;
 
-import org.xml.sax.*;
+import org.xml.sax.SAXParseException;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 /**
  * Simple datastructure representing a fault within a xml document.

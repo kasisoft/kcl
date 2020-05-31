@@ -1,14 +1,19 @@
 package com.kasisoft.libs.common.old.thread;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.KclException;
 
-import lombok.*;
+import java.util.List;
 
-import com.kasisoft.libs.common.old.base.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 /**
  * A Runnable implementation which is used to load text lines from a Reader.

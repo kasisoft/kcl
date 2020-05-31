@@ -1,10 +1,19 @@
 package com.kasisoft.libs.common.old.util;
 
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.old.text.StringFBuffer;
+import com.kasisoft.libs.common.old.text.StringFBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.CharArrayWriter;
+import java.io.StringWriter;
 
 /**
  * Helpers generating BucketFactory and Bucket instances for widely used types.

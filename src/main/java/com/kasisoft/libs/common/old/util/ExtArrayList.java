@@ -1,12 +1,17 @@
 package com.kasisoft.libs.common.old.util;
 
-import lombok.experimental.*;
+import java.util.stream.Collectors;
 
-import lombok.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
 
-import java.util.stream.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * ArrayList variety which can handle negative indices. So an index of -1 points to the last element. An index of -2 

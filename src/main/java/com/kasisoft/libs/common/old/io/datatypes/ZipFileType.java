@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.io.datatypes;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.*;
+import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.MimeType;
 
 /**
  * FileType for 'zip' files.

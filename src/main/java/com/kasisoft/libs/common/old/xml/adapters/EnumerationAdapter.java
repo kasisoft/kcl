@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.KclException;
 
-import lombok.*;
+import java.util.function.BiConsumer;
 
-import com.kasisoft.libs.common.old.base.*;
+import java.util.Hashtable;
+import java.util.Map;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise 

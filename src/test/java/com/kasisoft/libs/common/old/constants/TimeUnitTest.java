@@ -1,9 +1,9 @@
 package com.kasisoft.libs.common.old.constants;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 /**
  * Tests for the class 'TimeUnit'.

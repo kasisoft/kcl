@@ -1,14 +1,17 @@
 package com.kasisoft.libs.common.old.thread;
 
-import lombok.experimental.*;
+import static com.kasisoft.libs.common.old.constants.Primitive.PChar;
 
-import lombok.*;
+import com.kasisoft.libs.common.KclException;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 
-import com.kasisoft.libs.common.old.base.*;
+import lombok.experimental.FieldDefaults;
 
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * A Runnable which is used to copy data from a Reader to a Writer.

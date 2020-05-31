@@ -1,12 +1,15 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
-import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Simple adapter implementation which is <code>null</code> safe and allows to convert datatypes if possible. 

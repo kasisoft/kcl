@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.old.util;
 
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

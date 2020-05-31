@@ -1,19 +1,36 @@
 package com.kasisoft.libs.common.old.data;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.csv.CsvColumn;
+import com.kasisoft.libs.common.old.csv.CsvOptions;
+import com.kasisoft.libs.common.old.csv.CsvTableModel;
+import com.kasisoft.libs.common.old.model.Pair;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
 
-import lombok.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.csv.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.util.*;
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.function.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.sql.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Simple wrapper around a jdbc {@link Connection} instance which provides some helpful utility features.

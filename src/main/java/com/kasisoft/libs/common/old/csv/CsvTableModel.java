@@ -1,34 +1,59 @@
 package com.kasisoft.libs.common.old.csv;
 
-import static com.kasisoft.libs.common.old.io.DefaultIO.*;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_INPUTSTREAM_EX;
+import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_OUTPUTSTREAM_EX;
 
-import com.kasisoft.libs.common.old.base.*;
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.internal.*;
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.text.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.function.Functions;
+import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.old.internal.Messages;
+import com.kasisoft.libs.common.old.io.DefaultIO;
+import com.kasisoft.libs.common.old.io.ExtReader;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.io.KReader;
+import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import javax.swing.event.*;
+import javax.swing.event.EventListenerList;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
-import java.nio.file.*;
+import java.nio.file.Path;
 
-import java.io.*;
+import java.io.CharArrayWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * A TableModel implementation that can be fed by CSV data.

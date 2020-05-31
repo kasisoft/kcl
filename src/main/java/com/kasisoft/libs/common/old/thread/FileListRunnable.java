@@ -1,18 +1,22 @@
 package com.kasisoft.libs.common.old.thread;
 
-import lombok.experimental.*;
+import static com.kasisoft.libs.common.old.constants.Empty.NO_FILES;
 
-import lombok.*;
+import com.kasisoft.libs.common.old.io.IoFunctions;
 
-import static com.kasisoft.libs.common.old.constants.Empty.*;
+import java.util.regex.Pattern;
 
-import com.kasisoft.libs.common.old.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.regex.*;
+import java.io.File;
+import java.io.FileFilter;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.io.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Implementation allowing to traverse a directory structure.

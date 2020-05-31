@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.old.thread;
 
-import lombok.experimental.*;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.concurrent.atomic.*;
-
-import java.util.concurrent.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * This {@link ThreadFactory} essentially resembles the default implementation with the difference that it

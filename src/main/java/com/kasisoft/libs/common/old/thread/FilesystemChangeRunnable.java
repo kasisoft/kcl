@@ -1,14 +1,16 @@
 package com.kasisoft.libs.common.old.thread;
 
-import lombok.experimental.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import lombok.*;
+import java.nio.file.Path;
 
-import java.util.*;
+import java.io.File;
 
-import java.io.*;
+import lombok.experimental.FieldDefaults;
 
-import java.nio.file.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * This {@link Runnable} implementation allows to watch a directory for filesystem changes recursively. It's only purpose

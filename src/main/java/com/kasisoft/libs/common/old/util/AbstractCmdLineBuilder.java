@@ -1,19 +1,30 @@
 package com.kasisoft.libs.common.old.util;
 
-import static com.kasisoft.libs.common.old.internal.Messages.*;
+import static com.kasisoft.libs.common.old.internal.Messages.error_missing_argument;
+import static com.kasisoft.libs.common.old.internal.Messages.error_missing_required_argument;
+import static com.kasisoft.libs.common.old.internal.Messages.error_missing_required_option;
+import static com.kasisoft.libs.common.old.internal.Messages.unused_argument;
 
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.text.*;
+import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Base type to simplify the handling of command lines.

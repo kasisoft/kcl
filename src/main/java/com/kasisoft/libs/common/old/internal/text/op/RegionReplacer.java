@@ -1,13 +1,14 @@
 package com.kasisoft.libs.common.old.internal.text.op;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacade;
+import com.kasisoft.libs.common.old.model.Tupel;
 
-import lombok.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.internal.text.*;
-import com.kasisoft.libs.common.old.model.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.function.*;
+import lombok.AccessLevel;
 
 /**
  * Replacements of certain regions.

@@ -1,10 +1,13 @@
 package com.kasisoft.libs.common.old.model;
 
-import lombok.experimental.*;
+import java.util.Map;
 
-import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).

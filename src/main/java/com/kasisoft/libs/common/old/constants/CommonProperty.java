@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.old.constants;
 
-import com.kasisoft.libs.common.old.config.*;
-import com.kasisoft.libs.common.old.xml.adapters.*;
+import com.kasisoft.libs.common.old.config.SimpleProperty;
+import com.kasisoft.libs.common.old.xml.adapters.FileAdapter;
+import com.kasisoft.libs.common.old.xml.adapters.IntegerAdapter;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Listing of library related properties used to be accessed. Each key is simply constructed using the following naming 

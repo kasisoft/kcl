@@ -1,12 +1,13 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.model.Version;
 
-import lombok.*;
+import java.util.function.BiConsumer;
 
-import com.kasisoft.libs.common.old.model.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.function.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * An adapter used to Version into Strings and vice versa.

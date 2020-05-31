@@ -1,14 +1,17 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.*;
+import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
 
-import com.kasisoft.libs.common.old.base.*;
+import com.kasisoft.libs.common.KclException;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * A Runnable which is used to copy data from an InputStream to an OutputStream.

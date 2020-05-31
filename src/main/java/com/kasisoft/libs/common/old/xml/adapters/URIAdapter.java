@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.*;
+import java.util.function.BiConsumer;
 
-import java.util.function.*;
+import java.net.URI;
 
-import java.net.*;
+import lombok.NonNull;
 
 /**
  * Simple adapter for URI types.

@@ -1,12 +1,15 @@
 package com.kasisoft.libs.common.old.model;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import lombok.*;
+import java.text.ParseException;
 
-import com.kasisoft.libs.common.old.text.*;
+import lombok.experimental.FieldDefaults;
 
-import java.text.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * A simple descriptional datastructure for a version.

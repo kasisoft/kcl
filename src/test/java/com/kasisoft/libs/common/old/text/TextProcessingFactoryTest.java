@@ -1,21 +1,25 @@
 package com.kasisoft.libs.common.old.text;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-import com.kasisoft.libs.common.old.model.*;
+import com.kasisoft.libs.common.old.model.Pair;
 
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.function.*;
+import java.util.function.Function;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Tests for the class 'TextProcessingFactory'.

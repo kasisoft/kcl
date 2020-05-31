@@ -1,26 +1,49 @@
 package com.kasisoft.libs.common.old.ui;
 
-import com.kasisoft.libs.common.old.function.*;
-import com.kasisoft.libs.common.old.model.*;
-import com.kasisoft.libs.common.old.model.ScreenInfo.*;
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.old.model.Pair;
+import com.kasisoft.libs.common.old.model.ScreenInfo;
+import com.kasisoft.libs.common.old.model.ScreenInfo.ComparisonMode;
+import com.kasisoft.libs.common.old.util.ExtArrayList;
 
-import javax.swing.table.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
-import javax.swing.tree.*;
+import javax.swing.tree.TreeNode;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTree;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Frame;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
-import lombok.*;
+import lombok.NonNull;
 
 /**
  * Collection of Swing related utility functions.

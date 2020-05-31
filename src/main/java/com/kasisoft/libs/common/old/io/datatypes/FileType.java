@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.old.io.datatypes;
 
-import com.kasisoft.libs.common.old.constants.*;
+import com.kasisoft.libs.common.old.constants.MimeType;
 
-import java.util.function.*;
+import java.util.function.Predicate;
 
-import lombok.*;
+import lombok.NonNull;
 
 /**
  * A simple definition of characteristics used to identify file types.

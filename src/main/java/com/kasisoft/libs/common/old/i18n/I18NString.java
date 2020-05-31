@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.old.i18n;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * Helper which provides formatting capabilities to a translation.

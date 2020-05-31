@@ -1,10 +1,11 @@
 package com.kasisoft.libs.common.old.xml;
 
-import org.w3c.dom.*;
+import org.w3c.dom.DOMConfiguration;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * Collection of parameters for the {@link DOMConfiguration} .

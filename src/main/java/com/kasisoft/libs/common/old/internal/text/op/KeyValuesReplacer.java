@@ -1,16 +1,20 @@
 package com.kasisoft.libs.common.old.internal.text.op;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.constants.Empty;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacade;
+import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
+import com.kasisoft.libs.common.old.model.Pair;
 
-import lombok.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.internal.text.*;
-import com.kasisoft.libs.common.old.model.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
 
 /**
  * This function simple replaces multiple key-value pairs. This operation prefers an in-place operation.

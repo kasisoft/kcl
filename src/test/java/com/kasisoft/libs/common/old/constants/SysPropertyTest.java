@@ -1,20 +1,24 @@
 package com.kasisoft.libs.common.old.constants;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-import com.kasisoft.libs.common.old.config.*;
-import com.kasisoft.libs.common.old.model.*;
+import com.kasisoft.libs.common.old.config.SimpleProperty;
+import com.kasisoft.libs.common.old.model.Version;
 
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
-import java.io.*;
+import java.io.File;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
 
 /**
  * Tests for the enumeration 'SysProperty'.

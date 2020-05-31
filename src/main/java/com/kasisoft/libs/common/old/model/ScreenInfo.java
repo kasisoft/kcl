@@ -1,16 +1,20 @@
 package com.kasisoft.libs.common.old.model;
 
-import com.kasisoft.libs.common.old.util.*;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import java.util.function.*;
+import java.util.function.Function;
 
-import java.util.*;
+import java.util.Comparator;
 
-import java.awt.*;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.old.constants;
 
-import java.text.*;
+import java.text.SimpleDateFormat;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Locale;
 
-import lombok.*;
+import lombok.NonNull;
+import lombok.val;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

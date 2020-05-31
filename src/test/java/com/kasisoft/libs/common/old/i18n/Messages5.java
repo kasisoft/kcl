@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.i18n;
 
-import java.util.*;
+import java.util.Locale;
 
 @I18NBasename(resource="messages5",prefix="pre.")
 public class Messages5 {

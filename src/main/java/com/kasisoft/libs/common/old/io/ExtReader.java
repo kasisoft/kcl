@@ -1,16 +1,18 @@
 package com.kasisoft.libs.common.old.io;
 
-import com.kasisoft.libs.common.old.base.*;
+import com.kasisoft.libs.common.KclException;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
 
-import java.io.*;
+import java.nio.CharBuffer;
 
-import java.nio.*;
+import java.io.IOException;
+import java.io.Reader;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

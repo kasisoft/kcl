@@ -1,12 +1,14 @@
 package com.kasisoft.libs.common.old.constants;
 
-import lombok.experimental.*;
+import java.util.function.Predicate;
 
-import lombok.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.function.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * Collection of iso-3166 codes.

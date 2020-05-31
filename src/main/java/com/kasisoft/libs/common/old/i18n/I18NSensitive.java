@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.i18n;
 
-import java.util.*;
+import java.util.Locale;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,13 +1,18 @@
 package com.kasisoft.libs.common.old.io.datatypes;
 
-import com.kasisoft.libs.common.old.io.*;
-import com.kasisoft.libs.common.old.spi.*;
+import com.kasisoft.libs.common.old.io.DefaultIO;
+import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.old.spi.MultiSPILoader;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
-import lombok.experimental.*;
+import lombok.experimental.FieldDefaults;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Management for file type recognizers.

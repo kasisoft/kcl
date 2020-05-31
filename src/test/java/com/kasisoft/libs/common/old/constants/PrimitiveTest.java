@@ -1,16 +1,30 @@
 package com.kasisoft.libs.common.old.constants;
 
-import static com.kasisoft.libs.common.old.base.LibConfig.*;
-import static com.kasisoft.libs.common.old.constants.Primitive.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static com.kasisoft.libs.common.old.base.LibConfig.cfgBufferSize;
+import static com.kasisoft.libs.common.old.constants.Primitive.PBoolean;
+import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
+import static com.kasisoft.libs.common.old.constants.Primitive.PChar;
+import static com.kasisoft.libs.common.old.constants.Primitive.PDouble;
+import static com.kasisoft.libs.common.old.constants.Primitive.PFloat;
+import static com.kasisoft.libs.common.old.constants.Primitive.PInt;
+import static com.kasisoft.libs.common.old.constants.Primitive.PLong;
+import static com.kasisoft.libs.common.old.constants.Primitive.PShort;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
 
 /**
  * Tests for the constants 'Primitive'.

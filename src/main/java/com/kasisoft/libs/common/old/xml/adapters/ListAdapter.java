@@ -1,16 +1,19 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.text.StringFunctions;
 
-import lombok.*;
+import java.util.function.BiConsumer;
 
-import com.kasisoft.libs.common.old.text.*;
+import java.util.regex.Pattern;
 
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import java.util.regex.*;
+import lombok.experimental.FieldDefaults;
 
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
 
 /**
  * Adapter used to convert a String into a data structure which consists of a delimited list.

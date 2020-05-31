@@ -1,17 +1,23 @@
 package com.kasisoft.libs.common.old.csv;
 
-import lombok.experimental.*;
+import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.old.util.MiscFunctions;
 
-import lombok.*;
+import java.util.function.Function;
 
-import com.kasisoft.libs.common.old.constants.*;
-import com.kasisoft.libs.common.old.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.function.*;
+import java.math.BigDecimal;
 
-import java.util.*;
+import lombok.experimental.FieldDefaults;
 
-import java.math.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.val;
 
 /**
  * A basic description of a csv column.
