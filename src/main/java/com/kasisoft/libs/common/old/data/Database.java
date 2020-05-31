@@ -164,7 +164,7 @@ public enum Database implements Predicate<String> {
    */
   public boolean test( @NonNull String url, @NonNull String username, String password ) {
     boolean result = false;
-    try( val connection = getConnection( url, username, password ) ) {
+    try( Connection connection = getConnection( url, username, password ) ) {
       result = connection.prepareStatement( aliveQuery ).execute();
     } catch( SQLException ex ) {
       // our default assumption is that the db isn't available
@@ -182,7 +182,7 @@ public enum Database implements Predicate<String> {
   @Override
   public boolean test( @NonNull String url ) {
     boolean result = false;
-    try( val connection = getConnection( url ) ) {
+    try( Connection connection = getConnection( url ) ) {
       result = connection.prepareStatement( aliveQuery ).execute();
     } catch( SQLException ex ) {
       // our default assumption is that the db isn't available

@@ -10,6 +10,10 @@ import javax.validation.constraints.Null;
  */
 public class KclException extends RuntimeException {
 
+  public KclException() {
+    super();
+  }
+  
   public KclException(@NotNull Exception ex) {
     super(ex);
   }

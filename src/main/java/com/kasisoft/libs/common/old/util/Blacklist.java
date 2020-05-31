@@ -67,7 +67,7 @@ public class Blacklist implements Predicate<String> {
     list          = new ArrayList<>();
     lowercaseList = new ArrayList<>();
     commentPrefix = "#";
-    errorHandler  = KclException::errorHandler;
+    errorHandler  = KclException::wrap;
   }
 
   /**
