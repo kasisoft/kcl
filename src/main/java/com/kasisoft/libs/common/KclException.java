@@ -6,7 +6,7 @@ import javax.validation.constraints.Null;
 /**
  * Specialisation of the RuntimeException which is commonly used within this library.
  * 
- * @author daniel.kasmeroglu@kasisoft.com
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class KclException extends RuntimeException {
 
