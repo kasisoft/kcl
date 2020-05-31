@@ -29,6 +29,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
     
     compileOnly 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'jakarta.validation:jakarta.validation-api:2.0.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     
 }
