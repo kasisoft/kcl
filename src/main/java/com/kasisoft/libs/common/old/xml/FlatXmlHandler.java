@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.old.xml;
 
 import com.kasisoft.libs.common.old.constants.Encoding;
 import com.kasisoft.libs.common.old.constants.SysProperty;
-import com.kasisoft.libs.common.old.text.StringFBuilder;
+import com.kasisoft.libs.common.text.StringFBuilder;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

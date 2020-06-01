@@ -1,9 +1,9 @@
 package com.kasisoft.libs.common.old.constants;
 
 import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.buckets.Bucket;
+import com.kasisoft.libs.common.buckets.BucketFactory;
 import com.kasisoft.libs.common.old.annotation.Specification;
-import com.kasisoft.libs.common.old.util.Bucket;
-import com.kasisoft.libs.common.old.util.BucketFactory;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

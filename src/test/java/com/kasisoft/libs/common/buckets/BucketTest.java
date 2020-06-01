@@ -1,10 +1,10 @@
-package com.kasisoft.libs.common.old.util;
+package com.kasisoft.libs.common.buckets;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.text.StringFBuilder;
+import com.kasisoft.libs.common.text.StringFBuilder;
 
 import org.testng.annotations.Test;
 
@@ -20,7 +20,7 @@ public class BucketTest {
   @Test(groups="all")
   public void arrayList() {
     
-    Bucket<List<String>> bucket = new Bucket<>( BucketFactories.newArrayListFactory() );
+    Bucket<List<String>> bucket = Buckets.bucketArrayList();
 
     assertThat( 0, is( bucket.getSize() ) );
     
@@ -44,7 +44,7 @@ public class BucketTest {
   @Test(groups="all")
   public void stringFBuilder() {
     
-    Bucket<StringFBuilder> bucket = new Bucket<>( BucketFactories.newStringFBuilderFactory() );
+    Bucket<StringFBuilder> bucket = Buckets.bucketStringFBuilder();
 
     assertThat( 0, is( bucket.getSize() ) );
     

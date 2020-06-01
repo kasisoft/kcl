@@ -1,9 +1,13 @@
-package com.kasisoft.libs.common.old.util;
+package com.kasisoft.libs.common.buckets;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +17,6 @@ import java.lang.ref.SoftReference;
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
-import lombok.NonNull;
  
 /**
  * Collector for often used objects like collections, maps etc. .
@@ -24,16 +27,19 @@ import lombok.NonNull;
 public class Bucket<T> {
 
   List<SoftReference<T>>   references;
-  BucketFactory<T>         factory;
+  Supplier<T>              creator;
+  Consumer<T>              reset;
 
   /**
    * Initializes this bucket.
    * 
-   * @param bucketfactory   The factory that will be used to create/reset new objects. Not <code>null</code>.
+   * @param producer   Supplier for new elements.
+   * @param resetter   Cleaning function for elements.
    */
-  public Bucket( @NonNull BucketFactory<T> bucketfactory ) {
+  public Bucket(@NotNull Supplier<T> producer, @NotNull Consumer<T> resetter) {
     references  = new LinkedList<>();
-    factory     = bucketfactory;
+    creator     = producer;
+    reset       = resetter;
   }
   
   /**
@@ -50,17 +56,17 @@ public class Bucket<T> {
    * 
    * @return   A new object.
    */
-  public T allocate() {
+  public @NotNull T allocate() {
     T result = null;
-    synchronized( references ) {
-      while( (result == null) && (! references.isEmpty()) ) {
+    synchronized (references) {
+      while ((result == null) && (!references.isEmpty())) {
         SoftReference<T> reference = references.remove(0);
         result                     = reference.get();
         reference.clear();
       }
     }
-    if( result == null ) {
-      result = factory.create();
+    if (result == null) {
+      result = creator.get();
     }
     return result;
   }
@@ -70,10 +76,11 @@ public class Bucket<T> {
    * 
    * @param object   The object that shall be freed. Maybe <code>null</code>.
    */
-  public <R extends T> void free( R object ) {
-    if( object != null ) {
-      synchronized( references ) {
-        references.add( new SoftReference<>( factory.reset( object ) ) );
+  public <R extends T> void free(@NotNull R object) {
+    if (object != null) {
+      synchronized (references) {
+        reset.accept(object);
+        references.add(new SoftReference<>(object));
       }
     }
   }
@@ -85,12 +92,12 @@ public class Bucket<T> {
    * 
    * @return   The return value of the supplied function. Maybe <code>null<code>.
    */
-  public <R> R forInstance( @NonNull Function<T, R> function ) {
+  public <R> @Null R forInstance(@NotNull Function<T, R> function) {
     T instance = allocate();
     try {
-      return function.apply( instance );
+      return function.apply(instance);
     } finally {
-      free( instance );
+      free(instance);
     }
   }
 
@@ -102,12 +109,12 @@ public class Bucket<T> {
    * 
    * @return   The return value of the supplied function. Maybe <code>null<code>.
    */
-  public <R, P> R forInstance( @NonNull BiFunction<T, P, R> function, P param ) {
+  public <R, P> @Null R forInstance(@NotNull BiFunction<T, P, R> function, @Null P param) {
     T instance = allocate();
     try {
-      return function.apply( instance, param );
+      return function.apply(instance, param);
     } finally {
-      free( instance );
+      free(instance);
     }
   }
 
@@ -116,13 +123,8 @@ public class Bucket<T> {
    * 
    * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
    */
-  public void forInstanceDo( Consumer<T> consumer ) {
-    T instance = allocate();
-    try {
-      consumer.accept( instance );
-    } finally {
-      free( instance );
-    }
+  public void forInstanceDo(@NotNull Consumer<T> consumer) {
+    forInstance($ -> {consumer.accept($); return null;});
   }
 
   /**
@@ -131,13 +133,8 @@ public class Bucket<T> {
    * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
    * @param param      An additional parameter for the function.
    */
-  public <P> void forInstanceDo( BiConsumer<T, P> consumer, P param ) {
-    T instance = allocate();
-    try {
-      consumer.accept( instance, param );
-    } finally {
-      free( instance );
-    }
+  public <P> void forInstanceDo(@NotNull BiConsumer<T, P> consumer, @Null P param) {
+    forInstance($ -> {consumer.accept($, param); return null;});
   }
 
 } /* ENDCLASS */

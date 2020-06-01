@@ -3,13 +3,13 @@ package com.kasisoft.libs.common.old.internal.io;
 import static com.kasisoft.libs.common.old.function.Functions.adaptToTri;
 
 import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.buckets.Bucket;
+import com.kasisoft.libs.common.buckets.BucketFactories;
 import com.kasisoft.libs.common.old.function.TriConsumer;
 import com.kasisoft.libs.common.old.function.TriFunction;
 import com.kasisoft.libs.common.old.io.ExtInputStream;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.io.KInputStream;
-import com.kasisoft.libs.common.old.util.Bucket;
-import com.kasisoft.libs.common.old.util.BucketFactories;
 import com.kasisoft.libs.common.old.util.MiscFunctions;
 
 import java.util.function.BiConsumer;

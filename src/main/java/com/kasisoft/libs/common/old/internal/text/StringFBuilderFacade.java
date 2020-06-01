@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.internal.text;
 
-import com.kasisoft.libs.common.old.text.StringFBuilder;
+import com.kasisoft.libs.common.text.StringFBuilder;
 
 /**
  * Facade for StringFBuilder.
