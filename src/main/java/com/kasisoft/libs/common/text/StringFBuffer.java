@@ -45,13 +45,6 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   }
 
   /**
-   * @see StringBuffer#StringBuffer(String)
-   */
-  public StringFBuffer(@NotNull String str) {
-    origin = new StringBuffer(str);
-  }
-
-  /**
    * @see StringBuffer#StringBuffer(CharSequence)
    */
   public StringFBuffer(@NotNull CharSequence seq) {
@@ -85,42 +78,42 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized char charAt(int index) {
-    return origin.charAt(adjustIndex(index));
+    return origin.charAt(adjustIndex(index, false));
   }
 
   @Override
   public synchronized int codePointAt(int index) {
-    return origin.codePointAt(adjustIndex(index));
+    return origin.codePointAt(adjustIndex(index, false));
   }
 
   @Override
   public synchronized int codePointBefore(int index) {
-    return origin.codePointBefore(adjustIndex(index));
+    return origin.codePointBefore(adjustIndex(index, false));
   }
 
   @Override
   public synchronized int codePointCount(int begin, int end) {
-    return origin.codePointCount(adjustIndex(begin), adjustIndex(end));
+    return origin.codePointCount(adjustIndex(begin, false), adjustIndex(end, true));
   }
 
   @Override
   public synchronized int offsetByCodePoints(int index, int codepointoffset) {
-    return origin.offsetByCodePoints(adjustIndex(index), codepointoffset);
+    return origin.offsetByCodePoints(adjustIndex(index, false), codepointoffset);
   }
 
   @Override
   public synchronized void getChars(int start, int end, @NotNull char[] destination, int destbegin) {
-    origin.getChars(adjustIndex(start), adjustIndex(end), destination, adjustIndex(destination.length, destbegin));
+    origin.getChars(adjustIndex(start, false), adjustIndex(end, true), destination, adjustIndex(destination.length, destbegin, false));
   }
 
   @Override
   public synchronized void setCharAt(int index, char ch) {
-    origin.setCharAt(adjustIndex(index), ch);
+    origin.setCharAt(adjustIndex(index, false), ch);
   }
 
   @Override
   public void setCodepointAt(int index, int codepoint) {
-    index     = adjustIndex(index);
+    index     = adjustIndex(index, false);
     var count = Character.charCount(codepoint);
     delete(index, index + count);
   }
@@ -139,7 +132,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized StringFBuffer append(@NotNull CharSequence sequence, int start, int end) {
-    origin.append(sequence, adjustIndex(sequence.length(), start), adjustIndex(sequence.length(), end));
+    origin.append(sequence, adjustIndex(sequence.length(), start, false), adjustIndex(sequence.length(), end, true));
     return this;
   }
 
@@ -151,7 +144,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized StringFBuffer append(@NotNull char[] charray, int offset, int length) {
-    origin.append(charray, offset, length);
+    origin.append(charray, adjustIndex(charray.length, offset, false), length);
     return this;
   }
   
@@ -199,106 +192,100 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized StringFBuffer delete(int start, int end) {
-    origin.delete(adjustIndex(start), adjustIndex(end));
+    origin.delete(adjustIndex(start, false), adjustIndex(end, true));
     return this;
   }
 
   @Override
   public synchronized StringFBuffer deleteCharAt(int index) {
-    origin.deleteCharAt(adjustIndex(index));
+    origin.deleteCharAt(adjustIndex(index, false));
     return this;
   }
 
   @Override
   public synchronized StringFBuffer replace(int start, int end, @NotNull String str) {
-    origin.replace(adjustIndex(start), adjustIndex(end), str);
+    origin.replace(adjustIndex(start, false), adjustIndex(end, true), str);
     return this;
   }
 
   @Override
   public synchronized String substring(int start) {
-    return origin.substring(adjustIndex(start));
+    return origin.substring(adjustIndex(start, false));
   }
 
   @Override
   public synchronized CharSequence subSequence(int start, int end) {
-    return origin.subSequence(adjustIndex(start), adjustIndex(end));
+    return origin.subSequence(adjustIndex(start, false), adjustIndex(end, true));
   }
 
   @Override
-  public synchronized String substring( int start, int end ) {
-    return origin.substring(adjustIndex(start), adjustIndex(end));
+  public synchronized String substring( int start, int end) {
+    return origin.substring(adjustIndex(start, false), adjustIndex(end, true));
   }
 
   @Override
   public synchronized StringFBuffer insert(int index, @NotNull char[] charray, int offset, int length) {
-    origin.insert(adjustIndex(index), charray, adjustIndex(charray.length, offset), length);
+    origin.insert(adjustIndex(index, false), charray, adjustIndex(charray.length, offset, false), length);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, @NotNull Object obj) {
-    origin.insert(adjustIndex(offset), obj);
-    return this;
-  }
-
-  @Override
-  public synchronized StringFBuffer insert(int offset, @NotNull String value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), obj);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, @NotNull char[] value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, @NotNull CharSequence value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, @NotNull CharSequence value, int start, int end) {
-    origin.insert(adjustIndex(offset), value, adjustIndex(value.length(), start), adjustIndex(value.length(), end));
+    origin.insert(adjustIndex(offset, false), value, adjustIndex(value.length(), start, false), adjustIndex(value.length(), end, true));
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, boolean value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, char value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, int value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, long value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, float value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
   public synchronized StringFBuffer insert(int offset, double value) {
-    origin.insert(adjustIndex(offset), value);
+    origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
@@ -309,7 +296,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized int indexOf(@NotNull String str, int index) {
-    return origin.indexOf(str, adjustIndex(index));
+    return origin.indexOf(str, adjustIndex(index, false));
   }
 
   @Override
@@ -319,7 +306,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized int lastIndexOf(@NotNull String str, int index) {
-    return origin.lastIndexOf(str, adjustIndex(index));
+    return origin.lastIndexOf(str, adjustIndex(index, false));
   }
   
   @Override
@@ -348,9 +335,8 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     StringLike.super.trim();
   }
 
-  @Override
-  public @Min(0) int adjustIndex(int index) {
-    return adjustIndex(origin.length(), index);
+  private int adjustIndex(int index, boolean isEnd) {
+    return adjustIndex(origin.length(), index, isEnd);
   }
 
   /**
@@ -361,9 +347,11 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
    * 
    * @return  The index to use for the original implementation.
    */
-  private int adjustIndex(int length, int index) {
+  private int adjustIndex(int length, int index, boolean isEnd) {
     if (index < 0) {
       return length + index;
+    } else if ((index == 0) && isEnd) {
+      return length;
     }
     return index;
   }

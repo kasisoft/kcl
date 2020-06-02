@@ -179,11 +179,6 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   T insert(int offset, @NotNull Object obj);
 
   /**
-   * @see StringBuilder#insert(int, String)
-   */
-  T insert(int offset, @NotNull String value);
-
-  /**
    * Inserts some values using a specific format pattern.
    * 
    * @param offset   The location where to insert the formatted content.
@@ -687,14 +682,5 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     }
     return (T) this;
   }
-  
-  /**
-   * Converts the supplied index into a real index.
-   * 
-   * @param idx   The index. A negative value starts counting from the end.
-   * 
-   * @return   The real index.
-   */
-  @Min(0) int adjustIndex(int idx);
   
 } /* ENDINTERFACE */
