@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.old.internal.io;
 import static com.kasisoft.libs.common.old.function.Functions.adaptToTri;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.buckets.Bucket;
-import com.kasisoft.libs.common.buckets.BucketFactories;
 import com.kasisoft.libs.common.old.function.TriConsumer;
 import com.kasisoft.libs.common.old.function.TriFunction;
 import com.kasisoft.libs.common.old.io.ExtInputStream;
@@ -47,7 +45,6 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   Function<T, InputStream>        openInput;
   BiConsumer<Exception, T>        errHandler;
   boolean                         buffered;
-  Bucket<ByteArrayOutputStream>   byteouts;
   
   public KInputStreamImpl( @NonNull Class<T> type ) {
     this();
@@ -62,7 +59,6 @@ public class KInputStreamImpl<T> implements KInputStream<T> {
   private KInputStreamImpl() {
     buffered          = true;
     errHandler        = ($e, $i) -> {};
-    byteouts          = BucketFactories.newByteArrayOutputStreamBucket();
   }
   
   private Function<T, InputStream> selectOpener( Class<T> type ) {

@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.old.constants;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.buckets.Bucket;
-import com.kasisoft.libs.common.buckets.BucketFactory;
 import com.kasisoft.libs.common.old.annotation.Specification;
+
+import javax.validation.constraints.NotNull;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +15,6 @@ import java.util.Map;
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
@@ -69,7 +69,7 @@ public final class Digest {
       throw KclException.wrap( ex );
     }
     this.algorithm  = algorithm;
-    bucket          = new Bucket<>( new DigestFactory( algorithm ) );
+    bucket          = new Bucket<>(() -> createDigest(algorithm), Digest::resetDigest);
     DIGESTS.put( algorithm, this );
   }
   
@@ -163,27 +163,18 @@ public final class Digest {
     return null;
   }
 
-  @AllArgsConstructor
-  private static class DigestFactory implements BucketFactory<MessageDigest> {
-    
-    String   algorithm;
-
-    @Override
-    public MessageDigest create() {
-      try {
-        return MessageDigest.getInstance( algorithm );
-      } catch( NoSuchAlgorithmException ex ) {
-        // won't happen as this will be checked by the instantiation
-        return null;
-      }
+  private static @NotNull MessageDigest createDigest(String algorithm) {
+    try {
+      return MessageDigest.getInstance(algorithm);
+    } catch( NoSuchAlgorithmException ex ) {
+      // won't happen as this will be checked by the instantiation
+      return null;
     }
+  }
 
-    @Override
-    public MessageDigest reset( MessageDigest object ) {
-      object.reset();
-      return object;
-    }
-    
-  } /* ENDCLASS */
+  private static @NotNull MessageDigest resetDigest(@NotNull MessageDigest digest) {
+    digest.reset();
+    return digest;
+  }
   
 } /* ENDCLASS */
