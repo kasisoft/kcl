@@ -6,7 +6,7 @@ import static com.kasisoft.libs.common.old.internal.Messages.error_missing_requi
 import static com.kasisoft.libs.common.old.internal.Messages.unused_argument;
 
 import com.kasisoft.libs.common.old.function.Predicates;
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

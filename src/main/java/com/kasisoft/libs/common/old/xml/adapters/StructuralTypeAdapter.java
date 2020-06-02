@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.util.function.BiConsumer;
 

@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.old.xml.adapters;
 import static com.kasisoft.libs.common.old.internal.Messages.invalid_color;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.util.function.BiConsumer;
 

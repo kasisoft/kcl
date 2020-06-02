@@ -60,18 +60,21 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   }
 
   @Override
-  public void ensureCapacity(@Min(1) int minimum) {
+  public StringFBuilder ensureCapacity(@Min(1) int minimum) {
     origin.ensureCapacity(minimum);
+    return this;
   }
 
   @Override
-  public void trimToSize() {
+  public StringFBuilder trimToSize() {
     origin.trimToSize();
+    return this;
   }
 
   @Override
-  public void setLength(@Min(0) int newlength) {
+  public StringFBuilder setLength(@Min(0) int newlength) {
     origin.setLength(newlength);
+    return this;
   }
 
   @Override
@@ -100,189 +103,192 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   }
 
   @Override
-  public void getChars(int start, int end, @NotNull char[] destination, int destbegin) {
+  public StringFBuilder getChars(int start, int end, @NotNull char[] destination, int destbegin) {
     origin.getChars(adjustIndex(start, false), adjustIndex(end, true), destination, adjustIndex(destination.length, destbegin, false));
+    return this;
   }
 
   @Override
-  public void setCharAt(int index, char ch) {
+  public StringFBuilder setCharAt(int index, char ch) {
     origin.setCharAt(adjustIndex(index, false), ch);
+    return this;
   }
 
   @Override
-  public void setCodepointAt(int index, int codepoint) {
+  public StringFBuilder setCodepointAt(int index, int codepoint) {
     index     = adjustIndex(index, false);
     var count = Character.charCount(codepoint);
     delete(index, index + count);
+    return this;
   }
 
   @Override
-  public StringFBuilder append(@NotNull Object obj) {
+  public @NotNull StringFBuilder append(@NotNull Object obj) {
     origin.append(obj);
     return this;
   }
 
   @Override
-  public StringFBuilder append(@NotNull CharSequence sequence) {
+  public @NotNull StringFBuilder append(@NotNull CharSequence sequence) {
     origin.append(sequence);
     return this;
   }
 
   @Override
-  public StringFBuilder append(@NotNull CharSequence sequence, int start, int end) {
+  public @NotNull StringFBuilder append(@NotNull CharSequence sequence, int start, int end) {
     origin.append(sequence, adjustIndex(sequence.length(), start, false), adjustIndex(sequence.length(), end, true));
     return this;
   }
 
   @Override
-  public StringFBuilder append(@NotNull char[] charray) {
+  public @NotNull StringFBuilder append(@NotNull char[] charray) {
     origin.append(charray);
     return this;
   }
 
   @Override
-  public StringFBuilder append(@NotNull char[] charray, int offset, int length) {
+  public @NotNull StringFBuilder append(@NotNull char[] charray, int offset, int length) {
     origin.append(charray, adjustIndex(charray.length, offset, false), length);
     return this;
   }
   
   @Override
-  public StringFBuilder append(boolean value) {
+  public @NotNull StringFBuilder append(boolean value) {
     origin.append(value);
     return this;
   }
 
   @Override
-  public StringFBuilder append(char value) {
+  public @NotNull StringFBuilder append(char value) {
     origin.append(value);
     return this;
   }
 
   @Override
-  public StringFBuilder append(int value) {
+  public @NotNull StringFBuilder append(int value) {
     origin.append(value);
     return this;
   }
 
   @Override
-  public StringFBuilder appendCodePoint(int codepoint) {
+  public @NotNull StringFBuilder appendCodePoint(int codepoint) {
     origin.appendCodePoint(codepoint);
     return this;
   }
 
   @Override
-  public StringFBuilder append(long value) {
+  public @NotNull StringFBuilder append(long value) {
     origin.append(value);
     return this;
   }
 
   @Override
-  public StringFBuilder append(float value) {
+  public @NotNull StringFBuilder append(float value) {
     origin.append(value);
     return this;
   }
 
   @Override
-  public StringFBuilder append(double value) {
+  public @NotNull StringFBuilder append(double value) {
     origin.append(value);
     return this;
   }
 
   @Override
-  public StringFBuilder delete(int start, int end) {
+  public @NotNull StringFBuilder delete(int start, int end) {
     origin.delete(adjustIndex(start, false), adjustIndex(end, true));
     return this;
   }
 
   @Override
-  public StringFBuilder deleteCharAt(int index) {
+  public @NotNull StringFBuilder deleteCharAt(int index) {
     origin.deleteCharAt(adjustIndex(index, false));
     return this;
   }
 
   @Override
-  public StringFBuilder replace(int start, int end, @NotNull String str) {
+  public @NotNull StringFBuilder replace(int start, int end, @NotNull String str) {
     origin.replace(adjustIndex(start, false), adjustIndex(end, true), str);
     return this;
   }
 
   @Override
-  public String substring(int start) {
+  public @NotNull String substring(int start) {
     return origin.substring(adjustIndex(start, false));
   }
 
   @Override
-  public CharSequence subSequence(int start, int end) {
+  public @NotNull CharSequence subSequence(int start, int end) {
     return origin.subSequence(adjustIndex(start, false), adjustIndex(end, true));
   }
 
   @Override
-  public String substring(int start, int end) {
+  public @NotNull String substring(int start, int end) {
     return origin.substring(adjustIndex(start, false), adjustIndex(end, true));
   }
 
   @Override
-  public StringFBuilder insert(int index, @NotNull char[] charray, int offset, int length) {
+  public @NotNull StringFBuilder insert(int index, @NotNull char[] charray, int offset, int length) {
     origin.insert(adjustIndex(index, false), charray, adjustIndex(charray.length, offset, false), length);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, @NotNull Object obj) {
+  public @NotNull StringFBuilder insert(int offset, @NotNull Object obj) {
     origin.insert(adjustIndex(offset, false), obj);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, @NotNull char[] value) {
+  public @NotNull StringFBuilder insert(int offset, @NotNull char[] value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, @NotNull CharSequence value) {
+  public @NotNull StringFBuilder insert(int offset, @NotNull CharSequence value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, @NotNull CharSequence value, int start, int end) {
+  public @NotNull StringFBuilder insert(int offset, @NotNull CharSequence value, int start, int end) {
     origin.insert(adjustIndex(offset, false), value, adjustIndex(value.length(), start, false), adjustIndex(value.length(), end, true));
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, boolean value) {
+  public @NotNull StringFBuilder insert(int offset, boolean value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, char value) {
+  public @NotNull  StringFBuilder insert(int offset, char value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, int value) {
+  public @NotNull StringFBuilder insert(int offset, int value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, long value) {
+  public @NotNull StringFBuilder insert(int offset, long value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, float value) {
+  public @NotNull StringFBuilder insert(int offset, float value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
 
   @Override
-  public StringFBuilder insert(int offset, double value) {
+  public @NotNull StringFBuilder insert(int offset, double value) {
     origin.insert(adjustIndex(offset, false), value);
     return this;
   }
@@ -308,13 +314,13 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   }
   
   @Override
-  public StringFBuilder reverse() {
+  public @NotNull StringFBuilder reverse() {
     origin.reverse();
     return this;
   }
 
   @Override
-  public String toString() {
+  public @NotNull String toString() {
     return origin.toString();
   }
   
@@ -340,12 +346,12 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   }
 
   @Override
-  public IntStream chars() {
+  public @NotNull IntStream chars() {
     return origin.chars();
   }
   
   @Override
-  public IntStream codePoints() {
+  public @NotNull IntStream codePoints() {
     return origin.codePoints();
   }
   

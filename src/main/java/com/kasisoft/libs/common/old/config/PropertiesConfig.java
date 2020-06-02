@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.config;
 
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.util.Map;
 

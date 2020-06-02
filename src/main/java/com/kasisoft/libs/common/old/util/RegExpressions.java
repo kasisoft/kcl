@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.util;
 
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

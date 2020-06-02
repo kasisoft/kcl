@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.model;
 
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.text.ParseException;
 

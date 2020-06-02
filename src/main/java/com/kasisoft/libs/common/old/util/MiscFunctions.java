@@ -8,7 +8,7 @@ import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.function.TriConsumer;
 import com.kasisoft.libs.common.old.model.Pair;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

@@ -11,6 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,68 +28,68 @@ public class StringFBufferTest {
   @DataProvider(name = "dataStringBuffers")
   public Object[][] dataStringBuffers() {
     return new Object[][] {
-      new Object[] {new StringFBuffer()   },
-      new Object[] {new StringFBuffer(256)},
-      new Object[] {new StringFBuffer("") },
+      new Object[] {create()},
+      new Object[] {create(256)},
+      new Object[] {create("")},
     };
   }
   
   @Test(groups = "all")
   public void append() {
     
-    var buffer1 = new StringFBuffer();
+    var buffer1 = create();
     buffer1.append('h');
     assertThat(buffer1.toString(), is("h"));
 
-    var buffer2 = new StringFBuffer();
+    var buffer2 = create();
     buffer2.append(false);
     assertThat(buffer2.toString(), is("false"));
 
-    var buffer3 = new StringFBuffer();
+    var buffer3 = create();
     buffer3.append(true);
     assertThat(buffer3.toString(), is("true"));
 
-    var buffer4 = new StringFBuffer();
+    var buffer4 = create();
     buffer4.append("text");
     assertThat(buffer4.toString(), is("text"));
 
-    var buffer5 = new StringFBuffer();
+    var buffer5 = create();
     buffer5.append((byte) 65);
     assertThat(buffer5.toString(), is("65"));
 
-    var buffer6 = new StringFBuffer();
+    var buffer6 = create();
     buffer6.append((short) 1882);
     assertThat(buffer6.toString(), is("1882"));
 
-    var buffer7 = new StringFBuffer();
+    var buffer7 = create();
     buffer7.append(9_2981);
     assertThat(buffer7.toString(), is("92981"));
 
-    var buffer8 = new StringFBuffer();
+    var buffer8 = create();
     buffer8.append(9_298_191_391_921L);
     assertThat(buffer8.toString(), is("9298191391921"));
 
-    var buffer9 = new StringFBuffer();
+    var buffer9 = create();
     buffer9.append(3.193819388131);
     assertThat(buffer9.toString(), is("3.193819388131"));
 
-    var buffer10 = new StringFBuffer();
+    var buffer10 = create();
     buffer10.append((float) -4.138813);
     assertThat(buffer10.toString(), is("-4.138813"));
 
-    var buffer11 = new StringFBuffer();
+    var buffer11 = create();
     buffer11.append(Boolean.TRUE);
     assertThat(buffer11.toString(), is("true"));
 
-    var buffer12 = new StringFBuffer();
+    var buffer12 = create();
     buffer12.append("my text", 3, -2);
     assertThat(buffer12.toString(), is("te"));
     
-    var buffer13 = new StringFBuffer();
+    var buffer13 = create();
     buffer13.append(new char[] {'H', 'e', 'l', 'l', 'o'});
     assertThat(buffer13.toString(), is("Hello"));
 
-    var buffer14 = new StringFBuffer();
+    var buffer14 = create();
     buffer14.append(new char[] {'m', 'y', ' ', 't', 'e', 'x', 't'}, 3, 2);
     assertThat(buffer14.toString(), is("te"));
 
@@ -98,59 +99,59 @@ public class StringFBufferTest {
   @Test(groups = "all")
   public void insert() {
     
-    var buffer1 = new StringFBuffer("Hello World");
+    var buffer1 = create("Hello World");
     buffer1.insert(-5, 'h');
     assertThat(buffer1.toString(), is("Hello hWorld"));
 
-    var buffer2 = new StringFBuffer("Hello World");
+    var buffer2 = create("Hello World");
     buffer2.insert(-5, false);
     assertThat(buffer2.toString(), is("Hello falseWorld"));
 
-    var buffer3 = new StringFBuffer("Hello World");
+    var buffer3 = create("Hello World");
     buffer3.insert(-5, true);
     assertThat(buffer3.toString(), is("Hello trueWorld"));
 
-    var buffer4 = new StringFBuffer("Hello World");
+    var buffer4 = create("Hello World");
     buffer4.insert(-5, "text");
     assertThat(buffer4.toString(), is("Hello textWorld"));
 
-    var buffer5 = new StringFBuffer("Hello World");
+    var buffer5 = create("Hello World");
     buffer5.insert(-5, (byte) 65);
     assertThat(buffer5.toString(), is("Hello 65World"));
 
-    var buffer6 = new StringFBuffer("Hello World");
+    var buffer6 = create("Hello World");
     buffer6.insert(-5, (short) 1882);
     assertThat(buffer6.toString(), is("Hello 1882World"));
 
-    var buffer7 = new StringFBuffer("Hello World");
+    var buffer7 = create("Hello World");
     buffer7.insert(-5, 9_2981);
     assertThat(buffer7.toString(), is("Hello 92981World"));
 
-    var buffer8 = new StringFBuffer("Hello World");
+    var buffer8 = create("Hello World");
     buffer8.insert(-5, 9_298_191_391_921L);
     assertThat(buffer8.toString(), is("Hello 9298191391921World"));
 
-    var buffer9 = new StringFBuffer("Hello World");
+    var buffer9 = create("Hello World");
     buffer9.insert(-5, 3.193819388131);
     assertThat(buffer9.toString(), is("Hello 3.193819388131World"));
 
-    var buffer10 = new StringFBuffer("Hello World");
+    var buffer10 = create("Hello World");
     buffer10.insert(-5, (float) -4.138813);
     assertThat(buffer10.toString(), is("Hello -4.138813World"));
 
-    var buffer11 = new StringFBuffer("Hello World");
+    var buffer11 = create("Hello World");
     buffer11.insert(-5, Boolean.TRUE);
     assertThat(buffer11.toString(), is("Hello trueWorld"));
 
-    var buffer12 = new StringFBuffer("Hello World");
+    var buffer12 = create("Hello World");
     buffer12.insert(-5, "my text", 3, -2);
     assertThat(buffer12.toString(), is("Hello teWorld"));
     
-    var buffer13 = new StringFBuffer("Hello World");
+    var buffer13 = create("Hello World");
     buffer13.insert(-5, new char[] {'H', 'e', 'l', 'l', 'o'});
     assertThat(buffer13.toString(), is("Hello HelloWorld"));
 
-    var buffer14 = new StringFBuffer("Hello World");
+    var buffer14 = create("Hello World");
     buffer14.insert(-5, new char[] {'m', 'y', ' ', 't', 'e', 'x', 't'}, 3, 2);
     assertThat(buffer14.toString(), is("Hello teWorld"));
 
@@ -161,7 +162,7 @@ public class StringFBufferTest {
     
     var charray = new char[20];
     Arrays.fill(charray, 'A');
-    var buffer  = new StringFBuffer("Hello World");
+    var buffer  = create("Hello World");
     buffer.getChars(2, -5, charray, -10);
     assertThat(String.valueOf(charray), is("AAAAAAAAAAllo AAAAAA"));
 
@@ -169,14 +170,14 @@ public class StringFBufferTest {
 
   @Test(groups = "all")
   public void subSequence() {
-    var          buffer  = new StringFBuffer("Hello World");
-    CharSequence seq     = buffer.subSequence(0, -2);
+    var buffer = create("Hello World");
+    var seq    = buffer.subSequence(0, -2);
     assertThat(String.valueOf(seq), is("Hello Wor"));
   }
 
   @Test(groups = "all")
   public void replace() {
-    var          buffer  = new StringFBuffer("Hello World");
+    var buffer = create("Hello World");
     buffer.replace(-5, 0, "Fred");
     assertThat(buffer.toString(), is("Hello Fred"));
   }
@@ -184,31 +185,68 @@ public class StringFBufferTest {
   @Test(groups = "all")
   public void serialization() throws Exception {
     
-    StringFBuffer           buffer      = new StringFBuffer("Dummy");
+    var buffer  = create("Dummy");
     
-    ByteArrayOutputStream   byteout     = new ByteArrayOutputStream();
-    try (ObjectOutputStream objectout   = new ObjectOutputStream(byteout)) {
+    var byteout = new ByteArrayOutputStream();
+    try (var objectout = new ObjectOutputStream(byteout)) {
       objectout.writeObject(buffer);
     }
     
-    Object                  read        = null;
-    ByteArrayInputStream    bytein      = new ByteArrayInputStream(byteout.toByteArray());
-    try (ObjectInputStream  objectin    = new ObjectInputStream(bytein)) {
+    Object read   = null;
+    var    bytein = new ByteArrayInputStream(byteout.toByteArray());
+    try (var objectin = new ObjectInputStream(bytein)) {
       read = objectin.readObject();
     }
     
     assertNotNull(read);
     assertTrue(read instanceof StringFBuffer);
     
-    StringFBuffer readBuffer = (StringFBuffer) read;
+    var readBuffer = (StringFBuffer) read;
     assertThat(buffer.compareTo(readBuffer), is(0));
     
   }
   
   @Test(groups = "all")
   public void compareTo() throws Exception {
-    StringFBuffer buffer = new StringFBuffer("Dummy");
+    var buffer = create("Dummy");
     assertTrue(buffer.compareTo(buffer) == 0);
+  }
+
+  @Test(groups = "all")
+  public void firstUp() {
+    
+    var buffer1 = create("Dummy");
+    buffer1.firstUp();
+    assertThat(buffer1.toString(), is("Dummy"));
+
+    var buffer2 = create("dummy");
+    buffer2.firstUp();
+    assertThat(buffer2.toString(), is("Dummy"));
+
+  }
+
+  @Test(groups = "all")
+  public void firstDown() {
+    
+    var buffer1 = create("Dummy");
+    buffer1.firstDown();
+    assertThat(buffer1.toString(), is("dummy"));
+
+    var buffer2 = create("dummy");
+    buffer2.firstDown();
+    assertThat(buffer2.toString(), is("dummy"));
+
+  }
+
+  @Test(groups = "all")
+  public void camelCase() {
+    assertThat(create("").camelCase().toString(), is(""));
+    assertThat(create("simple").camelCase().toString(), is("simple"));
+    assertThat(create("simpleTon").camelCase().toString(), is("simpleTon"));
+    assertThat(create("simple_ton").camelCase().toString(), is("simpleTon"));
+    assertThat(create("simple__ton").camelCase().toString(), is("simpleTon"));
+    assertThat(create("simple ton").camelCase().toString(), is("simpleTon"));
+    assertThat(create("Simple-ton").camelCase().toString(), is("simpleTon"));
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
@@ -432,200 +470,82 @@ public class StringFBufferTest {
     
   }
   
-//  @Override
-//  public synchronized int codePointBefore(int index) {
-//    return origin.codePointBefore(adjustIndex(index));
-//  }
-//
-//  @Override
-//  public synchronized int codePointCount(int begin, int end) {
-//    return origin.codePointCount(adjustIndex(begin), adjustIndex(end));
-//  }
-//
-//  @Override
-//  public synchronized int offsetByCodePoints(int index, int codepointoffset) {
-//    return origin.offsetByCodePoints(adjustIndex(index), codepointoffset);
-//  }
-//
-//  @Override
-//  public synchronized void getChars(int start, int end, @NotNull char[] destination, int destbegin) {
-//    origin.getChars(adjustIndex(start), adjustIndex(end), destination, adjustIndex(destination.length, destbegin));
-//  }
-//
-//  @Override
-//  public void setCodepointAt(int index, int codepoint) {
-//    index     = adjustIndex(index);
-//    var count = Character.charCount(codepoint);
-//    delete(index, index + count);
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(@NotNull Object obj) {
-//    origin.append(obj);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(@NotNull CharSequence sequence, int start, int end) {
-//    origin.append(sequence, adjustIndex(sequence.length(), start), adjustIndex(sequence.length(), end));
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(@NotNull char[] charray) {
-//    origin.append(charray);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(@NotNull char[] charray, int offset, int length) {
-//    origin.append(charray, offset, length);
-//    return this;
-//  }
-//  
-//  @Override
-//  public synchronized StringFBuffer append(boolean value) {
-//    origin.append(value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(char value) {
-//    origin.append(value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(int value) {
-//    origin.append(value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer appendCodePoint(int codepoint) {
-//    origin.appendCodePoint(codepoint);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(long value) {
-//    origin.append(value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(float value) {
-//    origin.append(value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer append(double value) {
-//    origin.append(value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer replace(int start, int end, @NotNull String str) {
-//    origin.replace(adjustIndex(start), adjustIndex(end), str);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized CharSequence subSequence(int start, int end) {
-//    return origin.subSequence(adjustIndex(start), adjustIndex(end));
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int index, @NotNull char[] charray, int offset, int length) {
-//    origin.insert(adjustIndex(index), charray, adjustIndex(charray.length, offset), length);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, @NotNull Object obj) {
-//    origin.insert(adjustIndex(offset), obj);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, @NotNull char[] value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, @NotNull CharSequence value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, @NotNull CharSequence value, int start, int end) {
-//    origin.insert(adjustIndex(offset), value, adjustIndex(value.length(), start), adjustIndex(value.length(), end));
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, boolean value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, char value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, int value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, long value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, float value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized StringFBuffer insert(int offset, double value) {
-//    origin.insert(adjustIndex(offset), value);
-//    return this;
-//  }
-//
-//  @Override
-//  public synchronized IntStream chars() {
-//    return origin.chars();
-//  }
-//  
-//  @Override
-//  public synchronized IntStream codePoints() {
-//    return origin.codePoints();
-//  }
-//  
-//  @Override
-//  public synchronized int compareTo(@NotNull StringFBuffer another) {
-//    if (this == another) {
-//      return 0;
-//    }
-//    return origin.compareTo(another.origin);
-//  }
-//  
-//  private void writeObject(ObjectOutputStream s) throws IOException {
-//    s.writeObject(origin);
-//  }
-//
-//  private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
-//    origin = (StringBuffer) s.readObject();
-//  }
+  @DataProvider(name = "caseChangeData")
+  public Object[][] caseChangeData() {
+    return new Object[][] {
+      { new String[] { ""              }, new String[] { ""              } },
+      { new String[] { "hello"         }, new String[] { "HELLO"         } },
+      { new String[] { "hello", "bibo" }, new String[] { "HELLO", "BIBO" } },
+    };
+  }
+  
+  @Test(dataProvider = "caseChangeData", groups = "all")
+  public void toUpperCase(String[] current, String[] expected) {
+    for (int i = 0; i < current.length; i++) {
+      assertThat(create(current[i]).toUpperCase().toString(), is(expected[i]));
+    }
+  }
+
+  @Test(dataProvider = "caseChangeData", groups = "all")
+  public void toLowerCase(String[] expected, String[] current) {
+    for (int i = 0; i < current.length; i++) {
+      assertThat(create(current[i]).toLowerCase().toString(), is(expected[i]));
+    }
+  }
+
+  @Test(groups = "all")
+  public void appendIfMissing() {
+    assertThat(create("Hello/").appendIfMissing("/").toString(), is("Hello/"));
+    assertThat(create("Hello").appendIfMissing("/").toString(), is("Hello/"));
+  }
+
+  @Test(groups = "all")
+  public void prependIfMissing() {
+    assertThat(create("/Hello").prependIfMissing("/").toString(), is("/Hello"));
+    assertThat(create("Hello").prependIfMissing("/").toString(), is("/Hello"));
+  }
+
+  @Test(groups = "all")
+  public void removeEnd() {
+    assertThat(create("startHello").removeEnd("Dodo").toString(), is("startHello"));
+    assertThat(create("startHello").removeEnd("Hello").toString(), is("start"));
+    assertThat(create("startHello").removeEnd(true, "hello").toString(), is("startHello"));
+  }
+  
+  @Test(groups = "all")
+  public void removeStart() {
+    assertThat(create("startHello").removeStart("stop").toString(), is("startHello"));
+    assertThat(create("startHello").removeStart("start").toString(), is("Hello"));
+    assertThat(create("startHello").removeStart(true, "Start").toString(), is("startHello"));
+  }
+  
+  @Test(groups = "all")
+  public void replaceAll() {
+    
+    var replacements = new HashMap<String, String>();
+    replacements.put( "name"    , "Daniel Kasmeroglu" );
+    replacements.put( "company" , "Kasisoft"          );
+    
+    var buffer1 = create("The pseudo company company is driven by name [company]");
+    buffer1.replaceAll(replacements);
+    assertThat(buffer1.toString(), is( "The pseudo Kasisoft Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]" ) );
+
+    var buffer2 = create("The pseudo company ${company} is driven by ${name} [${company}]") ;
+    buffer2.replaceAll(replacements, "${%s}");
+    assertThat(buffer2.toString(), is( "The pseudo company Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]" ) );
+
+  }
+
+  private StringFBuffer create(String input) {
+    return new StringFBuffer(input);
+  }
+
+  private StringFBuffer create() {
+    return new StringFBuffer();
+  }
+  
+  private StringFBuffer create(int capacity) {
+    return new StringFBuffer(capacity);
+  }
 
 } /* ENDCLASS */

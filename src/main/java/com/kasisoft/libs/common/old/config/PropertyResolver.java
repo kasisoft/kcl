@@ -5,7 +5,7 @@ import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.io.DefaultIO;
 import com.kasisoft.libs.common.old.io.KReader;
-import com.kasisoft.libs.common.old.text.StringFunctions;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.util.function.BiConsumer;
 

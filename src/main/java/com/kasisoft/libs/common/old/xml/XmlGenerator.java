@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.xml;
 
 import com.kasisoft.libs.common.old.constants.Encoding;
-import com.kasisoft.libs.common.old.text.StringFunctions;
 import com.kasisoft.libs.common.text.StringFBuilder;
+import com.kasisoft.libs.common.text.StringFunctions;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

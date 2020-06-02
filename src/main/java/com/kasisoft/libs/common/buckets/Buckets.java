@@ -4,6 +4,7 @@ import com.kasisoft.libs.common.text.StringFBuffer;
 import com.kasisoft.libs.common.text.StringFBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,10 @@ public class Buckets {
 
   public static Bucket<StringFBuilder> bucketStringFBuilder() {
     return BUCKETS.computeIfAbsent(StringFBuilder.class, $ ->new Bucket<>(StringFBuilder::new, $sb -> $sb.setLength(0)));
+  }
+
+  public static <K, V> Bucket<HashMap<K, V>> bucketHashMap() {
+    return BUCKETS.computeIfAbsent(HashMap.class, $ ->new Bucket<>(HashMap::new, $sb -> $sb.clear()));
   }
 
 } /* ENDCLASS */
