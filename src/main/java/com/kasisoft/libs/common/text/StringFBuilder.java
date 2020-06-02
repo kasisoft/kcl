@@ -39,7 +39,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
    * @see StringBuilder#StringBuilder(int)
    */
   public StringFBuilder(@Min(1) int capacity) {
-    origin = new StringBuilder( capacity );
+    origin = new StringBuilder(capacity);
   }
 
   /**
@@ -114,6 +114,13 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   @Override
   public void setCharAt(int index, char ch) {
     origin.setCharAt(adjustIndex(index), ch);
+  }
+
+  @Override
+  public void setCodepointAt(int index, int codepoint) {
+    index     = adjustIndex(index);
+    var count = Character.charCount(codepoint);
+    delete(index, index + count);
   }
 
   @Override
@@ -324,14 +331,8 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
     return origin.toString();
   }
   
-  /**
-   * Returns an adjusted index since this extension supports negative indices as well.
-   * 
-   * @param index   The index supplied by the user.
-   * 
-   * @return  The index to use for the original implementation.
-   */
-  private int adjustIndex(int index) {
+  @Override
+  public @Min(0) int adjustIndex(int index) {
     return adjustIndex(origin.length(), index);
   }
 

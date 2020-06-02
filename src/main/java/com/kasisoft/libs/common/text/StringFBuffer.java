@@ -119,6 +119,13 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   }
 
   @Override
+  public void setCodepointAt(int index, int codepoint) {
+    index     = adjustIndex(index);
+    var count = Character.charCount(codepoint);
+    delete(index, index + count);
+  }
+
+  @Override
   public synchronized StringFBuffer append(@NotNull Object obj) {
     origin.append(obj);
     return this;
@@ -168,7 +175,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized StringFBuffer appendCodePoint(int codepoint) {
-    origin.appendCodePoint( codepoint);
+    origin.appendCodePoint(codepoint);
     return this;
   }
 
@@ -273,7 +280,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   @Override
   public synchronized StringFBuffer insert(int offset, int value) {
-    origin.insert(adjustIndex( offset), value);
+    origin.insert(adjustIndex(offset), value);
     return this;
   }
 
@@ -341,14 +348,8 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     StringLike.super.trim();
   }
 
-  /**
-   * Returns an adjusted index since this extension supports negative indices as well.
-   * 
-   * @param index   The index supplied by the user.
-   * 
-   * @return  The index to use for the original implementation.
-   */
-  private int adjustIndex(int index) {
+  @Override
+  public @Min(0) int adjustIndex(int index) {
     return adjustIndex(origin.length(), index);
   }
 

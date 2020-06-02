@@ -65,6 +65,8 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    */
   void setCharAt(int index, char ch);
 
+  void setCodepointAt(int index, int codepoint);
+  
   /**
    * @see StringBuilder#append(Object)
    */
@@ -349,8 +351,13 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * This function removes leading whitespace from this buffer.
    */
   default void trimLeading() {
-    while ((length() > 0) && Character.isWhitespace(charAt(0))) {
-      deleteCharAt(0);
+    while (length() > 0) {
+      int codePoint = codePointAt(0);
+      if (!Character.isWhitespace(codePoint)) {
+        break;
+      }
+      int charCount = Character.charCount(codePoint);
+      delete(0, charCount);
     }
   }
 
@@ -358,8 +365,14 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * This function removes trailing whitespace from this buffer.
    */
   default void trimTrailing() {
-    while ((length() > 0) && Character.isWhitespace(charAt(-1))) {
-      deleteCharAt(-1);
+    while (length() > 0) {
+      int length    = length();
+      int codePoint = codePointAt(length - 1);
+      if (!Character.isWhitespace(codePoint)) {
+        break;
+      }
+      int charCount = Character.charCount(codePoint);
+      delete(length - charCount, length);
     }
   }
 
@@ -554,6 +567,23 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   }
 
   /**
+   * @see String#replace(int, int)
+   * 
+   * @param fromCodepoint   The codepoint which has to be replaced.
+   * @param toCodepoint     The codepoint which has to be used instead.
+   * 
+   * @return   This buffer without <code>from</code> characters. Not <code>null</code>.
+   */
+  default T replace(int fromCodepoint, int toCodepoint) {
+    for (var i = 0; i < length(); i++) {
+      if (codePointAt(i) == fromCodepoint) {
+        setCodepointAt(i, toCodepoint);
+      }
+    }
+    return (T) this;
+  }
+
+  /**
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
    * @param regex         The regular expression used to select the fragments that will be replaced. 
@@ -655,7 +685,16 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
       delete(start, end);
       insert(start, replacement);
     }
-    return (T) this;    
+    return (T) this;
   }
+  
+  /**
+   * Converts the supplied index into a real index.
+   * 
+   * @param idx   The index. A negative value starts counting from the end.
+   * 
+   * @return   The real index.
+   */
+  @Min(0) int adjustIndex(int idx);
   
 } /* ENDINTERFACE */
