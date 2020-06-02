@@ -6,6 +6,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import com.kasisoft.libs.common.old.test.framework.Utilities;
+import com.kasisoft.libs.common.text.StringFBuffer;
 import com.kasisoft.libs.common.text.StringFBuilder;
 
 import org.testng.annotations.DataProvider;

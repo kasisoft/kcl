@@ -8,6 +8,7 @@ import com.kasisoft.libs.common.old.internal.text.op.RegionReplacer;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.model.Tupel;
 import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.text.StringFBuffer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

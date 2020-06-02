@@ -4,8 +4,8 @@ import static com.kasisoft.libs.common.old.internal.Messages.format_default;
 import static com.kasisoft.libs.common.old.internal.Messages.label_mandatory;
 import static com.kasisoft.libs.common.old.internal.Messages.label_optional;
 
-import com.kasisoft.libs.common.old.text.StringFBuffer;
 import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.text.StringFBuffer;
 
 import java.util.function.Function;
 

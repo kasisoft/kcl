@@ -22,217 +22,217 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 /**
- * StringF(ormatting)Builder  equivalent which supports formatting. This builder also supports negative indices which 
+ * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which 
  * means that the original index is calculated beginning from the end of the buffer.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StringFBuilder implements Serializable, CharSequence, Comparable<StringFBuilder> {
-
-  private static final long serialVersionUID = 1050795857819832439L;
+public class StringFBuffer implements Serializable, CharSequence, Comparable<StringFBuffer> {
+  
+  private static final long serialVersionUID = 6094891463351971217L;
   
   // the original implementation
-  StringBuilder  origin;
+  StringBuffer   origin;
   
   /**
-   * @see StringBuilder#StringBuilder()
+   * @see StringBuffer#StringBuffer()
    */
-  public StringFBuilder() {
-    origin = new StringBuilder();
+  public StringFBuffer() {
+    origin    = new StringBuffer();
   }
 
   /**
-   * @see StringBuilder#StringBuilder(int)
+   * @see StringBuffer#StringBuffer(int)
    */
-  public StringFBuilder(@Min(1) int capacity) {
-    origin = new StringBuilder( capacity );
+  public StringFBuffer(@Min(1) int capacity) {
+    origin = new StringBuffer(capacity);
   }
 
   /**
-   * @see StringBuilder#StringBuilder(String)
+   * @see StringBuffer#StringBuffer(String)
    */
-  public StringFBuilder(@NotNull String str) {
-    origin = new StringBuilder(str);
+  public StringFBuffer(@NotNull String str) {
+    origin = new StringBuffer(str);
   }
 
   /**
-   * @see StringBuilder#StringBuilder(CharSequence)
+   * @see StringBuffer#StringBuffer(CharSequence)
    */
-  public StringFBuilder(@NotNull CharSequence seq) {
-    origin = new StringBuilder(seq);
+  public StringFBuffer(@NotNull CharSequence seq) {
+    origin = new StringBuffer(seq);
   }
 
   /**
-   * @see StringBuilder#length() 
+   * @see StringBuffer#length() 
    */
   @Override
-  public @Min(0) int length() {
+  public synchronized @Min(0) int length() {
     return origin.length();
   }
 
   /**
-   * @see StringBuilder#capacity()
+   * @see StringBuffer#capacity()
    */
-  public @Min(1) int capacity() {
+  public synchronized @Min(1) int capacity() {
     return origin.capacity();
   }
 
   /**
-   * @see StringBuilder#ensureCapacity(int)
+   * @see StringBuffer#ensureCapacity(int)
    */
-  public void ensureCapacity(@Min(1) int minimum) {
+  public synchronized void ensureCapacity(@Min(1) int minimum) {
     origin.ensureCapacity(minimum);
   }
 
   /**
-   * @see StringBuilder#trimToSize()
+   * @see StringBuffer#trimToSize()
    */
-  public void trimToSize() {
+  public synchronized void trimToSize() {
     origin.trimToSize();
   }
 
   /**
-   * @see StringBuilder#setLength(int)
+   * @see StringBuffer#setLength(int)
    */
-  public void setLength(@Min(0) int newlength) {
+  public synchronized void setLength(@Min(0) int newlength) {
     origin.setLength(newlength);
   }
 
   /**
-   * @see StringBuilder#charAt(int)
+   * @see StringBuffer#charAt(int)
    */
   @Override
-  public char charAt(int index) {
+  public synchronized char charAt(int index) {
     return origin.charAt(adjustIndex(index));
   }
 
   /**
-   * @see StringBuilder#codePointAt(int)
+   * @see StringBuffer#codePointAt(int)
    */
-  public int codePointAt(int index) {
+  public synchronized int codePointAt(int index) {
     return origin.codePointAt(adjustIndex(index));
   }
 
   /**
-   * @see StringBuilder#codePointBefore(int)
+   * @see StringBuffer#codePointBefore(int)
    */
-  public int codePointBefore(int index) {
+  public synchronized int codePointBefore(int index) {
     return origin.codePointBefore(adjustIndex(index));
   }
 
   /**
-   * @see StringBuilder#codePointCount(int, int)
+   * @see StringBuffer#codePointCount(int, int)
    */
-  public int codePointCount(int begin, int end) {
+  public synchronized int codePointCount(int begin, int end) {
     return origin.codePointCount(adjustIndex(begin), adjustIndex(end));
   }
 
   /**
-   * @see StringBuilder#offsetByCodePoints(int, int)
+   * @see StringBuffer#offsetByCodePoints(int, int)
    */
-  public int offsetByCodePoints(int index, int codepointoffset) {
+  public synchronized int offsetByCodePoints(int index, int codepointoffset) {
     return origin.offsetByCodePoints(adjustIndex(index), codepointoffset);
   }
 
   /**
-   * @see StringBuilder#getChars(int, int, char[], int)
+   * @see StringBuffer#getChars(int, int, char[], int)
    */
-  public void getChars(int start, int end, @NotNull char[] destination, int destbegin) {
+  public synchronized void getChars(int start, int end, @NotNull char[] destination, int destbegin) {
     origin.getChars(adjustIndex(start), adjustIndex(end), destination, adjustIndex(destination.length, destbegin));
   }
 
   /**
-   * @see StringBuilder#setCharAt(int, char)
+   * @see StringBuffer#setCharAt(int, char)
    */
-  public void setCharAt(int index, char ch) {
+  public synchronized void setCharAt(int index, char ch) {
     origin.setCharAt(adjustIndex(index), ch);
   }
 
   /**
-   * @see StringBuilder#append(Object)
+   * @see StringBuffer#append(Object)
    */
-  public StringFBuilder append(@NotNull Object obj) {
+  public synchronized StringFBuffer append(@NotNull Object obj) {
     origin.append(obj);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(String) 
+   * @see StringBuffer#append(String) 
    */
-  public StringFBuilder append(@NotNull String str) {
+  public synchronized StringFBuffer append(@NotNull String str) {
     origin.append(str);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(StringBuilder)
+   * @see StringBuffer#append(StringBuffer)
    */
-  public StringFBuilder append(@NotNull StringBuffer buffer) {
+  public synchronized StringFBuffer append(@NotNull StringBuffer buffer) {
     origin.append(buffer);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(StringBuilder)
+   * @see StringBuffer#append(StringBuffer)
    */
-  public StringFBuilder append(@NotNull StringFBuilder buffer) {
+  public synchronized StringFBuffer append(@NotNull StringFBuffer buffer) {
     origin.append(buffer.origin);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(CharSequence)
+   * @see StringBuffer#append(CharSequence)
    */
-  public StringFBuilder append(@NotNull CharSequence sequence) {
+  public synchronized StringFBuffer append(@NotNull CharSequence sequence) {
     origin.append(sequence);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(CharSequence, int, int)
+   * @see StringBuffer#append(CharSequence, int, int)
    */
-  public StringFBuilder append(@NotNull CharSequence sequence, int start, int end) {
+  public synchronized StringFBuffer append(@NotNull CharSequence sequence, int start, int end) {
     origin.append(sequence, adjustIndex(sequence.length(), start), adjustIndex(sequence.length(), end));
     return this;
   }
 
   /**
-   * @see StringBuilder#append(char[])
+   * @see StringBuffer#append(char[])
    */
-  public StringFBuilder append(@NotNull char[] charray) {
+  public synchronized StringFBuffer append(@NotNull char[] charray) {
     origin.append(charray);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(char[], int, int)
+   * @see StringBuffer#append(char[], int, int)
    */
-  public StringFBuilder append(@NotNull char[] charray, int offset, int length) {
-    origin.append(charray, adjustIndex(charray.length, offset), length);
+  public synchronized StringFBuffer append(@NotNull char[] charray, int offset, int length) {
+    origin.append(charray, offset, length);
     return this;
   }
   
   /**
-   * @see StringBuilder#append(boolean)
+   * @see StringBuffer#append(boolean)
    */
-  public StringFBuilder append(boolean value) {
+  public synchronized StringFBuffer append(boolean value) {
     origin.append(value);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(char)
+   * @see StringBuffer#append(char)
    */
-  public StringFBuilder append(char value) {
+  public synchronized StringFBuffer append(char value) {
     origin.append(value);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(int)
+   * @see StringBuffer#append(int)
    */
-  public StringFBuilder append(int value) {
+  public synchronized StringFBuffer append(int value) {
     origin.append(value);
     return this;
   }
@@ -245,7 +245,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   The current buffer.
    */
-  public StringFBuilder appendF(@NotNull String fmt, Object ... args) {
+  public synchronized StringFBuffer appendF(@NotNull String fmt, Object ... args) {
     var toAdd = fmt;
     if ((args != null) && (args.length > 0)) {
       toAdd = String.format(fmt, args);
@@ -254,103 +254,103 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   }
   
   /**
-   * @see StringBuilder#appendCodePoint(int)
+   * @see StringBuffer#appendCodePoint(int)
    */
-  public StringFBuilder appendCodePoint(int codepoint) {
-    origin.appendCodePoint(codepoint);
+  public synchronized StringFBuffer appendCodePoint(int codepoint) {
+    origin.appendCodePoint( codepoint);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(long)
+   * @see StringBuffer#append(long)
    */
-  public StringFBuilder append(long value) {
+  public synchronized StringFBuffer append(long value) {
     origin.append(value);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(float)
+   * @see StringBuffer#append(float)
    */
-  public StringFBuilder append(float value) {
+  public synchronized StringFBuffer append(float value) {
     origin.append(value);
     return this;
   }
 
   /**
-   * @see StringBuilder#append(double)
+   * @see StringBuffer#append(double)
    */
-  public StringFBuilder append(double value) {
+  public synchronized StringFBuffer append(double value) {
     origin.append(value);
     return this;
   }
 
   /**
-   * @see StringBuilder#delete(int, int)
+   * @see StringBuffer#delete(int, int)
    */
-  public StringFBuilder delete(int start, int end) {
+  public synchronized StringFBuffer delete(int start, int end) {
     origin.delete(adjustIndex(start), adjustIndex(end));
     return this;
   }
 
   /**
-   * @see StringBuilder#deleteCharAt(int)
+   * @see StringBuffer#deleteCharAt(int)
    */
-  public StringFBuilder deleteCharAt(int index) {
+  public synchronized StringFBuffer deleteCharAt(int index) {
     origin.deleteCharAt(adjustIndex(index));
     return this;
   }
 
   /**
-   * @see StringBuilder#replace(int, int, String)
+   * @see StringBuffer#replace(int, int, String)
    */
-  public StringFBuilder replace(int start, int end, @NotNull String str) {
+  public synchronized StringFBuffer replace(int start, int end, @NotNull String str) {
     origin.replace(adjustIndex(start), adjustIndex(end), str);
     return this;
   }
 
   /**
-   * @see StringBuilder#substring(int)
+   * @see StringBuffer#substring(int)
    */
-  public String substring(int start) {
+  public synchronized String substring(int start) {
     return origin.substring(adjustIndex(start));
   }
 
   /**
-   * @see StringBuilder#subSequence(int, int)
+   * @see StringBuffer#subSequence(int, int)
    */
   @Override
-  public CharSequence subSequence(int start, int end) {
+  public synchronized CharSequence subSequence(int start, int end) {
     return origin.subSequence(adjustIndex(start), adjustIndex(end));
   }
 
   /**
-   * @see StringBuilder#substring(int, int)
+   * @see StringBuffer#substring(int, int)
    */
-  public String substring(int start, int end) {
+  public synchronized String substring( int start, int end ) {
     return origin.substring(adjustIndex(start), adjustIndex(end));
   }
 
   /**
-   * @see StringBuilder#insert(int, char[], int, int)
+   * @see StringBuffer#insert(int, char[], int, int)
    */
-  public StringFBuilder insert(int index, @NotNull char[] charray, int offset, int length) {
+  public synchronized StringFBuffer insert(int index, @NotNull char[] charray, int offset, int length) {
     origin.insert(adjustIndex(index), charray, adjustIndex(charray.length, offset), length);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, Object)
+   * @see StringBuffer#insert(int, Object)
    */
-  public StringFBuilder insert(int offset, @NotNull Object obj) {
+  public synchronized StringFBuffer insert(int offset, @NotNull Object obj) {
     origin.insert(adjustIndex(offset), obj);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, String)
+   * @see StringBuffer#insert(int, String)
    */
-  public StringFBuilder insert(int offset, @NotNull String value) {
+  public synchronized StringFBuffer insert(int offset, @NotNull String value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
@@ -364,7 +364,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   The current buffer.
    */
-  public StringFBuilder insertF(int offset, @NotNull String fmt, Object ... args) {
+  public synchronized StringFBuffer insertF(int offset, @NotNull String fmt, Object ... args) {
     var toAdd = fmt;
     if ((args != null) && (args.length > 0)) {
       toAdd = String.format(fmt, args);
@@ -373,105 +373,105 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   }
 
   /**
-   * @see StringBuilder#insert(int, char[])
+   * @see StringBuffer#insert(int, char[])
    */
-  public StringFBuilder insert(int offset, @NotNull char[] value) {
+  public synchronized StringFBuffer insert(int offset, @NotNull char[] value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, CharSequence)
+   * @see StringBuffer#insert(int, CharSequence)
    */
-  public StringFBuilder insert(int offset, @NotNull CharSequence value) {
+  public synchronized StringFBuffer insert(int offset, @NotNull CharSequence value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, CharSequence, int, int)
+   * @see StringBuffer#insert(int, CharSequence, int, int)
    */
-  public StringFBuilder insert(int offset, @NotNull CharSequence value, int start, int end) {
+  public synchronized StringFBuffer insert(int offset, @NotNull CharSequence value, int start, int end) {
     origin.insert(adjustIndex(offset), value, adjustIndex(value.length(), start), adjustIndex(value.length(), end));
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, boolean)
+   * @see StringBuffer#insert(int, boolean)
    */
-  public StringFBuilder insert(int offset, boolean value) {
+  public synchronized StringFBuffer insert(int offset, boolean value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, char)
+   * @see StringBuffer#insert(int, char)
    */
-  public StringFBuilder insert(int offset, char value) {
+  public synchronized StringFBuffer insert(int offset, char value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, int)
+   * @see StringBuffer#insert(int, int)
    */
-  public StringFBuilder insert(int offset, int value) {
+  public synchronized StringFBuffer insert(int offset, int value) {
+    origin.insert(adjustIndex( offset), value);
+    return this;
+  }
+
+  /**
+   * @see StringBuffer#insert(int, long)
+   */
+  public synchronized StringFBuffer insert(int offset, long value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, long)
+   * @see StringBuffer#insert(int, float)
    */
-  public StringFBuilder insert(int offset, long value) {
+  public synchronized StringFBuffer insert(int offset, float value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, float)
+   * @see StringBuffer#insert(int, double)
    */
-  public StringFBuilder insert(int offset, float value) {
+  public synchronized StringFBuffer insert(int offset, double value) {
     origin.insert(adjustIndex(offset), value);
     return this;
   }
 
   /**
-   * @see StringBuilder#insert(int, double)
+   * @see StringBuffer#indexOf(String)
    */
-  public StringFBuilder insert(int offset, double value) {
-    origin.insert(adjustIndex(offset), value);
-    return this;
-  }
-
-  /**
-   * @see StringBuilder#indexOf(String)
-   */
-  public int indexOf(@NotNull String str) {
+  public synchronized int indexOf(@NotNull String str) {
     return origin.indexOf(str);
   }
 
   /**
-   * @see StringBuilder#indexOf(String, int)
+   * @see StringBuffer#indexOf(String, int)
    */
-  public int indexOf(@NotNull String str, int index) {
+  public synchronized int indexOf(@NotNull String str, int index) {
     return origin.indexOf(str, adjustIndex(index));
   }
 
   /**
-   * Like {@link StringBuilder#indexOf(String)} with the difference that this function provides the position of the
+   * Like {@link StringBuffer#indexOf(String)} with the difference that this function provides the position of the
    * leftmost literal which could be found.
    * 
    * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
    * 
    * @return   The index of the leftmost found literal or -1 if none matched.
    */
-  public int indexOf(@Null String ... literals) {
+  public synchronized int indexOf(@Null String ... literals) {
     return indexOf(0, literals);
   }
   
   /**
-   * Like {@link StringBuilder#indexOf(String)} with the difference that this function provides the position of the
+   * Like {@link StringBuffer#indexOf(String)} with the difference that this function provides the position of the
    * leftmost literal which could be found.
    * 
    * @param index      The index used as the starting point for the lookup.
@@ -479,7 +479,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   The index of the leftmost found literal or -1 if none matched.
    */
-  public int indexOf(int index, @NotNull String ... literals) {
+  public synchronized int indexOf(int index, @Null String ... literals) {
     index      = adjustIndex(index);
     var result = -1;
     if (literals != null) {
@@ -498,33 +498,33 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   }
   
   /**
-   * @see StringBuilder#lastIndexOf(String)
+   * @see StringBuffer#lastIndexOf(String)
    */
-  public int lastIndexOf(@NotNull String str) {
+  public synchronized int lastIndexOf(@NotNull String str) {
     return origin.lastIndexOf(str);
   }
 
   /**
-   * @see StringBuilder#lastIndexOf(String, int)
+   * @see StringBuffer#lastIndexOf(String, int)
    */
-  public int lastIndexOf(@NotNull String str, int index) {
+  public synchronized int lastIndexOf(@NotNull String str, int index) {
     return origin.lastIndexOf(str, adjustIndex(index));
   }
 
   /**
-   * Like {@link StringBuilder#lastIndexOf(String,int)} with the difference that this function provides the position of 
+   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of 
    * the rightmost literal which could be found.
    * 
    * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
    * 
    * @return   The index of the rightmost found literal or -1 if none matched.
    */
-  public int lastIndexOf(@Null String ... literals) {
+  public synchronized int lastIndexOf(@Null String ... literals) {
     return lastIndexOf(-1, literals);
   }
   
   /**
-   * Like {@link StringBuilder#lastIndexOf(String,int)} with the difference that this function provides the position of 
+   * Like {@link StringBuffer#lastIndexOf(String,int)} with the difference that this function provides the position of 
    * the rightmost literal which could be found.
    * 
    * @param index      The index used as the starting point for the lookup.
@@ -532,7 +532,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   The index of the rightmost found literal or -1 if none matched.
    */
-  public int lastIndexOf(int index, @Null String ... literals) {
+  public synchronized int lastIndexOf(int index, @Null String ... literals) {
     index      = adjustIndex(index);
     var result = -1;
     if (literals != null) {
@@ -551,22 +551,22 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   }
   
   /**
-   * @see StringBuilder#reverse()
+   * @see StringBuffer#reverse()
    */
-  public StringFBuilder reverse() {
-    origin = origin.reverse();
+  public synchronized StringFBuffer reverse() {
+    origin.reverse();
     return this;
   }
 
   @Override
-  public String toString() {
+  public synchronized String toString() {
     return origin.toString();
   }
   
   /**
    * This function removes leading whitespace from this buffer.
    */
-  public void trimLeading() {
+  public synchronized void trimLeading() {
     while ((length() > 0) && Character.isWhitespace(charAt(0))) {
       deleteCharAt(0);
     }
@@ -575,7 +575,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   /**
    * This function removes trailing whitespace from this buffer.
    */
-  public void trimTrailing() {
+  public synchronized void trimTrailing() {
     while ((length() > 0) && Character.isWhitespace(charAt(-1))) {
       deleteCharAt(-1);
     }
@@ -584,7 +584,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   /**
    * This function removes leading and trailing whitespace from this buffer.
    */
-  public void trim() {
+  public synchronized void trim() {
     trimLeading();
     trimTrailing();
   }
@@ -622,7 +622,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith(@NotNull String totest) {
+  public synchronized boolean startsWith(@NotNull String totest) {
     return startsWith(true, totest);
   }
   
@@ -634,7 +634,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
-  public boolean startsWith(boolean casesensitive, @NotNull String totest) {
+  public synchronized boolean startsWith(boolean casesensitive, @NotNull String totest) {
     if (totest.length() > origin.length()) {
       return false;
     }
@@ -653,7 +653,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith(@NotNull String totest) {
+  public synchronized boolean endsWith(@NotNull String totest) {
     return endsWith(true, totest);
   }
 
@@ -665,7 +665,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
-  public boolean endsWith(boolean casesensitive, @NotNull String totest) {
+  public synchronized boolean endsWith(boolean casesensitive, @NotNull String totest) {
     if (totest.length() > origin.length()) {
       return false;
     }
@@ -684,7 +684,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals(@NotNull String totest) {
+  public synchronized boolean equals(@NotNull String totest) {
     return equals(true, totest);
   }
   
@@ -696,7 +696,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
-  public boolean equals(boolean casesensitive, @NotNull String totest) {
+  public synchronized boolean equals(boolean casesensitive, @NotNull String totest) {
     if (casesensitive) {
       return origin.toString().equals(totest);
     } else {
@@ -711,7 +711,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   The altered input. Not <code>null</code>.
    */
-  public StringFBuilder remove(@NotNull String toremove) {
+  public synchronized StringFBuffer remove(@NotNull String toremove) {
     for (var i = length() - 1; i >= 0; i--) {
       if (toremove.indexOf(charAt(i)) != -1) {
         deleteCharAt(i);
@@ -729,7 +729,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    *                     
    * @return   A splitted list without the delimiting character. Not <code>null</code>.
    */
-  public String[] split(@NotNull String delimiters) {
+  public synchronized String[] split(@NotNull String delimiters) {
     return Buckets.bucketArrayList().forInstance($ -> {
       var tokenizer = new StringTokenizer(origin.toString(), delimiters, false);
       while (tokenizer.hasMoreTokens()) {
@@ -746,7 +746,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex(@NotNull String regex) {
+  public synchronized String[] splitRegex(@NotNull String regex) {
     return splitRegex(Pattern.compile(regex));
   }
   
@@ -757,7 +757,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    *                     
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
-  public String[] splitRegex(@NotNull Pattern pattern) {
+  public synchronized String[] splitRegex(@NotNull Pattern pattern) {
     return Buckets.bucketArrayList().forInstance($ -> {
       var matcher = pattern.matcher(origin);
       var last    = 0;
@@ -788,7 +788,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   This buffer without <code>from</code> characters. Not <code>null</code>.
    */
-  public StringFBuilder replace(char from, char to) {
+  public synchronized StringFBuffer replace(char from, char to) {
     for (var i = 0; i < origin.length(); i++) {
       if (origin.charAt(i) == from) {
         origin.setCharAt(i, to);
@@ -806,7 +806,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceAll(@NotNull String regex, @NotNull String replacement) {
+  public synchronized StringFBuffer replaceAll(@NotNull String regex, @NotNull String replacement) {
     return replaceAll(Pattern.compile(regex), replacement);
   }
   
@@ -819,7 +819,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceAll(@NotNull Pattern pattern, @NotNull String replacement) {
+  public synchronized StringFBuffer replaceAll(@NotNull Pattern pattern, @NotNull String replacement) {
     Buckets.<Integer>bucketArrayList().forInstanceDo($ -> {
       var matcher = pattern.matcher(origin);
       while (matcher.find()) {
@@ -845,7 +845,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceFirst(@NotNull String regex, @NotNull String replacement) {
+  public synchronized StringFBuffer replaceFirst(@NotNull String regex, @NotNull String replacement) {
     return replaceFirst(Pattern.compile(regex), replacement);
   }
   
@@ -857,7 +857,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceFirst(@NotNull Pattern pattern, @NotNull String replacement) {
+  public synchronized StringFBuffer replaceFirst(@NotNull Pattern pattern, @NotNull String replacement) {
     var matcher = pattern.matcher(origin);
     if (matcher.find()) {
       origin.delete(matcher.start(), matcher.end());
@@ -875,7 +875,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceLast(@NotNull String regex, @NotNull String replacement) {
+  public synchronized StringFBuffer replaceLast(@NotNull String regex, @NotNull String replacement) {
     return replaceLast(Pattern.compile(regex), replacement);
   }
   
@@ -887,7 +887,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
    * 
    * @return   This buffer. Not <code>null</code>.
    */
-  public StringFBuilder replaceLast(@NotNull Pattern pattern, @NotNull String replacement) {
+  public synchronized StringFBuffer replaceLast(@NotNull Pattern pattern, @NotNull String replacement) {
     var matcher = pattern.matcher(origin);
     var start   = -1;
     var end     = -1;
@@ -903,17 +903,17 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   }
   
   @Override
-  public IntStream chars() {
+  public synchronized IntStream chars() {
     return origin.chars();
   }
   
   @Override
-  public IntStream codePoints() {
+  public synchronized IntStream codePoints() {
     return origin.codePoints();
   }
   
   @Override
-  public int compareTo(@NotNull StringFBuilder another) {
+  public synchronized int compareTo(@NotNull StringFBuffer another) {
     if (this == another) {
       return 0;
     }
@@ -925,7 +925,7 @@ public class StringFBuilder implements Serializable, CharSequence, Comparable<St
   }
 
   private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
-    origin = (StringBuilder) s.readObject();
+    origin = (StringBuffer) s.readObject();
   }
 
 } /* ENDCLASS */

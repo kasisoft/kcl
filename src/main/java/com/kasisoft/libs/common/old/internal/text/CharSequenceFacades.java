@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.internal.text;
 
 import com.kasisoft.libs.common.old.internal.Messages;
-import com.kasisoft.libs.common.old.text.StringFBuffer;
 import com.kasisoft.libs.common.old.text.TextProcessingFactory;
+import com.kasisoft.libs.common.text.StringFBuffer;
 import com.kasisoft.libs.common.text.StringFBuilder;
 
 import java.util.HashMap;

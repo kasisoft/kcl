@@ -11,64 +11,64 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * Testcase for the class 'StringFBuilder'.
+ * Testcase for the class 'StringFBuffer'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class StringFBuilderTest {
+public class StringFBufferTest {
 
   @DataProvider(name = "dataStringBuffers")
   public Object[][] dataStringBuffers() {
     return new Object[][] {
-      new Object[] {new StringFBuilder()   },
-      new Object[] {new StringFBuilder(256)},
-      new Object[] {new StringFBuilder("") },
+      new Object[] {new StringFBuffer()   },
+      new Object[] {new StringFBuffer(256)},
+      new Object[] {new StringFBuffer("") },
     };
   }
   
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void appendF(StringFBuilder buffer) {
+  public void appendF(StringFBuffer buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     assertThat(buffer.toString(), is( "My test is this: Hello World ! Not 0x11 !"));
   }
   
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void charAt(StringFBuilder buffer) {
+  public void charAt(StringFBuffer buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     assertThat(buffer.charAt(0)  , is( 'M' ));
     assertThat(buffer.charAt(-1) , is( '!' ));
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void substring(StringFBuilder buffer) {
+  public void substring(StringFBuffer buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     assertThat(buffer.substring(0, 2) , is("My"));
     assertThat(buffer.substring(-10) , is("Not 0x11 !"));
   }
   
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void trimLeading(StringFBuilder buffer) {
+  public void trimLeading(StringFBuffer buffer) {
     buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     buffer.trimLeading();
     assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void trimTrailing(StringFBuilder buffer) {
+  public void trimTrailing(StringFBuffer buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
     buffer.trimTrailing();
     assertThat(buffer.toString(), is( "My test is this: Hello World ! Not 0x11 !"));
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void trim(StringFBuilder buffer) {
+  public void trim(StringFBuffer buffer) {
     buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
     buffer.trim();
     assertThat(buffer.toString(), is( "My test is this: Hello World ! Not 0x11 !"));
   }
   
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void endsWith(StringFBuilder buffer) {
+  public void endsWith(StringFBuffer buffer) {
     buffer.appendF("The frog is here !");
     assertTrue  (buffer.endsWith(true  , "here !"));
     assertFalse (buffer.endsWith(true  , "HERE !"));
@@ -80,7 +80,7 @@ public class StringFBuilderTest {
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void startsWith(StringFBuilder buffer) {
+  public void startsWith(StringFBuffer buffer) {
     buffer.appendF("The frog is here !" );
     assertTrue  (buffer.startsWith( true  , "The"));
     assertFalse (buffer.startsWith( true  , "THE"));
@@ -92,7 +92,7 @@ public class StringFBuilderTest {
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void equals(StringFBuilder buffer) {
+  public void equals(StringFBuffer buffer) {
     buffer.appendF("The frog is here !");
     assertTrue  (buffer.equals( true  , "The frog is here !"));
     assertFalse (buffer.equals( true  , "THE FROG IS HERE !"));
@@ -102,20 +102,20 @@ public class StringFBuilderTest {
   }
   
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void remove(StringFBuilder buffer) {
+  public void remove(StringFBuffer buffer) {
     buffer.appendF("Moloko was a great band !");
     assertThat(buffer.remove("oa").toString(), is("Mlk ws  gret bnd !"));
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void reverse(StringFBuilder buffer) {
+  public void reverse(StringFBuffer buffer) {
     buffer.append("The frog is here !");
     buffer.reverse();
     assertThat(buffer.toString(), is("! ereh si gorf ehT"));
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void indexOf( StringFBuilder buffer ) {
+  public void indexOf(StringFBuffer buffer) {
     buffer.append("The frog is here !" );
     assertThat(buffer.indexOf("frog"   ), is(4));
     assertThat(buffer.indexOf("Flansch"), is(-1));
@@ -127,7 +127,7 @@ public class StringFBuilderTest {
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void lastIndexOf(StringFBuilder buffer) {
+  public void lastIndexOf(StringFBuffer buffer) {
     buffer.append("The frog is here !");
     assertThat(buffer.lastIndexOf("frog"   ), is( 4));
     assertThat(buffer.lastIndexOf("Flansch"), is(-1));
@@ -138,13 +138,13 @@ public class StringFBuilderTest {
   }
   
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void replace(StringFBuilder buffer) {
+  public void replace(StringFBuffer buffer) {
     buffer.append("The frog is here !");
     assertThat(buffer.replace('e', 'a').toString(), is("Tha frog is hara !"));
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void split(StringFBuilder buffer) {
+  public void split(StringFBuffer buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
     String[] expected = new String[] {
@@ -164,7 +164,7 @@ public class StringFBuilderTest {
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void splitRegex(StringFBuilder buffer) {
+  public void splitRegex(StringFBuffer buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
     String[] expected = new String[] {
@@ -184,7 +184,7 @@ public class StringFBuilderTest {
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void replaceAll(StringFBuilder buffer) {
+  public void replaceAll(StringFBuffer buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
     buffer.replaceAll("[0-9]+", "abce");
@@ -203,7 +203,7 @@ public class StringFBuilderTest {
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void replaceFirst(StringFBuilder buffer) {
+  public void replaceFirst(StringFBuffer buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
     buffer.replaceFirst("[0-9]+", "abce");
@@ -217,7 +217,7 @@ public class StringFBuilderTest {
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
-  public void replaceLast(StringFBuilder buffer) {
+  public void replaceLast(StringFBuffer buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
     buffer.replaceLast("[0-9]+", "abce");

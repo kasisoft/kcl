@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.old.text;
 
 import com.kasisoft.libs.common.old.internal.text.TextProcessingFactoryImpl;
 import com.kasisoft.libs.common.old.model.Pair;
+import com.kasisoft.libs.common.text.StringFBuffer;
 import com.kasisoft.libs.common.text.StringFBuilder;
 
 import java.util.function.Function;
