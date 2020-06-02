@@ -1,5 +1,6 @@
 package com.kasisoft.libs.common.buckets;
 
+import com.kasisoft.libs.common.text.StringFBuffer;
 import com.kasisoft.libs.common.text.StringFBuilder;
 
 import java.util.ArrayList;
@@ -34,12 +35,8 @@ public class Buckets {
     return BUCKETS.computeIfAbsent(CharArrayWriter.class, $ -> new Bucket<>(CharArrayWriter::new, CharArrayWriter::reset));
   }
 
-  public static Bucket<StringBuilder> bucketStringBuilder() {
-    return BUCKETS.computeIfAbsent(StringBuilder.class, $ -> new Bucket<>(StringBuilder::new, $sb -> $sb.setLength(0)));
-  }
-
-  public static Bucket<StringBuffer> bucketStringBuffer() {
-    return BUCKETS.computeIfAbsent(StringBuffer.class, $ -> new Bucket<>(StringBuffer::new, $sb -> $sb.setLength(0)));
+  public static Bucket<StringFBuffer> bucketStringFBuffer() {
+    return BUCKETS.computeIfAbsent(StringFBuffer.class, $ -> new Bucket<>(StringFBuffer::new, $sb -> $sb.setLength(0)));
   }
 
   public static Bucket<StringFBuilder> bucketStringFBuilder() {
