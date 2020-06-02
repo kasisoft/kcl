@@ -1,11 +1,13 @@
-package com.kasisoft.libs.common.old.text;
+package com.kasisoft.libs.common.text;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.util.Enumeration;
 
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
-import lombok.NonNull;
 
 /**
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 
@@ -16,11 +18,11 @@ import lombok.NonNull;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LiteralTokenizer implements Enumeration<String> {
 
-  int        pos;
-  String[]   literals;
-  String     input;
-  boolean    doreturn;
-  String     next;
+  int            pos;
+  String[]       literals;
+  StringLike     input;
+  boolean        doreturn;
+  String         next;
   
   /**
    * Prepares this tokenizer to operate using delimiting literals.
@@ -28,8 +30,18 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param data             The String content that has to be tokenized. Not <code>null</code>.
    * @param delimiters       A list of delimiting literals. Not <code>null</code>.
    */
-  public LiteralTokenizer( String data, String ... delimiters ) {
-    this( data, false, delimiters );
+  public LiteralTokenizer(@NotNull String data, @NotNull String ... delimiters ) {
+    this(data, false, delimiters);
+  }
+
+  /**
+   * Prepares this tokenizer to operate using delimiting literals.
+   * 
+   * @param data             The String content that has to be tokenized. Not <code>null</code>.
+   * @param delimiters       A list of delimiting literals. Not <code>null</code>.
+   */
+  public LiteralTokenizer(@NotNull StringLike data, @NotNull String ... delimiters ) {
+    this(new StringFBuilder(data), false, delimiters);
   }
 
   /**
@@ -39,26 +51,37 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param returnliterals   <code>true</code> <=> Return delimiting literals as well.
    * @param delimiters       A list of delimiting literals. Not <code>null</code>.
    */
-  public LiteralTokenizer( @NonNull String data, boolean returnliterals, @NonNull String ... delimiters ) {
+  public LiteralTokenizer(@NotNull String data, boolean returnLiterals, @NotNull String ... delimiters) {
+    this(new StringFBuilder(data), returnLiterals, delimiters);
+  }
+
+  /**
+   * Prepares this tokenizer to operate using delimiting literals.
+   * 
+   * @param data             The String content that has to be tokenized. Not <code>null</code>.
+   * @param returnLiterals   <code>true</code> <=> Return delimiting literals as well.
+   * @param delimiters       A list of delimiting literals. Not <code>null</code>.
+   */
+  public LiteralTokenizer(@NotNull StringLike data, boolean returnLiterals, @NotNull String ... delimiters) {
     input         = data;
     literals      = delimiters;
-    doreturn      = returnliterals;
+    doreturn      = returnLiterals;
     pos           = 0;
     next          = getNext();
   }
-  
+
   @Override
   public boolean hasMoreElements() {
     return next != null;
   }
 
   @Override
-  public String nextElement() {
-    if( next == null ) {
+  public @Null String nextElement() {
+    if (next == null) {
       return null;
     }
-    String result = next;
-    next          = getNext();
+    var result = next;
+    next       = getNext();
     return result;
   }
   
@@ -68,39 +91,42 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @return   The next literal that has to be returned by this tokenizer. Maybe <code>null</code>.
    */
   private String getNext() {
-    if( pos == -1 ) {
+    if (pos == -1) {
       // there's no more content
       return null;
     }
-    String firstdelimiter = firstDelimiter();
-    int    oldpos         = pos;
-    if( firstdelimiter == null ) {
+    
+    var firstdelimiter = firstDelimiter();
+    var oldpos         = pos;
+    
+    if (firstdelimiter == null) {
       // there are no longer delimiting literals, so the rest becomes the next value
       pos = -1;
-      return input.substring( oldpos );
+      return input.substring(oldpos);
     }
-    int newpos = input.indexOf( firstdelimiter, pos );
-    if( newpos == pos ) {
+    
+    var newpos = input.indexOf(firstdelimiter, pos);
+    if (newpos == pos) {
       // we're directly pointing to a delimiter
-      if( doreturn ) {
+      if (doreturn) {
         // the user wants to get the delimiting literal
         newpos = pos + firstdelimiter.length();
         pos    = newpos;
-        if( pos >= input.length() ) {
+        if (pos >= input.length()) {
           pos = -1;
         }
-        return input.substring( oldpos, newpos );
+        return input.substring(oldpos, newpos);
       } else {
         // the user wants to skip delimiting literals, so try to get the next literal after the delimiter
         pos = pos + firstdelimiter.length();
-        if( pos >= input.length() ) {
+        if (pos >= input.length()) {
           pos = -1;
         }
         return getNext();
       }
     } else {
       pos = newpos;
-      return input.substring( oldpos, newpos );
+      return input.substring(oldpos, newpos);
     }
   }
   
@@ -111,15 +137,15 @@ public class LiteralTokenizer implements Enumeration<String> {
    */
   private String firstDelimiter() {
     String result = null;
-    int    next   = Integer.MAX_VALUE;
-    for( String literal : literals ) {
-      int newnext = input.indexOf( literal, pos );
-      if( (newnext < next) && (newnext >= pos) ) {
+    var    next   = Integer.MAX_VALUE;
+    for (var literal : literals) {
+      var newnext = input.indexOf(literal, pos);
+      if ((newnext < next) && (newnext >= pos)) {
         next    = newnext;
         result  = literal;
       }
     }
-    return( result );
+    return result;
   }
 
 } /* ENDCLASS */
