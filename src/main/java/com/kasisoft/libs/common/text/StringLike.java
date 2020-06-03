@@ -6,9 +6,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import java.util.function.Function;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -379,9 +382,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * This function removes leading and trailing whitespace from this buffer.
    */
   default @NotNull T trim() {
-    trimLeading();
-    trimTrailing();
-    return (T) this;
+    return (T) trimLeading().trimTrailing();
   }
 
   /**
@@ -419,6 +420,38 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
    *  
+   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
+   * @param candidates      The candidates to be tested at the end.
+   * 
+   * @return   The sequence that's at the start or null.
+   */
+  default <R extends CharSequence> @Null R startsWithMany(@Null R ... candidates) {
+    return startsWithMany(true, candidates);
+  }
+  
+  /**
+   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
+   *  
+   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
+   * @param candidates      The candidates to be tested at the end.
+   * 
+   * @return   The sequence that's at start or null.
+   */
+  default <R extends CharSequence> @Null R startsWithMany(boolean casesensitive, @Null R ... candidates) {
+    if ((candidates == null) || (candidates.length == 0)) {
+      return null;
+    }
+    for (R seq : candidates) {
+      if (startsWith(casesensitive, seq)) {
+        return seq;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
+   *  
    * @param totest   The text used for the comparison. Not <code>null</code>.
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
@@ -448,6 +481,38 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     }
   }
   
+  /**
+   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
+   *  
+   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
+   * @param candidates      The candidates to be tested at the end.
+   * 
+   * @return   The sequence that's at the end or null.
+   */
+  default <R extends CharSequence> @Null R endsWithMany(@Null R ... candidates) {
+    return endsWithMany(true, candidates);
+  }
+  
+  /**
+   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
+   *  
+   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
+   * @param candidates      The candidates to be tested at the end.
+   * 
+   * @return   The sequence that's at the end or null.
+   */
+  default <R extends CharSequence> @Null R endsWithMany(boolean casesensitive, @Null R ... candidates) {
+    if ((candidates == null) || (candidates.length == 0)) {
+      return null;
+    }
+    for (R seq : candidates) {
+      if (endsWith(casesensitive, seq)) {
+        return seq;
+      }
+    }
+    return null;
+  }
+
   /**
    * Returns <code>true</code> if the content of this buffer equals the supplied literal.
    *  
@@ -854,6 +919,47 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
       delete(0, seq.length());
     }
     return (T) this;
+  }
+
+  default @NotNull T replaceRegions(@NotNull String open, @NotNull String replacement) {
+    return (T) replaceRegions(open, open, $ -> replacement);
+  }
+
+  default @NotNull T replaceRegions(@NotNull String open, @Null String close, @NotNull String replacement) {
+    return (T) replaceRegions(open, close, $ -> replacement);
+  }
+  
+  default @NotNull T replaceRegions(@NotNull String open, @NotNull Function<String, CharSequence> replacement) {
+    return replaceRegions(open, open, replacement);
+  }
+  
+  default @NotNull T replaceRegions(@NotNull String open, @Null String close, @NotNull Function<String, CharSequence> replacement) {
+    if (close == null) {
+      close = open;
+    }
+    var start    = 0;
+    var idxOpen  = indexOf(open, start);
+    var idxClose = indexOf(close, idxOpen + 1);
+    while ((idxOpen != -1) && (idxClose != -1)) {
+      var inner = substring(idxOpen + open.length(), idxClose);
+      var value = replacement.apply(inner);
+      delete(idxOpen, idxClose + close.length());
+      if (value != null) {
+        insert(idxOpen, value);
+        start = idxOpen + value.length();
+      } else {
+        start = idxOpen;
+      }
+      idxOpen  = indexOf(open, start);
+      idxClose = indexOf(close, idxOpen + 1);
+    }
+    return (T) this;
+  }
+  
+  default @NotNull T appendFilling(@Min(1) int count, char ch) {
+    char[] charray = new char[count];
+    Arrays.fill(charray, ch);
+    return append(charray);
   }
   
 } /* ENDINTERFACE */

@@ -5,13 +5,17 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.function.Function;
+
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -300,7 +304,9 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
   
   @Test(dataProvider = "dataStringBuffers", groups = "all")
   public void endsWith(T buffer) {
+    
     buffer.appendF("The frog is here !");
+    
     assertTrue  (buffer.endsWith(true, "here !"));
     assertFalse (buffer.endsWith(true, "HERE !"));
     assertTrue  (buffer.endsWith(false, "HERE !"));
@@ -308,11 +314,25 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     assertFalse (buffer.endsWith("HERE !"));
     assertFalse (buffer.endsWith(true, "The frog is here ! Oops !"));
     assertFalse (buffer.endsWith(false, "The frog is here ! Oops !"));
+    
+  }
+
+  @Test(groups = "all")
+  public void endsWithMany() {
+    
+    var buffer = create("The frog is here !");
+    
+    assertNull(buffer.endsWithMany("Here !"));
+    assertThat(buffer.endsWithMany(false, "Here !"), is("Here !"));
+    assertThat(buffer.endsWithMany("here !"), is("here !"));
+
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
   public void startsWith(T buffer) {
+    
     buffer.appendF("The frog is here !");
+    
     assertTrue  (buffer.startsWith(true, "The"));
     assertFalse (buffer.startsWith(true, "THE"));
     assertTrue  (buffer.startsWith(false, "THE"));
@@ -320,6 +340,18 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     assertFalse (buffer.startsWith("THE"));
     assertFalse (buffer.startsWith(true, "The frog is here ! Oops !"));
     assertFalse (buffer.startsWith(false, "The frog is here ! Oops !"));
+    
+  }
+
+  @Test(groups = "all")
+  public void startsWithMany() {
+    
+    var buffer = create("The frog is here !");
+    
+    assertNull(buffer.startsWithMany("the"));
+    assertThat(buffer.startsWithMany(false, "the"), is("the"));
+    assertThat(buffer.startsWithMany("The"), is("The"));
+    
   }
 
   @Test(dataProvider = "dataStringBuffers", groups = "all")
@@ -542,6 +574,41 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     buffer2.replaceAll(replacements, "${%s}");
     assertThat(buffer2.toString(), is( "The pseudo company Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]" ) );
 
+  }
+  
+  @DataProvider(name = "createRegionReplaceSimple")
+  public Object[][] createRegionReplaceSimple() {
+    return new Object[][] {
+      {create("this is // my text // without a section // dodo //"), "", "this is  without a section "},
+      {create("this is // // my text // without a section // dodo //"), "", "this is  my text  dodo //"},
+      {create("this is // // my text // without a section // dodo // //"), "", "this is  my text  dodo "},
+      {create("this is // my text // without a section // dodo //"), "bibo", "this is bibo without a section bibo"},
+      {create("this is // // my text // without a section // dodo //"), "bibo", "this is bibo my text bibo dodo //"},
+      {create("this is // // my text // without a section // dodo // //"), "bibo", "this is bibo my text bibo dodo bibo"},
+    };
+  }
+  
+  @Test(groups = "all", dataProvider = "createRegionReplaceSimple")
+  public void regionReplaceSimple(T buffer, String replacement, String expected) {
+    assertThat(buffer.replaceRegions("//", replacement).toString(), is( expected ) );
+  }
+
+  @DataProvider(name = "createRegionReplaceFunction")
+  public Object[][] createRegionReplaceFunction() {
+    Map<String, String> mapping = new HashMap<>();
+    mapping.put("my text", "changed text");
+    mapping.put("dodo", "dodo text");
+    Function<String, CharSequence> replacement = $ -> mapping.get($.trim());
+    return new Object[][] {
+      {create("this is // my text // without a section // dodo //"), replacement, "this is changed text without a section dodo text"},
+      {create("this is // // my text // without a section // dodo //"), replacement, "this is  my text  dodo //"},
+      {create("this is // // my text // without a section // dodo // //"), replacement, "this is  my text  dodo "},
+    };
+  }
+  
+  @Test(groups = "all", dataProvider = "createRegionReplaceFunction")
+  public void regionReplaceFunction(T buffer, Function<String, CharSequence> replacement, String expected) {
+    assertThat(buffer.replaceRegions("//", replacement).toString(), is(expected));
   }
 
   protected abstract T create(String input);

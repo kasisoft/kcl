@@ -4,6 +4,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import java.util.function.Function;
+
 import java.util.stream.IntStream;
 
 import java.util.regex.Pattern;
@@ -376,8 +378,28 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   }
 
   @Override
+  public synchronized <R extends CharSequence> @Null R startsWithMany(@Null R ... candidates) {
+    return StringLike.super.startsWithMany(candidates);
+  }
+
+  @Override
+  public synchronized <R extends CharSequence> @Null R startsWithMany(boolean casesensitive, @Null R ... candidates) {
+    return StringLike.super.startsWithMany(casesensitive, candidates);
+  }
+
+  @Override
   public synchronized boolean endsWith(@NotNull String totest) {
     return StringLike.super.endsWith(totest);
+  }
+  
+  @Override
+  public synchronized <R extends CharSequence> @Null R endsWithMany(@Null R ... candidates) {
+    return StringLike.super.endsWithMany(candidates);
+  }
+
+  @Override
+  public synchronized <R extends CharSequence> @Null R endsWithMany(boolean casesensitive, @Null R ... candidates) {
+    return StringLike.super.endsWithMany(casesensitive, candidates);
   }
 
   @Override
@@ -517,6 +539,26 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
 
   public synchronized @NotNull StringFBuffer replaceAll(@NotNull Map<String, String> replacements, @Null String fmt) {
     return StringLike.super.replaceAll(replacements, fmt);
+  }
+
+  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @NotNull String replacement) {
+    return StringLike.super.replaceRegions(open, replacement);
+  }
+
+  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @Null String close, @NotNull String replacement) {
+    return StringLike.super.replaceRegions(open, close, replacement);
+  }
+
+  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @NotNull Function<String, CharSequence> replacement) {
+    return StringLike.super.replaceRegions(open, replacement);
+  }
+  
+  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @Null String close, @NotNull Function<String, CharSequence> replacement) {
+    return StringLike.super.replaceRegions(open, close, replacement);
+  }
+
+  public synchronized @NotNull StringFBuffer appendFilling(@Min(1) int count, char ch) {
+    return StringLike.super.appendFilling(count, ch);
   }
   
   private synchronized void writeObject(ObjectOutputStream s) throws IOException {
