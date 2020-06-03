@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.config;
 
-import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
+import com.kasisoft.libs.common.converters.TypeAdapter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

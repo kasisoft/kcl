@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
+import com.kasisoft.libs.common.converters.StringAdapter;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

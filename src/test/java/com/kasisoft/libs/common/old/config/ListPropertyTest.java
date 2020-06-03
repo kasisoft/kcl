@@ -6,7 +6,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
+import com.kasisoft.libs.common.converters.ColorAdapter;
 
 import org.testng.annotations.Test;
 

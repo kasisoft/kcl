@@ -1,11 +1,11 @@
 package com.kasisoft.libs.common.old.constants;
 
+import com.kasisoft.libs.common.converters.DoubleAdapter;
+import com.kasisoft.libs.common.converters.FileAdapter;
+import com.kasisoft.libs.common.converters.PathAdapter;
+import com.kasisoft.libs.common.converters.StringAdapter;
+import com.kasisoft.libs.common.converters.VersionAdapter;
 import com.kasisoft.libs.common.old.config.SimpleProperty;
-import com.kasisoft.libs.common.old.xml.adapters.DoubleAdapter;
-import com.kasisoft.libs.common.old.xml.adapters.FileAdapter;
-import com.kasisoft.libs.common.old.xml.adapters.PathAdapter;
-import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
-import com.kasisoft.libs.common.old.xml.adapters.VersionAdapter;
 import com.kasisoft.libs.common.types.Version;
 
 import java.util.List;

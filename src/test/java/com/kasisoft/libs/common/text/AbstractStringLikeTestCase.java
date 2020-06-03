@@ -13,6 +13,8 @@ import org.testng.annotations.Test;
 
 import java.util.function.Function;
 
+import java.util.regex.Pattern;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -443,6 +445,14 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     parts = buffer.splitRegex("[0-9]+");
     assertNotNull(parts);
     assertThat(parts.length, is(0));
+    
+    buffer.setLength(0);
+    buffer.append("part,0");
+    parts = buffer.splitRegex(Pattern.quote(","));
+    assertNotNull(parts);
+    assertThat(parts.length, is(2));
+    assertThat(parts[0], is("part"));
+    assertThat(parts[1], is("0"));
     
   }
 

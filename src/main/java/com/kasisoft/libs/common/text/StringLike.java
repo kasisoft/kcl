@@ -643,7 +643,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
    */
   default @NotNull String[] splitRegex(@NotNull Pattern pattern) {
-    return Buckets.bucketArrayList().forInstance($ -> {
+     return Buckets.<String>bucketArrayList().forInstance($ -> {
       var matcher = pattern.matcher(this);
       var last    = 0;
       var match   = false;
@@ -654,7 +654,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
         }
         last = matcher.end();
       }
-      if (match && (last < length() - 1)) {
+      if (match && (last < length())) {
         $.add(substring(last));
       }
       if (!match) {

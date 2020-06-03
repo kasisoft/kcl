@@ -11,6 +11,8 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.io.File;
+
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
@@ -40,25 +42,37 @@ public class AbstractTestCase {
     }
   }
   
-  public @NotNull Optional<Path> findResource(@NotNull String resource) {
-    URL url = getClass().getClassLoader().getResource(resource);
+  public @NotNull Optional<Path> findRootFolder() {
+    URL url = getClass().getClassLoader().getResource(rootFolder);
     if (url == null) {
       return Optional.empty();
     }
     try {
-      Path result = Paths.get(url.toURI());
-      if (!result.toFile().isFile()) {
-        return Optional.empty();
-      }
-      return Optional.of(result);
+      return Optional.of(Paths.get(url.toURI()));
     } catch (Exception ex) {
       fail(ex.getLocalizedMessage());
       return null;
     }
   }
   
-  private @NotNull Path getResource(@NotNull String resource) {
-    return findResource(resource).orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", resource)));
+  public @NotNull Path getRootFolder() {
+    return findRootFolder().orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", rootFolder)));
+  }
+
+  public @NotNull Optional<Path> findResource(@NotNull String resource) {
+    return findRootFolder().map($ -> $.resolve(resource));
   }
   
+  public @NotNull Path getResource(@NotNull String resource) {
+    return findResource(resource).orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", resource)));
+  }
+
+  public @NotNull Optional<File> findResourceAsFile(@NotNull String resource) {
+    return findResource(resource).map(Path::toFile);
+  }
+
+  public @NotNull File getResourceAsFile(@NotNull String resource) {
+    return findResourceAsFile(resource).orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", resource)));
+  }
+
 } /* ENDCLASS */

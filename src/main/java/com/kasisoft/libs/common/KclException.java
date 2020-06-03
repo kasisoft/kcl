@@ -3,6 +3,8 @@ package com.kasisoft.libs.common;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import java.util.function.Supplier;
+
 /**
  * Specialisation of the RuntimeException which is commonly used within this library.
  * 
@@ -24,7 +26,7 @@ public class KclException extends RuntimeException {
     super(formatString(fmt, args));
   }
   
-  KclException(@NotNull Exception ex, @NotNull String fmt, Object ... args) {
+  public KclException(@NotNull Exception ex, @NotNull String fmt, Object ... args) {
     super(formatString(fmt, args), ex);
   }
   
@@ -34,6 +36,16 @@ public class KclException extends RuntimeException {
       result = String.format(fmt, args);
     }
     return result;
+  }
+  
+  public static <R> R execute(Supplier<R> supplier, String fmt, Object ... args) {
+    try {
+      return supplier.get();
+    } catch (KclException ex) {
+      throw ex;
+    } catch (Exception ex) {
+      throw new KclException(ex, fmt, args);
+    }
   }
   
   /**

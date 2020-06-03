@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.old.data;
 
+import com.kasisoft.libs.common.converters.StringAdapter;
 import com.kasisoft.libs.common.old.csv.CsvColumn;
 import com.kasisoft.libs.common.old.csv.CsvOptions;
 import com.kasisoft.libs.common.old.csv.CsvTableModel;
 import com.kasisoft.libs.common.old.util.MiscFunctions;
-import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
 import com.kasisoft.libs.common.types.Pair;
 
 import java.util.function.BiConsumer;

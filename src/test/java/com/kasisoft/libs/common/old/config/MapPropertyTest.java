@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
+import com.kasisoft.libs.common.converters.ColorAdapter;
 
 import org.testng.annotations.Test;
 

@@ -4,9 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import com.kasisoft.libs.common.converters.ColorAdapter;
+import com.kasisoft.libs.common.converters.StringAdapter;
 import com.kasisoft.libs.common.old.constants.SysProperty;
-import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
-import com.kasisoft.libs.common.old.xml.adapters.StringAdapter;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

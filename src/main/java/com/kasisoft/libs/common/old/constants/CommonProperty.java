@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.constants;
 
+import com.kasisoft.libs.common.converters.FileAdapter;
+import com.kasisoft.libs.common.converters.IntAdapter;
 import com.kasisoft.libs.common.old.config.SimpleProperty;
-import com.kasisoft.libs.common.old.xml.adapters.FileAdapter;
-import com.kasisoft.libs.common.old.xml.adapters.IntegerAdapter;
 
 import java.io.File;
 
@@ -22,7 +22,7 @@ public interface CommonProperty {
    * @deprecated [22-JUL-2018:KASI]   Use LibConfig#cfgIoRetries instead
    */
   @Deprecated
-  SimpleProperty<Integer>  IoRetries   = new SimpleProperty<> ( "com.kasisoft.libs.common.old.old#IORETRIES"  , new IntegerAdapter () ).withDefault( Integer.valueOf( 5 ) );
+  SimpleProperty<Integer>  IoRetries   = new SimpleProperty<> ( "com.kasisoft.libs.common.old.old#IORETRIES"  , new IntAdapter () ).withDefault( Integer.valueOf( 5 ) );
 
   /**
    * @deprecated [22-JUL-2018:KASI]   Use LibConfig#cfgTempDir instead

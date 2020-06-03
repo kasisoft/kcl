@@ -1,9 +1,11 @@
 package com.kasisoft.libs.common.types;
 
+import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.buckets.Buckets;
 import com.kasisoft.libs.common.text.StringFBuilder;
 import com.kasisoft.libs.common.text.StringFunctions;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import java.text.ParseException;
@@ -13,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 
 /**
  * A simple descriptional datastructure for a version.
@@ -90,10 +91,8 @@ public class Version implements Comparable<Version> {
    * @param version        A textual description of a version. Neither <code>null</code> nor empty.
    * @param hasmicro       <code>true</code> <=> Process a micro number.
    * @param hasqualifier   <code>true</code> <=> Process a optional qualifier.
-   * 
-   * @throws ParseException   The textual presentation is invalid.
    */
-  public Version(String version, boolean hasmicro, boolean hasqualifier) throws ParseException {
+  public Version(String version, boolean hasmicro, boolean hasqualifier) {
     this(version, Boolean.valueOf(hasmicro), Boolean.valueOf(hasqualifier));
   }
 
@@ -101,10 +100,8 @@ public class Version implements Comparable<Version> {
    * Creates a new instance based upon the supplied textual description.
    * 
    * @param version  A textual description of a version. Neither <code>null</code> nor empty.
-   * 
-   * @throws ParseException   The textual presentation is invalid.
    */
-  public Version(String version) throws ParseException {
+  public Version(String version) {
     this(version, null, null);
   }
 
@@ -114,10 +111,8 @@ public class Version implements Comparable<Version> {
    * @param version        A textual description of a version. Neither <code>null</code> nor empty.
    * @param hasmicro       <code>true</code> <=> Process a micro number.
    * @param hasqualifier   <code>true</code> <=> Process a optional qualifier.
-   * 
-   * @throws ParseException   The textual presentation is invalid.
    */
-  private Version(@NonNull String version, Boolean hasmicro, Boolean hasqualifier) throws ParseException {
+  private Version(@NotNull String version, Boolean hasmicro, Boolean hasqualifier) {
 
     int idx = 0;
     try {
@@ -167,7 +162,7 @@ public class Version implements Comparable<Version> {
       text = toText();
       
     } catch (Exception ex) {
-      throw new ParseException(version, idx);
+      throw new KclException(ex, "Cannot parse version '%s'", version);
     }
     
   }
