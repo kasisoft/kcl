@@ -2,7 +2,6 @@ package com.kasisoft.libs.common.old.workspace;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.constants.Encoding;
-import com.kasisoft.libs.common.old.model.Version;
 import com.kasisoft.libs.common.old.ui.SwingFunctions;
 import com.kasisoft.libs.common.old.xml.adapters.BooleanAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.ByteAdapter;
@@ -19,6 +18,7 @@ import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.URIAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.URLAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.VersionAdapter;
+import com.kasisoft.libs.common.types.Version;
 
 import java.util.function.Consumer;
 

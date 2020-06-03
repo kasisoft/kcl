@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.is;
 import static org.testng.Assert.assertNull;
 
 import com.kasisoft.libs.common.old.config.SimpleProperty;
-import com.kasisoft.libs.common.old.model.Version;
 import com.kasisoft.libs.common.old.xml.adapters.BooleanAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.ByteAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.ColorAdapter;
@@ -21,6 +20,7 @@ import com.kasisoft.libs.common.old.xml.adapters.TypeAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.URIAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.URLAdapter;
 import com.kasisoft.libs.common.old.xml.adapters.VersionAdapter;
+import com.kasisoft.libs.common.types.Version;
 
 import org.testng.annotations.Test;
 

@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.xml.adapters;
 
-import com.kasisoft.libs.common.old.model.Version;
+import com.kasisoft.libs.common.types.Version;
 
 import java.util.function.BiConsumer;
 

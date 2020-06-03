@@ -311,6 +311,16 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   }
 
   @Override
+  public synchronized int indexOf(char ... characters) {
+    return StringLike.super.indexOf(characters);
+  }
+
+  @Override
+  public synchronized int indexOf(int index, char ... characters) {
+    return StringLike.super.indexOf(index, characters);
+  }
+
+  @Override
   public synchronized int lastIndexOf(@NotNull String str) {
     return origin.lastIndexOf(str);
   }
@@ -320,6 +330,21 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     return origin.lastIndexOf(str, adjustIndex(index, false));
   }
   
+  @Override
+  public synchronized int lastIndexOf(char ... characters) {
+    return StringLike.super.lastIndexOf(characters);
+  }
+
+  @Override
+  public synchronized int lastIndexOf(boolean leftmost, char ... characters) {
+    return StringLike.super.lastIndexOf(leftmost, characters);
+  }
+
+  @Override
+  public synchronized int lastIndexOf(int index, boolean leftmost, char ... characters) {
+    return StringLike.super.lastIndexOf(index, leftmost, characters);
+  }
+
   @Override
   public synchronized @NotNull StringFBuffer reverse() {
     origin.reverse();

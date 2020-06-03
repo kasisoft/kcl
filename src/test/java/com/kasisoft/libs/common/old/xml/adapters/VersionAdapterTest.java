@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.old.xml.adapters;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import com.kasisoft.libs.common.old.model.Version;
+import com.kasisoft.libs.common.types.Version;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import com.kasisoft.libs.common.old.config.SimpleProperty;
-import com.kasisoft.libs.common.old.model.Version;
+import com.kasisoft.libs.common.types.Version;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;

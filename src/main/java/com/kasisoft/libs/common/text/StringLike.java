@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import java.util.regex.Matcher;
@@ -256,6 +257,31 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    */
   int indexOf(@NotNull String str, int index);
 
+  default int indexOf(char ... characters) {
+    return indexOf(0, characters);
+  }
+
+  default int indexOf(int index, char ... characters) {
+    var result = -1;
+    if ((characters != null) && (characters.length > 0)) {
+      var str = toString();
+      for (char ch : characters) {
+        var idx = str.indexOf(ch);
+        if (idx != -1) {
+          if (result == -1) {
+            result = idx;
+          } else {
+            result = Math.min(idx, result);
+          }
+        }
+        if (result == 0) {
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
   /**
    * Like {@link StringBuilder#indexOf(String)} with the difference that this function provides the position of the
    * leftmost literal which could be found.
@@ -303,6 +329,29 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * @see StringBuilder#lastIndexOf(String, int)
    */
   int lastIndexOf(@NotNull String str, int index);
+
+  default int lastIndexOf(char ... characters) {
+    return lastIndexOf(0, true, characters);
+  }
+
+  default int lastIndexOf(boolean leftmost, char ... characters) {
+    return lastIndexOf(0, leftmost, characters);
+  }
+
+  default int lastIndexOf(int index, boolean leftmost, char ... characters) {
+    int result = -1;
+    if ((characters != null) && (characters.length > 0)) {
+      BiFunction<Integer, Integer, Integer> func = leftmost ? Math::min : Math::max;
+      var str = toString();
+      for (var ch : characters) {
+        var idx = str.lastIndexOf(ch);
+        if (idx != -1) {
+          result = func.apply(idx, result);
+        }
+      }
+    }
+    return result;
+  }
 
   /**
    * Like {@link StringBuilder#lastIndexOf(String,int)} with the difference that this function provides the position of 
