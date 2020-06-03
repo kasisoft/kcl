@@ -5,10 +5,10 @@ import static com.kasisoft.libs.common.old.base.LibConfig.cfgFalseValues;
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgTrueValues;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.function.TriConsumer;
-import com.kasisoft.libs.common.old.model.Pair;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.types.Pair;
+import com.kasisoft.libs.common.types.TriConsumer;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

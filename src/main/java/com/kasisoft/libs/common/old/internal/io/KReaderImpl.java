@@ -4,12 +4,12 @@ import static com.kasisoft.libs.common.old.function.Functions.adaptToTri;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.constants.Encoding;
-import com.kasisoft.libs.common.old.function.TriConsumer;
-import com.kasisoft.libs.common.old.function.TriFunction;
 import com.kasisoft.libs.common.old.io.ExtReader;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.io.KReader;
 import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.types.TriConsumer;
+import com.kasisoft.libs.common.types.TriFunction;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

@@ -10,6 +10,8 @@ import javax.validation.constraints.Null;
  */
 public class KclException extends RuntimeException {
 
+  private static final long serialVersionUID = -7284302896487719569L;
+
   public KclException() {
     super();
   }

@@ -2,10 +2,10 @@ package com.kasisoft.libs.common.old.i18n;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.constants.Encoding;
-import com.kasisoft.libs.common.old.model.Pair;
 import com.kasisoft.libs.common.old.ui.SwingFunctions;
 import com.kasisoft.libs.common.old.util.MiscFunctions;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.types.Pair;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;

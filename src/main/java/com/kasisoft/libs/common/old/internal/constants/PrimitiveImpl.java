@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.old.internal.constants;
 import com.kasisoft.libs.common.old.base.LibConfig;
 import com.kasisoft.libs.common.old.constants.CommonProperty;
 import com.kasisoft.libs.common.old.constants.Primitive;
-import com.kasisoft.libs.common.old.function.TriFunction;
+import com.kasisoft.libs.common.types.TriFunction;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

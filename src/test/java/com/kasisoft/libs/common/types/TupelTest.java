@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.model;
+package com.kasisoft.libs.common.types;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -13,13 +13,13 @@ import org.testng.annotations.Test;
  */
 public class TupelTest {
 
-  private Tupel<String> newTupel( String ... args ) {
-    Tupel<String> result = new Tupel<>();
-    result.setValues( args );
+  private Tupel<String> newTupel(String ... args) {
+    var result = new Tupel<String>();
+    result.setValues(args);
     return result;
   }
   
-  @DataProvider(name="createTupelData")
+  @DataProvider(name = "createTupelData")
   public Object[][] createTupelData() {
     return new Object[][] {
       { newTupel(), null, null },
@@ -29,11 +29,10 @@ public class TupelTest {
     };
   }
   
-  @Test(dataProvider="createTupelData", groups="all")
+  @Test(dataProvider = "createTupelData", groups = "all")
   public void processTupels( Tupel<String> tupel, String first, String last ) {
-    assertThat( tupel.getValue(), is( first ) );
-    assertThat( tupel.getFirst(), is( first ) );
-    assertThat( tupel.getLast(), is( last ) );
+    assertThat(tupel.getFirst(), is(first));
+    assertThat(tupel.getLast(), is(last ));
   }
   
 } /* ENDCLASS */

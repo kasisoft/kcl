@@ -1,5 +1,8 @@
 package com.kasisoft.libs.common.old.function;
 
+import com.kasisoft.libs.common.types.TriConsumer;
+import com.kasisoft.libs.common.types.TriFunction;
+
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
