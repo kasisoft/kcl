@@ -580,7 +580,7 @@ public enum Iso639 implements Predicate<String> {
 
   private static @NotNull Optional<Iso639> findBy(Map<String, Iso639> map, String key) {
     if (key != null) {
-      return Optional.of(map.get(key));
+      return Optional.ofNullable(map.get(key));
     }
     return Optional.empty();
   }
