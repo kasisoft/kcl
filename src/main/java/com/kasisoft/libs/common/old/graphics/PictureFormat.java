@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.graphics;
 
-import com.kasisoft.libs.common.old.constants.MimeType;
+import com.kasisoft.libs.common.constants.MimeType;
 
 import lombok.experimental.FieldDefaults;
 

@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.old.io.datatypes;
 
 import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
 
-import com.kasisoft.libs.common.old.constants.MimeType;
+import com.kasisoft.libs.common.constants.MimeType;
 
 /**
  * FileType for '7z' files.
