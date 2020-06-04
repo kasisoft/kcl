@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.zip.CRC32;
 
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
@@ -46,6 +47,10 @@ public class Buckets {
 
   public static <K, V> Bucket<HashMap<K, V>> bucketHashMap() {
     return BUCKETS.computeIfAbsent(HashMap.class, $ ->new Bucket<>(HashMap::new, $sb -> $sb.clear()));
+  }
+
+  public static Bucket<CRC32> bucketCRC32() {
+    return BUCKETS.computeIfAbsent(CRC32.class, $ ->new Bucket<>(CRC32::new, $sb -> $sb.reset()));
   }
 
 } /* ENDCLASS */

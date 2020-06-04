@@ -1,8 +1,9 @@
-package com.kasisoft.libs.common.old.constants;
+package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.annotation.Specification;
 import com.kasisoft.libs.common.buckets.Bucket;
+import com.kasisoft.libs.common.buckets.Buckets;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,12 +12,12 @@ import java.security.NoSuchAlgorithmException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.ToString;
 import lombok.val;
 
@@ -25,7 +26,7 @@ import lombok.val;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Specification(value = "http://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest", date = "10-Jun-2016")
+@Specification(value = "https://docs.oracle.com/javase/10/docs/api/java/security/MessageDigest.html", date = "04-JUN-2020")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString(of = "algorithm")
 public final class Digest {
@@ -41,12 +42,12 @@ public final class Digest {
   
   static {
     DIGESTS   = new HashMap<>();
-    MD2       = new Digest( "MD2"     );
-    MD5       = new Digest( "MD5"     );
-    SHA1      = new Digest( "SHA-1"   );
-    SHA256    = new Digest( "SHA-256" );
-    SHA384    = new Digest( "SHA-384" );
-    SHA512    = new Digest( "SHA-512" );
+    MD2       = new Digest("MD2");
+    MD5       = new Digest("MD5");
+    SHA1      = new Digest("SHA-1");
+    SHA256    = new Digest("SHA-256");
+    SHA384    = new Digest("SHA-384");
+    SHA512    = new Digest("SHA-512");
   }
   
   /** Neither <code>null</code> nor empty. */
@@ -62,15 +63,15 @@ public final class Digest {
    * 
    * @throws KclException   The supplied alorithm isn't known.
    */
-  public Digest( @NonNull String algorithm ) {
+  public Digest(@NotNull String algorithm) {
     try {
-      MessageDigest.getInstance( algorithm );
-    } catch( NoSuchAlgorithmException ex ) {
-      throw KclException.wrap( ex );
+      MessageDigest.getInstance(algorithm);
+    } catch (NoSuchAlgorithmException ex) {
+      throw new KclException(ex, "Unknown algorithm '%s'!", algorithm);
     }
     this.algorithm  = algorithm;
     bucket          = new Bucket<>(() -> createDigest(algorithm), Digest::resetDigest);
-    DIGESTS.put( algorithm, this );
+    DIGESTS.put(algorithm, this);
   }
   
   /**
@@ -80,8 +81,8 @@ public final class Digest {
    * 
    * @return   The hash value. Neither <code>null</code> nor empty.
    */
-  public String digestToString( @NonNull byte[] ... data ) {
-    return digestToString( 1, data );
+  public @NotNull String digestToString(@NotNull byte[] ... data) {
+    return digestToString(1, data);
   }
 
   /**
@@ -92,17 +93,18 @@ public final class Digest {
    * 
    * @return   The hash value. Neither <code>null</code> nor empty.
    */
-  public String digestToString( int count, @NonNull byte[] ... data ) {
-    byte[]        checksum = digest( count, data );
-    StringBuilder builder  = new StringBuilder();
-    for( byte b : checksum ) {
-      String asbyte = Integer.toString( ( b & 0xff ), 16 );
-      if( asbyte.length() == 1 ) {
-        builder.append( '0' );
+  public @NotNull String digestToString(int count, @NotNull byte[] ... data) {
+    return Buckets.bucketStringFBuilder().forInstance($ -> {
+      var checksum = digest(count, data);
+      for (var b : checksum) {
+        var asbyte = Integer.toString((b & 0xff), 16);
+        if (asbyte.length() == 1) {
+          $.append('0');
+        }
+        $.append(asbyte);
       }
-      builder.append( asbyte );
-    }
-    return builder.toString();
+      return $.toString();
+    });
   }
 
   /**
@@ -112,8 +114,8 @@ public final class Digest {
    * 
    * @return   The hash value. Neither <code>null</code> nor empty.
    */
-  public byte[] digest( @NonNull byte[] ... data ) {
-    return digest( 1, data );
+  public @NotNull byte[] digest(@NotNull byte[] ... data) {
+    return digest(1, data);
   }
 
   /**
@@ -124,25 +126,23 @@ public final class Digest {
    * 
    * @return   The hash value. Neither <code>null</code> nor empty.
    */
-  public byte[] digest( int count, @NonNull byte[] ... data ) {
+  public @NotNull byte[] digest(int count, @NotNull byte[] ... data) {
     MessageDigest digest = null;
     try {
       digest = bucket.allocate();
-      for( int i = 0; i < count; i++ ) {
-        for( int j = 0; j < data.length; j++ ) {
-          digest.update( data[j] );
+      for (var i = 0; i < count; i++) {
+        for (var j = 0; j < data.length; j++) {
+          digest.update(data[j]);
         }
       }
       return digest.digest();
     } finally {
-      if( digest != null ) {
-        bucket.free( digest );
-      }
+      bucket.free(digest);
     }
   }
 
-  public static Digest[] values() {
-    return DIGESTS.values().toArray( new Digest[ DIGESTS.size() ] );
+  public static @NotNull Digest[] values() {
+    return DIGESTS.values().toArray(new Digest[DIGESTS.size()]);
   }
   
   /**
@@ -154,16 +154,16 @@ public final class Digest {
    *               
    * @return   The digest value or <code>null</code> if it cannot be identified.
    */
-  public static Digest valueByName( @NonNull String name ) {
-    for( val digest : Digest.values() ) {
-      if( digest.algorithm.equalsIgnoreCase( name ) ) {
-        return digest;
+  public static Optional<Digest> findByName(@NotNull String name) {
+    for (val digest : Digest.values()) {
+      if (digest.algorithm.equalsIgnoreCase(name)) {
+        return Optional.of(digest);
       }
     }
-    return null;
+    return Optional.empty();
   }
 
-  private static @NotNull MessageDigest createDigest(String algorithm) {
+  private static @NotNull MessageDigest createDigest(@NotNull String algorithm) {
     try {
       return MessageDigest.getInstance(algorithm);
     } catch( NoSuchAlgorithmException ex ) {

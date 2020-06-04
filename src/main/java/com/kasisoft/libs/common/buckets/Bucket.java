@@ -76,7 +76,7 @@ public class Bucket<T> {
    * 
    * @param object   The object that shall be freed. Maybe <code>null</code>.
    */
-  public <R extends T> void free(@NotNull R object) {
+  public <R extends T> void free(@Null R object) {
     if (object != null) {
       synchronized (references) {
         reset.accept(object);

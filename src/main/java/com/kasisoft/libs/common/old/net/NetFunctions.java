@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.old.net;
 
-import com.kasisoft.libs.common.old.constants.Digest;
+import com.kasisoft.libs.common.constants.Digest;
+
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.text.StringFunctions;
 
