@@ -2,7 +2,6 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.annotation.Specification;
-import com.kasisoft.libs.common.old.constants.ByteOrderMark;
 
 import javax.validation.constraints.NotNull;
 

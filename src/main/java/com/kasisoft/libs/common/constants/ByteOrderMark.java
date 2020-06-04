@@ -1,11 +1,13 @@
-package com.kasisoft.libs.common.old.constants;
+package com.kasisoft.libs.common.constants;
+
+import javax.validation.constraints.NotNull;
+
+import java.util.Optional;
 
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.val;
 
 /**
  * Constants the different byte order marks.
@@ -15,16 +17,16 @@ import lombok.val;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ByteOrderMark {
 
-  UTF8    ( new byte[] { (byte) 0xef, (byte) 0xbb, (byte) 0xbf } ) ,
-  UTF16BE ( new byte[] { (byte) 0xfe, (byte) 0xff } ),
-  UTF16LE ( new byte[] { (byte) 0xff, (byte) 0xfe } ),
-  UTF32BE ( new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff } ),
-  UTF32LE ( new byte[] { (byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00 } );
+  UTF8    (new byte[] {(byte) 0xef, (byte) 0xbb, (byte) 0xbf}) ,
+  UTF16BE (new byte[] {(byte) 0xfe, (byte) 0xff}),
+  UTF16LE (new byte[] {(byte) 0xff, (byte) 0xfe}),
+  UTF32BE (new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff}),
+  UTF32LE (new byte[] {(byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00});
   
   /** Not <code>null</code>. */
   @Getter byte[]   BOM;
   
-  ByteOrderMark( byte[] sequence ) {
+  ByteOrderMark(byte[] sequence) {
     BOM = sequence;
   }
   
@@ -35,8 +37,8 @@ public enum ByteOrderMark {
    * 
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
-  public boolean startsWith( @NonNull byte[] data ) {
-    return startsWith( data, 0 );
+  public boolean startsWith(@NotNull byte[] data) {
+    return startsWith(data, 0);
   }
   
   /**
@@ -47,9 +49,9 @@ public enum ByteOrderMark {
    * 
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
-  public boolean startsWith( @NonNull byte[] data, int offset ) {
-    for( int i = 0; (i < BOM.length) && (offset < data.length); i++, offset++ ) {
-      if( data[ offset ] != BOM[i] ) {
+  public boolean startsWith(@NotNull byte[] data, int offset) {
+    for (var i = 0; (i < BOM.length) && (offset < data.length); i++, offset++) {
+      if (data[ offset ] != BOM[i]) {
         return false;
       }
     }
@@ -61,10 +63,10 @@ public enum ByteOrderMark {
    * 
    * @param data   The data to be tested. Not <code>null</code>.
    * 
-   * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
+   * @return   The ByteOrderMark if it could be identified.
    */
-  public static ByteOrderMark identify( @NonNull byte[] data ) {
-    return identify( data, 0 );
+  public static @NotNull Optional<ByteOrderMark> identify(@NotNull byte[] data) {
+    return identify(data, 0);
   }
   
   /**
@@ -73,16 +75,16 @@ public enum ByteOrderMark {
    * @param data     The data to be tested. Not <code>null</code>.
    * @param offset   The location where to start the test. Must be positive.
    * 
-   * @return   The ByteOrderMark if it could be identified. Maybe <code>null</code>.
+   * @return   The ByteOrderMark if it could be identified.
    */
-  public static ByteOrderMark identify( @NonNull byte[] data, int offset ) {
-    val marks = ByteOrderMark.values();
-    for( ByteOrderMark mark : marks ) {
-      if( mark.startsWith( data, offset ) ) {
-        return mark;
+  public static @NotNull Optional<ByteOrderMark> identify(@NotNull byte[] data, int offset) {
+    var marks = ByteOrderMark.values();
+    for (var mark : marks) {
+      if (mark.startsWith( data, offset)) {
+        return Optional.of(mark);
       }
     }
-    return null;
+    return Optional.empty();
   }
   
 } /* ENDENUM */
