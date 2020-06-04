@@ -11,7 +11,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.constants.Encoding;
+
 import com.kasisoft.libs.common.old.constants.Iso3166Test;
 import com.kasisoft.libs.common.old.test.framework.AssertExtension;
 import com.kasisoft.libs.common.old.test.framework.Utilities;

@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.old.constants;
 
-import com.kasisoft.libs.common.old.annotation.Specification;
-import com.kasisoft.libs.common.old.annotation.Specifications;
+import com.kasisoft.libs.common.annotation.Specification;
+import com.kasisoft.libs.common.annotation.Specifications;
 
 import java.util.function.Predicate;
 

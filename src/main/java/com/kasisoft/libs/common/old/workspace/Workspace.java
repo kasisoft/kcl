@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.old.workspace;
 
+import com.kasisoft.libs.common.constants.Encoding;
+
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.converters.BooleanAdapter;
 import com.kasisoft.libs.common.converters.ByteAdapter;
@@ -16,7 +18,6 @@ import com.kasisoft.libs.common.converters.TypeAdapter;
 import com.kasisoft.libs.common.converters.URIAdapter;
 import com.kasisoft.libs.common.converters.URLAdapter;
 import com.kasisoft.libs.common.converters.VersionAdapter;
-import com.kasisoft.libs.common.old.constants.Encoding;
 import com.kasisoft.libs.common.old.ui.SwingFunctions;
 import com.kasisoft.libs.common.types.Version;
 

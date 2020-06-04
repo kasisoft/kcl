@@ -1,8 +1,10 @@
-package com.kasisoft.libs.common.old.constants;
+package com.kasisoft.libs.common.encoding;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+
+import com.kasisoft.libs.common.constants.Encoding;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

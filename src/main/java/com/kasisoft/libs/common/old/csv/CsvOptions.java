@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.csv;
 
-import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.constants.Encoding;
 
 import java.util.ArrayList;
 import java.util.List;

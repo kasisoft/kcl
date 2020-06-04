@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.annotation;
+package com.kasisoft.libs.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

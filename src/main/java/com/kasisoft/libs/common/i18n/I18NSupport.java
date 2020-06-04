@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.i18n;
 
+import com.kasisoft.libs.common.constants.Encoding;
+
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.constants.Encoding;
 import com.kasisoft.libs.common.text.StringFunctions;
 import com.kasisoft.libs.common.types.Pair;
 

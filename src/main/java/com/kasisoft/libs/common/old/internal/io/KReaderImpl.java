@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.old.internal.io;
 
 import static com.kasisoft.libs.common.old.function.Functions.adaptToTri;
 
+import com.kasisoft.libs.common.constants.Encoding;
+
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.constants.Encoding;
 import com.kasisoft.libs.common.old.io.ExtReader;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.io.KReader;

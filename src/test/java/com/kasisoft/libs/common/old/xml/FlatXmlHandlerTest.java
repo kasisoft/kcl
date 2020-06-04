@@ -4,7 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.constants.Encoding;
+
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.test.framework.Utilities;
 

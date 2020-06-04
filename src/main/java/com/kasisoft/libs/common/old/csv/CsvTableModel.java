@@ -3,8 +3,9 @@ package com.kasisoft.libs.common.old.csv;
 import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_INPUTSTREAM_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_OUTPUTSTREAM_EX;
 
+import com.kasisoft.libs.common.constants.Encoding;
+
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.constants.Encoding;
 import com.kasisoft.libs.common.old.function.Functions;
 import com.kasisoft.libs.common.old.function.Predicates;
 import com.kasisoft.libs.common.old.internal.Messages;

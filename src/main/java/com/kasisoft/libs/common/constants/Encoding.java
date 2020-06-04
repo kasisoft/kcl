@@ -1,6 +1,7 @@
-package com.kasisoft.libs.common.old.constants;
+package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.old.annotation.Specification;
+import com.kasisoft.libs.common.annotation.Specification;
+import com.kasisoft.libs.common.old.constants.ByteOrderMark;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 
 import java.util.Hashtable;

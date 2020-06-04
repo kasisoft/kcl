@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.old.io;
 
-import com.kasisoft.libs.common.old.constants.Encoding;
+import com.kasisoft.libs.common.constants.Encoding;
+
 import com.kasisoft.libs.common.old.internal.io.KWriterImpl;
 import com.kasisoft.libs.common.types.TriConsumer;
 import com.kasisoft.libs.common.types.TriFunction;
