@@ -1,4 +1,6 @@
-package com.kasisoft.libs.common.old.constants;
+package com.kasisoft.libs.common.constants;
+
+import javax.validation.constraints.Null;
 
 import lombok.experimental.FieldDefaults;
 
@@ -13,11 +15,11 @@ import lombok.Getter;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum FileSize {
   
-  Byte      (                  1 ,                  1 , "B"  ,   "B" ),
-  KiloByte  (               1000 ,               1024 , "KB" , "KiB" ),
-  MegaByte  (        1000 * 1000 ,        1024 * 1024 , "MB" , "MiB" ),
-  GigaByte  ( 1000 * 1000 * 1000 , 1024 * 1024 * 1024 , "GB" , "GiB" ),
-  TerraByte (                 0L ,                 0L , "TB" , "TiB" );
+  Byte      (                 1 ,                  1 , "B"  ,   "B"),
+  KiloByte  (              1000 ,               1024 , "KB" , "KiB"),
+  MegaByte  (       1000 * 1000 ,        1024 * 1024 , "MB" , "MiB"),
+  GigaByte  (1000 * 1000 * 1000 , 1024 * 1024 * 1024 , "GB" , "GiB"),
+  TerraByte (                0L ,                 0L , "TB" , "TiB");
   
   long     humanSize;
   long     computerSize;
@@ -28,7 +30,7 @@ public enum FileSize {
   @Getter 
   String   computerUnit;
   
-  FileSize( long human, long computer, String humanU, String computerU ) {
+  FileSize(long human, long computer, String humanU, String computerU) {
     humanSize    = human;
     computerSize = computer;
     humanUnit    = humanU;
@@ -43,24 +45,24 @@ public enum FileSize {
     return computerSize;
   }
 
-  public long humanSize( int count ) {
+  public long humanSize(int count) {
     return count * humanSize;
   }
   
-  public long computerSize( int count ) {
+  public long computerSize(int count) {
     return count * computerSize;
   }
 
-  public String humanFormat( int count ) {
-    return String.format( "%d %s", humanSize( count ), humanUnit );
+  public String humanFormat(int count) {
+    return String.format("%d %s", humanSize(count), humanUnit);
   }
 
-  public String computerFormat( int count ) {
-    return String.format( "%d %s", computerSize( count ), computerUnit );
+  public String computerFormat(int count) {
+    return String.format("%d %s", computerSize(count), computerUnit);
   }
 
-  public FileSize next() {
-    switch( this ) {
+  public @Null FileSize next() {
+    switch (this) {
     case Byte     : return KiloByte;
     case KiloByte : return MegaByte;
     case MegaByte : return GigaByte;
@@ -69,8 +71,8 @@ public enum FileSize {
     }
   }
 
-  public FileSize previous() {
-    switch( this ) {
+  public @Null FileSize previous() {
+    switch (this) {
     case KiloByte  : return Byte;
     case MegaByte  : return KiloByte;
     case GigaByte  : return MegaByte;
