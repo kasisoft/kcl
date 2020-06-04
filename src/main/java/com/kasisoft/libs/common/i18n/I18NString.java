@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.i18n;
+package com.kasisoft.libs.common.i18n;
 
 import lombok.experimental.FieldDefaults;
 
@@ -20,13 +20,13 @@ public class I18NString {
   /**
    * @see String#format(String, Object...)
    */
-  public String format( Object ... args ) {
-    if( (args == null) || (args.length == 0) ) {
+  public String format(Object ... args) {
+    if ((args == null) || (args.length == 0)) {
       return value;
     } else {
       try {
-        return String.format( value, args );
-      } catch( Exception ex ) {
+        return String.format(value, args);
+      } catch (Exception ex) {
         return value;
       }
     }
@@ -36,5 +36,5 @@ public class I18NString {
   public String toString() {
     return value;
   }
-        
+
 } /* ENDCLASS */

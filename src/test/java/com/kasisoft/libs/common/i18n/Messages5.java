@@ -1,8 +1,11 @@
-package com.kasisoft.libs.common.old.i18n;
+package com.kasisoft.libs.common.i18n;
 
 import java.util.Locale;
 
-@I18NBasename(resource="messages5",prefix="pre.")
+/**
+ * @author daniel.kasmeroglu@kasisoft.net
+ */
+@I18NBasename(resource = "messages5", prefix = "pre.")
 public class Messages5 {
 
   @I18N("Default.0")
@@ -23,11 +26,11 @@ public class Messages5 {
   @I18N("The text was '%s'")
   public static I18NString  m5;
 
-  @I18N(value="DEFAULT", key="overridden.key")
+  @I18N(value = "DEFAULT", key = "overridden.key")
   public static String m6;
   
   static {
-    I18NSupport.initialize( Locale.GERMANY, Messages5.class );
+    I18NSupport.initialize(Locale.GERMANY, Messages5.class);
   }
   
 } /* ENDCLASS */

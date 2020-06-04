@@ -1,7 +1,10 @@
-package com.kasisoft.libs.common.old.i18n;
+package com.kasisoft.libs.common.i18n;
 
-@I18NBasename(resource="messages3",prefix="pre.")
-public class Messages3 {
+/**
+ * @author daniel.kasmeroglu@kasisoft.net
+ */
+@I18NBasename(resource = "messages2")
+public class Messages2 {
 
   @I18N("Default.0")
   public static String m0;
@@ -19,7 +22,7 @@ public class Messages3 {
   public static String m4;
 
   static {
-    I18NSupport.initialize( Messages3.class );
+    I18NSupport.initialize(Messages2.class);
   }
   
 } /* ENDCLASS */

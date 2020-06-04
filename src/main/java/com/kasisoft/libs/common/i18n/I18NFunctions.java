@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.i18n;
+package com.kasisoft.libs.common.i18n;
 
 import java.util.Locale;
 
@@ -16,8 +16,8 @@ public class I18NFunctions {
    * 
    * @return   The current locale. Not <code>null</code>.
    */
-  public static Locale getLocale( Locale locale ) {
-    if( locale == null ) {
+  public static Locale getLocale(Locale locale) {
+    if (locale == null) {
       return Locale.getDefault();
     } else {
       return locale;
