@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.buckets;
+package com.kasisoft.libs.common.pools;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

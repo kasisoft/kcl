@@ -4,7 +4,6 @@ import static com.kasisoft.libs.common.old.io.DefaultIO.inputstreamEx;
 import static com.kasisoft.libs.common.old.io.DefaultIO.outputstreamEx;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.constants.Alignment;
 
 import javax.swing.JComponent;
 

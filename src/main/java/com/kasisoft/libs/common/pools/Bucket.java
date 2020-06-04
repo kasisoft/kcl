@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.buckets;
+package com.kasisoft.libs.common.pools;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;

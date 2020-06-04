@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.types;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.buckets.Buckets;
+import com.kasisoft.libs.common.pools.Buckets;
 import com.kasisoft.libs.common.text.StringFBuilder;
 import com.kasisoft.libs.common.text.StringFunctions;
 

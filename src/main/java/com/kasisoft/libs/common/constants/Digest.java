@@ -2,8 +2,8 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.annotation.Specification;
-import com.kasisoft.libs.common.buckets.Bucket;
-import com.kasisoft.libs.common.buckets.Buckets;
+import com.kasisoft.libs.common.pools.Bucket;
+import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.NotNull;
 

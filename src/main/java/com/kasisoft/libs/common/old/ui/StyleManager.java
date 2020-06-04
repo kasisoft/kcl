@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.old.ui;
 
-import com.kasisoft.libs.common.old.constants.Alignment;
-
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.Border;

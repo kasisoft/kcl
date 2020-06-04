@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.converters;
 
-import com.kasisoft.libs.common.buckets.Buckets;
+import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;

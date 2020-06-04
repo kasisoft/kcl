@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.buckets;
+package com.kasisoft.libs.common.pools;
 
 import com.kasisoft.libs.common.text.StringFBuffer;
 import com.kasisoft.libs.common.text.StringFBuilder;

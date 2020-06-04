@@ -5,10 +5,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.constants.TimeUnit;
-
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Testcases for the class 'NetFunctions'.

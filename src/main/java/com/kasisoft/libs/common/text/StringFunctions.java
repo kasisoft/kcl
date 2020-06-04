@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.text;
 
-import com.kasisoft.libs.common.buckets.Buckets;
+import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
