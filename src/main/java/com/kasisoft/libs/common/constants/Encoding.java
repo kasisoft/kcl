@@ -222,7 +222,9 @@ public final class Encoding {
   }
   
   public static Encoding[] values() {
-    return ENCODINGS.values().toArray(new Encoding[ENCODINGS.size()]);
+    synchronized (ENCODINGS) {
+      return ENCODINGS.values().toArray(new Encoding[ENCODINGS.size()]);
+    }
   }
   
   /**
@@ -235,7 +237,9 @@ public final class Encoding {
    * @return   The encoding value if available.
    */
   public static @NotNull Optional<Encoding> findByName(@NotNull String name) {
-    return Optional.ofNullable(ENCODINGS.get(name));
+    synchronized (ENCODINGS) {
+      return Optional.ofNullable(ENCODINGS.get(name));
+    }
   }
 
 } /* ENDCLASS */
