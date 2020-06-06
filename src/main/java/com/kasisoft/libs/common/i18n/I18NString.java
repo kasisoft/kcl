@@ -12,7 +12,8 @@ import lombok.Data;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @AllArgsConstructor
-@Data @FieldDefaults(level = AccessLevel.PRIVATE)
+@Data 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18NString {
 
   String   value;
