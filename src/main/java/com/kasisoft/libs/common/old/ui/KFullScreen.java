@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.ui;
 
-import com.kasisoft.libs.common.old.model.ScreenInfo;
+import com.kasisoft.libs.common.types.ScreenInfo;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;

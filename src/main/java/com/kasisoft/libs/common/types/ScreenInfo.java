@@ -1,6 +1,8 @@
-package com.kasisoft.libs.common.old.model;
+package com.kasisoft.libs.common.types;
 
 import com.kasisoft.libs.common.old.util.MiscFunctions;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.function.Function;
 
@@ -36,7 +38,7 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     Comparator<ScreenInfo>          comparator;
     Function<ScreenInfo, Integer>   getter;
     
-    ComparisonMode( Comparator<ScreenInfo> comp, Function<ScreenInfo, Integer> get ) {
+    ComparisonMode(Comparator<ScreenInfo> comp, Function<ScreenInfo, Integer> get) {
       comparator = comp;
       getter     = get;
     }
@@ -63,18 +65,18 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
   int                     pixels;
   int                     ratioPixels;
   
-  public ScreenInfo( String idString, GraphicsConfiguration gc, GraphicsDevice scr, int sWidth, int sHeight ) {
+  public ScreenInfo(String idString, GraphicsConfiguration gc, GraphicsDevice scr, int sWidth, int sHeight) {
     id                    = idString;
     graphicsConfiguration = gc;
     screen                = scr;
     width                 = sWidth;
     height                = sHeight;
     pixels                = width * height;
-    int div               = MiscFunctions.gcd( width, height );
+    int div               = MiscFunctions.gcd(width, height);
     ratioX                = width  / div;
     ratioY                = height / div;
     ratioPixels           = ratioX * ratioY;
-    size                  = new KSize( width, height );
+    size                  = new KSize(width, height);
   }
   
   public boolean isFullScreenSupported() {
@@ -82,39 +84,39 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
   }
 
   @Override
-  public int compareTo( ScreenInfo other ) {
-    int result = Integer.compare( width,  other.width );
-    if( result == 0 ) {
-      result = Integer.compare( height, other.height );
+  public int compareTo(@NotNull ScreenInfo other) {
+    var result = Integer.compare(width, other.width);
+    if (result == 0) {
+      result = Integer.compare(height, other.height);
     }
-    if( result == 0 ) {
-      result = id.compareTo( other.id );
+    if (result == 0) {
+      result = id.compareTo(other.id);
     }
     return result;
   }
   
-  private static int compareByRatio( ScreenInfo s1, ScreenInfo s2 ) {
-    return Integer.compare( s2.ratioPixels, s1.ratioPixels );
+  private static int compareByRatio(ScreenInfo s1, ScreenInfo s2) {
+    return Integer.compare(s2.ratioPixels, s1.ratioPixels);
   }
   
-  private static int compareByPixelCount( ScreenInfo s1, ScreenInfo s2 ) {
-    return Integer.compare( s2.pixels, s1.pixels );
+  private static int compareByPixelCount(ScreenInfo s1, ScreenInfo s2) {
+    return Integer.compare(s2.pixels, s1.pixels);
   }
 
-  private static int compareByWidth( ScreenInfo s1, ScreenInfo s2 ) {
-    return Integer.compare( s2.width, s1.width );
+  private static int compareByWidth(ScreenInfo s1, ScreenInfo s2) {
+    return Integer.compare(s2.width, s1.width);
   }
 
-  private static int compareByHeight( ScreenInfo s1, ScreenInfo s2 ) {
-    return Integer.compare( s2.height, s1.height );
+  private static int compareByHeight(ScreenInfo s1, ScreenInfo s2) {
+    return Integer.compare(s2.height, s1.height);
   }
 
-  private static int difference( ScreenInfo s1, ScreenInfo s2, Function<ScreenInfo, Integer> getter ) {
-    int     val1 = getter.apply( s1 );
-    int     val2 = getter.apply( s2 );
-    double  max  = Math.max( val1, val2 );
-    double  min  = Math.min( val1, val2 );
-    double  v    = (max - min) / max;
+  private static int difference(ScreenInfo s1, ScreenInfo s2, Function<ScreenInfo, Integer> getter) {
+    var val1 = getter.apply(s1);
+    var val2 = getter.apply(s2);
+    var max  = Math.max(val1, val2);
+    var min  = Math.min(val1, val2);
+    var v    = (max - min) / max;
     return (int) (v * 100.0);
   }
 

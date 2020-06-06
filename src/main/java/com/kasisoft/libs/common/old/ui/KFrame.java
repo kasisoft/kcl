@@ -2,10 +2,10 @@ package com.kasisoft.libs.common.old.ui;
 
 import com.kasisoft.libs.common.converters.RectangleAdapter;
 import com.kasisoft.libs.common.old.config.SimpleProperty;
-import com.kasisoft.libs.common.old.model.ScreenInfo;
 import com.kasisoft.libs.common.old.workspace.Workspace;
 import com.kasisoft.libs.common.old.workspace.WorkspacePersistent;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.types.ScreenInfo;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;

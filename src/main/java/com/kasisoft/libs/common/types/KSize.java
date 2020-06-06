@@ -1,4 +1,6 @@
-package com.kasisoft.libs.common.old.model;
+package com.kasisoft.libs.common.types;
+
+import javax.validation.constraints.NotNull;
 
 import java.awt.Dimension;
 
@@ -16,7 +18,7 @@ public class KSize {
   int   width;
   int   height;
   
-  public KSize( Dimension dim ) {
+  public KSize(@NotNull Dimension dim) {
     width   = dim.width;
     height  = dim.height;
   }
