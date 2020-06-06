@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.types;
+package com.kasisoft.libs.common.functional;
 
 import java.util.function.Function;
 

@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
 
+import com.kasisoft.libs.common.functional.TriConsumer;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.util.ResourceExtractor;
 import com.kasisoft.libs.common.text.StringFunctions;
 import com.kasisoft.libs.common.types.Pair;
-import com.kasisoft.libs.common.types.TriConsumer;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

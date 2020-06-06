@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.ui;
 
-import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.old.util.ExtArrayList;
 import com.kasisoft.libs.common.types.Pair;
 import com.kasisoft.libs.common.types.ScreenInfo;

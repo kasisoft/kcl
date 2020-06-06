@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.io;
 
+import com.kasisoft.libs.common.functional.TriConsumer;
+import com.kasisoft.libs.common.functional.TriFunction;
 import com.kasisoft.libs.common.old.internal.io.KInputStreamImpl;
-import com.kasisoft.libs.common.types.TriConsumer;
-import com.kasisoft.libs.common.types.TriFunction;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

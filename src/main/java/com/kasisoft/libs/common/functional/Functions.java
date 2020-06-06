@@ -1,7 +1,4 @@
-package com.kasisoft.libs.common.utils;
-
-import com.kasisoft.libs.common.types.TriConsumer;
-import com.kasisoft.libs.common.types.TriFunction;
+package com.kasisoft.libs.common.functional;
 
 import javax.validation.constraints.NotNull;
 
@@ -44,19 +41,19 @@ public class Functions {
     return $ -> $ != null ? delegate.apply($) : null;
   }
   
-  public static <A, B, C, R> @NotNull TriFunction<A, B, C, R> adaptToTri(@NotNull Function<A, R> function) {
+  public static <A, B, C, R> com.kasisoft.libs.common.functional.TriFunction<A, B, C, R> adaptToTri(@NotNull Function<A, R> function) {
     return ($a, $b, $c) -> function.apply($a);
   }
 
-  public static <A, B, C, R> @NotNull TriFunction<A, B, C, R> adaptToTri(@NotNull BiFunction<A, B, R> function) {
+  public static <A, B, C, R> com.kasisoft.libs.common.functional.TriFunction<A, B, C, R> adaptToTri(@NotNull BiFunction<A, B, R> function) {
     return ($a, $b, $c) -> function.apply($a, $b);
   }
 
-  public static <A, B, C> @NotNull TriConsumer<A, B, C> adaptToTri(@NotNull Consumer<A> consumer) {
+  public static <A, B, C> com.kasisoft.libs.common.functional.TriConsumer<A, B, C> adaptToTri(@NotNull Consumer<A> consumer) {
     return ($a, $b, $c) -> consumer.accept($a);
   }
 
-  public static <A, B, C> @NotNull TriConsumer<A, B, C> adaptToTri(@NotNull BiConsumer<A, B> consumer) {
+  public static <A, B, C> com.kasisoft.libs.common.functional.TriConsumer<A, B, C> adaptToTri(@NotNull BiConsumer<A, B> consumer) {
     return ($a, $b, $c) -> consumer.accept($a, $b);
   }
 

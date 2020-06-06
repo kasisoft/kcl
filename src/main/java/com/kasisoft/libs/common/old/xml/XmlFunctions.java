@@ -7,8 +7,8 @@ import com.kasisoft.libs.common.constants.Empty;
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.old.constants.SysProperty;
-import com.kasisoft.libs.common.old.function.Predicates;
 import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
 import com.kasisoft.libs.common.old.io.ExtReader;
 import com.kasisoft.libs.common.old.io.IoFunctions;

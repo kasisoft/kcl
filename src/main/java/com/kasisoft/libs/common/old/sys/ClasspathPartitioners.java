@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.old.sys;
 
+import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.old.data.DefaultPartitioner;
 import com.kasisoft.libs.common.old.data.Partitioner;
-import com.kasisoft.libs.common.old.function.Predicates;
 
 import java.util.Collection;
 

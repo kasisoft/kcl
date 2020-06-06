@@ -6,7 +6,7 @@ import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_READER_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_WRITER_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.URL_INPUTSTREAM_EX;
 
-import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.text.StringFunctions;
 import com.kasisoft.libs.common.utils.MiscFunctions;

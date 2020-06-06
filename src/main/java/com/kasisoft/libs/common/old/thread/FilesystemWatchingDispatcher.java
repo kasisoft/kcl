@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.old.thread;
 
 import static com.kasisoft.libs.common.old.internal.Messages.error_fswatcher_already_started;
 
-import com.kasisoft.libs.common.old.function.Predicates;
+import com.kasisoft.libs.common.functional.Predicates;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
