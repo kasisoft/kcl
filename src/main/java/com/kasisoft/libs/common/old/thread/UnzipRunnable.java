@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
 import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_OUTPUTSTREAM_EX;
+import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PByte;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.io.IoFunctions;

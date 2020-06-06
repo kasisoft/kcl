@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.PChar;
+import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PChar;
 
 import com.kasisoft.libs.common.KclException;
 

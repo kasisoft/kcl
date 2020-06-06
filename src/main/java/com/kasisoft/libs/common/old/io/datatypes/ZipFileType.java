@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.io.datatypes;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
+import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PByte;
 
 import com.kasisoft.libs.common.constants.MimeType;
 

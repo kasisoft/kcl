@@ -60,8 +60,8 @@ public class Bucket<T> {
     T result = null;
     synchronized (references) {
       while ((result == null) && (!references.isEmpty())) {
-        SoftReference<T> reference = references.remove(0);
-        result                     = reference.get();
+        var reference = references.remove(0);
+        result        = reference.get();
         reference.clear();
       }
     }

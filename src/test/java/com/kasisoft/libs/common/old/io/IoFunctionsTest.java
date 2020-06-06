@@ -1,11 +1,11 @@
 package com.kasisoft.libs.common.old.io;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_INPUTSTREAM_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_OUTPUTSTREAM_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_READER_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_WRITER_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.INPUTSTREAM_READER_EX;
+import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PByte;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;

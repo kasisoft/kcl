@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
+import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PByte;
 
 import com.kasisoft.libs.common.KclException;
 

@@ -1,14 +1,14 @@
 package com.kasisoft.libs.common.old.io;
 
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgTempDir;
-import static com.kasisoft.libs.common.old.constants.Primitive.PByte;
-import static com.kasisoft.libs.common.old.constants.Primitive.PChar;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_INPUTSTREAM_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_READER_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.INPUTSTREAM_READER_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_READER_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.URL_INPUTSTREAM_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.URL_READER_EX;
+import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PByte;
+import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PChar;
 
 import com.kasisoft.libs.common.constants.Encoding;
 
