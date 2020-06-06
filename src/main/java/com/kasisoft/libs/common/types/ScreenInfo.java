@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.types;
 
-import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import javax.validation.constraints.NotNull;
 

@@ -19,7 +19,7 @@ import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.thread.LineReaderRunnable;
 import com.kasisoft.libs.common.old.thread.UnzipRunnable;
 import com.kasisoft.libs.common.old.thread.ZipRunnable;
-import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

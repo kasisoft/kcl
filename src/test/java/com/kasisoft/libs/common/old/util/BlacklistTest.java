@@ -7,6 +7,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;

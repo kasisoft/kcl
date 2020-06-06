@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.old.csv;
 
 import com.kasisoft.libs.common.constants.Encoding;
 
-import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import java.util.function.Function;
 

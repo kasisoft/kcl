@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.old.sys;
 
 import com.kasisoft.libs.common.old.thread.ByteCopierRunnable;
-import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import java.util.Hashtable;
 import java.util.Iterator;

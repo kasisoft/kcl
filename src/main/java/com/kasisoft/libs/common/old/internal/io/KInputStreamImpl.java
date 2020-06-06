@@ -6,9 +6,9 @@ import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.io.ExtInputStream;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.io.KInputStream;
-import com.kasisoft.libs.common.old.util.MiscFunctions;
 import com.kasisoft.libs.common.types.TriConsumer;
 import com.kasisoft.libs.common.types.TriFunction;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

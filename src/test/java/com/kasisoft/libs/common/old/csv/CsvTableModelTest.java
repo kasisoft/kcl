@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.testng.Assert.assertEquals;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import org.testng.annotations.Test;
 

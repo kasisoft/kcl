@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.function;
 
-import com.kasisoft.libs.common.old.util.MiscFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

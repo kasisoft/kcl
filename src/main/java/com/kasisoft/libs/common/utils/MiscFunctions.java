@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.util;
+package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgFalseValues;
@@ -6,6 +6,7 @@ import static com.kasisoft.libs.common.old.base.LibConfig.cfgTrueValues;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
+import com.kasisoft.libs.common.old.util.ResourceExtractor;
 import com.kasisoft.libs.common.text.StringFunctions;
 import com.kasisoft.libs.common.types.Pair;
 import com.kasisoft.libs.common.types.TriConsumer;
@@ -402,66 +403,6 @@ public class MiscFunctions {
     return null;
   }
   
-  /**
-   * Closes the supplied Closeable. 
-   * 
-   * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
-   */
-  public static void close( AutoCloseable closeable ) {
-    if( closeable != null ) {
-      try {
-        closeable.close();
-      } catch( Exception ex ) {
-        throw KclException.wrap( ex );
-      }
-    }
-  }
-
-  /**
-   * Closes the supplied Connection. 
-   * 
-   * @param connection   The connection that has to be closed. Maybe <code>null</code>.
-   */
-  public static void close( Connection connection ) {
-    if( connection != null ) {
-      try {
-        connection.close();
-      } catch( Exception ex ) {
-        throw KclException.wrap( ex );
-      }
-    }
-  }
-
-  /**
-   * Like {@link #close(Closeable)} without complaining.
-   * 
-   * @param closeable   The Closeable that has to be closed. Maybe <code>null</code>.
-   */
-  public static void closeQuietly( AutoCloseable closeable ) {
-    if( closeable != null ) {
-      try {
-        closeable.close();
-      } catch( Exception ex ) {
-        // don't complain
-      }
-    }
-  }
-
-  /**
-   * Like {@link #close(Connection)} without complaining.
-   * 
-   * @param connection   The connection that has to be closed. Maybe <code>null</code>.
-   */
-  public static void closeQuietly( Connection connection ) {
-    if( connection != null ) {
-      try {
-        connection.close();
-      } catch( Exception ex ) {
-        // don't complain
-      }
-    }
-  }
-
   /**
    * Returns <code>true</code> if the supplied year is a leap year.
    * 

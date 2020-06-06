@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.util;
+package com.kasisoft.libs.common.utils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -8,6 +8,7 @@ import static org.testng.Assert.assertTrue;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.types.Pair;
 import com.kasisoft.libs.common.types.Tupel;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

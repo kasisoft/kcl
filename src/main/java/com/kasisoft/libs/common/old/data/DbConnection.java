@@ -4,8 +4,8 @@ import com.kasisoft.libs.common.converters.StringAdapter;
 import com.kasisoft.libs.common.old.csv.CsvColumn;
 import com.kasisoft.libs.common.old.csv.CsvOptions;
 import com.kasisoft.libs.common.old.csv.CsvTableModel;
-import com.kasisoft.libs.common.old.util.MiscFunctions;
 import com.kasisoft.libs.common.types.Pair;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

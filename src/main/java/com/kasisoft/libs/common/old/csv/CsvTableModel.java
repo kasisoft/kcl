@@ -13,8 +13,8 @@ import com.kasisoft.libs.common.old.io.DefaultIO;
 import com.kasisoft.libs.common.old.io.ExtReader;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.io.KReader;
-import com.kasisoft.libs.common.old.util.MiscFunctions;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
