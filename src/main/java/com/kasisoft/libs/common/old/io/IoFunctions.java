@@ -10,10 +10,10 @@ import static com.kasisoft.libs.common.old.io.DefaultIO.URL_READER_EX;
 import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PByte;
 import static com.kasisoft.libs.common.utils.PrimitiveFunctions.PChar;
 
+import com.kasisoft.libs.common.constants.Empty;
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.constants.Empty;
 import com.kasisoft.libs.common.old.function.Predicates;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.thread.LineReaderRunnable;

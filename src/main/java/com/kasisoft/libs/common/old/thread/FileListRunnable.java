@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.thread;
 
-import static com.kasisoft.libs.common.old.constants.Empty.NO_FILES;
+import static com.kasisoft.libs.common.constants.Empty.NO_FILES;
 
 import com.kasisoft.libs.common.old.io.IoFunctions;
 

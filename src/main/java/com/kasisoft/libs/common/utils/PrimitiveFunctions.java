@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.utils;
 
+import com.kasisoft.libs.common.constants.Empty;
+
 import com.kasisoft.libs.common.KclException;
 
 import javax.validation.constraints.Min;
@@ -145,7 +147,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull byte[] concat(@NotNull byte[] ... buffers) {
     if (buffers.length == 0) {
-      return new byte[0];
+      return Empty.NO_BYTES;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);
@@ -311,7 +313,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull short[] concat(@NotNull short[] ... buffers) {
     if (buffers.length == 0) {
-      return new short[0];
+      return Empty.NO_SHORTS;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);
@@ -477,7 +479,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull int[] concat(@NotNull int[] ... buffers) {
     if (buffers.length == 0) {
-      return new int[0];
+      return Empty.NO_INTS;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);
@@ -643,7 +645,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull long[] concat(@NotNull long[] ... buffers) {
     if (buffers.length == 0) {
-      return new long[0];
+      return Empty.NO_LONGS;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);
@@ -809,7 +811,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull float[] concat(@NotNull float[] ... buffers) {
     if (buffers.length == 0) {
-      return new float[0];
+      return Empty.NO_FLOATS;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);
@@ -975,7 +977,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull double[] concat(@NotNull double[] ... buffers) {
     if (buffers.length == 0) {
-      return new double[0];
+      return Empty.NO_DOUBLES;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);
@@ -1117,7 +1119,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull char[] concat(@NotNull char[] ... buffers) {
     if (buffers.length == 0) {
-      return new char[0];
+      return Empty.NO_CHARS;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);
@@ -1285,7 +1287,7 @@ public class PrimitiveFunctions {
 
   public static @NotNull boolean[] concat(@NotNull boolean[] ... buffers) {
     if (buffers.length == 0) {
-      return new boolean[0];
+      return Empty.NO_BOOLEANS;
     }
     if (buffers.length == 1) {
       return Arrays.copyOf(buffers[0], buffers[0].length);

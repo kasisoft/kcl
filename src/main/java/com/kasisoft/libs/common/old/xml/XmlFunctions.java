@@ -3,10 +3,10 @@ package com.kasisoft.libs.common.old.xml;
 import static com.kasisoft.libs.common.old.io.DefaultIO.outputstream;
 import static com.kasisoft.libs.common.old.io.DefaultIO.readerEx;
 
+import com.kasisoft.libs.common.constants.Empty;
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.constants.Empty;
 import com.kasisoft.libs.common.old.constants.SysProperty;
 import com.kasisoft.libs.common.old.function.Predicates;
 import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
