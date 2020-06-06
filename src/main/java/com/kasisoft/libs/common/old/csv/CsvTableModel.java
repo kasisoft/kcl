@@ -6,7 +6,6 @@ import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_OUTPUTSTREAM_EX;
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.function.Functions;
 import com.kasisoft.libs.common.old.function.Predicates;
 import com.kasisoft.libs.common.old.internal.Messages;
 import com.kasisoft.libs.common.old.io.DefaultIO;
@@ -14,6 +13,7 @@ import com.kasisoft.libs.common.old.io.ExtReader;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.io.KReader;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.utils.Functions;
 import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import javax.swing.event.EventListenerList;

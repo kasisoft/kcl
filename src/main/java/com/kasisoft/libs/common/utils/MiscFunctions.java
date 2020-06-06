@@ -1,10 +1,7 @@
 package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
-import static com.kasisoft.libs.common.old.base.LibConfig.cfgFalseValues;
-import static com.kasisoft.libs.common.old.base.LibConfig.cfgTrueValues;
 
-import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.util.ResourceExtractor;
 import com.kasisoft.libs.common.text.StringFunctions;
@@ -13,9 +10,6 @@ import com.kasisoft.libs.common.types.TriConsumer;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -23,7 +17,6 @@ import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,7 +26,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -45,14 +37,11 @@ import java.nio.file.Paths;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import java.sql.Connection;
 
 import lombok.experimental.FieldDefaults;
 
@@ -376,33 +365,6 @@ public class MiscFunctions {
     return result;
   }
 
-  /**
-   * Creates a copy of the supplied instance.
-   * 
-   * @param source   The instance that has to be copied. Maybe <code>null</code>.
-   * 
-   * @return   A copy of the supplied instance. <code>null</code> if <code>source</code> was <code>null</code>.
-   */
-  public static <T extends Serializable> T clone( T source ) {
-    if( source != null ) {
-      ByteArrayOutputStream byteout   = null;
-      ObjectOutputStream    objectout = null;
-      try {
-        byteout   = new ByteArrayOutputStream();
-        objectout = new ObjectOutputStream( byteout );
-        objectout.writeObject( source );
-        objectout.flush();
-        objectout.close();
-        ByteArrayInputStream  bytein    = new ByteArrayInputStream( byteout.toByteArray() );
-        ObjectInputStream     objectin  = new ObjectInputStream( bytein );
-        return (T) objectin.readObject();
-      } catch( IOException | ClassNotFoundException ex ) {
-        // since we're only working in memory this should never happen
-      }
-    }
-    return null;
-  }
-  
   /**
    * Returns <code>true</code> if the supplied year is a leap year.
    * 

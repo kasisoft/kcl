@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.old.internal.io;
 
-import static com.kasisoft.libs.common.old.function.Functions.adaptToTri;
+import static com.kasisoft.libs.common.utils.Functions.adaptToTri;
 
 import com.kasisoft.libs.common.constants.Encoding;
 
