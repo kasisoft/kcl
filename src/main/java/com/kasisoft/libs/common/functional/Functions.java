@@ -89,4 +89,12 @@ public class Functions {
     return $ -> consumer.accept($, null, null);
   }
   
+  public static <A> @NotNull SimpleFunction<A> adapt(@NotNull Consumer<A> consumer) {
+    return $ -> {
+      consumer.accept($);
+      return $;
+    };
+  }
+
+  
 } /* ENDCLASS */

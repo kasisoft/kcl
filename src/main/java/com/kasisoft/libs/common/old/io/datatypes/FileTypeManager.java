@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.old.io.datatypes;
 
 import com.kasisoft.libs.common.old.io.DefaultIO;
 import com.kasisoft.libs.common.old.io.IoFunctions;
-import com.kasisoft.libs.common.old.spi.MultiSPILoader;
+import com.kasisoft.libs.common.spi.MultiSPILoader;
 
 import java.util.Collections;
 import java.util.Comparator;
