@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.io;
 
+import com.kasisoft.libs.common.KclException;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -15,10 +17,10 @@ import lombok.AccessLevel;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Closer {
 
-  Consumer<Exception>       errorHandler = $ -> {};
+  Consumer<Exception>       errorHandler = Closer::defaultErrorHandler;
   
   public @NotNull Closer withErrorHandler(@Null Consumer<Exception> handler) {
-    this.errorHandler = handler != null ? handler : $ -> {};
+    this.errorHandler = handler != null ? handler : Closer::defaultErrorHandler;
     return this;
   }
   
@@ -50,6 +52,10 @@ public class Closer {
         // don't complain
       }
     }
+  }
+  
+  private static void defaultErrorHandler(@NotNull Exception ex) {
+    throw KclException.wrap(ex);
   }
 
 } /* ENDCLASS */

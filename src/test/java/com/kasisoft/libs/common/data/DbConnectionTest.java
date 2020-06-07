@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.data;
+package com.kasisoft.libs.common.data;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -6,7 +6,9 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.constants.SysProperty;
+import com.kasisoft.libs.common.data.Database;
+import com.kasisoft.libs.common.data.DbConfig;
+import com.kasisoft.libs.common.data.DbConnection;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 
 import org.testng.annotations.AfterClass;

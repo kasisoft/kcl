@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.data;
+package com.kasisoft.libs.common.data;
 
 import lombok.experimental.FieldDefaults;
 
