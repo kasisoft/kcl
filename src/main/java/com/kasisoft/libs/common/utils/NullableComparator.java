@@ -1,4 +1,6 @@
-package com.kasisoft.libs.common.old.util;
+package com.kasisoft.libs.common.utils;
+
+import javax.validation.constraints.Null;
 
 import java.util.Comparator;
 
@@ -30,25 +32,25 @@ public class NullableComparator<T> implements Comparator<T> {
    * 
    * @param impl   A Comparator implementation used to perform the comparison for two values. Maybe <code>null</code>.
    */
-  public NullableComparator( Comparator<T> impl ) {
+  public NullableComparator(@Null Comparator<T> impl) {
     delegate = impl;
   }
 
   @Override
-  public int compare( T o1, T o2 ) {
-    if( (o1 == null) && (o2 == null) ) {
+  public int compare(T o1, T o2) {
+    if ((o1 == null) && (o2 == null)) {
       return 0;
     }
-    if( (o1 != null) && (o2 != null) ) {
-      if( delegate != null ) {
-        return delegate.compare( o1, o2 );
+    if ((o1 != null) && (o2 != null)) {
+      if (delegate != null) {
+        return delegate.compare(o1, o2);
       } else {
-        return ((Comparable<T>) o1).compareTo( o2 );
+        return ((Comparable<T>) o1).compareTo(o2);
       }
     }
-    if( o1 != null ) {
+    if (o1 != null) {
       return 1;
-    } else /* if( o2 != null ) */ {
+    } else /* if (o2 != null) */ {
       return -1;
     }
   }
