@@ -39,6 +39,23 @@ import lombok.Data;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctionsTest {
 
+  @DataProvider(name = "createGravatarLinkData")
+  public Object[][] createGravatarLinkData() {
+    return new Object[][] {
+      { null                                                                      , null                                  , null },
+      { null                                                                      , null                                  , 12   },
+      { "https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"        , " Daniel.KASMEROGLU@kasisoft.net \n"  , null },
+      { "https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"        , "daniel.kasmeroglu@kasisoft.net"      , null },
+      { "https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d?s=100"  , "daniel.kasmeroglu@kasisoft.net"      , 100  },
+    };
+  }
+  
+  @Test(groups = "all", dataProvider = "createGravatarLinkData")
+  public void getGravatarLink( String expected, String email, Integer size ) {
+    assertThat( NetFunctions.getGravatarLink( email, size ), is( expected ) );
+  }
+  
+
   static final String[] DATEPATTERNS = new String[] {
     "dd.MM.yyyy", "dd-MM-yyyy", "dd MMM - yyyy"
   };
@@ -312,24 +329,6 @@ public class MiscFunctionsTest {
     "/root3/child1/child2/child3"
   });
 
-  @Test(groups = "all")
-  public void parenthesize() {
-    Set<Tupel<String>> children  = new HashSet<>();
-    MiscFunctions.parenthesize(
-      PARENTHESIZE_DATA,
-      $ -> $,
-      ($s, $p, $c) -> children.add( new Tupel<>( $s, $p, $c ) )
-    );
-    assertThat( children.size(), is(34) );
-    for( Tupel<String> child : children ) {
-      if( child.getValues()[1] != null ) {
-        String parent = child.getValues()[1];
-        String sub    = child.getValues()[2];
-        assertTrue( sub.startsWith( parent ) );
-      }
-    }
-  }
-  
   @Data @AllArgsConstructor
   @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class DummyPojo {

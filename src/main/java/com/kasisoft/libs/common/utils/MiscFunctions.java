@@ -2,6 +2,8 @@ package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
 
+import com.kasisoft.libs.common.constants.Digest;
+
 import com.kasisoft.libs.common.functional.TriConsumer;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.util.ResourceExtractor;
@@ -35,13 +37,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 import lombok.experimental.FieldDefaults;
 
@@ -61,6 +57,21 @@ public class MiscFunctions {
    * Prevent instantiation.
    */
   private MiscFunctions() {
+  }
+
+  public static String getGravatarLink( String email, Integer size ) {
+    // @spec [25-11-2017:KASI] https://en.gravatar.com/site/implement/hash/ 
+    String result = null;
+    if( email != null ) {
+      result = StringFunctions.cleanup( email.toLowerCase() );
+      result = Digest.MD5.digestToString( result.getBytes() );
+      result = String.format( "https://www.gravatar.com/avatar/%s", result );
+      if( size != null ) {
+        result += String.format( "?s=%d", size );
+      }
+    }
+    return result;
+
   }
 
   /**
@@ -448,88 +459,6 @@ public class MiscFunctions {
     return result;
   }
 
-  private static List<String> split( String str ) {
-    return Arrays.asList( str.split("/") )
-      .stream()
-      .map( StringFunctions::cleanup )
-      .filter( $ -> $ != null )
-      .collect( Collectors.toList() );
-  }
-  
-  private static <T> void addNode( ParenthesizeTreeNode<T> parent, ParenthesizeTreeNode<T> child ) {
-    if( child.parents.isEmpty() ) {
-      parent.add( child );
-    } else {
-      String                   childName = child.parents.remove(0);
-      ParenthesizeTreeNode<T>  childNode = parent.getChildByName( childName );
-      if( childNode == null ) {
-        // artificial node
-        childNode = new ParenthesizeTreeNode<>( null, childName );
-        parent.add( childNode );
-      }
-      addNode( childNode, child );
-    }
-  }
-  
-  private static <T> void iterate( ParenthesizeTreeNode<T> node, int depth, String prefix, TriConsumer<String, T, T> addChild ) {
-    for( int i = 0; i < node.getChildCount(); i++ ) {
-      ParenthesizeTreeNode<T> child = (ParenthesizeTreeNode<T>) node.getChildAt(i);
-      addChild.accept( depth == 0 ? "/" : prefix, depth == 0 ? null : node.getValue(), child.getValue() );
-      iterate( child, depth + 1, prefix + "/" + child.getName(), addChild );
-    }
-  }
-  
-  public static <T> void parenthesize( @NonNull List<T> values, @NonNull Function<T, String> toPath, @NonNull TriConsumer<String, T, T> addChild ) {
-
-    List<ParenthesizeTreeNode<T>> nodes = new ArrayList<>();
-    values.stream()
-      .map( $ -> new ParenthesizeTreeNode( $, split( toPath.apply($) ) ) )
-      .forEach( nodes::add );
-    
-    ParenthesizeTreeNode<T> root = new ParenthesizeTreeNode<>( null, split( "root" ) );
-    nodes.forEach( $ -> addNode( root, $ ) );
-    
-    iterate( root, 0, "", addChild );
-    
-  }
-  
-  private static class ParenthesizeTreeNode<T> extends DefaultMutableTreeNode {
-    
-    @Getter
-    T               value   = null;
-    
-    List<String>    parents = new ArrayList<>();
-    
-    public ParenthesizeTreeNode( T val, String name ) {
-      super( name );
-      value   = val;
-      parents = Collections.emptyList();
-    }
-    
-    public ParenthesizeTreeNode( T val, List<String> segments ) {
-      super( segments.remove( segments.size() - 1 ) );
-      value   = val;
-      parents = segments;
-    }
-    
-    public String getName() {
-      return (String) getUserObject();
-    }
-    
-    public ParenthesizeTreeNode<T> getChildByName( String name ) {
-      ParenthesizeTreeNode<T> result = null;
-      for( int i = 0; i < getChildCount(); i++ ) {
-        ParenthesizeTreeNode<T> child = (ParenthesizeTreeNode<T>) getChildAt(i);
-        if( name.equals( child.getName() ) ) {
-          result = child;
-          break;
-        }
-      }
-      return result;
-    }
-    
-  } /* ENDCLASS */
-  
   /**
    * Implementation of a Comparator used for the key part of a Map.Entry.
    */

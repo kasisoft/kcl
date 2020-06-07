@@ -24,10 +24,6 @@ import lombok.AllArgsConstructor;
  */
 public class Predicates {
   
-  public static final Predicate         IS_NOT_NULL = $ -> $ != null;
-  
-  public static final Predicate         IS_NULL = IS_NOT_NULL.negate();
-
   public static final Predicate<String> IS_JAVA_CLASS_FILE = new SuffixPredicate(".class");
 
   public static final Predicate<Path>   IS_JAVA_CLASS_PATH = adaptPathToString(IS_JAVA_CLASS_FILE);
@@ -94,6 +90,10 @@ public class Predicates {
   
   public static @NotNull Predicate<Path> adaptPathToString(@NotNull Predicate<String> impl) {
     return $ -> impl.test($.toString());
+  }
+  
+  public static <T> Predicate<T> notNull() {
+    return $ -> $ != null;
   }
   
   public static <T> Predicate<T> acceptAll() {
