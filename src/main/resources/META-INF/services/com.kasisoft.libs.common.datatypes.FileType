@@ -1,0 +1,11 @@
+com.kasisoft.libs.common.datatypes.BmpFileType
+com.kasisoft.libs.common.datatypes.Bzip2FileType
+com.kasisoft.libs.common.datatypes.GifFileType
+com.kasisoft.libs.common.datatypes.GzipFileType
+com.kasisoft.libs.common.datatypes.JavaClassFileType
+com.kasisoft.libs.common.datatypes.JpegFileType
+com.kasisoft.libs.common.datatypes.PdfFileType
+com.kasisoft.libs.common.datatypes.PngFileType
+com.kasisoft.libs.common.datatypes.SevenZipFileType
+com.kasisoft.libs.common.datatypes.ZipFileType
+

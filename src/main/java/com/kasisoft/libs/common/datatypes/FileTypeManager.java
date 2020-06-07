@@ -1,8 +1,10 @@
-package com.kasisoft.libs.common.old.io.datatypes;
+package com.kasisoft.libs.common.datatypes;
 
 import com.kasisoft.libs.common.old.io.DefaultIO;
 import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.spi.MultiSPILoader;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,7 +14,6 @@ import java.util.Optional;
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
-import lombok.NonNull;
 
 /**
  * Management for file type recognizers.
@@ -30,8 +31,8 @@ public class FileTypeManager {
    */
   public FileTypeManager() {
     filetypes = MultiSPILoader.builder().build().loadServices( FileType.class );
-    Collections.sort( filetypes, new FileTypeBySizeComparator() );
-    if( ! filetypes.isEmpty() ) {
+    Collections.sort(filetypes, new FileTypeBySizeComparator());
+    if (!filetypes.isEmpty()) {
       maxspace = filetypes.get(0).getMinSize();
     } else {
       maxspace = 0;
@@ -44,7 +45,7 @@ public class FileTypeManager {
    * @return   A list with all known FileType instances. Not <code>null</code>.
    */
   public FileType[] getFileTypes() {
-    return filetypes.toArray( new FileType[ filetypes.size() ] );
+    return filetypes.toArray(new FileType[filetypes.size()]);
   }
   
   /**
@@ -63,9 +64,9 @@ public class FileTypeManager {
    * 
    * @throws FailureException   Accessing the resource failed for some reason.
    */
-  public <T> FileType identify( @NonNull T input ) {
-    Optional<byte[]> data = DefaultIO.inputstream( input ).forInputStream( input, maxspace, IoFunctions::loadFragment );
-    return data.map( this::identify ).orElse( null );
+  public <T> FileType identify(@NotNull T input) {
+    Optional<byte[]> data = DefaultIO.inputstream(input).forInputStream(input, maxspace, IoFunctions::loadFragment);
+    return data.map(this::identify).orElse(null);
   }
 
   /**
@@ -75,9 +76,9 @@ public class FileTypeManager {
    * 
    * @return   The FileType if it could be identified. Maybe <code>null</code>.
    */
-  public FileType identify( @NonNull byte[] data ) {
-    for( int i = 0; i < filetypes.size(); i++ ) {
-      if( filetypes.get(i).test( data ) ) {
+  public FileType identify(@NotNull byte[] data) {
+    for (var i = 0; i < filetypes.size(); i++ ) {
+      if (filetypes.get(i).test(data)) {
         return filetypes.get(i);
       }
     }
@@ -87,9 +88,9 @@ public class FileTypeManager {
   private static class FileTypeBySizeComparator implements Comparator<FileType> {
 
     @Override
-    public int compare( FileType f1, FileType f2 ) {
-      Integer i1 = Integer.valueOf( f1.getMinSize());
-      Integer i2 = Integer.valueOf( f2.getMinSize() );
+    public int compare(FileType f1, FileType f2) {
+      var i1 = Integer.valueOf(f1.getMinSize());
+      var i2 = Integer.valueOf(f2.getMinSize());
       return i2.compareTo(i1);
     }
     

@@ -1,10 +1,11 @@
-package com.kasisoft.libs.common.old.io.datatypes;
+package com.kasisoft.libs.common.datatypes;
 
 import com.kasisoft.libs.common.constants.MimeType;
 
-import java.util.function.Predicate;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
-import lombok.NonNull;
+import java.util.function.Predicate;
 
 /**
  * A simple definition of characteristics used to identify file types.
@@ -21,26 +22,14 @@ public interface FileType extends Predicate<byte[]> {
    * @return   <code>true</code> <=> The data indicates this type.
    */
   @Override
-  boolean test( byte[] data );
+  boolean test(@NotNull byte[] data);
   
   /**
    * Returns the minimum number of bytes needed to identify this type.
    * 
    * @return   The minimum number of bytes needed to identify this type.
    */
-  int getMinSize();
-  
-  /**
-   * Returns the mime type corresponding to this type instance.
-   * 
-   * @return   The mime type corresponding to this type instance. Neither <code>null</code> nor empty.
-   * 
-   * @deprecated [29-JUL-2018:KASI]   Will be removed with version 3.5. Use {@link #getContentType()} instead.
-   */
-  @Deprecated
-  default String getMimeType() {
-    return getContentType().getMimeType();
-  }
+  @Min(1) int getMinSize();
   
   /**
    * Returns the primary suffix for this file type.
@@ -51,7 +40,7 @@ public interface FileType extends Predicate<byte[]> {
     return getContentType().getPrimarySuffixWithDot();
   }
 
-  @NonNull
+  @NotNull
   MimeType getContentType();
 
 } /* ENDINTERFACE */

@@ -50,7 +50,7 @@ public class PrimitiveFunctions {
 
   public static boolean compare(@NotNull byte[] buffer, @NotNull byte[] sequence, int pos) {
     var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if ((pos <= maxPos) && (maxPos >= 0)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -1190,7 +1190,7 @@ public class PrimitiveFunctions {
 
   public static boolean compare(@NotNull boolean[] buffer, @NotNull boolean[] sequence, int pos) {
     var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if ((pos <= maxPos) && (maxPos >= 0)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
