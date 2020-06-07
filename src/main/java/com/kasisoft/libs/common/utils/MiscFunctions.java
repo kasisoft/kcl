@@ -268,20 +268,6 @@ public class MiscFunctions {
   
   
   /**
-   * Convenience function which waits until the supplied Thread finishes his task or will be interrupted.
-   * 
-   * @param thread   The Thread that will be executed. Maybe <code>null</code>.
-   */
-  public static void joinThread( Thread thread ) {
-    if( thread != null ) {
-      try {
-        thread.join();
-      } catch( InterruptedException ex ) {
-      }
-    }
-  }
-  
-  /**
    * Expands the supplied input String while replacing environment variables with their values.
    * 
    * @param input   The String to expand. Neither <code>null</code> nor empty.
