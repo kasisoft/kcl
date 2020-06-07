@@ -56,6 +56,7 @@ public class TreeFunctions {
   
   public static <T> NamedTreeNode<T> parenthesize(@NotNull List<T> values, @NotNull Function<T, String> toPath, @Null TriConsumer<String, T, T> addChild) {
 
+
     var nodes = new ArrayList<NamedTreeNode<T>>();
     values.stream()
       .map($ -> new NamedTreeNode($, split(toPath.apply($))))
