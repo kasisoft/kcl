@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.spi;
 
 import com.kasisoft.libs.common.functional.Functions;
-import com.kasisoft.libs.common.old.wrapper.WrapperFactory;
+import com.kasisoft.libs.common.utils.WrapperFunctions;
 
 import javax.validation.constraints.NotNull;
 
@@ -129,7 +129,7 @@ public class MultiSPILoader {
     }
 
     public <T> MultiSPILoaderBuilder configuration(Properties config) {
-      return configuration(WrapperFactory.toMap(config));
+      return configuration(WrapperFunctions.toMap(config));
     }
     
     public MultiSPILoader build() {

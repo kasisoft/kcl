@@ -4,12 +4,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.util.ExtArrayList;
-
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import lombok.experimental.FieldDefaults;
 
@@ -26,8 +26,8 @@ public class NullableComparatorTest {
 
   static final int NULLCOUNT = 10;
   
-  private ExtArrayList<Integer> createInput() {
-    var result = new ExtArrayList<Integer>();
+  private List<Integer> createInput() {
+    var result = WrapperFunctions.toExtendedList(new ArrayList<Integer>());
     var nulls  = 0;
     while (nulls < NULLCOUNT) {
       var irand = (int) (Math.random() * 1000);
@@ -48,7 +48,7 @@ public class NullableComparatorTest {
     
     Collections.sort(data, new NullableComparator<Integer>());
     var size = data.size();
-    data.trim();
+    MiscFunctions.trim(data);
     
     assertThat(data.size(), is(size - NULLCOUNT));
     for (int i = 1; i < data.size(); i++) {
@@ -71,7 +71,7 @@ public class NullableComparatorTest {
     
     Collections.sort(data, new NullableComparator<>(delegate));
     var size = data.size();
-    data.trim();
+    MiscFunctions.trim(data);
     assertThat(data.size(), is(size - NULLCOUNT));
     
     for (var i = 1; i < data.size(); i++) {

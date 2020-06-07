@@ -4,18 +4,13 @@ import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
 
 import com.kasisoft.libs.common.constants.Digest;
 
-import com.kasisoft.libs.common.functional.TriConsumer;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.util.ResourceExtractor;
 import com.kasisoft.libs.common.text.StringFunctions;
 import com.kasisoft.libs.common.types.Pair;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +37,6 @@ import java.io.File;
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -58,6 +52,34 @@ public class MiscFunctions {
    */
   private MiscFunctions() {
   }
+  
+  public static <R> List<R> trim(List<R> input) {
+    while ((!input.isEmpty()) && (input.get(0) == null)) {
+      input.remove(0);
+    }
+    while ((!input.isEmpty()) && (input.get(input.size() - 1) == null)) {
+      input.remove(input.size() - 1);
+    }
+    return input;
+  }
+  
+  /**
+   * Returns an adjusted index since this extension supports negative indices as well.
+   *
+   * @param length  The length to be used for the calculation.
+   * @param index   The index supplied by the user.
+   * 
+   * @return  The index to use for the original implementation.
+   */
+  public static int adjustIndex(int length, int index, boolean isEnd) {
+    if (index < 0) {
+      return length + index;
+    } else if ((index == 0) && isEnd) {
+      return length;
+    }
+    return index;
+  }
+
 
   public static String getGravatarLink( String email, Integer size ) {
     // @spec [25-11-2017:KASI] https://en.gravatar.com/site/implement/hash/ 
