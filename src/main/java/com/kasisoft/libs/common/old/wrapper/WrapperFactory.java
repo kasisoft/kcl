@@ -26,14 +26,6 @@ public class WrapperFactory {
     return result;
   }
 
-  public static <T> Function<T, T> toFunction( Consumer<T> consumer ) {
-    Function<T,T> result = null;
-    if( consumer != null ) {
-      result = new IdentityAndApply( consumer );
-    }
-    return result;
-  }
-  
   @FieldDefaults(level = AccessLevel.PRIVATE)
   @AllArgsConstructor
   private static class IdentityAndApply<T> implements Function<T, T> {
