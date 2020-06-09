@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.io;
+package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_INPUTSTREAM_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_OUTPUTSTREAM_EX;
@@ -16,6 +16,7 @@ import com.kasisoft.libs.common.constants.Iso3166Test;
 
 import com.kasisoft.libs.common.old.test.framework.AssertExtension;
 import com.kasisoft.libs.common.old.test.framework.Utilities;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;

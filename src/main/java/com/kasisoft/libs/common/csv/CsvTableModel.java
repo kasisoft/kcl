@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.csv;
+package com.kasisoft.libs.common.csv;
 
 import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_INPUTSTREAM_EX;
 import static com.kasisoft.libs.common.old.io.DefaultIO.PATH_OUTPUTSTREAM_EX;
@@ -11,9 +11,9 @@ import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.old.internal.Messages;
 import com.kasisoft.libs.common.old.io.DefaultIO;
 import com.kasisoft.libs.common.old.io.ExtReader;
-import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.io.KReader;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import javax.swing.event.EventListenerList;
@@ -24,6 +24,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import javax.swing.SwingUtilities;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -111,103 +113,103 @@ public class CsvTableModel implements TableModel {
     createNewDefaultTableModel();
   }
   
-  public CsvTableModel( @NonNull CsvOptions csvOptions ) {
+  public CsvTableModel(@NotNull CsvOptions csvOptions) {
     this();
-    options = validateOptions( csvOptions );
-    consolidateColumns( csvOptions.getColumns().size(), Collections.emptyList(), getTitles( csvOptions.getColumns().size(), Collections.emptyList() ) );
-    options.getColumns().forEach( $ -> tableModel.addColumn( $.getTitle() ) );
+    options = validateOptions(csvOptions);
+    consolidateColumns(csvOptions.getColumns().size(), Collections.emptyList(), getTitles( csvOptions.getColumns().size(), Collections.emptyList()));
+    options.getColumns().forEach($ -> tableModel.addColumn($.getTitle()));
   }
   
   public CsvOptions getOptions() {
     return options;
   }
   
-  public synchronized void removeRow( int row ) {
-    tableModel.removeRow( row );
+  public synchronized void removeRow(int row) {
+    tableModel.removeRow(row);
   }
   
-  public synchronized void removeRow( Predicate<Object[]> isValid ) {
-    int start = options.isTitleRow() ? 1 : 0;
-    for( int i = tableModel.getRowCount() - 1; i >= start; i-- ) {
-      Vector row = (Vector) tableModel.getDataVector().get(i);
-      if( !isValid.test( row.toArray() ) ) {
+  public synchronized void removeRow(Predicate<Object[]> isValid) {
+    var start = options.isTitleRow() ? 1 : 0;
+    for (var i = tableModel.getRowCount() - 1; i >= start; i--) {
+      var row = (Vector) tableModel.getDataVector().get(i);
+      if (!isValid.test(row.toArray())) {
         tableModel.removeRow(i);
       }
     }
   }
 
-  public synchronized <I> void forEach( Consumer<I> rowConsumer, String column ) {
-    forEach( Functions.adaptToBi( rowConsumer ), null, column );
+  public synchronized <I> void forEach(Consumer<I> rowConsumer, String column) {
+    forEach(Functions.adaptToBi(rowConsumer), null, column);
   }
   
-  public synchronized <C, I> void forEach( BiConsumer<I, C> rowConsumer, C context, String column ) {
-    int                        start  = options.isTitleRow() ? 1 : 0;
-    Function<Vector, Object[]> mapRow = getObjects( column );
-    for( int i = start; i < tableModel.getRowCount(); i++ ) {
-      Vector row = (Vector) tableModel.getDataVector().get(i);
-      rowConsumer.accept( (I) mapRow.apply( row )[0], context );
+  public synchronized <C, I> void forEach(BiConsumer<I, C> rowConsumer, C context, String column) {
+    var start  = options.isTitleRow() ? 1 : 0;
+    var mapRow = getObjects(column);
+    for (var i = start; i < tableModel.getRowCount(); i++) {
+      var row = (Vector) tableModel.getDataVector().get(i);
+      rowConsumer.accept((I) mapRow.apply(row)[0], context);
     }
   }
 
-  public synchronized void forEach( Consumer<Object[]> rowConsumer, String ... columns ) {
-    forEach( Functions.adaptToBi( rowConsumer ), null, columns );
+  public synchronized void forEach(Consumer<Object[]> rowConsumer, String ... columns) {
+    forEach(Functions.adaptToBi(rowConsumer), null, columns);
   }
   
-  public synchronized <C> void forEach( BiConsumer<Object[], C> rowConsumer, C context, String ... columns ) {
-    int                        start  = options.isTitleRow() ? 1 : 0;
-    Function<Vector, Object[]> mapRow = getObjects( columns );
-    for( int i = start; i < tableModel.getRowCount(); i++ ) {
-      Vector row = (Vector) tableModel.getDataVector().get(i);
-      rowConsumer.accept( mapRow.apply( row ), context );
+  public synchronized <C> void forEach(BiConsumer<Object[], C> rowConsumer, C context, String ... columns) {
+    var start  = options.isTitleRow() ? 1 : 0;
+    var mapRow = getObjects(columns);
+    for (var i = start; i < tableModel.getRowCount(); i++) {
+      var row = (Vector) tableModel.getDataVector().get(i);
+      rowConsumer.accept(mapRow.apply(row), context);
     }
   }
 
-  public synchronized <R, I> R reduce( R initial, BiFunction<R, I, R> operator, String column ) {
-    R                          result = initial;
-    int                        start  = options.isTitleRow() ? 1 : 0;
-    Function<Vector, Object[]> mapRow = getObjects( column );
-    for( int i = start; i < tableModel.getRowCount(); i++ ) {
-      Vector row = (Vector) tableModel.getDataVector().get(i);
-      result     = operator.apply( result, (I) mapRow.apply( row )[0] );
+  public synchronized <R, I> R reduce(R initial, BiFunction<R, I, R> operator, String column) {
+    var result = initial;
+    var start  = options.isTitleRow() ? 1 : 0;
+    var mapRow = getObjects( column );
+    for (var i = start; i < tableModel.getRowCount(); i++) {
+      var row = (Vector) tableModel.getDataVector().get(i);
+      result  = operator.apply( result, (I) mapRow.apply( row )[0] );
     }
     return result;
   }
 
-  public synchronized <R> R reduce( R initial, BiFunction<R, Object[], R> operator, String ... columns ) {
-    R                          result = initial;
-    int                        start  = options.isTitleRow() ? 1 : 0;
-    Function<Vector, Object[]> mapRow = getObjects( columns );
-    for( int i = start; i < tableModel.getRowCount(); i++ ) {
-      Vector row = (Vector) tableModel.getDataVector().get(i);
-      result     = operator.apply( result, mapRow.apply( row ) );
+  public synchronized <R> R reduce(R initial, BiFunction<R, Object[], R> operator, String ... columns) {
+    var result = initial;
+    var start  = options.isTitleRow() ? 1 : 0;
+    var mapRow = getObjects( columns );
+    for (var i = start; i < tableModel.getRowCount(); i++) {
+      var row = (Vector) tableModel.getDataVector().get(i);
+      result  = operator.apply(result, mapRow.apply(row));
     }
     return result;
   }
 
-  private Function<Vector, Object[]> getObjects( String ... columns ) {
-    if( (columns == null) || (columns.length == 0) ) {
+  private Function<Vector, Object[]> getObjects(String ... columns) {
+    if ((columns == null) || (columns.length == 0)) {
       return $ -> $.toArray();
     } else {
-      int[] indices = new int[ columns.length ];
-      for( int i = 0; i < indices.length; i++ ) {
-        indices[i] = getColumnIndex( columns[i] );
+      var indices = new int[columns.length];
+      for (var i = 0; i < indices.length; i++) {
+        indices[i] = getColumnIndex(columns[i]);
       }
       return $ -> {
-        Object[] in  = $.toArray();
-        Object[] out = new Object[ indices.length ];
-        for( int i = 0; i < indices.length; i++ ) {
-          out[i] = in[ indices[i] ];
+        var in  = $.toArray();
+        var out = new Object[indices.length];
+        for (var i = 0; i < indices.length; i++) {
+          out[i] = in[indices[i]];
         }
         return out;
       };
     }
   }
   
-  public synchronized int getColumnIndex( @NonNull String columnName ) {
-    int result = -1;
-    for( int i = 0; i < getColumnCount(); i++ ) {
+  public synchronized int getColumnIndex(@NotNull String columnName) {
+    var result = -1;
+    for (int i = 0; i < getColumnCount(); i++) {
       String colName = tableModel.getColumnName(i);
-      if( columnName.equals( colName ) ) {
+      if (columnName.equals(colName)) {
         result = i;
         break;
       }
@@ -215,66 +217,66 @@ public class CsvTableModel implements TableModel {
     return result;
   }
   
-  public synchronized boolean isValidColumn( int column ) {
+  public synchronized boolean isValidColumn(int column) {
     return (column >= 0) && (column < tableModel.getColumnCount());
   }
 
-  public synchronized <C> void removeRow( Predicate<C> rowTest, String columnName ) {
-    removeRow( rowTest, getColumnIndex( columnName ) );
+  public synchronized <C> void removeRow(Predicate<C> rowTest, String columnName) {
+    removeRow(rowTest, getColumnIndex(columnName));
   }
 
-  public synchronized <C> void removeRow( Predicate<C> isValid, int column ) {
-    if( isValidColumn( column ) ) {
-      removeRow( $ -> isValid.test( (C) $[ column ] ) );
+  public synchronized <C> void removeRow(Predicate<C> isValid, int column) {
+    if (isValidColumn(column)) {
+      removeRow($ -> isValid.test((C) $[column]));
     }
   }
   
-  public synchronized void removeColumn( String name ) {
-    removeColumn( getColumnIndex( name ) );
+  public synchronized void removeColumn(String name) {
+    removeColumn(getColumnIndex(name));
   }
   
-  public synchronized void removeColumn( int column ) {
-    if( isValidColumn( column ) ) {
-      for( int row = 0; row < tableModel.getRowCount(); row++ ) {
-        Vector rowData = (Vector) tableModel.getDataVector().get( row );
+  public synchronized void removeColumn(int column) {
+    if (isValidColumn(column)) {
+      for (var row = 0; row < tableModel.getRowCount(); row++) {
+        var rowData = (Vector) tableModel.getDataVector().get(row);
         rowData.remove( column );
       }
-      options.getColumns().remove( column );
+      options.getColumns().remove(column);
     }
   }
 
-  public synchronized <L, R, O> void joinColumns( String column1, String column2, BiFunction<L, R, O> joiner, String columnName ) {
-    joinColumns( getColumnIndex( column1 ), getColumnIndex( column2 ), joiner, columnName, true, null ); 
+  public synchronized <L, R, O> void joinColumns(String column1, String column2, BiFunction<L, R, O> joiner, String columnName) {
+    joinColumns(getColumnIndex(column1), getColumnIndex(column2), joiner, columnName, true, null); 
   }
 
-  public synchronized <L, R, O> void joinColumns( int column1, int column2, BiFunction<L, R, O> joiner, String columnName ) {
-    joinColumns( column1, column2, joiner, columnName, true, null ); 
+  public synchronized <L, R, O> void joinColumns(int column1, int column2, BiFunction<L, R, O> joiner, String columnName) {
+    joinColumns(column1, column2, joiner, columnName, true, null); 
   }
 
-  public synchronized <L, R, O> void joinColumns( String column1, String column2, BiFunction<L, R, O> joiner, String columnName, boolean nullable, O defaultVal ) {
-    joinColumns( getColumnIndex( column1 ), getColumnIndex( column2 ), joiner, columnName, nullable, defaultVal );
+  public synchronized <L, R, O> void joinColumns(String column1, String column2, BiFunction<L, R, O> joiner, String columnName, boolean nullable, O defaultVal) {
+    joinColumns(getColumnIndex(column1), getColumnIndex(column2), joiner, columnName, nullable, defaultVal);
   }
   
-  public synchronized <L, R, O> void joinColumns( int column1, int column2, BiFunction<L, R, O> joiner, String columnName, boolean nullable, O defaultVal ) {
-    if( isValidColumn( column1 ) && isValidColumn( column2 ) ) {
-      CsvColumn<O> newColumn = new CsvColumn<>();
-      newColumn.setNullable( nullable );
-      newColumn.setTitle( columnName );
-      newColumn.setDefval( defaultVal );
-      options.getColumns().add(newColumn );
-      int idxMax = Math.max( column1, column2 );
-      int idxMin = Math.min( column1, column2 );
-      for( int row = 0; row < tableModel.getRowCount(); row++ ) {
-        Vector rowData = (Vector) tableModel.getDataVector().get( row );
-        L      left    = (L) rowData.get( column1 );
-        R      right   = (R) rowData.get( column2 );
-        O      joined  = joiner.apply( left, right );
-        rowData.add( joined );
-        rowData.remove( idxMax );
-        rowData.remove( idxMin );
+  public synchronized <L, R, O> void joinColumns(int column1, int column2, BiFunction<L, R, O> joiner, String columnName, boolean nullable, O defaultVal) {
+    if (isValidColumn(column1) && isValidColumn(column2)) {
+      var newColumn = new CsvColumn<>();
+      newColumn.setNullable( nullable);
+      newColumn.setTitle(columnName);
+      newColumn.setDefval(defaultVal);
+      options.getColumns().add(newColumn);
+      var idxMax = Math.max(column1, column2);
+      var idxMin = Math.min(column1, column2);
+      for (var row = 0; row < tableModel.getRowCount(); row++) {
+        var rowData = (Vector) tableModel.getDataVector().get(row);
+        var left    = (L) rowData.get(column1);
+        var right   = (R) rowData.get(column2);
+        var joined  = joiner.apply(left, right);
+        rowData.add(joined);
+        rowData.remove(idxMax);
+        rowData.remove(idxMin);
       }
-      options.getColumns().remove( idxMax );
-      options.getColumns().remove( idxMin );
+      options.getColumns().remove(idxMax);
+      options.getColumns().remove(idxMin);
     }
   }
   
@@ -282,11 +284,11 @@ public class CsvTableModel implements TableModel {
    * Creates a new DefaultTableModel instance used as the delegate.
    */
   private void createNewDefaultTableModel() {
-    if( tableModel != null ) {
-      tableModel.removeTableModelListener( this::tableModelEventDelegator );
+    if (tableModel != null) {
+      tableModel.removeTableModelListener(this::tableModelEventDelegator);
     }
     tableModel = new DefaultTableModel();
-    tableModel.addTableModelListener( this::tableModelEventDelegator );
+    tableModel.addTableModelListener(this::tableModelEventDelegator);
   }
   
   /**
@@ -294,8 +296,8 @@ public class CsvTableModel implements TableModel {
    * 
    * @param evt   The event that shall be dispatched. Not <code>null</code>.
    */
-  private void tableModelEventDelegator( TableModelEvent evt ) {
-    fireTableChanged( new TableModelEvent( this, evt.getFirstRow(), evt.getLastRow(), evt.getColumn(), evt.getType() ) );
+  private void tableModelEventDelegator(TableModelEvent evt) {
+    fireTableChanged(new TableModelEvent(this, evt.getFirstRow(), evt.getLastRow(), evt.getColumn(), evt.getType()));
   }
   
   /**
@@ -303,11 +305,11 @@ public class CsvTableModel implements TableModel {
    * 
    * @param evt   The event that is supposed to be dispatched. Not <code>null</code>.
    */
-  private void fireTableChanged( TableModelEvent evt ) {
-    Object[] objects = listeners.getListenerList();
-    for( int i = objects.length - 2, j = objects.length - 1; i >= 0; i -= 2, j -= 2 ) {
-      if( objects[i] == TableModelListener.class ) {
-        ((TableModelListener) objects[j]).tableChanged( evt );
+  private void fireTableChanged(TableModelEvent evt) {
+    var objects = listeners.getListenerList();
+    for (int i = objects.length - 2, j = objects.length - 1; i >= 0; i -= 2, j -= 2) {
+      if (objects[i] == TableModelListener.class) {
+        ((TableModelListener) objects[j]).tableChanged(evt);
       }
     }
   }
@@ -319,15 +321,15 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   A validated copy of csv options.
    */
-  private CsvOptions validateOptions( CsvOptions options ) {
-    CsvOptions result = options.deepCopy();
-    for( int i = 0; i < result.getColumns().size(); i++ ) {
-      CsvColumn csvColumn = result.getColumns().get(i);
-      if( (csvColumn != null) && (csvColumn.getAdapter() == null) ) {
-        ehColumnSpecWithoutAdapter.accept( Messages.error_csv_missing_adapter.format(i) );
+  private CsvOptions validateOptions(CsvOptions options) {
+    var result = options.deepCopy();
+    for (var i = 0; i < result.getColumns().size(); i++) {
+      var csvColumn = result.getColumns().get(i);
+      if ((csvColumn != null) && (csvColumn.getAdapter() == null)) {
+        ehColumnSpecWithoutAdapter.accept(String.format("Missing CSV Adapter for column %d", i));
         // unless the error handler caused an exception we're clearing this spec, so it can be
         // calculcated afterwards
-        result.getColumns().set( i, null );
+        result.getColumns().set(i, null);
       }
     }
     return result;
@@ -340,15 +342,15 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   A normalized table of csv data. Not <code>null</code>.
    */
-  private List<List<String>> loadCellData( InputStream source ) {
-    if( options.isSimpleFormat() ) {
-      return loadCellDataSimple( source );
+  private List<List<String>> loadCellData(@NotNull InputStream source) {
+    if (options.isSimpleFormat()) {
+      return loadCellDataSimple(source);
     } else {
-      return loadCellDataDefault( source );
+      return loadCellDataDefault(source);
     }
   }
   
-  private List<List<String>> loadCellDataDefault( InputStream source ) {
+  private List<List<String>> loadCellDataDefault(InputStream source) {
     
     /* The import follows these steps:
      * 
@@ -361,23 +363,24 @@ public class CsvTableModel implements TableModel {
      * 7. Turn the remaining content cells into Strings again. 
      */
 
-    StringBuilder  text      = readContent( source );
+    var text      = readContent(source);
 
-    List<Content>  tokenized = tokenize( text ).parallelStream()
-      .map( this::toContent )
-      .map( this::normalize )
-      .collect( Collectors.toList() );
+    var tokenized = tokenize(text).parallelStream()
+      .map(this::toContent)
+      .map(this::normalize)
+      .collect(Collectors.toList())
+      ;
     
     // fetch all lines and add potentially missing column data
-    List<List<Content>> partitioned = partition( tokenized );
-    artificialContent( partitioned );
+    var partitioned = partition(tokenized);
+    artificialContent(partitioned);
 
     // remove separators and get the texts only
-    return cleanup( partitioned );
+    return cleanup(partitioned);
     
   }
   
-  private List<List<String>> loadCellDataSimple( InputStream source ) {
+  private List<List<String>> loadCellDataSimple(InputStream source) {
     
     /* The import follows these steps:
      * 
@@ -387,38 +390,41 @@ public class CsvTableModel implements TableModel {
      * 4. Insert the title row. 
      */
 
-    String       text  = readContent( source ).toString();
-    List<String> lines = StringFunctions.toLines( text );
+    var text  = readContent(source).toString();
+    var lines = StringFunctions.toLines(text);
     
-    String titleRow = null;
-    if( options.isTitleRow() ) {
+    var titleRow = null;
+    if (options.isTitleRow()) {
       titleRow = lines.remove(0);
     }
     
     List<List<String>> result = (options.isOrderedSimpleFormat() ? lines.stream() : lines.parallelStream())
-      .map( this::tokenizeSimple )
-      .collect( Collectors.toList() );
+      .map(this::tokenizeSimple)
+      .collect(Collectors.toList())
+      ;
     
-    if( titleRow != null ) {
-      result.add( 0, tokenizeSimple( titleRow ) );
+    if (titleRow != null) {
+      result.add(0, tokenizeSimple(titleRow));
     }
     
     int max = result.parallelStream()
-      .map( $ -> $.size() )
-      .reduce( result.get(0).size(), Math::max )
-      .intValue();
+      .map($ -> $.size())
+      .reduce(result.get(0).size(), Math::max)
+      .intValue()
+      ;
 
     result.parallelStream()
-      .filter( $ -> $.size() < max )
-      .forEach( $ -> fillUp( $, max ) );
+      .filter($ -> $.size() < max)
+      .forEach($ -> fillUp($, max))
+      ;
     
     return result;
     
   }  
   
-  private void fillUp( List<String> cells, int max ) {
-    while( cells.size() < max ) {
-      cells.add( "" );
+  private void fillUp(List<String> cells, int max) {
+    while (cells.size() < max) {
+      cells.add("");
     }
   }
   
@@ -429,21 +435,21 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   The {@link StringBuilder} providing the text. Not <code>null</code>.
    */
-  private StringBuilder readContent( InputStream source ) {
+  private StringBuilder readContent(InputStream source) {
     CharArrayWriter writer = new CharArrayWriter();
-    forReaderDo( source, $ -> IoFunctions.copy( $, writer, null ) );
-    return new StringBuilder( writer.toString() );
+    forReaderDo(source, $ -> IoFunctions.copy($, writer, null));
+    return new StringBuilder(writer.toString());
   }
   
-  private void forReaderDo( InputStream source, Consumer<ExtReader> consumer ) {
-    if( options.getEncoding() == Encoding.UTF8 ) {
-      DefaultIO.INPUTSTREAM_READER_EX.forReaderDo( source, consumer );
+  private void forReaderDo(InputStream source, Consumer<ExtReader> consumer) {
+    if (options.getEncoding() == Encoding.UTF8) {
+      DefaultIO.INPUTSTREAM_READER_EX.forReaderDo(source, consumer);
     } else {
-      KReader<InputStream> reader = KReader.builder( InputStream.class )
-        .encoding( options.getEncoding() )
-        .errorHandler( ($ex, $_) -> { throw KclException.wrap( $ex ); } )
+      KReader<InputStream> reader = KReader.builder(InputStream.class)
+        .encoding(options.getEncoding())
+        .errorHandler(($ex, $_) -> { throw KclException.wrap($ex); } )
         .build();
-      reader.forReaderDo( source, consumer );
+      reader.forReaderDo(source, consumer);
     }
   }
   
@@ -454,16 +460,16 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   A list of tokens. Not <code>null</code>.
    */
-  private List<String> tokenize( StringBuilder text ) {
-    List<String> result = new ArrayList<>( Math.min( 5, text.length() / 5 ) );
-    while( text.length() > 0 ) {
-      consume( result, text ); 
+  private List<String> tokenize(StringBuilder text) {
+    List<String> result = new ArrayList<>(Math.min(5, text.length() / 5));
+    while (text.length() > 0) {
+      consume (result, text); 
     }
-    dropEmptySequences( result );
+    dropEmptySequences(result);
     return result;
   }
 
-  private List<String> tokenizeSimple( String text ) {
+  private List<String> tokenizeSimple(String text) {
     List<String> result = new ArrayList<>(10);
     for( int i = 0; i < text.length(); i++ ) {
       

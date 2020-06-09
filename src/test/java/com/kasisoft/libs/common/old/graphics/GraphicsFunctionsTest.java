@@ -5,9 +5,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertTrue;
 
-import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.test.framework.Utilities;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;

@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.datatypes;
 
 import com.kasisoft.libs.common.old.io.DefaultIO;
-import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.spi.MultiSPILoader;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import javax.validation.constraints.NotNull;
 

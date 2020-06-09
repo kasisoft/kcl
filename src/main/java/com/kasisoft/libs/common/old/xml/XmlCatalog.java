@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.old.xml;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSInput;

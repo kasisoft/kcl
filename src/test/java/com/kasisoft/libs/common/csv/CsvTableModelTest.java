@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.csv;
+package com.kasisoft.libs.common.csv;
 
 import static com.kasisoft.libs.common.old.io.DefaultIO.URL_INPUTSTREAM_EX;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -6,6 +6,9 @@ import static org.hamcrest.Matchers.is;
 import static org.testng.Assert.assertEquals;
 
 import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.csv.CsvColumn;
+import com.kasisoft.libs.common.csv.CsvOptions;
+import com.kasisoft.libs.common.csv.CsvTableModel;
 import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import org.testng.annotations.Test;

@@ -1,6 +1,8 @@
-package com.kasisoft.libs.common.old.csv;
+package com.kasisoft.libs.common.csv;
 
 import com.kasisoft.libs.common.constants.Encoding;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ public final class CsvOptions {
    * @return   A deep copy of this instance. Not <code>null</code>.
    */
   public CsvOptions deepCopy() {
-    CsvOptions result           = new CsvOptions();
+    var result                  = new CsvOptions();
     result.titleRow             = titleRow;
     result.delimiter            = delimiter;
     result.disableCr            = disableCr;
@@ -63,11 +65,11 @@ public final class CsvOptions {
     result.orderedSimpleFormat  = orderedSimpleFormat;
     result.maxLines             = maxLines;
     result.encoding             = encoding;
-    for( CsvColumn column : columns ) {
-      if( column != null ) {
-        result.columns.add( column.copy() );
+    for (CsvColumn column : columns) {
+      if (column != null) {
+        result.columns.add(column.copy());
       } else {
-        result.columns.add( null );
+        result.columns.add(null);
       }
     }
     return result;
@@ -90,66 +92,66 @@ public final class CsvOptions {
       return this;
     }
     
-    public CsvOptionsBuilder maxLines( int maxLines ) {
+    public CsvOptionsBuilder maxLines(int maxLines) {
       instance.maxLines = maxLines;
       return this;
     }
 
-    public CsvOptionsBuilder singleQuotes( boolean consumeSingleQuotes ) {
+    public CsvOptionsBuilder singleQuotes(boolean consumeSingleQuotes) {
       instance.consumeSingleQuotes = consumeSingleQuotes;
       return this;
     }
 
-    public CsvOptionsBuilder doubleQuotes( boolean consumeDoubleQuotes ) {
+    public CsvOptionsBuilder doubleQuotes(boolean consumeDoubleQuotes) {
       instance.consumeDoubleQuotes = consumeDoubleQuotes;
       return this;
     }
 
-    public CsvOptionsBuilder encoding( @NonNull Encoding encoding ) {
+    public CsvOptionsBuilder encoding(@NotNull Encoding encoding) {
       instance.encoding = encoding;
       return this;
     }
 
-    public CsvOptionsBuilder delimiter( char delimiter ) {
+    public CsvOptionsBuilder delimiter(char delimiter) {
       instance.delimiter = delimiter;
       return this;
     }
     
     public CsvOptionsBuilder fillMissingColumns() {
-      return fillMissingColumns( true );
+      return fillMissingColumns(true);
     }
     
-    public CsvOptionsBuilder fillMissingColumns( boolean enable ) {
+    public CsvOptionsBuilder fillMissingColumns(boolean enable) {
       instance.fillMissingColumns = enable;
       return this;
     }
     
     public CsvOptionsBuilder disableCr() {
-      return disableCr( true );
+      return disableCr(true);
     }
     
-    public CsvOptionsBuilder disableCr( boolean enable ) {
+    public CsvOptionsBuilder disableCr(boolean enable) {
       instance.disableCr = enable;
       return this;
     }
     
     public CsvOptionsBuilder titleRow() {
-      return titleRow( true );
+      return titleRow(true);
     }
     
-    public CsvOptionsBuilder titleRow( boolean enable ) {
+    public CsvOptionsBuilder titleRow(boolean enable) {
       instance.titleRow = enable;
       return this;
     }
 
-    public CsvOptionsBuilder column( CsvColumn column ) {
-      instance.columns.add( column );
+    public CsvOptionsBuilder column(CsvColumn column) {
+      instance.columns.add(column);
       return this;
     }
     
-    public CsvOptionsBuilder columns( @NonNull List<CsvColumn> columns ) {
+    public CsvOptionsBuilder columns(@NonNull List<CsvColumn> columns) {
       instance.columns.clear();
-      instance.columns.addAll( columns );
+      instance.columns.addAll(columns);
       return this;
     }
 

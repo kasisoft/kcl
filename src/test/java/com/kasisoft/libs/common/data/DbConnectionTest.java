@@ -9,7 +9,7 @@ import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.data.Database;
 import com.kasisoft.libs.common.data.DbConfig;
 import com.kasisoft.libs.common.data.DbConnection;
-import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

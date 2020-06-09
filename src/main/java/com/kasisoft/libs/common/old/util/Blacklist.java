@@ -3,8 +3,8 @@ package com.kasisoft.libs.common.old.util;
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.old.io.DefaultIO;
 import com.kasisoft.libs.common.old.io.ExtReader;
-import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

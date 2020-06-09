@@ -1,8 +1,8 @@
-package com.kasisoft.libs.common.old.csv;
+package com.kasisoft.libs.common.csv;
 
 import com.kasisoft.libs.common.constants.Encoding;
 
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import javax.validation.constraints.Null;
 
 import java.util.function.Function;
 
@@ -18,7 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.val;
 
 /**
  * A basic description of a csv column.
@@ -32,11 +31,11 @@ public final class CsvColumn<T> {
   private static Map<Class<?>, Function<String, ?>> DEFAULT_ADAPTERS = new HashMap<>();
   
   static {
-    DEFAULT_ADAPTERS.put( Integer.class     , CsvColumn::toIntegerValue     );
-    DEFAULT_ADAPTERS.put( String.class      , CsvColumn::toStringValue      );
-    DEFAULT_ADAPTERS.put( Boolean.class     , CsvColumn::toBooleanValue     );
-    DEFAULT_ADAPTERS.put( byte[].class      , CsvColumn::toByteArrayValue   );
-    DEFAULT_ADAPTERS.put( BigDecimal.class  , CsvColumn::toBigDecimalValue  );
+    DEFAULT_ADAPTERS.put(Integer.class     , CsvColumn::toIntegerValue   );
+    DEFAULT_ADAPTERS.put(String.class      , CsvColumn::toStringValue    );
+    DEFAULT_ADAPTERS.put(Boolean.class     , CsvColumn::toBooleanValue   );
+    DEFAULT_ADAPTERS.put(byte[].class      , CsvColumn::toByteArrayValue );
+    DEFAULT_ADAPTERS.put(BigDecimal.class  , CsvColumn::toBigDecimalValue);
   }
   
   String                title;
@@ -45,20 +44,20 @@ public final class CsvColumn<T> {
   T                     defval;
   Function<String, T>   adapter;
   
-  public CsvColumn( String title ) {
-    this( title, (Class<T>) String.class, true, null, null );
+  public CsvColumn(String title) {
+    this(title, (Class<T>) String.class, true, null, null);
   }
 
-  public CsvColumn( String title, Class<T> type, T defValue ) {
-    this( title, type, false, defValue, null );
+  public CsvColumn(String title, Class<T> type, T defValue) {
+    this(title, type, false, defValue, null);
   }
 
-  public CsvColumn( String title, Class<T> type, boolean nullable, Function<String, T> adapter ) {
-    this( title, type, nullable, null, adapter );
+  public CsvColumn(String title, Class<T> type, boolean nullable, Function<String, T> adapter) {
+    this(title, type, nullable, null, adapter);
   }
 
-  public CsvColumn( String title, Class<T> type ) {
-    this( title, type, true, null, null );
+  public CsvColumn(String title, Class<T> type) {
+    this(title, type, true, null, null);
   }
 
   /**
@@ -67,8 +66,8 @@ public final class CsvColumn<T> {
    * @return   The current adapter associated with this column. Maybe <code>null</code>.
    */
   public Function<String, T> getAdapter() {
-    Function<String, T> result = adapter;
-    if( (result == null) && (type != null) ) {
+    var result = adapter;
+    if ((result == null) && (type != null)) {
       result = (Function<String, T>) DEFAULT_ADAPTERS.get( type );
     }
     return result;
@@ -80,12 +79,12 @@ public final class CsvColumn<T> {
    * @return   A copy of this instance. Not <code>null</code>.
    */
   public CsvColumn<T> copy() {
-    val result = new CsvColumn<T>();
-    result.type         = type;
-    result.nullable     = nullable;
-    result.defval       = defval;
-    result.title        = title;
-    result.adapter      = adapter;
+    var result      = new CsvColumn<T>();
+    result.type     = type;
+    result.nullable = nullable;
+    result.defval   = defval;
+    result.title    = title;
+    result.adapter  = adapter;
     return result;
   }
   
@@ -96,8 +95,8 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value. Maybe <code>null</code>.
    */
-  private static Integer toIntegerValue( String value ) {
-    return MiscFunctions.parseInt( value );
+  private static @Null Integer toIntegerValue(@Null String value) {
+    return Integer.parseInt(value);
   }
 
   /**
@@ -107,7 +106,7 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value. Maybe <code>null</code>.
    */
-  private static String toStringValue( String value ) {
+  private static @Null String toStringValue(@Null String value) {
     return value;
   }
 
@@ -118,8 +117,8 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value. Maybe <code>null</code>.
    */
-  private static Boolean toBooleanValue( String value ) {
-    return MiscFunctions.parseBoolean( value );
+  private static @Null Boolean toBooleanValue(@Null String value) {
+    return Boolean.parseBoolean(value);
   }
 
   /**
@@ -129,9 +128,9 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value. Maybe <code>null</code>.
    */
-  private static byte[] toByteArrayValue( String value ) {
-    if( value != null ) {
-      return Encoding.UTF8.encode( value );
+  private static @Null byte[] toByteArrayValue(@Null String value) {
+    if (value != null) {
+      return Encoding.UTF8.encode(value);
     } else {
       return null;
     }
@@ -144,8 +143,8 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value. Maybe <code>null</code>.
    */
-  private static BigDecimal toBigDecimalValue( String value ) {
-    return new BigDecimal( value );
+  private static @Null BigDecimal toBigDecimalValue(@Null String value) {
+    return new BigDecimal(value);
   }
 
   public static <R> CsvColumnBuilder<R> builder() {
@@ -160,31 +159,31 @@ public final class CsvColumn<T> {
     private CsvColumnBuilder() {
     }
 
-    public CsvColumnBuilder<R> type( @NonNull Class<R> type ) {
+    public CsvColumnBuilder<R> type(@NonNull Class<R> type) {
       instance.type = type;
       return this;
     }
 
     public CsvColumnBuilder<R> nullable() {
-      return nullable( true );
+      return nullable(true);
     }
 
-    public CsvColumnBuilder<R> nullable( boolean nullable ) {
+    public CsvColumnBuilder<R> nullable(boolean nullable) {
       instance.nullable = nullable;
       return this;
     }
 
-    public CsvColumnBuilder<R> defaultValue( R defval ) {
+    public CsvColumnBuilder<R> defaultValue(R defval) {
       instance.defval = defval;
       return this;
     }
 
-    public CsvColumnBuilder<R> title( String title ) {
+    public CsvColumnBuilder<R> title(String title) {
       instance.title = title;
       return this;
     }
 
-    public CsvColumnBuilder<R> adapter( Function<String, R> adapter ) {
+    public CsvColumnBuilder<R> adapter(Function<String, R> adapter) {
       instance.adapter = adapter;
       return this;
     }

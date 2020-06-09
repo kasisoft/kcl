@@ -5,7 +5,7 @@ import com.kasisoft.libs.common.datatypes.FileType;
 import com.kasisoft.libs.common.datatypes.ZipFileType;
 import com.kasisoft.libs.common.old.constants.SysProperty;
 import com.kasisoft.libs.common.old.io.DefaultIO;
-import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;

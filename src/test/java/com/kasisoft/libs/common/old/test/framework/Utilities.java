@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.fail;
 
-import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

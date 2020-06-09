@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.data;
 import com.kasisoft.libs.common.io.Closer;
 
 import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.old.csv.CsvColumn;
+import com.kasisoft.libs.common.csv.CsvColumn;
 import com.kasisoft.libs.common.types.Pair;
 
 import javax.sql.DataSource;

@@ -8,7 +8,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import com.kasisoft.libs.common.old.constants.SysProperty;
-import com.kasisoft.libs.common.old.io.IoFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

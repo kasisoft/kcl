@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.old.io;
+package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.old.base.LibConfig.cfgTempDir;
 import static com.kasisoft.libs.common.old.io.DefaultIO.FILE_INPUTSTREAM_EX;
@@ -19,7 +19,6 @@ import com.kasisoft.libs.common.old.sys.SystemInfo;
 import com.kasisoft.libs.common.old.thread.LineReaderRunnable;
 import com.kasisoft.libs.common.old.thread.UnzipRunnable;
 import com.kasisoft.libs.common.old.thread.ZipRunnable;
-import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -753,61 +752,6 @@ public class IoFunctions {
     }
   }
   
-  /**
-   * Calculates the CRC32 checksum for the content delivered by an InputStream.
-   * 
-   * @param buffer     The buffer to use. <code>null</code> indicates to use a default value.
-   * @param instream   The stream that delivers the input. Not <code>null</code>.
-   * @param crc        A CRC32 object for the calculation. Maybe <code>null</code>.
-   * 
-   * @return   The CRC32 checksum value.
-   * 
-   * @throws KclException if the accessing the stream failed for some reason.
-   */
-  private static long crc32( byte[] buffer, InputStream instream, CRC32 crc ) {
-    crc = crc == null ? new CRC32() : crc;
-    try {
-      int read = instream.read( buffer );
-      while( read != -1 ) {
-        if( read > 0 ) {
-          crc.update( buffer, 0, read );
-        }
-        read = instream.read( buffer );
-      }
-    } catch( Exception ex ) {
-      throw KclException.wrap( ex );
-    }
-    return crc.getValue();
-  }
-  
-  /**
-   * Calculates the CRC32 checksum for the content delivered by an InputStream.
-   * 
-   * @param instream     The stream that delivers the input. Not <code>null</code>.
-   * @param crc          A CRC32 object for the calculation. Maybe <code>null</code>.
-   * @param buffersize   The size of the buffer to use. <code>null</code> indicates to use a default value.
-   * 
-   * @return   The CRC32 checksum value.
-   * 
-   * @throws FailureException if the accessing the stream failed for some reason.
-   */
-  public static long crc32( @NonNull InputStream instream, CRC32 crc, Integer buffersize ) {
-    return PByte.<Long>withBuffer( buffersize, $ -> crc32( $, instream, crc ) );
-  }
-
-  /**
-   * Calculates the CRC32 checksum for the content delivered by an InputStream.
-   * 
-   * @param instream   The stream that delivers the input. Not <code>null</code>.
-   * 
-   * @return   The CRC32 checksum value.
-   * 
-   * @throws FailureException in case io failed for some reason.
-   */
-  public static long crc32( @NonNull InputStream instream ) {
-    return crc32( instream, null, null );
-  }
-
   /**
    * Returns <code>true</code> if the supplied list of files could be deletes. This method tries
    * to attempt the deletion several times if necessary.

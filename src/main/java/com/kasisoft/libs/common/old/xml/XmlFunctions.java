@@ -11,8 +11,8 @@ import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.old.constants.SysProperty;
 import com.kasisoft.libs.common.old.internal.text.CharSequenceFacades;
 import com.kasisoft.libs.common.old.io.ExtReader;
-import com.kasisoft.libs.common.old.io.IoFunctions;
 import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.utils.IoFunctions;
 import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import org.w3c.dom.Attr;
