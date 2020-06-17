@@ -119,7 +119,7 @@ public class Buffer<T> {
         var length = getLength.apply(object);
         var idx    = Collections.binarySearch(lengths, length);
         if (idx < 0) {
-          idx = -idx + 1;
+          idx = -idx - 1;
         }
         references.add(idx, new SoftReference<>(object));
         lengths.add(idx, length);

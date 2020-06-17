@@ -38,7 +38,7 @@ group = 'com.kasisoft'
 version = '3.7-SNAPSHOT'
 description = 'KCL :: Kasisoft Common Library'
 buildDir = 'target'
-sourceCompatibility = '13'
+sourceCompatibility = '14'
 compileJava.options.fork = true
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 

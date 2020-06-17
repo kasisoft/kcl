@@ -8,10 +8,12 @@ import java.util.Optional;
 
 import java.net.URL;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.io.File;
+import java.io.IOException;
 
 import lombok.experimental.FieldDefaults;
 
@@ -23,7 +25,18 @@ import lombok.AccessLevel;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AbstractTestCase {
 
+  private static Path tempDir;
+  
+  static {
+    try {
+      tempDir = Files.createTempDirectory("test");
+    } catch (IOException ex) {
+      throw new IllegalStateException(ex);
+    }
+  }
+  
   String rootFolder;
+  Path   tempFolder;
   
   public AbstractTestCase() {
     this(null);
@@ -40,6 +53,16 @@ public class AbstractTestCase {
     if (rootFolder.startsWith("/")) {
       rootFolder = rootFolder.substring(1);
     }
+    tempFolder = tempDir.resolve(getClass().getSimpleName());
+    try {
+      Files.createDirectories(tempFolder);
+    } catch (Exception ex) {
+      throw new IllegalStateException(ex);
+    }
+  }
+  
+  public Path getTempPath(String name) {
+    return tempFolder.resolve(name);
   }
   
   public @NotNull Optional<Path> findRootFolder() {

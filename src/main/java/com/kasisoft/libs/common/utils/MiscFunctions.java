@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.utils;
 
-import static com.kasisoft.libs.common.old.base.LibConfig.cfgDefaultVarFormat;
-
 import com.kasisoft.libs.common.constants.Digest;
 
 import com.kasisoft.libs.common.old.sys.SystemInfo;

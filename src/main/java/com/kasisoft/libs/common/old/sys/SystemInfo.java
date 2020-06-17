@@ -30,12 +30,8 @@ public enum SystemInfo {
   WindowsVista  ( "Windows Vista" , false , "%%%s%%" ),
   Windows7      ( "Windows 7"     , false , "%%%s%%" ),
   Windows10     ( "Windows 10"    , false , "%%%s%%" ),
-  Amiga         ( "Amiga OS"      , false , "$%s" ),
-  Aros          ( "AROS"          , false , "$%s" ),
   MacOS         ( "Mac OS"        , false , "$%s" ),
-  MacOSX        ( "Mac OS X"      , false , "$%s" ),
-  Morphos       ( "MorphOS"       , false , "$%s" ),
-  ThisMachine   ();
+  MacOSX        ( "Mac OS X"      , false , "$%s" );
   
   static {
     SystemInfo active = null;
@@ -65,6 +61,8 @@ public enum SystemInfo {
     varformats      = varkeys;
   }
   
+  // os.name=Linux
+  // os.version=5.4.0-37-generic
   SystemInfo() {
     key             = SysProperty.OsName.getValue( System.getProperties() );
     active          = true;
