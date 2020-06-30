@@ -120,7 +120,7 @@ public enum HttpStatusCode implements Predicate<Integer> {
   }
   
   @Override
-  public boolean test(Integer statuscode) {
+  public boolean test(@Null Integer statuscode) {
     return statuscode != null ? statuscode.intValue() == code : false;
   }
   

@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.text;
 
+import com.kasisoft.libs.common.constants.Empty;
+
 import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
@@ -12,6 +14,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import java.io.PrintWriter;
+
 /**
  * Collection of functions used for String processing.
  * 
@@ -23,13 +27,13 @@ public class StringFunctions {
   }
   
   /**
-   * Returns the basename for the supplied string which means to strip away the suffix if there's one.
+   * Returns the supplied string without it's prefix if there was any.
    * 
-   * @param name   The name which might contain a suffix. Not <code>null</code>.
+   * @param name   The name which might contain a suffix.
    * 
-   * @return   The basename without the suffix. Not <code>null</code>.
+   * @return   The string without the suffix (the dot will removed as well).
    */
-  public static @NotNull String getBasename(@NotNull String name) {
+  public static @NotNull String removeSuffix(@NotNull String name) {
    var lidx = name.lastIndexOf('.');
    if (lidx == -1) {
      return name;
@@ -47,7 +51,7 @@ public class StringFunctions {
    * @return   The name with the updated suffix. Neither <code>null</code> nor empty.
    */
   public static @NotNull String changeSuffix(@NotNull String name, @NotNull String suffix) {
-    return String.format("%s.%s", getBasename(name), suffix);
+    return String.format("%s.%s", removeSuffix(name), suffix);
   }
   
   /**
@@ -88,6 +92,19 @@ public class StringFunctions {
    */
   public static @NotNull String firstDown(@NotNull String input) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).firstDown().toString());
+  }
+  
+  /**
+   * Replaces all occurrences of a regular expression with a specified replacement.
+   * 
+   * @param input         The text that needs to be replaced.
+   * @param search        The term that should be replaced.
+   * @param replacement   The replacement which has to be used instead.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  public static @NotNull String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
+    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceLiterallyAll(search, replacement).toString());
   }
   
   /**
@@ -205,6 +222,10 @@ public class StringFunctions {
   public static <T extends CharSequence> @Null T endsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).endsWithMany(casesensitive, candidates));
   }
+  
+  public static @NotNull String trim(@NotNull String input, @NotNull String chars, @Null Boolean left) {
+    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).trim(chars, left).toString());
+  }
 
   /**
    * Creates a concatenation of the supplied Strings. This function allows elements to be <code>null</code> which means
@@ -230,9 +251,9 @@ public class StringFunctions {
    */
   public static <C extends CharSequence, L extends Collection<C>> @NotNull String concatenate(@Null String delimiter, @Null L args) {
     if ((args == null) || args.isEmpty()) {
-      return "";
+      return Empty.NO_STRING;
     }
-    var del = delimiter == null ? "" : delimiter;
+    var del = delimiter == null ? Empty.NO_STRING : delimiter;
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       var iterator = args.iterator();
       while (iterator.hasNext()) {
@@ -268,7 +289,7 @@ public class StringFunctions {
         return $.toString();
       });
     }
-    return "";
+    return Empty.NO_STRING;
   }
 
   /**
@@ -317,6 +338,164 @@ public class StringFunctions {
       }
       return $.toString();
     });
+  }
+
+  /**
+   * Returns a textual representation of the supplied object.
+   * 
+   * @param obj    The object which textual representation is desired.
+   * 
+   * @return   The textual representation of the supplied object.
+   */
+  public static @NotNull String toString(@Null Object obj) {
+    return Buckets.bucketStringFBuilder().forInstance($ -> {
+      appendToString($, obj);
+      return $.toString();
+    });
+  }
+  
+  /**
+   * Returns a textual representation of the supplied object.
+   * 
+   * @param obj    The object which textual representation is desired.
+   * 
+   * @return   The textual representation of the supplied object.
+   */
+  private static <S extends StringLike> void appendToString(@NotNull S receiver, @Null Object obj) {
+    if (obj == null) {
+      receiver.append("null");
+    } else if (obj instanceof boolean[]) {
+      appendToStringBooleanArray(receiver, (boolean[]) obj);
+    } else if (obj instanceof char[]) {
+      appendToStringCharArray(receiver, (char[]) obj);
+    } else if (obj instanceof byte[]) {
+      appendToStringByteArray(receiver, (byte[]) obj);
+    } else if (obj instanceof short[]) {
+      appendToStringShortArray(receiver, (short[]) obj);
+    } else if (obj instanceof int[]) {
+      appendToStringIntArray(receiver, (int[]) obj);
+    } else if (obj instanceof long[]) {
+      appendToStringLongArray(receiver, (long[]) obj);
+    } else if (obj instanceof float[]) {
+      appendToStringFloatArray(receiver, (float[]) obj);
+    } else if (obj instanceof double[]) {
+      appendToStringDoubleArray(receiver, (double[]) obj);
+    } else if (obj.getClass().isArray()) {
+      appendToStringObjectArray(receiver, (Object[]) obj);
+    } else if (obj instanceof Throwable) {
+      appendToStringThrowable(receiver, (Throwable) obj);
+    } else {
+      receiver.append(String.valueOf(obj));
+    }
+  }
+
+  private static <S extends StringLike> void appendToStringThrowable(@NotNull S receiver, @NotNull Throwable throwable) {
+    Buckets.bucketStringWriter().forInstanceDo($ -> {
+      try (var writer = new PrintWriter($)) {
+        throwable.printStackTrace(writer);
+      }
+      receiver.append($.toString());
+    });
+  }
+  
+  private static <S extends StringLike> void appendToStringObjectArray(@NotNull S receiver, @NotNull Object[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      appendToString(receiver, array[0]);
+      receiver.append(array[0]);
+      for (var i = 1; i < array.length; i++) {
+        appendToString(receiver, array[i]);
+      }
+    }
+    receiver.append(']');
+  }
+  
+  private static <S extends StringLike> void appendToStringBooleanArray(@NotNull S receiver, @NotNull boolean[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append(array[0]);
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append(array[i]);
+      }
+    }
+    receiver.append(']');
+  }
+  
+  private static <S extends StringLike> void appendToStringCharArray(@NotNull S receiver, @NotNull char[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append('\'').append(array[0]).append('\'');
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append('\'').append(array[i]).append('\'');
+      }
+    }
+    receiver.append(']');
+  }
+
+  private static <S extends StringLike> void appendToStringByteArray(@NotNull S receiver, @NotNull byte[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append("(byte)").append(array[0]);
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append("(byte)").append(array[i]);
+      }
+    }
+    receiver.append(']');
+  }
+
+  private static <S extends StringLike> void appendToStringShortArray(@NotNull S receiver, @NotNull short[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append("(short)").append(array[0]);
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append("(short)").append(array[i]);
+      }
+    }
+    receiver.append(']');
+  }
+
+  private static <S extends StringLike> void appendToStringIntArray(@NotNull S receiver, @NotNull int[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append(array[0]);
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append(array[i]);
+      }
+    }
+    receiver.append(']');
+  }
+
+  private static <S extends StringLike> void appendToStringLongArray(@NotNull S receiver, @NotNull long[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append(array[0]).append('l');
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append(array[i]).append('l');
+      }
+    }
+    receiver.append(']');
+  }
+
+  private static <S extends StringLike> void appendToStringFloatArray(@NotNull S receiver, @NotNull float[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append(array[0]).append('f');
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append(array[i]).append('f');
+      }
+    }
+    receiver.append(']');
+  }
+
+  private static <S extends StringLike> void appendToStringDoubleArray(@NotNull S receiver, @NotNull double[] array) {
+    receiver.append('[');
+    if (array.length > 0) {
+      receiver.append(array[0]);
+      for (var i = 1; i < array.length; i++) {
+        receiver.append(',').append(array[i]);
+      }
+    }
+    receiver.append(']');
   }
 
 } /* ENDCLASS */

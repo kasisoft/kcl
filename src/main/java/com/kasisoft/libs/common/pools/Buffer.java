@@ -38,6 +38,7 @@ public class Buffer<T> {
    * 
    * @param producer   Supplier for new elements.
    * @param resetter   Cleaning function for elements.
+   * @param getLength  A function that provides the length per record.
    */
   public Buffer(@NotNull Function<Integer, T> producer, @NotNull Consumer<T> resetter, @NotNull Function<T, Integer> getLength) {
     references      = new LinkedList<>();
@@ -49,7 +50,7 @@ public class Buffer<T> {
   
   public void compact() {
     synchronized (references) {
-      for (int i = references.size() - 1; i >= 0; i--) {
+      for (var i = references.size() - 1; i >= 0; i--) {
         var reference = references.get(i);
         var content   = reference.get();
         if (content == null) {
@@ -70,12 +71,14 @@ public class Buffer<T> {
     synchronized (references) {
       while ((result == null) && (!references.isEmpty())) {
         // look for a buffer with a sufficient size
-        int idx = findSizableBuffer(size);
+        var idx = findSizableBuffer(size);
         if (idx != -1) {
-          SoftReference<T> reference = references.remove(0);
+          var reference = references.remove(0);
           lengths.remove(0);
-          result                     = reference.get();
+          result = reference.get();
           reference.clear();
+        } else {
+          break;
         }
       }
     }
@@ -86,11 +89,11 @@ public class Buffer<T> {
   }
 
   private int findSizableBuffer(int size) {
-    int idx = Collections.binarySearch(lengths, size);
     synchronized (references) {
+      var idx = Collections.binarySearch(lengths, size);
       // find an index with a size equal or higher the requested size
       if (idx < 0) {
-        idx = -idx + 1;
+        idx = -idx - 1;
       }
       while (idx < lengths.size()) {
         // look for a buffer that's still exist

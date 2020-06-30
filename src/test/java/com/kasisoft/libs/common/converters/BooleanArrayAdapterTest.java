@@ -11,8 +11,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 /**
- * Tests for the type 'BooleanArrayAdapter'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,8 +18,8 @@ public class BooleanArrayAdapterTest {
 
   BooleanArrayAdapter adapter = new BooleanArrayAdapter();
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
       {null       , null},
       {"true"     , new boolean[] {true}},
@@ -42,21 +40,21 @@ public class BooleanArrayAdapterTest {
     };
   }
 
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
-    return new Object[][] {
-      {null                        , null},
-      {new boolean[] {true, true}  , "true,true"},
-      {new boolean[] {false, true} , "false,true"}, 
-    };
-  }
-
-  @Test(dataProvider = "dataDecode", groups = "all")
+  @Test(dataProvider = "data_decode", groups = "all")
   public void decode(String value, boolean[] expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
   
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
+    return new Object[][] {
+      {null                       , null},
+      {new boolean[] {true, true} , "true,true"},
+      {new boolean[] {false, true}, "false,true"}, 
+    };
+  }
+
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(boolean[] value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

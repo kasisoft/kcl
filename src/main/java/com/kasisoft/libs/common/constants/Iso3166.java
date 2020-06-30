@@ -19,6 +19,7 @@ import lombok.Getter;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Iso3166 implements Predicate<String> {
 
@@ -269,12 +270,12 @@ public enum Iso3166 implements Predicate<String> {
   Zimbabwe                             ("ZWE", "ZW", 716);
   
   /** Not <code>null</code>. length() == 3. */
-  @Getter String   alpha3; 
+  String   alpha3; 
   
   /** Not <code>null</code>. length() == 2. */
-  @Getter String   alpha2;
+  String   alpha2;
   
-  @Getter int      numerical;
+  int      numerical;
   
   /**
    * Initialises this constant.
@@ -293,7 +294,7 @@ public enum Iso3166 implements Predicate<String> {
   }
   
   @Override
-  public boolean test(String langcode) {
+  public boolean test(@Null String langcode) {
     boolean result = false;
     if (langcode != null) {
       result = alpha2.equalsIgnoreCase(langcode) || alpha3.equalsIgnoreCase(langcode);
@@ -334,7 +335,7 @@ public enum Iso3166 implements Predicate<String> {
     return findBy(LocalData.valuebynum, numerical);
   }
   
-  private static <K> @NotNull Optional<Iso3166> findBy(Map<K, Iso3166> map, K key) {
+  private static <K> @NotNull Optional<Iso3166> findBy(@NotNull Map<K, Iso3166> map, K key) {
     if (key != null) {
       return Optional.ofNullable(map.get(key));
     }

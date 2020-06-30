@@ -12,7 +12,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import lombok.experimental.FieldDefaults;
 
@@ -52,11 +51,11 @@ public class FileTypeManagerTest extends AbstractTestCase {
   @Test(dataProvider = "identifyData", groups = "all")
   public void identify(String resource, String mime) throws Exception {
     
-    Path   file     = getResource(resource);
-    byte[] content  = Files.readAllBytes(file);
+    var file     = getResource(resource);
+    var content  = Files.readAllBytes(file);
     assertNotNull(content);
     
-    FileType filetype = manager.identify(content);
+    var filetype = manager.identify(content);
     if (mime == null) {
       assertNull(filetype);
     } else {

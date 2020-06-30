@@ -25,7 +25,7 @@ public class BooleanAdapter extends AbstractConverter<String, Boolean> {
     return this;
   }
   
-  public BooleanAdapter withValues(String ... values) {
+  public BooleanAdapter withValues(@Null String ... values) {
     if ((values != null) && (values.length > 0)) {
       for (var v : values) {
         trueValues.add(v);

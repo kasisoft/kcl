@@ -3,12 +3,9 @@ package com.kasisoft.libs.common.utils;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertNotNull;
 
-import com.kasisoft.libs.common.old.sys.SystemInfo;
-import com.kasisoft.libs.common.types.Pair;
-import com.kasisoft.libs.common.types.Tupel;
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import com.kasisoft.libs.common.types.OutParam;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -16,19 +13,12 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 /**
  * Test for various functions of the class 'MiscFunctions'.
@@ -39,8 +29,8 @@ import lombok.Data;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctionsTest {
 
-  @DataProvider(name = "createGravatarLinkData")
-  public Object[][] createGravatarLinkData() {
+  @DataProvider(name = "data_getGravatarLink")
+  public Object[][] data_getGravatarLink() {
     return new Object[][] {
       { null                                                                      , null                                  , null },
       { null                                                                      , null                                  , 12   },
@@ -50,180 +40,85 @@ public class MiscFunctionsTest {
     };
   }
   
-  @Test(groups = "all", dataProvider = "createGravatarLinkData")
+  @Test(groups = "all", dataProvider = "data_getGravatarLink")
   public void getGravatarLink( String expected, String email, Integer size ) {
-    assertThat( NetFunctions.getGravatarLink( email, size ), is( expected ) );
+    assertThat( MiscFunctions.getGravatarLink( email, size ), is( expected ) );
   }
   
-
-  static final String[] DATEPATTERNS = new String[] {
-    "dd.MM.yyyy", "dd-MM-yyyy", "dd MMM - yyyy"
-  };
-  
-  private <T> List<T> toList( T ... args ) {
-    List<T> result = new ArrayList<>();
-    for( T arg : args ) {
-      result.add( arg );
-    }
-    return result;
-  }
-
-  @DataProvider(name="createDateValues")
-  public Object[][] createDateValues() {
-    Date date = new Date( 110, 3, 13 );
+  @DataProvider(name="data_toSet")
+  public Object[][] data_toSet() {
     return new Object[][] {
-      { "13.04.2010"    , date },  
-      { "13-04-2010"    , date },  
-      { "13 Apr - 2010" , date },
-      { "bla bla"       , null } 
+      {Arrays.asList("Otto", "Fred", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")},
+      {Arrays.asList("Otto", "Fred", "Otto", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")},
     };
   }
 
-  @DataProvider(name="createCalendarValues")
-  public Object[][] createCalendarValues() {
-    Date      date      = new Date( 110, 3, 13 );
-    Calendar  calendar  = Calendar.getInstance();
-    calendar.setTime( date );
-    return new Object[][] {
-      { "13.04.2010"    , calendar  },  
-      { "13-04-2010"    , calendar  },  
-      { "13 Apr - 2010" , calendar  },
-      { "bla bla"       , null      } 
-    };
-  }
-
-  @DataProvider(name="createToSet")
-  public Object[][] createToSet() {
-    return new Object[][] {
-      { toList( "Otto", "Fred", "Ginger"         ), toList( "Fred", "Ginger", "Otto" ) },
-      { toList( "Otto", "Fred", "Otto", "Ginger" ), toList( "Fred", "Ginger", "Otto" ) },
-    };
-  }
-  
-  @DataProvider(name="createParseBoolean")
-  public Object[][] createParseBoolean() {
-    return new Object[][] {
-      { "true"  , Boolean.TRUE  },
-      { "yes"   , Boolean.TRUE  },
-      { "ja"    , Boolean.TRUE  },
-      { "ein"   , Boolean.TRUE  },
-      { "on"    , Boolean.TRUE  },
-      { "an"    , Boolean.TRUE  },
-      { "1"     , Boolean.TRUE  },
-      { "-1"    , Boolean.TRUE  },
-      { ""      , Boolean.FALSE },
-      { "false" , Boolean.FALSE },
-      { "no"    , Boolean.FALSE },
-      { "nein"  , Boolean.FALSE },
-      { "off"   , Boolean.FALSE },
-      { "aus"   , Boolean.FALSE },
-      { "0"     , Boolean.FALSE },
-    };
-  }
-  
-  @Test(dataProvider="createDateValues", groups="all")
-  public void parseDate( String datevalue, Date expected ) {
-    Date currentdate = MiscFunctions.parseDate( datevalue, DATEPATTERNS );
-    if( currentdate == null ) {
-      System.err.println("##aa");
-    }
-    assertThat( currentdate, is( expected ) );
-  }
-
-  @Test(dataProvider="createCalendarValues", groups="all")
-  public void parseCalendar( String datevalue, Calendar expected ) {
-    Calendar currentdate = MiscFunctions.parseCalendar( datevalue, DATEPATTERNS );
-    assertThat( currentdate, is( expected ) );
-  }
-
-  @Test(dataProvider="createParseBoolean", groups="all")
-  public void parseBoolean( String value, Boolean expected ) {
-    assertThat( MiscFunctions.parseBoolean( value ), is( expected.booleanValue() ) );
-  }
-  
-  @Test(groups="all")
-  public void joinThread() {
-    final Tupel<Boolean> outparam = new Tupel<>( Boolean.FALSE );
-    Runnable runnable = new Runnable() {
-      @Override
-      public void run() {
-        for( int i = 0; i < 10; i++ ) {
-          try {
-            Thread.sleep( 1000 );
-          } catch( InterruptedException ex ) {
-          }
-        }
-        outparam.setValues( Boolean.TRUE );
-      }
-    };
-    Thread thread = new Thread( runnable );
-    thread.start();
-    MiscFunctions.joinThread( thread );
-    assertThat( outparam.getValue(), is( Boolean.TRUE ) );
-  }
-  
-  @Test(groups="all")
-  public void expandVariables() {
-    String template = null;
-    if( SystemInfo.getRunningOS().isUnixLike() ) {
-      template = "The name of the user is: $user.name !";;
-    } else {
-      template = "The name of the user is: %user.name% !";
-    }
-    String result   = MiscFunctions.expandVariables( template );
-    assertThat( result, is( String.format( "The name of the user is: %s !", System.getProperty( "user.name" ) ) ) );
-  }
-  
-  @Test(dataProvider="createToSet", groups="all")
-  public void toSet( List<String> list, List<String> expected ) {
-    List<String> altered = MiscFunctions.toUniqueList( list );
-    assertThat( altered, is( notNullValue() ) );
-    assertThat( altered.size(), is( expected.size() ) );
-    for( int i = 0; i < altered.size(); i++ ) {
+  @Test(dataProvider = "data_toSet", groups = "all")
+  public void toSet(List<String> list, List<String> expected) {
+    var altered = MiscFunctions.toUniqueList( list );
+    assertNotNull(altered);
+    assertThat(altered.size(), is(expected.size()));
+    for (var i = 0; i < altered.size(); i++) {
       assertThat( altered.get(i), is( expected.get(i) ) );
     }
   }
   
-  @Test(dataProvider="createIsLeapYearInt", groups="all")
-  public void isLeapYear( int year, boolean expected ) {
-    assertThat( MiscFunctions.isLeapYear( year ), is( expected ) );
-  }
-
-  @Test(dataProvider="createIsLeapYearDate", groups="all")
-  public void isLeapYear( Date year, boolean expected ) {
-    assertThat( MiscFunctions.isLeapYear( year ), is( expected ) );
-  }
-
-  @DataProvider(name="createIsLeapYearInt")
-  public Object[][] createIsLeapYearInt() {
-    return new Object[][] {
-      { Integer.valueOf( 1900 ), Boolean.FALSE },
-      { Integer.valueOf( 1901 ), Boolean.FALSE },
-      { Integer.valueOf( 1904 ), Boolean.TRUE  },
-      { Integer.valueOf( 2000 ), Boolean.TRUE  },
-      { Integer.valueOf( 2001 ), Boolean.FALSE }
+  @Test(groups = "all")
+  public void joinThread() {
+    final var outparam = new OutParam<>(Boolean.FALSE);
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        MiscFunctions.sleep(10000);
+        outparam.setValue(Boolean.TRUE);
+      }
     };
+    var thread = new Thread(runnable);
+    thread.start();
+    MiscFunctions.joinThread(thread);
+    assertThat(outparam.getValue(), is(Boolean.TRUE));
   }
-
-  @DataProvider(name="createIsLeapYearDate")
-  public Object[][] createIsLeapYearDate() {
+  
+  @DataProvider(name = "data_isLeapYear")
+  public Object[][] data_isLeapYear() {
     return new Object[][] {
-      { createDate( 1900 ), Boolean.FALSE },
-      { createDate( 1901 ), Boolean.FALSE },
-      { createDate( 1904 ), Boolean.TRUE  },
-      { createDate( 2000 ), Boolean.TRUE  },
-      { createDate( 2001 ), Boolean.FALSE }
+      {Integer.valueOf(1900), Boolean.FALSE},
+      {Integer.valueOf(1901), Boolean.FALSE},
+      {Integer.valueOf(1904), Boolean.TRUE},
+      {Integer.valueOf(2000), Boolean.TRUE},
+      {Integer.valueOf(2001), Boolean.FALSE}
     };
   }
   
-  private Date createDate( int year ) {
-    Calendar calendar = Calendar.getInstance();
+  @Test(dataProvider = "data_isLeapYear", groups = "all")
+  public void isLeapYear(int year, boolean expected) {
+    assertThat(MiscFunctions.isLeapYear(year), is(expected));
+  }
+
+  private Date createDate(int year) {
+    var calendar = Calendar.getInstance();
     calendar.set( Calendar.YEAR, year );
     return calendar.getTime();
   }
+
+  @DataProvider(name="data_isLeapYear__Date")
+  public Object[][] data_isLeapYear__Date() {
+    return new Object[][] {
+      {createDate(1900), Boolean.FALSE},
+      {createDate(1901), Boolean.FALSE},
+      {createDate(1904), Boolean.TRUE},
+      {createDate(2000), Boolean.TRUE},
+      {createDate(2001), Boolean.FALSE}
+    };
+  }
+
+  @Test(dataProvider = "data_isLeapYear__Date", groups = "all")
+  public void isLeapYear__Date(Date year, boolean expected) {
+    assertThat(MiscFunctions.isLeapYear(year), is(expected));
+  }
   
-  @DataProvider(name="repeatData")
-  public Object[][] repeatData() {
+  @DataProvider(name = "data_repeat")
+  public Object[][] data_repeat() {
     return new Object[][] {
       { Integer.valueOf(0), null, Arrays.asList() },  
       { Integer.valueOf(1), null, Arrays.asList( new Object[] { null } ) },
@@ -234,158 +129,97 @@ public class MiscFunctionsTest {
     };
   }
   
-  @Test(dataProvider="repeatData", groups="all")
-  public <T> void repeat( int count, T element, List<T> expected ) {
-    List<T> actual = MiscFunctions.repeat( count, element );
-    assertThat( actual, notNullValue() );
-    assertThat( actual.size(), is( count ) );
-    assertThat( actual, is( expected ) );
+  @Test(dataProvider = "data_repeat", groups = "all")
+  public <T> void repeat(int count, T element, List<T> expected) {
+    var actual = MiscFunctions.repeat(count, element);
+    assertThat(actual, notNullValue());
+    assertThat(actual.size(), is(count));
+    assertThat(actual, is(expected));
   }
   
-  @Test(groups="all")
+  @Test(groups = "all")
   public void toPairs() {
     
-    List<Pair<String, String>> noentries = MiscFunctions.toPairs();
-    assertThat( noentries, notNullValue() );
-    assertThat( noentries.size(), is(0) );
+    var noentries = MiscFunctions.toPairs();
+    assertNotNull(noentries);
+    assertThat(noentries.size(), is(0));
 
-    List<Pair<String, String>> incompletePair = MiscFunctions.toPairs( "key" );
-    assertThat( incompletePair, notNullValue() );
-    assertThat( incompletePair.size(), is(0) );
+    var incompletePair = MiscFunctions.toPairs("key");
+    assertNotNull(incompletePair);
+    assertThat(incompletePair.size(), is(0));
 
-    List<Pair<String, String>> onePair = MiscFunctions.toPairs( "key", "val" );
-    assertThat( onePair, notNullValue() );
-    assertThat( onePair.size(), is(1) );
+    var onePair = MiscFunctions.toPairs( "key", "val" );
+    assertNotNull(onePair);
+    assertThat(onePair.size(), is(1));
 
-    List<Pair<String, String>> stillOnePair = MiscFunctions.toPairs( "key", "val", "nextKey" );
-    assertThat( stillOnePair, notNullValue() );
-    assertThat( stillOnePair.size(), is(1) );
+    var stillOnePair = MiscFunctions.toPairs( "key", "val", "nextKey" );
+    assertNotNull(stillOnePair);
+    assertThat(stillOnePair.size(), is(1));
 
   }
   
-  @Test(groups="all")
-  public void newComparator() {
+  @Test(groups = "all")
+  public void executeWithoutExit() {
+
+    var exitcode1 = MiscFunctions.executeWithoutExit(() -> System.exit(13));
+    assertThat(exitcode1, is(13));
     
-    Comparator<DummyPojo> comparator = MiscFunctions.newComparator( 
-      DummyPojo::getParam1, 
-      DummyPojo::getParam2, 
-      DummyPojo::getParam3, 
-      DummyPojo::isParam4
-    );
+    var exitcode2 = MiscFunctions.executeWithoutExit(() -> System.out.println("No exit here")); 
+    assertThat(exitcode2, is(0));
     
-    DummyPojo obj1 = new DummyPojo( "a", 12, -3L, true );
-    DummyPojo obj2 = new DummyPojo( "a", 12, -3L, true );
-    assertThat( comparator.compare( obj1, obj2 ), is(0) );
-
-    DummyPojo obj3 = new DummyPojo( "a", 15, -3L, true );
-    DummyPojo obj4 = new DummyPojo( "a", 12, -3L, true );
-    assertThat( comparator.compare( obj3, obj4 ), is(1) );
-
-    DummyPojo obj5 = new DummyPojo( "a", 10, -3L, true );
-    DummyPojo obj6 = new DummyPojo( "a", 12, -3L, true );
-    assertThat( comparator.compare( obj5, obj6 ), is(-1) );
-
-    DummyPojo obj7 = new DummyPojo( "a", 12, null, true );
-    DummyPojo obj8 = new DummyPojo( "a", 12, -3L, true );
-    assertThat( comparator.compare( obj7, obj8 ), is(-1) );
-
-    DummyPojo obj9  = new DummyPojo( "a", 12, -3L, true );
-    DummyPojo obj10 = new DummyPojo( "a", 12, null, true );
-    assertThat( comparator.compare( obj9, obj10 ), is(1) );
-
   }
-  
-  private static final List<String> PARENTHESIZE_DATA = Arrays.asList( new String[] {
-    "/root1",
-    "/root1/child1",
-    "/root1/child1/child7",
-    "/root1/child1/child8",
-    "/root1/child1/child9",
-    "/root1/child1/child10",
-    "/root1/child2",
-    "/root1/child2/child11",
-    "/root1/child2/child12",
-    "/root1/child2/child13",
-    "/root1/child3",
-    "/root1/child3/child14",
-    "/root1/child4",
-    "/root1/child5",
-    "/root1/child6",
-    "/root2",
-    "/root2/child1",
-    "/root2/child1/child7",
-    "/root2/child1/child8",
-    "/root2/child1/child9",
-    "/root2/child1/child10",
-    "/root2/child2",
-    "/root2/child2/child11",
-    "/root2/child2/child12",
-    "/root2/child2/child13",
-    "/root2/child3",
-    "/root2/child3/child14",
-    "/root2/child4",
-    "/root2/child5",
-    "/root2/child6",
-    "/root3/child1/child2/child3"
-  });
 
-  @Data @AllArgsConstructor
-  @FieldDefaults(level = AccessLevel.PRIVATE)
-  private static class DummyPojo {
-  
-    String    param1;
-    int       param2;
-    Long      param3;
-    boolean   param4;
+  @Test(groups = "all")
+  public void wrapToExtendedList__newList() {
     
-  } /* ENDCLASS */
+    var list1 = MiscFunctions.wrapToExtendedList(new ArrayList<String>());
+    assertThat(list1.size(), is(0));
+    
+    var list2 = MiscFunctions.wrapToExtendedList(Arrays.asList("BLA", "BLUB"));
+    assertThat(list2.size(), is(2));
+    assertThat(list2.get(0), is("BLA"));
+    assertThat(list2.get(1), is("BLUB"));
+    
+  }
   
   @Test(groups = "all")
-  public void createSystemReplacements() {
-    Map<String, String> replacements = MiscFunctions.createSystemPropertiesReplacements();
-    Properties          sysprops     = System.getProperties();
-    assertThat( replacements.size(), is( sysprops.keySet().size() ) );
-    sysprops.stringPropertyNames().forEach( $ -> {
-      String key = String.format("${sys:%s}", $ );
-      assertTrue( replacements.containsKey( key ) );
-      assertThat( replacements.get( key ), is( sysprops.getProperty($) ) );
-    } );
-  }
+  public void wrapToExtendedList__add() {
+    
+    var list1 = MiscFunctions.wrapToExtendedList(new ArrayList<String>());
+    list1.add("BLA");
+    
+    list1.add(0, "BLUB");
+    assertThat(list1.size(), is(2));
+    assertThat(list1.get(0), is("BLUB"));
+    assertThat(list1.get(1), is("BLA"));
+    
+    list1.add(-1, "FROG");
+    assertThat(list1.size(), is(3));
+    assertThat(list1.get(0), is("BLUB"));
+    assertThat(list1.get(1), is("FROG"));
+    assertThat(list1.get(2), is("BLA"));
 
-  @Test(groups = "all")
-  public void createSystemReplacementsWithFormat() {
-    Map<String, String> replacements = MiscFunctions.createSystemPropertiesReplacements( "%%%s%%" );
-    Properties          sysprops     = System.getProperties();
-    assertThat( replacements.size(), is( sysprops.keySet().size() ) );
-    sysprops.stringPropertyNames().forEach( $ -> {
-      String key = String.format("%%sys:%s%%", $ );
-      assertTrue( replacements.containsKey( key ) );
-      assertThat( replacements.get( key ), is( sysprops.getProperty($) ) );
-    } );
-  }
+    list1.addAll(-1, Arrays.asList("BLAU", "KRAUT"));
+    assertThat(list1.size(), is(5));
+    assertThat(list1.get(0), is("BLUB"));
+    assertThat(list1.get(1), is("FROG"));
+    assertThat(list1.get(2), is("BLAU"));
+    assertThat(list1.get(3), is("KRAUT"));
+    assertThat(list1.get(4), is("BLA"));
 
-  @Test(groups = "all")
-  public void createEnvironmentReplacements() {
-    Map<String, String> replacements = MiscFunctions.createEnvironmentReplacements();
-    Map<String, String> environment  = System.getenv();
-    assertThat( replacements.size(), is( environment.size() ) );
-    environment.keySet().forEach( $ -> {
-      String key = String.format("${env:%s}", $ );
-      assertTrue( replacements.containsKey( key ) );
-      assertThat( replacements.get( key ), is( environment.get($) ) );
-    } );
   }
-
+  
   @Test(groups = "all")
-  public void createEnvironmentReplacementsWithFormat() {
-    Map<String, String> replacements = MiscFunctions.createEnvironmentReplacements( "%%%s%%" );
-    Map<String, String> environment  = System.getenv();
-    assertThat( replacements.size(), is( environment.size() ) );
-    environment.keySet().forEach( $ -> {
-      String key = String.format("%%env:%s%%", $ );
-      assertTrue( replacements.containsKey( key ) );
-      assertThat( replacements.get( key ), is( environment.get($) ) );
-    } );
+  public void twrapToExtendedList__sublist() {
+    
+    var list1 = MiscFunctions.wrapToExtendedList(Arrays.asList("BLA", "BLUB", "BLAU", "KRAUT", "FROG"));
+    var list2 = list1.subList(1, -1);
+    assertThat(list2, is( notNullValue()));
+    assertThat(list2.size(), is(3));
+    assertThat(list2.get(0), is("BLUB"));
+    assertThat(list2.get(1), is("BLAU"));
+    assertThat(list2.get(2), is("KRAUT"));
+
   }
 
 } /* ENDCLASS */

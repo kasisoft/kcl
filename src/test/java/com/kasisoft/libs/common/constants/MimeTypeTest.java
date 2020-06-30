@@ -7,8 +7,6 @@ import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
-import java.util.Optional;
-
 /**
  * Tests for the enumeration 'MimeType'.
  * 
@@ -27,7 +25,7 @@ public class MimeTypeTest {
 
   @Test(groups = "all")
   public void findByMimeType() {
-    Optional<MimeType> result = MimeType.findByMimeType("text/html;charset=UTF-8");
+    var result = MimeType.findByMimeType("text/html;charset=UTF-8");
     assertNotNull(result);
     assertTrue(result.isPresent());
     assertThat(result.get(), is(MimeType.Html));

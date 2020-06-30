@@ -14,8 +14,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 /**
- * Tests for the type 'LongAdapter'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -23,8 +21,8 @@ public class LongAdapterTest {
 
   LongAdapter adapter = new LongAdapter();
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
       { null    , null                               },
       { "0"     , Long.valueOf( 0                  ) },
@@ -33,15 +31,13 @@ public class LongAdapterTest {
     };
   }
 
-  @DataProvider(name = "dataInvalidDecode")
-  public Object[][] dataInvalidDecode() {
-    return new Object[][] {
-      { "3.7" },
-    };
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, Long expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
   }
-
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
+  
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
     return new Object[][] {
       { null                            , null          },
       { Long.valueOf( 0               ) , "0"           },
@@ -50,17 +46,19 @@ public class LongAdapterTest {
     };
   }
 
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, Long expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-  
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(Long value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }
 
-  @Test(dataProvider = "dataInvalidDecode", groups="all", expectedExceptions = KclException.class)
+  @DataProvider(name = "data_invalidDecode")
+  public Object[][] dataInvalidDecode() {
+    return new Object[][] {
+      { "3.7" },
+    };
+  }
+
+  @Test(dataProvider = "data_invalidDecode", groups="all", expectedExceptions = KclException.class)
   public void invalidDecode(String value) throws Exception {
     assertNull(adapter.decode(value));
   }

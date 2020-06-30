@@ -2,10 +2,10 @@ package com.kasisoft.libs.common.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -18,30 +18,28 @@ import lombok.Getter;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NamedTreeNode<T> extends DefaultMutableTreeNode {
   
   private static final long serialVersionUID = 674825043503770345L;
 
-  @Getter
-  T               value   = null;
+  T             value;
+  List<String>  parents;
   
-  @Getter
-  List<String>    parents = new LinkedList<>();
-  
-  public NamedTreeNode(T val, String name) {
+  public NamedTreeNode(@NotNull T val, @NotBlank String name) {
     super(name);
     value   = val;
-    parents = Collections.emptyList();
+    parents = new LinkedList<>();
   }
   
-  public NamedTreeNode(T val, List<String> segments) {
+  public NamedTreeNode(@NotNull T val, @NotNull List<String> segments) {
     super(segments.remove(segments.size() - 1));
     value   = val;
-    parents = segments;
+    parents = new LinkedList<>(segments);
   }
   
-  public String getName() {
+  public @NotBlank String getName() {
     return (String) getUserObject();
   }
   
@@ -49,11 +47,11 @@ public class NamedTreeNode<T> extends DefaultMutableTreeNode {
     return getChildCount() == 0;
   }
   
-  public @Null NamedTreeNode<T> getChildByName(@NotNull String name) {
+  public @Null NamedTreeNode<T> getChildByName(@NotBlank String name) {
     return findChildByName(name).orElse(null);
   }
   
-  public @NotNull Optional<NamedTreeNode<T>> findChildByName(@NotNull String name) {
+  public @NotNull Optional<NamedTreeNode<T>> findChildByName(@NotBlank String name) {
     NamedTreeNode<T> result = null;
     for (var i = 0; i < getChildCount(); i++) {
       var child = (NamedTreeNode<T>) getChildAt(i);

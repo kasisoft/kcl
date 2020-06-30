@@ -39,6 +39,7 @@ public final class CsvOptions {
   //   * All records must have the same amount of cells
   // 
   boolean           simpleFormat        = false;
+  
   // enable/disable whether the simple loading is allowed to mixup the record order
   boolean           orderedSimpleFormat = true;
   int               maxLines            = -1;
@@ -53,7 +54,7 @@ public final class CsvOptions {
    * 
    * @return   A deep copy of this instance. Not <code>null</code>.
    */
-  public CsvOptions deepCopy() {
+  public @NotNull CsvOptions deepCopy() {
     var result                  = new CsvOptions();
     result.titleRow             = titleRow;
     result.delimiter            = delimiter;
@@ -65,7 +66,7 @@ public final class CsvOptions {
     result.orderedSimpleFormat  = orderedSimpleFormat;
     result.maxLines             = maxLines;
     result.encoding             = encoding;
-    for (CsvColumn column : columns) {
+    for (var column : columns) {
       if (column != null) {
         result.columns.add(column.copy());
       } else {
@@ -75,7 +76,7 @@ public final class CsvOptions {
     return result;
   }
   
-  public static CsvOptionsBuilder builder() {
+  public static @NotNull CsvOptionsBuilder builder() {
     return new CsvOptionsBuilder();
   }
   

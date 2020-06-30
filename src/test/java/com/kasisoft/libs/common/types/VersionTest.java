@@ -3,24 +3,22 @@ package com.kasisoft.libs.common.types;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import com.kasisoft.libs.common.KclException;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.text.ParseException;
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Tests for the class 'Version'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class VersionTest {
 
-  @DataProvider(name = "createInvalidVersions")
-  public Object[][] createInvalidVersions() {
+  @DataProvider(name = "data_failingVersions")
+  public Object[][] data_failingVersions() {
     return new Object[][] {
       {null              , Boolean.TRUE },
       {"1"               , Boolean.TRUE },
@@ -34,13 +32,13 @@ public class VersionTest {
     };
   }
   
-  @Test(dataProvider = "createInvalidVersions", expectedExceptions = {ParseException.class, NullPointerException.class}, groups = "all")
+  @Test(dataProvider = "data_failingVersions", expectedExceptions = KclException.class, groups = "all")
   public void failingVersions(String version, boolean hasqualifier) throws Exception {
     new Version(version, true, hasqualifier);
   }
 
-  @DataProvider(name = "createVersions")
-  public Object[][] createVersions() {
+  @DataProvider(name = "data_versions")
+  public Object[][] data_versions() {
     return new Object[][] {
       {"1.1"            , Boolean.FALSE , Boolean.FALSE , new Version(1, 1)},
       {"1.1.1"          , Boolean.TRUE  , Boolean.FALSE , new Version(1, 1, 1)},
@@ -50,13 +48,13 @@ public class VersionTest {
     };
   }
 
-  @Test(dataProvider = "createVersions", groups = "all")
-  public void versions( String version, boolean hasmicro, boolean hasqualifier, Version expected) throws Exception {
+  @Test(dataProvider = "data_versions", groups = "all")
+  public void versions(String version, boolean hasmicro, boolean hasqualifier, Version expected) throws Exception {
     assertThat(new Version(version, hasmicro, hasqualifier), is(expected));
   }
 
-  @DataProvider(name = "createVersionsAll")
-  public Object[][] createVersionsAll() {
+  @DataProvider(name = "data_versionsAll")
+  public Object[][] data_versionsAll() {
     return new Object[][] {
       {"1.1"            , new Version(1, 1)},
       {"1.1.1"          , new Version(1, 1, 1)},
@@ -66,48 +64,50 @@ public class VersionTest {
     };
   }
 
-  @Test(dataProvider = "createVersionsAll", groups = "all")
+  @Test(dataProvider = "data_versionsAll", groups = "all")
   public void versionsAll(String version, Version expected) throws Exception {
     assertThat(new Version(version), is(expected));
   }
 
-  @DataProvider(name = "createSort")
-  public Object[][] createSort() throws Exception {
+  @DataProvider(name = "data_sort")
+  public Object[][] data_sort() throws Exception {
       
+    Version[] versions  = {new Version("2.1", false, false), new Version("1.1", false, false)};
+    Version[] versions1 = {new Version("1.1", false, false), new Version("2.1", false, false)};
+    Version[] versions2 = {new Version("1.2", false, false), new Version("1.1", false, false)};
+    Version[] versions3 = {new Version("1.1", false, false), new Version("1.2", false, false) };
+    Version[] versions4 = {new Version("1.1.2", true, false), new Version("1.1.1", true, false)};
+    Version[] versions5 = {new Version("1.1.1", true, false), new Version("1.1.2", true, false)};
+    Version[] versions6 = {new Version("1.1.1.zz", true, true), new Version("1.1.1.aa", true, true)};
+    Version[] versions7 = { new Version("1.1.1.aa", true, true), new Version("1.1.1.zz", true, true)};
+    Version[] versions8 = {new Version("1.1.1_zz", true, true), new Version("1.1.1.aa", true, true)};
+    Version[] versions9 = {new Version("1.1.1_aa", true, true), new Version("1.1.1.zz", true, true)};
     return new Object[][] {
       { 
-        asList(new Version("2.1", false, false), new Version("1.1", false, false)), 
-        asList(new Version("1.1", false, false), new Version("2.1", false, false)) 
+        Arrays.asList(versions), 
+        Arrays.asList(versions1) 
       },
       { 
-        asList(new Version("1.2", false, false), new Version("1.1", false, false)), 
-        asList(new Version("1.1", false, false), new Version("1.2", false, false)) 
+        Arrays.asList(versions2), 
+        Arrays.asList(versions3) 
       },
       { 
-        asList(new Version("1.1.2", true, false), new Version("1.1.1", true, false)), 
-        asList(new Version("1.1.1", true, false), new Version("1.1.2", true, false)) 
+        Arrays.asList(versions4), 
+        Arrays.asList(versions5) 
       },
       { 
-        asList(new Version("1.1.1.zz", true, true), new Version("1.1.1.aa", true, true)), 
-        asList(new Version("1.1.1.aa", true, true), new Version("1.1.1.zz", true, true)) 
+        Arrays.asList(versions6), 
+        Arrays.asList(versions7) 
       },
       { 
-        asList(new Version("1.1.1_zz", true, true), new Version("1.1.1.aa", true, true)), 
-        asList(new Version("1.1.1_aa", true, true), new Version("1.1.1.zz", true, true)) 
+        Arrays.asList(versions8), 
+        Arrays.asList(versions9) 
       },
     };
       
   }
   
-  private List<Version> asList(Version ... versions) {
-    var result = new ArrayList<Version>();
-    for (var v : versions) {
-      result.add(v);
-    }
-    return result;
-  }
-  
-  @Test(dataProvider = "createSort", groups = "all")
+  @Test(dataProvider = "data_sort", groups = "all")
   public void sort(List<Version> versions, List<Version> expected) {
     Collections.sort(versions);
     assertThat(versions, is( expected));

@@ -23,8 +23,8 @@ public class ByteAdapterTest {
 
   ByteAdapter adapter = new ByteAdapter();
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
       { null, null},
       {"0"  , Byte.valueOf((byte) 0)},
@@ -33,34 +33,35 @@ public class ByteAdapterTest {
     };
   }
 
-  @DataProvider(name = "dataInvalidEncode")
-  public Object[][] dataInvalidEncode() {
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, Byte expected ) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
+  }
+  
+
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
+    return new Object[][] {
+      {null                    , null},
+      {Byte.valueOf((byte) 0)  , "0"},
+      {Byte.valueOf((byte) 13) , "13"},
+      {Byte.valueOf((byte) -23), "-23"},
+    };
+  }
+
+  @Test(dataProvider = "data_encode", groups = "all")
+  public void encode(Byte value, String expected) throws Exception {
+    assertThat(adapter.encode(value), is(expected));
+  }
+
+  @DataProvider(name = "data_invalidDecode")
+  public Object[][] data_invalidDecode() {
     return new Object[][] {
       {"3.7"},
     };
   }
 
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
-    return new Object[][] {
-      {null                     , null},
-      {Byte.valueOf((byte) 0)   , "0"},
-      {Byte.valueOf((byte) 13)  , "13"},
-      {Byte.valueOf((byte) -23) , "-23"},
-    };
-  }
-
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, Byte expected ) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-  
-  @Test(dataProvider = "dataEncode", groups = "all")
-  public void encode(Byte value, String expected) throws Exception {
-    assertThat(adapter.encode(value), is(expected));
-  }
-
-  @Test(dataProvider = "dataInvalidEncode", groups = "all", expectedExceptions = KclException.class)
+  @Test(dataProvider = "data_invalidDecode", groups = "all", expectedExceptions = KclException.class)
   public void invalidDecode(String value) throws Exception {
     assertNull(adapter.decode(value));
   }

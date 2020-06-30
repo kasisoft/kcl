@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.data;
 
 import com.kasisoft.libs.common.KclException;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import java.util.function.Predicate;
@@ -19,7 +20,6 @@ import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NonNull;
 
 /**
  * Simple wrapper for various database types.
@@ -42,11 +42,6 @@ public enum Database implements Predicate<String> {
   @Getter 
   String        driver;
   
-  List<String>  secondaryDrivers;
-  
-  boolean       active;
-  String        aliveQuery;
-  
   @Getter
   String        listColumnsQuery;
   
@@ -56,6 +51,11 @@ public enum Database implements Predicate<String> {
   @Getter
   String        countQuery;
 
+  List<String>  secondaryDrivers;
+  
+  boolean       active;
+  String        aliveQuery;
+  
   Database(boolean spi, String query, String listColumns, String selectAll, String count, String ... driverclasses) {
     driver           = driverclasses[0];
     active           = spi;
@@ -78,7 +78,7 @@ public enum Database implements Predicate<String> {
    * 
    * @throws UnsupportedOperationException for {@link #odbc}.
    */
-  public String getAliveQuery() {
+  public @NotBlank String getAliveQuery() {
     if (this == odbc) {
       // not available as the underlying db system isn't known here
       throw new UnsupportedOperationException();
@@ -91,10 +91,10 @@ public enum Database implements Predicate<String> {
    * 
    * @throws SQLException   The driver could not be loaded.
    */
-  private synchronized void activate() throws SQLException {
+  private synchronized void activate() {
     if (!active) {
       // only required for non v4 jdbc drivers
-      active = activate( driver );
+      active = activate(driver);
       if( (!active) && (!secondaryDrivers.isEmpty())) {
         for (var secondary : secondaryDrivers) {
           active = activate(secondary);
@@ -106,8 +106,8 @@ public enum Database implements Predicate<String> {
           }
         }
       }
-      if( ! active ) {
-        throw new SQLException();
+      if (!active) {
+        throw new KclException("Failed to activate driver '%s' !", driver);
       }
     }
   }
@@ -128,12 +128,12 @@ public enum Database implements Predicate<String> {
    * 
    * @return   The Connection used for the database. Not <code>null</code>.
    */
-  public Connection getConnection(@NonNull String url) {
+  public Connection getConnection(@NotBlank String url) {
     try {
       activate();
       return DriverManager.getConnection(url);
     } catch (Exception ex) {
-      throw KclException.wrap(ex);
+      throw new KclException(ex, "Couldn't connect to database with url '%s'", url);
     }
   }
   
@@ -146,12 +146,12 @@ public enum Database implements Predicate<String> {
    * 
    * @return   The Connection used for the database. Not <code>null</code>.
    */
-  public Connection getConnection(@NotNull String url, @NotNull String username, String password) {
+  public Connection getConnection(@NotBlank String url, @NotNull String username, String password) {
     try {
       activate();
       return DriverManager.getConnection(url, username, password);
     } catch (Exception ex) {
-      throw KclException.wrap(ex);
+      throw new KclException(ex, "Couldn't connect to database with url '%s'", url);
     }
   }
   
@@ -164,17 +164,15 @@ public enum Database implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */
-  public boolean test(@NotNull String url, @NotNull String username, String password) {
-    boolean result = false;
+  public boolean test(@NotBlank String url, @NotNull String username, String password) {
     try (
       var connection = getConnection(url, username, password);
       var statement  = connection.prepareStatement(aliveQuery);
     ) {
-      result = statement.execute();
+      return statement.execute();
     } catch (SQLException ex) {
-      // our default assumption is that the db isn't available
+      return false;
     }
-    return result;
   }
 
   /**
@@ -185,17 +183,15 @@ public enum Database implements Predicate<String> {
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */
   @Override
-  public boolean test(@NotNull String url) {
-    boolean result = false;
+  public boolean test(@NotBlank String url) {
     try (
       var connection = getConnection(url);
       var statement  = connection.prepareStatement(aliveQuery);
     ) {
-      result = statement.execute();
+      return statement.execute();
     } catch( SQLException ex ) {
-      // our default assumption is that the db isn't available
+      return false;
     }
-    return result;
   }
 
 } /* ENDENUM */

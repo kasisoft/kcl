@@ -7,15 +7,51 @@ import java.util.Arrays;
  */
 public class Buffers {
 
+  public static Buffer<boolean[]> BOOLEANS = new Buffer<>(
+    $ -> new boolean[upsize($)], 
+    $ -> Arrays.fill($, false), 
+    $ -> $.length
+  );
+  
+  public static Buffer<char[]> CHARS = new Buffer<>(
+    $ -> new char[upsize($)], 
+    $ -> Arrays.fill($, (char) 0), 
+    $ -> $.length
+  );
+  
   public static Buffer<byte[]> BYTES = new Buffer<>(
     $ -> new byte[upsize($)], 
     $ -> Arrays.fill($, (byte) 0), 
     $ -> $.length
   );
 
-  public static Buffer<char[]> CHARS = new Buffer<>(
-    $ -> new char[upsize($)], 
-    $ -> Arrays.fill($, (char) 0), 
+  public static Buffer<short[]> SHORTS = new Buffer<>(
+    $ -> new short[upsize($)], 
+    $ -> Arrays.fill($, (short) 0), 
+    $ -> $.length
+  );
+
+  public static Buffer<int[]> INTS = new Buffer<>(
+    $ -> new int[upsize($)], 
+    $ -> Arrays.fill($, 0), 
+    $ -> $.length
+  );
+
+  public static Buffer<long[]> LONGS = new Buffer<>(
+    $ -> new long[upsize($)], 
+    $ -> Arrays.fill($, 0l), 
+    $ -> $.length
+  );
+
+  public static Buffer<float[]> FLOATS = new Buffer<>(
+    $ -> new float[upsize($)], 
+    $ -> Arrays.fill($, 0l), 
+    $ -> $.length
+  );
+
+  public static Buffer<double[]> DOUBLES = new Buffer<>(
+    $ -> new double[upsize($)], 
+    $ -> Arrays.fill($, 0l), 
     $ -> $.length
   );
 

@@ -30,7 +30,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param data             The String content that has to be tokenized. Not <code>null</code>.
    * @param delimiters       A list of delimiting literals. Not <code>null</code>.
    */
-  public LiteralTokenizer(@NotNull String data, @NotNull String ... delimiters ) {
+  public LiteralTokenizer(@NotNull String data, @NotNull String ... delimiters) {
     this(data, false, delimiters);
   }
 
@@ -40,7 +40,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param data             The String content that has to be tokenized. Not <code>null</code>.
    * @param delimiters       A list of delimiting literals. Not <code>null</code>.
    */
-  public LiteralTokenizer(@NotNull StringLike data, @NotNull String ... delimiters ) {
+  public LiteralTokenizer(@NotNull StringLike data, @NotNull String ... delimiters) {
     this(new StringFBuilder(data), false, delimiters);
   }
 
@@ -58,9 +58,9 @@ public class LiteralTokenizer implements Enumeration<String> {
   /**
    * Prepares this tokenizer to operate using delimiting literals.
    * 
-   * @param data             The String content that has to be tokenized. Not <code>null</code>.
+   * @param data             The String content that has to be tokenized.
    * @param returnLiterals   <code>true</code> <=> Return delimiting literals as well.
-   * @param delimiters       A list of delimiting literals. Not <code>null</code>.
+   * @param delimiters       A list of delimiting literals.
    */
   public LiteralTokenizer(@NotNull StringLike data, boolean returnLiterals, @NotNull String ... delimiters) {
     input         = data;
@@ -88,9 +88,9 @@ public class LiteralTokenizer implements Enumeration<String> {
   /**
    * Returns the next literal that has to be returned by this tokenizer.
    * 
-   * @return   The next literal that has to be returned by this tokenizer. Maybe <code>null</code>.
+   * @return   The next literal that has to be returned by this tokenizer.
    */
-  private String getNext() {
+  private @Null String getNext() {
     if (pos == -1) {
       // there's no more content
       return null;
@@ -133,9 +133,9 @@ public class LiteralTokenizer implements Enumeration<String> {
   /**
    * Returns the delimiting literal that will be detected first.
    * 
-   * @return   The delimiting literal that will be detected first. Maybe <code>null</code>.
+   * @return   The delimiting literal that will be detected first. 
    */
-  private String firstDelimiter() {
+  private @Null String firstDelimiter() {
     String result = null;
     var    next   = Integer.MAX_VALUE;
     for (var literal : literals) {

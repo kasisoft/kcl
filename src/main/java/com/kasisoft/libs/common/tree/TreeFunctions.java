@@ -4,15 +4,19 @@ import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.functional.TriConsumer;
 import com.kasisoft.libs.common.text.StringFunctions;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import lombok.experimental.FieldDefaults;
@@ -20,23 +24,25 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 /**
- * Collection of various functions.
+ * Functions to process a list of values in a tree like fashion assuming there's a mapping for each value to generate 
+ * a treepath.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeFunctions {
 
-  private static List<String> split(String str) {
+  private static List<String> split(@NotBlank String str) {
     return Arrays.asList(str.split("/")).stream()
       .map(StringFunctions::cleanup)
       .filter(Predicates.notNull())
-      .collect(Collectors.toList())
+      .collect(Collectors.toCollection(LinkedList::new))
       ;
   }
   
-  private static <T> void addNode(NamedTreeNode<T> parent, NamedTreeNode<T> child) {
-    if (child.isEmpty()) {
+  private static <T> void addNode(@NotNull NamedTreeNode<T> parent, @NotNull NamedTreeNode<T> child) {
+    if (child.getParents().isEmpty()) {
+      // we need to add the lead
       parent.add(child);
     } else {
       var childName = child.getParents().remove(0);
@@ -56,7 +62,8 @@ public class TreeFunctions {
   
   public static <T> NamedTreeNode<T> parenthesize(@NotNull List<T> values, @NotNull Function<T, String> toPath, @Null TriConsumer<String, T, T> addChild) {
 
-
+    // create a list of named nodes first: the name is the leaf, the parents will be the parental segments of this nodes
+    // tree path
     var nodes = new ArrayList<NamedTreeNode<T>>();
     values.stream()
       .map($ -> new NamedTreeNode($, split(toPath.apply($))))
@@ -74,12 +81,40 @@ public class TreeFunctions {
     
   }
   
-  private static <T> void iterate(NamedTreeNode<T> node, int depth, String prefix, TriConsumer<String, T, T> addChild) {
+  private static <T> void iterate(@NotNull NamedTreeNode<T> node, int depth, @NotNull String prefix, @NotNull TriConsumer<String, T, T> addChild) {
     for (var i = 0; i < node.getChildCount(); i++) {
       var child = (NamedTreeNode<T>) node.getChildAt(i);
       addChild.accept(depth == 0 ? "/" : prefix, depth == 0 ? null : node.getValue(), child.getValue());
       iterate(child, depth + 1, prefix + "/" + child.getName(), addChild);
     }
+  }
+
+  public static <T> void forTreeNodeDo(@NotNull List<T> values, @NotNull Function<T, String> toPath, @NotNull Consumer<NamedTreeNode<T>> handleNode) {
+    forTreeNodeDo(values, toPath, true, handleNode);
+  }
+  
+  public static <T> void forTreeNodeDo(@NotNull List<T> values, @NotNull Function<T, String> toPath, boolean skipArtificialRoot, @NotNull Consumer<NamedTreeNode<T>> handleNode) {
+    NamedTreeNode<T> root = parenthesize(values, toPath, null);
+    iterateTree(root, skipArtificialRoot, handleNode);
+  }
+  
+  private static <T> void iterateTree(@NotNull NamedTreeNode<T> node, boolean skip, @NotNull Consumer<NamedTreeNode<T>> handleNode) {
+    if (!skip) {
+      handleNode.accept(node);
+    }
+    for (int i = 0; i < node.getChildCount(); i++) {
+      iterateTree((NamedTreeNode<T>) node.getChildAt(i), false, handleNode);
+    }
+  }
+
+  public static <T> void forTreeValueDo(@NotNull List<T> values, @NotNull Function<T, String> toPath, @NotNull BiConsumer<T, Integer> handleValue) {
+    forTreeValueDo(values, toPath, true, handleValue);
+  }
+  
+  public static <T> void forTreeValueDo(@NotNull List<T> values, @NotNull Function<T, String> toPath, boolean skipArtificialRoot, @NotNull BiConsumer<T, Integer> handleValue) {
+    var                        offset         = skipArtificialRoot ? 1 : 0;
+    Consumer<NamedTreeNode<T>> handleTreeNode = $ -> handleValue.accept((T) $.getUserObject(), $.getLevel() - offset);
+    forTreeNodeDo(values, toPath, skipArtificialRoot, handleTreeNode);
   }
 
 } /* ENDCLASS */

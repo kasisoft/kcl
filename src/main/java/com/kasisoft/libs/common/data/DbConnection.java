@@ -7,7 +7,10 @@ import com.kasisoft.libs.common.csv.CsvColumn;
 import com.kasisoft.libs.common.types.Pair;
 
 import javax.sql.DataSource;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -101,7 +104,7 @@ public class DbConnection implements AutoCloseable {
     return this;
   }
 
-  private void init(Database db, boolean cache) {
+  private void init(@NotNull Database db, boolean cache) {
     database        = db;
     tableNames      = new ArrayList<>();
     columnNames     = cache ? new HashMap<>() : new Uncacheable<>();
@@ -138,7 +141,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   The canonical name unless there's no correspondingly named table. Maybe <code>null</code>.
    */
-  public String canonicalTableName(@NotNull String tablename) {
+  public @Null String canonicalTableName(@NotNull String tablename) {
     var    tables = listTables();
     String result = null;
     for (var table : tables) {
@@ -156,7 +159,7 @@ public class DbConnection implements AutoCloseable {
    * @return   A list of table names (unmodifiable).
    */
   public @NotNull List<String> listTables() {
-    List<String> result = Collections.unmodifiableList(tableNames);
+    var result = Collections.unmodifiableList(tableNames);
     if (tableNames.isEmpty()) {
       ResultSet resultset = null;
       try {
@@ -184,7 +187,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @throws SQLException   Setting up the query failed for some reason.
    */
-  private PreparedStatement getQuery(@NotNull String query, @NotNull String table) throws SQLException {
+  private @NotNull PreparedStatement getQuery(@NotNull String query, @NotNull String table) throws SQLException {
     var key    = table != null ? String.format(query, table) : query;
     var result = queries.get(key);
     if (result == null) {
@@ -201,7 +204,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   A list of all column names. Not <code>null</code>.
    */
-  public List<String> listColumnNames(@NotNull String table) {
+  public @NotNull List<String> listColumnNames(@NotNull String table) {
     return listColumnInfos(columnNames, table, this::getColumnName);
   }
   
@@ -213,7 +216,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   The name of the column. Maybe <code>null</code> in case of an error.
    */
-  private String getColumnName(ResultSetMetaData metadata, int index) {
+  private @Null String getColumnName(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
     try {
       return metadata.getColumnName(index);
     } catch(Exception ex) {
@@ -230,7 +233,7 @@ public class DbConnection implements AutoCloseable {
    * @return   A list of pairs providing the column name associated with the corresponding jdbc type. 
    *           Not <code>null</code>.
    */
-  public List<Pair<String, Integer>> listColumnTypes(@NotNull String table) {
+  public @NotNull List<Pair<String, Integer>> listColumnTypes(@NotNull String table) {
     return listColumnInfos(columnTypes, table, this::getColumnType);
   }
 
@@ -242,7 +245,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   The pair with the column name and jdbc type. Maybe <code>null</code> in case of an error.
    */
-  private Pair<String, Integer> getColumnType(ResultSetMetaData metadata, int index) {
+  private @Null Pair<String, Integer> getColumnType(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
     try {
       return new Pair<>(metadata.getColumnName(index), metadata.getColumnType(index));
     } catch (Exception ex) {
@@ -254,13 +257,13 @@ public class DbConnection implements AutoCloseable {
   /**
    * A generic function which fetches some metadata results.
    * 
-   * @param cache      A cache which is used to keep the metadata information in memory. Not <code>null</code>.
-   * @param table      The table which column names shall be returned. Neither <code>null</code> nor empty.
-   * @param producer   The function which turns the raw metadata result into our desired return type. Not <code>null</code>.
+   * @param cache      A cache which is used to keep the metadata information in memory.
+   * @param table      The table which column names shall be returned. 
+   * @param producer   The function which turns the raw metadata result into our desired return type.
    * 
-   * @return   A list of metadata results. Maybe <code>null</code> in case of an error.
+   * @return   A list of metadata results.
    */
-  private <T> List<T> listColumnInfos(Map<String, List<T>> cache, String table, BiFunction<ResultSetMetaData, Integer, T> producer) {
+  private <T> @Null List<T> listColumnInfos(@NotNull Map<String, List<T>> cache, @NotBlank String table, @NotNull BiFunction<ResultSetMetaData, Integer, T> producer) {
     var result = Collections.<T>emptyList();
     var name   = canonicalTableName(table);
     if (name != null) {
@@ -498,12 +501,12 @@ public class DbConnection implements AutoCloseable {
   /**
    * List some records.
    * 
-   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
-   * @param producer    The {@link Function} which creates a usable record from the jdbc outcome. Not <code>null</code>.
+   * @param jdbcQuery   The jdbc query used to select the records.
+   * @param producer    The {@link Function} which creates a usable record from the jdbc outcome.
    * 
-   * @return   A list with all records. Not <code>null</code>.
+   * @return   A list with all records.
    */
-  public <T> List<T> select(@NotNull String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
+  public <T> @NotNull List<T> select(@NotBlank  String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
     return select(jdbcQuery, null, ($1, $2) -> producer.apply($1));
   }
   
@@ -515,7 +518,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   A list with all records. Not <code>null</code>.
    */
-  public <T, C> List<T> selectAll(@NotNull String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+  public <T, C> @NotNull List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
     var name = canonicalTableName(table);
     return select(String.format(database.getSelectAllQuery(), name), context, producer);
   }
@@ -528,7 +531,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   A list with all records. Not <code>null</code>.
    */
-  public <T> List<T> selectAll(@NotNull String table, @NotNull Function<ResultSet, T> producer) {
+  public <T> @NotNull List<T> selectAll(@NotNull String table, @NotNull Function<ResultSet, T> producer) {
     var name = canonicalTableName(table);
     return select(String.format(database.getSelectAllQuery(), name), producer);
   }
@@ -591,6 +594,8 @@ public class DbConnection implements AutoCloseable {
   }
   
   private static class Uncacheable<K, V> extends HashMap<K, V> {
+
+    private static final long serialVersionUID = 5072129897120869853L;
 
     @Override
     public boolean containsKey(Object key) {

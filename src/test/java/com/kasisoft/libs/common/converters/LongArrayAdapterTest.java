@@ -11,8 +11,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 /**
- * Tests for the type 'LongArrayAdapter'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,8 +18,8 @@ public class LongArrayAdapterTest {
 
   LongArrayAdapter adapter = new LongArrayAdapter();
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
       {null    , null},
       {"31"    , new long[] {31}},
@@ -29,8 +27,13 @@ public class LongArrayAdapterTest {
     };
   }
 
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, long[] expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
+  }
+  
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
     return new Object[][] {
       {null                  , null},
       {new long[] {79 , 1201}, "79,1201"},
@@ -38,12 +41,7 @@ public class LongArrayAdapterTest {
     };
   }
 
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, long[] expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-  
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(long[] value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

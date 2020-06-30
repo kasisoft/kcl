@@ -9,23 +9,21 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * Test for the constants 'Iso639'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Iso639Test {
 
-  @DataProvider(name = "createValues")
-  public Object[][] createValues() {
+  @DataProvider(name = "data_validCode")
+  public Object[][] data_validCode() {
     var values = Iso639.values();
-    var result = new Object[ values.length ][];
+    var result = new Object[values.length][];
     for (var i = 0; i < values.length; i++) {
       result[i] = new Object[] {values[i]};
     }
     return result;
   }
 
-  @Test(dataProvider = "createValues", groups = "all")
+  @Test(dataProvider = "data_validCode", groups = "all")
   public void validCode(Iso639 value) {
     assertNotNull(value.getBibliography());
     assertNotNull(value.getTerminology() );
@@ -36,8 +34,8 @@ public class Iso639Test {
     }
   }
   
-  @DataProvider(name = "createAlpha2")
-  public Object[][] createAlpha2() {
+  @DataProvider(name = "data_findByAlpha2")
+  public Object[][] data_findByAlpha2() {
     var values = Iso639.values();
     var count  = 0;
     for (var value : values ) {
@@ -55,7 +53,7 @@ public class Iso639Test {
     return result;
   }
 
-  @Test(dataProvider = "createAlpha2", groups = "all")
+  @Test(dataProvider = "data_findByAlpha2", groups = "all")
   public void findByAlpha2(Iso639 expected, String alpha2) {
     var identified = Iso639.findByAlpha2(alpha2);
     assertNotNull(identified);
@@ -63,8 +61,8 @@ public class Iso639Test {
     assertThat(identified.get(), is(expected));
   }
 
-  @DataProvider(name = "createBibliography")
-  public Object[][] createBibliography() {
+  @DataProvider(name = "data_findByBibliography")
+  public Object[][] data_findByBibliography() {
     var values = Iso639.values();
     var result = new Object[values.length][];
     for (var i = 0; i < values.length; i++) {
@@ -73,7 +71,7 @@ public class Iso639Test {
     return result;
   }
   
-  @Test(dataProvider = "createBibliography", groups = "all")
+  @Test(dataProvider = "data_findByBibliography", groups = "all")
   public void findByBibliography(Iso639 expected, String bibliography) {
     var identified = Iso639.findByBibliography(bibliography);
     assertNotNull(identified);
@@ -81,8 +79,8 @@ public class Iso639Test {
     assertThat(identified.get(), is(expected));
   }
   
-  @DataProvider(name = "createTerminology")
-  public Object[][] createTerminology() {
+  @DataProvider(name = "data_findByTerminology")
+  public Object[][] data_findByTerminology() {
     var values = Iso639.values();
     var result = new Object[values.length][];
     for (var i = 0; i < values.length; i++) {
@@ -91,7 +89,7 @@ public class Iso639Test {
     return result;
   }
   
-  @Test(dataProvider = "createTerminology",groups = "all")
+  @Test(dataProvider = "data_findByTerminology",groups = "all")
   public void findByTerminology(Iso639 expected, String terminology) {
     var identified = Iso639.findByTerminology(terminology);
     assertNotNull(identified);

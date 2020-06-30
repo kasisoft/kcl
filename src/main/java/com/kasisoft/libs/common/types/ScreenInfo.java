@@ -30,10 +30,10 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
   @FieldDefaults(level = AccessLevel.PRIVATE)
   public enum ComparisonMode implements Comparator<ScreenInfo> {
     
-    Ratio      ( ScreenInfo::compareByRatio      , ScreenInfo::getRatioPixels ),
-    PixelCount ( ScreenInfo::compareByPixelCount , ScreenInfo::getPixels      ),
-    Width      ( ScreenInfo::compareByWidth      , ScreenInfo::getWidth       ),
-    Height     ( ScreenInfo::compareByHeight     , ScreenInfo::getHeight      );
+    Ratio      (ScreenInfo::compareByRatio     , ScreenInfo::getRatioPixels),
+    PixelCount (ScreenInfo::compareByPixelCount, ScreenInfo::getPixels),
+    Width      (ScreenInfo::compareByWidth     , ScreenInfo::getWidth),
+    Height     (ScreenInfo::compareByHeight    , ScreenInfo::getHeight);
     
     Comparator<ScreenInfo>          comparator;
     Function<ScreenInfo, Integer>   getter;
@@ -95,23 +95,23 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     return result;
   }
   
-  private static int compareByRatio(ScreenInfo s1, ScreenInfo s2) {
+  private static int compareByRatio(@NotNull ScreenInfo s1, @NotNull ScreenInfo s2) {
     return Integer.compare(s2.ratioPixels, s1.ratioPixels);
   }
   
-  private static int compareByPixelCount(ScreenInfo s1, ScreenInfo s2) {
+  private static int compareByPixelCount(@NotNull ScreenInfo s1, @NotNull ScreenInfo s2) {
     return Integer.compare(s2.pixels, s1.pixels);
   }
 
-  private static int compareByWidth(ScreenInfo s1, ScreenInfo s2) {
+  private static int compareByWidth(@NotNull ScreenInfo s1, @NotNull ScreenInfo s2) {
     return Integer.compare(s2.width, s1.width);
   }
 
-  private static int compareByHeight(ScreenInfo s1, ScreenInfo s2) {
+  private static int compareByHeight(@NotNull ScreenInfo s1, @NotNull ScreenInfo s2) {
     return Integer.compare(s2.height, s1.height);
   }
 
-  private static int difference(ScreenInfo s1, ScreenInfo s2, Function<ScreenInfo, Integer> getter) {
+  private static int difference(@NotNull ScreenInfo s1, @NotNull ScreenInfo s2, @NotNull Function<ScreenInfo, Integer> getter) {
     var val1 = getter.apply(s1);
     var val2 = getter.apply(s2);
     var max  = Math.max(val1, val2);

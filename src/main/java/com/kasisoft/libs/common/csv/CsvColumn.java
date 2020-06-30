@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.csv;
 
 import com.kasisoft.libs.common.constants.Encoding;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import java.util.function.Function;
@@ -65,7 +66,7 @@ public final class CsvColumn<T> {
    * 
    * @return   The current adapter associated with this column. Maybe <code>null</code>.
    */
-  public Function<String, T> getAdapter() {
+  public @Null Function<String, T> getAdapter() {
     var result = adapter;
     if ((result == null) && (type != null)) {
       result = (Function<String, T>) DEFAULT_ADAPTERS.get( type );
@@ -78,7 +79,7 @@ public final class CsvColumn<T> {
    * 
    * @return   A copy of this instance. Not <code>null</code>.
    */
-  public CsvColumn<T> copy() {
+  public @NotNull CsvColumn<T> copy() {
     var result      = new CsvColumn<T>();
     result.type     = type;
     result.nullable = nullable;
@@ -147,7 +148,7 @@ public final class CsvColumn<T> {
     return new BigDecimal(value);
   }
 
-  public static <R> CsvColumnBuilder<R> builder() {
+  public static <R> @NotNull CsvColumnBuilder<R> builder() {
     return new CsvColumnBuilder<>();
   }
   

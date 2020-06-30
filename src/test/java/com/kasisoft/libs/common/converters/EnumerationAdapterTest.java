@@ -13,8 +13,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 /**
- * Tests for the type 'EnumerationAdapter'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -30,8 +28,8 @@ public class EnumerationAdapterTest {
 
   private EnumerationAdapter<LordOfTheRings> adapter = new EnumerationAdapter<>(LordOfTheRings.class);
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
       {null     , null},
       {"gandalf", LordOfTheRings.Gandalf},
@@ -40,15 +38,25 @@ public class EnumerationAdapterTest {
     };
   }
 
-  @DataProvider(name = "dataInvalidDecode")
-  public Object[][] dataInvalidDecode() {
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, LordOfTheRings expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
+  }
+
+  @DataProvider(name = "data_invalidDecode")
+  public Object[][] data_invalidDecode() {
     return new Object[][] {
       {"gollum", null},
     };
   }
 
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
+  @Test(dataProvider = "data_invalidDecode", expectedExceptions = KclException.class, groups = "all")
+  public void invalidDecode(String value, LordOfTheRings expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
+  }
+
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
     return new Object[][] {
       {null                  , null},
       {LordOfTheRings.Gandalf, "Gandalf"},
@@ -57,17 +65,7 @@ public class EnumerationAdapterTest {
     };
   }
 
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, LordOfTheRings expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-
-  @Test(dataProvider = "dataInvalidDecode", expectedExceptions = KclException.class, groups = "all")
-  public void invalidDecode(String value, LordOfTheRings expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(LordOfTheRings value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

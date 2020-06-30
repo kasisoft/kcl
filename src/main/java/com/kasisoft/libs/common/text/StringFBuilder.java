@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.text;
 
+import com.kasisoft.libs.common.utils.MiscFunctions;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -104,7 +106,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
 
   @Override
   public StringFBuilder getChars(int start, int end, @NotNull char[] destination, int destbegin) {
-    origin.getChars(adjustIndex(start, false), adjustIndex(end, true), destination, adjustIndex(destination.length, destbegin, false));
+    origin.getChars(adjustIndex(start, false), adjustIndex(end, true), destination, MiscFunctions.adjustIndex(destination.length, destbegin, false));
     return this;
   }
 
@@ -136,7 +138,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
 
   @Override
   public @NotNull StringFBuilder append(@NotNull CharSequence sequence, int start, int end) {
-    origin.append(sequence, adjustIndex(sequence.length(), start, false), adjustIndex(sequence.length(), end, true));
+    origin.append(sequence, MiscFunctions.adjustIndex(sequence.length(), start, false), MiscFunctions.adjustIndex(sequence.length(), end, true));
     return this;
   }
 
@@ -148,7 +150,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
 
   @Override
   public @NotNull StringFBuilder append(@NotNull char[] charray, int offset, int length) {
-    origin.append(charray, adjustIndex(charray.length, offset, false), length);
+    origin.append(charray, MiscFunctions.adjustIndex(charray.length, offset, false), length);
     return this;
   }
   
@@ -229,7 +231,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
 
   @Override
   public @NotNull StringFBuilder insert(int index, @NotNull char[] charray, int offset, int length) {
-    origin.insert(adjustIndex(index, false), charray, adjustIndex(charray.length, offset, false), length);
+    origin.insert(adjustIndex(index, false), charray, MiscFunctions.adjustIndex(charray.length, offset, false), length);
     return this;
   }
 
@@ -253,7 +255,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
 
   @Override
   public @NotNull StringFBuilder insert(int offset, @NotNull CharSequence value, int start, int end) {
-    origin.insert(adjustIndex(offset, false), value, adjustIndex(value.length(), start, false), adjustIndex(value.length(), end, true));
+    origin.insert(adjustIndex(offset, false), value, MiscFunctions.adjustIndex(value.length(), start, false), MiscFunctions.adjustIndex(value.length(), end, true));
     return this;
   }
 
@@ -325,24 +327,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   }
   
   private int adjustIndex(int index, boolean isEnd) {
-    return adjustIndex(origin.length(), index, isEnd);
-  }
-
-  /**
-   * Returns an adjusted index since this extension supports negative indices as well.
-   *
-   * @param length  The length to be used for the calculation.
-   * @param index   The index supplied by the user.
-   * 
-   * @return  The index to use for the original implementation.
-   */
-  private int adjustIndex(int length, int index, boolean isEnd) {
-    if (index < 0) {
-      return length + index;
-    } else if ((index == 0) && isEnd) {
-      return length;
-    }
-    return index;
+    return MiscFunctions.adjustIndex(origin.length(), index, isEnd);
   }
 
   @Override

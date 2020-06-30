@@ -22,8 +22,8 @@ public class DoubleAdapterTest {
 
   DoubleAdapter adapter = new DoubleAdapter();
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
       {null   , null},
       {"0.0"  , Double.valueOf(0.0)},
@@ -44,15 +44,13 @@ public class DoubleAdapterTest {
     };
   }
 
-  @DataProvider(name = "dataInvalidDecode")
-  public Object[][] dataInvalidDecode() {
-    return new Object[][] {
-      {"3,7", 3.7},
-    };
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, Double expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
   }
-
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
+  
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
     return new Object[][] {
       {null, null},
       {Double.valueOf(0.0), "0.0"},
@@ -64,17 +62,19 @@ public class DoubleAdapterTest {
     };
   }
 
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, Double expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-  
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(Double value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }
 
-  @Test(dataProvider = "dataInvalidDecode", expectedExceptions = KclException.class, groups = "all")
+  @DataProvider(name = "data_invalidDecode")
+  public Object[][] data_invalidDecode() {
+    return new Object[][] {
+      {"3,7", 3.7},
+    };
+  }
+
+  @Test(dataProvider = "data_invalidDecode", expectedExceptions = KclException.class, groups = "all")
   public void invalidDecode(String value, Double expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }

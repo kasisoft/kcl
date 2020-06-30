@@ -1,32 +1,29 @@
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.io.IoFunctions;
+
+import com.kasisoft.libs.common.KclConfig;
 import com.kasisoft.libs.common.annotation.Specification;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import java.net.URI;
 import java.net.URL;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import lombok.experimental.FieldDefaults;
@@ -53,6 +50,7 @@ public final class Encoding {
   public static final Encoding UTF16BE;
   public static final Encoding UTF16LE;
   public static final Encoding ISO88591;
+  public static final Encoding IBM437;
   
   private static final Map<String, Encoding>   ENCODINGS;
   
@@ -64,6 +62,7 @@ public final class Encoding {
     UTF16BE     = new Encoding("UTF-16BE"    , false , ByteOrderMark.UTF16BE);
     UTF16LE     = new Encoding("UTF-16LE"    , false , ByteOrderMark.UTF16LE);
     ISO88591    = new Encoding("ISO-8859-1"  , false , null                 );
+    IBM437      = new Encoding("IBM437"      , false , null                 );
   }
   
   /** Neither <code>null</code> nor empty. */
@@ -102,7 +101,7 @@ public final class Encoding {
    * @return   The reader if the file could be opened. Not <code>null</code>.
    */
   public @NotNull Reader openReader(@NotNull File file) {
-    return openReader(file.toPath());
+    return IoFunctions.newReader(file, this);
   }
 
   /**
@@ -114,11 +113,19 @@ public final class Encoding {
    */
   @SuppressWarnings("resource")
   public @NotNull Reader openReader(@NotNull URL url) {
-    try {
-      return openReader(url.openStream());
-    } catch (IOException ex) {
-      throw new KclException(ex, "Could not open '%s'!", url);
-    }
+    return IoFunctions.newReader(url, this);
+  }
+
+  /**
+   * Opens a Reader for a specific resource using this encoding.
+   * 
+   * @param uri   The URI of the resource that has to be opened using this encoding. Must be a valid resource.
+   *  
+   * @return   The reader if the url could be opened. Not <code>null</code>.
+   */
+  @SuppressWarnings("resource")
+  public @NotNull Reader openReader(@NotNull URI uri) {
+    return IoFunctions.newReader(uri, this);
   }
 
   /**
@@ -130,11 +137,7 @@ public final class Encoding {
    */
   @SuppressWarnings("resource")
   public @NotNull Reader openReader(@NotNull Path path) {
-    try {
-      return openReader(Files.newInputStream(path));
-    } catch (IOException ex) {
-      throw new KclException(ex, "Could not open '%s'!", path);
-    }
+    return IoFunctions.newReader(path, this);
   }
 
   /**
@@ -145,12 +148,7 @@ public final class Encoding {
    * @return   The Reader if it can be accessed. Not <code>null</code>.
    */
   public @NotNull Reader openReader(@NotNull InputStream instream) {
-    try {
-      return new BufferedReader(new InputStreamReader(instream, encoding));
-    } catch (UnsupportedEncodingException ex) {
-      // won't happen as we only support guarantueed encodings
-      return null;
-    }
+    return IoFunctions.newReader(instream, this);
   }
 
   /**
@@ -161,7 +159,7 @@ public final class Encoding {
    * @return   The writer if the file could be opened. Not <code>null</code>.
    */
   public @NotNull Writer openWriter(@NotNull File file) {
-    return openWriter(file.toPath());
+    return IoFunctions.newWriter(file, this);
   }
 
   /**
@@ -173,11 +171,7 @@ public final class Encoding {
    */
   @SuppressWarnings("resource")
   public @NotNull Writer openWriter(@NotNull Path path) {
-    try {
-      return openWriter(Files.newOutputStream(path));
-    } catch (IOException ex) {
-      throw new KclException(ex, "Failed to open '%s'!", path);
-    }
+    return IoFunctions.newWriter(path, this);
   }
 
   /**
@@ -188,12 +182,7 @@ public final class Encoding {
    * @return   The writer if the file could be opened. Not <code>null</code>.
    */
   public @NotNull Writer openWriter(@NotNull OutputStream outstream) {
-    try {
-      return new BufferedWriter(new OutputStreamWriter(outstream, encoding));
-    } catch (UnsupportedEncodingException ex) {
-      // won't happen as we only support guarantueed encodings
-      return null;
-    }
+    return IoFunctions.newWriter(outstream, this);
   }
 
   /**
@@ -240,6 +229,13 @@ public final class Encoding {
     synchronized (ENCODINGS) {
       return Optional.ofNullable(ENCODINGS.get(name));
     }
+  }
+  
+  public static @NotNull Encoding getEncoding(@Null Encoding encoding) {
+    if (encoding == null) {
+      return KclConfig.DEFAULT_ENCODING;
+    }
+    return encoding;
   }
 
 } /* ENDCLASS */

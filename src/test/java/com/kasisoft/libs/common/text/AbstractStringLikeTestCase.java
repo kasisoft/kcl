@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,8 +39,8 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
 
   Class<T>   stringLikeType;
   
-  @DataProvider(name = "dataStringBuffers")
-  public Object[][] dataStringBuffers() {
+  @DataProvider(name = "data_buffers")
+  public Object[][] data_buffers() {
     return new Object[][] {
       new Object[] {create()},
       new Object[] {create(256)},
@@ -173,13 +172,11 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
   
   @Test(groups = "all")
   public void getChars() {
-    
     var charray = new char[20];
     Arrays.fill(charray, 'A');
     var buffer  = create("Hello World");
     buffer.getChars(2, -5, charray, -10);
     assertThat(String.valueOf(charray), is("AAAAAAAAAAllo AAAAAA"));
-
   }
 
   @Test(groups = "all")
@@ -263,48 +260,48 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     assertThat(create("Simple-ton").camelCase().toString(), is("simpleTon"));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void appendF(T buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
   }
   
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void charAt(T buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     assertThat(buffer.charAt(0), is('M'));
     assertThat(buffer.charAt(-1), is('!'));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void substring(T buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     assertThat(buffer.substring(0, 2), is("My"));
     assertThat(buffer.substring(-10), is("Not 0x11 !"));
   }
   
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void trimLeading(T buffer) {
     buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
     buffer.trimLeading();
     assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void trimTrailing(T buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
     buffer.trimTrailing();
     assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void trim(T buffer) {
     buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
     buffer.trim();
     assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
   }
   
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void endsWith(T buffer) {
     
     buffer.appendF("The frog is here !");
@@ -330,7 +327,7 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
 
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void startsWith(T buffer) {
     
     buffer.appendF("The frog is here !");
@@ -347,16 +344,13 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
 
   @Test(groups = "all")
   public void startsWithMany() {
-    
     var buffer = create("The frog is here !");
-    
     assertNull(buffer.startsWithMany("the"));
     assertThat(buffer.startsWithMany(false, "the"), is("the"));
     assertThat(buffer.startsWithMany("The"), is("The"));
-    
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void equals(T buffer) {
     buffer.appendF("The frog is here !");
     assertTrue  (buffer.equals(true, "The frog is here !"));
@@ -366,20 +360,20 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     assertFalse (buffer.equals("THE FROG IS HERE !"));
   }
   
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void remove(T buffer) {
     buffer.appendF("Moloko was a great band !");
     assertThat(buffer.remove("oa").toString(), is("Mlk ws  gret bnd !"));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void reverse(T buffer) {
     buffer.append("The frog is here !");
     buffer.reverse();
     assertThat(buffer.toString(), is("! ereh si gorf ehT"));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void indexOf(T buffer) {
     buffer.append("The frog is here !");
     assertThat(buffer.indexOf("frog"), is(4));
@@ -391,7 +385,7 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     assertThat(buffer.indexOf("co", "Flansch"), is(-1));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void lastIndexOf(T buffer) {
     buffer.append("The frog is here !");
     assertThat(buffer.lastIndexOf("frog"), is( 4));
@@ -402,20 +396,18 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     assertThat(buffer.lastIndexOf("Flansch"), is(-1));
   }
   
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void replace(T buffer) {
     buffer.append("The frog is here !");
     assertThat(buffer.replace('e', 'a').toString(), is("Tha frog is hara !"));
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void split(T buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
-    String[] expected = new String[] {
-      "This", "was", "my", "3", "bir", "hday", "on", "he", "2", "s", "ree", "."
-    };
-    String[] parts = buffer.split(" t");
+    var expected = new String[] {"This", "was", "my", "3", "bir", "hday", "on", "he", "2", "s", "ree", "."};
+    var parts = buffer.split(" t");
     assertThat(parts, is(notNullValue()));
     assertThat(parts.length, is(expected.length));
     assertThat(parts, is(expected));
@@ -428,14 +420,12 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void splitRegex(T buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
-    String[] expected = new String[] {
-      "This was my ", " birthday on the ", " street."
-    };
-    String[] parts = buffer.splitRegex("[0-9]+");
+    var expected = new String[] {"This was my ", " birthday on the ", " street."};
+    var parts = buffer.splitRegex("[0-9]+");
     assertThat(parts, is(notNullValue()));
     assertThat(parts.length, is(expected.length));
     assertThat(parts, is(expected));
@@ -456,7 +446,7 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void replaceAll(T buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
@@ -475,7 +465,7 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void replaceFirst(T buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
@@ -489,7 +479,7 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     
   }
 
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void replaceLast(T buffer) {
     
     buffer.append("This was my 3 birthday on the 2 street.");
@@ -503,42 +493,42 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     
   }
   
-  @Test(dataProvider = "dataStringBuffers", groups = "all")
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void capacity(T buffer) {
 
-    int capacity = buffer.capacity();
+    var capacity = buffer.capacity();
     assertTrue(capacity > 0);
     
     buffer.ensureCapacity(capacity + 16384);
     int newcapacity = buffer.capacity();
     assertThat(newcapacity, is(capacity + 16384));
     
-    int length = buffer.length();
+    var length = buffer.length();
     buffer.trimToSize();
-    int shrinkedcapacity = buffer.capacity();
+    var shrinkedcapacity = buffer.capacity();
     assertThat(shrinkedcapacity, is(length));
     
   }
   
-  @DataProvider(name = "caseChangeData")
-  public Object[][] caseChangeData() {
+  @DataProvider(name = "data_caseChange")
+  public Object[][] data_caseChange() {
     return new Object[][] {
-      { new String[] { ""              }, new String[] { ""              } },
-      { new String[] { "hello"         }, new String[] { "HELLO"         } },
-      { new String[] { "hello", "bibo" }, new String[] { "HELLO", "BIBO" } },
+      {new String[] {""}, new String[] {""}},
+      {new String[] {"hello"}, new String[] {"HELLO"}},
+      {new String[] {"hello", "bibo"}, new String[] {"HELLO", "BIBO"}},
     };
   }
   
-  @Test(dataProvider = "caseChangeData", groups = "all")
+  @Test(dataProvider = "data_caseChange", groups = "all")
   public void toUpperCase(String[] current, String[] expected) {
-    for (int i = 0; i < current.length; i++) {
+    for (var i = 0; i < current.length; i++) {
       assertThat(create(current[i]).toUpperCase().toString(), is(expected[i]));
     }
   }
 
-  @Test(dataProvider = "caseChangeData", groups = "all")
+  @Test(dataProvider = "data_caseChange", groups = "all")
   public void toLowerCase(String[] expected, String[] current) {
-    for (int i = 0; i < current.length; i++) {
+    for (var i = 0; i < current.length; i++) {
       assertThat(create(current[i]).toLowerCase().toString(), is(expected[i]));
     }
   }
@@ -573,8 +563,8 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
   public void replaceAll() {
     
     var replacements = new HashMap<String, String>();
-    replacements.put( "name"    , "Daniel Kasmeroglu" );
-    replacements.put( "company" , "Kasisoft"          );
+    replacements.put("name", "Daniel Kasmeroglu");
+    replacements.put("company", "Kasisoft");
     
     var buffer1 = create("The pseudo company company is driven by name [company]");
     buffer1.replaceAll(replacements);
@@ -586,8 +576,8 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
 
   }
   
-  @DataProvider(name = "createRegionReplaceSimple")
-  public Object[][] createRegionReplaceSimple() {
+  @DataProvider(name = "data_regionReplaceSimple")
+  public Object[][] data_regionReplaceSimple() {
     return new Object[][] {
       {create("this is // my text // without a section // dodo //"), "", "this is  without a section "},
       {create("this is // // my text // without a section // dodo //"), "", "this is  my text  dodo //"},
@@ -598,14 +588,14 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     };
   }
   
-  @Test(groups = "all", dataProvider = "createRegionReplaceSimple")
+  @Test(groups = "all", dataProvider = "data_regionReplaceSimple")
   public void regionReplaceSimple(T buffer, String replacement, String expected) {
     assertThat(buffer.replaceRegions("//", replacement).toString(), is( expected ) );
   }
 
-  @DataProvider(name = "createRegionReplaceFunction")
-  public Object[][] createRegionReplaceFunction() {
-    Map<String, String> mapping = new HashMap<>();
+  @DataProvider(name = "data_regionReplaceFunction")
+  public Object[][] data_regionReplaceFunction() {
+    var mapping = new HashMap<String, String>();
     mapping.put("my text", "changed text");
     mapping.put("dodo", "dodo text");
     Function<String, CharSequence> replacement = $ -> mapping.get($.trim());
@@ -616,7 +606,7 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     };
   }
   
-  @Test(groups = "all", dataProvider = "createRegionReplaceFunction")
+  @Test(groups = "all", dataProvider = "data_regionReplaceFunction")
   public void regionReplaceFunction(T buffer, Function<String, CharSequence> replacement, String expected) {
     assertThat(buffer.replaceRegions("//", replacement).toString(), is(expected));
   }

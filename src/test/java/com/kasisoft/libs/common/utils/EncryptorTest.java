@@ -22,7 +22,7 @@ public class EncryptorTest {
   @Test(groups = "all")
   public void cipherAndAlgorithm() {
     
-    var encryptor = new Encryptor(CIPHER, ALGORITHM).withErrorHandler(IllegalArgumentException::new);
+    var encryptor = new Encryptor(CIPHER, ALGORITHM);
     var strdata   = "gollum";
     var data      = strdata.getBytes();
     
@@ -69,7 +69,7 @@ public class EncryptorTest {
   @Test(groups = "all")
   public void cipherAndAlgorithmAndSecret() {
     
-    var encryptor = new Encryptor(CIPHER, ALGORITHM, SECRET).withErrorHandler(IllegalArgumentException::new);
+    var encryptor = new Encryptor(CIPHER, ALGORITHM, SECRET);
     var strdata   = "gollum";
     var data      = strdata.getBytes();
     
@@ -116,7 +116,7 @@ public class EncryptorTest {
   @Test(groups = "all")
   public void cipherAndAlgorithmAndSecretAndSalt() {
     
-    var encryptor = new Encryptor(CIPHER, ALGORITHM, SECRET, "01234567".getBytes()).withErrorHandler(IllegalArgumentException::new);
+    var encryptor = new Encryptor(CIPHER, ALGORITHM, SECRET, "01234567".getBytes());
     var strdata   = "gollum";
     var data      = strdata.getBytes();
     

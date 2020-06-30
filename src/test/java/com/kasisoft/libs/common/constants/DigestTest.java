@@ -16,8 +16,8 @@ import org.testng.annotations.Test;
  */
 public class DigestTest {
 
-  @DataProvider(name = "createData")
-  public Object[][] createData() {
+  @DataProvider(name = "data_digest")
+  public Object[][] data_digest() {
     return new Object[][] {
       {"This is my test phrase", Digest.MD2   },
       {"This is my test phrase", Digest.MD5   },
@@ -28,7 +28,7 @@ public class DigestTest {
     };
   };
 
-  @Test(dataProvider = "createData", groups = "all")
+  @Test(dataProvider = "data_digest", groups = "all")
   public void digest(String text, Digest digest) {
     var data        = text.getBytes();
     var hash_first  = digest.digest(data); 
@@ -36,8 +36,8 @@ public class DigestTest {
     assertThat(hash_first, is(hash_second));
   }
   
-  @DataProvider(name = "createDataToString")
-  public Object[][] createDataToString() {
+  @DataProvider(name = "data_digestToString")
+  public Object[][] data_digestToString() {
     return new Object[][] {
       {"This is my test phrase", Digest.MD2   , "5a6ce9fb168eb92bb912be6c90102572"},
       {"This is my test phrase", Digest.MD5   , "76a2d4204bcd9ea5aac40ebf833f7345"},
@@ -48,13 +48,13 @@ public class DigestTest {
     };
   };
   
-  @Test(dataProvider = "createDataToString", groups = "all")
+  @Test(dataProvider = "data_digestToString", groups = "all")
   public void digestToString(String text, Digest digest, String expectedVal) {
     assertThat(digest.digestToString(text.getBytes()), is(expectedVal));
   }
   
-  @DataProvider(name = "valueByNameData")
-  public Object[][] valueByNameData() {
+  @DataProvider(name = "data_findByName")
+  public Object[][] data_findByName() {
     var digests = Digest.values();
     var result  = new Object[digests.length + 1][];
     for (var i = 0; i < digests.length; i++) {
@@ -64,7 +64,7 @@ public class DigestTest {
     return result;
   }
   
-  @Test(dataProvider = "valueByNameData", groups = "all")
+  @Test(dataProvider = "data_findByName", groups = "all")
   public void findByName(String name, Digest expected) {
     var digest = Digest.findByName(name);
     assertNotNull(digest);

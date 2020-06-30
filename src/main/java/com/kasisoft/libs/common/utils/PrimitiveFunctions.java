@@ -3,13 +3,39 @@ package com.kasisoft.libs.common.utils;
 import com.kasisoft.libs.common.constants.Empty;
 
 import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerBoolean;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerByte;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerChar;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerDouble;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerFloat;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerInt;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerLong;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerShort;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionBoolean;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionByte;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionChar;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionDouble;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionFloat;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionInt;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionLong;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionShort;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierBoolean;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierByte;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierChar;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierDouble;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierFloat;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierInt;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierLong;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierShort;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Declarations used to identify primitive types.
@@ -17,6 +43,10 @@ import java.util.List;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PrimitiveFunctions {
+
+  private static final Set<String> BOOLEAN_TRUES  = new HashSet<>(Arrays.asList("true", "yes", "ja", "Y", "j", "ein", "on", "enabled"));
+
+  private static final Set<String> BOOLEAN_FALSES = new HashSet<>(Arrays.asList("false", "no", "nein", "n", "aus", "off", "disabled"));
 
   /* BYTE */
   
@@ -49,8 +79,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull byte[] buffer, @NotNull byte[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((pos <= maxPos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -215,8 +248,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull short[] buffer, @NotNull short[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -381,8 +417,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull int[] buffer, @NotNull int[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -547,8 +586,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull long[] buffer, @NotNull long[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -713,8 +755,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull float[] buffer, @NotNull float[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -879,8 +924,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull double[] buffer, @NotNull double[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -1021,8 +1069,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull char[] buffer, @NotNull char[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((maxPos <= pos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -1189,8 +1240,11 @@ public class PrimitiveFunctions {
   }
 
   public static boolean compare(@NotNull boolean[] buffer, @NotNull boolean[] sequence, int pos) {
-    var maxPos = buffer.length - sequence.length - pos;
-    if ((pos <= maxPos) && (maxPos >= 0)) {
+    if (sequence.length == 0) {
+      return true;
+    }
+    var maxPos = buffer.length - sequence.length;
+    if ((maxPos >= 0) && (pos <= maxPos)) {
       for (int i = 0, j = pos; i < sequence.length; i++, j++) {
         if (buffer[j] != sequence[i]) {
           return false;
@@ -1324,4 +1378,225 @@ public class PrimitiveFunctions {
     return result;
   }
   
+  /* PARSING PRIMITIVE TYPES */
+  
+  /**
+   * Interpretes a value as a boolean.
+   * 
+   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * 
+   * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
+   *           <code>false</code> <=> All other cases.
+   */
+  public static boolean parseBoolean( String value ) {
+    if (value != null) {
+      var lower = value.toLowerCase();
+      if (BOOLEAN_TRUES.contains(lower)) {
+        return true;
+      }
+      if (BOOLEAN_FALSES.contains(lower)) {
+        return false;
+      }
+    }
+    throw new KclException("Invalid boolean value: '%s'", value);
+  }
+
+  /* SUPPLIERS */
+  
+  public static boolean getBoolean(@NotNull KSupplierBoolean inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static char getChar(@NotNull KSupplierChar inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static byte getByte(@NotNull KSupplierByte inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static short getShort(@NotNull KSupplierShort inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static int getInt(@NotNull KSupplierInt inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static long getLong(@NotNull KSupplierLong inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static float getFloat(@NotNull KSupplierFloat inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static double getDouble(@NotNull KSupplierDouble inv) {
+    try {
+      return inv.get();
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  /* CONSUMERS */
+  
+  public static void acceptBoolean(@NotNull KConsumerBoolean inv, boolean value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static void acceptChar(@NotNull KConsumerChar inv, char value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static void acceptByte(@NotNull KConsumerByte inv, byte value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static void acceptShort(@NotNull KConsumerShort inv, short value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static void acceptInt(@NotNull KConsumerInt inv, int value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static void acceptLong(@NotNull KConsumerLong inv, long value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static void acceptFloat(@NotNull KConsumerFloat inv, float value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static void acceptDouble(@NotNull KConsumerDouble inv, double value) {
+    try {
+      inv.accept(value);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  /* FUNCTIONS */
+  
+  public static <I> boolean applyBoolean(@NotNull KFunctionBoolean<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static <I> char applyChar(@NotNull KFunctionChar<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static <I> byte applyByte(@NotNull KFunctionByte<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static <I> short applyShort(@NotNull KFunctionShort<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static <I> int applyInt(@NotNull KFunctionInt<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static <I> long applyLong(@NotNull KFunctionLong<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static <I> float applyFloat(@NotNull KFunctionFloat<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
+  public static <I> double applyDouble(@NotNull KFunctionDouble<I> inv, I input) {
+    try {
+      return inv.apply(input);
+    } catch (Exception ex) {
+      throw KclException.wrap(ex);
+    }
+  }
+
 } /* ENDCLASS */

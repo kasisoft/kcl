@@ -223,7 +223,7 @@ public class Version implements Comparable<Version> {
     if (other == null) {
       return -1;
     }
-    int result = Integer.valueOf(major).compareTo( Integer.valueOf(other.major));
+    var result = Integer.valueOf(major).compareTo( Integer.valueOf(other.major));
     if (result == 0) {
       result = Integer.valueOf(minor).compareTo( Integer.valueOf(other.minor));
     }

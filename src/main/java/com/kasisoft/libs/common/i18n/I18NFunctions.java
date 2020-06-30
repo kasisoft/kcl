@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.i18n;
 
+import com.kasisoft.libs.common.KclConfig;
+
 import java.util.Locale;
 
 /**
@@ -18,7 +20,7 @@ public class I18NFunctions {
    */
   public static Locale getLocale(Locale locale) {
     if (locale == null) {
-      return Locale.getDefault();
+      return KclConfig.DEFAULT_LOCALE;
     } else {
       return locale;
     }

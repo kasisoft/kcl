@@ -427,6 +427,10 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     return (T) this;
   }
 
+  default @NotNull T trim(@NotNull String chars, Boolean left) {
+    return (T) this;
+  }
+  
   /**
    * This function removes leading and trailing whitespace from this buffer.
    */
@@ -698,6 +702,33 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     }
     return (T) this;
   }
+  
+  /**
+   * Replaces all occurrences of a regular expression with a specified replacement.
+   * 
+   * @param regex         The regular expression used to select the fragments that will be replaced. 
+   *                      Neither <code>null</code> nor empty.
+   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  default @NotNull T replaceLiterallyAll(@NotNull String search, @NotNull String replacement) {
+    Buckets.<Integer>bucketArrayList().forInstanceDo($ -> {
+      var pos = indexOf(search);
+      while (pos != -1) {
+        $.add(pos);
+        $.add(pos + search.length());
+        pos = indexOf(pos + search.length(), search);
+      }
+      for (var i = $.size() - 2; i >= 0; i -= 2) {
+        var start = $.get(i);
+        var end   = $.get(i + 1);
+        delete(start, end);
+        insert(start, replacement);
+      }
+    });
+    return (T) this;
+  }
 
   /**
    * Replaces all occurrences of a regular expression with a specified replacement.
@@ -736,6 +767,58 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
       }
     });
     return (T) this;
+  }
+
+  /**
+   * Replaces all occurrences of a regular expression with a specified replacement.
+   * 
+   * @param regex                 The regular expression used to select the fragments that will be replaced. 
+   *                              Neither <code>null</code> nor empty.
+   * @param replacementSupplier   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  default @NotNull T replaceAll(@NotNull String regex, @NotNull Function<String, String> replacementSupplier) {
+    return replaceAll(Pattern.compile(regex), replacementSupplier);
+  }
+  
+  /**
+   * Replaces all occurrences of a regular expression with a specified replacement.
+   * 
+   * @param pattern               The Pattern providing the regular expression for the substitution.
+   *                              Not <code>null</code>.
+   * @param replacementSupplier   The replacement which has to be used instead. Not <code>null</code>.
+   * 
+   * @return   This buffer. Not <code>null</code>.
+   */
+  default @NotNull T replaceAll(@NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
+    
+    var ranges        = Buckets.<Integer>bucketArrayList().allocate();
+    var substitutions = Buckets.<String>bucketArrayList().allocate();
+    var matcher       = pattern.matcher(this);
+    
+    // we're collecting the substitutions from left to right, so the supplying function can assume this and use an
+    // internal state if desired
+    while (matcher.find()) {
+      ranges.add(matcher.start());
+      ranges.add(matcher.end());
+      var text         = substring(matcher.start(), matcher.end());
+      substitutions.add(replacementSupplier.apply(text));
+    }
+    
+    // perform the substitutions
+    for (int i = ranges.size() - 2, j = substitutions.size() - 1; i >= 0; i -= 2, j--) {
+      var start = ranges.get(i);
+      var end   = ranges.get(i + 1);
+      delete(start, end);
+      insert(start, substitutions.get(j));
+    }
+    
+    Buckets.<String>bucketArrayList().free(substitutions);
+    Buckets.<Integer>bucketArrayList().free(ranges);
+    
+    return (T) this;
+    
   }
 
   /**
@@ -971,11 +1054,11 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   }
 
   default @NotNull T replaceRegions(@NotNull String open, @NotNull String replacement) {
-    return (T) replaceRegions(open, open, $ -> replacement);
+    return replaceRegions(open, open, $ -> replacement);
   }
 
   default @NotNull T replaceRegions(@NotNull String open, @Null String close, @NotNull String replacement) {
-    return (T) replaceRegions(open, close, $ -> replacement);
+    return replaceRegions(open, close, $ -> replacement);
   }
   
   default @NotNull T replaceRegions(@NotNull String open, @NotNull Function<String, CharSequence> replacement) {

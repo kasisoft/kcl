@@ -22,8 +22,8 @@ public class FloatAdapterTest {
 
   FloatAdapter adapter = new FloatAdapter();
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
       {null   , null},
       {"0.0"  , Float.valueOf(0.0f)},
@@ -44,15 +44,13 @@ public class FloatAdapterTest {
     };
   }
 
-  @DataProvider(name = "dataInvalidDecode")
-  public Object[][] dataInvalidDecode() {
-    return new Object[][] {
-      {"3,7", 3.7f},
-    };
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, Float expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
   }
-
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
+  
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
     return new Object[][] {
       {null, null},
       {Float.valueOf(0.0f), "0.0"},
@@ -64,17 +62,19 @@ public class FloatAdapterTest {
     };
   }
 
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, Float expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-  
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(Float value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }
 
-  @Test(dataProvider = "dataInvalidDecode", expectedExceptions = KclException.class, groups = "all")
+  @DataProvider(name = "data_invalidDecode")
+  public Object[][] data_invalidDecode() {
+    return new Object[][] {
+      {"3,7", 3.7f},
+    };
+  }
+
+  @Test(dataProvider = "data_invalidDecode", expectedExceptions = KclException.class, groups = "all")
   public void invalidDecode(String value, Float expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }

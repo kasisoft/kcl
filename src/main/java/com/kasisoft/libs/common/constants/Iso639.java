@@ -22,6 +22,7 @@ import lombok.Getter;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://www.loc.gov/standards/iso639-2/php/code_list.php", date = "04-JUN-2020")
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Iso639 implements Predicate<String> {
 
@@ -507,9 +508,9 @@ public enum Iso639 implements Predicate<String> {
   Zuni                      ("ZUN", "ZUN", null),
   Zaza                      ("ZZA", "ZZA", null);
   
-  @Getter String   bibliography; 
-  @Getter String   terminology; 
-  @Getter String   alpha2;
+  String   bibliography; 
+  String   terminology; 
+  String   alpha2;
   
   Iso639(String bib, String term, String al2) {
     bibliography    = bib;
@@ -578,7 +579,7 @@ public enum Iso639 implements Predicate<String> {
     return findBy(LocalData.alpha2, alpha2);
   }
 
-  private static @NotNull Optional<Iso639> findBy(Map<String, Iso639> map, String key) {
+  private static @NotNull Optional<Iso639> findBy(@NotNull Map<String, Iso639> map, @Null String key) {
     if (key != null) {
       return Optional.ofNullable(map.get(key));
     }

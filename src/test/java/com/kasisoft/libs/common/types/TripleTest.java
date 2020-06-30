@@ -13,23 +13,17 @@ import org.testng.annotations.Test;
  */
 public class TripleTest {
 
-  private Triple<String, String, Boolean> newTriple(String key, String m, boolean value) {
-    var result = new Triple<String, String, Boolean>();
-    result.setValues(key, m, value);
-    return result;
-  }
-  
-  @DataProvider(name = "createTripleData")
-  public Object[][] createTripleData() {
+  @DataProvider(name = "data_processTriples")
+  public Object[][] data_processTriples() {
     return new Object[][] {
-      {newTriple("A", "mid0", true)  , "A", "mid0", true},
-      {newTriple("A", "mid1", false) , "A", "mid1", false},
-      {newTriple("B", "mid2", true)  , "B", "mid2", true},
+      {new Triple<String, String, Boolean>("A", "mid0", true), "A", "mid0", true},
+      {new Triple<String, String, Boolean>("A", "mid1", false), "A", "mid1", false},
+      {new Triple<String, String, Boolean>("B", "mid2", true), "B", "mid2", true},
     };
   }
   
-  @Test(dataProvider = "createTripleData", groups = "all")
-  public void processPairs(Triple<String, String, Boolean> pair, String key, String mid, boolean value) {
+  @Test(dataProvider = "data_processTriples", groups = "all")
+  public void processTriples(Triple<String, String, Boolean> pair, String key, String mid, boolean value) {
     assertThat(pair.getFirst(), is(key));
     assertThat(pair.getLast(), is(value));
     assertThat(pair.getValue2(), is(mid));

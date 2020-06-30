@@ -15,8 +15,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 /**
- * Tests for the type 'FileAdapter'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -24,9 +22,9 @@ public class FileAdapterTest extends AbstractTestCase {
 
   FileAdapter adapter = new FileAdapter();
 
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
-    String path = getRootFolder().toString();
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
+    var path = getRootFolder().toString();
     return new Object[][] {
       {null                               , null},
       {String.format("%s\\http.xsd", path), getResourceAsFile("http.xsd")},
@@ -36,9 +34,14 @@ public class FileAdapterTest extends AbstractTestCase {
     };
   }
 
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
-    String path = getRootFolder().toString();
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, File expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
+  }
+  
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
+    var path = getRootFolder().toString();
     return new Object[][] {
       {null                         , null},
       {getResourceAsFile("http.xsd"), String.format("%s/http.xsd", path)},
@@ -46,12 +49,7 @@ public class FileAdapterTest extends AbstractTestCase {
     };
   }
 
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, File expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-  
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(File value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

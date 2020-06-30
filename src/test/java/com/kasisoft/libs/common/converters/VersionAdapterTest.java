@@ -22,28 +22,28 @@ public class VersionAdapterTest {
 
   VersionAdapter adapter = new VersionAdapter().withMicro(true).withQualifier(true);
   
-  @DataProvider(name = "dataDecode")
-  public Object[][] createUnmarshalling() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     return new Object[][] {
-      { null              , null                                         },
-      { "1.1.1.qualifier" , new Version( "1.1.1.qualifier", true, true ) },
+      {null             , null                                       },
+      {"1.1.1.qualifier", new Version( "1.1.1.qualifier", true, true)},
     };
   }
 
-  @DataProvider(name = "dataEncode")
-  public Object[][] createMarshalling() {
-    return new Object[][] {
-      { null                                                 , null               },
-      { new Version( 1, 1, Integer.valueOf(1), "qualifier" ) , "1.1.1.qualifier"  },
-    };
-  }
-
-  @Test(dataProvider = "dataDecode", groups = "all")
+  @Test(dataProvider = "data_decode", groups = "all")
   public void decode( String value, Version expected ) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
   
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
+    return new Object[][] {
+      {null                                              , null             },
+      {new Version(1, 1, Integer.valueOf(1), "qualifier"), "1.1.1.qualifier"},
+    };
+  }
+
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(Version value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

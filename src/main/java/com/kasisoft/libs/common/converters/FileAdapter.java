@@ -39,7 +39,7 @@ public class FileAdapter extends AbstractConverter<String, File> {
 
   @Override
   public File decodeImpl(@NotNull String v) {
-    File result = new File(v.replace('\\', '/').replace('/', File.separatorChar));
+    var result = new File(v.replace('\\', '/').replace('/', File.separatorChar));
     if (canonical) {
       try {
         result = result.getCanonicalFile();

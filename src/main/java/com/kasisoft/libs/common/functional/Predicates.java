@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.pools.Buckets;
+import com.kasisoft.libs.common.utils.PrimitiveFunctions;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -58,7 +59,7 @@ public class Predicates {
   
   public static final Predicate<String> IS_JAVA_FQDN = new IsJavaFqdn();
   
-  public static final Predicate<String> IS_BOOLEAN = $ -> isValid($, Boolean::parseBoolean);
+  public static final Predicate<String> IS_BOOLEAN = $ -> isValid($, PrimitiveFunctions::parseBoolean);
   
   public static final Predicate<String> IS_LONG = $ -> isValid($, Long::parseLong);
   
@@ -77,7 +78,7 @@ public class Predicates {
       try {
         parse.apply(value);
         return true;
-      } catch (NumberFormatException ex) {
+      } catch (Exception ex) {
         // valid case
       }
     }
@@ -100,10 +101,24 @@ public class Predicates {
     return $ -> true;
   }
 
+  public static <T> Predicate<T> acceptAllIfUnset(Predicate<T> test) {
+    if (test != null) {
+      return test;
+    }
+    return $ -> true;
+  }
+
   public static <T> Predicate<T> acceptNone() {
     return $ -> false;
   }
-  
+
+  public static <T> Predicate<T> acceptNoneIfUnset(Predicate<T> test) {
+    if (test != null) {
+      return test;
+    }
+    return $ -> false;
+  }
+
   public static Predicate<Path> path(Predicate<String> predicate) {
     return $ -> predicate.test($.toString());
   }

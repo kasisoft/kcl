@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.datatypes;
 
-import com.kasisoft.libs.common.old.io.DefaultIO;
-import com.kasisoft.libs.common.spi.MultiSPILoader;
-import com.kasisoft.libs.common.utils.IoFunctions;
+import com.kasisoft.libs.common.io.IoFunctions;
+
+import com.kasisoft.libs.common.spi.SPILoader;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,7 +30,7 @@ public class FileTypeManager {
    * Initializes this management type while looking for all SPI declarations.
    */
   public FileTypeManager() {
-    filetypes = MultiSPILoader.builder().build().loadServices(FileType.class);
+    filetypes = SPILoader.builder().build().loadServices(FileType.class);
     Collections.sort(filetypes, new FileTypeBySizeComparator());
     if (!filetypes.isEmpty()) {
       maxspace = filetypes.get(0).getMinSize();
@@ -65,7 +65,7 @@ public class FileTypeManager {
    * @throws FailureException   Accessing the resource failed for some reason.
    */
   public <T> FileType identify(@NotNull T input) {
-    Optional<byte[]> data = DefaultIO.inputstream(input).forInputStream(input, maxspace, IoFunctions::loadFragment);
+    Optional<byte[]> data = IoFunctions.genericLoadBytes(input, maxspace);
     return data.map(this::identify).orElse(null);
   }
 

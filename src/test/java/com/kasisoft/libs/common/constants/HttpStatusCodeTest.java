@@ -8,8 +8,6 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Optional;
-
 /**
  * Tests for the constants 'HttpStatusCode'.
  * 
@@ -17,10 +15,10 @@ import java.util.Optional;
  */
 public class HttpStatusCodeTest {
 
-  @DataProvider(name = "createData")
-  public Object[][] createData() {
-    var        codes  = HttpStatusCode.values();
-    Object[][] result = new Object[codes.length][2];
+  @DataProvider(name = "data_valueByText")
+  public Object[][] data_valueByText() {
+    var codes  = HttpStatusCode.values();
+    var result = new Object[codes.length][2];
     for (var i = 0; i < codes.length; i++) {
       result[i][0] = codes[i].getTextualCode();
       result[i][1] = codes[i];
@@ -28,9 +26,9 @@ public class HttpStatusCodeTest {
     return result;
   };
   
-  @Test(dataProvider = "createData", groups = "all")
+  @Test(dataProvider = "data_valueByText", groups = "all")
   public void valueByText(String textualcode, HttpStatusCode code) {
-    Optional<HttpStatusCode> statusCode = HttpStatusCode.findByStatusCode(textualcode);
+    var statusCode = HttpStatusCode.findByStatusCode(textualcode);
     assertNotNull(statusCode);
     assertTrue(statusCode.isPresent());
     assertThat(statusCode.get(), is(code));

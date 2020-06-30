@@ -10,17 +10,13 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Optional;
-
 /**
- * Tests for the constants 'Encoding'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class EncodingTest {
 
-  @DataProvider(name = "createData")
-  public Object[][] createData() {
+  @DataProvider(name = "data_performEncoding")
+  public Object[][] data_performEncoding() {
     return new Object[][] {
       {"Flöz", Encoding.UTF8, new byte[] { (byte) 0x46, (byte) 0x6C, (byte) 0xC3, (byte) 0xB6, (byte) 0x7A}},
       {"Flöz", Encoding.UTF16, new byte[] { (byte) 0xFE, (byte) 0xFF, (byte) 0x00, (byte) 0x46, (byte) 0x00, (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00, (byte) 0x7A}},
@@ -29,7 +25,7 @@ public class EncodingTest {
     };
   };
   
-  @Test(dataProvider = "createData", groups = "all")
+  @Test(dataProvider = "data_performEncoding", groups = "all")
   public void performEncoding(String literal, Encoding encoding, byte[] bytes) {
     byte[] encoded = encoding.encode(literal);
     assertThat(encoded, is(bytes));
@@ -40,10 +36,10 @@ public class EncodingTest {
     assertThat(Encoding.values(), is(notNullValue()));
   }
 
-  @DataProvider(name = "valueByNameData")
-  public Object[][] valueByNameData() {
+  @DataProvider(name = "data_valueByName")
+  public Object[][] data_valueByName() {
     return new Object[][] {
-      {Encoding . UTF8    . getEncoding(), Encoding . UTF8   },  
+      {Encoding . UTF8    . getEncoding(), Encoding . UTF8   },
       {Encoding . UTF16   . getEncoding(), Encoding . UTF16  },
       {Encoding . UTF16BE . getEncoding(), Encoding . UTF16BE},
       {Encoding . UTF16LE . getEncoding(), Encoding . UTF16LE},
@@ -51,9 +47,9 @@ public class EncodingTest {
     };
   }
 
-  @Test(dataProvider = "valueByNameData", groups = "all")
+  @Test(dataProvider = "data_valueByName", groups = "all")
   public void valueByName(String name, Encoding expected) {
-    Optional<Encoding> encoding = Encoding.findByName(name);
+    var encoding = Encoding.findByName(name);
     assertNotNull(encoding);
     if (expected != null) {
       assertTrue(encoding.isPresent());

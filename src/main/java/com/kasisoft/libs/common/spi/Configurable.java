@@ -11,6 +11,7 @@ import java.util.Map;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FunctionalInterface
 public interface Configurable {
 
   /**
@@ -20,6 +21,6 @@ public interface Configurable {
    * 
    * @throws KclException in case anything went wrong.
    */
-  void configure(@NotNull Map<String, Object> properties);
+  void configure(@NotNull Map<String, String> properties);
 
 } /* ENDINTERFACE */

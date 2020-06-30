@@ -5,6 +5,7 @@ import com.kasisoft.libs.common.annotation.Specification;
 import com.kasisoft.libs.common.pools.Bucket;
 import com.kasisoft.libs.common.pools.Buckets;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import java.security.MessageDigest;
@@ -71,7 +72,9 @@ public final class Digest {
     }
     this.algorithm  = algorithm;
     bucket          = new Bucket<>(() -> createDigest(algorithm), Digest::resetDigest);
-    DIGESTS.put(algorithm, this);
+    synchronized (DIGESTS) {
+      DIGESTS.put(algorithm, this);
+    }
   }
   
   /**
@@ -126,23 +129,22 @@ public final class Digest {
    * 
    * @return   The hash value. Neither <code>null</code> nor empty.
    */
-  public @NotNull byte[] digest(int count, @NotNull byte[] ... data) {
-    MessageDigest digest = null;
-    try {
-      digest = bucket.allocate();
-      for (var i = 0; i < count; i++) {
-        for (var j = 0; j < data.length; j++) {
-          digest.update(data[j]);
-        }
+  public @NotNull byte[] digest(@Min(1) int count, @NotNull byte[] ... data) {
+    var digest = bucket.allocate();
+    for (var i = 0; i < count; i++) {
+      for (var j = 0; j < data.length; j++) {
+        digest.update(data[j]);
       }
-      return digest.digest();
-    } finally {
-      bucket.free(digest);
     }
+    var result = digest.digest();
+    bucket.free(digest);
+    return result;
   }
 
   public static @NotNull Digest[] values() {
-    return DIGESTS.values().toArray(new Digest[DIGESTS.size()]);
+    synchronized (DIGESTS) {
+      return DIGESTS.values().toArray(new Digest[DIGESTS.size()]);
+    }
   }
   
   /**

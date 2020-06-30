@@ -16,8 +16,6 @@ import javax.validation.constraints.Null;
 
 import java.security.NoSuchAlgorithmException;
 
-import java.util.function.Consumer;
-
 import java.util.Base64;
 import java.util.Optional;
 import java.util.Random;
@@ -45,7 +43,6 @@ public class Encryptor {
   Random                random;
   SecretKey             key;
   IvParameterSpec       ivParameter;
-  Consumer<Exception>   errorHandler;
 
   public Encryptor(@NotNull String cipher, @NotNull String algorithm) {
     this(cipher, algorithm, null, null);
@@ -63,15 +60,9 @@ public class Encryptor {
     this.secret       = setupSecret(secret);
     this.key          = new SecretKeySpec(Base64.getDecoder().decode(this.secret), algorithm);
     this.ivParameter  = new IvParameterSpec(setupSalt(salt));
-    this.errorHandler = $ -> {};
   }
   
-  public @NotNull Encryptor withErrorHandler(@Null Consumer<Exception> errorHandler) {
-    this.errorHandler = errorHandler != null ? errorHandler : $ -> {};
-    return this;
-  }
-  
-  public @NotNull Optional<byte[]> encrypt(@Null byte[] data) {
+  public @NotNull Optional<@NotNull byte[]> encrypt(@Null byte[] data) {
     var result = Optional.<byte[]>empty();
     if (data != null) {
       try {
@@ -79,13 +70,13 @@ public class Encryptor {
         cipher.init(Cipher.ENCRYPT_MODE, key, ivParameter);
         result = Optional.ofNullable(cipher.doFinal(data));
       } catch (Exception ex) {
-        errorHandler.accept(ex);
+        throw KclException.wrap(ex);
       }
     }
     return result;
   }
 
-  public @NotNull Optional<String> encrypt(@Null String data) {
+  public @NotNull Optional<@NotNull String> encrypt(@Null String data) {
     var result = Optional.<String>empty();
     if (data != null) {
       result = encrypt(Encoding.UTF8.encode(data)).map(Base64.getEncoder()::encodeToString);
@@ -101,7 +92,7 @@ public class Encryptor {
         cipher.init(Cipher.DECRYPT_MODE, key, ivParameter);
         result = Optional.ofNullable(cipher.doFinal(data));
       } catch (Exception ex) {
-        errorHandler.accept(ex);
+        throw KclException.wrap(ex);
       }
     }
     return result;

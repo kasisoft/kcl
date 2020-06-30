@@ -15,59 +15,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Tests for the class 'StringFunctions'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFunctionsTest {
 
-  @DataProvider(name = "createGetBasename")
-  public Object[][] createGetBasename() {
+  @DataProvider(name = "data_removeSuffix")
+  public Object[][] data_removeSuffix() {
     return new Object[][] {
-      { "a/b/c/test"     , "a/b/c/test" },  
-      { "a/b/c/test."    , "a/b/c/test" },  
-      { "a/b/c/test.txt" , "a/b/c/test" },  
+      {"a/b/c/test"    , "a/b/c/test"},
+      {"a/b/c/test."   , "a/b/c/test"},
+      {"a/b/c/test.txt", "a/b/c/test"},
     };
   }
 
-  @Test(dataProvider = "createGetBasename", groups = "all")
-  public void getBasename(String name, String expected) {
-    assertThat(StringFunctions.getBasename(name), is(expected));
+  @Test(dataProvider = "data_removeSuffix", groups = "all")
+  public void removeSuffix(String name, String expected) {
+    assertThat(StringFunctions.removeSuffix(name), is(expected));
   }
 
-  @DataProvider(name = "createChangeSuffix")
-  public Object[][] createChangeSuffix() {
+  @DataProvider(name = "data_changeSuffix")
+  public Object[][] data_changeSuffix() {
     return new Object[][] {
-      { "a/b/c/test"     , "jpg"  , "a/b/c/test.jpg" },  
-      { "a/b/c/test."    , "jpg"  , "a/b/c/test.jpg" },  
-      { "a/b/c/test.txt" , "jpg"  , "a/b/c/test.jpg" },  
-      { "a/b/c/test.txt" , ".jpg" , "a/b/c/test..jpg"},
+      {"a/b/c/test"    , "jpg" , "a/b/c/test.jpg"},
+      {"a/b/c/test."   , "jpg" , "a/b/c/test.jpg"},
+      {"a/b/c/test.txt", "jpg" , "a/b/c/test.jpg"},
+      {"a/b/c/test.txt", ".jpg" , "a/b/c/test..jpg"},
     };
   }
 
-  @Test(dataProvider = "createChangeSuffix", groups = "all")
+  @Test(dataProvider = "data_changeSuffix", groups = "all")
   public void changeSuffix(String name, String suffix, String expected) {
     assertThat(StringFunctions.changeSuffix(name, suffix), is(expected));
   }
   
     
-  @DataProvider(name = "createCleanup")
-  public Object[][] createCleanup() {
+  @DataProvider(name = "data_cleanup")
+  public Object[][] data_cleanup() {
     return new Object[][] {
-      { null      , null    },
-      { ""        , null    },
-      { "\t"      , null    },
-      { " "       , null    },
-      { "\r\t\n"  , null    },
-      { "a"       , "a"     },
-      { "\ra\n"   , "a"     },
-      { " a "     , "a"     },
-      { " ab "    , "ab"    },
-      { " a c "   , "a c"   },
+      {null    , null},
+      {""      , null},
+      {"\t"    , null},
+      {" "     , null},
+      {"\r\t\n", null},
+      {"a"     , "a"},
+      {"\ra\n" , "a"},
+      {" a "   , "a"},
+      { " ab " , "ab"},
+      {" a c " , "a c"},
     };
   }
   
-  @Test(dataProvider = "createCleanup", groups = "all")
+  @Test(dataProvider = "data_cleanup", groups = "all")
   public void cleanup(String current, String expected) {
     String result = StringFunctions.cleanup(current);
     assertThat(result, is(expected));
@@ -89,14 +87,14 @@ public class StringFunctionsTest {
   public void replaceAll() {
     
     var replacements = new HashMap<String, String>();
-    replacements.put( "name"    , "Daniel Kasmeroglu" );
-    replacements.put( "company" , "Kasisoft"          );
+    replacements.put("name", "Daniel Kasmeroglu");
+    replacements.put("company", "Kasisoft");
     
     var value1 = StringFunctions.replaceAll("The pseudo company company is driven by name [company]", replacements);
-    assertThat(value1, is( "The pseudo Kasisoft Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]" ) );
+    assertThat(value1, is("The pseudo Kasisoft Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]"));
 
     var value2 = StringFunctions.replaceAll("The pseudo company ${company} is driven by ${name} [${company}]", replacements, "${%s}");
-    assertThat(value2, is( "The pseudo company Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]" ) );
+    assertThat(value2, is("The pseudo company Kasisoft is driven by Daniel Kasmeroglu [Kasisoft]"));
 
   }
     
@@ -111,8 +109,8 @@ public class StringFunctionsTest {
     assertThat(StringFunctions.camelCase("Simple-ton"), is("simpleTon"));
   }
   
-  @DataProvider(name = "createRegionReplaceSimple")
-  private Object[][] createRegionReplaceSimple() {
+  @DataProvider(name = "data_regionReplaceSimple")
+  private Object[][] data_regionReplaceSimple() {
     return new Object[][] {
       {"this is // my text // without a section // dodo //", "", "this is  without a section "},
       {"this is // // my text // without a section // dodo //", "", "this is  my text  dodo //"},
@@ -123,13 +121,13 @@ public class StringFunctionsTest {
     };
   }
   
-  @Test(groups = "all", dataProvider = "createRegionReplaceSimple")
+  @Test(groups = "all", dataProvider = "data_regionReplaceSimple")
   public void regionReplaceSimple(String text, String replacement, String expected) {
     assertThat(StringFunctions.replaceRegions(text, "//", replacement), is( expected ) );
   }
 
-  @DataProvider(name = "createRegionReplaceFunction")
-  private Object[][] createRegionReplaceFunction() {
+  @DataProvider(name = "data_regionReplaceFunction")
+  private Object[][] data_regionReplaceFunction() {
     Map<String, String> mapping = new HashMap<>();
     mapping.put("my text", "changed text");
     mapping.put("dodo", "dodo text");
@@ -141,13 +139,13 @@ public class StringFunctionsTest {
     };
   }
   
-  @Test(groups = "all", dataProvider = "createRegionReplaceFunction")
+  @Test(groups = "all", dataProvider = "data_regionReplaceFunction")
   public void regionReplaceFunction(String text, Function<String, CharSequence> replacement, String expected) {
     assertThat(StringFunctions.replaceRegions(text, "//", replacement), is(expected));
   }
   
-  @DataProvider(name = "createEndsWith")
-  public Object[][] createEndsWith() {
+  @DataProvider(name = "data_endsWithMany")
+  public Object[][] data_endsWithMany() {
     return new Object[][] {
       {"20 Frösche fliegen über den Ozean", new String[] {"20", "Ozean"}, Boolean.TRUE},
       {"20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, Boolean.FALSE},
@@ -155,7 +153,7 @@ public class StringFunctionsTest {
   }
 
     
-  @Test(dataProvider = "createEndsWith", groups = "all")
+  @Test(dataProvider = "data_endsWithMany", groups = "all")
   public void endsWithMany(String text, String[] candidates, boolean contained) {
     if (contained) {
       assertNotNull(StringFunctions.endsWithMany(text, candidates ));
@@ -165,26 +163,24 @@ public class StringFunctionsTest {
     
   }
 
-  @DataProvider(name = "createStartsWith")
-  public Object[][] createStartsWith() {
+  @DataProvider(name = "data_startsWithMany")
+  public Object[][] data_startsWithMany() {
     return new Object[][] {
       {"20 Frösche fliegen über den Ozean", new String[] {"20", "fliegen"}, Boolean.TRUE},
       {"20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, Boolean.FALSE},
     };
   }
   
-  @Test(dataProvider = "createStartsWith", groups = "all")
+  @Test(dataProvider = "data_startsWithMany", groups = "all")
   public void startsWithMany(String text, String[] candidates, boolean contained) {
     if (contained) {
       assertNotNull(StringFunctions.startsWithMany(text, candidates ));
     } else {
       assertNull(StringFunctions.startsWithMany(text, candidates ));
     }
-    
   }
 
-
-  @Test(groups="all")
+  @Test(groups = "all")
   public void concatenate() {
 
     // String array
@@ -229,22 +225,22 @@ public class StringFunctionsTest {
 
   }
   
-  @DataProvider(name="createRepeat")
-  public Object[][] createRepeat() {
+  @DataProvider(name="data_repeat")
+  public Object[][] data_repeat() {
     return new Object[][] {
-      { Integer.valueOf(0) , null , ""   },
-      { Integer.valueOf(1) , null , ""   },
-      { Integer.valueOf(2) , null , ""   },
-      { Integer.valueOf(0) , ""   , ""   },
-      { Integer.valueOf(1) , ""   , ""   },
-      { Integer.valueOf(2) , ""   , ""   },
-      { Integer.valueOf(0) , "A"  , ""   },
-      { Integer.valueOf(1) , "A"  , "A"  },
-      { Integer.valueOf(2) , "A"  , "AA" },
+      {Integer.valueOf(0), null, ""},
+      {Integer.valueOf(1), null, ""},
+      {Integer.valueOf(2), null, ""},
+      {Integer.valueOf(0), "", ""},
+      {Integer.valueOf(1), "", ""},
+      {Integer.valueOf(2), "", ""},
+      {Integer.valueOf(0), "A", ""},
+      {Integer.valueOf(1), "A", "A"},
+      {Integer.valueOf(2), "A", "AA"},
     };
   }
 
-  @Test(dataProvider = "createRepeat", groups = "all")
+  @Test(dataProvider = "data_repeat", groups = "all")
   public void repeat(int n, String text, String expected) {
     assertThat(StringFunctions.repeat(n, text), is(expected));
   }

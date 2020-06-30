@@ -24,8 +24,8 @@ public class NioPathAdapterTest extends AbstractTestCase {
 
   NioPathAdapter adapter = new NioPathAdapter();
 
-  @DataProvider(name = "dataDecode")
-  public Object[][] dataDecode() {
+  @DataProvider(name = "data_decode")
+  public Object[][] data_decode() {
     String path = getRootFolder().toString();
     return new Object[][] {
       {null                                , null                   },
@@ -36,8 +36,13 @@ public class NioPathAdapterTest extends AbstractTestCase {
     };
   }
 
-  @DataProvider(name = "dataEncode")
-  public Object[][] dataEncode() {
+  @Test(dataProvider = "data_decode", groups = "all")
+  public void decode(String value, Path expected) throws Exception {
+    assertThat(adapter.decode(value), is(expected));
+  }
+  
+  @DataProvider(name = "data_encode")
+  public Object[][] data_encode() {
     String path = getRootFolder().toString();
     return new Object[][] {
       {null                   , null                              },
@@ -46,12 +51,7 @@ public class NioPathAdapterTest extends AbstractTestCase {
     };
   }
 
-  @Test(dataProvider = "dataDecode", groups = "all")
-  public void decode(String value, Path expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
-  
-  @Test(dataProvider = "dataEncode", groups = "all")
+  @Test(dataProvider = "data_encode", groups = "all")
   public void encode(Path value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

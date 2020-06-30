@@ -6,10 +6,10 @@ purpose other than providing some handy functionalities.
 
 # Infos
 
-* [eMail: daniel.kasmeroglu@kasisoft.net](mailto:daniel.kasmeroglu@kasisoft.net)
-* [Jira](https://kasisoft.com/jira/projects/KCOM)
+* [eMail: daniel.kasmeroglu@kasisoft.com](mailto:daniel.kasmeroglu@kasisoft.com)
+* [Github](https://github.com/kasisoft/kcl/issues)
 * [Jenkins](https://kasisoft.com/jenkins/job/libs.com.kasisoft.libs.common)
-* [GIT](https://kasisoft.com/bitbucket/projects/LIBS/repos/com.kasisoft.libs.common.old.old)
+* [GIT](https://github.com/kasisoft/kcl.git)
 
 
 # Development Setup
@@ -21,7 +21,7 @@ I assume that you're familiar with Maven. If not I suggest to visit the followin
 
 ## Requirements
 
-* Java 8
+* Java 14
 
 
 ## Maven
@@ -64,7 +64,7 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
 
 MIT License
 
-Copyright (c) 2017 Daniel Kasmeroglu (Kasisoft)
+Copyright (c) 2020 Daniel Kasmeroglu (Kasisoft)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

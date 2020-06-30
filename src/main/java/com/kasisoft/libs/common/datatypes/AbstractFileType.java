@@ -4,6 +4,8 @@ import com.kasisoft.libs.common.constants.MimeType;
 
 import com.kasisoft.libs.common.utils.PrimitiveFunctions;
 
+import javax.validation.constraints.Null;
+
 import java.util.List;
 
 import lombok.experimental.FieldDefaults;
@@ -30,8 +32,8 @@ public abstract class AbstractFileType implements FileType {
   List<byte[]>  magics;
   
   @Override
-  public boolean test(byte[] data) {
-    if (getMinSize() <= data.length) {
+  public boolean test(@Null byte[] data) {
+    if ((data != null) && (getMinSize() <= data.length)) {
       for (var magic : magics) {
         if (PrimitiveFunctions.compare(data, magic, offset)) {
           return true;

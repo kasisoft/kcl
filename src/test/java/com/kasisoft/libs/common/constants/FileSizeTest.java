@@ -7,14 +7,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * Tests for the class 'FileSize'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileSizeTest {
 
-  @DataProvider(name = "createData")
-  public Object[][] createData() {
+  @DataProvider(name = "data_checkFileSizes")
+  public Object[][] data_checkFileSizes() {
     return new Object[][] {
       {FileSize.Byte     , 4,             4L,             4L,           "4 B",            "4 B"},
       {FileSize.KiloByte , 4,         4_000L,         4_096L,       "4000 KB",       "4096 KiB"},
@@ -24,7 +22,7 @@ public class FileSizeTest {
     };
   }
   
-  @Test(dataProvider = "createData", groups = "all")
+  @Test(dataProvider = "data_checkFileSizes", groups = "all")
   public void checkFileSizes(FileSize size, int count, long humanSize, long computerSize, String humanText, String computerText) {
     assertThat(size.humanSize     (count), is(humanSize   ));
     assertThat(size.computerSize  (count), is(computerSize));

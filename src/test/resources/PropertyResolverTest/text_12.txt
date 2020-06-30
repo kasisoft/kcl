@@ -1,0 +1,1 @@
+My username is: #{env:USER}, encoding=#{sys:file.encoding}, value=#{val}, unreplaced=#{dodo}

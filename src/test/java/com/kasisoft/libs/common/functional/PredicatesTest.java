@@ -9,14 +9,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * Tests for 'Predicates'.
- * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PredicatesTest {
 
-  @DataProvider(name = "isMaven")
-  public Object[][] isMavenData() {
+  @DataProvider(name = "data_isMaven")
+  public Object[][] data_isMaven() {
     return new Object[][] {
       {"com/sample/Bibo.class"       , false},
       {"Bibo.class"                  , false},
@@ -32,13 +30,13 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isMaven", groups = "all")
+  @Test(dataProvider = "data_isMaven", groups = "all")
   public void isMaven(String classname, boolean expected) {
     assertThat(Predicates.IS_MAVEN_FILE.test(classname), is(expected));
   }
   
-  @DataProvider(name = "isSPIFile")
-  public Object[][] isSPIFileData() {
+  @DataProvider(name = "data_isSPIFile")
+  public Object[][] data_isSPIFile() {
     return new Object[][] {
       {"META-INF/services/-klddd"           , false},
       {"META-INF/services/com.Bibo"         , true },
@@ -50,13 +48,13 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isSPIFile", groups = "all")
+  @Test(dataProvider = "data_isSPIFile", groups = "all")
   public void isSPIFile(String classname, boolean expected) {
     assertThat(Predicates.IS_SPI_FILE.test(classname), is(expected));
   }
 
-  @DataProvider(name = "isMagnoliaFile")
-  public Object[][] isMagnoliaFileData() {
+  @DataProvider(name = "data_isMagnoliaFile")
+  public Object[][] data_isMagnoliaFile() {
     return new Object[][] {
       {"META-INF/magnolia/"               , false},
       {"META-INF/magnolia/com.Bibo"       , true },
@@ -65,13 +63,13 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isMagnoliaFile", groups = "all")
+  @Test(dataProvider = "data_isMagnoliaFile", groups = "all")
   public void isMagnoliaFile(String classname, boolean expected) {
     assertThat(Predicates.IS_MAGNOLIA_FILE.test(classname), is(expected));
   }
 
-  @DataProvider(name = "isJavaFqdn")
-  public Object[][] isJavaFqdnData() {
+  @DataProvider(name = "data_isJavaFqdn")
+  public Object[][] data_isJavaFqdn() {
     return new Object[][] {
       {"com.sample.Bibo.class"           , false},
       {"Bibo"                            , true },
@@ -84,13 +82,13 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isJavaFqdn", groups = "all")
+  @Test(dataProvider = "data_isJavaFqdn", groups = "all")
   public void isJavaFqdn(String classname, boolean expected) {
     assertThat(Predicates.IS_JAVA_FQDN.test(classname), is(expected));
   }
   
-  @DataProvider(name = "isJavaClassFile")
-  public Object[][] isJavaClassFileData() {
+  @DataProvider(name = "data_isJavaClassFile")
+  public Object[][] data_isJavaClassFile() {
     return new Object[][] {
       {"com/sample/Bibo.class"           , true },
       {"Bibo.class"                      , true },
@@ -104,13 +102,13 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isJavaClassFile", groups = "all")
+  @Test(dataProvider = "data_isJavaClassFile", groups = "all")
   public void isJavaClassFile(String classname, boolean expected) {
     assertThat(Predicates.IS_JAVA_CLASS_FILE.test(classname), is(expected));
   }
   
-  @DataProvider(name = "isInnerJavaClassFile")
-  public Object[][] isInnerJavaClassFileData() {
+  @DataProvider(name = "data_isInnerJavaClassFile")
+  public Object[][] data_isInnerJavaClassFile() {
     return new Object[][] {
       {"com/sample/Bibo.class"           , false},
       {"Bibo.class"                      , false},
@@ -124,13 +122,13 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isInnerJavaClassFile", groups = "all")
+  @Test(dataProvider = "data_isInnerJavaClassFile", groups = "all")
   public void isInnerJavaClassFile(String classname, boolean expected) {
     assertThat(Predicates.IS_INNER_JAVA_CLASS_FILE.test(classname), is(expected));
   }
 
-  @DataProvider(name = "isEnclosingJavaClassFile")
-  public Object[][] isEnclosingJavaClassFileData() {
+  @DataProvider(name = "data_isEnclosingJavaClassFile")
+  public Object[][] data_isEnclosingJavaClassFile() {
     return new Object[][] {
       {"com/sample/Bibo.class"           , true },
       {"Bibo.class"                      , true },
@@ -144,19 +142,19 @@ public class PredicatesTest {
     };
   }
   
-  @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
+  @Test(dataProvider = "data_isEnclosingJavaClassFile", groups = "all")
   public void isEnclosingJavaClassFile(String classname, boolean expected) {
     assertThat(Predicates.IS_ENCLOSING_JAVA_CLASS_FILE.test(classname), is(expected));
   }
 
   @SuppressWarnings("unused")
-  @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
+  @Test(dataProvider = "data_isEnclosingJavaClassFile", groups = "all")
   public void acceptAll(String classname, boolean ignore) {
     assertTrue(Predicates.acceptAll().test(classname));
   }
 
   @SuppressWarnings("unused")
-  @Test(dataProvider = "isEnclosingJavaClassFile", groups = "all")
+  @Test(dataProvider = "data_isEnclosingJavaClassFile", groups = "all")
   public void acceptNone(String classname, boolean ignore) {
     assertFalse(Predicates.acceptNone().test(classname));
   }

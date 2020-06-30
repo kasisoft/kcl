@@ -22,15 +22,15 @@ public class KclException extends RuntimeException {
     super(ex);
   }
   
-  public KclException(@NotNull String fmt, Object ... args) {
+  public KclException(@Null String fmt, @Null Object ... args) {
     super(formatString(fmt, args));
   }
   
-  public KclException(@NotNull Exception ex, @NotNull String fmt, Object ... args) {
+  public KclException(@NotNull Exception ex, @Null String fmt, @Null Object ... args) {
     super(formatString(fmt, args), ex);
   }
   
-  private static @NotNull String formatString(String fmt, Object ... args) {
+  private static @Null String formatString(@Null String fmt, @Null Object ... args) {
     var result = fmt;
     if ((args != null) && (args.length > 0)) {
       result = String.format(fmt, args);
@@ -38,7 +38,7 @@ public class KclException extends RuntimeException {
     return result;
   }
   
-  public static <R> R execute(Supplier<R> supplier, String fmt, Object ... args) {
+  public static <R> R execute(@NotNull Supplier<R> supplier, @Null String fmt, @Null Object ... args) {
     try {
       return supplier.get();
     } catch (KclException ex) {
@@ -48,14 +48,6 @@ public class KclException extends RuntimeException {
     }
   }
   
-  /**
-   * This function makes sure that an exception is always wrapped as a {@link KclException} without
-   * unnecessary wrappings.
-   * 
-   * @param ex   The exception that might need to be wrapped.
-   * 
-   * @return   A KclException instance.
-   */
   public static @NotNull KclException wrap(@NotNull Exception ex) {
     if (ex instanceof KclException) {
       return (KclException) ex;
@@ -64,13 +56,14 @@ public class KclException extends RuntimeException {
     }
   }
 
-  /**
-   * Looks for the causing KclException instance.
-   * 
-   * @param ex   The exception used to start to look for a causing KclException.
-   * 
-   * @return   The causing KclException instance or <code>null</code>.
-   */
+  public static @NotNull KclException wrap(@NotNull Exception ex, @Null String fmt, @Null Object ... args) {
+    if (ex instanceof KclException) {
+      return (KclException) ex;
+    } else {
+      return new KclException(ex, fmt, args);
+    }
+  }
+
   public static @Null KclException unwrap(@Null Exception ex) {
     if (ex != null) {
       if (ex instanceof KclException) {

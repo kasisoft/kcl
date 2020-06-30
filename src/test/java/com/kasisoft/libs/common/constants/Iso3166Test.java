@@ -15,8 +15,8 @@ import org.testng.annotations.Test;
  */
 public class Iso3166Test {
 
-  @DataProvider(name = "createValues")
-  public Object[][] createValues() {
+  @DataProvider(name = "data_validCode")
+  public Object[][] data_validCode() {
     var values = Iso3166.values();
     var result = new Object[values.length][];
     for (var i = 0; i < values.length; i++) {
@@ -25,8 +25,16 @@ public class Iso3166Test {
     return result;
   }
 
-  @DataProvider(name = "createAlpha2")
-  public Object[][] createAlpha2() {
+  @Test(dataProvider = "data_validCode", groups = "all")
+  public void validCode(Iso3166 value) {
+    assertNotNull(value.getAlpha2());
+    assertNotNull(value.getAlpha3());
+    assertThat(value.getAlpha2().length(), is(2) );
+    assertThat(value.getAlpha3().length(), is(3) );
+  }
+
+  @DataProvider(name = "data_findByAlpha2")
+  public Object[][] data_findByAlpha2() {
     var values = Iso3166.values();
     var result = new Object[values.length][];
     for (var i = 0; i < values.length; i++) {
@@ -35,8 +43,16 @@ public class Iso3166Test {
     return result;
   }
 
-  @DataProvider(name = "createAlpha3")
-  public Object[][] createAlpha3() {
+  @Test(dataProvider = "data_findByAlpha2", groups = "all")
+  public void findByAlpha2(Iso3166 expected, String alpha2) {
+    var identified = Iso3166.findByAlpha2(alpha2);
+    assertNotNull(identified);
+    assertTrue(identified.isPresent());
+    assertThat(identified.get(), is(expected));
+  }
+
+  @DataProvider(name = "data_findByAlpha3")
+  public Object[][] data_findByAlpha3() {
     var values = Iso3166.values();
     var result = new Object[values.length][];
     for (var i = 0; i < values.length; i++) {
@@ -45,8 +61,16 @@ public class Iso3166Test {
     return result;
   }
 
-  @DataProvider(name = "createNumerical")
-  public Object[][] createNumerical() {
+  @Test(dataProvider = "data_findByAlpha3", groups = "all")
+  public void findByAlpha3(Iso3166 expected, String alpha3) {
+    var identified = Iso3166.findByAlpha3(alpha3);
+    assertNotNull(identified);
+    assertTrue(identified.isPresent());
+    assertThat(identified.get(), is(expected));
+  }
+
+  @DataProvider(name = "data_findByNumerical")
+  public Object[][] data_findByNumerical() {
     var values = Iso3166.values();
     var result = new Object[values.length][];
     for (var i = 0; i < values.length; i++) {
@@ -55,31 +79,7 @@ public class Iso3166Test {
     return result;
   }
 
-  @Test(dataProvider = "createValues", groups = "all")
-  public void validCode(Iso3166 value) {
-    assertNotNull(value.getAlpha2());
-    assertNotNull(value.getAlpha3());
-    assertThat(value.getAlpha2().length(), is(2) );
-    assertThat(value.getAlpha3().length(), is(3) );
-  }
-
-  @Test(dataProvider = "createAlpha2", groups = "all")
-  public void findByAlpha2(Iso3166 expected, String alpha2) {
-    var identified = Iso3166.findByAlpha2(alpha2);
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is(expected));
-  }
-
-  @Test(dataProvider = "createAlpha3", groups = "all")
-  public void findByAlpha3(Iso3166 expected, String alpha3) {
-    var identified = Iso3166.findByAlpha3(alpha3);
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is(expected));
-  }
-
-  @Test(dataProvider = "createNumerical", groups = "all")
+  @Test(dataProvider = "data_findByNumerical", groups = "all")
   public void findByNumerical(Iso3166 expected, Integer numerical) {
     var identified = Iso3166.findByNumerical(numerical.intValue());
     assertNotNull(identified);

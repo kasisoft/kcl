@@ -33,6 +33,7 @@ import lombok.Getter;
   @Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "04-JUN-2020"),
   @Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "04-JUN-2020")
 })
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum MimeType implements Predicate<String> {
 
@@ -83,16 +84,13 @@ public enum MimeType implements Predicate<String> {
   }
   
   /** Neither <code>null</code> nor empty. */
-  @Getter String         mimeType;
+  String         mimeType;
   
   /** Not <code>null</code>. */
-  @Getter List<String>   suffices;
+  List<String>   suffices;
   
-  @Getter
-  String                 primarySuffix;
-  
-  @Getter
-  String                 primarySuffixWithDot;
+  String         primarySuffix;
+  String         primarySuffixWithDot;
   
   
   MimeType(String type, String ... suffixlist) {
@@ -134,7 +132,7 @@ public enum MimeType implements Predicate<String> {
    * @return   The MimeType if it could be found or <code>null</code>.
    */
   public static @NotNull Optional<MimeType> findByMimeType(@NotNull String type) {
-    int idx = type.indexOf(';');
+    var idx = type.indexOf(';');
     if (idx != -1) {
       type = idx > 0 ? type.substring(0, idx) : "";
     }
@@ -149,7 +147,7 @@ public enum MimeType implements Predicate<String> {
    * @return   A set of supporting mime types.
    */
   public static @NotNull Set<MimeType> findBySuffix(@NotNull String suffix) {
-    Set<MimeType> result = LocalData.valuebysuffix.get(suffix.toLowerCase());
+    var result = LocalData.valuebysuffix.get(suffix.toLowerCase());
     if (result == null) {
       result = Collections.emptySet();
     }

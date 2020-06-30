@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.constants;
 
+import com.kasisoft.libs.common.utils.PrimitiveFunctions;
+
 import javax.validation.constraints.NotNull;
 
 import java.util.Optional;
@@ -7,6 +9,7 @@ import java.util.Optional;
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -14,6 +17,8 @@ import lombok.Getter;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Getter
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ByteOrderMark {
 
@@ -23,12 +28,7 @@ public enum ByteOrderMark {
   UTF32BE (new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff}),
   UTF32LE (new byte[] {(byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00});
   
-  /** Not <code>null</code>. */
-  @Getter byte[]   BOM;
-  
-  ByteOrderMark(byte[] sequence) {
-    BOM = sequence;
-  }
+  byte[]   BOM;
   
   /**
    * Returns <code>true</code> if the supplied data starts with this BOM.
@@ -50,12 +50,7 @@ public enum ByteOrderMark {
    * @return   <code>true</code> <=> The supplied data starts with this BOM.
    */
   public boolean startsWith(@NotNull byte[] data, int offset) {
-    for (var i = 0; (i < BOM.length) && (offset < data.length); i++, offset++) {
-      if (data[ offset ] != BOM[i]) {
-        return false;
-      }
-    }
-    return offset < data.length;
+    return PrimitiveFunctions.compare(data, BOM);
   }
   
   /**

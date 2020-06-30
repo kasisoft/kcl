@@ -42,6 +42,13 @@ public class Bucket<T> {
     reset       = resetter;
   }
   
+  public void reset() {
+    synchronized (references) {
+      references.forEach(SoftReference::clear);
+      references.clear();
+    }
+  }
+  
   /**
    * Returns the number of references currently stored.
    * 
