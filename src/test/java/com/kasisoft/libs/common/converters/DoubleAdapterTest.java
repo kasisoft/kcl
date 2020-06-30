@@ -59,6 +59,8 @@ public class DoubleAdapterTest {
       {Double.valueOf(Double.NaN), "NaN"},
       {Double.valueOf(Double.POSITIVE_INFINITY), "+INF"},
       {Double.valueOf(Double.NEGATIVE_INFINITY), "-INF"},
+      {Double.valueOf(Double.MIN_VALUE), "MIN"},
+      {Double.valueOf(Double.MAX_VALUE), "MAX"},
     };
   }
 

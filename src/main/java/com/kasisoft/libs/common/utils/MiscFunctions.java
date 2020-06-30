@@ -215,7 +215,7 @@ public class MiscFunctions {
    * @param thread   The Thread that will be executed.
    */
   public static void joinThread(@Null Thread thread) {
-    if( thread != null ) {
+    if (thread != null) {
       try {
         thread.join();
       } catch (InterruptedException ex) {

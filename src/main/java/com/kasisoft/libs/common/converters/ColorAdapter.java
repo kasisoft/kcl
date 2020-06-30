@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.converters;
 
+import static com.kasisoft.libs.common.internal.Messages.error_invalid_color;
+
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.text.StringFunctions;
 
@@ -94,7 +96,7 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
     if (colors.containsKey(lower)) {
       return colors.get( lower );
     }
-    throw new KclException("%s is not a valid Color", v);
+    throw new KclException(error_invalid_color, v);
   }
   
   /**
@@ -121,7 +123,7 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
         }
       }
     }
-    throw new KclException("%s is not a valid Color", v);
+    throw new KclException(error_invalid_color, v);
   }
 
   /**
@@ -148,7 +150,7 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
       String blue   = v.substring(7, 9);
       return new Color(Integer.parseInt(red, 16), Integer.parseInt(green, 16), Integer.parseInt(blue, 16), Integer.parseInt(alpha, 16));
     }
-    throw new KclException("%s is not a valid Color", v);
+    throw new KclException(error_invalid_color, v);
   }
   
 } /* ENDCLASS */

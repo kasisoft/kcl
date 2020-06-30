@@ -1,10 +1,13 @@
 package com.kasisoft.libs.common.text;
 
+import org.testng.annotations.Test;
+
 /**
  * Testcase for the class 'StringFBuilder'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Test(groups = "all")
 public class StringFBuilderTest extends AbstractStringLikeTestCase<StringFBuilder> {
 
   public StringFBuilderTest() {

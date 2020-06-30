@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.constants;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -51,6 +52,15 @@ public class Iso3166Test {
     assertThat(identified.get(), is(expected));
   }
 
+  @Test(groups = "all")
+  public void findByAlpha2__NullValue() {
+    for (var iso : Iso3166.values()) {
+      var opt = iso.findByAlpha2(null);
+      assertNotNull(opt);
+      assertFalse(opt.isPresent());
+    }
+  }
+
   @DataProvider(name = "data_findByAlpha3")
   public Object[][] data_findByAlpha3() {
     var values = Iso3166.values();
@@ -69,6 +79,15 @@ public class Iso3166Test {
     assertThat(identified.get(), is(expected));
   }
 
+  @Test(groups = "all")
+  public void findByAlpha3__NullValue() {
+    for (var iso : Iso3166.values()) {
+      var opt = iso.findByAlpha3(null);
+      assertNotNull(opt);
+      assertFalse(opt.isPresent());
+    }
+  }
+
   @DataProvider(name = "data_findByNumerical")
   public Object[][] data_findByNumerical() {
     var values = Iso3166.values();
@@ -85,6 +104,31 @@ public class Iso3166Test {
     assertNotNull(identified);
     assertTrue(identified.isPresent());
     assertThat(identified.get(), is(expected));
+  }
+
+  @DataProvider(name = "data_test")
+  public Object[][] data_test() {
+    var isos   = Iso3166.values();
+    var result = new Object[isos.length][3];
+    for (var i = 0; i < isos.length; i++) {
+      result[i][0] = isos[i].getAlpha2();
+      result[i][1] = isos[i].getAlpha3();
+      result[i][2] = isos[i];
+    }
+    return result;
+  }
+  
+  @Test(groups = "all", dataProvider = "data_test")
+  public void test(String alpha2, String alpha3, Iso3166 iso3166) {
+    assertTrue(iso3166.test(alpha2));
+    assertTrue(iso3166.test(alpha3));
+  }
+
+  @Test(groups = "all")
+  public void test__NullValue() {
+    for (var iso : Iso3166.values()) {
+      assertFalse(iso.test(null));
+    }
   }
 
 } /* ENDCLASS */

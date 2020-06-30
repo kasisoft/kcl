@@ -1,5 +1,21 @@
 package com.kasisoft.libs.common.io;
 
+import static com.kasisoft.libs.common.internal.Messages.error_directory_does_not_exist;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_copy;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_create_directory;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_create_temporary_file;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_delete_directory;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_delete_file;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_gzip;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_load_gzipped;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_load_properties;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_process_zip;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_scan_dir;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_ungzip;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_unzip;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_zip;
+import static com.kasisoft.libs.common.internal.Messages.error_file_does_not_exist;
+
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.io.impl.FileIoSupport;
@@ -8,6 +24,10 @@ import com.kasisoft.libs.common.io.impl.URIIoSupport;
 import com.kasisoft.libs.common.io.impl.URLIoSupport;
 
 import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.functional.KBiConsumer;
+import com.kasisoft.libs.common.functional.KConsumer;
+import com.kasisoft.libs.common.functional.KFunction;
+import com.kasisoft.libs.common.functional.KPredicate;
 import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.pools.Buckets;
 import com.kasisoft.libs.common.pools.Buffers;
@@ -15,11 +35,6 @@ import com.kasisoft.libs.common.pools.Buffers;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import java.util.regex.Pattern;
 
@@ -89,11 +104,11 @@ public class IoFunctions {
     return new BufferedReader(new InputStreamReader(source, Encoding.getEncoding(encoding).getCharset()));
   }
 
-  public static void forReaderDo(@NotNull InputStream source, @NotNull Consumer<@NotNull Reader> function) {
+  public static void forReaderDo(@NotNull InputStream source, @NotNull KConsumer<@NotNull Reader> function) {
     forReaderDo(source, null, function);
   }
 
-  public static void forReaderDo(@NotNull InputStream source, @Null Encoding encoding, @NotNull Consumer<@NotNull Reader> function) {
+  public static void forReaderDo(@NotNull InputStream source, @Null Encoding encoding, @NotNull KConsumer<@NotNull Reader> function) {
     try (var reader = newReader(source, encoding)) {
       function.accept(reader);
     } catch (Exception ex) {
@@ -101,11 +116,11 @@ public class IoFunctions {
     }
   }
 
-  public static <R> @Null R forReader(@NotNull InputStream source, @NotNull Function<@NotNull Reader, @Null R> function) {
+  public static <R> @Null R forReader(@NotNull InputStream source, @NotNull KFunction<@NotNull Reader, @Null R> function) {
     return forReader(source, null, function);
   }
 
-  public static <R> @Null R forReader(@NotNull InputStream source, @Null Encoding encoding, @NotNull Function<@NotNull Reader, @Null R> function) {
+  public static <R> @Null R forReader(@NotNull InputStream source, @Null Encoding encoding, @NotNull KFunction<@NotNull Reader, @Null R> function) {
     try (var reader = newReader(source, encoding)) {
       return function.apply(reader);
     } catch (Exception ex) {
@@ -136,11 +151,11 @@ public class IoFunctions {
     return new BufferedWriter(new OutputStreamWriter(destination, Encoding.getEncoding(encoding).getCharset()));
   }
 
-  public static void forWriterDo(@NotNull OutputStream destination, @NotNull Consumer<@NotNull Writer> action) {
+  public static void forWriterDo(@NotNull OutputStream destination, @NotNull KConsumer<@NotNull Writer> action) {
     forWriterDo(destination, null, action);
   }
 
-  public static void forWriterDo(@NotNull OutputStream destination, @Null Encoding encoding, @NotNull Consumer<@NotNull Writer> action) {
+  public static void forWriterDo(@NotNull OutputStream destination, @Null Encoding encoding, @NotNull KConsumer<@NotNull Writer> action) {
     try (var writer = newWriter(destination, encoding)) {
       action.accept(writer);
     } catch (Exception ex) {
@@ -254,7 +269,7 @@ public class IoFunctions {
     try {
       return Files.createTempFile(prefix, suffix);
     } catch (Exception ex) {
-      throw new KclException(ex, "Could not create temporary file. Prefix: '%s', Suffix: '%s'", prefix, suffix);
+      throw new KclException(ex, error_failed_to_create_temporary_file, prefix, suffix);
     }
   }
 
@@ -336,7 +351,7 @@ public class IoFunctions {
       ) {
         copy(instream, outstream);
       } catch (Exception ex) {
-        throw KclException.wrap(ex, "Could not gzip '%s' (destination: '%s')", source, result);
+        throw KclException.wrap(ex, error_failed_to_gzip, source, result);
       }
       
     }
@@ -357,7 +372,7 @@ public class IoFunctions {
       ) {
         copy(instream, gzipOut);
       } catch (Exception ex) {
-        throw KclException.wrap(ex, "Failed to gzip '%s'", source);
+        throw KclException.wrap(ex, error_failed_to_load_gzipped, source);
       }
       return $byteout.toByteArray();
     });
@@ -403,7 +418,7 @@ public class IoFunctions {
       ) {
         copy(instream, outstream);
       } catch (Exception ex) {
-        throw KclException.wrap(ex, "Could not gzip '%s' (destination: '%s')", source, result);
+        throw KclException.wrap(ex, error_failed_to_gzip, source, result);
       }
       
     }
@@ -428,7 +443,7 @@ public class IoFunctions {
       ) {
         copy(instream, $byteout);
       } catch (Exception ex) {
-        throw KclException.wrap(ex, "Failed to ungzip '%s'", source);
+        throw KclException.wrap(ex, error_failed_to_ungzip, source);
       }
       return $byteout.toByteArray();
     });
@@ -452,11 +467,11 @@ public class IoFunctions {
   public static void copyFile(@NotNull Path source, @NotNull Path destination) {
     try {
       if (!Files.isRegularFile(source)) {
-        throw new KclException("The file '%s' does not exist!", source);
+        throw new KclException(error_file_does_not_exist, source);
       }
       Files.copy(source, destination, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to copy '%s' to '%s'!", source, destination);
+      throw KclException.wrap(ex, error_failed_to_copy, source, destination);
     }
   }
 
@@ -467,7 +482,7 @@ public class IoFunctions {
       }
       Files.move(source, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to copy '%s' to '%s'!", source, destination);
+      throw KclException.wrap(ex, error_failed_to_copy, source, destination);
     }
   }
 
@@ -480,7 +495,7 @@ public class IoFunctions {
     try {
       Files.createDirectories(dir);
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to create directory '%s' !", dir);
+      throw KclException.wrap(ex, error_failed_to_create_directory, dir);
     }
   }
   
@@ -489,7 +504,7 @@ public class IoFunctions {
     try {
       
       if (!Files.isDirectory(source)) {
-        throw new KclException("The directory '%s' does not exist!", source);
+        throw new KclException(error_directory_does_not_exist, source);
       }
       
       mkDirs(destination);
@@ -538,7 +553,7 @@ public class IoFunctions {
     try {
       
       if (!Files.isDirectory(source)) {
-        throw new KclException("The directory '%s' does not exist!", source);
+        throw new KclException(error_directory_does_not_exist, source);
       }
 
       var sourceRoot = findRoot(source);
@@ -606,7 +621,7 @@ public class IoFunctions {
       try {
         Files.delete(file);
       } catch (Exception ex) {
-        throw KclException.wrap(ex, "Failed to delete file '%s' !", file);
+        throw KclException.wrap(ex, error_failed_to_delete_file, file);
       }
     }
   }
@@ -632,7 +647,7 @@ public class IoFunctions {
         });
         
       } catch (Exception ex) {
-        throw KclException.wrap(ex, "Failed to delete directory '%s' !", dir);
+        throw KclException.wrap(ex, error_failed_to_delete_directory, dir);
       }
     }
   }
@@ -664,7 +679,7 @@ public class IoFunctions {
    * 
    * @return   A list of relative pathes (directories will end with a slash).
    */
-  public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, @Null Predicate<String> filter) {
+  public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, @Null KPredicate<String> filter) {
     return listPathes(start, filter, true);
   }
   
@@ -677,12 +692,12 @@ public class IoFunctions {
    * 
    * @return   A list of relative pathes (directories will end with a slash).
    */
-  public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, @Null Predicate<String> filter, boolean includeDirs) {
+  public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, @Null KPredicate<String> filter, boolean includeDirs) {
     
     try {
       
-      Predicate<String> predicate = filter != null ? filter : $ -> true;
-      var               result    = new ArrayList<String>(100);
+      KPredicate<String> predicate = filter != null ? filter : $ -> true;
+      var                result    = new ArrayList<String>(100);
       
       Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
         
@@ -695,12 +710,12 @@ public class IoFunctions {
         }
 
         @Override 
-        public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
+        public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
           addRelativePath(path, false);
           return FileVisitResult.CONTINUE;
         }
         
-        private void addRelativePath(Path current, boolean dir) {
+        private void addRelativePath(Path current, boolean dir) throws IOException {
           String str = start.relativize(current).toString().replace('\\', '/');
           if (str.isBlank()) {
             return;
@@ -708,8 +723,12 @@ public class IoFunctions {
           if (dir && (!str.endsWith("/"))) {
             str = str + '/';
           }
-          if (predicate.test(str)) {
-            result.add(str);
+          try {
+            if (predicate.test(str)) {
+              result.add(str);
+            }
+          } catch (Exception ex) {
+            throw new IOException(ex);
           }
         }
         
@@ -720,7 +739,7 @@ public class IoFunctions {
       return result;
       
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to scan dir '%s' !", start);
+      throw KclException.wrap(ex, error_failed_to_scan_dir, start);
     }
     
   }
@@ -735,7 +754,7 @@ public class IoFunctions {
    * 
    * @return   A list of records generated by the supplied transform. Not <code>null</code>.
    */
-  public static void forZipFileDo(@NotNull Path zipFile, @Null Encoding encoding, @Null Predicate<@NotNull ZipEntry> filter, @NotNull BiConsumer<@NotNull ZipFile, @NotNull ZipEntry> consumer) {
+  public static void forZipFileDo(@NotNull Path zipFile, @Null Encoding encoding, @Null KPredicate<@NotNull ZipEntry> filter, @NotNull KBiConsumer<@NotNull ZipFile, @NotNull ZipEntry> consumer) {
     if (encoding == null) {
       // the default encoding for zip files
       encoding = Encoding.IBM437;
@@ -750,7 +769,7 @@ public class IoFunctions {
         }
       }
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to process zip file '%s' !", zipFile);
+      throw KclException.wrap(ex, error_failed_to_process_zip, zipFile);
     }
   }
   
@@ -786,7 +805,7 @@ public class IoFunctions {
    * 
    * @return   A list of relative pathes. Not <code>null</code>.
    */
-  public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, @Null Encoding encoding, @Null Predicate<@NotNull ZipEntry> filter) {
+  public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, @Null Encoding encoding, @Null KPredicate<@NotNull ZipEntry> filter) {
     var result = new ArrayList<String>();
     forZipFileDo(zipFile, encoding, filter, ($z, $e) -> result.add($e.getName().replace('\\', '/')));
     return result;
@@ -800,7 +819,7 @@ public class IoFunctions {
     unzip(zipFile, destination, encoding, null);
   }
   
-  public static void unzip(@NotNull Path zipFile, @NotNull Path destination, @Null Encoding encoding, @Null Predicate<@NotNull ZipEntry> filter) {
+  public static void unzip(@NotNull Path zipFile, @NotNull Path destination, @Null Encoding encoding, @Null KPredicate<@NotNull ZipEntry> filter) {
     forZipFileDo(zipFile, encoding, filter, ($z, $e) -> {
       
       var  dest = destination.resolve($e.getName());
@@ -819,7 +838,7 @@ public class IoFunctions {
         ) {
           copy(instream, outstream);
         } catch (Exception ex) {
-          throw KclException.wrap(ex, "Failed to unzip to file '%s' (zip: %s, file: %s) !", dest, zipFile, $e.getName());
+          throw KclException.wrap(ex, error_failed_to_unzip, dest, zipFile, $e.getName());
         }
         
       }
@@ -841,7 +860,7 @@ public class IoFunctions {
           zipout.closeEntry();
         }
       } catch (Exception ex) {
-        throw KclException.wrap(ex, "Failed to zip to '%s' !", zipFile);
+        throw KclException.wrap(ex, error_failed_to_zip, zipFile);
       }
     });
   }
@@ -903,7 +922,7 @@ public class IoFunctions {
     try {
       result.load(reader);
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to load properties!");
+      throw KclException.wrap(ex, error_failed_to_load_properties);
     }
     return result;
   }
@@ -953,294 +972,294 @@ public class IoFunctions {
   /**
    * @see IoSupport#forInputStream(Object, Function<InputStream,  R>)
    */
-  public static <R> @Null R forInputStream(@NotNull Path source, @NotNull Function<InputStream,  R> function) {
+  public static <R> @Null R forInputStream(@NotNull Path source, @NotNull KFunction<InputStream,  R> function) {
     return IO_PATH.forInputStream(source, function);
   }
 
   /**
    * @see IoSupport#forInputStream(Object, Function<InputStream,  R>)
    */
-  public static <R> @Null R forInputStream(@NotNull File source, @NotNull Function<InputStream,  R> function) {
+  public static <R> @Null R forInputStream(@NotNull File source, @NotNull KFunction<InputStream,  R> function) {
     return IO_FILE.forInputStream(source, function);
   }
 
   /**
    * @see IoSupport#forInputStream(Object, Function<InputStream,  R>)
    */
-  public static <R> @Null R forInputStream(@NotNull URI source, @NotNull Function<InputStream,  R> function) {
+  public static <R> @Null R forInputStream(@NotNull URI source, @NotNull KFunction<InputStream,  R> function) {
     return IO_URI.forInputStream(source, function);
   }
 
   /**
    * @see IoSupport#forInputStream(Object, Function<InputStream,  R>)
    */
-  public static <R> @Null R forInputStream(@NotNull URL source, @NotNull Function<InputStream,  R> function) {
+  public static <R> @Null R forInputStream(@NotNull URL source, @NotNull KFunction<InputStream,  R> function) {
     return IO_URL.forInputStream(source, function);
   }
 
   /**
    * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
    */
-  public static void forInputStreamDo(@NotNull Path source, @NotNull Consumer<InputStream> action) {
+  public static void forInputStreamDo(@NotNull Path source, @NotNull KConsumer<InputStream> action) {
     IO_PATH.forInputStreamDo(source, action);
   }
 
   /**
    * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
    */
-  public static void forInputStreamDo(@NotNull File source, @NotNull Consumer<InputStream> action) {
+  public static void forInputStreamDo(@NotNull File source, @NotNull KConsumer<InputStream> action) {
     IO_FILE.forInputStreamDo(source, action);
   }
 
   /**
    * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
    */
-  public static void forInputStreamDo(@NotNull URI source, @NotNull Consumer<InputStream> action) {
+  public static void forInputStreamDo(@NotNull URI source, @NotNull KConsumer<InputStream> action) {
     IO_URI.forInputStreamDo(source, action);
   }
 
   /**
    * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
    */
-  public static void forInputStreamDo(@NotNull URL source, @NotNull Consumer<InputStream> action) {
+  public static void forInputStreamDo(@NotNull URL source, @NotNull KConsumer<InputStream> action) {
     IO_URL.forInputStreamDo(source, action);
   }
 
   /**
    * @see IoSupport#forOutputStream(Object, Function<OutputStream,  R>)
    */
-  public static <R> @Null R forOutputStream(@NotNull Path destination, @NotNull Function<OutputStream,  R> function) {
+  public static <R> @Null R forOutputStream(@NotNull Path destination, @NotNull KFunction<OutputStream,  R> function) {
     return IO_PATH.forOutputStream(destination, function);
   }
 
   /**
    * @see IoSupport#forOutputStream(Object, Function<OutputStream,  R>)
    */
-  public static <R> @Null R forOutputStream(@NotNull File destination, @NotNull Function<OutputStream,  R> function) {
+  public static <R> @Null R forOutputStream(@NotNull File destination, @NotNull KFunction<OutputStream,  R> function) {
     return IO_FILE.forOutputStream(destination, function);
   }
 
   /**
    * @see IoSupport#forOutputStream(Object, Function<OutputStream,  R>)
    */
-  public static <R> @Null R forOutputStream(@NotNull URI destination, @NotNull Function<OutputStream,  R> function) {
+  public static <R> @Null R forOutputStream(@NotNull URI destination, @NotNull KFunction<OutputStream,  R> function) {
     return IO_URI.forOutputStream(destination, function);
   }
 
   /**
    * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
    */
-  public static void forOutputStreamDo(@NotNull Path destination, @NotNull Consumer<OutputStream> action) {
+  public static void forOutputStreamDo(@NotNull Path destination, @NotNull KConsumer<OutputStream> action) {
     IO_PATH.forOutputStreamDo(destination, action);
   }
 
   /**
    * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
    */
-  public static void forOutputStreamDo(@NotNull File destination, @NotNull Consumer<OutputStream> action) {
+  public static void forOutputStreamDo(@NotNull File destination, @NotNull KConsumer<OutputStream> action) {
     IO_FILE.forOutputStreamDo(destination, action);
   }
 
   /**
    * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
    */
-  public static void forOutputStreamDo(@NotNull URI destination, @NotNull Consumer<OutputStream> action) {
+  public static void forOutputStreamDo(@NotNull URI destination, @NotNull KConsumer<OutputStream> action) {
     IO_URI.forOutputStreamDo(destination, action);
   }
 
   /**
    * @see IoSupport#forReader(Object, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull Path source, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull Path source, @NotNull KFunction<Reader,  R> function) {
     return IO_PATH.forReader(source, function);
   }
 
   /**
    * @see IoSupport#forReader(Object, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull File source, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull File source, @NotNull KFunction<Reader,  R> function) {
     return IO_FILE.forReader(source, function);
   }
 
   /**
    * @see IoSupport#forReader(Object, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull URI source, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull URI source, @NotNull KFunction<Reader,  R> function) {
     return IO_URI.forReader(source, function);
   }
 
   /**
    * @see IoSupport#forReader(Object, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull URL source, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull URL source, @NotNull KFunction<Reader,  R> function) {
     return IO_URL.forReader(source, function);
   }
 
   /**
    * @see IoSupport#forReader(Object, Encoding, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull Path source, @Null Encoding encoding, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull Path source, @Null Encoding encoding, @NotNull KFunction<Reader,  R> function) {
     return IO_PATH.forReader(source, encoding, function);
   }
 
   /**
    * @see IoSupport#forReader(Object, Encoding, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull File source, @Null Encoding encoding, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull File source, @Null Encoding encoding, @NotNull KFunction<Reader,  R> function) {
     return IO_FILE.forReader(source, encoding, function);
   }
 
   /**
    * @see IoSupport#forReader(Object, Encoding, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull URI source, @Null Encoding encoding, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull URI source, @Null Encoding encoding, @NotNull KFunction<Reader,  R> function) {
     return IO_URI.forReader(source, encoding, function);
   }
 
   /**
    * @see IoSupport#forReader(Object, Encoding, Function<Reader,  R>)
    */
-  public static <R> @Null R forReader(@NotNull URL source, @Null Encoding encoding, @NotNull Function<Reader,  R> function) {
+  public static <R> @Null R forReader(@NotNull URL source, @Null Encoding encoding, @NotNull KFunction<Reader,  R> function) {
     return IO_URL.forReader(source, encoding, function);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull Path source, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull Path source, @NotNull KConsumer<Reader> action) {
     IO_PATH.forReaderDo(source, action);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull File source, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull File source, @NotNull KConsumer<Reader> action) {
     IO_FILE.forReaderDo(source, action);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull URI source, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull URI source, @NotNull KConsumer<Reader> action) {
     IO_URI.forReaderDo(source, action);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull URL source, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull URL source, @NotNull KConsumer<Reader> action) {
     IO_URL.forReaderDo(source, action);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull Path source, @Null Encoding encoding, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull Path source, @Null Encoding encoding, @NotNull KConsumer<Reader> action) {
     IO_PATH.forReaderDo(source, encoding, action);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull File source, @Null Encoding encoding, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull File source, @Null Encoding encoding, @NotNull KConsumer<Reader> action) {
     IO_FILE.forReaderDo(source, encoding, action);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull URI source, @Null Encoding encoding, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull URI source, @Null Encoding encoding, @NotNull KConsumer<Reader> action) {
     IO_URI.forReaderDo(source, encoding, action);
   }
 
   /**
    * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
    */
-  public static void forReaderDo(@NotNull URL source, @Null Encoding encoding, @NotNull Consumer<Reader> action) {
+  public static void forReaderDo(@NotNull URL source, @Null Encoding encoding, @NotNull KConsumer<Reader> action) {
     IO_URL.forReaderDo(source, encoding, action);
   }
 
   /**
    * @see IoSupport#forWriter(Object, Function<Writer,  R>)
    */
-  public static <R> @Null R forWriter(@NotNull Path destination, @NotNull Function<Writer,  R> function) {
+  public static <R> @Null R forWriter(@NotNull Path destination, @NotNull KFunction<Writer,  R> function) {
     return IO_PATH.forWriter(destination, function);
   }
 
   /**
    * @see IoSupport#forWriter(Object, Function<Writer,  R>)
    */
-  public static <R> @Null R forWriter(@NotNull File destination, @NotNull Function<Writer,  R> function) {
+  public static <R> @Null R forWriter(@NotNull File destination, @NotNull KFunction<Writer,  R> function) {
     return IO_FILE.forWriter(destination, function);
   }
 
   /**
    * @see IoSupport#forWriter(Object, Function<Writer,  R>)
    */
-  public static <R> @Null R forWriter(@NotNull URI destination, @NotNull Function<Writer,  R> function) {
+  public static <R> @Null R forWriter(@NotNull URI destination, @NotNull KFunction<Writer,  R> function) {
     return IO_URI.forWriter(destination, function);
   }
 
   /**
    * @see IoSupport#forWriter(Object, Encoding, Function<Writer,  R>)
    */
-  public static <R> @Null R forWriter(@NotNull Path destination, @Null Encoding encoding, @NotNull Function<Writer,  R> function) {
+  public static <R> @Null R forWriter(@NotNull Path destination, @Null Encoding encoding, @NotNull KFunction<Writer,  R> function) {
     return IO_PATH.forWriter(destination, encoding, function);
   }
 
   /**
    * @see IoSupport#forWriter(Object, Encoding, Function<Writer,  R>)
    */
-  public static <R> @Null R forWriter(@NotNull File destination, @Null Encoding encoding, @NotNull Function<Writer,  R> function) {
+  public static <R> @Null R forWriter(@NotNull File destination, @Null Encoding encoding, @NotNull KFunction<Writer,  R> function) {
     return IO_FILE.forWriter(destination, encoding, function);
   }
 
   /**
    * @see IoSupport#forWriter(Object, Encoding, Function<Writer,  R>)
    */
-  public static <R> @Null R forWriter(@NotNull URI destination, @Null Encoding encoding, @NotNull Function<Writer,  R> function) {
+  public static <R> @Null R forWriter(@NotNull URI destination, @Null Encoding encoding, @NotNull KFunction<Writer,  R> function) {
     return IO_URI.forWriter(destination, encoding, function);
   }
 
   /**
    * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
    */
-  public static void forWriterDo(@NotNull Path destination, @NotNull Consumer<Writer> action) {
+  public static void forWriterDo(@NotNull Path destination, @NotNull KConsumer<Writer> action) {
     IO_PATH.forWriterDo(destination, action);
   }
 
   /**
    * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
    */
-  public static void forWriterDo(@NotNull File destination, @NotNull Consumer<Writer> action) {
+  public static void forWriterDo(@NotNull File destination, @NotNull KConsumer<Writer> action) {
     IO_FILE.forWriterDo(destination, action);
   }
 
   /**
    * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
    */
-  public static void forWriterDo(@NotNull URI destination, @NotNull Consumer<Writer> action) {
+  public static void forWriterDo(@NotNull URI destination, @NotNull KConsumer<Writer> action) {
     IO_URI.forWriterDo(destination, action);
   }
 
   /**
    * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
    */
-  public static void forWriterDo(@NotNull Path destination, @Null Encoding encoding, @NotNull Consumer<Writer> action) {
+  public static void forWriterDo(@NotNull Path destination, @Null Encoding encoding, @NotNull KConsumer<Writer> action) {
     IO_PATH.forWriterDo(destination, encoding, action);
   }
 
   /**
    * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
    */
-  public static void forWriterDo(@NotNull File destination, @Null Encoding encoding, @NotNull Consumer<Writer> action) {
+  public static void forWriterDo(@NotNull File destination, @Null Encoding encoding, @NotNull KConsumer<Writer> action) {
     IO_FILE.forWriterDo(destination, encoding, action);
   }
 
   /**
    * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
    */
-  public static void forWriterDo(@NotNull URI destination, @Null Encoding encoding, @NotNull Consumer<Writer> action) {
+  public static void forWriterDo(@NotNull URI destination, @Null Encoding encoding, @NotNull KConsumer<Writer> action) {
     IO_URI.forWriterDo(destination, encoding, action);
   }
 

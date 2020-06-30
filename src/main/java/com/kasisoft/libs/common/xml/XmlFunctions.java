@@ -116,10 +116,6 @@ public final class XmlFunctions {
     return $ -> StringFunctions.cleanup($.getAttribute(attribute));
   }
 
-  public static @NotNull Function<@NotNull Element, @Null String> getElementText(@NotBlank String tag) {
-    return $ -> getElementText($, tag);
-  }
-
   /**
    * Reads the content of the supplied stream.
    * 
@@ -540,7 +536,7 @@ public final class XmlFunctions {
     return Collections.emptyList();
   }
   
-  public static <T extends Node> @NotNull List<T> getChildElements(@Null NodeList nodeList) {
+  public static <T extends Node> @NotNull List<T> getChildNodes(@Null NodeList nodeList) {
     var result = Collections.<T>emptyList();
     if ((nodeList != null) && (nodeList.getLength() > 0)) {
       result = new ArrayList<>(nodeList.getLength());
@@ -569,6 +565,10 @@ public final class XmlFunctions {
   public static @Null Element findElement(@NotNull Element parent, @NotNull String tag) {
     var children = getChildElements(parent, tag);
     return (!children.isEmpty()) ? children.get(0) : null; 
+  }
+
+  public static @NotNull Function<@NotNull Element, @Null String> getElementText(@NotBlank String tag) {
+    return $ -> getElementText($, tag);
   }
 
   public static @Null String getElementText(@NotNull Element parent, @NotNull String tag) {

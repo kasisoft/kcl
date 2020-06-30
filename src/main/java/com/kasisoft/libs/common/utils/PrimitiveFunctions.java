@@ -1,5 +1,9 @@
 package com.kasisoft.libs.common.utils;
 
+import static com.kasisoft.libs.common.internal.Messages.error_api_misuse_empty_buffer;
+import static com.kasisoft.libs.common.internal.Messages.error_buffer_insertion;
+import static com.kasisoft.libs.common.internal.Messages.error_invalid_boolean_value;
+
 import com.kasisoft.libs.common.constants.Empty;
 
 import com.kasisoft.libs.common.KclException;
@@ -58,7 +62,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
 
@@ -70,7 +74,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
   
@@ -207,7 +211,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new byte[total];
@@ -227,7 +231,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
 
@@ -239,7 +243,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
   
@@ -376,7 +380,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new short[total];
@@ -396,7 +400,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
 
@@ -408,7 +412,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
   
@@ -545,7 +549,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new int[total];
@@ -565,7 +569,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
 
@@ -577,7 +581,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
   
@@ -714,7 +718,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new long[total];
@@ -734,7 +738,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
 
@@ -746,7 +750,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
   
@@ -883,7 +887,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new float[total];
@@ -903,7 +907,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
 
@@ -915,7 +919,7 @@ public class PrimitiveFunctions {
       }
       return result;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
   
@@ -1052,7 +1056,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new double[total];
@@ -1197,7 +1201,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new char[total];
@@ -1218,7 +1222,7 @@ public class PrimitiveFunctions {
       }
       return false;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
 
@@ -1231,7 +1235,7 @@ public class PrimitiveFunctions {
       }
       return true;
     } else {
-      throw new KclException("API misuse. Buffer must have at least one element.");
+      throw new KclException(error_api_misuse_empty_buffer);
     }
   }
   
@@ -1368,7 +1372,7 @@ public class PrimitiveFunctions {
       return concat(sequence, buffer);
     }
     if (offset >= buffer.length) {
-      throw new KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.length);
+      throw new KclException(error_buffer_insertion, offset, buffer.length);
     }
     var total  = buffer.length + sequence.length;
     var result = new boolean[total];
@@ -1398,7 +1402,7 @@ public class PrimitiveFunctions {
         return false;
       }
     }
-    throw new KclException("Invalid boolean value: '%s'", value);
+    throw new KclException(error_invalid_boolean_value, value);
   }
 
   /* SUPPLIERS */

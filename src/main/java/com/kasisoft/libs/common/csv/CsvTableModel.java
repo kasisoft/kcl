@@ -1,10 +1,16 @@
 package com.kasisoft.libs.common.csv;
 
+import static com.kasisoft.libs.common.internal.Messages.error_csv_cannot_add_row;
+import static com.kasisoft.libs.common.internal.Messages.error_csv_cannot_parse_cell_value;
+import static com.kasisoft.libs.common.internal.Messages.error_csv_inconsistent_column_counts;
+import static com.kasisoft.libs.common.internal.Messages.error_csv_missing_closing_quote;
+import static com.kasisoft.libs.common.internal.Messages.error_missing_csv_adapter;
 
 import com.kasisoft.libs.common.io.IoFunctions;
 
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.functional.Functions;
+import com.kasisoft.libs.common.functional.KPredicate;
 import com.kasisoft.libs.common.functional.Predicates;
 import com.kasisoft.libs.common.text.StringFBuilder;
 import com.kasisoft.libs.common.text.StringFunctions;
@@ -322,7 +328,7 @@ public class CsvTableModel implements TableModel {
     for (var i = 0; i < result.getColumns().size(); i++) {
       var csvColumn = result.getColumns().get(i);
       if ((csvColumn != null) && (csvColumn.getAdapter() == null)) {
-        ehColumnSpecWithoutAdapter.accept(String.format("Missing CSV Adapter for column %d", i));
+        ehColumnSpecWithoutAdapter.accept(error_missing_csv_adapter.format(i));
         // unless the error handler caused an exception we're clearing this spec, so it can be
         // calculcated afterwards
         result.getColumns().set(i, null);
@@ -462,14 +468,14 @@ public class CsvTableModel implements TableModel {
       if ((first == DQ) && options.isConsumeDoubleQuotes()) {
         var close = text.indexOf(DQ, i + 1);
         if (close == -1) {
-          throw new KclException("The closing quote for content '%s' is missing !", text);
+          throw new KclException(error_csv_missing_closing_quote, text);
         }
         result.add(text.substring(i + 1, close));
         i = close + 1;
       } else if ((first == SQ) && options.isConsumeSingleQuotes()) {
         var close = text.indexOf(SQ, i + 1);
         if (close == -1) {
-          throw new KclException("The closing quote for content '%s' is missing !",  text);
+          throw new KclException(error_csv_missing_closing_quote,  text);
         }
         result.add(text.substring(i + 1, close));
         i = close + 1;
@@ -549,7 +555,7 @@ public class CsvTableModel implements TableModel {
       var idx1 = content.indexOf(quoteAsStr, pos);
       if (idx1 == -1) {
         // the format is invalid
-        throw new KclException("The closing quote for content '%s' is missing !", content);
+        throw new KclException(error_csv_missing_closing_quote, content);
       }
       if (idx1 == content.length() - 1) {
         // this cell covers the full remaining content, so we're done here
@@ -848,7 +854,7 @@ public class CsvTableModel implements TableModel {
     var columns  = determineColumnCount(lines);
     var equalLen = equalLengthForEachLine(lines, columns);
     if (!equalLen) {
-      ehInconsistentColumnCount.accept("The number of columns for each line isn't consistent !");
+      ehInconsistentColumnCount.accept(error_csv_inconsistent_column_counts);
       // if the error handler doesn't cause an exception we need to filter out each invalid row
       lines = lines.stream().filter($ -> $.size() == columns).collect( Collectors.toList());
     }
@@ -1114,8 +1120,9 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   A column specification. Maybe <code>null</code> if some values don't support to be converted properly.
    */
-  private <T> @NotNull CsvColumn<T> process(@NotNull  Set<String> values, boolean nullable, @NotNull Predicate<String> test, @NotNull Function<String, T> adapter, @NotNull Class<T> type, @NotNull T defValue ) {
-    var is = values.parallelStream().map($ -> test.test($) ).reduce(true, Boolean::logicalAnd);
+  private <T> @NotNull CsvColumn<T> process(@NotNull  Set<String> values, boolean nullable, @NotNull KPredicate<String> test, @NotNull Function<String, T> adapter, @NotNull Class<T> type, @NotNull T defValue ) {
+    var testP = test.protect();
+    var is    = values.parallelStream().map($ -> testP.test($)).reduce(true, Boolean::logicalAnd);
     if (is) {
       var result = new CsvColumn<T>();
       result.setAdapter(adapter);
@@ -1162,8 +1169,8 @@ public class CsvTableModel implements TableModel {
         }
         tableModel.addRow(rowData);
       } catch (Exception ex) {
-        String message = String.format("Cannot add row %d (data = %s). Error: %s !", getRowCount(), StringFunctions.toString(rowData), ex.getLocalizedMessage());
-        ehInvalidAddRow.accept( message );
+        String message = error_csv_cannot_add_row.format(getRowCount(), StringFunctions.objectToString(rowData), ex.getLocalizedMessage());
+        ehInvalidAddRow.accept(message);
       }
     }
   }
@@ -1181,7 +1188,7 @@ public class CsvTableModel implements TableModel {
     try {
       return adapter.apply(value);
     } catch (Exception ex) {
-      ehInvalidCellValue.accept(String.format("The cell value '%s' at column %d cannot be parsed !", value, idx));
+      ehInvalidCellValue.accept(error_csv_cannot_parse_cell_value.format(value, idx));
       return null;
     }
   }

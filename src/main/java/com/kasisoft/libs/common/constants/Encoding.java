@@ -39,6 +39,7 @@ import lombok.ToString;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://docs.oracle.com/javase/10/docs/api/java/nio/charset/Charset.html", date = "04-JUN-2020")
+@Getter
 @EqualsAndHashCode(of = "encoding")
 @ToString(of = "encoding")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -56,25 +57,25 @@ public final class Encoding {
   
   static {
     ENCODINGS   = new HashMap<>();
-    ASCII       = new Encoding("US-ASCII"    , false , null                 );
-    UTF8        = new Encoding("UTF-8"       , false , ByteOrderMark.UTF8   );
-    UTF16       = new Encoding("UTF-16"      , true  , null                 );
-    UTF16BE     = new Encoding("UTF-16BE"    , false , ByteOrderMark.UTF16BE);
-    UTF16LE     = new Encoding("UTF-16LE"    , false , ByteOrderMark.UTF16LE);
-    ISO88591    = new Encoding("ISO-8859-1"  , false , null                 );
-    IBM437      = new Encoding("IBM437"      , false , null                 );
+    ASCII       = new Encoding("US-ASCII"  , false, null);
+    UTF8        = new Encoding("UTF-8"     , false, ByteOrderMark.UTF8);
+    UTF16       = new Encoding("UTF-16"    , true , null);
+    UTF16BE     = new Encoding("UTF-16BE"  , false, ByteOrderMark.UTF16BE);
+    UTF16LE     = new Encoding("UTF-16LE"  , false, ByteOrderMark.UTF16LE);
+    ISO88591    = new Encoding("ISO-8859-1", false, null);
+    IBM437      = new Encoding("IBM437"    , false, null);
   }
   
   /** Neither <code>null</code> nor empty. */
-  @Getter String          encoding;
+  String          encoding;
   
-  @Getter boolean         bomRequired;
+  boolean         bomRequired;
   
   /** Maybe <code>null</code> */
-  @Getter ByteOrderMark   byteOrderMark;
+  ByteOrderMark   byteOrderMark;
   
   /** Not <code>null</code> */
-  @Getter Charset         charset;
+  Charset         charset;
   
   /**
    * Initializes this Encoding instance for a specific character set.

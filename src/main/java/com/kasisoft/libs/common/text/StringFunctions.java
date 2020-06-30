@@ -188,19 +188,15 @@ public class StringFunctions {
   /**
    * Replaces regions within some text.
    * 
-   * @param input         The text which might be altered. Not <code>null</code>.
-   * @param open          The opening of a region (f.e. "(*"). Not <code>null</code>.
-   * @param close         The closing of a region (f.e. "*)"). Not <code>null</code>.
-   * @param replacement   The replacement value. Not <code>null</code>.
+   * @param input         The text which might be altered.
+   * @param open          The opening of a region (f.e. "(*").
+   * @param close         The closing of a region (f.e. "*)").
+   * @param replacement   The replacement value.
    *
-   * @return   The altered text. Not <code>null</code>.
+   * @return   The altered text.
    */
   public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, @Null String close, @NotNull Function<String, CharSequence> replacement) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceRegions(open, close, replacement).toString());
-  }
-
-  public static @NotNull boolean startsWith(@NotNull String input, boolean casesensitive) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).startsWith(casesensitive, input));
   }
 
   public static <T extends CharSequence> @Null T startsWithMany(@NotNull String input, @NotNull T ... candidates) {
@@ -209,10 +205,6 @@ public class StringFunctions {
   
   public static <T extends CharSequence> @Null T startsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).startsWithMany(casesensitive, candidates));
-  }
-
-  public static @NotNull boolean endsWith(@NotNull String input, boolean casesensitive) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).endsWith(casesensitive, input));
   }
 
   public static <T extends CharSequence> @Null T endsWithMany(@NotNull String input, @NotNull T ... candidates) {
@@ -347,7 +339,7 @@ public class StringFunctions {
    * 
    * @return   The textual representation of the supplied object.
    */
-  public static @NotNull String toString(@Null Object obj) {
+  public static @NotNull String objectToString(@Null Object obj) {
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       appendToString($, obj);
       return $.toString();
@@ -402,8 +394,8 @@ public class StringFunctions {
     receiver.append('[');
     if (array.length > 0) {
       appendToString(receiver, array[0]);
-      receiver.append(array[0]);
       for (var i = 1; i < array.length; i++) {
+        receiver.append(',');
         appendToString(receiver, array[i]);
       }
     }

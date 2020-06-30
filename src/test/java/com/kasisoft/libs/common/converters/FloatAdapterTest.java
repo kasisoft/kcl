@@ -59,6 +59,8 @@ public class FloatAdapterTest {
       {Float.valueOf(Float.NaN), "NaN"},
       {Float.valueOf(Float.POSITIVE_INFINITY), "+INF"},
       {Float.valueOf(Float.NEGATIVE_INFINITY), "-INF"},
+      {Float.valueOf(Float.MIN_VALUE), "MIN"},
+      {Float.valueOf(Float.MAX_VALUE), "MAX"},
     };
   }
 

@@ -42,15 +42,21 @@ public enum PictureFormat implements Predicate<String> {
   @Override
   public boolean test(@Null String t) {
     if (t != null) {
-      var lidx      = t.lastIndexOf('.');
-      var suffix    = t.substring(lidx);
-      return suffices.contains(suffix);
+      var lidx = t.lastIndexOf('.');
+      if (lidx != -1) {
+        var suffix    = t.substring(lidx + 1);
+        return suffices.contains(suffix);
+      }
     }
     return false;
   }
   
   public @NotNull String getSuffix() {
     return suffices.get(0);
+  }
+  
+  public static PictureFormat[] rasterFormatValues() {
+    return new PictureFormat[] {Bmp, Gif, Jpeg, Png};
   }
   
 } /* ENDENUM */

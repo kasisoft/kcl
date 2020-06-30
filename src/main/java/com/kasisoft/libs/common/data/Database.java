@@ -1,5 +1,8 @@
 package com.kasisoft.libs.common.data;
 
+import static com.kasisoft.libs.common.internal.Messages.error_cannot_connect_to_database;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_activate_jdbc_driver;
+
 import com.kasisoft.libs.common.KclException;
 
 import javax.validation.constraints.NotBlank;
@@ -29,15 +32,15 @@ import lombok.Getter;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Database implements Predicate<String> {
 
-  derby       (false , "VALUES 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.apache.derby.jdbc.EmbeddedDriver"),
-  h2          (false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.h2.Driver"),
-  hsql        (false , "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" , "SELECT TOP 1 * FROM %s"   , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.hsqldb.jdbcDriver"),
-  mssql       (false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "com.microsoft.jdbc.sqlserver.SQLServerDriver", "net.sourceforge.jtds.jdbc.Driver"),
-  mysql       (true  , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "com.mysql.jdbc.Driver", "com.mysql.cj.jdbc.Driver"),
-  odbc        (false , null                                            , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "sun.jdbc.odbc.JdbcOdbcDriver"),
-  oracle      (false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "oracle.jdbc.driver.OracleDriver"),
-  postgresql  (false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.postgresql.Driver"),
-  sqlite      (false , "SELECT 1"                                      , "SELECT * FROM %s LIMIT 1" , "SELECT * FROM %s" , "SELECT COUNT(*) FROM %s" , "org.sqlite.JDBC");
+  derby       (false, "VALUES 1"                                     , "SELECT * FROM %s LIMIT 1", "org.apache.derby.jdbc.EmbeddedDriver"),
+  h2          (false, "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "org.h2.Driver"),
+  hsql        (false, "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS", "SELECT TOP 1 * FROM %s"  , "org.hsqldb.jdbcDriver"),
+  mssql       (false, "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "com.microsoft.jdbc.sqlserver.SQLServerDriver", "net.sourceforge.jtds.jdbc.Driver"),
+  mysql       (true , "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "com.mysql.jdbc.Driver", "com.mysql.cj.jdbc.Driver"),
+  odbc        (false, null                                           , "SELECT * FROM %s LIMIT 1", "sun.jdbc.odbc.JdbcOdbcDriver"),
+  oracle      (false, "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "oracle.jdbc.driver.OracleDriver"),
+  postgresql  (false, "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "org.postgresql.Driver"),
+  sqlite      (false, "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "org.sqlite.JDBC");
 
   @Getter 
   String        driver;
@@ -56,13 +59,13 @@ public enum Database implements Predicate<String> {
   boolean       active;
   String        aliveQuery;
   
-  Database(boolean spi, String query, String listColumns, String selectAll, String count, String ... driverclasses) {
+  Database(boolean spi, String alive, String listColumns, String ... driverclasses) {
     driver           = driverclasses[0];
     active           = spi;
-    aliveQuery       = query;
+    aliveQuery       = alive;
     listColumnsQuery = listColumns;
-    selectAllQuery   = selectAll;
-    countQuery       = count;
+    selectAllQuery   = "SELECT * FROM %s";
+    countQuery       = "SELECT COUNT(*) FROM %s";
     if (driverclasses.length > 1) {
       secondaryDrivers = new ArrayList<>(Arrays.asList(driverclasses));
       secondaryDrivers.remove(0);
@@ -107,7 +110,7 @@ public enum Database implements Predicate<String> {
         }
       }
       if (!active) {
-        throw new KclException("Failed to activate driver '%s' !", driver);
+        throw new KclException(error_failed_to_activate_jdbc_driver, driver);
       }
     }
   }
@@ -133,7 +136,7 @@ public enum Database implements Predicate<String> {
       activate();
       return DriverManager.getConnection(url);
     } catch (Exception ex) {
-      throw new KclException(ex, "Couldn't connect to database with url '%s'", url);
+      throw new KclException(ex, error_cannot_connect_to_database, url);
     }
   }
   
@@ -151,7 +154,7 @@ public enum Database implements Predicate<String> {
       activate();
       return DriverManager.getConnection(url, username, password);
     } catch (Exception ex) {
-      throw new KclException(ex, "Couldn't connect to database with url '%s'", url);
+      throw new KclException(ex, error_cannot_connect_to_database, url);
     }
   }
   

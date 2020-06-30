@@ -142,7 +142,7 @@ public enum MimeType implements Predicate<String> {
   /**
    * Returns a set of known mime types supporting the supplied suffix.
    * 
-   * @param suffix   The suffix used to identify a filetype. Neither <code>null</code> nor empty.
+   * @param suffix   The suffix used to identify a filetype.
    * 
    * @return   A set of supporting mime types.
    */

@@ -20,6 +20,7 @@ import lombok.ToString;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "http://tools.ietf.org/html/rfc2616#section-6.1", date = "04-JUN-2020")
+@Getter
 @ToString(of = "name")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum HttpStatusCode implements Predicate<Integer> {
@@ -106,12 +107,12 @@ public enum HttpStatusCode implements Predicate<Integer> {
   public static final String SM_UNSUPPORTED_MEDIA_TYPE            = "Unsupported Media Type";
   public static final String SM_USE_PROXY                         = "Use Proxy";
 
-  @Getter int      code;
+  int      code;
   
   /** Neither <code>null</code> nor empty. */
-  @Getter String   textualCode;
+  String   textualCode;
   
-  @Getter String   name;
+  String   name;
   
   HttpStatusCode(int statuscode, String text) {
     name        = text;

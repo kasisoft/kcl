@@ -1,5 +1,8 @@
 package com.kasisoft.libs.common.types;
 
+import static com.kasisoft.libs.common.internal.Messages.error_version_cannot_parse_version;
+import static com.kasisoft.libs.common.internal.Messages.error_version_missing_qualifier;
+
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.pools.Buckets;
 import com.kasisoft.libs.common.text.StringFBuilder;
@@ -7,8 +10,6 @@ import com.kasisoft.libs.common.text.StringFunctions;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-
-import java.text.ParseException;
 
 import lombok.experimental.FieldDefaults;
 
@@ -137,7 +138,7 @@ public class Version implements Comparable<Version> {
         if (hasqualifier.booleanValue()) {
           qualifier = StringFunctions.cleanup(input.toString());
           if (qualifier == null) {
-            throw new ParseException("Missing qualifier", idx);
+            throw new KclException(error_version_missing_qualifier, idx);
           }
         }
         
@@ -162,7 +163,7 @@ public class Version implements Comparable<Version> {
       text = toText();
       
     } catch (Exception ex) {
-      throw new KclException(ex, "Cannot parse version '%s'", version);
+      throw new KclException(ex, error_version_cannot_parse_version, version);
     }
     
   }

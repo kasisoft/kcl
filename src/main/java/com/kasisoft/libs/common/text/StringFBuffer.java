@@ -338,13 +338,8 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   }
 
   @Override
-  public synchronized int lastIndexOf(boolean leftmost, char ... characters) {
-    return StringLike.super.lastIndexOf(leftmost, characters);
-  }
-
-  @Override
-  public synchronized int lastIndexOf(int index, boolean leftmost, char ... characters) {
-    return StringLike.super.lastIndexOf(index, leftmost, characters);
+  public synchronized int lastIndexOf(int index, char ... characters) {
+    return StringLike.super.lastIndexOf(index, characters);
   }
 
   @Override

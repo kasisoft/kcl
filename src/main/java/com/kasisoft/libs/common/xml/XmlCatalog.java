@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.xml;
 
+import static com.kasisoft.libs.common.internal.Messages.error_dom_impl_without_ls;
+
 import com.kasisoft.libs.common.io.IoFunctions;
 
 import com.kasisoft.libs.common.KclException;
@@ -78,7 +80,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         if (docbuilder.getDOMImplementation() instanceof DOMImplementationLS) {
           domimpl = (DOMImplementationLS) docbuilder.getDOMImplementation();
         } else {
-          throw new KclException("DOM Implementation doesn't support LS !");
+          throw new KclException(error_dom_impl_without_ls);
         }
         
       } catch (Exception ex) {

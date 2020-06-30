@@ -41,10 +41,8 @@ public class KclException extends RuntimeException {
   public static <R> R execute(@NotNull Supplier<R> supplier, @Null String fmt, @Null Object ... args) {
     try {
       return supplier.get();
-    } catch (KclException ex) {
-      throw ex;
     } catch (Exception ex) {
-      throw new KclException(ex, fmt, args);
+      throw KclException.wrap(ex, fmt, args);
     }
   }
   

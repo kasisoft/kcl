@@ -31,6 +31,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_CHARS, Empty.NO_CHARS));
     assertTrue(PrimitiveFunctions.compare(new char[] {'a'}, new char[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new char[] {'a', 'z'}, new char[] {'a', 'z'}));
+    assertFalse(PrimitiveFunctions.compare(new char[] {'a', 'z'}, new char[] {'a', 'y'}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_CHARS, new char[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new char[] {'a'}, Empty.NO_CHARS));
 
@@ -38,6 +39,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new char[] {'l', 'l', 'l'}, Empty.NO_CHARS, 3));
     assertTrue(PrimitiveFunctions.compare(new char[] {'l', 'l', 'l', 'a'}, new char[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new char[] {'l', 'l', 'l', 'a', 'z'}, new char[] {'a', 'z'}, 3));
+    assertFalse(PrimitiveFunctions.compare(new char[] {'l', 'l', 'l', 'a', 'z'}, new char[] {'a', 'y'}, 3));
     assertFalse(PrimitiveFunctions.compare(new char[] {'l', 'l', 'l'}, new char[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new char[] {'l', 'l', 'l', 'a'}, Empty.NO_CHARS, 3));
     
@@ -172,6 +174,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_BYTES, Empty.NO_BYTES));
     assertTrue(PrimitiveFunctions.compare(new byte[] {'a'}, new byte[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new byte[] {'a', 'z'}, new byte[] {'a', 'z'}));
+    assertFalse(PrimitiveFunctions.compare(new byte[] {'a', 'z'}, new byte[] {'a', 'y'}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_BYTES, new byte[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new byte[] {'a'}, Empty.NO_BYTES));
 
@@ -179,6 +182,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new byte[] {'l', 'l', 'l'}, Empty.NO_BYTES, 3));
     assertTrue(PrimitiveFunctions.compare(new byte[] {'l', 'l', 'l', 'a'}, new byte[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new byte[] {'l', 'l', 'l', 'a', 'z'}, new byte[] {'a', 'z'}, 3));
+    assertFalse(PrimitiveFunctions.compare(new byte[] {'l', 'l', 'l', 'a', 'z'}, new byte[] {'a', 'y'}, 3));
     assertFalse(PrimitiveFunctions.compare(new byte[] {'l', 'l', 'l'}, new byte[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new byte[] {'l', 'l', 'l', 'a'}, Empty.NO_BYTES, 3));
     
@@ -313,6 +317,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_SHORTS, Empty.NO_SHORTS));
     assertTrue(PrimitiveFunctions.compare(new short[] {'a'}, new short[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new short[] {'a', 'z'}, new short[] {'a', 'z'}));
+    assertFalse(PrimitiveFunctions.compare(new short[] {'a', 'z'}, new short[] {'a', 'y'}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_SHORTS, new short[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new short[] {'a'}, Empty.NO_SHORTS));
 
@@ -320,6 +325,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new short[] {'l', 'l', 'l'}, Empty.NO_SHORTS, 3));
     assertTrue(PrimitiveFunctions.compare(new short[] {'l', 'l', 'l', 'a'}, new short[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new short[] {'l', 'l', 'l', 'a', 'z'}, new short[] {'a', 'z'}, 3));
+    assertFalse(PrimitiveFunctions.compare(new short[] {'l', 'l', 'l', 'a', 'z'}, new short[] {'a', 'y'}, 3));
     assertFalse(PrimitiveFunctions.compare(new short[] {'l', 'l', 'l'}, new short[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new short[] {'l', 'l', 'l', 'a'}, Empty.NO_SHORTS, 3));
     
@@ -454,6 +460,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_INTS, Empty.NO_INTS));
     assertTrue(PrimitiveFunctions.compare(new int[] {'a'}, new int[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new int[] {'a', 'z'}, new int[] {'a', 'z'}));
+    assertFalse(PrimitiveFunctions.compare(new int[] {'a', 'z'}, new int[] {'a', 'y'}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_INTS, new int[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new int[] {'a'}, Empty.NO_INTS));
 
@@ -461,6 +468,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new int[] {'l', 'l', 'l'}, Empty.NO_INTS, 3));
     assertTrue(PrimitiveFunctions.compare(new int[] {'l', 'l', 'l', 'a'}, new int[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new int[] {'l', 'l', 'l', 'a', 'z'}, new int[] {'a', 'z'}, 3));
+    assertFalse(PrimitiveFunctions.compare(new int[] {'l', 'l', 'l', 'a', 'z'}, new int[] {'a', 'y'}, 3));
     assertFalse(PrimitiveFunctions.compare(new int[] {'l', 'l', 'l'}, new int[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new int[] {'l', 'l', 'l', 'a'}, Empty.NO_INTS, 3));
     
@@ -595,6 +603,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_LONGS, Empty.NO_LONGS));
     assertTrue(PrimitiveFunctions.compare(new long[] {'a'}, new long[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new long[] {'a', 'z'}, new long[] {'a', 'z'}));
+    assertFalse(PrimitiveFunctions.compare(new long[] {'a', 'z'}, new long[] {'a', 'y'}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_LONGS, new long[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new long[] {'a'}, Empty.NO_LONGS));
 
@@ -602,6 +611,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new long[] {'l', 'l', 'l'}, Empty.NO_LONGS, 3));
     assertTrue(PrimitiveFunctions.compare(new long[] {'l', 'l', 'l', 'a'}, new long[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new long[] {'l', 'l', 'l', 'a', 'z'}, new long[] {'a', 'z'}, 3));
+    assertFalse(PrimitiveFunctions.compare(new long[] {'l', 'l', 'l', 'a', 'z'}, new long[] {'a', 'y'}, 3));
     assertFalse(PrimitiveFunctions.compare(new long[] {'l', 'l', 'l'}, new long[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new long[] {'l', 'l', 'l', 'a'}, Empty.NO_LONGS, 3));
     
@@ -736,6 +746,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_FLOATS, Empty.NO_FLOATS));
     assertTrue(PrimitiveFunctions.compare(new float[] {'a'}, new float[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new float[] {'a', 'z'}, new float[] {'a', 'z'}));
+    assertFalse(PrimitiveFunctions.compare(new float[] {'a', 'z'}, new float[] {'a', 'y'}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_FLOATS, new float[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new float[] {'a'}, Empty.NO_FLOATS));
 
@@ -743,6 +754,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new float[] {'l', 'l', 'l'}, Empty.NO_FLOATS, 3));
     assertTrue(PrimitiveFunctions.compare(new float[] {'l', 'l', 'l', 'a'}, new float[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new float[] {'l', 'l', 'l', 'a', 'z'}, new float[] {'a', 'z'}, 3));
+    assertFalse(PrimitiveFunctions.compare(new float[] {'l', 'l', 'l', 'a', 'z'}, new float[] {'a', 'y'}, 3));
     assertFalse(PrimitiveFunctions.compare(new float[] {'l', 'l', 'l'}, new float[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new float[] {'l', 'l', 'l', 'a'}, Empty.NO_FLOATS, 3));
     
@@ -877,6 +889,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_DOUBLES, Empty.NO_DOUBLES));
     assertTrue(PrimitiveFunctions.compare(new double[] {'a'}, new double[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new double[] {'a', 'z'}, new double[] {'a', 'z'}));
+    assertFalse(PrimitiveFunctions.compare(new double[] {'a', 'z'}, new double[] {'a', 'y'}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_DOUBLES, new double[] {'a'}));
     assertTrue(PrimitiveFunctions.compare(new double[] {'a'}, Empty.NO_DOUBLES));
 
@@ -884,6 +897,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new double[] {'l', 'l', 'l'}, Empty.NO_DOUBLES, 3));
     assertTrue(PrimitiveFunctions.compare(new double[] {'l', 'l', 'l', 'a'}, new double[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new double[] {'l', 'l', 'l', 'a', 'z'}, new double[] {'a', 'z'}, 3));
+    assertFalse(PrimitiveFunctions.compare(new double[] {'l', 'l', 'l', 'a', 'z'}, new double[] {'a', 'y'}, 3));
     assertFalse(PrimitiveFunctions.compare(new double[] {'l', 'l', 'l'}, new double[] {'a'}, 3));
     assertTrue(PrimitiveFunctions.compare(new double[] {'l', 'l', 'l', 'a'}, Empty.NO_DOUBLES, 3));
     
@@ -1020,6 +1034,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(Empty.NO_BOOLEANS, Empty.NO_BOOLEANS));
     assertTrue(PrimitiveFunctions.compare(new boolean[] {false}, new boolean[] {false}));
     assertTrue(PrimitiveFunctions.compare(new boolean[] {false, true}, new boolean[] {false, true}));
+    assertFalse(PrimitiveFunctions.compare(new boolean[] {false, true}, new boolean[] {false, false}));
     assertFalse(PrimitiveFunctions.compare(Empty.NO_BOOLEANS, new boolean[] {false}));
     assertTrue(PrimitiveFunctions.compare(new boolean[] {false}, Empty.NO_BOOLEANS));
 
@@ -1027,6 +1042,7 @@ public class PrimitiveFunctionsTest {
     assertTrue(PrimitiveFunctions.compare(new boolean[] {true, true, true}, Empty.NO_BOOLEANS, 3));
     assertTrue(PrimitiveFunctions.compare(new boolean[] {true, true, true, false}, new boolean[] {false}, 3));
     assertTrue(PrimitiveFunctions.compare(new boolean[] {true, true, true, false, true}, new boolean[] {false, true}, 3));
+    assertFalse(PrimitiveFunctions.compare(new boolean[] {true, true, true, false, true}, new boolean[] {false, false}, 3));
     assertFalse(PrimitiveFunctions.compare(new boolean[] {true, true, true}, new boolean[] {false}, 3));
     assertTrue(PrimitiveFunctions.compare(new boolean[] {true, true, true, false}, Empty.NO_BOOLEANS, 3));
     

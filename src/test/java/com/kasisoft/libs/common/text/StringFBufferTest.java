@@ -1,10 +1,13 @@
 package com.kasisoft.libs.common.text;
 
+import org.testng.annotations.Test;
+
 /**
  * Testcase for the class 'StringFBuffer'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@Test(groups = "all")
 public class StringFBufferTest extends AbstractStringLikeTestCase<StringFBuffer> {
 
   public StringFBufferTest() {

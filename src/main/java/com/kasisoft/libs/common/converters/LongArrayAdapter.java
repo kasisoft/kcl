@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.converters;
 
+import com.kasisoft.libs.common.constants.Empty;
+
 import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.NotNull;
@@ -24,7 +26,7 @@ public class LongArrayAdapter extends AbstractConverter<String, long[]> {
   LongAdapter       converter = new LongAdapter();
 
   public @NotNull LongArrayAdapter withDelimiter(@NotNull char delimiter) {
-    if (delimiter != '.') {
+    if (this.delimiter != delimiter) {
       this.delimiter = delimiter;
       this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
     }
@@ -38,6 +40,9 @@ public class LongArrayAdapter extends AbstractConverter<String, long[]> {
 
   @Override
   public @Null String encodeImpl(@NotNull long[] decoded) {
+    if (decoded.length == 0) {
+      return Empty.NO_STRING;
+    }
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       if (decoded.length > 0) {
         $.append(decoded[0]);
@@ -52,6 +57,9 @@ public class LongArrayAdapter extends AbstractConverter<String, long[]> {
 
   @Override
   public @Null long[] decodeImpl(@NotNull String encoded) {
+    if (encoded.length() == 0) {
+      return Empty.NO_LONGS;
+    }
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       $.append(encoded);
       var values = $.splitRegex(pattern);

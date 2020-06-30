@@ -1,16 +1,19 @@
 package com.kasisoft.libs.common.io;
 
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_read_from;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_write_text_to;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_write_to;
+
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.functional.KConsumer;
+import com.kasisoft.libs.common.functional.KFunction;
 import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -36,7 +39,7 @@ public interface IoSupport<T> {
     try {
       return new BufferedInputStream(newInputStreamImpl(source));
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to read from '%s'!", source);
+      throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
 
@@ -44,7 +47,7 @@ public interface IoSupport<T> {
     try {
       return new BufferedOutputStream(newOutputStreamImpl(destination));
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to write to '%s'!", destination);
+      throw new KclException(ex, error_failed_to_write_to, destination);
     }
   }
 
@@ -64,83 +67,83 @@ public interface IoSupport<T> {
     return new BufferedWriter(new OutputStreamWriter(newOutputStream(destination), Encoding.getEncoding(encoding).getCharset()));
   }
 
-  default void forInputStreamDo(@NotNull T source, @NotNull Consumer<@NotNull InputStream> action) {
+  default void forInputStreamDo(@NotNull T source, @NotNull KConsumer<@NotNull InputStream> action) {
     try (var instream = newInputStream(source)) {
       action.accept(instream);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to read from '%s'!", source);
+      throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
   
-  default <R> @Null R forInputStream(@NotNull T source, @NotNull Function<@NotNull InputStream, @Null R> function) {
+  default <R> @Null R forInputStream(@NotNull T source, @NotNull KFunction<@NotNull InputStream, @Null R> function) {
     try (var instream = newInputStream(source)) {
       return function.apply(instream);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to read from '%s'!", source);
+      throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
   
-  default void forOutputStreamDo(@NotNull T destination, @NotNull Consumer<@NotNull OutputStream> action) {
+  default void forOutputStreamDo(@NotNull T destination, @NotNull KConsumer<@NotNull OutputStream> action) {
     try (var outstream = newOutputStream(destination)) {
       action.accept(outstream);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to write to '%s'!", destination);
+      throw new KclException(ex, error_failed_to_write_to, destination);
     }
   }
   
-  default <R> @Null R forOutputStream(@NotNull T destination, @NotNull Function<@NotNull OutputStream, @Null R> function) {
+  default <R> @Null R forOutputStream(@NotNull T destination, @NotNull KFunction<@NotNull OutputStream, @Null R> function) {
     try (var outstream = newOutputStream(destination)) {
       return function.apply(outstream);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to write to '%s'!", destination);
+      throw new KclException(ex, error_failed_to_write_to, destination);
     }
   }
   
-  default void forReaderDo(@NotNull T source, @NotNull Consumer<@NotNull Reader> action) {
+  default void forReaderDo(@NotNull T source, @NotNull KConsumer<@NotNull Reader> action) {
     forReaderDo(source, null, action);
   }
 
-  default void forReaderDo(@NotNull T source, @Null Encoding encoding, @NotNull Consumer<@NotNull Reader> action) {
+  default void forReaderDo(@NotNull T source, @Null Encoding encoding, @NotNull KConsumer<@NotNull Reader> action) {
     try (var reader = newReader(source, encoding)) {
       action.accept(reader);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to read from '%s'!", source);
+      throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
 
-  default <R> @Null R forReader(@NotNull T source, @NotNull Function<@NotNull Reader, @Null R> function) {
+  default <R> @Null R forReader(@NotNull T source, @NotNull KFunction<@NotNull Reader, @Null R> function) {
     return forReader(source, null, function);
   }
 
-  default <R> @Null R forReader(@NotNull T source, @Null Encoding encoding, @NotNull Function<@NotNull Reader, @Null R> function) {
+  default <R> @Null R forReader(@NotNull T source, @Null Encoding encoding, @NotNull KFunction<@NotNull Reader, @Null R> function) {
     try (var reader = newReader(source, encoding)) {
       return function.apply(reader);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to read from '%s'!", source);
+      throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
 
-  default void forWriterDo(@NotNull T destination, @NotNull Consumer<@NotNull Writer> action) {
+  default void forWriterDo(@NotNull T destination, @NotNull KConsumer<@NotNull Writer> action) {
     forWriterDo(destination, null, action);
   }
 
-  default void forWriterDo(@NotNull T destination, @Null Encoding encoding, @NotNull Consumer<@NotNull Writer> action) {
+  default void forWriterDo(@NotNull T destination, @Null Encoding encoding, @NotNull KConsumer<@NotNull Writer> action) {
     try (var writer = newWriter(destination, encoding)) {
       action.accept(writer);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to write to '%s'!", destination);
+      throw new KclException(ex, error_failed_to_write_to, destination);
     }
   }
 
-  default <R> @Null R forWriter(@NotNull T destination, @NotNull Function<@NotNull Writer, @Null R> function) {
+  default <R> @Null R forWriter(@NotNull T destination, @NotNull KFunction<@NotNull Writer, @Null R> function) {
     return forWriter(destination, null, function);
   }
 
-  default <R> @Null R forWriter(@NotNull T destination, @Null Encoding encoding, @NotNull Function<@NotNull Writer, @Null R> function) {
+  default <R> @Null R forWriter(@NotNull T destination, @Null Encoding encoding, @NotNull KFunction<@NotNull Writer, @Null R> function) {
     try (var writer = newWriter(destination, encoding)) {
       return function.apply(writer);
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to write to '%s'!", destination);
+      throw new KclException(ex, error_failed_to_write_to, destination);
     }
   }
 
@@ -156,7 +159,7 @@ public interface IoSupport<T> {
         $.readNBytes(result, 0, size);
         return result;
       } catch (Exception ex) {
-        throw new KclException(ex, "Failed to read from '%s'!", source);
+        throw new KclException(ex, error_failed_to_read_from, source);
       }
     });
   }
@@ -189,7 +192,7 @@ public interface IoSupport<T> {
         }
         return result;
       } catch (Exception ex) {
-        throw new KclException(ex, "Failed to read from '%s'!", source);
+        throw new KclException(ex, error_failed_to_read_from, source);
       }
     });
   }
@@ -205,7 +208,7 @@ public interface IoSupport<T> {
           IoFunctions.skip($instream, offset);
           IoFunctions.copy($instream, $byteout);
         } catch (Exception ex) {
-          throw new KclException(ex, "Failed to read from '%s'!", source);
+          throw new KclException(ex, error_failed_to_read_from, source);
         }
       });
       return $byteout.toByteArray();
@@ -231,7 +234,7 @@ public interface IoSupport<T> {
           IoFunctions.skip($reader, offset);
           IoFunctions.copy($reader, $charout);
         } catch (Exception ex) {
-          throw new KclException(ex, "Failed to read from '%s'!", source);
+          throw new KclException(ex, error_failed_to_read_from, source);
         }
       });
       return $charout.toCharArray();
@@ -247,7 +250,7 @@ public interface IoSupport<T> {
       try {
         $.write(data, offset, length);
       } catch (Exception ex) {
-        throw new KclException(ex, "Failed to write to '%s'!", destination);
+        throw new KclException(ex, error_failed_to_write_to, destination);
       }
     });
   }
@@ -265,7 +268,7 @@ public interface IoSupport<T> {
       try {
         $writer.write(data, offset, size);
       } catch (Exception ex) {
-        throw new KclException(ex, "Failed to write to '%s'!", destination);
+        throw new KclException(ex, error_failed_to_write_to, destination);
       }
     });
   }
@@ -287,7 +290,7 @@ public interface IoSupport<T> {
       try {
         IoFunctions.writeText($writer, text);
       } catch (Exception ex) {
-        throw new KclException(ex, "Failed to write text to '%s'!", destination);
+        throw new KclException(ex, error_failed_to_write_text_to, destination);
       }
     });
   }

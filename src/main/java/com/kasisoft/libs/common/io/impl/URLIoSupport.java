@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.io.impl;
 
+import static com.kasisoft.libs.common.internal.Messages.error_no_write_support_for_urls;
+
 import com.kasisoft.libs.common.io.IoSupport;
 
 import com.kasisoft.libs.common.KclException;
@@ -23,7 +25,7 @@ public class URLIoSupport implements IoSupport<URL> {
   
   @Override
   public OutputStream newOutputStreamImpl(@NotNull URL destination) throws Exception {
-    throw new KclException("There's no write support for URLs (%s) !", destination);
+    throw new KclException(error_no_write_support_for_urls, destination);
   }
 
 } /* ENDCLASS */

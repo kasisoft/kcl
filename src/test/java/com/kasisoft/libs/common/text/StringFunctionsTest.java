@@ -246,11 +246,56 @@ public class StringFunctionsTest {
   }
 
   @Test(groups = "all")
-  public void padding() {
+  public void padding__WithChar() {
     assertThat(StringFunctions.padding(null, 20, ' ', true), is("                    "));
     assertThat(StringFunctions.padding("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 20, ' ', true), is("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
     assertThat(StringFunctions.padding("Hello", 20, ' ', true), is("               Hello"));
     assertThat(StringFunctions.padding("Hello", 20, ' ', false), is("Hello               "));
   }
 
+  @Test(groups = "all")
+  public void padding() {
+    assertThat(StringFunctions.padding(null, 20, true), is("                    "));
+    assertThat(StringFunctions.padding("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 20, true), is("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+    assertThat(StringFunctions.padding("Hello", 20, true), is("               Hello"));
+    assertThat(StringFunctions.padding("Hello", 20, false), is("Hello               "));
+  }
+  
+  @DataProvider(name = "data_objectToString")
+  public Object[][] data_objectToString() {
+    return new Object[][] {
+      
+      {null, "null"},
+      
+      {"", ""},
+      {"Hello", "Hello"},
+      
+      {false, "false"},
+      {true, "true"},
+      {'a', "a"},
+      {(byte) 12, "12"},
+      {(short) 13, "13"},
+      {(int) 14, "14"},
+      {(long) 15, "15"},
+      {(float) 16.1, "16.1"},
+      {(double) 17.2, "17.2"},
+      
+      {new String[] {"Hello", "Buffalo"}, "[Hello,Buffalo]"},
+      {new boolean[] {true, false}, "[true,false]"},
+      {new char[] {'c', 'k', 'l'}, "['c','k','l']"},
+      {new byte[] {13, 18, 19}, "[(byte)13,(byte)18,(byte)19]"},
+      {new short[] {23, 28, 29}, "[(short)23,(short)28,(short)29]"},
+      {new int[] {33, 38, 39}, "[33,38,39]"},
+      {new long[] {43, 48, 49}, "[43l,48l,49l]"},
+      {new float[] {53.1f, 58.2f, 59.3f}, "[53.1f,58.2f,59.3f]"},
+      {new double[] {63.1, 68.2, 69.3}, "[63.1,68.2,69.3]"},
+      
+    };
+  }
+
+  @Test(groups = "all", dataProvider = "data_objectToString")
+  public static void objectToString(Object obj, String expected) {
+    assertThat(StringFunctions.objectToString(obj), is(expected));
+  }
+  
 } /* ENDCLASS */

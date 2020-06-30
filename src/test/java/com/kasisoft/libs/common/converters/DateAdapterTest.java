@@ -3,6 +3,8 @@ package com.kasisoft.libs.common.converters;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import com.kasisoft.libs.common.KclException;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -47,6 +49,11 @@ public class DateAdapterTest {
   @Test(dataProvider = "data_encode", groups = "all")
   public void encode(Date value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
+  }
+  
+  @Test(groups = "all", expectedExceptions = KclException.class)
+  public void decodeFailure() {
+    adapter.decode("jfjjfjfjf");
   }
   
 } /* ENDCLASS */

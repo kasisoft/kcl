@@ -24,7 +24,7 @@ public class ShortArrayAdapter extends AbstractConverter<String, short[]> {
   ShortAdapter      converter = new ShortAdapter();
 
   public @NotNull ShortArrayAdapter withDelimiter(@NotNull char delimiter) {
-    if (delimiter != '.') {
+    if (this.delimiter != delimiter) {
       this.delimiter = delimiter;
       this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
     }

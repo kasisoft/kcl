@@ -611,6 +611,24 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     assertThat(buffer.replaceRegions("//", replacement).toString(), is(expected));
   }
 
+  @Test(groups = "all")
+  public void lastIndexOf() {
+    var input = "hello world is here";
+    assertThat(new StringFBuffer(input).lastIndexOf('y', 'z'), is(-1));
+    assertThat(new StringFBuffer(input).lastIndexOf('w', 'o'), is(7));
+    assertThat(new StringFBuffer(input).lastIndexOf(5, 'y', 'z'), is(-1));
+    assertThat(new StringFBuffer(input).lastIndexOf(5, 'w', 'o'), is(4));
+  }
+
+  @Test(groups = "all")
+  public void indexOf() {
+    var input = "hello world is here";
+    assertThat(new StringFBuffer(input).indexOf('y', 'z'), is(-1));
+    assertThat(new StringFBuffer(input).indexOf('w', 'o'), is(4));
+    assertThat(new StringFBuffer(input).indexOf(5, 'y', 'z'), is(-1));
+    assertThat(new StringFBuffer(input).indexOf(5, 'w', 'o'), is(6));
+  }
+
   protected abstract T create(String input);
 
   protected abstract T create();

@@ -6,7 +6,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import java.util.regex.Matcher;
@@ -266,7 +265,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     if ((characters != null) && (characters.length > 0)) {
       var str = toString();
       for (char ch : characters) {
-        var idx = str.indexOf(ch);
+        var idx = str.indexOf(ch, index);
         if (idx != -1) {
           if (result == -1) {
             result = idx;
@@ -331,22 +330,21 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   int lastIndexOf(@NotNull String str, int index);
 
   default int lastIndexOf(char ... characters) {
-    return lastIndexOf(0, true, characters);
+    return lastIndexOf(length(), characters);
   }
 
-  default int lastIndexOf(boolean leftmost, char ... characters) {
-    return lastIndexOf(0, leftmost, characters);
-  }
-
-  default int lastIndexOf(int index, boolean leftmost, char ... characters) {
+  default int lastIndexOf(int index, char ... characters) {
     int result = -1;
     if ((characters != null) && (characters.length > 0)) {
-      BiFunction<Integer, Integer, Integer> func = leftmost ? Math::min : Math::max;
       var str = toString();
       for (var ch : characters) {
-        var idx = str.lastIndexOf(ch);
+        var idx = str.lastIndexOf(ch, index);
         if (idx != -1) {
-          result = func.apply(idx, result);
+          if (result == -1) {
+            result = idx;
+          } else {
+            result = Math.max(idx, result);
+          }
         }
       }
     }

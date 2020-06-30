@@ -84,6 +84,23 @@ public class IoFunctionsTest extends AbstractTestCase {
     Files.copy(httpXsd, tempHttpXsd);
   }
   
+  @DataProvider(name = "data_compileFileSystemPattern")
+  public Object[][] data_compileFileSystemPattern() {
+    return new Object[][] {
+      {"*", "([^/]+)"},
+      {"**", "(.+)"},
+      {"dir/**", "\\Qdir/\\E(.+)"},
+      {"dir/*", "\\Qdir/\\E([^/]+)"},
+      {"dir/*/subdir", "\\Qdir/\\E([^/]+)\\Q/subdir\\E"},
+    };
+  }
+  
+  @Test(groups = "all", dataProvider = "data_compileFileSystemPattern")
+  public void compileFileSystemPattern(String pattern, String regex) {
+    var p = IoFunctions.compileFilesystemPattern(pattern);
+    assertThat(p.pattern(), is(regex));
+  }
+  
   @DataProvider(name = "data_newOutputStream")
   public Object[][] data_newOutputStream() throws Exception {
     var file1 = getTempPath("text1.txt");
@@ -113,7 +130,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     var asText = Encoding.UTF8.decode(byteout.toByteArray());
     assertThat(asText, is(CONTENT_FOR_STREAMS));
   }
-  
+
   @DataProvider(name = "data_newWriter")
   public Object[][] data_newWriter() throws Exception {
     var file1 = getTempPath("text4.txt");
@@ -182,6 +199,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
+  @SuppressWarnings("deprecation")
   @DataProvider(name = "data_forOutputStreamDo")
   public Object[][] data_forOutputStreamDo() throws Exception {
     var file1 = getTempPath("text16.txt");
@@ -243,6 +261,11 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
+  @Test(groups = "all", dataProvider = "data_forOutputStream", expectedExceptions = KclException.class)
+  public <T> void forOutputStream__Error(IoSupport<T> ioSupport, T destination) throws Exception {
+    ioSupport.forOutputStream(destination, $ -> { throw new KclException("error"); });
+  }
+
   @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forOutputStream")
   public <T> void forInputStream(IoSupport<T> ioSupport, T source) throws Exception {
     var byteout = new ByteArrayOutputStream();
@@ -254,7 +277,12 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(asText, is(CONTENT_FOR_STREAMS));
     assertThat(result, is("DUMMY"));
   }
-  
+
+  @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forOutputStream", expectedExceptions = KclException.class)
+  public <T> void forInputStream__Error(IoSupport<T> ioSupport, T source) throws Exception {
+    ioSupport.forInputStream(source, $ -> { throw new KclException("error"); });
+  }
+
   @DataProvider(name = "data_forWriterDo")
   public Object[][] data_forWriterDo() throws Exception {
     var file1 = getTempPath("text28.txt");
@@ -278,6 +306,11 @@ public class IoFunctionsTest extends AbstractTestCase {
     });
   }
 
+  @Test(groups = "all", dataProvider = "data_forWriterDo", expectedExceptions = KclException.class)
+  public <T> void forWriterDo__Error(IoSupport<T> ioSupport, T destination) throws Exception {
+    ioSupport.forWriterDo(destination, $ -> { throw new KclException("error"); });
+  }
+
   @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forWriterDo")
   public <T> void forReaderDo(IoSupport<T> ioSupport, T source) throws Exception {
     var writer = new StringWriter();
@@ -286,7 +319,12 @@ public class IoFunctionsTest extends AbstractTestCase {
     });
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
-  
+
+  @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forWriterDo", expectedExceptions = KclException.class)
+  public <T> void forReaderDo__Error(IoSupport<T> ioSupport, T source) throws Exception {
+    ioSupport.forReaderDo(source, $ -> { throw new KclException("error"); });
+  }
+
   @DataProvider(name = "data_forWriter")
   public Object[][] data_forWriter() throws Exception {
     var file1 = getTempPath("text34.txt");
@@ -313,6 +351,11 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
+  @Test(groups = "all", dataProvider = "data_forWriter", expectedExceptions = KclException.class)
+  public <T> void forWriter__Error(IoSupport<T> ioSupport, T destination) throws Exception {
+    ioSupport.forWriter(destination, $ -> { throw new KclException("error"); });
+  }
+
   @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forWriter")
   public <T> void forReader(IoSupport<T> ioSupport, T source) throws Exception {
     var writer = new StringWriter();
@@ -323,7 +366,12 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
     assertThat(result, is("DUMMY"));
   }
-  
+
+  @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forWriter", expectedExceptions = KclException.class)
+  public <T> void forReader__Error(IoSupport<T> ioSupport, T source) throws Exception {
+    ioSupport.forReader(source, $ -> { throw new KclException("error"); });
+  }
+
   @DataProvider(name = "data_forWriterDo__WithEncoding")
   public Object[][] data_forWriterDo__WithEncoding() throws Exception {
     var file1 = getTempPath("text40.txt");
@@ -456,12 +504,14 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
+  @SuppressWarnings("deprecation")
   @DataProvider(name = "data_loadBytes")
   public Object[][] data_loadBytes() throws Exception {
     return new Object[][] {
       { IoFunctions.IO_PATH, httpXsd },
       { IoFunctions.IO_FILE, httpXsd.toFile() },
       { IoFunctions.IO_URI,  httpXsd.toUri() },
+      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
     };
   }
 
@@ -480,12 +530,14 @@ public class IoFunctionsTest extends AbstractTestCase {
   }
 
   
+  @SuppressWarnings("deprecation")
   @DataProvider(name = "data_loadChars")
   public Object[][] data_loadChars() throws Exception {
     return new Object[][] {
       { IoFunctions.IO_PATH, httpXsd },
       { IoFunctions.IO_FILE, httpXsd.toFile() },
       { IoFunctions.IO_URI,  httpXsd.toUri() },
+      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
     };
   }
   
@@ -517,12 +569,14 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(loaded, is(expected));
   }
   
+  @SuppressWarnings("deprecation")
   @DataProvider(name = "data_loadAllBytes")
   public Object[][] data_loadAllBytes() throws Exception {
     return new Object[][] {
       { IoFunctions.IO_PATH, httpXsd },
       { IoFunctions.IO_FILE, httpXsd.toFile() },
       { IoFunctions.IO_URI,  httpXsd.toUri() },
+      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
     };
   }
 
@@ -540,12 +594,14 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(loaded, is(expected));
   }
   
+  @SuppressWarnings("deprecation")
   @DataProvider(name = "data_loadAllChars")
   public Object[][] data_loadAllChars() throws Exception {
     return new Object[][] {
       { IoFunctions.IO_PATH, httpXsd },
       { IoFunctions.IO_FILE, httpXsd.toFile() },
       { IoFunctions.IO_URI,  httpXsd.toUri() },
+      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
     };
   }
 
@@ -671,12 +727,14 @@ public class IoFunctionsTest extends AbstractTestCase {
   }
 
   
+  @SuppressWarnings("deprecation")
   @DataProvider(name = "data_readText")
   public Object[][] data_readText() throws Exception {
     return new Object[][] {
       { IoFunctions.IO_PATH, httpXsd },
       { IoFunctions.IO_FILE, httpXsd.toFile() },
       { IoFunctions.IO_URI,  httpXsd.toUri() },
+      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
     };
   }
 

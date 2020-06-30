@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.io.impl;
 
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_read_from;
+
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.io.IoSupport;
@@ -44,7 +46,7 @@ public class PathIoSupport implements IoSupport<Path> {
         return IoSupport.super.loadAllBytes(source);
       }
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to read from '%s'!", source);
+      throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
   
@@ -58,7 +60,7 @@ public class PathIoSupport implements IoSupport<Path> {
         return IoSupport.super.readText(source, encoding);
       }
     } catch (Exception ex) {
-      throw new KclException(ex, "Failed to read from '%s'!", source);
+      throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
   

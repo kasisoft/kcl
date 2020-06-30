@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.utils;
 
+import static com.kasisoft.libs.common.internal.Messages.error_blacklist_loading_failure;
+
 import com.kasisoft.libs.common.constants.Empty;
 import com.kasisoft.libs.common.constants.Encoding;
 
@@ -61,8 +63,7 @@ public class Blacklist implements Predicate<String> {
   }
 
   public Blacklist(@NotNull Path path) {
-    this();
-    load(path);
+    this(path, null);
   }
 
   public Blacklist(@NotNull Path path, @Null Encoding encoding) {
@@ -71,13 +72,30 @@ public class Blacklist implements Predicate<String> {
   }
 
   public Blacklist(@NotNull URL url) {
-    this();
-    load(url);
+    this(url, null);
   }
 
   public Blacklist(@NotNull URL url, @Null Encoding encoding) {
     this();
     load(url, encoding);
+  }
+
+  public Blacklist(@NotNull File file) {
+    this(file, null);
+  }
+
+  public Blacklist(@NotNull File file, @Null Encoding encoding) {
+    this();
+    load(file, encoding);
+  }
+
+  public Blacklist(@NotNull URI uri) {
+    this(uri, null);
+  }
+
+  public Blacklist(@NotNull URI uri, @Null Encoding encoding) {
+    this();
+    load(uri, encoding);
   }
 
   /**
@@ -178,7 +196,7 @@ public class Blacklist implements Predicate<String> {
       }
       Collections.sort(list, Comparators.LENGTH_LONGEST_FIRST);
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to load blacklist !");
+      throw KclException.wrap(ex, error_blacklist_loading_failure);
     }
     return this;
   }

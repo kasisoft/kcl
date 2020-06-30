@@ -7,6 +7,8 @@ import static org.testng.Assert.assertNull;
 
 import java.util.List;
 
+import java.awt.image.BufferedImage;
+
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
@@ -18,8 +20,23 @@ public class ExtendedAsserts {
     } else {
       assertNotNull(value);
       assertThat(value.size(), is(expected.size()));
-      for (int i = 0; i < value.size(); i++) {
+      for (var i = 0; i < value.size(); i++) {
         assertThat("[" + i + "]", value.get(i), is(expected.get(i)));
+      }
+    }
+  }
+  
+  public static void assertImages(BufferedImage value, BufferedImage expected) {
+    if (expected == null) {
+      assertNull(value);
+    } else {
+      assertNotNull(value);
+      assertThat(value.getWidth(), is(expected.getWidth()));
+      assertThat(value.getHeight(), is(expected.getHeight()));
+      for (var x = 0; x < value.getWidth(); x++) {
+        for (var y = 0; y < value.getHeight(); y++) {
+          assertThat(String.format("x: %d, y: %d", x, y), value.getRGB(x, y), is(expected.getRGB(x, y)));
+        }
       }
     }
   }

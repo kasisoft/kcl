@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.converters;
 
+import static com.kasisoft.libs.common.internal.Messages.error_invalid_uri;
+
 import com.kasisoft.libs.common.KclException;
 
 import javax.validation.constraints.NotNull;
@@ -20,7 +22,7 @@ public class URIAdapter extends AbstractConverter<String, URI> {
     try {
       return v.toURL().toExternalForm();
     } catch (MalformedURLException ex) {
-      throw new KclException("Invalid URI '%s'", v);
+      throw new KclException(error_invalid_uri, v);
     }
   }
 
@@ -29,7 +31,7 @@ public class URIAdapter extends AbstractConverter<String, URI> {
     try {
       return new URI(v);
     } catch (URISyntaxException ex) {
-      throw new KclException("Invalid URI '%s'", v);
+      throw new KclException(error_invalid_uri, v);
     }
   }
 

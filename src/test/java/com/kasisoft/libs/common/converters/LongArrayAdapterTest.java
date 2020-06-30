@@ -22,6 +22,7 @@ public class LongArrayAdapterTest {
   public Object[][] data_decode() {
     return new Object[][] {
       {null    , null},
+      {""      , new long[0]},
       {"31"    , new long[] {31}},
       {"-47,12", new long[] {-47, 12}},
     };
@@ -36,6 +37,7 @@ public class LongArrayAdapterTest {
   public Object[][] data_encode() {
     return new Object[][] {
       {null                  , null},
+      {new long[0]           , ""},
       {new long[] {79 , 1201}, "79,1201"},
       {new long[] {-31, -128}, "-31,-128"}, 
     };

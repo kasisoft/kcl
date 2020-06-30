@@ -1,5 +1,7 @@
 package com.kasisoft.libs.common.constants;
 
+import static com.kasisoft.libs.common.internal.Messages.error_unknown_digest_algorithm;
+
 import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.annotation.Specification;
 import com.kasisoft.libs.common.pools.Bucket;
@@ -68,7 +70,7 @@ public final class Digest {
     try {
       MessageDigest.getInstance(algorithm);
     } catch (NoSuchAlgorithmException ex) {
-      throw new KclException(ex, "Unknown algorithm '%s'!", algorithm);
+      throw new KclException(ex, error_unknown_digest_algorithm, algorithm);
     }
     this.algorithm  = algorithm;
     bucket          = new Bucket<>(() -> createDigest(algorithm), Digest::resetDigest);

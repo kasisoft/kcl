@@ -1,5 +1,8 @@
 package com.kasisoft.libs.common.graphics;
 
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_read_image;
+import static com.kasisoft.libs.common.internal.Messages.error_failed_to_write_image;
+
 import com.kasisoft.libs.common.constants.Alignment;
 
 import com.kasisoft.libs.common.io.IoFunctions;
@@ -93,7 +96,7 @@ public class GraphicsFunctions {
     try {
       return ImageIO.read(instream);
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to read image from '%s'!", source);
+      throw KclException.wrap(ex, error_failed_to_read_image, source);
     }
   }
 
@@ -158,10 +161,10 @@ public class GraphicsFunctions {
         image = to3ByteBGR(image);
       }
       if (!ImageIO.write(image, format.getImageIOFormat(), outstream)) {
-        throw new KclException("Failed to write image to '%s' (type: %s)", source, format);
+        throw new KclException(error_failed_to_write_image, source, format);
       }
     } catch (Exception ex) {
-      throw KclException.wrap(ex, "Failed to write image to '%s' (type: %s)", source, format);
+      throw KclException.wrap(ex, error_failed_to_write_image, source, format);
     }
   }
   
@@ -393,11 +396,9 @@ public class GraphicsFunctions {
       if ((alignment == Alignment.Center) || (alignment == Alignment.Middle)) {
         result = (imageSize - watermarkSize) / 2;
       } else if ((alignment == Alignment.Right) || (alignment == Alignment.Bottom)) {
-        var size = imageSize - 2 * padding;
-        if (size > watermarkSize) {
-          padding += (size - watermarkSize) / 2;
-        }
-        result = imageSize - padding;
+        result = imageSize - watermarkSize - padding;
+      } else if ((alignment == Alignment.Left) || (alignment == Alignment.Top)) {
+        result = padding;
       }
     }
     return result;

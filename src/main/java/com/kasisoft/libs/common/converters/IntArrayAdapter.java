@@ -24,7 +24,7 @@ public class IntArrayAdapter extends AbstractConverter<String, int[]> {
   IntAdapter        converter = new IntAdapter();
 
   public @NotNull IntArrayAdapter withDelimiter(@NotNull char delimiter) {
-    if (delimiter != '.') {
+    if (this.delimiter != delimiter) {
       this.delimiter = delimiter;
       this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
     }

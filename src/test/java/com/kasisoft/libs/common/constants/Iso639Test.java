@@ -2,11 +2,14 @@ package com.kasisoft.libs.common.constants;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -95,6 +98,48 @@ public class Iso639Test {
     assertNotNull(identified);
     assertTrue(identified.isPresent());
     assertThat(identified.get(), is( expected));
+  }
+
+  @DataProvider(name = "data_test")
+  public Object[][] data_test() {
+    var list = new ArrayList<Object[]>();
+    for (var iso : Iso639.values()) {
+      if (iso.getAlpha2() != null) {
+        list.add(new Object[] {iso.getAlpha2(), iso});
+      }
+      list.add(new Object[] {iso.getBibliography(), iso});
+      list.add(new Object[] {iso.getTerminology(), iso});
+    }
+    return list.toArray(new Object[list.size()][2]);
+  }
+  
+  @Test(groups = "all", dataProvider = "data_test")
+  public void test(String code, Iso639 iso639) {
+    assertTrue(iso639.test(code));
+  }
+
+  @Test(groups = "all")
+  public void test__NullValue() {
+    for (var iso : Iso639.values()) {
+      assertFalse(iso.test(null));
+    }
+  }
+
+  @Test(groups = "all")
+  public void findBy__NullValue() {
+    
+    for (var iso : Iso639.values()) {
+      
+      var opt1 = iso.findByAlpha2(null);
+      assertNotNull(opt1);
+      assertFalse(opt1.isPresent());
+      
+      var opt2 = iso.findByAlpha3(null);
+      assertNotNull(opt2);
+      assertFalse(opt2.isPresent());
+      
+    }
+    
   }
 
 } /* ENDCLASS */

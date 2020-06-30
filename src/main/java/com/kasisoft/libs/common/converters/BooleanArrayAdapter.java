@@ -24,7 +24,7 @@ public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
   BooleanAdapter    converter = new BooleanAdapter();
   
   public @NotNull BooleanArrayAdapter withDelimiter(@NotNull char delimiter) {
-    if (delimiter != '.') {
+    if (this.delimiter != delimiter) {
       this.delimiter = delimiter;
       this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
     }

@@ -25,53 +25,53 @@ import lombok.AllArgsConstructor;
  */
 public class Predicates {
   
-  public static final Predicate<String> IS_JAVA_CLASS_FILE = new SuffixPredicate(".class");
+  public static final KPredicate<String>  IS_JAVA_CLASS_FILE = new SuffixPredicate(".class");
 
-  public static final Predicate<Path>   IS_JAVA_CLASS_PATH = adaptPathToString(IS_JAVA_CLASS_FILE);
+  public static final KPredicate<Path>    IS_JAVA_CLASS_PATH = adaptPathToString(IS_JAVA_CLASS_FILE);
 
-  public static final Predicate<String> IS_YAML_FILE = new SuffixPredicate(".yaml", ".yml");
+  public static final KPredicate<String>  IS_YAML_FILE = new SuffixPredicate(".yaml", ".yml");
 
-  public static final Predicate<Path>   IS_YAML_PATH = adaptPathToString(IS_YAML_FILE);
+  public static final KPredicate<Path>    IS_YAML_PATH = adaptPathToString(IS_YAML_FILE);
 
-  public static final Predicate<String> IS_JSON_FILE = new SuffixPredicate(".json");
+  public static final KPredicate<String>  IS_JSON_FILE = new SuffixPredicate(".json");
 
-  public static final Predicate<Path>   IS_JSON_PATH = adaptPathToString(IS_JSON_FILE);
+  public static final KPredicate<Path>    IS_JSON_PATH = adaptPathToString(IS_JSON_FILE);
 
-  public static final Predicate<String> IS_XML_FILE = new SuffixPredicate(".xml");
+  public static final KPredicate<String>  IS_XML_FILE = new SuffixPredicate(".xml");
 
-  public static final Predicate<Path>   IS_XML_PATH = adaptPathToString(IS_XML_FILE);
+  public static final KPredicate<Path>    IS_XML_PATH = adaptPathToString(IS_XML_FILE);
 
-  public static final Predicate<String> IS_RESOURCE = IS_JAVA_CLASS_FILE.negate();
+  public static final KPredicate<String>  IS_RESOURCE = IS_JAVA_CLASS_FILE.negate();
 
-  public static final Predicate<String> IS_RESOURCE_FILE = IS_RESOURCE.and($ -> !$.endsWith("/"));
+  public static final KPredicate<String>  IS_RESOURCE_FILE = IS_RESOURCE.and($ -> !$.endsWith("/"));
 
-  public static final Predicate<String> IS_RESOURCE_DIR = IS_RESOURCE.and($ -> $.endsWith("/"));
+  public static final KPredicate<String>  IS_RESOURCE_DIR = IS_RESOURCE.and($ -> $.endsWith("/"));
 
-  public static final Predicate<String> IS_INNER_JAVA_CLASS_FILE = new IsInnerJavaClassFile();
+  public static final KPredicate<String>  IS_INNER_JAVA_CLASS_FILE = new IsInnerJavaClassFile();
   
-  public static final Predicate<String> IS_ENCLOSING_JAVA_CLASS_FILE = IS_JAVA_CLASS_FILE.and(IS_INNER_JAVA_CLASS_FILE.negate());
+  public static final KPredicate<String>  IS_ENCLOSING_JAVA_CLASS_FILE = IS_JAVA_CLASS_FILE.and(IS_INNER_JAVA_CLASS_FILE.negate());
   
-  public static final Predicate<String> IS_SPI_FILE = new IsSPIFile();
+  public static final KPredicate<String>  IS_SPI_FILE = new IsSPIFile();
   
-  public static final Predicate<String> IS_MAGNOLIA_FILE = new IsMagnoliaFile();
+  public static final KPredicate<String>  IS_MAGNOLIA_FILE = new IsMagnoliaFile();
   
-  public static final Predicate<String> IS_MAVEN_FILE = new IsMavenFile();
+  public static final KPredicate<String>  IS_MAVEN_FILE = new IsMavenFile();
   
-  public static final Predicate<String> IS_JAVA_FQDN = new IsJavaFqdn();
+  public static final KPredicate<String>  IS_JAVA_FQDN = new IsJavaFqdn();
   
-  public static final Predicate<String> IS_BOOLEAN = $ -> isValid($, PrimitiveFunctions::parseBoolean);
+  public static final KPredicate<String>  IS_BOOLEAN = $ -> isValid($, PrimitiveFunctions::parseBoolean);
   
-  public static final Predicate<String> IS_LONG = $ -> isValid($, Long::parseLong);
+  public static final KPredicate<String>  IS_LONG = $ -> isValid($, Long::parseLong);
   
-  public static final Predicate<String> IS_INTEGER = $ -> isValid($, Integer::parseInt);
+  public static final KPredicate<String>  IS_INTEGER = $ -> isValid($, Integer::parseInt);
 
-  public static final Predicate<String> IS_SHORT = $ -> isValid($, Short::parseShort);
+  public static final KPredicate<String>  IS_SHORT = $ -> isValid($, Short::parseShort);
 
-  public static final Predicate<String> IS_BYTE = $ -> isValid($, Byte::parseByte);
+  public static final KPredicate<String>  IS_BYTE = $ -> isValid($, Byte::parseByte);
 
-  public static final Predicate<String> IS_FLOAT = $ -> isValid($, Float::parseFloat);
+  public static final KPredicate<String>  IS_FLOAT = $ -> isValid($, Float::parseFloat);
 
-  public static final Predicate<String> IS_DOUBLE = $ -> isValid($, Double::parseDouble);
+  public static final KPredicate<String>  IS_DOUBLE = $ -> isValid($, Double::parseDouble);
 
   private static boolean isValid(@Null String value, @NotNull Function<String, ?> parse) {
     if (value != null) {
@@ -85,11 +85,11 @@ public class Predicates {
     return false;
   }
 
-  public static @NotNull Predicate<Node> isXmlElement(@NotNull String tag) {
+  public static @NotNull KPredicate<Node> isXmlElement(@NotNull String tag) {
     return new IsXmlElement(tag);
   }
   
-  public static @NotNull Predicate<Path> adaptPathToString(@NotNull Predicate<String> impl) {
+  public static @NotNull KPredicate<Path> adaptPathToString(@NotNull KPredicate<String> impl) {
     return $ -> impl.test($.toString());
   }
   
@@ -101,7 +101,7 @@ public class Predicates {
     return $ -> true;
   }
 
-  public static <T> Predicate<T> acceptAllIfUnset(Predicate<T> test) {
+  public static <T> KPredicate<T> acceptAllIfUnset(@Null KPredicate<T> test) {
     if (test != null) {
       return test;
     }
@@ -112,19 +112,19 @@ public class Predicates {
     return $ -> false;
   }
 
-  public static <T> Predicate<T> acceptNoneIfUnset(Predicate<T> test) {
+  public static <T> KPredicate<T> acceptNoneIfUnset(@Null KPredicate<T> test) {
     if (test != null) {
       return test;
     }
     return $ -> false;
   }
 
-  public static Predicate<Path> path(Predicate<String> predicate) {
+  public static KPredicate<Path> path(@NotNull KPredicate<String> predicate) {
     return $ -> predicate.test($.toString());
   }
 
   @AllArgsConstructor
-  private static class IsXmlElement implements Predicate<Node> {
+  private static class IsXmlElement implements KPredicate<Node> {
 
     String   tag;
     
@@ -139,7 +139,7 @@ public class Predicates {
     
   } /* ENDCLASS */
   
-  private static class IsMavenFile implements Predicate<String> {
+  private static class IsMavenFile implements KPredicate<String> {
     
     @Override
     public boolean test(@NotNull String resource) {
@@ -150,7 +150,7 @@ public class Predicates {
       
   } /* ENDCLASS */
 
-  private static class IsMagnoliaFile implements Predicate<String> {
+  private static class IsMagnoliaFile implements KPredicate<String> {
     
     private static final String PREFIX = "META-INF/magnolia/";
     
@@ -162,12 +162,12 @@ public class Predicates {
       
   } /* ENDCLASS */
 
-  private static class IsSPIFile implements Predicate<String> {
+  private static class IsSPIFile implements KPredicate<String> {
       
     private static final String PREFIX = "META-INF/services/";
     
     @Override
-    public boolean test(@NotNull String resource) {
+    public boolean test(@NotNull String resource) throws Exception {
       boolean equals = PREFIX.equals(resource);
       if (resource.startsWith( PREFIX ) && (!equals) && (resource.indexOf('$') == -1)) {
         return IS_JAVA_FQDN.test(resource.substring(PREFIX.length()));
@@ -177,7 +177,7 @@ public class Predicates {
       
   } /* ENDCLASS */
 
-  private static class SuffixPredicate implements Predicate<String> {
+  private static class SuffixPredicate implements KPredicate<String> {
     
     Pattern   pattern;
     
@@ -201,7 +201,7 @@ public class Predicates {
     
   } /* ENDCLASS */
 
-  private static class IsInnerJavaClassFile implements Predicate<String> {
+  private static class IsInnerJavaClassFile implements KPredicate<String> {
 
     Pattern pattern = Pattern.compile("^([^$]+)\\$(.*)(.class)$");
     
@@ -212,7 +212,7 @@ public class Predicates {
     
   } /* ENDCLASS */
   
-  private static class IsJavaFqdn implements Predicate<String> {
+  private static class IsJavaFqdn implements KPredicate<String> {
      
     private static final Pattern PATTERN = Pattern.compile(
       "^(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)*(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)$"

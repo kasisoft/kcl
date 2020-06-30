@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.xml;
 
 import com.kasisoft.libs.common.constants.Encoding;
 
+import com.kasisoft.libs.common.KclConfig;
 import com.kasisoft.libs.common.text.StringFBuilder;
 
 import org.xml.sax.Attributes;
@@ -61,7 +62,7 @@ public class FlatXmlHandler extends DefaultHandler {
     trimValues = true;
     attributes = true;
     escaping   = true;
-    newline    = System.getProperty("line.separator");
+    newline    = KclConfig.LINE_ENDING;
     encoding   = Encoding.UTF8;
   }
   
@@ -73,7 +74,7 @@ public class FlatXmlHandler extends DefaultHandler {
   public void setNewline(String linesep) {
     newline = linesep;
     if (newline == null) {
-      newline = System.getProperty("line.separator");
+      newline = KclConfig.LINE_ENDING;
     }
   }
   

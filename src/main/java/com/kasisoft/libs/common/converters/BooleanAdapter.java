@@ -1,9 +1,11 @@
 package com.kasisoft.libs.common.converters;
 
+import com.kasisoft.libs.common.KclConfig;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.experimental.FieldDefaults;
@@ -18,7 +20,7 @@ import lombok.AccessLevel;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BooleanAdapter extends AbstractConverter<String, Boolean> {
 
-  List<String>   trueValues = Arrays.asList("yes", "ja", "j", "y", "on", "ein", "1", "-1", "an", "true");
+  List<String>   trueValues = new ArrayList<>(KclConfig.TRUE_VALUES);
   
   public BooleanAdapter clear() {
     trueValues.clear();

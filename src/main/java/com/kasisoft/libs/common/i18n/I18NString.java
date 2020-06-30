@@ -4,7 +4,7 @@ import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Setter;
 
 /**
  * Helper which provides formatting capabilities to a translation.
@@ -12,10 +12,10 @@ import lombok.Data;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @AllArgsConstructor
-@Data 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18NString {
 
+  @Setter
   String   value;
   
   /**
