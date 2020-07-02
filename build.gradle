@@ -91,8 +91,9 @@ javadoc.options {
 }
 
 test {
+    exclude 'com/kasisoft/libs/common/graphics/**'
     useTestNG()
-    jvmArgs(['-Djava.awt.headless=false', '--enable-preview'])
+    jvmArgs(['--enable-preview'])
     finalizedBy jacocoTestReport
 }
 
