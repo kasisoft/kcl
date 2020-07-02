@@ -92,7 +92,7 @@ javadoc.options {
 test {
     exclude 'com/kasisoft/libs/common/graphics/**'
     useTestNG()
-    jvmArgs(['--enable-preview'])
+    jvmArgs(['--enable-preview', '-Duser.country=DE', '-Duser.language=de'])
     finalizedBy jacocoTestReport
 }
 
