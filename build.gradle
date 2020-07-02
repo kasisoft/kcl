@@ -82,6 +82,7 @@ publishing {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
     options.compilerArgs.add('--enable-preview')
+    java.awt.headless
 }
 
 javadoc.options {
@@ -91,7 +92,7 @@ javadoc.options {
 
 test {
     useTestNG()
-    jvmArgs(['--enable-preview'])
+    jvmArgs(['-Djava.awt.headless=false', '--enable-preview'])
     finalizedBy jacocoTestReport
 }
 
