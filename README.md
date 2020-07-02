@@ -1,3 +1,6 @@
+# Status
+![KCL](https://github.com/kasisoft/kcl/workflows/KCL/badge.svg?branch=master&event=push)
+
 # Purpose
 
 This library is a simple collection of useful utility functions that grew over the past. It doesn't serve a specific 
