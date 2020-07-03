@@ -35,4 +35,10 @@ jobs:
       run: chmod +x gradlew
     
     - name: Build and Publish with Gradle
-      run: ./gradlew build publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: | 
+        # ./gradlew build publish
+        NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+        echo "New version: ${NEW_VERSION}"
+        echo "Github username: ${GITHUB_ACTOR}"
