@@ -1,4 +1,3 @@
-# Status
 ![KCL](https://github.com/kasisoft/kcl/workflows/KCL/badge.svg?branch=master&event=push)
 
 # Purpose

@@ -33,13 +33,9 @@ dependencies {
     testImplementation 'org.testng:testng:7.0.0'
     testImplementation 'org.apache.commons:commons-lang3:3.3.2'
     testImplementation 'org.slf4j:slf4j-api:1.7.5'
-    // testImplementation 'org.projectlombok:lombok:1.18.12'
     testImplementation 'jakarta.validation:jakarta.validation-api:2.0.2'
-    // testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
     
-    // compileOnly 'org.projectlombok:lombok:1.18.12'
     compileOnly 'jakarta.validation:jakarta.validation-api:2.0.2'
-    // annotationProcessor 'org.projectlombok:lombok:1.18.12'
     
 }
 
