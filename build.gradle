@@ -99,18 +99,16 @@ publishing {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    // options.compilerArgs.add('--enable-preview')
 }
 
 javadoc.options {
-    // addBooleanOption('-enable-preview', true)
     addStringOption('-release', '14')
 }
 
 test {
     exclude 'com/kasisoft/libs/common/graphics/**'
     useTestNG()
-    jvmArgs(['-Duser.country=DE', '-Duser.language=de'])  // '--enable-preview'
+    jvmArgs(['-Duser.country=DE', '-Duser.language=de'])
     finalizedBy jacocoTestReport
 }
 
