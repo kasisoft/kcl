@@ -43,36 +43,36 @@ import lombok.AccessLevel;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctionsTest extends AbstractTestCase {
 
-  private static final String CONTENT_FOR_STREAMS = """
-                                                    Dies ist mein Text mit Umlauten.
-                                                    Größer wird der Kram hier aber auch nicht.
-                                                    Auf dieser Zeile liest man nur Quark.
-                                                    """;
+  private static final String CONTENT_FOR_STREAMS = ""
+                                                    + "Dies ist mein Text mit Umlauten.\n"
+                                                    + "Größer wird der Kram hier aber auch nicht.\n"
+                                                    + "Auf dieser Zeile liest man nur Quark.\n"
+                                                    ;
 
-  private static final String CONTENT_FOR_READERS = """
-                                                    Kleener Text wirkt abgehezt.
-                                                    Drum isses schön sich auszuruhen.
-                                                    Huppifluppi ist ein ß.
-                                                    """;
+  private static final String CONTENT_FOR_READERS = ""
+                                                    + "Kleener Text wirkt abgehezt.\n"
+                                                    + "Drum isses schön sich auszuruhen.\n"
+                                                    + "Huppifluppi ist ein ß.\n"
+                                                    ;
 
-  private static final String CONTENT_HTTP_XSD = """
-                                                 <?xml version="1.0" encoding="UTF-8" ?>
-                                                 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-                                                         xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
-                                                         xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-                                                         targetNamespace="http://schemas.xmlsoap.org/wsdl/http/">
-                                                    <import namespace = "http://schemas.xmlsoap.org/wsdl/"/>
-                                                    <element name="address" type="http:addressType"/>
-                                                    <complexType name="addressType">
-                                                        <complexContent>
-                                                        <extension base="wsdl:tExtensibilityElement">
-                                                            <sequence/>
-                                                            <attribute name="location" type="anyURI" use="required"/>
-                                                        </extension>
-                                                        </complexContent>
-                                                    </complexType>
-                                                 </schema>
-                                                 """;
+  private static final String CONTENT_HTTP_XSD = ""
+                                                 + "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+                                                 + "<schema xmlns=\"http://www.w3.org/2001/XMLSchema\"\n"
+                                                 + "        xmlns:http=\"http://schemas.xmlsoap.org/wsdl/http/\"\n"
+                                                 + "        xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"\n"
+                                                 + "        targetNamespace=\"http://schemas.xmlsoap.org/wsdl/http/\">\n"
+                                                 + "   <import namespace = \"http://schemas.xmlsoap.org/wsdl/\"/>\n"
+                                                 + "   <element name=\"address\" type=\"http:addressType\"/>\n"
+                                                 + "   <complexType name=\"addressType\">\n"
+                                                 + "       <complexContent>\n"
+                                                 + "       <extension base=\"wsdl:tExtensibilityElement\">\n"
+                                                 + "           <sequence/>\n"
+                                                 + "           <attribute name=\"location\" type=\"anyURI\" use=\"required\"/>\n"
+                                                 + "       </extension>\n"
+                                                 + "       </complexContent>\n"
+                                                 + "   </complexType>\n"
+                                                 + "</schema>\n"
+                                                 ;
   
   Path  httpXsd;
   Path  tempHttpXsd;

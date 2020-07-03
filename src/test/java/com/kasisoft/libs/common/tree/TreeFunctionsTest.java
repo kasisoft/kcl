@@ -81,42 +81,42 @@ public class TreeFunctionsTest {
     }
   }
   
-  private static final String EXPECTED_FOR_TREE_NODE = """
-                                                       [1,root1]
-                                                       [2,child1]
-                                                       [3,child7]
-                                                       [3,child8]
-                                                       [3,child9]
-                                                       [3,child10]
-                                                       [2,child2]
-                                                       [3,child11]
-                                                       [3,child12]
-                                                       [3,child13]
-                                                       [2,child3]
-                                                       [3,child14]
-                                                       [2,child4]
-                                                       [2,child5]
-                                                       [2,child6]
-                                                       [1,root2]
-                                                       [2,child1]
-                                                       [3,child7]
-                                                       [3,child8]
-                                                       [3,child9]
-                                                       [3,child10]
-                                                       [2,child2]
-                                                       [3,child11]
-                                                       [3,child12]
-                                                       [3,child13]
-                                                       [2,child3]
-                                                       [3,child14]
-                                                       [2,child4]
-                                                       [2,child5]
-                                                       [2,child6]
-                                                       [1,root3]
-                                                       [2,child1]
-                                                       [3,child2]
-                                                       [4,child3]
-                                                       """; 
+  private static final String EXPECTED_FOR_TREE_NODE = ""
+                                                       + "[1,root1]\n"
+                                                       + "[2,child1]\n"
+                                                       + "[3,child7]\n"
+                                                       + "[3,child8]\n"
+                                                       + "[3,child9]\n"
+                                                       + "[3,child10]\n"
+                                                       + "[2,child2]\n"
+                                                       + "[3,child11]\n"
+                                                       + "[3,child12]\n"
+                                                       + "[3,child13]\n"
+                                                       + "[2,child3]\n"
+                                                       + "[3,child14]\n"
+                                                       + "[2,child4]\n"
+                                                       + "[2,child5]\n"
+                                                       + "[2,child6]\n"
+                                                       + "[1,root2]\n"
+                                                       + "[2,child1]\n"
+                                                       + "[3,child7]\n"
+                                                       + "[3,child8]\n"
+                                                       + "[3,child9]\n"
+                                                       + "[3,child10]\n"
+                                                       + "[2,child2]\n"
+                                                       + "[3,child11]\n"
+                                                       + "[3,child12]\n"
+                                                       + "[3,child13]\n"
+                                                       + "[2,child3]\n"
+                                                       + "[3,child14]\n"
+                                                       + "[2,child4]\n"
+                                                       + "[2,child5]\n"
+                                                       + "[2,child6]\n"
+                                                       + "[1,root3]\n"
+                                                       + "[2,child1]\n"
+                                                       + "[3,child2]\n"
+                                                       + "[4,child3]\n"
+                                                       ; 
   
   @Test(groups = "all")
   public void forTreeNodeDo() {
@@ -132,43 +132,43 @@ public class TreeFunctionsTest {
   }
 
   @SuppressWarnings("unused")
-  private static final String EXPECTED_FOR_TREE_NODE_WITH_ROOT = """
-                                                                 [0,root]
-                                                                 [1,root1]
-                                                                 [2,child1]
-                                                                 [3,child7]
-                                                                 [3,child8]
-                                                                 [3,child9]
-                                                                 [3,child10]
-                                                                 [2,child2]
-                                                                 [3,child11]
-                                                                 [3,child12]
-                                                                 [3,child13]
-                                                                 [2,child3]
-                                                                 [3,child14]
-                                                                 [2,child4]
-                                                                 [2,child5]
-                                                                 [2,child6]
-                                                                 [1,root2]
-                                                                 [2,child1]
-                                                                 [3,child7]
-                                                                 [3,child8]
-                                                                 [3,child9]
-                                                                 [3,child10]
-                                                                 [2,child2]
-                                                                 [3,child11]
-                                                                 [3,child12]
-                                                                 [3,child13]
-                                                                 [2,child3]
-                                                                 [3,child14]
-                                                                 [2,child4]
-                                                                 [2,child5]
-                                                                 [2,child6]
-                                                                 [1,root3]
-                                                                 [2,child1]
-                                                                 [3,child2]
-                                                                 [4,child3]
-                                                                 """; 
+  private static final String EXPECTED_FOR_TREE_NODE_WITH_ROOT = ""
+                                                                 + "[0,root]\n"
+                                                                 + "[1,root1]\n"
+                                                                 + "[2,child1]\n"
+                                                                 + "[3,child7]\n"
+                                                                 + "[3,child8]\n"
+                                                                 + "[3,child9]\n"
+                                                                 + "[3,child10]\n"
+                                                                 + "[2,child2]\n"
+                                                                 + "[3,child11]\n"
+                                                                 + "[3,child12]\n"
+                                                                 + "[3,child13]\n"
+                                                                 + "[2,child3]\n"
+                                                                 + "[3,child14]\n"
+                                                                 + "[2,child4]\n"
+                                                                 + "[2,child5]\n"
+                                                                 + "[2,child6]\n"
+                                                                 + "[1,root2]\n"
+                                                                 + "[2,child1]\n"
+                                                                 + "[3,child7]\n"
+                                                                 + "[3,child8]\n"
+                                                                 + "[3,child9]\n"
+                                                                 + "[3,child10]\n"
+                                                                 + "[2,child2]\n"
+                                                                 + "[3,child11]\n"
+                                                                 + "[3,child12]\n"
+                                                                 + "[3,child13]\n"
+                                                                 + "[2,child3]\n"
+                                                                 + "[3,child14]\n"
+                                                                 + "[2,child4]\n"
+                                                                 + "[2,child5]\n"
+                                                                 + "[2,child6]\n"
+                                                                 + "[1,root3]\n"
+                                                                 + "[2,child1]\n"
+                                                                 + "[3,child2]\n"
+                                                                 + "[4,child3]\n"
+                                                                 ; 
   
   @Test(groups = "all")
   public void forTreeNodeDo__WithRoot() {
@@ -184,44 +184,42 @@ public class TreeFunctionsTest {
     assertThat(builder.toString(), is(EXPECTED_FOR_TREE_NODE_WITH_ROOT));
   }
 
-  ///
-  
-  private static final String EXPECTED_FOR_TREE_VALUE = """
-                                                        [0,root1]
-                                                        [1,child1]
-                                                        [2,child7]
-                                                        [2,child8]
-                                                        [2,child9]
-                                                        [2,child10]
-                                                        [1,child2]
-                                                        [2,child11]
-                                                        [2,child12]
-                                                        [2,child13]
-                                                        [1,child3]
-                                                        [2,child14]
-                                                        [1,child4]
-                                                        [1,child5]
-                                                        [1,child6]
-                                                        [0,root2]
-                                                        [1,child1]
-                                                        [2,child7]
-                                                        [2,child8]
-                                                        [2,child9]
-                                                        [2,child10]
-                                                        [1,child2]
-                                                        [2,child11]
-                                                        [2,child12]
-                                                        [2,child13]
-                                                        [1,child3]
-                                                        [2,child14]
-                                                        [1,child4]
-                                                        [1,child5]
-                                                        [1,child6]
-                                                        [0,root3]
-                                                        [1,child1]
-                                                        [2,child2]
-                                                        [3,child3]
-                                                        """; 
+  private static final String EXPECTED_FOR_TREE_VALUE = ""
+                                                        + "[0,root1]\n"
+                                                        + "[1,child1]\n"
+                                                        + "[2,child7]\n"
+                                                        + "[2,child8]\n"
+                                                        + "[2,child9]\n"
+                                                        + "[2,child10]\n"
+                                                        + "[1,child2]\n"
+                                                        + "[2,child11]\n"
+                                                        + "[2,child12]\n"
+                                                        + "[2,child13]\n"
+                                                        + "[1,child3]\n"
+                                                        + "[2,child14]\n"
+                                                        + "[1,child4]\n"
+                                                        + "[1,child5]\n"
+                                                        + "[1,child6]\n"
+                                                        + "[0,root2]\n"
+                                                        + "[1,child1]\n"
+                                                        + "[2,child7]\n"
+                                                        + "[2,child8]\n"
+                                                        + "[2,child9]\n"
+                                                        + "[2,child10]\n"
+                                                        + "[1,child2]\n"
+                                                        + "[2,child11]\n"
+                                                        + "[2,child12]\n"
+                                                        + "[2,child13]\n"
+                                                        + "[1,child3]\n"
+                                                        + "[2,child14]\n"
+                                                        + "[1,child4]\n"
+                                                        + "[1,child5]\n"
+                                                        + "[1,child6]\n"
+                                                        + "[0,root3]\n"
+                                                        + "[1,child1]\n"
+                                                        + "[2,child2]\n"
+                                                        + "[3,child3]\n"
+                                                        ; 
 
 
   @Test(groups = "all")
@@ -235,43 +233,43 @@ public class TreeFunctionsTest {
     assertThat(builder.toString(), is(EXPECTED_FOR_TREE_VALUE));
   }
 
-  private static final String EXPECTED_FOR_TREE_VALUE_WITH_ROOT = """
-                                                                  [0,root]
-                                                                  [1,root1]
-                                                                  [2,child1]
-                                                                  [3,child7]
-                                                                  [3,child8]
-                                                                  [3,child9]
-                                                                  [3,child10]
-                                                                  [2,child2]
-                                                                  [3,child11]
-                                                                  [3,child12]
-                                                                  [3,child13]
-                                                                  [2,child3]
-                                                                  [3,child14]
-                                                                  [2,child4]
-                                                                  [2,child5]
-                                                                  [2,child6]
-                                                                  [1,root2]
-                                                                  [2,child1]
-                                                                  [3,child7]
-                                                                  [3,child8]
-                                                                  [3,child9]
-                                                                  [3,child10]
-                                                                  [2,child2]
-                                                                  [3,child11]
-                                                                  [3,child12]
-                                                                  [3,child13]
-                                                                  [2,child3]
-                                                                  [3,child14]
-                                                                  [2,child4]
-                                                                  [2,child5]
-                                                                  [2,child6]
-                                                                  [1,root3]
-                                                                  [2,child1]
-                                                                  [3,child2]
-                                                                  [4,child3]
-                                                                  """; 
+  private static final String EXPECTED_FOR_TREE_VALUE_WITH_ROOT = ""
+                                                                  + "[0,root]\n"
+                                                                  + "[1,root1]\n"
+                                                                  + "[2,child1]\n"
+                                                                  + "[3,child7]\n"
+                                                                  + "[3,child8]\n"
+                                                                  + "[3,child9]\n"
+                                                                  + "[3,child10]\n"
+                                                                  + "[2,child2]\n"
+                                                                  + "[3,child11]\n"
+                                                                  + "[3,child12]\n"
+                                                                  + "[3,child13]\n"
+                                                                  + "[2,child3]\n"
+                                                                  + "[3,child14]\n"
+                                                                  + "[2,child4]\n"
+                                                                  + "[2,child5]\n"
+                                                                  + "[2,child6]\n"
+                                                                  + "[1,root2]\n"
+                                                                  + "[2,child1]\n"
+                                                                  + "[3,child7]\n"
+                                                                  + "[3,child8]\n"
+                                                                  + "[3,child9]\n"
+                                                                  + "[3,child10]\n"
+                                                                  + "[2,child2]\n"
+                                                                  + "[3,child11]\n"
+                                                                  + "[3,child12]\n"
+                                                                  + "[3,child13]\n"
+                                                                  + "[2,child3]\n"
+                                                                  + "[3,child14]\n"
+                                                                  + "[2,child4]\n"
+                                                                  + "[2,child5]\n"
+                                                                  + "[2,child6]\n"
+                                                                  + "[1,root3]\n"
+                                                                  + "[2,child1]\n"
+                                                                  + "[3,child2]\n"
+                                                                  + "[4,child3]\n"
+                                                                  ; 
 
 
   @Test(groups = "all")

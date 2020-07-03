@@ -1,5 +1,5 @@
 module com.kasisoft.libs.common {
-  
+
   exports com.kasisoft.libs.common;
   exports com.kasisoft.libs.common.annotation;
   exports com.kasisoft.libs.common.comparator;
@@ -20,10 +20,11 @@ module com.kasisoft.libs.common {
   exports com.kasisoft.libs.common.types;
   exports com.kasisoft.libs.common.utils;
   exports com.kasisoft.libs.common.xml;
-  
+
   requires transitive java.desktop;
   requires transitive java.sql;
-  requires transitive java.validation;
   requires java.xml;
-  
+  requires transitive java.validation;
+  requires lombok;
+
 } /* ENDMODULE */

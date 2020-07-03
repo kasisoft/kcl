@@ -9,23 +9,23 @@ import org.testng.annotations.Test;
 @SuppressWarnings("preview")
 public class XmlGeneratorTest {
 
-  private static final String EXPECTED_TAG = """
-                                             <?xml version="1.0" encoding="UTF-8"?>
-                                             <bibo>
-                                               <dodo alpha="beta&lt;&gt;">
-                                                 <marker>Wumpi &amp; Stumpi</marker>
-                                               </dodo>
-                                             </bibo>
-                                             """;
+  private static final String EXPECTED_TAG = ""
+                                             + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                             + "<bibo>\n"
+                                             + "  <dodo alpha=\"beta&lt;&gt;\">\n"
+                                             + "    <marker>Wumpi &amp; Stumpi</marker>\n"
+                                             + "  </dodo>\n"
+                                             + "</bibo>\n"
+                                             ;
   
-  private static final String EXPECTED_INVALID_ATTRIBUTE = """
-                                                           <?xml version="1.0" encoding="UTF-8"?>
-                                                           <bibo>
-                                                             <dodo>
-                                                               <marker>Wumpi &amp; Stumpi</marker>
-                                                             </dodo>
-                                                           </bibo>
-                                                           """;
+  private static final String EXPECTED_INVALID_ATTRIBUTE = ""
+                                                           + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                                           + "<bibo>\n"
+                                                           + "  <dodo>\n"
+                                                           + "    <marker>Wumpi &amp; Stumpi</marker>\n"
+                                                           + "  </dodo>\n"
+                                                           + "</bibo>\n"
+                                                           ;
   
   
   @Test(groups = "all")

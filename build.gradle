@@ -67,6 +67,13 @@ java {
     withJavadocJar()
 }
 
+// https://docs.gradle.org/current/samples/sample_java_modules_multi_project.html [03-JUL-2020]
+plugins.withType(JavaPlugin).configureEach {
+    java {
+        modularity.inferModulePath = true
+    }
+}
+    
 publishing {
     publications {
         maven(MavenPublication) {
@@ -77,18 +84,18 @@ publishing {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    options.compilerArgs.add('--enable-preview')
+    // options.compilerArgs.add('--enable-preview')
 }
 
 javadoc.options {
-    addBooleanOption('-enable-preview', true)
+    // addBooleanOption('-enable-preview', true)
     addStringOption('-release', '14')
 }
 
 test {
     exclude 'com/kasisoft/libs/common/graphics/**'
     useTestNG()
-    jvmArgs(['--enable-preview', '-Duser.country=DE', '-Duser.language=de'])
+    jvmArgs(['-Duser.country=DE', '-Duser.language=de'])  // '--enable-preview'
     finalizedBy jacocoTestReport
 }
 
