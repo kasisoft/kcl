@@ -13,6 +13,7 @@ purpose other than providing some handy functionalities.
 * [Jenkins](https://kasisoft.com/jenkins/job/libs.com.kasisoft.libs.common)
 * [GIT](https://github.com/kasisoft/kcl.git)
 
+https://kasisoft.github.io/kcl/
 
 # Development Setup
 
@@ -49,10 +50,10 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
      
      <repositories>
          <repository>
-             <id>libs-kasisoft</id>
-             <url>https://kasisoft.com/artifactory/libs-kasisoft</url>
+             <id>gh-kasisoft</id>
+             <url>https://maven.pkg.github.com/kasisoft/kcl</url>
              <releases>
-                 <enabled>true</enabled>
+                 <enabled>false</enabled>
              </releases>
              <snapshots>
                  <enabled>true</enabled>
@@ -60,6 +61,15 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
          </repository>
      </repositories>
      
+
+Add the following credentials to your ~/.m2/settings.xml:
+
+     <server>
+         <id>gh-kasisoft</id>
+         <username>kasisoft</username>
+         <password>a7c05e559dab4dc35c2b2a7750db64dadeb576f2</password>
+     </server>
+    
      
 
 # License
