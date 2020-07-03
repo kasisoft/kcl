@@ -86,7 +86,7 @@ publishing {
     
         maven {
             name = 'GitHubPackages'
-            url = 'https://maven.pkg.github.com/kasisoft/com.kasisoft.libs.common'
+            url = 'https://maven.pkg.github.com/kasisoft/kcl'
             credentials {
                 username = System.getenv('GITHUB_ACTOR')
                 password = System.getenv('GITHUB_TOKEN')
