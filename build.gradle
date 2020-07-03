@@ -122,15 +122,3 @@ jacocoTestReport {
         html.destination file("${buildDir}/jacocoHtml")
     }
 }
-
-release {
-   failOnCommitNeeded = true
-   failOnPublishNeeded = true
-   failOnSnapshotDependencies = true
-   failOnUnversionedFiles = true
-   failOnUpdateNeeded = true
-   revertOnFail = true
-   tagTemplate = '$name-$version'
-   
-}
-
