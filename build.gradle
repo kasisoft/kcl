@@ -15,14 +15,12 @@ compileJava.options.fork = true
 repositories {
 
     mavenLocal()
+    mavenCentral()
 
     maven {
         url = uri('https://oss.sonatype.org/content/repositories/snapshots')
     }
 
-    maven {
-        url = uri('https://repo.maven.apache.org/maven2')
-    }
 }
 
 dependencies {
@@ -95,6 +93,29 @@ publishing {
         
     }
     
+}
+
+generatePomFileForMavenPublication {
+  pom.name = '>KCL :: Kasisoft Common Library'
+  pom.description = 'Collection of general purpose functionalities.'
+  pom.organization({
+    name = 'Kasisoft'
+    url = 'https://kasisoft.com'
+  })
+  pom.license({
+    name = 'MIT License'
+    url = 'https://choosealicense.com/licenses/mit'
+  })
+  pom.developer({
+    id = 'costamojan'
+    name = 'Daniel Kasmeroglu'
+    email = 'daniel.kasmeroglu@kasisoft.com'
+  })
+  pom.scm({
+    connection = 'scm:git:https://github.com/kasisoft/kcl.git'
+    developerConnection = 'scm:git:https://github.com/kasisoft/kcl.git'
+    url = 'https://kasisoft.github.io/kcl'
+  })
 }
 
 tasks.withType(JavaCompile) {
