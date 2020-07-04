@@ -109,7 +109,7 @@ public class Buffer<T> {
   /**
    * Frees the supplied object, so it's allowed to be reused.
    * 
-   * @param object   The object that shall be freed. Maybe <code>null</code>.
+   * @param object   The object that shall be freed.
    */
   public void free(@Null T object) {
     if (object != null) {
@@ -134,9 +134,9 @@ public class Buffer<T> {
   /**
    * Executes the supplied function with the desired instance.
    * 
-   * @param function   The function that is supposed to be executed. Not <code>null</code>.
+   * @param function   The function that is supposed to be executed.
    * 
-   * @return   The return value of the supplied function. Maybe <code>null<code>.
+   * @return   The return value of the supplied function.
    */
   public <R> @Null R forInstance(int size, @NotNull Function<T, R> function) {
     T instance = allocate(size);
@@ -150,10 +150,10 @@ public class Buffer<T> {
   /**
    * Executes the supplied function with the desired instance.
    * 
-   * @param function   The function that is supposed to be executed. Not <code>null</code>.
+   * @param function   The function that is supposed to be executed.
    * @param param      An additional parameter for the function.
    * 
-   * @return   The return value of the supplied function. Maybe <code>null<code>.
+   * @return   The return value of the supplied function.
    */
   public <R, P> @Null R forInstance(int size, @NotNull BiFunction<T, P, R> function, @Null P param) {
     T instance = allocate(size);
@@ -167,7 +167,7 @@ public class Buffer<T> {
   /**
    * Executes the supplied consumer with the desired instance.
    * 
-   * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
+   * @param consumer   The consumer that is supposed to be executed.
    */
   public void forInstanceDo(int size, @NotNull Consumer<T> consumer) {
     forInstance(size, $ -> {consumer.accept($); return null;});
@@ -176,7 +176,7 @@ public class Buffer<T> {
   /**
    * Executes the supplied consumer with the desired instance.
    * 
-   * @param consumer   The consumer that is supposed to be executed. Not <code>null</code>.
+   * @param consumer   The consumer that is supposed to be executed.
    * @param param      An additional parameter for the function.
    */
   public <P> void forInstanceDo(int size, @NotNull BiConsumer<T, P> consumer, @Null P param) {

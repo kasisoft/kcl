@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.SAXParseException;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.experimental.FieldDefaults;
@@ -30,8 +31,8 @@ public class XmlFault {
   /**
    * Initialises this datastructure from the supplied exception.
    * 
-   * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
-   * @param ex          The original exception. Not <code>null</code>.
+   * @param faulttype   The kind of issue represented by this record.
+   * @param ex          The original exception.
    */
   public XmlFault(@NotNull FaultType faulttype, @NotNull SAXParseException ex) {
     type    = faulttype;
@@ -43,8 +44,8 @@ public class XmlFault {
   /**
    * Initialises this datastructure from the supplied message.
    * 
-   * @param faulttype   The kind of issue represented by this record. Not <code>null</code>.
-   * @param msg         The original message. Not <code>null</code>.
+   * @param faulttype   The kind of issue represented by this record.
+   * @param msg         The original message.
    */
   public XmlFault(@NotNull FaultType faulttype, @NotNull String msg) {
     type    = faulttype;
@@ -57,9 +58,8 @@ public class XmlFault {
    * Returns a full text representation of this fault used for presentations.
    * 
    * @return   A full text representation of this fault used for presentations.
-   *           Neither <code>null</code> nor empty.
    */
-  public @NotNull String getFaultMessage() {
+  public @NotBlank  String getFaultMessage() {
     return String.format("[%s] ( %d, %d ) : %s", type, line, column, message);
   }
   

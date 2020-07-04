@@ -5,6 +5,7 @@ import com.kasisoft.libs.common.io.IoFunctions;
 import com.kasisoft.libs.common.spi.SPILoader;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -42,9 +43,9 @@ public class FileTypeManager {
   /**
    * Returns a list with all known FileType instances.
    * 
-   * @return   A list with all known FileType instances. Not <code>null</code>.
+   * @return   A list with all known FileType instances.
    */
-  public FileType[] getFileTypes() {
+  public @NotNull FileType[] getFileTypes() {
     return filetypes.toArray(new FileType[filetypes.size()]);
   }
   
@@ -60,11 +61,9 @@ public class FileTypeManager {
    *                        <li>InputStream</li>
    *                    </ul>
    * 
-   * @return   The FileType if it could be identified. Maybe <code>null</code>.
-   * 
-   * @throws FailureException   Accessing the resource failed for some reason.
+   * @return   The FileType if it could be identified.
    */
-  public <T> FileType identify(@NotNull T input) {
+  public <T> @Null FileType identify(@NotNull T input) {
     Optional<byte[]> data = IoFunctions.genericLoadBytes(input, maxspace);
     return data.map(this::identify).orElse(null);
   }
@@ -72,11 +71,11 @@ public class FileTypeManager {
   /**
    * Identifies the FileType for the supplied data.
    * 
-   * @param data   The data of the input which type shall be identified. Not <code>null</code>.
+   * @param data   The data of the input which type shall be identified.
    * 
-   * @return   The FileType if it could be identified. Maybe <code>null</code>.
+   * @return   The FileType if it could be identified.
    */
-  public FileType identify(@NotNull byte[] data) {
+  public @Null FileType identify(@NotNull byte[] data) {
     for (var i = 0; i < filetypes.size(); i++ ) {
       if (filetypes.get(i).test(data)) {
         return filetypes.get(i);

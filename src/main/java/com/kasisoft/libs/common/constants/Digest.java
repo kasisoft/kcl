@@ -8,7 +8,9 @@ import com.kasisoft.libs.common.pools.Bucket;
 import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -53,20 +55,20 @@ public final class Digest {
     SHA512    = new Digest("SHA-512");
   }
   
-  /** Neither <code>null</code> nor empty. */
-  @Getter String          algorithm;
+  @Getter @NotBlank
+  String                    algorithm;
   
-  Bucket<MessageDigest>   bucket;
+  Bucket<MessageDigest>     bucket;
 
   
   /**
    * Initializes this digest for the supplied algorithm.
    *  
-   * @param algorithm   The name of the hash algorithm. Neither <code>null</code> nor empty.
+   * @param algorithm   The name of the hash algorithm.
    * 
    * @throws KclException   The supplied alorithm isn't known.
    */
-  public Digest(@NotNull String algorithm) {
+  public Digest(@NotBlank String algorithm) {
     try {
       MessageDigest.getInstance(algorithm);
     } catch (NoSuchAlgorithmException ex) {
@@ -82,9 +84,9 @@ public final class Digest {
   /**
    * Processes the supplied data blocks in order to calculate a hash.
    * 
-   * @param data   The data used to be digested. Not <code>null</code>.
+   * @param data   The data used to be digested.
    * 
-   * @return   The hash value. Neither <code>null</code> nor empty.
+   * @return   The hash value.
    */
   public @NotNull String digestToString(@NotNull byte[] ... data) {
     return digestToString(1, data);
@@ -94,9 +96,9 @@ public final class Digest {
    * Processes the supplied data blocks in order to calculate a hash.
    *
    * @param count   The number of times used to run the digestion.
-   * @param data    The data used to be digested. Not <code>null</code>.
+   * @param data    The data used to be digested.
    * 
-   * @return   The hash value. Neither <code>null</code> nor empty.
+   * @return   The hash value.
    */
   public @NotNull String digestToString(int count, @NotNull byte[] ... data) {
     return Buckets.bucketStringFBuilder().forInstance($ -> {
@@ -115,9 +117,9 @@ public final class Digest {
   /**
    * Processes the supplied data blocks in order to calculate a hash.
    * 
-   * @param data   The data used to be digested. Not <code>null</code>.
+   * @param data   The data used to be digested.
    * 
-   * @return   The hash value. Neither <code>null</code> nor empty.
+   * @return   The hash value.
    */
   public @NotNull byte[] digest(@NotNull byte[] ... data) {
     return digest(1, data);
@@ -127,9 +129,9 @@ public final class Digest {
    * Processes the supplied data blocks in order to calculate a hash.
    *
    * @param count   The number of times used to run the digestion.
-   * @param data    The data used to be digested. Not <code>null</code>.
+   * @param data    The data used to be digested.
    * 
-   * @return   The hash value. Neither <code>null</code> nor empty.
+   * @return   The hash value.
    */
   public @NotNull byte[] digest(@Min(1) int count, @NotNull byte[] ... data) {
     var digest = bucket.allocate();
@@ -154,11 +156,10 @@ public final class Digest {
    * aware that this enumeration only supports the <b>required</b> digests.
    * 
    * @param name   The name of the digest which has to be identified. Case sensitivity doesn't matter here.
-   *               Neither <code>null</code> nor empty.
    *               
-   * @return   The digest value or <code>null</code> if it cannot be identified.
+   * @return   The digest value or empty if it cannot be identified.
    */
-  public static Optional<Digest> findByName(@NotNull String name) {
+  public static Optional<Digest> findByName(@Null String name) {
     for (val digest : Digest.values()) {
       if (digest.algorithm.equalsIgnoreCase(name)) {
         return Optional.of(digest);

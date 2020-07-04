@@ -29,13 +29,6 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   
   Map<String, Color>   colors;
   
-  /**
-   * Initializes this adpater to make use of a customized error handling.
-   * 
-   * @param handler   A custom error handler. Maybe <code>null</code>.
-   * @param defval1   A default value for the source type. Maybe <code>null</code>.
-   * @param defval2   A default value for the target type. Maybe <code>null</code>.
-   */
   public ColorAdapter() {
     colors      = new HashMap<>();
     var fields  = Color.class.getFields();
@@ -85,11 +78,9 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   /**
    * Returns the Color associated with a specific name. 
    * 
-   * @param v   The name of the Color. Neither <code>null</code> nor empty.
+   * @param v   The name of the Color.
    * 
-   * @return   The Color associated with the name. Not <code>null</code>.
-   * 
-   * @throws Exception   The name could not be recognized.
+   * @return   The Color associated with the name.
    */
   private @NotNull Color symbolicNamed(@NotNull String v) {
     var lower = v.toLowerCase();
@@ -102,11 +93,9 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   /**
    * Transforms an RGB(r,g,b[,a]) expression into a Color instance.
    * 
-   * @param v   The RGB(r,g,b[,a]) expression. Neither <code>null</code> nor empty.
+   * @param v   The RGB(r,g,b[,a]) expression.
    * 
-   * @return   The Color if it could be converted. Not <code>null</code>.
-   * 
-   * @throws KclException   The conversion failed for some reason.
+   * @return   The Color if it could be converted.
    */
   private @NotNull Color unmarshalArguments(@NotNull String v) {
     String part = StringFunctions.cleanup(v.substring(RGB.length()));
@@ -129,13 +118,11 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   /**
    * Converts a numerical Color representatino into a Color instance.
    * 
-   * @param v   A numerical Color representation. Neither <code>null</code> nor empty.
+   * @param v   A numerical Color representation.
    * 
-   * @return   The corresponding Color instance. Not <code>null</code>.
-   * 
-   * @throws KclException   The conversion failed for some reason.
+   * @return   The corresponding Color instance.
    */
-  private Color unmarshalNumerical(@NotNull String v) {
+  private @NotNull Color unmarshalNumerical(@NotNull String v) {
     if (v.length() == 7) {
       // rgb only
       String red    = v.substring(1, 3);

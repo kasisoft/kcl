@@ -1,5 +1,6 @@
 package com.kasisoft.libs.common.constants;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -269,22 +270,18 @@ public enum Iso3166 implements Predicate<String> {
   Zambia                               ("ZMB", "ZM", 894),
   Zimbabwe                             ("ZWE", "ZW", 716);
   
-  /** Not <code>null</code>. length() == 3. */
   String   alpha3; 
-  
-  /** Not <code>null</code>. length() == 2. */
   String   alpha2;
-  
   int      numerical;
   
   /**
    * Initialises this constant.
    * 
-   * @param al3       The alpha-3 code. Not <code>null</code>. al3.length() == 3 .
-   * @param al2       The alpha-2 code. Not <code>null</code>. al2.length() == 2 .
+   * @param al3       The alpha-3 code.
+   * @param al2       The alpha-2 code.
    * @param value     The numeric calue for this constant.
    */
-  Iso3166(String al3, String al2, int value) {
+  Iso3166(@NotBlank String al3, @NotBlank String al2, int value) {
     alpha3    = al3;
     alpha2    = al2;
     numerical = value;
@@ -316,7 +313,7 @@ public enum Iso3166 implements Predicate<String> {
   /**
    * Returns the iso value for a specific alpha-2 code.
    * 
-   * @param alpha2   The alpha-2 code which value shall be searched for. Maybe <code>null</code>.
+   * @param alpha2   The alpha-2 code which value shall be searched for.
    * 
    * @return   The iso value.
    */

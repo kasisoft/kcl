@@ -27,7 +27,7 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
   /**
    * Changes the current values.
    * 
-   * @param newvalues   The new values. Maybe <code>null</code>.
+   * @param newvalues   The new values.
    */
   public Tupel(@Null T ... newvalues) {
     setValues(newvalues);
@@ -44,7 +44,7 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
   /**
    * Returns the first value if at least one has been provided.
    * 
-   * @return   The first value. Not <code>null</code>.
+   * @return   The first value.
    */
   public @NotNull Optional<T> findFirst() {
     if (length > 0) {
@@ -56,7 +56,7 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
   /**
    * Changes the current values.
    * 
-   * @param newvalues   The new values. Maybe <code>null</code>.
+   * @param newvalues   The new values.
    */
   public void setValues(@Null T ... newvalues) {
     values = newvalues;

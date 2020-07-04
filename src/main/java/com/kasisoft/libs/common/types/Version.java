@@ -8,7 +8,7 @@ import com.kasisoft.libs.common.pools.Buckets;
 import com.kasisoft.libs.common.text.StringFBuilder;
 import com.kasisoft.libs.common.text.StringFunctions;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 
 import lombok.experimental.FieldDefaults;
@@ -51,9 +51,9 @@ public class Version implements Comparable<Version> {
    * 
    * @param majorver       The major version number.
    * @param minorver       The minor version number.
-   * @param qualifierstr   A qualifier String. Either <code>null</code> or not empty.
+   * @param qualifierstr   A qualifier String.
    */
-  public Version(int majorver, int minorver, String qualifierstr) {
+  public Version(int majorver, int minorver, @NotBlank String qualifierstr) {
     this(majorver, minorver, 0, qualifierstr);
     micro = null;
     text  = toText();
@@ -64,7 +64,7 @@ public class Version implements Comparable<Version> {
    * 
    * @param majorver       The major version number.
    * @param minorver       The minor version number.
-   * @param microver       The micro version number. Maybe <code>null</code>.
+   * @param microver       The micro version number.
    */
   public Version(int majorver, int minorver, int microver) {
     this(majorver, minorver, microver, null);
@@ -75,10 +75,10 @@ public class Version implements Comparable<Version> {
    * 
    * @param majorver       The major version number.
    * @param minorver       The minor version number.
-   * @param microver       The micro version number. Maybe <code>null</code>.
-   * @param qualifierstr   A qualifier String. Either <code>null</code> or not empty.
+   * @param microver       The micro version number.
+   * @param qualifierstr   A qualifier String.
    */
-  public Version(int majorver, int minorver, int microver, String qualifierstr) {
+  public Version(int majorver, int minorver, int microver, @NotBlank String qualifierstr) {
     major     = majorver;
     minor     = minorver;
     micro     = Integer.valueOf( microver );
@@ -89,31 +89,31 @@ public class Version implements Comparable<Version> {
   /**
    * Creates a new instance based upon the supplied textual description.
    * 
-   * @param version        A textual description of a version. Neither <code>null</code> nor empty.
+   * @param version        A textual description of a version.
    * @param hasmicro       <code>true</code> <=> Process a micro number.
    * @param hasqualifier   <code>true</code> <=> Process a optional qualifier.
    */
-  public Version(String version, boolean hasmicro, boolean hasqualifier) {
+  public Version(@NotBlank String version, boolean hasmicro, boolean hasqualifier) {
     this(version, Boolean.valueOf(hasmicro), Boolean.valueOf(hasqualifier));
   }
 
   /**
    * Creates a new instance based upon the supplied textual description.
    * 
-   * @param version  A textual description of a version. Neither <code>null</code> nor empty.
+   * @param version  A textual description of a version.
    */
-  public Version(String version) {
+  public Version(@NotBlank String version) {
     this(version, null, null);
   }
 
   /**
    * Creates a new instance based upon the supplied textual description.
    * 
-   * @param version        A textual description of a version. Neither <code>null</code> nor empty.
+   * @param version        A textual description of a version.
    * @param hasmicro       <code>true</code> <=> Process a micro number.
    * @param hasqualifier   <code>true</code> <=> Process a optional qualifier.
    */
-  private Version(@NotNull String version, Boolean hasmicro, Boolean hasqualifier) {
+  private Version(@NotBlank String version, Boolean hasmicro, Boolean hasqualifier) {
 
     int idx = 0;
     try {
@@ -171,9 +171,9 @@ public class Version implements Comparable<Version> {
   /**
    * Creates a textual presentation of this version.
    * 
-   * @return   A textual presentation of this version. Neither <code>null</code> nor empty.
+   * @return   A textual presentation of this version.
    */
-  public String toText() {
+  public @NotBlank String toText() {
     return toText('.');
   }
   
@@ -182,9 +182,9 @@ public class Version implements Comparable<Version> {
    * 
    * @param qualifierdelim   The delimiter which has to be used for the qualifier (sometimes you might wann use '_').
    * 
-   * @return   A textual presentation of this version. Neither <code>null</code> nor empty.
+   * @return   A textual presentation of this version.
    */
-  public String toText(char qualifierdelim) {
+  public @NotBlank String toText(char qualifierdelim) {
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       $.append( major );
       $.append( '.' );

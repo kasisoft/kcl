@@ -222,23 +222,23 @@ public class IoFunctions {
   /**
    * Creates a regex pattern used to match a filesystem path.
    * 
-   * @param pattern   The filesystem pattern which is supposed to be compiled. Neither <code>null</code> nor empty.
+   * @param pattern   The filesystem pattern which is supposed to be compiled.
    * 
-   * @return   A {@link Pattern} instance used to test filesystem pathes. Not <code>null</code>.
+   * @return   A {@link Pattern} instance used to test filesystem pathes.
    */
-  public static Pattern compileFilesystemPattern(@NotNull String pattern) {
+  public static @NotNull Pattern compileFilesystemPattern(@NotNull String pattern) {
     return compileFilesystemPattern(pattern, 0);
   }
   
   /**
    * Creates a regex pattern used to match a filesystem path.
    * 
-   * @param pattern   The filesystem pattern which is supposed to be compiled. Neither <code>null</code> nor empty.
+   * @param pattern   The filesystem pattern which is supposed to be compiled.
    * @param flags     The Pattern flags.
    * 
-   * @return   A {@link Pattern} instance used to test filesystem pathes. Not <code>null</code>.
+   * @return   A {@link Pattern} instance used to test filesystem pathes.
    */
-  public static Pattern compileFilesystemPattern(@NotNull String pattern, int flags) {
+  public static @NotNull Pattern compileFilesystemPattern(@NotNull String pattern, int flags) {
     var buffer    = new StringBuilder();
     var tokenizer = new StringTokenizer(pattern, "*", true);
     var last      = false;
@@ -284,7 +284,7 @@ public class IoFunctions {
   /**
    * Skip some bytes within an InputStream.
    * 
-   * @param input    The InputStream providing the content. Not <code>null</code>.
+   * @param input    The InputStream providing the content.
    * @param size     The amount of bytes to be skipped.
    */
   public static void skip(@NotNull InputStream input, @Min(0) long size) {
@@ -300,7 +300,7 @@ public class IoFunctions {
   /**
    * Skips some byte within a Reader.
    * 
-   * @param input    The Reader providing the content. Not <code>null</code>.
+   * @param input    The Reader providing the content.
    * @param size     The amount of bytes to be skipped.
    */
   public static void skip(@NotNull Reader input, @Min(0) long size) {
@@ -318,7 +318,7 @@ public class IoFunctions {
   /**
   * GZIPs the supplied file.
   * 
-  * @param file   The file which has to be gzipped. Not <code>null</code>.
+  * @param file   The file which has to be gzipped.
   * 
   * @return   The gzipped file.
   */
@@ -329,10 +329,10 @@ public class IoFunctions {
   /**
   * GZIPs the supplied file. Preexisting files will be overwritten.
   * 
-  * @param source        The file which has to be gzipped. Not <code>null</code>.
-  * @param destination   The gziped file. If <code>null</code> it's the input file plus a suffix '.gz'
+  * @param source        The file which has to be gzipped.
+  * @param destination   The gziped file. If null it's the input file plus a suffix '.gz'
   * 
-  * @return   The gzipped file. <code>null</code> in case of an error.
+  * @return   The gzipped file.
   */
   public static @NotNull Path gzip(@NotNull Path source, @Null Path destination) {
     source     = source.normalize();
@@ -381,7 +381,7 @@ public class IoFunctions {
   /**
   * UNGZIPs the supplied file.
   * 
-  * @param file   The file which has to be ungzipped. Not <code>null</code>.
+  * @param file   The file which has to be ungzipped.
   * 
   * @return   The ungzipped file.
   */
@@ -392,10 +392,10 @@ public class IoFunctions {
   /**
   * UNGZIPs the supplied file. Preexisting files will be overwritten.
   * 
-  * @param source        The file which has to be ungzipped. Not <code>null</code>.
-  * @param destination   The ungziped file. If <code>null</code> it's the input file plus a suffix '.gz'
+  * @param source        The file which has to be ungzipped.
+  * @param destination   The ungziped file. If null it's the input file plus a suffix '.gz'
   * 
-  * @return   The ungzipped file. <code>null</code> in case of an error.
+  * @return   The ungzipped file.
   */
   public static @NotNull Path ungzip(@NotNull Path source, @Null Path destination) {
     
@@ -454,7 +454,7 @@ public class IoFunctions {
    * 
    * @param path   The current path.
    * 
-   * @return   An existing parent path or <code>null</code> if there's none.
+   * @return   An existing parent path or null if there's none.
    */
   public static @NotNull Optional<Path> findExistingPath(@Null Path path) {
     var result = path != null ? path.normalize() : null;
@@ -489,7 +489,7 @@ public class IoFunctions {
   /**
    * Creates the supplied directory including it's parent.
    * 
-   * @param dir   The directory that needs to be created. Not <code>null</code> and must be a valid file.
+   * @param dir   The directory that needs to be created.
    */
   public static void mkDirs(@NotNull Path dir) {
     try {
@@ -663,7 +663,7 @@ public class IoFunctions {
   /**
    * Collects relative pathes.
    * 
-   * @param start   The base path. Not <code>null</code>.
+   * @param start   The base path.
    * 
    * @return   A list of relative pathes (directories will end with a slash).
    */
@@ -674,7 +674,7 @@ public class IoFunctions {
   /**
    * Collects relative pathes.
    * 
-   * @param start           The base path. Not <code>null</code>.
+   * @param start           The base path.
    * @param filter          A filter used to accept the relative path.
    * 
    * @return   A list of relative pathes (directories will end with a slash).
@@ -686,7 +686,7 @@ public class IoFunctions {
   /**
    * Collects relative pathes.
    * 
-   * @param start           The base path. Not <code>null</code>.
+   * @param start           The base path.
    * @param filter          A filter used to accept the relative path.
    * @param includeDirs     <code>true</code> <=> Include directories in the result list. 
    * 
@@ -747,12 +747,10 @@ public class IoFunctions {
   /**
    * Executes some function per entry (unless rejected). 
    * 
-   * @param zipFile    The zip file. Not <code>null</code>.
+   * @param zipFile    The zip file.
    * @param encoding   The encoding to use.
    * @param filter     A filter used to accept the relative path. 
-   * @param consumer   A function that will be executed. Not <code>null</code>.
-   * 
-   * @return   A list of records generated by the supplied transform. Not <code>null</code>.
+   * @param consumer   A function that will be executed.
    */
   public static void forZipFileDo(@NotNull Path zipFile, @Null Encoding encoding, @Null KPredicate<@NotNull ZipEntry> filter, @NotNull KBiConsumer<@NotNull ZipFile, @NotNull ZipEntry> consumer) {
     if (encoding == null) {
@@ -776,9 +774,9 @@ public class IoFunctions {
   /**
    * Collects relative pathes within the supplied archive.
    * 
-   * @param zipFile    The zip file. Not <code>null</code>.
+   * @param zipFile    The zip file.
    * 
-   * @return   A list of relative pathes. Not <code>null</code>.
+   * @return   A list of relative pathes.
    */
   public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile) {
    return listZipFile(zipFile, null, null);
@@ -787,10 +785,10 @@ public class IoFunctions {
   /**
    * Collects relative pathes within the supplied archive.
    * 
-   * @param zipFile    The zip file. Not <code>null</code>.
+   * @param zipFile    The zip file.
    * @param encoding   The encoding to use.
    * 
-   * @return   A list of relative pathes. Not <code>null</code>.
+   * @return   A list of relative pathes.
    */
   public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, @Null Encoding encoding) {
    return listZipFile(zipFile, encoding, null);
@@ -799,11 +797,11 @@ public class IoFunctions {
   /**
    * Collects relative pathes within the supplied archive.
    * 
-   * @param zipFile    The zip file. Not <code>null</code>.
+   * @param zipFile    The zip file.
    * @param encoding   The encoding to use.
    * @param filter     A filter used to accept the relative path. 
    * 
-   * @return   A list of relative pathes. Not <code>null</code>.
+   * @return   A list of relative pathes.
    */
   public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, @Null Encoding encoding, @Null KPredicate<@NotNull ZipEntry> filter) {
     var result = new ArrayList<String>();
@@ -872,13 +870,13 @@ public class IoFunctions {
   /**
    * Calculates the class directory/jarfile used for the supplied class instance.
    * 
-   * @param classobj   The class which is used to locate the application directory. Not <code>null</code>.
+   * @param classobj   The class which is used to locate the application directory.
    * @param skippable  If supplied immediate parental directories named as provided will be skipped. This is an easy
-   *                   way to skip directories in a build environment (f.e. target/classes). Maybe <code>null</code>.
+   *                   way to skip directories in a build environment (f.e. target/classes).
    * 
-   * @return   The location of the class directory/jarfile. Not <code>null</code>.
+   * @return   The location of the class directory/jarfile.
    */
-  public static @NotNull Path locateDirectory(@NotNull Class<?> classobj, String ... skippable) {
+  public static @NotNull Path locateDirectory(@NotNull Class<?> classobj, @Null String ... skippable) {
     
     var classname    = String.format("%s.class", classobj.getName().replace('.','/'));
     var location     = classobj.getClassLoader().getResource(classname);

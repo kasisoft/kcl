@@ -58,7 +58,7 @@ public class DbConnection implements AutoCloseable {
   /**
    * Sets up the connection which will be opened right away.
    * 
-   * @param configuration   The configuration for the connection. Not <code>null</code>.
+   * @param configuration   The configuration for the connection.
    */
   public DbConnection(@NotNull DbConfig configuration) {
     this(configuration, true);
@@ -67,7 +67,7 @@ public class DbConnection implements AutoCloseable {
   /**
    * Sets up the connection which will be opened right away.
    * 
-   * @param config   The configuration for the connection. Not <code>null</code>.
+   * @param config   The configuration for the connection.
    * @param cache    <code>true</code> <=> Use a primitive internal cache (no eviction policies here).
    */
   public DbConnection(@NotNull DbConfig config, boolean cache) {
@@ -118,7 +118,7 @@ public class DbConnection implements AutoCloseable {
   /**
    * Default error handler.
    * 
-   * @param ex   An Exception that occured while accessing the data. Not <code>null</code>.
+   * @param ex   An Exception that occured while accessing the data.
    */
   private void errorHandler(@NotNull Exception ex) {
     throw KclException.wrap(ex);
@@ -137,9 +137,9 @@ public class DbConnection implements AutoCloseable {
   /**
    * Returns a canonical table name which means that the table is named as delivered by the jdbc driver.
    * 
-   * @param tablename   The name that shall be canonical. Neither <code>null</code> nor empty.
+   * @param tablename   The name that shall be canonical.
    * 
-   * @return   The canonical name unless there's no correspondingly named table. Maybe <code>null</code>.
+   * @return   The canonical name unless there's no correspondingly named table.
    */
   public @Null String canonicalTableName(@NotNull String tablename) {
     var    tables = listTables();
@@ -180,14 +180,14 @@ public class DbConnection implements AutoCloseable {
   /**
    * Returns a {@link PreparedStatement} instance using the supplied table.
    * 
-   * @param query   The string providing the query. Neither <code>null</code> nor empty.
+   * @param query   The string providing the query.
    * @param table   The name of the table.
    * 
-   * @return   The {@link PreparedStatement} instance. Not <code>null</code>.
+   * @return   The {@link PreparedStatement} instance.
    * 
    * @throws SQLException   Setting up the query failed for some reason.
    */
-  private @NotNull PreparedStatement getQuery(@NotNull String query, @NotNull String table) throws SQLException {
+  private @NotNull PreparedStatement getQuery(@NotBlank String query, @NotNull String table) throws SQLException {
     var key    = table != null ? String.format(query, table) : query;
     var result = queries.get(key);
     if (result == null) {
@@ -200,21 +200,21 @@ public class DbConnection implements AutoCloseable {
   /**
    * Returns a list of all column names for the supplied table.
    * 
-   * @param table   The table which column names shall be returned. Neither <code>null</code> nor empty.
+   * @param table   The table which column names shall be returned.
    * 
-   * @return   A list of all column names. Not <code>null</code>.
+   * @return   A list of all column names.
    */
-  public @NotNull List<String> listColumnNames(@NotNull String table) {
+  public @NotNull List<String> listColumnNames(@NotBlank String table) {
     return listColumnInfos(columnNames, table, this::getColumnName);
   }
   
   /**
    * Fetches the column name from the supplied jdbc result.
    * 
-   * @param metadata   The jdbc record providing some meta information. Not <code>null</code>.
+   * @param metadata   The jdbc record providing some meta information.
    * @param index      The 1-based index of the column.
    * 
-   * @return   The name of the column. Maybe <code>null</code> in case of an error.
+   * @return   The name of the column or null in case of an error.
    */
   private @Null String getColumnName(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
     try {
@@ -228,22 +228,21 @@ public class DbConnection implements AutoCloseable {
   /**
    * Returns a list of pairs for all columns and their associated jdbc type.
    * 
-   * @param table   The table which column names shall be returned. Neither <code>null</code> nor empty.
+   * @param table   The table which column names shall be returned.
    * 
    * @return   A list of pairs providing the column name associated with the corresponding jdbc type. 
-   *           Not <code>null</code>.
    */
-  public @NotNull List<Pair<String, Integer>> listColumnTypes(@NotNull String table) {
+  public @NotNull List<Pair<String, Integer>> listColumnTypes(@NotBlank String table) {
     return listColumnInfos(columnTypes, table, this::getColumnType);
   }
 
   /**
    * Fetches the column name with it's jdbc type from the supplied jdbc result.
    * 
-   * @param metadata   The jdbc record providing some meta information. Not <code>null</code>.
+   * @param metadata   The jdbc record providing some meta information.
    * @param index      The 1-based index of the column.
    * 
-   * @return   The pair with the column name and jdbc type. Maybe <code>null</code> in case of an error.
+   * @return   The pair with the column name and jdbc type or null in case of an error.
    */
   private @Null Pair<String, Integer> getColumnType(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
     try {
@@ -304,11 +303,11 @@ public class DbConnection implements AutoCloseable {
 //  /**
 //   * Creates a CsvTableModel instance providing the metadata description of the supplied table.
 //   * 
-//   * @param table   The table which column names shall be returned. Neither <code>null</code> nor empty.
+//   * @param table   The table which column names shall be returned.
 //   * 
-//   * @return  The CsvTableModel instance. Not <code>null</code>.
+//   * @return  The CsvTableModel instance.
 //   */
-//  public CsvTableModel createCsvMetaData(@NotNull String table) {
+//  public @NotNull CsvTableModel createCsvMetaData(@@NotBlank String table) {
 //
 //    List<CsvColumn> specs = Arrays.asList(
 //      newCsvColumn("name"        , new StringAdapter()),
@@ -359,11 +358,11 @@ public class DbConnection implements AutoCloseable {
 //  /**
 //   * Creates a CsvTableModel instance providing the data of the supplied table.
 //   * 
-//   * @param table      The table which column names shall be returned. Neither <code>null</code> nor empty.
+//   * @param table      The table which column names shall be returned.
 //   * 
-//   * @return  The CsvTableModel instance. Not <code>null</code>.
+//   * @return  The CsvTableModel instance.
 //   */
-//  public CsvTableModel createCsvModel(@NotNull String table) {
+//  public @NotNull CsvTableModel createCsvModel(@NotBlank String table) {
 //    var specs  = listColumnInfos(columnSpecs, table, this::getCsvColumn);
 //    var result = new CsvTableModel(CsvOptions.builder().columns(specs).titleRow().build());
 //    importAllRows(table, $ -> rowLoader($, result));
@@ -373,10 +372,10 @@ public class DbConnection implements AutoCloseable {
 //  /**
 //   * Creates a {@link CsvColumn} specification from the jdbc metadata.
 //   * 
-//   * @param metadata   The jdbc record providing some meta information. Not <code>null</code>.
+//   * @param metadata   The jdbc record providing some meta information.
 //   * @param index      The 1-based index of the column.
 //   * 
-//   * @return   The {@link CsvColumn} specification. Maybe <code>null</code> in case of an error.
+//   * @return   The {@link CsvColumn} specification.
 //   */
 //  private CsvColumn getCsvColumn(ResultSetMetaData metadata, int index) {
 //    try {
@@ -398,7 +397,7 @@ public class DbConnection implements AutoCloseable {
 //  /**
 //   * List all records within a table.
 //   * 
-//   * @param table      The name of the table. Neither <code>null</code> nor empty.
+//   * @param table      The name of the table.
 //   * @param consumer   The {@link Consumer} which will be invoked for each record.
 //   */
 //  private void importAllRows(String table, Consumer<ResultSet> consumer) {
@@ -423,32 +422,32 @@ public class DbConnection implements AutoCloseable {
   /**
    * Processes some records.
    * 
-   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
-   * @param context     Some contextual object that shall be passed to the producer. Maybe <code>null</code>.
-   * @param consumer    The {@link BiConsumer} which processes the jdbc outcome. Not <code>null</code>.
+   * @param jdbcQuery   The jdbc query used to select the records.
+   * @param context     Some contextual object that shall be passed to the producer.
+   * @param consumer    The {@link BiConsumer} which processes the jdbc outcome.
    */
-  public <C> void selectDo(@NotNull String jdbcQuery, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
+  public <C> void selectDo(@NotBlank String jdbcQuery, @Null C context, @NotNull BiConsumer<ResultSet, C> consumer) {
     select(jdbcQuery, context, ($1, $2) -> {consumer.accept($1, $2); return null;});
   }
 
   /**
    * Processes some records.
    * 
-   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
+   * @param jdbcQuery   The jdbc query used to select the records.
    * @param consumer    The {@link Consumer} which processes the jdbc outcome.
    */
-  public void selectDo(@NotNull String jdbcQuery, @NotNull Consumer<ResultSet> consumer) {
+  public void selectDo(@NotBlank String jdbcQuery, @NotNull Consumer<ResultSet> consumer) {
     selectDo(jdbcQuery, null, ($1, $2) -> consumer.accept($1));
   }
 
   /**
    * Processes all records.
    * 
-   * @param table      The name of the table. Neither <code>null</code> nor empty.
-   * @param context    Some contextual object that shall be passed to the producer. Maybe <code>null</code>.
-   * @param consumer   The {@link BiConsumer} which processes the jdbc outcome. Not <code>null</code>.
+   * @param table      The name of the table.
+   * @param context    Some contextual object that shall be passed to the producer.
+   * @param consumer   The {@link BiConsumer} which processes the jdbc outcome.
    */
-  public <C> void selectAllDo(@NotNull String table, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
+  public <C> void selectAllDo(@NotBlank String table, @Null C context, @NotNull BiConsumer<ResultSet, C> consumer) {
     var name = canonicalTableName(table);
     selectDo(String.format(database.getSelectAllQuery(), name), context, consumer);
   }
@@ -456,10 +455,10 @@ public class DbConnection implements AutoCloseable {
   /**
    * Processes all records.
    * 
-   * @param table      The name of the table. Neither <code>null</code> nor empty.
-   * @param consumer   The {@link Consumer} which processes the jdbc outcome. Not <code>null</code>.
+   * @param table      The name of the table.
+   * @param consumer   The {@link Consumer} which processes the jdbc outcome.
    */
-  public void selectAllDo(@NotNull String table, @NotNull Consumer<ResultSet> consumer) {
+  public void selectAllDo(@NotBlank String table, @NotNull Consumer<ResultSet> consumer) {
     var name = canonicalTableName(table);
     selectDo(String.format(database.getSelectAllQuery(), name), consumer);
   }
@@ -467,13 +466,13 @@ public class DbConnection implements AutoCloseable {
   /**
    * List some records.
    * 
-   * @param jdbcQuery   The jdbc query used to select the records. Neither <code>null</code> nor empty.
-   * @param context     Some contextual object that shall be passed to the producer. Maybe <code>null</code>.
-   * @param producer    The {@link BiFunction} which creates a usable record from the jdbc outcome. Not <code>null</code>.
+   * @param jdbcQuery   The jdbc query used to select the records.
+   * @param context     Some contextual object that shall be passed to the producer.
+   * @param producer    The {@link BiFunction} which creates a usable record from the jdbc outcome.
    * 
-   * @return   A list with all records. Not <code>null</code>.
+   * @return   A list with all records.
    */
-  public <T, C> List<T> select(@NotNull String jdbcQuery, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+  public <T, C> @NotNull List<T> select(@NotBlank String jdbcQuery, @Null C context, @NotNull BiFunction<ResultSet, C, T> producer) {
     List<T>           result    = new ArrayList<>(100);
     PreparedStatement query     = null;
     ResultSet         resultset = null;
@@ -506,19 +505,20 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   A list with all records.
    */
-  public <T> @NotNull List<T> select(@NotBlank  String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
+  public <T> @NotNull List<T> select(@NotBlank String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
     return select(jdbcQuery, null, ($1, $2) -> producer.apply($1));
   }
   
   /**
    * List all records from a certain table.
    * 
-   * @param table      The name of the table. Neither <code>null</code> nor empty.
-   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome. Not <code>null</code>.
+   * @param table      The name of the table.
+   * @param context     Some contextual object that shall be passed to the producer.
+   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome.
    * 
-   * @return   A list with all records. Not <code>null</code>.
+   * @return   A list with all records.
    */
-  public <T, C> @NotNull List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+  public <T, C> @NotNull List<T> selectAll(@NotBlank String table, @Null C context, @NotNull BiFunction<ResultSet, C, T> producer) {
     var name = canonicalTableName(table);
     return select(String.format(database.getSelectAllQuery(), name), context, producer);
   }
@@ -526,12 +526,12 @@ public class DbConnection implements AutoCloseable {
   /**
    * List all records from a certain table.
    * 
-   * @param table      The name of the table. Neither <code>null</code> nor empty.
-   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome. Not <code>null</code>.
+   * @param table      The name of the table.
+   * @param producer   The {@link Function} which creates a usable record from the jdbc outcome.
    * 
-   * @return   A list with all records. Not <code>null</code>.
+   * @return   A list with all records.
    */
-  public <T> @NotNull List<T> selectAll(@NotNull String table, @NotNull Function<ResultSet, T> producer) {
+  public <T> @NotNull List<T> selectAll(@NotBlank String table, @NotNull Function<ResultSet, T> producer) {
     var name = canonicalTableName(table);
     return select(String.format(database.getSelectAllQuery(), name), producer);
   }
@@ -539,11 +539,11 @@ public class DbConnection implements AutoCloseable {
   /**
    * Counts all records within a table.
    * 
-   * @param table   The name of the table. Neither <code>null</code> nor empty.
+   * @param table   The name of the table.
    * 
    * @return   The number of available records. A negative number indicates an error.
    */
-  public int count(@NotNull String table) {
+  public int count(@NotBlank String table) {
     var result = -1;
     var name   = canonicalTableName(table);
     if (name != null) {
@@ -568,10 +568,10 @@ public class DbConnection implements AutoCloseable {
 //  /**
 //   * Derives the current row data from the jdbc source and applies it to the {@link CsvTableModel} instance.
 //   * 
-//   * @param source   The jdbc source. Not <code>null</code>.
+//   * @param source   The jdbc source.
 //   * @param dest     The {@link CsvTableModel} instance to be filled.
 //   */
-//  private void rowLoader(ResultSet source, CsvTableModel dest) {
+//  private void rowLoader(@NotNull ResultSet source, CsvTableModel dest) {
 //    try {
 //      var rowdata = new Object[dest.getColumnCount()];
 //      for(int i = 0, j = 1; i < rowdata.length; i++, j++) {

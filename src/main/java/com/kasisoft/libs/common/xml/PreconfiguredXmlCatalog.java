@@ -57,8 +57,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
   /**
    * Initialises this catalog.
    * 
-   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
-   *                  implementation can be found this could cause a FailureException.
+   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too.
    */
   public PreconfiguredXmlCatalog(boolean lsaware) {
     super(lsaware);
@@ -70,11 +69,8 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
   /**
    * Registers a single resource with this catalog.
    *  
-   * @param publicid   A public id. Maybe <code>null</code>. 
-   * @param resource   The resource associated with the id or a system id itself. Neither <code>null</code> nor empty.
-   * 
-   * @throws FailureException   If <param>failifmissing</param> was set to <code>true</code> and we couldn't find the
-   *                            desired resource.
+   * @param publicid   A public id.
+   * @param resource   The resource associated with the id or a system id itself.
    */
   protected void registerResource(@NotNull String publicid, @NotNull String resource) {
     var url = getClass().getClassLoader().getResource(resource);

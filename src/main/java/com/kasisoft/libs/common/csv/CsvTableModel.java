@@ -296,18 +296,18 @@ public class CsvTableModel implements TableModel {
   /**
    * Dispatches each event to the registered listeners while replacing the original event source.
    * 
-   * @param evt   The event that shall be dispatched. Not <code>null</code>.
+   * @param evt   The event that shall be dispatched.
    */
-  private void tableModelEventDelegator(TableModelEvent evt) {
+  private void tableModelEventDelegator(@NotNull TableModelEvent evt) {
     fireTableChanged(new TableModelEvent(this, evt.getFirstRow(), evt.getLastRow(), evt.getColumn(), evt.getType()));
   }
   
   /**
    * Fires the supplied event to each currently registered listener.
    * 
-   * @param evt   The event that is supposed to be dispatched. Not <code>null</code>.
+   * @param evt   The event that is supposed to be dispatched.
    */
-  private void fireTableChanged(TableModelEvent evt) {
+  private void fireTableChanged(@NotNull TableModelEvent evt) {
     var objects = listeners.getListenerList();
     for (int i = objects.length - 2, j = objects.length - 1; i >= 0; i -= 2, j -= 2) {
       if (objects[i] == TableModelListener.class) {
@@ -319,11 +319,11 @@ public class CsvTableModel implements TableModel {
   /**
    * Returns a validated copy of csv options.
    * 
-   * @param options   The options that do provide the default setup. Not <code>null</code>.
+   * @param options   The options that do provide the default setup.
    * 
    * @return   A validated copy of csv options.
    */
-  private CsvOptions validateOptions(CsvOptions options) {
+  private CsvOptions validateOptions(@NotNull CsvOptions options) {
     var result = options.deepCopy();
     for (var i = 0; i < result.getColumns().size(); i++) {
       var csvColumn = result.getColumns().get(i);
@@ -340,11 +340,11 @@ public class CsvTableModel implements TableModel {
   /**
    * Reads the csv data from the supplied {@link InputStream} source.
    * 
-   * @param source   The source providing the csv data. Not <code>null</code>.
+   * @param source   The source providing the csv data
    * 
-   * @return   A normalized table of csv data. Not <code>null</code>.
+   * @return   A normalized table of csv data.
    */
-  private List<List<String>> loadCellData(@NotNull InputStream source) {
+  private @NotNull List<List<String>> loadCellData(@NotNull InputStream source) {
     if (options.isSimpleFormat()) {
       return loadCellDataSimple(source);
     } else {
@@ -433,11 +433,11 @@ public class CsvTableModel implements TableModel {
   /**
    * Reads the content of the supplied {@link InputStream} instance into a {@link StringBuilder}.
    * 
-   * @param source   The {@link InputStream} instance. Not <code>null</code>.
+   * @param source   The {@link InputStream} instance.
    * 
-   * @return   The {@link StringBuilder} providing the text. Not <code>null</code>.
+   * @return   The {@link StringBuilder} providing the text.
    */
-  private StringFBuilder readContent(@NotNull InputStream source) {
+  private @NotNull StringFBuilder readContent(@NotNull InputStream source) {
     var writer = new CharArrayWriter();
     IoFunctions.forReaderDo(source, options.getEncoding(), $ -> IoFunctions.copy($, writer));
     return new StringFBuilder(writer.toString());
@@ -446,11 +446,11 @@ public class CsvTableModel implements TableModel {
   /**
    * Converts the supplied text into sequence of tokens.
    * 
-   * @param text   The full text. Not <code>null</code>.
+   * @param text   The full text.
    * 
-   * @return   A list of tokens. Not <code>null</code>.
+   * @return   A list of tokens.
    */
-  private List<String> tokenize(@NotNull StringFBuilder text) {
+  private @NotNull List<String> tokenize(@NotNull StringFBuilder text) {
     var result = new ArrayList<String>(Math.min(5, text.length() / 5));
     while (text.length() > 0) {
       consume (result, text); 
@@ -523,8 +523,8 @@ public class CsvTableModel implements TableModel {
   /**
    * Consumes the next token.
    * 
-   * @param receiver   The receiver for the generated tokens. Not <code>null</code>.
-   * @param content    The current text to be processed. Not <code>null</code>.
+   * @param receiver   The receiver for the generated tokens.
+   * @param content    The current text to be processed.
    */
   private void consume(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
     var first = content.charAt(0);
@@ -544,10 +544,10 @@ public class CsvTableModel implements TableModel {
   /**
    * Consumes the next token which is a sequence of quoted text.
    * 
-   * @param receiver     The receiver for the generated tokens. Not <code>null</code>.
-   * @param content      The current text to be processed. Not <code>null</code>.
+   * @param receiver     The receiver for the generated tokens.
+   * @param content      The current text to be processed.
    * @param quote        The currently used quote. 
-   * @param quoteAsStr   Same as quote but as a String. Not <code>null</code>.
+   * @param quoteAsStr   Same as quote but as a String.
    */
   private void consumeQuoted(@NotNull List<String> receiver, @NotNull StringFBuilder content, char quote, @NotNull String quoteAsStr) {
     var pos  = 1;
@@ -579,8 +579,8 @@ public class CsvTableModel implements TableModel {
   /**
    * Consumes the next token which is a simple unquote sequence.
    * 
-   * @param receiver   The receiver for the generated tokens. Not <code>null</code>.
-   * @param content    The current text to be processed. Not <code>null</code>.
+   * @param receiver   The receiver for the generated tokens.
+   * @param content    The current text to be processed.
    */
   private void consumeNormal(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
     var idx = content.indexOf(options.getDelimiter(), LF, CR, DQ, SQ);
@@ -607,8 +607,8 @@ public class CsvTableModel implements TableModel {
   /**
    * Consumes the cell separator.
    * 
-   * @param receiver   The receiver for the generated tokens. Not <code>null</code>.
-   * @param content    The current text to be processed. Not <code>null</code>.
+   * @param receiver   The receiver for the generated tokens.
+   * @param content    The current text to be processed.
    */
   private void consumeCellSeparator(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
     receiver.add(content.substring(0, 1));
@@ -618,8 +618,8 @@ public class CsvTableModel implements TableModel {
   /**
    * Consumes a seqeucne of cr and lf characters. These are represented by a lf only.
    * 
-   * @param receiver   The receiver for the generated tokens. Not <code>null</code>.
-   * @param content    The current text to be processed. Not <code>null</code>.
+   * @param receiver   The receiver for the generated tokens.
+   * @param content    The current text to be processed.
    */
   private void consumeCRLF(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
     var idx = 1;
@@ -638,11 +638,11 @@ public class CsvTableModel implements TableModel {
   /**
    * This function generates a simple token which allows to deal with the data more easily.
    *  
-   * @param data   The current token data. Maybe <code>null</code>.
+   * @param data   The current token data.
    * 
-   * @return   The tokenized content. Not <code>null</code>.
+   * @return   The tokenized content.
    */
-  private Content toContent(@Null String data) {
+  private @NotNull Content toContent(@Null String data) {
     var type = ContentType.CONTENT;
     if ((data != null) && (data.length() < 2)) {
       if (data.charAt(0) == options.getDelimiter()) {
@@ -665,11 +665,11 @@ public class CsvTableModel implements TableModel {
    *   <li>if cr's are discouraged they will be replaced by lf's</li>
    * </ul>
    *  
-   * @param content   The content that will be normalized. Not <code>null</code>.
+   * @param content   The content that will be normalized.
    * 
-   * @return   The supplied {@link Content} instance. Not <code>null</code>.
+   * @return   The supplied {@link Content} instance.
    */
-  private Content normalize(@NotNull Content content) {
+  private @NotNull Content normalize(@NotNull Content content) {
     var result = content;
     if ((result.type == ContentType.CONTENT) && (result.data != null)) {
       result.data = StringFunctions.trim(result.data, "\t ", null);
@@ -697,9 +697,9 @@ public class CsvTableModel implements TableModel {
   /**
    * Splits the sequence of content instances into separate lines while removing the line delimiter tokens.
    *  
-   * @param content   The full sequence of tokens. Not <code>null</code>.
+   * @param content   The full sequence of tokens.
    * 
-   * @return   A table structured sequence of tokens. Not <code>null</code>.
+   * @return   A table structured sequence of tokens.
    */
   private @NotNull List<List<Content>> partition(@NotNull List<Content> content) {
     var             result      = new ArrayList<List<Content>>();
@@ -735,7 +735,7 @@ public class CsvTableModel implements TableModel {
    *   <li>If configured some rows are smaller than others they can be filled up with empty columns</li>
    * </ul>
    * 
-   * @param lines   The current table data. Not <code>null</code>.
+   * @param lines   The current table data.
    */
   private void artificialContent(@NotNull List<List<Content>> lines) {
     
@@ -765,7 +765,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Inserts an empty cell between two succeeding separators.
    * 
-   * @param line   The line that will be processed. Not <code>null</code>.
+   * @param line   The line that will be processed.
    */
   private void extendDuplicateDelimiters(@NotNull List<Content> line) {
     for (int i = line.size() - 1, j = line.size() - 2; j >= 0; i--, j--) {
@@ -780,7 +780,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Extends the supplied row with empty columns, so the number of cells per line is consistent.
    * 
-   * @param line   The line that will be extended. Not <code>null</code>.
+   * @param line   The line that will be extended.
    * @param max    The maximum number of columns.
    */
   private void fillMissingColumns(@NotNull List<Content> line, int max) {
@@ -799,11 +799,11 @@ public class CsvTableModel implements TableModel {
    * This requires to remove all separators as they're no longer needed. Afterwards only the text of 
    * each token will be reused.
    * 
-   * @param lines   The tabular structured tokens. Not <code>null</code>.
+   * @param lines   The tabular structured tokens.
    * 
-   * @return   The textual tabular structure. Not <code>null</code>.
+   * @return   The textual tabular structure.
    */
-  private List<List<String>> cleanup(@NotNull List<List<Content>> lines) {
+  private @NotNull List<List<String>> cleanup(@NotNull List<List<Content>> lines) {
     lines.parallelStream().forEach(this::removeSeparators);
     return lines.stream().map(this::unwrap).collect(Collectors.toList());
   }
@@ -811,18 +811,18 @@ public class CsvTableModel implements TableModel {
   /**
    * Unwraps the supplied line while just taking the textual data.
    *  
-   * @param line   The line providing the tokens. Not <code>null</code>.
+   * @param line   The line providing the tokens.
    * 
-   * @return   The line providing the corresponding textual cell values. Not <code>null</code>.
+   * @return   The line providing the corresponding textual cell values.
    */
-  private List<String> unwrap(@NotNull List<Content> line) {
+  private @NotNull List<String> unwrap(@NotNull List<Content> line) {
     return line.stream().map($ -> $.data).map(StringFunctions::cleanup).collect(Collectors.toList());
   }
     
   /**
    * Removes all cell separators from the supplied line.
    * 
-   * @param lines   The line that get's freed from the cell separators. Not <code>null</code>.
+   * @param lines   The line that get's freed from the cell separators.
    */
   private void removeSeparators(@NotNull List<Content> lines) {
     for (var i = lines.size() - 1; i >= 0; i--) {
@@ -835,7 +835,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Loads the csv data from the supplied location into this model.
    * 
-   * @param source   The source for the csv data. Not <code>null</code>.
+   * @param source   The source for the csv data.
    */
   public void load(@NotNull Path source) {
     IoFunctions.forInputStreamDo(source, this::load);
@@ -844,7 +844,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Loads the csv data from the supplied {@link InputStream} into this model. 
    * 
-   * @param source       The {@link InputStream} providing the csv data. Not <code>null</code>.
+   * @param source       The {@link InputStream} providing the csv data.
    */
   public synchronized void load(@NotNull InputStream source) {
     
@@ -876,7 +876,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @note [28-Sep-2016:KASI]   Doesn't support encoding yet.
    * 
-   * @param dest   The destination for the csv data. Not <code>null</code>.
+   * @param dest   The destination for the csv data.
    */
   public synchronized void save(@NotNull Path dest) {
     IoFunctions.forOutputStreamDo(dest, this::save);
@@ -887,7 +887,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @note [28-Sep-2016:KASI]   Doesn't support encoding yet.
    * 
-   * @param dest   The destination for the csv data. Not <code>null</code>.
+   * @param dest   The destination for the csv data.
    */
   public synchronized void save(@NotNull Path dest, @NotNull Function<String, String> overrideName) {
     IoFunctions.forOutputStreamDo(dest, $ -> save($, overrideName));
@@ -896,7 +896,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Saves the csv data to the supplied {@link OutputStream}. 
    * 
-   * @param dest   The {@link OutputStream} receceiving the csv data. Not <code>null</code>.
+   * @param dest   The {@link OutputStream} receceiving the csv data.
    */
   public synchronized void save(@NotNull OutputStream dest) {
     save(dest, null);
@@ -905,7 +905,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Saves the csv data to the supplied {@link OutputStream}. 
    * 
-   * @param dest   The {@link OutputStream} receceiving the csv data. Not <code>null</code>.
+   * @param dest   The {@link OutputStream} receceiving the csv data.
    */
   public synchronized void save(@NotNull OutputStream dest, @NotNull Function<String, String> overrideName) {
     try (var writer = new PrintWriter(new OutputStreamWriter(dest, "UTF-8" ))) {
@@ -955,7 +955,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Determines the number of columns for the supplied csv data.
    * 
-   * @param lines   The current csv data. Not <code>null</code>.
+   * @param lines   The current csv data.
    * 
    * @return   The number of columns.
    */
@@ -970,34 +970,34 @@ public class CsvTableModel implements TableModel {
   /**
    * Returns <code>true</code> if each line provides the same amount of columns.
    * 
-   * @param lines     The current lines representing the csv data. Not <code>null</code>.
+   * @param lines     The current lines representing the csv data.
    * @param columns   The expected number of columns.
    * 
    * @return   <code>true</code> <=> Each line provides the same amount of columns.
    */
-  private boolean equalLengthForEachLine( List<List<String>> lines, int columns ) {
-    return lines.parallelStream().map( $ -> $.size() == columns ).reduce( true, Boolean::logicalAnd );
+  private boolean equalLengthForEachLine(@NotNull List<List<String>> lines, int columns ) {
+    return lines.parallelStream().map($ -> $.size() == columns).reduce( true, Boolean::logicalAnd);
   }
 
   /**
    * Determines the actual column titles.
    * 
    * @param columns   The number of columns.
-   * @param content   The current csv data. Not <code>null</code>.
+   * @param content   The current csv data.
    * 
-   * @return   A list of titles per column. Not <code>null</code>.
+   * @return   A list of titles per column.
    */
-  private List<String> getTitles(int columns, List<List<String>> content) {
+  private @NotNull List<String> getTitles(int columns, @NotNull List<List<String>> content) {
     
-    var result = new ArrayList<String>( columns );
+    var result = new ArrayList<String>(columns);
     
-    if ((! content.isEmpty()) && options.isTitleRow()) {
+    if ((!content.isEmpty()) && options.isTitleRow()) {
       // we're removing the first line by intent as it provides the titles
       result.addAll(content.remove(0));
     }
     
     var csvColumns = options.getColumns();
-    for (int i = 0; i < columns; i++) {
+    for (var i = 0; i < columns; i++) {
       var current = i < result.size() ? result.get(i) : null;
       if ((current == null) && (i < csvColumns.size()) && (csvColumns.get(i) != null)) {
         // there was no title so use the title from the column spec if there's one
@@ -1023,10 +1023,10 @@ public class CsvTableModel implements TableModel {
    * This function grants a column declaration per column.
    * 
    * @param columns   The number of expected columns.
-   * @param lines     The current tabular csv data. Not <code>null</code>.
-   * @param titles    A list of configured/generated titles per column. Not <code>null</code>.
+   * @param lines     The current tabular csv data.
+   * @param titles    A list of configured/generated titles per column.
    */
-  private void consolidateColumns(int columns, List<List<String>> lines, List<String> titles) {
+  private void consolidateColumns(int columns, @NotNull List<List<String>> lines, @NotNull List<String> titles) {
     
     var columnsByName = new HashMap<String, CsvColumn>();
     var allTitles     = new ArrayList<String>( titles );
@@ -1056,10 +1056,10 @@ public class CsvTableModel implements TableModel {
   /**
    * This function makes an attempt to guess a column specification per column.
    * 
-   * @param lines    The tabular csv data. Not <code>null</code>.
-   * @param column   The column which currently has no column specification. Not <code>null</code>.
+   * @param lines    The tabular csv data.
+   * @param column   The column which currently has no column specification.
    *  
-   * @return   A valid column specification. Not <code>null</code>.
+   * @return   A valid column specification.
    */
   private @NotNull CsvColumn<?> guessColumn(@NotNull List<List<String>> lines, int column) {
     
@@ -1111,16 +1111,16 @@ public class CsvTableModel implements TableModel {
   /**
    * This function generates a column specification if possible.
    * 
-   * @param values      All current values for this column. Not <code>null</code>.
+   * @param values      All current values for this column.
    * @param nullable    <code>true</code> <=> This column supports null values.
-   * @param test        A test which allows to check whether a value matches a certain type or not. Not <code>null</code>.
-   * @param adapter     An adapter to use in order to convert the value into a destination type. Not <code>null</code>.
-   * @param type        The destination type itself. Not <code>null</code>.
-   * @param defValue    A default value. Not <code>null</code>.
+   * @param test        A test which allows to check whether a value matches a certain type or not.
+   * @param adapter     An adapter to use in order to convert the value into a destination type.
+   * @param type        The destination type itself.
+   * @param defValue    A default value.
    * 
-   * @return   A column specification. Maybe <code>null</code> if some values don't support to be converted properly.
+   * @return   A column specification.
    */
-  private <T> @NotNull CsvColumn<T> process(@NotNull  Set<String> values, boolean nullable, @NotNull KPredicate<String> test, @NotNull Function<String, T> adapter, @NotNull Class<T> type, @NotNull T defValue ) {
+  private <T> @Null CsvColumn<T> process(@NotNull Set<String> values, boolean nullable, @NotNull KPredicate<String> test, @NotNull Function<String, T> adapter, @NotNull Class<T> type, @Null T defValue) {
     var testP = test.protect();
     var is    = values.parallelStream().map($ -> testP.test($)).reduce(true, Boolean::logicalAnd);
     if (is) {
@@ -1137,7 +1137,7 @@ public class CsvTableModel implements TableModel {
   /**
    * Loads a single line into the {@link TableModel} instance.
    * 
-   * @param line   A single line. Not <code>null</code>.
+   * @param line   A single line
    */
   private void loadLine(@NotNull List<String> line) {
     var data = new Object[line.size()];
@@ -1156,9 +1156,9 @@ public class CsvTableModel implements TableModel {
   /**
    * Adds the supplied row data to this model.
    * 
-   * @param rowData   The row data that shall be added. Maybe <code>null</code>.
+   * @param rowData   The row data that shall be added.
    */
-  public void addRow(Object[] rowData) {
+  public void addRow(@Null Object[] rowData) {
     if (rowData != null) {
       try {
         for (var i = 0; i < rowData.length; i++) {
@@ -1178,13 +1178,13 @@ public class CsvTableModel implements TableModel {
   /**
    * A safe deserialization of a certain object representation.
    * 
-   * @param adapter   The function that is used to convert the text into a dedicated object. Not <code>null</code>.
+   * @param adapter   The function that is used to convert the text into a dedicated object.
    * @param idx       The index of the column value which shall be deserialized. 
-   * @param value     The textual value. Maybe <code>null</code>.
+   * @param value     The textual value.
    * 
-   * @return   The deserialized object or <code>null</code>.
+   * @return   The deserialized object.
    */
-  private Object deserialize(@NotNull Function<String, ?> adapter, int idx, @Null String value) {
+  private @Null Object deserialize(@NotNull Function<String, ?> adapter, int idx, @Null String value) {
     try {
       return adapter.apply(value);
     } catch (Exception ex) {

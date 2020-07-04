@@ -3,6 +3,7 @@ package com.kasisoft.libs.common.constants;
 import com.kasisoft.libs.common.annotation.Specification;
 import com.kasisoft.libs.common.annotation.Specifications;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -83,17 +84,13 @@ public enum MimeType implements Predicate<String> {
     }
   }
   
-  /** Neither <code>null</code> nor empty. */
   String         mimeType;
-  
-  /** Not <code>null</code>. */
   List<String>   suffices;
-  
   String         primarySuffix;
   String         primarySuffixWithDot;
   
   
-  MimeType(String type, String ... suffixlist) {
+  MimeType(@NotBlank String type, @NotNull String ... suffixlist) {
     mimeType  = type;
     suffices  = Collections.unmodifiableList(Arrays.asList(suffixlist));
     LocalData.valuebymimetype.put(mimeType, this);
@@ -116,7 +113,7 @@ public enum MimeType implements Predicate<String> {
   /**
    * Returns <code>true</Code> if the supplied suffix is support by this mime type.
    * 
-   * @param suffix   The suffix that has to be tested. Neither <code>null</code> nor empty.
+   * @param suffix   The suffix that has to be tested.
    * 
    * @return   <code>true</code> <=> The supplied suffix is supported by this mime type.
    */
@@ -127,9 +124,9 @@ public enum MimeType implements Predicate<String> {
   /**
    * Returns the MimeType constant that is associated with the supplied type.
    * 
-   * @param type   The current mime type which has to be identified. Neither <code>null</code> nor empty.
+   * @param type   The current mime type which has to be identified.
    * 
-   * @return   The MimeType if it could be found or <code>null</code>.
+   * @return   The MimeType if it could be found or empty.
    */
   public static @NotNull Optional<MimeType> findByMimeType(@NotNull String type) {
     var idx = type.indexOf(';');

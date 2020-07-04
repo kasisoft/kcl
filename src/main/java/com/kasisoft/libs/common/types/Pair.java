@@ -28,8 +28,8 @@ public class Pair<T1, T2> implements Map.Entry<T1, T2>, HasFirstAndLast<T1, T2> 
   /**
    * Changes the current values.
    * 
-   * @param val1   The first value. Maybe <code>null</code>.
-   * @param val2   The second value. Maybe <code>null</code>.
+   * @param val1   The first value.
+   * @param val2   The second value.
    */
   public void setValues(@Null T1 val1, @Null T2 val2) {
     value1 = val1;

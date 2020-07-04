@@ -44,7 +44,7 @@ public class XmlErrorHandler implements ErrorHandler {
   /**
    * Returns the faults which have been collected.
    * 
-   * @return   The faults which have been collected. Not <code>null</code>.
+   * @return   The faults which have been collected.
    */
   public @NotNull XmlFault[] getFaults() {
     return faults.toArray(new XmlFault[faults.size()]);
@@ -53,7 +53,7 @@ public class XmlErrorHandler implements ErrorHandler {
   /**
    * Returns a full text representation of this fault used for presentations.
    * 
-   * @return   A full text representation of this fault used for presentations. Neither <code>null</code> nor empty 
+   * @return   A full text representation of this fault used for presentations.
    *           if {@link #hasErrors()}.
    */
   public @NotNull String getFaultMessage() {
@@ -85,10 +85,10 @@ public class XmlErrorHandler implements ErrorHandler {
   /**
    * This function can be overridden in order to refined the generated error message.
    * 
-   * @param type   The error type. Not <code>null</code>.
-   * @param ex     The cause of the failure. Not <code>null</code>.
+   * @param type   The error type.
+   * @param ex     The cause of the failure.
    * 
-   * @return   A freshly created error instance. Not <code>null</code>.
+   * @return   A freshly created error instance.
    */
   protected @NotNull XmlFault newFault(@NotNull XmlFault.FaultType type, @NotNull SAXParseException ex) {
     return new XmlFault(type, ex);

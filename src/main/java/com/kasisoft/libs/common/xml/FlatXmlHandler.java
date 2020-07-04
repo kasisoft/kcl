@@ -38,10 +38,8 @@ public class FlatXmlHandler extends DefaultHandler {
   StringBuilder                   buffer;
   Encoding                        encoding;
   
-  /** Not <code>null</code>. */
-          @Setter OutputStream    target;
+  @Setter         OutputStream    target;
 
-  /** Not <code>null</code>. */
   @Getter         String          newline;
   
   @Getter @Setter boolean         trimValues;
@@ -81,11 +79,11 @@ public class FlatXmlHandler extends DefaultHandler {
   /**
    * Writes the supplied content to the OutputStream.
    * 
-   * @param value    The value stored by the key. Not <code>null</code>.
+   * @param value    The value stored by the key.
    * 
    * @throws SAXException   Writing to the target failed for some reason.
    */
-  private void write(String value) throws SAXException {
+  private void write(@NotNull String value) throws SAXException {
     if (trimValues) {
       value = value.trim();
     }
@@ -100,11 +98,11 @@ public class FlatXmlHandler extends DefaultHandler {
   /**
    * Creates a simple one line representation of the supplied input.
    * 
-   * @param input   The input which has to be broken on one line. Not <code>null</code>.
+   * @param input   The input which has to be broken on one line.
    * 
    * @return   The input which can be placed on one line.
    */
-  private String escape(String input) {
+  private String escape(@NotNull String input) {
     if (escaping) {
       input = input.replaceAll("\n", "&#10;");
       input = input.replaceAll("\r", "&#13;");

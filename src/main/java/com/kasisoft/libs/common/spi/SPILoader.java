@@ -42,11 +42,9 @@ public class SPILoader {
   /**
    * Small helper which is used to load all SPI services currently available.
    * 
-   * @param servicetype   The desired service type. Not <code>null</code>
+   * @param servicetype   The desired service type.
    * 
-   * @return   A list with all SPI services currently available. Not <code>null</code>.
-   * 
-   * @throws FailureException in case one SPI could not be configured properly.
+   * @return   A list with all SPI services currently available.
    */
   @SuppressWarnings("cast")
   public <T> List<T> loadServices(@NotNull Class<T> servicetype) {

@@ -52,7 +52,7 @@ public final class CsvOptions {
   /**
    * Creates a deep copy of this instance.
    * 
-   * @return   A deep copy of this instance. Not <code>null</code>.
+   * @return   A deep copy of this instance.
    */
   public @NotNull CsvOptions deepCopy() {
     var result                  = new CsvOptions();

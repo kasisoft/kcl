@@ -95,7 +95,7 @@ public class MiscFunctions {
    * 
    * @param elements   The elements that shall be collected within a set.
    * 
-   * @return   The set created from the supplied elements. Not <code>null</code>.
+   * @return   The set created from the supplied elements.
    */
   public static <T> @NotNull Set<@NotNull T> toSet(@Null T ... elements) {
     var result = new HashSet<T>();
@@ -127,7 +127,7 @@ public class MiscFunctions {
   /**
    * Returns <code>true</code> if the supplied date is a leap year.
    * 
-   * @param date   The date which has to be tested. Not <code>null</code>.
+   * @param date   The date which has to be tested.
    * 
    * @return   <code>true</code> <=> The supplied date is a leap year.
    */
@@ -171,9 +171,9 @@ public class MiscFunctions {
   /**
    * Creates a list of pairs from the supplied entries.
    * 
-   * @param entries   The entries that will be returned as list of pairs. Maybe <code>null</code>.
+   * @param entries   The entries that will be returned as list of pairs.
    * 
-   * @return   A list of pairs. Not <code>null</code>.
+   * @return   A list of pairs.
    */
   public static <R> @NotNull List<Pair<R, R>> toPairs(@Null R ... entries) {
     var result = Collections.<Pair<R, R>>emptyList();
@@ -241,7 +241,7 @@ public class MiscFunctions {
    * 
    * @param value   The value which has to be parsed.
    * 
-   * @return   A boolean value if recognized or <code>null</code> if the argument is null as well. 
+   * @return   A boolean value if recognized or null if the argument is null as well. 
    */
   public static @Null Boolean parseBoolean(@Null String value) {
     return parse(value, PrimitiveFunctions::parseBoolean);
@@ -252,7 +252,7 @@ public class MiscFunctions {
    * 
    * @param value   The value which has to be parsed.
    * 
-   * @return   A byte value if recognized or <code>null</code> if the argument is null as well. 
+   * @return   A byte value if recognized or null if the argument is null as well. 
    */
   public static @Null Byte parseByte(@Null String value) {
     return parse(value, Byte::parseByte);
@@ -263,7 +263,7 @@ public class MiscFunctions {
    * 
    * @param value   The value which has to be parsed.
    * 
-   * @return   A short value if recognized or <code>null</code> if the argument is null as well. 
+   * @return   A short value if recognized or null if the argument is null as well. 
    */
   public static @Null Short parseShort(@Null String value) {
     return parse(value, Short::parseShort);
@@ -274,7 +274,7 @@ public class MiscFunctions {
    * 
    * @param value   The value which has to be parsed.
    * 
-   * @return   An int value if recognized or <code>null</code> if the argument is null as well. 
+   * @return   An int value if recognized or null if the argument is null as well. 
    */
   public static @Null Integer parseInt(@Null String value) {
     return parse(value, Integer::parseInt);
@@ -285,7 +285,7 @@ public class MiscFunctions {
    * 
    * @param value   The value which has to be parsed.
    * 
-   * @return   A long value if recognized or <code>null</code> if the argument is null as well. 
+   * @return   A long value if recognized or null if the argument is null as well. 
    */
   public static @Null Long parseLong(@Null String value) {
     return parse(value, Long::parseLong);
@@ -296,7 +296,7 @@ public class MiscFunctions {
    * 
    * @param value   The value which has to be parsed.
    * 
-   * @return   A float value if recognized or <code>null</code> if the argument is null as well. 
+   * @return   A float value if recognized or null if the argument is null as well. 
    */
   public static @Null Float parseFloat(@Null String value) {
     return parse(value, Float::parseFloat);
@@ -305,23 +305,23 @@ public class MiscFunctions {
   /**
    * Interpretes a value as a double. Causes an exception if the value isn't recognized.
    * 
-   * @param value   The value which has to be parsed. Maybe <code>null</code>.
+   * @param value   The value which has to be parsed.
    * 
-   * @return   A double value if recognized or <code>null</code> if the argument is null as well. 
+   * @return   A double value if recognized or null if the argument is null as well. 
    */
   public static @Null Double parseDouble(@Null String value) {
     return parse( value, Double::parseDouble );
   }
 
   /**
-   * Parses a number and returns <code>null</code> if the value is invalid.
+   * Parses a number and returns null if the value is invalid.
    * 
-   * @param value   The value shall be parsed. Not <code>null</code>.
-   * @param parse   The function used to parse the value. Not <code>null</code>.
+   * @param value   The value shall be parsed.
+   * @param parse   The function used to parse the value.
    * 
-   * @return   The parsed value or <code>null</code>.
+   * @return   The parsed value or null.
    */
-  private static <T> T parse(@Null String value, Function<String, T> parse) {
+  private static <T> @Null T parse(@Null String value, @NotNull Function<String, T> parse) {
     if (value != null) {
       try {
         return parse.apply(value);
@@ -336,11 +336,11 @@ public class MiscFunctions {
    * Creates a list of <param>count</param> elements while repeating the supplied one.
    * 
    * @param count     The number of elements that shall be created.
-   * @param element   The element that shall be repeated. Maybe <code>null</code>.
+   * @param element   The element that shall be repeated.
    * 
-   * @return   A list with the supplied amount of elements. Not <code>null</code>.
+   * @return   A list with the supplied amount of elements.
    */
-  public static <T> List<T> repeat(int count, T element) {
+  public static <T> @NotNull List<T> repeat(int count, @Null T element) {
     var result = new ArrayList<T>( count );
     for (var i = 0; i < count; i++) {
       result.add(element);

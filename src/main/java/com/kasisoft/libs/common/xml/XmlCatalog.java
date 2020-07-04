@@ -33,13 +33,11 @@ import java.net.URL;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NonNull;
 
 /**
  * Basic data structure used to store entity ids together with the urls.
@@ -61,8 +59,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   /**
    * Initialises this catalog.
    * 
-   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too. If no appropriate DOM 
-   *                  implementation can be found this could cause a FailureException.
+   * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too.
    */
   public XmlCatalog(boolean lsaware) {
     
@@ -92,24 +89,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   }
   
   /**
-   * Just a helper which is supposed to be overridden if necessary. This function opens an InputStream to the supplied 
-   * URL.
-   * 
-   * @param url   The URL which shall be accessed. Not <code>null</code>.
-   * 
-   * @return   The InputStream allowing to access the supplied URL. Not <code>null</code>.
-   * 
-   * @throws IOException   Accessing the URL failed for some reason.
-   */
-  protected InputStream openStream( @NonNull URL url ) throws IOException {
-    return url.openStream();
-  }
-  
-  /**
    * Registers the supplied resource with a specified id.
    * 
-   * @param id    The ID used for the resource. Neither <code>null</code> nor empty.
-   * @param url   The resource that will be identified through the id. Not <code>null</code>.
+   * @param id    The ID used for the resource.
+   * @param url   The resource that will be identified through the id.
    */
   public synchronized void registerPublicID(@NotNull String id, @NotNull URL url) {
     if (!failures.contains(url)) {
@@ -130,7 +113,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   /**
    * Registers a system resource with this catalog.
    * 
-   * @param systemid   The resource which has to be registered. Not <code>null</code>.
+   * @param systemid   The resource which has to be registered.
    */
   public synchronized void registerSystemID(@NotNull URL systemid) {
     if (!failures.contains(systemid)) {
@@ -194,7 +177,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * @param publicid   The public id used for the resolving.
    * @param systemid   The system id used for the resolving.
    * 
-   * @return   The loaded data or <code>null</code>.
+   * @return   The loaded data or null.
    */
   private @Null byte[] loadData(@Null String publicid, @Null String systemid) {
     byte[] result = null;
@@ -256,7 +239,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @param systemid   The system id used to represent the resource.
    * 
-   * @return   The url or <code>null</code> in case the system id could not be translated.
+   * @return   The url or null in case the system id could not be translated.
    */
   private @Null URL toURL(@Null String systemid) {
     if (systemid != null) {

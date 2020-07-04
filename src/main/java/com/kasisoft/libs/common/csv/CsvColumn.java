@@ -64,7 +64,7 @@ public final class CsvColumn<T> {
   /**
    * Returns the current adapter associated with this column.
    * 
-   * @return   The current adapter associated with this column. Maybe <code>null</code>.
+   * @return   The current adapter associated with this column.
    */
   public @Null Function<String, T> getAdapter() {
     var result = adapter;
@@ -77,7 +77,7 @@ public final class CsvColumn<T> {
   /**
    * Creates a copy of this instance.
    * 
-   * @return   A copy of this instance. Not <code>null</code>.
+   * @return   A copy of this instance.
    */
   public @NotNull CsvColumn<T> copy() {
     var result      = new CsvColumn<T>();
@@ -92,9 +92,9 @@ public final class CsvColumn<T> {
   /**
    * Default adapter for Integer.
    * 
-   * @param value   The value to be converted. Maybe <code>null</code>.
+   * @param value   The value to be converted.
    * 
-   * @return   The converted value. Maybe <code>null</code>.
+   * @return   The converted value.
    */
   private static @Null Integer toIntegerValue(@Null String value) {
     return Integer.parseInt(value);
@@ -103,9 +103,9 @@ public final class CsvColumn<T> {
   /**
    * Default adapter for String.
    * 
-   * @param value   The value to be converted. Maybe <code>null</code>.
+   * @param value   The value to be converted.
    * 
-   * @return   The converted value. Maybe <code>null</code>.
+   * @return   The converted value.
    */
   private static @Null String toStringValue(@Null String value) {
     return value;
@@ -114,9 +114,9 @@ public final class CsvColumn<T> {
   /**
    * Default adapter for Boolean.
    * 
-   * @param value   The value to be converted. Maybe <code>null</code>.
+   * @param value   The value to be converted.
    * 
-   * @return   The converted value. Maybe <code>null</code>.
+   * @return   The converted value.
    */
   private static @Null Boolean toBooleanValue(@Null String value) {
     return Boolean.parseBoolean(value);
@@ -125,9 +125,9 @@ public final class CsvColumn<T> {
   /**
    * Default adapter for byte[].
    * 
-   * @param value   The value to be converted. Maybe <code>null</code>.
+   * @param value   The value to be converted.
    * 
-   * @return   The converted value. Maybe <code>null</code>.
+   * @return   The converted value.
    */
   private static @Null byte[] toByteArrayValue(@Null String value) {
     if (value != null) {
@@ -140,9 +140,9 @@ public final class CsvColumn<T> {
   /**
    * Default adapter for BigDecimal.
    * 
-   * @param value   The value to be converted. Maybe <code>null</code>.
+   * @param value   The value to be converted.
    * 
-   * @return   The converted value. Maybe <code>null</code>.
+   * @return   The converted value.
    */
   private static @Null BigDecimal toBigDecimalValue(@Null String value) {
     return new BigDecimal(value);

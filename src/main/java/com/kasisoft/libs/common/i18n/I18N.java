@@ -1,5 +1,8 @@
 package com.kasisoft.libs.common.i18n;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,15 +20,15 @@ public @interface I18N {
   /**
    * Returns the default value for the annotated field.
    * 
-   * @return   The default value for the annotated field. Neither <code>null</code> nor empty.
+   * @return   The default value for the annotated field.
    */
-  String value();
+  @NotBlank String value();
   
   /**
    * Returns a key which would override the field derived key name.
    * 
-   * @return   A key which would override the field derived key name. Neither <code>null</code> nor empty.
+   * @return   A key which would override the field derived key name.
    */
-  String key() default "";
+  @NotNull String key() default "";
   
 } /* ENDANNOTATION */

@@ -53,7 +53,7 @@ public enum DomConfigParameter {
   /**
    * Sets this parameter for the supplied configuration.
    * 
-   * @param config   The configuration which parameter has to be set. Not <code>null</code>.
+   * @param config   The configuration which parameter has to be set.
    * @param value    The value which will be set.
    */
   public void set(@NotNull DOMConfiguration config, Object value) {
@@ -65,7 +65,7 @@ public enum DomConfigParameter {
   /**
    * Returns the parameter of the supplied configuration.
    * 
-   * @param config   The configuration used to get the parameter. Not <code>null</code>.
+   * @param config   The configuration used to get the parameter.
    * 
    * @return   The previously stored parameter.
    */

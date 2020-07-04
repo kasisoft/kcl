@@ -6,7 +6,9 @@ import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.text.StringFunctions;
 import com.kasisoft.libs.common.types.Pair;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,12 +58,12 @@ public class I18NSupport {
   /**
    * Returns <code>true</code> if the supplied field can be considered to be a translation field.
    *
-   * @param field   The field that is supposed to be tested. Not <code>null</code>.
+   * @param field   The field that is supposed to be tested.
    *
    * @return   <code>true</code> <=> The supplied field is a translation field.
    */
   @SuppressWarnings("deprecation")
-  private static boolean isTranslationField(Field field) {
+  private static boolean isTranslationField(@NotNull Field field) {
     var modifier = field.getModifiers();
     if (modifier != MODIFIERS) {
       return false;
@@ -72,11 +74,11 @@ public class I18NSupport {
   /**
    * Creates a map with all translatable fields.
    *
-   * @param clazz   The class which is supposed to be translated. Not <code>null</code>.
+   * @param clazz   The class which is supposed to be translated.
    *
-   * @return   A mapping between field names and the corresponding {@link Field} instances. Not <code>null</code>.
+   * @return   A mapping between field names and the corresponding {@link Field} instances.
    */
-  private static Map<String, Field> collectFields(Class<?> clazz) {
+  private static @NotNull Map<String, Field> collectFields(@NotNull Class<?> clazz) {
     var result = new HashMap<String, Field>();
     var fields = clazz.getDeclaredFields();
     for (var field : fields) {
@@ -90,13 +92,11 @@ public class I18NSupport {
   /**
    * Loads all properties matching the current locale (we support different formats).
    *
-   * @param candidates   A list of resource pathes pointing to possible translations. Not <code>null</code>.
+   * @param candidates   A list of resource pathes pointing to possible translations.
    *
-   * @return   The {@link Properties} instance providing all current translations. Not <code>null</code>.
-   *
-   * @throws FailureException   If <param>failonload</param> was <code>true</code> and a translation could not be loaded.
+   * @return   The {@link Properties} instance providing all current translations.
    */
-  private static Properties loadTranslations(@NotNull Class<?> clazz, String[] candidates) {
+  private static @NotNull Properties loadTranslations(@NotNull Class<?> clazz, @NotNull String[] candidates) {
     var result = new Properties();
     for (var variant : candidates) {
 
@@ -130,7 +130,7 @@ public class I18NSupport {
    * @param receiver   The result properties.
    * @param source     The source properties.
    */
-  private static void apply(Properties receiver, Properties source) {
+  private static void apply(@NotNull Properties receiver, @NotNull Properties source) {
     var names = source.stringPropertyNames();
     for (var name : names) {
       if (!receiver.containsKey(name)) {
@@ -142,12 +142,11 @@ public class I18NSupport {
   /**
    * Applies all translations to the supplied class while changing the field values.
    *
-   * @param prefix         A prefix which has to be used for the property names. Not <code>null</code>.
+   * @param prefix         A prefix which has to be used for the property names.
    * @param translations   The {@link Properties} instance which contains all translations.
-   *                       Not <code>null</code>.
-   * @param fields         The map with all {@link Field} instances that have to be changed. Not <code>null</code>.
+   * @param fields         The map with all {@link Field} instances that have to be changed.
    */
-  private static void applyTranslations(String prefix, Properties translations, Map<String, Field> fields) {
+  private static void applyTranslations(@NotNull String prefix, @NotNull Properties translations, @NotNull Map<String, Field> fields) {
     
     for(var entry : fields.entrySet() ) {
 
@@ -177,13 +176,13 @@ public class I18NSupport {
   /**
    * Returns the value from the available translations or the default.
    *
-   * @param translations   The currently available translations. Not <code>null</code>.
-   * @param i18n           The annotation which might provide a default value. Maybe <code>null</code>.
-   * @param property       The property which identifies the field. Neither <code>null</code> nor empty.
+   * @param translations   The currently available translations.
+   * @param i18n           The annotation which might provide a default value.
+   * @param property       The property which identifies the field.
    *
-   * @return   The value associated with the property. Maybe <code>null</code>.
+   * @return   The value associated with the property.
    */
-  private static String extractValue(Properties translations, I18N i18n, String property) {
+  private static @Null String extractValue(@NotNull Properties translations, @Null I18N i18n, @NotBlank String property) {
     String result = null;
     if (translations.containsKey(property)) {
       result = translations.getProperty(property);
@@ -198,11 +197,11 @@ public class I18NSupport {
   /**
    * Applies the supplied value to the corresponding field.
    *
-   * @param field   The field which is supposed to be edited. Not <code>null</code>.
-   * @param value   The value which has to be set. Either <code>null</code> or not empty.
+   * @param field   The field which is supposed to be edited.
+   * @param value   The value which has to be set.
    */
   @SuppressWarnings("deprecation")
-  private static void applyFieldValue(Field field, String value) {
+  private static void applyFieldValue(@NotNull Field field, @Null String value) {
     if (value != null) {
       try {
         if (field.getType() == String.class) {
@@ -224,9 +223,7 @@ public class I18NSupport {
   /**
    * Applies all translations to the supplied class using the default locale.
    *
-   * @param clazz   The class that is supposed to be translated. Not <code>null</code>.
-   *
-   * @throws FailureException   A translation could not be loaded.
+   * @param clazz   The class that is supposed to be translated.
    */
   public static void initialize(@NotNull Class<?> clazz) {
     initialize(null, clazz);
@@ -235,24 +232,17 @@ public class I18NSupport {
   /**
    * Applies all translations to the supplied class.
    *
-   * @param locale      The {@link Locale} instance which has to be used. If <code>null</code> {@link Locale#getDefault()}
-   *                    will be used.
-   * @param clazz       The class that is supposed to be translated. Not <code>null</code>.
-   * @param failonload  <code>true</code> <=> Cause a FailureException if loading a translation failed.
-   *
-   * @throws FailureException   A translation could not be loaded.
+   * @param locale      The {@link Locale} instance which has to be used. 
+   * @param clazz       The class that is supposed to be translated.
    */
-  public static void initialize(Locale locale, @NotNull Class<?> clazz) {
+  public static void initialize(@Null Locale locale, @NotNull Class<?> clazz) {
 
-    if (locale == null) {
-      locale = Locale.getDefault();
-    }
+    locale = I18NFunctions.getLocale(locale);
 
     var baseAndPrefix = extractBaseAndPrefix(clazz);
     var base          = baseAndPrefix.getValue1();
     var prefix        = baseAndPrefix.getValue2();
-
-    String[] candidates = getTranslationCandidates(locale, base);
+    var candidates    = getTranslationCandidates(locale, base);
 
     applyTranslations(prefix, loadTranslations(clazz, candidates), collectFields(clazz));
 
@@ -260,7 +250,7 @@ public class I18NSupport {
 
   }
 
-  private static String[] getTranslationCandidates(Locale locale, String base) {
+  private static @NotNull String[] getTranslationCandidates(@NotNull Locale locale, @NotNull String base) {
     var result = new String[3];
     var country    = StringFunctions.cleanup(locale.getCountry());
     if (country != null) {
@@ -271,7 +261,7 @@ public class I18NSupport {
     return result;
   }
 
-  private static Pair<String, String> extractBaseAndPrefix(Class<?> clazz) {
+  private static Pair<String, String> extractBaseAndPrefix(@NotNull Class<?> clazz) {
     var    basename = clazz.getAnnotation(I18NBasename.class);
     String base     = null;
     String prefix   = null;
@@ -286,7 +276,7 @@ public class I18NSupport {
   }
 
   @SuppressWarnings("null")
-  private static Map<String, String> collectTranslations(String prefix, Map<String, Field> fields) {
+  private static @NotNull Map<String, String> collectTranslations(@NotNull String prefix, @NotNull Map<String, Field> fields) {
     var result = new HashMap<String, String>(fields.size());
     for (var entry : fields.entrySet()) {
 
@@ -313,11 +303,9 @@ public class I18NSupport {
     return result;
   }
 
-  public static void writeProperties(Locale locale, @NotNull Class<?> clazz, @NotNull Writer writer) {
+  public static void writeProperties(@Null Locale locale, @NotNull Class<?> clazz, @NotNull Writer writer) {
 
-    if (locale == null) {
-      locale = Locale.getDefault();
-    }
+    locale = I18NFunctions.getLocale(locale);
 
     var baseAndPrefix = extractBaseAndPrefix(clazz);
     var prefix        = baseAndPrefix.getValue2();

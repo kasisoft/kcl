@@ -3,6 +3,7 @@ package com.kasisoft.libs.common.datatypes;
 import com.kasisoft.libs.common.constants.MimeType;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -35,9 +36,9 @@ public interface FileType extends Predicate<byte[]> {
   /**
    * Returns the primary suffix for this file type.
    * 
-   * @return   The primary suffix for this file type. Neither <code>null</code> nor empty.
+   * @return   The primary suffix for this file type.
    */
-  default String getSuffix() {
+  default @NotBlank String getSuffix() {
     return getContentType().getPrimarySuffixWithDot();
   }
 

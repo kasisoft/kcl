@@ -34,10 +34,9 @@ public class Functions {
   /**
    * Protects the supplied function while testing for a null input.
    *  
-   * @param delegate   The original function. Not <code>null</code>.
+   * @param delegate   The original function.
    * 
-   * @return   The <code>null</code> aware function. <code>null</code> values will be passed through.
-   *           Not <code>null</code>.
+   * @return   A null aware function. null values will be passed through.
    */
   public static <I, O> @NotNull Function<I, O> nullSafeToFunction(@NotNull Function<I, O> delegate) {
     return $ -> $ != null ? delegate.apply($) : null;

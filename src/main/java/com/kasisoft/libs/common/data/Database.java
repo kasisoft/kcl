@@ -7,6 +7,7 @@ import com.kasisoft.libs.common.KclException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import java.util.function.Predicate;
 
@@ -77,7 +78,7 @@ public enum Database implements Predicate<String> {
   /**
    * Returns the alive query which allows to test a connection.
    * 
-   * @return   The alive query associated with this db type. Neither <code>null</code> nor empty.
+   * @return   The alive query associated with this db type.
    * 
    * @throws UnsupportedOperationException for {@link #odbc}.
    */
@@ -127,11 +128,11 @@ public enum Database implements Predicate<String> {
   /**
    * Accesses a Connection.
    * 
-   * @param url   The URL used to access the database. Neither <code>null</code> nor empty.
+   * @param url   The URL used to access the database.
    * 
-   * @return   The Connection used for the database. Not <code>null</code>.
+   * @return   The Connection used for the database.
    */
-  public Connection getConnection(@NotBlank String url) {
+  public @NotNull Connection getConnection(@NotBlank String url) {
     try {
       activate();
       return DriverManager.getConnection(url);
@@ -143,13 +144,13 @@ public enum Database implements Predicate<String> {
   /**
    * Accesses a Connection.
    * 
-   * @param url        The URL used to access the database. Neither <code>null</code> nor empty.
-   * @param username   The username to access the database. Neither <code>null</code> nor empty.
-   * @param password   The password to be used. Maybe <code>null</code>.
+   * @param url        The URL used to access the database.
+   * @param username   The username to access the database.
+   * @param password   The password to be used.
    * 
-   * @return   The Connection used for the database. Not <code>null</code>.
+   * @return   The Connection used for the database.
    */
-  public Connection getConnection(@NotBlank String url, @NotNull String username, String password) {
+  public @NotNull Connection getConnection(@NotBlank String url, @NotNull String username, @Null String password) {
     try {
       activate();
       return DriverManager.getConnection(url, username, password);
@@ -161,13 +162,13 @@ public enum Database implements Predicate<String> {
   /**
    * Makes an attempt to connect an reports whether connecting succeeded or not.
    * 
-   * @param url        The URL used to access the database. Neither <code>null</code> nor empty.
-   * @param username   The username to access the database. Neither <code>null</code> nor empty.
-   * @param password   The password to be used. Maybe <code>null</code>.
+   * @param url        The URL used to access the database.
+   * @param username   The username to access the database.
+   * @param password   The password to be used.
    * 
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */
-  public boolean test(@NotBlank String url, @NotNull String username, String password) {
+  public boolean test(@NotBlank String url, @NotNull String username, @Null String password) {
     try (
       var connection = getConnection(url, username, password);
       var statement  = connection.prepareStatement(aliveQuery);
@@ -181,7 +182,7 @@ public enum Database implements Predicate<String> {
   /**
    * Makes an attempt to connect an reports whether connecting succeeded or not.
    * 
-   * @param url   The URL used to access the database. Neither <code>null</code> nor empty.
+   * @param url   The URL used to access the database.
    * 
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */

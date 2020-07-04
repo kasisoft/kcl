@@ -115,7 +115,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Appends some values using a specific format pattern.
    * 
-   * @param format   The pattern to use. Neither <code>null</code> nor empty.
+   * @param format   The pattern to use.
    * @param args     The arguments for this pattern.
    * 
    * @return   The current buffer.
@@ -187,7 +187,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Inserts some values using a specific format pattern.
    * 
    * @param offset   The location where to insert the formatted content.
-   * @param format   The pattern to use. Neither <code>null</code> nor empty.
+   * @param fmt      The pattern to use.
    * @param args     The arguments for this pattern.
    * 
    * @return   The current buffer.
@@ -285,7 +285,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Like {@link StringBuilder#indexOf(String)} with the difference that this function provides the position of the
    * leftmost literal which could be found.
    * 
-   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * @param literals   A list of literals that will be checked.
    * 
    * @return   The index of the leftmost found literal or -1 if none matched.
    */
@@ -298,7 +298,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * leftmost literal which could be found.
    * 
    * @param index      The index used as the starting point for the lookup.
-   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * @param literals   A list of literals that will be checked.
    * 
    * @return   The index of the leftmost found literal or -1 if none matched.
    */
@@ -355,7 +355,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Like {@link StringBuilder#lastIndexOf(String,int)} with the difference that this function provides the position of 
    * the rightmost literal which could be found.
    * 
-   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * @param literals   A list of literals that will be checked.
    * 
    * @return   The index of the rightmost found literal or -1 if none matched.
    */
@@ -368,7 +368,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * the rightmost literal which could be found.
    * 
    * @param index      The index used as the starting point for the lookup.
-   * @param literals   A list of literals that will be checked. Maybe <code>null</code>.
+   * @param literals   A list of literals that will be checked.
    * 
    * @return   The index of the rightmost found literal or -1 if none matched.
    */
@@ -439,7 +439,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Returns <code>true</code> if the content of this buffer starts with the supplied literal.
    *  
-   * @param totest   The text used for the comparison. Not <code>null</code>.
+   * @param totest   The text used for the comparison.
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
@@ -451,7 +451,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Returns <code>true</code> if the content of this buffer starts with the supplied literal.
    *  
    * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param totest          The text used for the comparison. Not <code>null</code>.
+   * @param totest          The text used for the comparison.
    * 
    * @return   <code>true</code> <=> The literal starts with the supplied literal.
    */
@@ -503,7 +503,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
    *  
-   * @param totest   The text used for the comparison. Not <code>null</code>.
+   * @param totest   The text used for the comparison.
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
@@ -515,7 +515,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
    *  
    * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param seq             The text used for the comparison. Not <code>null</code>.
+   * @param seq             The text used for the comparison.
    * 
    * @return   <code>true</code> <=> The literal ends with the supplied literal.
    */
@@ -567,7 +567,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Returns <code>true</code> if the content of this buffer equals the supplied literal.
    *  
-   * @param totest   The text used for the comparison. Not <code>null</code>.
+   * @param totest   The text used for the comparison.
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
@@ -579,7 +579,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Returns <code>true</code> if the content of this buffer equals the supplied literal.
    *  
    * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param totest          The text used for the comparison. Not <code>null</code>.
+   * @param totest          The text used for the comparison.
    * 
    * @return   <code>true</code> <=> The literal is equal.
    */
@@ -594,9 +594,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Removes a collection of characters from this buffer.
    * 
-   * @param toremove   A list of characters which have to be removed. Neither <code>null</code> nor empty.
+   * @param toremove   A list of characters which have to be removed.
    * 
-   * @return   The altered input. Not <code>null</code>.
+   * @return   The altered input.
    */
   default @NotNull T remove(@NotNull String toremove) {
     for (var i = length() - 1; i >= 0; i--) {
@@ -612,9 +612,8 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * {@link String#split(String)} this one doesn't use a regular expression.
    * 
    * @param delimiters   A list of characters providing the delimiters for the splitting. 
-   *                     Neither <code>null</code> nor empty.
    *                     
-   * @return   A splitted list without the delimiting character. Not <code>null</code>.
+   * @return   A splitted list without the delimiting character.
    */
   default @NotNull String[] split(@NotNull String delimiters) {
     return Buckets.bucketArrayList().forInstance($ -> {
@@ -629,9 +628,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
    * 
-   * @param regex   A regular expression used for the splitting. Neither <code>null</code> nor empty.
+   * @param regex   A regular expression used for the splitting.
    *                     
-   * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
+   * @return   A splitted list without fragments matching the supplied regular expression.
    */
   default @NotNull String[] splitRegex(@NotNull String regex) {
     return splitRegex(Pattern.compile(regex));
@@ -640,9 +639,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
    * 
-   * @param pattern   A pattern providing the regular expression used for the splitting. Not <code>null</code>.
+   * @param pattern   A pattern providing the regular expression used for the splitting.
    *                     
-   * @return   A splitted list without fragments matching the supplied regular expression. Not <code>null</code>.
+   * @return   A splitted list without fragments matching the supplied regular expression.
    */
   default @NotNull String[] splitRegex(@NotNull Pattern pattern) {
      return Buckets.<String>bucketArrayList().forInstance($ -> {
@@ -673,7 +672,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * @param from   The character which has to be replaced.
    * @param to     The character which has to be used instead.
    * 
-   * @return   This buffer without <code>from</code> characters. Not <code>null</code>.
+   * @return   This buffer without <code>from</code> characters.
    */
   default @NotNull T replace(char from, char to) {
     for (var i = 0; i < length(); i++) {
@@ -690,7 +689,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * @param fromCodepoint   The codepoint which has to be replaced.
    * @param toCodepoint     The codepoint which has to be used instead.
    * 
-   * @return   This buffer without <code>from</code> characters. Not <code>null</code>.
+   * @return   This buffer without <code>from</code> characters.
    */
   default @NotNull T replace(int fromCodepoint, int toCodepoint) {
     for (var i = 0; i < length(); i++) {
@@ -705,10 +704,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
    * @param regex         The regular expression used to select the fragments that will be replaced. 
-   *                      Neither <code>null</code> nor empty.
-   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceLiterallyAll(@NotNull String search, @NotNull String replacement) {
     Buckets.<Integer>bucketArrayList().forInstanceDo($ -> {
@@ -732,10 +730,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
    * @param regex         The regular expression used to select the fragments that will be replaced. 
-   *                      Neither <code>null</code> nor empty.
-   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceAll(@NotNull String regex, @NotNull String replacement) {
     return replaceAll(Pattern.compile(regex), replacement);
@@ -745,10 +742,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
    * @param pattern       The Pattern providing the regular expression for the substitution.
-   *                      Not <code>null</code>.
-   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceAll(@NotNull Pattern pattern, @NotNull String replacement) {
     Buckets.<Integer>bucketArrayList().forInstanceDo($ -> {
@@ -771,10 +767,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
    * @param regex                 The regular expression used to select the fragments that will be replaced. 
-   *                              Neither <code>null</code> nor empty.
-   * @param replacementSupplier   The replacement which has to be used instead. Not <code>null</code>.
+   * @param replacementSupplier   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceAll(@NotNull String regex, @NotNull Function<String, String> replacementSupplier) {
     return replaceAll(Pattern.compile(regex), replacementSupplier);
@@ -784,10 +779,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
    * @param pattern               The Pattern providing the regular expression for the substitution.
-   *                              Not <code>null</code>.
-   * @param replacementSupplier   The replacement which has to be used instead. Not <code>null</code>.
+   * @param replacementSupplier   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceAll(@NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
     
@@ -822,9 +816,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Replaces all occurrences of the supplied keys with the corresponding values.
    * 
-   * @param replacements   The substitution map. Not <code>null</code>.
+   * @param replacements   The substitution map.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceAll(@NotNull Map<String, String> replacements) {
     return replaceAll(replacements, null);
@@ -833,10 +827,10 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Replaces all occurrences of a regular expression with a specified replacement.
    * 
-   * @param replacements   The substitution map. Not <code>null</code>.
+   * @param replacements   The substitution map.
    * @param fmt            A formatting string to tweak the key literal. Default is '%s' (an alternative example: '${%s}')
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceAll(@NotNull Map<String, String> replacements, @Null String fmt) {
     
@@ -884,10 +878,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Like {@link #replaceAll(String, String)} but only the first occurrence of the regular expression will be replaced. 
    * 
    * @param regex         The regular expression used to select the fragments that will be replaced.
-   *                      Neither <code>null</code> nor empty.
-   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceFirst(@NotNull String regex, @NotNull String replacement) {
     return replaceFirst(Pattern.compile(regex), replacement);
@@ -896,10 +889,10 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Like {@link #replaceAll(String, String)} but only the first occurrence of the regular expression will be replaced. 
    * 
-   * @param pattern       The Pattern providing the regular expression for the substitution. Not <code>null</code>.
-   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * @param pattern       The Pattern providing the regular expression for the substitution.
+   * @param replacement   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceFirst(@NotNull Pattern pattern, @NotNull String replacement) {
     var matcher = pattern.matcher(this);
@@ -914,10 +907,9 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * Like {@link #replaceAll(String, String)} but only the last occurrence of the regular expression will be replaced. 
    * 
    * @param regex         The regular expression used to select the fragments that will be replaced.
-   *                      Neither <code>null</code> nor empty.
-   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * @param replacement   The replacement which has to be used instead. 
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceLast(@NotNull String regex, @NotNull String replacement) {
     return replaceLast(Pattern.compile(regex), replacement);
@@ -926,10 +918,10 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Like {@link #replaceAll(String, String)} but only the last occurrence of the regular expression will be replaced. 
    * 
-   * @param pattern       The Pattern providing the regular expression for the substitution. Not <code>null</code>.
-   * @param replacement   The replacement which has to be used instead. Not <code>null</code>.
+   * @param pattern       The Pattern providing the regular expression for the substitution.
+   * @param replacement   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   default @NotNull T replaceLast(@NotNull Pattern pattern, @NotNull String replacement) {
     var matcher = pattern.matcher(this);
@@ -973,9 +965,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   /**
    * Creates a camelcase representation of the supplied sequence.
    * 
-   * @param sequence   The sequence which has to be tested. Not <code>null</code>.
-   * 
-   * @return   The camelcase representation. Not <code>null</code>
+   * @return   The camelcase representation.
    */
   default @NotNull T camelCase() {
     int len = length();

@@ -5,6 +5,7 @@ import com.kasisoft.libs.common.io.IoFunctions;
 import com.kasisoft.libs.common.KclConfig;
 import com.kasisoft.libs.common.annotation.Specification;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -66,25 +67,19 @@ public final class Encoding {
     IBM437      = new Encoding("IBM437"    , false, null);
   }
   
-  /** Neither <code>null</code> nor empty. */
   String          encoding;
-  
   boolean         bomRequired;
-  
-  /** Maybe <code>null</code> */
   ByteOrderMark   byteOrderMark;
-  
-  /** Not <code>null</code> */
   Charset         charset;
   
   /**
    * Initializes this Encoding instance for a specific character set.
    *  
-   * @param key           The name of the character set. Neither <code>null</code> nor empty.
+   * @param key           The name of the character set.
    * @param requiresbom   <code>true</code> <=> Identifying this encoding requires a {@link ByteOrderMark}. 
-   * @param mark          A {@link ByteOrderMark} which allows to identify the encoding. Maybe <code>null</code>.
+   * @param mark          A {@link ByteOrderMark} which allows to identify the encoding.
    */
-  public Encoding(@NotNull String key, boolean requiresbom, ByteOrderMark mark) {
+  public Encoding(@NotBlank String key, boolean requiresbom, @Null ByteOrderMark mark) {
     encoding      = key;
     bomRequired   = requiresbom;
     byteOrderMark = mark;
@@ -99,7 +94,7 @@ public final class Encoding {
    * 
    * @param file   The file that has to be opened using this encoding. Must be a valid file.
    *  
-   * @return   The reader if the file could be opened. Not <code>null</code>.
+   * @return   The reader if the file could be opened.
    */
   public @NotNull Reader openReader(@NotNull File file) {
     return IoFunctions.newReader(file, this);
@@ -110,7 +105,7 @@ public final class Encoding {
    * 
    * @param url   The url of the resource that has to be opened using this encoding. Must be a valid resource.
    *  
-   * @return   The reader if the url could be opened. Not <code>null</code>.
+   * @return   The reader if the url could be opened.
    */
   @SuppressWarnings("resource")
   public @NotNull Reader openReader(@NotNull URL url) {
@@ -122,7 +117,7 @@ public final class Encoding {
    * 
    * @param uri   The URI of the resource that has to be opened using this encoding. Must be a valid resource.
    *  
-   * @return   The reader if the url could be opened. Not <code>null</code>.
+   * @return   The reader if the url could be opened.
    */
   @SuppressWarnings("resource")
   public @NotNull Reader openReader(@NotNull URI uri) {
@@ -134,7 +129,7 @@ public final class Encoding {
    * 
    * @param path   The path of the resource that has to be opened using this encoding. Must be a valid resource.
    *  
-   * @return   The reader if the url could be opened. Not <code>null</code>.
+   * @return   The reader if the url could be opened.
    */
   @SuppressWarnings("resource")
   public @NotNull Reader openReader(@NotNull Path path) {
@@ -144,9 +139,9 @@ public final class Encoding {
   /**
    * Opens a Reader for a specific InputStream using this encoding.
    * 
-   * @param instream   The InputStream that has to be accessed using this encoding. Not <code>null</code>.
+   * @param instream   The InputStream that has to be accessed using this encoding.
    *  
-   * @return   The Reader if it can be accessed. Not <code>null</code>.
+   * @return   The Reader if it can be accessed.
    */
   public @NotNull Reader openReader(@NotNull InputStream instream) {
     return IoFunctions.newReader(instream, this);
@@ -157,7 +152,7 @@ public final class Encoding {
    * 
    * @param file   The file that has to be opened using this encoding. Must be a valid file.
    *  
-   * @return   The writer if the file could be opened. Not <code>null</code>.
+   * @return   The writer if the file could be opened.
    */
   public @NotNull Writer openWriter(@NotNull File file) {
     return IoFunctions.newWriter(file, this);
@@ -168,7 +163,7 @@ public final class Encoding {
    * 
    * @param path   The path that has to be opened using this encoding. Must be a valid file.
    *  
-   * @return   The writer if the file could be opened. Not <code>null</code>.
+   * @return   The writer if the file could be opened.
    */
   @SuppressWarnings("resource")
   public @NotNull Writer openWriter(@NotNull Path path) {
@@ -180,7 +175,7 @@ public final class Encoding {
    * 
    * @param outstream   The OutputStream that has to be opened using this encoding. Must be a valid file.
    *  
-   * @return   The writer if the file could be opened. Not <code>null</code>.
+   * @return   The writer if the file could be opened.
    */
   public @NotNull Writer openWriter(@NotNull OutputStream outstream) {
     return IoFunctions.newWriter(outstream, this);
@@ -189,9 +184,9 @@ public final class Encoding {
   /**
    * Encodes the supplied text.
    * 
-   * @param text   The text that has to be encoded. Not <code>null</code>.
+   * @param text   The text that has to be encoded.
    * 
-   * @return   The data which has to be encoded. Not <code>null</code>.
+   * @return   The data which has to be encoded.
    */
   public @NotNull byte[] encode(@NotNull String text) {
     var buffer = charset.encode(CharBuffer.wrap(text));
@@ -203,9 +198,9 @@ public final class Encoding {
   /**
    * Decodes the supplied data using this encoding.
    * 
-   * @param data   The data providing the content. Not <code>null</code>.
+   * @param data   The data providing the content.
    * 
-   * @return   The decoded String. Not <code>null</code>.
+   * @return   The decoded String.
    */
   public @NotNull String decode(@NotNull byte[] data) {
     return charset.decode(ByteBuffer.wrap(data)).toString();
@@ -222,7 +217,6 @@ public final class Encoding {
    * aware that this enumeration only supports the <b>required</b> encodings.
    * 
    * @param name   The name of the encoding which has to be identified. Case sensitivity doesn't matter here.
-   *               Neither <code>null</code> nor empty.
    *               
    * @return   The encoding value if available.
    */

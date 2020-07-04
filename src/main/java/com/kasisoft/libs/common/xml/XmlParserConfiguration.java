@@ -26,13 +26,13 @@ import lombok.Setter;
 @Data
 public class XmlParserConfiguration {
 
-  // The ErrorHandler to be used. Maybe <code>null</code>.
+  // The ErrorHandler to be used. Maybe null.
   ErrorHandler                      handler;
   
-  // A base URL used for the resolving process. Maybe <code>null</code>.
+  // A base URL used for the resolving process. Maybe null.
   URL                               baseurl;
   
-  // Resolver for entities. Maybe <code>null</code>.
+  // Resolver for entities. Maybe null.
   EntityResolver                    resolver;
   
   // <code>true</code> <=> Validates the document if possible.

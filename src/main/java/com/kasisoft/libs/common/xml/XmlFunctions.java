@@ -119,10 +119,10 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
-   * @param input    The stream which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * @param input    The stream which provides the xml content.
+   * @param config   A configuration for the xml parser.
    * 
-   * @return   The Document node itself. Not <code>null</code>.
+   * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull URL input, @NotNull XmlParserConfiguration config) {
     return IoFunctions.forInputStream(input, $ -> readDocument($, config));
@@ -131,10 +131,10 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
-   * @param input    The stream which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * @param input    The stream which provides the xml content.
+   * @param config   A configuration for the xml parser.
    * 
-   * @return   The Document node itself. Not <code>null</code>.
+   * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull URI input, @NotNull XmlParserConfiguration config) {
     return IoFunctions.forInputStream(input, $ -> readDocument($, config));
@@ -143,10 +143,10 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
-   * @param input    The stream which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * @param input    The stream which provides the xml content.
+   * @param config   A configuration for the xml parser.
    * 
-   * @return   The Document node itself. Not <code>null</code>.
+   * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull File input, @NotNull XmlParserConfiguration config) {
     return IoFunctions.forInputStream(input, $ -> readDocument($, config));
@@ -155,10 +155,10 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
-   * @param input    The stream which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * @param input    The stream which provides the xml content.
+   * @param config   A configuration for the xml parser.
    * 
-   * @return   The Document node itself. Not <code>null</code>.
+   * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull Path input, @NotNull XmlParserConfiguration config) {
     return IoFunctions.forInputStream(input, $ -> readDocument($, config));
@@ -167,10 +167,10 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
-   * @param input    The stream which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * @param input    The stream which provides the xml content.
+   * @param config   A configuration for the xml parser.
    * 
-   * @return   The Document node itself. Not <code>null</code>.
+   * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull Reader input, @NotNull XmlParserConfiguration config) {
     return readDocument(config, $ -> {
@@ -185,10 +185,10 @@ public final class XmlFunctions {
   /**
    * Reads the content of the supplied stream.
    * 
-   * @param input    The stream which provides the xml content. Not <code>null</code>.
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * @param input    The stream which provides the xml content.
+   * @param config   A configuration for the xml parser.
    * 
-   * @return   The Document node itself. Not <code>null</code>.
+   * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull InputStream input, @NotNull XmlParserConfiguration config) {
     return readDocument(config, $ -> {
@@ -218,9 +218,9 @@ public final class XmlFunctions {
   /**
    * Creates a {@link DocumentBuilder} instance for the supplied parser configuration.
    * 
-   * @param config   A configuration for the xml parser. Not <code>null</code>.
+   * @param config   A configuration for the xml parser.
    * 
-   * @return   The {@link DocumentBuilder} instance. Not <code>null</code>.
+   * @return   The {@link DocumentBuilder} instance.
    * 
    * @throws KclException   Configuring the builder failed for some reason.
    */
@@ -299,10 +299,9 @@ public final class XmlFunctions {
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
    * 
-   * @param output     The OutputStream used to receive the content. Not <code>null</code>.
-   * @param node       The DOM tree which will be saved. Not <code>null</code>.
-   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
-   *                   encoding is used. 
+   * @param output     The OutputStream used to receive the content.
+   * @param node       The DOM tree which will be saved.
+   * @param encoding   The encoding to use while saving.
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
@@ -313,10 +312,9 @@ public final class XmlFunctions {
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
    * 
-   * @param output     The OutputStream used to receive the content. Not <code>null</code>.
-   * @param node       The DOM tree which will be saved. Not <code>null</code>.
-   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
-   *                   encoding is used. 
+   * @param output     The OutputStream used to receive the content.
+   * @param node       The DOM tree which will be saved.
+   * @param encoding   The encoding to use while saving.
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
@@ -327,10 +325,9 @@ public final class XmlFunctions {
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
    * 
-   * @param output     The OutputStream used to receive the content. Not <code>null</code>.
-   * @param node       The DOM tree which will be saved. Not <code>null</code>.
-   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
-   *                   encoding is used. 
+   * @param output     The OutputStream used to receive the content.
+   * @param node       The DOM tree which will be saved.
+   * @param encoding   The encoding to use while saving.
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
@@ -344,10 +341,9 @@ public final class XmlFunctions {
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
    * 
-   * @param writer     The Writer used to receive the content. Not <code>null</code>.
-   * @param node       The DOM tree which will be saved. Not <code>null</code>.
-   * @param encoding   The encoding to use while saving. <code>null</code> or an empty value means that the default 
-   *                   encoding is used. 
+   * @param writer     The Writer used to receive the content.
+   * @param node       The DOM tree which will be saved.
+   * @param encoding   The encoding to use while saving.
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
@@ -381,7 +377,7 @@ public final class XmlFunctions {
    * Sets up a new transformer from the supplied stylesheet file. This transformer can be used to
    * convert xml documents in various outcomes.
    * 
-   * @param xsl   The xslt stylesheet. Not <code>null</code> and must be a file.
+   * @param xsl   The xslt stylesheet.
    * 
    * @return The transformer if the stylesheet could be loaded properly.
    * 
@@ -512,7 +508,7 @@ public final class XmlFunctions {
    * Collects the child nodes from a parent using a specific name.
    * 
    * @param parent     The parent node which children have to be returned.
-   * @param relevant   A list of interesting element names. If <code>null</code> all elements will be returned.
+   * @param relevant   A list of interesting element names. If null all elements will be returned.
    * 
    * @return   A list with all matching elements.
    */
@@ -582,7 +578,7 @@ public final class XmlFunctions {
    * @param node        The node used to retrieve all attributes.
    * @param namespace   <code>true</code> <=> Include the namespace in the attribute name.
    * 
-   * @return   A list with all matching elements. Not <code>null</code>.
+   * @return   A list with all matching elements.
    */
   public static @NotNull Map<String, Attr> getAttributes(@NotNull Node node, boolean namespace) {
     var attributes = node.getAttributes();

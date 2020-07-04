@@ -27,8 +27,8 @@ public class LiteralTokenizer implements Enumeration<String> {
   /**
    * Prepares this tokenizer to operate using delimiting literals.
    * 
-   * @param data             The String content that has to be tokenized. Not <code>null</code>.
-   * @param delimiters       A list of delimiting literals. Not <code>null</code>.
+   * @param data             The String content that has to be tokenized.
+   * @param delimiters       A list of delimiting literals.
    */
   public LiteralTokenizer(@NotNull String data, @NotNull String ... delimiters) {
     this(data, false, delimiters);
@@ -37,8 +37,8 @@ public class LiteralTokenizer implements Enumeration<String> {
   /**
    * Prepares this tokenizer to operate using delimiting literals.
    * 
-   * @param data             The String content that has to be tokenized. Not <code>null</code>.
-   * @param delimiters       A list of delimiting literals. Not <code>null</code>.
+   * @param data             The String content that has to be tokenized.
+   * @param delimiters       A list of delimiting literals.
    */
   public LiteralTokenizer(@NotNull StringLike data, @NotNull String ... delimiters) {
     this(new StringFBuilder(data), false, delimiters);
@@ -47,9 +47,9 @@ public class LiteralTokenizer implements Enumeration<String> {
   /**
    * Prepares this tokenizer to operate using delimiting literals.
    * 
-   * @param data             The String content that has to be tokenized. Not <code>null</code>.
+   * @param data             The String content that has to be tokenized.
    * @param returnliterals   <code>true</code> <=> Return delimiting literals as well.
-   * @param delimiters       A list of delimiting literals. Not <code>null</code>.
+   * @param delimiters       A list of delimiting literals.
    */
   public LiteralTokenizer(@NotNull String data, boolean returnLiterals, @NotNull String ... delimiters) {
     this(new StringFBuilder(data), returnLiterals, delimiters);

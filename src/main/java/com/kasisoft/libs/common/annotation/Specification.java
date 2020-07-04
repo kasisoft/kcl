@@ -15,14 +15,14 @@ public @interface Specification {
   /**
    * Returns the location of a specification. Typically a URL instance.
    * 
-   * @return   The location of a specification. Neither <code>null</code> nor empty.
+   * @return   The location of a specification.
    */
   String value();
   
   /**
    * Returns the date when the specification has been checked the last time.
    * 
-   * @return   The date when the specification has been checked the last time. Maybe <code>null</code>.
+   * @return   The date when the specification has been checked the last time.
    */
   String date() default "";
   

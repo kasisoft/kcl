@@ -1,5 +1,8 @@
 package com.kasisoft.libs.common.i18n;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,17 +20,16 @@ public @interface I18NBasename {
   /**
    * Returns the basename pointing to the resources that are supposed to be used.
    * 
-   * @return   The basename pointing to the resources that are supposed to be used. Neither <code>null</code> nor empty.
+   * @return   The basename pointing to the resources that are supposed to be used.
    */
-  String resource();
+  @NotBlank String resource();
   
   /**
    * Returns a prefix that has to be used for each {@link I18N} annotated fieldname in order to provide distinctive 
    * names.
    * 
-   * @return   The prefix that has to be used for each {@link I18N} annotated fieldname in order to provide distinctive
-   *           names. Not <code>null</code>.
+   * @return   The prefix that has to be used for each {@link I18N} annotated fieldname in order to provide distinctive names.
    */
-  String prefix() default "";
+  @NotNull String prefix() default "";
   
 } /* ENDANNOTATION */

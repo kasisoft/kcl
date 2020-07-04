@@ -28,9 +28,9 @@ public class Triple<T1, T2, T3> implements HasFirstAndLast<T1, T3>{
   /**
    * Changes the current values.
    * 
-   * @param val1   The first value. Maybe <code>null</code>.
-   * @param val2   The second value. Maybe <code>null</code>.
-   * @param val3   The third value. Maybe <code>null</code>.
+   * @param val1   The first value.
+   * @param val2   The second value.
+   * @param val3   The third value.
    */
   public void setValues(@Null T1 val1, @Null T2 val2, @Null T3 val3) {
     value1 = val1;

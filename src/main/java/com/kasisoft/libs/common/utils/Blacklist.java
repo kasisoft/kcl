@@ -180,9 +180,9 @@ public class Blacklist implements Predicate<String> {
   /**
    * Loads the blacklist supplied by the reader.
    * 
-   * @param reader   The reader providing the blacklisted content. Not <code>null</code>.
+   * @param reader   The reader providing the blacklisted content.
    */
-  public synchronized Blacklist load(@NotNull Reader reader) {
+  public synchronized @NotNull Blacklist load(@NotNull Reader reader) {
     try (var buffered = IoFunctions.newBufferedReader(reader)) {
       var line = buffered.readLine();
       while (line != null) {
@@ -235,7 +235,7 @@ public class Blacklist implements Predicate<String> {
   /**
    * Implements the predicate returned by {@link #testIgnoreCase()}.
    * 
-   * @param t   The text that is supposed to be tested. Maybe <code>null</code>.
+   * @param t   The text that is supposed to be tested.
    * 
    * @return   <code>true</code> <=> The supplied text is blacklisted.
    */
@@ -269,7 +269,7 @@ public class Blacklist implements Predicate<String> {
   /**
    * Implements the predicate returned by {@link #startsWith(boolean)} (case sensitive).
    * 
-   * @param t   The text that is supposed to be tested. Maybe <code>null</code>.
+   * @param t   The text that is supposed to be tested.
    * 
    * @return   <code>true</code> <=> The supplied text starts with a blacklisted literal.
    */
@@ -347,7 +347,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @param ignorecase   <code>true</code> <=> Ignore case.
    * 
-   * @return   A contains test for this blacklist. Not <code>null</code>.
+   * @return   A contains test for this blacklist.
    */
   public @NotNull Predicate<@Null String> contains(boolean ignorecase) {
     return ignorecase ? this::testContainsCI : this::testContains;
@@ -365,7 +365,7 @@ public class Blacklist implements Predicate<String> {
   /**
    * Implements the predicate returned by {@link #contains(boolean)} (case sensitive).
    * 
-   * @param t   The text that is supposed to be tested. Maybe <code>null</code>.
+   * @param t   The text that is supposed to be tested.
    * 
    * @return   <code>true</code> <=> The supplied text contains a blacklisted literal.
    */
@@ -379,7 +379,7 @@ public class Blacklist implements Predicate<String> {
   /**
    * Implements the predicate returned by {@link #contains(boolean)} (case insensitive).
    * 
-   * @param t   The text that is supposed to be tested. Maybe <code>null</code>.
+   * @param t   The text that is supposed to be tested.
    * 
    * @return   <code>true</code> <=> The supplied text contains a blacklisted literal.
    */
@@ -423,7 +423,6 @@ public class Blacklist implements Predicate<String> {
    * @param ignorecase   <code>true</code> <=> Ignore case sensitivity.
    * 
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
-   *           Not <code>null</code>.
    */
   public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(boolean ignorecase) {
     return cleanup(ignorecase, null);
@@ -448,7 +447,6 @@ public class Blacklist implements Predicate<String> {
    * @param statistic    This Consumer instance allows to react on each detected blacklisted literal. 
    * 
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
-   *           Not <code>null</code>.
    */
   public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(boolean ignorecase, @Null Consumer<String> statistic) {
     int regexFlags = ignorecase ? Pattern.CASE_INSENSITIVE : 0;
@@ -461,8 +459,7 @@ public class Blacklist implements Predicate<String> {
    * @param t           The text that shall be freed from blacklisted elements.
    * @param statistic   An optional Consumer to be notified when a blacklisted element had been detected.
    * 
-   * @return   A StringBuilder instance providing the cleansed text. Not <code>null</code> and may be altered 
-   *           by the caller.
+   * @return   A StringBuilder instance providing the cleansed text.
    */
   private synchronized @NotNull StringFBuilder apply(@Null CharSequence t, int regexFlags, @Null Consumer<String> statistic) {
     var result = new StringFBuilder();

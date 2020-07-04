@@ -45,22 +45,22 @@ public class StringFunctions {
   /**
    * Changes the suffix for the supplied name. If the name doesn't provide a suffix it will be appended.
    * 
-   * @param name     The name which might be altered. Not <code>null</code>.
-   * @param suffix   The suffix which has to be added (without '.'). Neither <code>null</code> nor empty.
+   * @param name     The name which might be altered.
+   * @param suffix   The suffix which has to be added (without '.').
    * 
-   * @return   The name with the updated suffix. Neither <code>null</code> nor empty.
+   * @return   The name with the updated suffix.
    */
   public static @NotNull String changeSuffix(@NotNull String name, @NotNull String suffix) {
     return String.format("%s.%s", removeSuffix(name), suffix);
   }
   
   /**
-   * Makes sure that the supplied String is either <code>null</code> or not empty. The text will be trimmed so there 
+   * Makes sure that the supplied String is either null or not empty. The text will be trimmed so there 
    * won't be any whitespace at the beginning or the end.
    * 
-   * @param input   The String that has to be altered. Maybe <code>null</code>.
+   * @param input   The String that has to be altered.
    * 
-   * @return   <code>null</code> or a non-empty String.
+   * @return   null or a non-empty String.
    */
   public static @Null String cleanup(@Null String input) {
     if (input != null) {
@@ -75,9 +75,9 @@ public class StringFunctions {
   /**
    * Makes the first character upper case if there's one.
    * 
-   * @param input   The String where the first character has to be altered. Neither <code>null</code> nor empty.
+   * @param input   The String where the first character has to be altered.
    * 
-   * @return   A possibly in-place altered input. Not <code>null</code>.
+   * @return   A possibly in-place altered input.
    */
   public static @NotNull String firstUp(@NotNull String input) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).firstUp().toString());
@@ -86,9 +86,9 @@ public class StringFunctions {
   /**
    * Makes the first character lower case if there's one.
    * 
-   * @param input   The CharSequence where the first character has to be altered. Neither <code>null</code> nor empty.
+   * @param input   The CharSequence where the first character has to be altered.
    * 
-   * @return   A possibly in-place altered input. Not <code>null</code>.
+   * @return   A possibly in-place altered input.
    */
   public static @NotNull String firstDown(@NotNull String input) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).firstDown().toString());
@@ -101,7 +101,7 @@ public class StringFunctions {
    * @param search        The term that should be replaced.
    * @param replacement   The replacement which has to be used instead.
    * 
-   * @return   This buffer. Not <code>null</code>.
+   * @return   This buffer.
    */
   public static @NotNull String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceLiterallyAll(search, replacement).toString());
@@ -110,10 +110,10 @@ public class StringFunctions {
   /**
    * Performs a search & replace operation on the supplied input.
    * 
-   * @param input          The input which has to be modified. Not <code>null</code>.
-   * @param replacements   A Map of String's used to run the search replace operation. Not <code>null</code>.
+   * @param input          The input which has to be modified.
+   * @param replacements   A Map of String's used to run the search replace operation.
    * 
-   * @return   The modified String. Not <code>null</code>.
+   * @return   The modified String.
    */
   public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements).toString());
@@ -122,11 +122,11 @@ public class StringFunctions {
   /**
    * Performs a search & replace operation on the supplied input.
    * 
-   * @param input          The input which has to be modified. Not <code>null</code>.
-   * @param replacements   A Map of String's used to run the search replace operation. Not <code>null</code>.
+   * @param input          The input which has to be modified.
+   * @param replacements   A Map of String's used to run the search replace operation.
    * @param fmt            A key formatter. Default: '%s' (alternativ: '${%s}' which means that keys will be ${fredo}, ${dodo}, ...)
    * 
-   * @return   The modified String. Not <code>null</code>.
+   * @return   The modified String.
    */
   public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements, @Null String fmt) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements, fmt).toString());
@@ -135,10 +135,9 @@ public class StringFunctions {
   /**
    * Transforms the supplied value into a camelcase representation.
    * 
-   * @param input   The object which has to be changed. Not <code>null</code>.
+   * @param input   The object which has to be changed.
    *                      
    * @return   The supplied sequence if possible. The content is altered to a camelcase variety. 
-   *           Not <code>null</code>.
    */
   public static @NotNull String camelCase(@NotNull String input) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).camelCase().toString());
@@ -147,25 +146,25 @@ public class StringFunctions {
   /**
    * Replaces regions within some text.
    * 
-   * @param input         The text which might be altered. Not <code>null</code>.
-   * @param sep           The opening/closing of a region (f.e. "(*"). Not <code>null</code>.
-   * @param replacement   The replacement value. Not <code>null</code>.
+   * @param input         The text which might be altered.
+   * @param sep           The opening/closing of a region (f.e. "(*").
+   * @param replacement   The replacement value.
    *
-   * @return   The altered text. Not <code>null</code>.
+   * @return   The altered text.
    */
-  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String sep, CharSequence replacement) {
+  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String sep, @NotNull CharSequence replacement) {
     return replaceRegions(input, sep, sep, replacement);
   }
 
   /**
    * Replaces regions within some text.
    * 
-   * @param input         The text which might be altered. Not <code>null</code>.
-   * @param open          The opening of a region (f.e. "(*"). Not <code>null</code>.
-   * @param close         The closing of a region (f.e. "*)"). Not <code>null</code>.
-   * @param replacement   The replacement value. Not <code>null</code>.
+   * @param input         The text which might be altered.
+   * @param open          The opening of a region (f.e. "(*").
+   * @param close         The closing of a region (f.e. "*)").
+   * @param replacement   The replacement value.
    *
-   * @return   The altered text. Not <code>null</code>.
+   * @return   The altered text.
    */
   public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, @Null String close, @NotNull CharSequence replacement) {
     return replaceRegions(input, open, close, $ -> replacement);
@@ -174,12 +173,12 @@ public class StringFunctions {
   /**
    * Replaces regions within some text.
    * 
-   * @param input         The text which might be altered. Not <code>null</code>.
-   * @param open          The opening of a region (f.e. "(*"). Not <code>null</code>.
-   * @param close         The closing of a region (f.e. "*)"). Not <code>null</code>.
-   * @param replacement   The replacement value. Not <code>null</code>.
+   * @param input         The text which might be altered.
+   * @param open          The opening of a region (f.e. "(*").
+   * @param close         The closing of a region (f.e. "*)").
+   * @param replacement   The replacement value.
    *
-   * @return   The altered text. Not <code>null</code>.
+   * @return   The altered text.
    */
   public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, @NotNull Function<String, CharSequence> replacement) {
     return replaceRegions(input, open, open, replacement);
@@ -220,26 +219,26 @@ public class StringFunctions {
   }
 
   /**
-   * Creates a concatenation of the supplied Strings. This function allows elements to be <code>null</code> which means
+   * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
    * that they're just be ignored.
    * 
-   * @param delimiter   A delimiter which might be used. Maybe <code>null</code>.
-   * @param args        The list of Strings that has to be concatenated. Maybe <code>null</code>.
+   * @param delimiter   A delimiter which might be used.
+   * @param args        The list of Strings that has to be concatenated.
    * 
-   * @return   The concatenated String. Not <code>null</code>.
+   * @return   The concatenated String
    */
   public static @NotNull String concatenate(@Null String delimiter, @Null CharSequence ... args) {
     return concatenate(delimiter, Arrays.asList(args));
   }
 
   /**
-   * Creates a concatenation of the supplied Strings. This function allows elements to be <code>null</code> which means
+   * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
    * that they're just be ignored.
    * 
-   * @param delimiter   A delimiter which might be used. Maybe <code>null</code>.
-   * @param args        The collection of Strings that has to be concatenated. Maybe <code>null</code>.
+   * @param delimiter   A delimiter which might be used.
+   * @param args        The collection of Strings that has to be concatenated.
    * 
-   * @return   The concatenated String. Not <code>null</code>.
+   * @return   The concatenated String.
    */
   public static <C extends CharSequence, L extends Collection<C>> @NotNull String concatenate(@Null String delimiter, @Null L args) {
     if ((args == null) || args.isEmpty()) {
@@ -266,11 +265,11 @@ public class StringFunctions {
    * Repeats the supplied text <param>n</param> times.
    * 
    * @param n      The number of concatenations that have to be performed.
-   * @param text   The text that has to be repeated. Maybe <code>null</code>.
+   * @param text   The text that has to be repeated.
    * 
-   * @return   The concatenated reproduction string. Not <code>null</code>.
+   * @return   The concatenated reproduction string.
    */
-  public static String repeat(@Min(0) int n, @Null CharSequence text ) {
+  public static @NotNull String repeat(@Min(0) int n, @Null CharSequence text ) {
     if ((n > 0) && (text != null) && (text.length() > 0)) {
       return Buckets.bucketStringFBuilder().forInstance($ -> {
         var c = n;
@@ -287,11 +286,11 @@ public class StringFunctions {
   /**
    * Creates a textual presentation with a padding using the space character.
    * 
-   * @param text      The text that is supposed to be filled with padding. Maybe <code>null</code>.
+   * @param text      The text that is supposed to be filled with padding.
    * @param limit     The maximum number of characters allowed.
    * @param left      <code>true</code> <=> Use left padding.
    * 
-   * @return   The text that is padded. Not <code>null</code>.
+   * @return   The text that is padded.
    */
   public static @NotNull String padding(@Null String text, @Min(1) int limit, boolean left) {
     return padding(text, limit, ' ', left);
@@ -304,12 +303,12 @@ public class StringFunctions {
   /**
    * Creates a textual presentation with a padding.
    * 
-   * @param text      The text that is supposed to be filled with padding. Maybe <code>null</code>.
+   * @param text      The text that is supposed to be filled with padding.
    * @param limit     The maximum number of characters allowed.
    * @param padding   The padding character.
    * @param left      <code>true</code> <=> Use left padding.
    * 
-   * @return   The text that is padded. Not <code>null</code>.
+   * @return   The text that is padded.
    */
   public static @NotNull String padding(@Null String text, @Min(1) int limit, char padding, boolean left) {
     if (text == null) {

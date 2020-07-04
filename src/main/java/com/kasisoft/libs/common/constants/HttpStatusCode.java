@@ -2,6 +2,7 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.annotation.Specification;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 
 import java.util.function.Predicate;
@@ -108,13 +109,10 @@ public enum HttpStatusCode implements Predicate<Integer> {
   public static final String SM_USE_PROXY                         = "Use Proxy";
 
   int      code;
-  
-  /** Neither <code>null</code> nor empty. */
   String   textualCode;
-  
   String   name;
   
-  HttpStatusCode(int statuscode, String text) {
+  HttpStatusCode(int statuscode, @NotBlank String text) {
     name        = text;
     code        = statuscode;
     textualCode = String.valueOf(code);
@@ -144,9 +142,9 @@ public enum HttpStatusCode implements Predicate<Integer> {
   /**
    * Returns the code associated with the supplied textual value.
    * 
-   * @param statuscode   The textual value containing the status code. Maybe <code>null</code>.
+   * @param statuscode   The textual value containing the status code.
    * 
-   * @return   The code if it could be found. <code>null</code> otherwise.
+   * @return   The code if it could be found or empty.
    */
   public static Optional<HttpStatusCode> findByStatusCode(@Null String statuscode) {
     if (statuscode != null) {

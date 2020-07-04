@@ -1,5 +1,6 @@
 package com.kasisoft.libs.common.xml;
 
+import com.kasisoft.libs.common.constants.Empty;
 import com.kasisoft.libs.common.constants.Encoding;
 
 import com.kasisoft.libs.common.text.StringFBuilder;
@@ -46,9 +47,6 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   
   /**
    * Creates this generator using a certain encoding and a specific indentation size.
-   * 
-   * @param encoding     The encoding to be used. If <code>null</code> the default encoding UTF-8 is used.  
-   * @param indentsize   The indentation size. If <code>null</code> the default 2 is being used.
    */
   public XmlGenerator() {
     this(null, null);
@@ -57,7 +55,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Creates this generator using a certain encoding and the default indentation size.
    * 
-   * @param encoding   The encoding to be used. If <code>null</code> the default encoding UTF-8 is used.  
+   * @param encoding   The encoding to be used.
    */
   public XmlGenerator(@Null Encoding encoding) {
     this(encoding, null);
@@ -75,8 +73,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Creates this generator using a certain encoding and a specific indentation size.
    * 
-   * @param csEncoding   The encoding to be used. If <code>null</code> the default encoding UTF-8 is used.  
-   * @param indentsize   The indentation size. If <code>null</code> the default 2 is being used.
+   * @param csEncoding   The encoding to be used. 
+   * @param indentsize   The indentation size.
    */
   public XmlGenerator(@Null Encoding csEncoding, @Null Integer indentsize) {
     builder                 = new StringFBuilder();
@@ -91,7 +89,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Changes the handler which is used when an invalid attribute key has been detected.
    * 
-   * @param handler   The handler to be used. If <code>null</code> the default handler is used (ignores such cases).
+   * @param handler   The handler to be used.
    * 
    * @return   this
    */
@@ -107,8 +105,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Changes the converter used for attribute values.
    * 
-   * @param converter   The converter which is used for attribute values. If <code>null</code> the default
-   *                    converter is being used.
+   * @param converter   The converter which is used for attribute values.
    * 
    * @return   this
    */
@@ -133,12 +130,12 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * This converter simply provides the textual presentation of the value.
    * 
-   * @param key   The attribute name that is currently being handled. Neither <code>null</code> nor empty.
-   * @param val   The attribute value. Maybe <code>null</code>.
+   * @param key   The attribute name that is currently being handled.
+   * @param val   The attribute value.
    * 
-   * @return   The converted attribute value. Maybe <code>null</code>.
+   * @return   The converted attribute value.
    */
-  private String attributeValueConverter(String key, Object val) {
+  private @NotNull String attributeValueConverter(@NotBlank String key, @Null Object val) {
     return String.valueOf(val);
   }
   
@@ -169,9 +166,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Generates a map of attributes from the supplied list of pairs.
    * 
-   * @param attributes   A list of pairs establishing the attribute map. Maybe <code>null</code>.
+   * @param attributes   A list of pairs establishing the attribute map.
    * 
-   * @return   A map of attributes. Not <code>null</code>.
+   * @return   A map of attributes.
    */
   private @NotNull Map<String, Object> asMap(@Null Object ... attributes) {
     Map<String, Object> result = null;
@@ -194,9 +191,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Ensures that a non-null map is returned.
    * 
-   * @param map   The map that's supposed to be returned if possible. Maybe <code>null</code>.
+   * @param map   The map that's supposed to be returned if possible.
    * 
-   * @return   The supplied map or a substitute. Not <code>null</code>.
+   * @return   The supplied map or a substitute.
    */
   private @NotNull Map<String, Object> asMap(@NotNull Map<String, Object> map) {
     if( (map == null) || map.isEmpty() ) {
@@ -209,8 +206,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a complete tag. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -222,9 +219,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a complete tag. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param text         The text contained with this tag. Maybe <code>null</code>.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param text         The text contained with this tag.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -236,8 +233,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a complete tag. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -249,8 +246,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a complete tag. 
    * 
-   * @param tag    The tag name. Neither <code>null</code> nor empty.
-   * @param text   The text contained with this tag. Maybe <code>null</code>.
+   * @param tag    The tag name.
+   * @param text   The text contained with this tag.
    * 
    * @return   this
    */
@@ -262,9 +259,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a complete tag. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param text         The text contained with this tag. Maybe <code>null</code>.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param text         The text contained with this tag.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -276,8 +273,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a complete tag. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -289,9 +286,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a complete tag. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param text         The text contained with this tag. Maybe <code>null</code>.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param text         The text contained with this tag.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -324,8 +321,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Opens a tag which potentially contains other tags. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -337,7 +334,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Opens a tag which potentially contains other tags. 
    * 
-   * @param tag   The tag name. Neither <code>null</code> nor empty.
+   * @param tag   The tag name.
    * 
    * @return   this
    */
@@ -348,8 +345,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Opens a tag which potentially contains other tags. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -361,8 +358,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Opens a tag which potentially contains other tags. 
    * 
-   * @param tag          The tag name. Neither <code>null</code> nor empty.
-   * @param attributes   The attributes associated with this tag. Maybe <code>null</code>.
+   * @param tag          The tag name.
+   * @param attributes   The attributes associated with this tag.
    * 
    * @return   this
    */
@@ -421,7 +418,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a single line comment.
    * 
-   * @param comment   The comment that shall be rendered. Maybe <code>null</code>.
+   * @param comment   The comment that shall be rendered.
    * 
    * @return   this
    */
@@ -435,7 +432,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes a multi line comment.
    * 
-   * @param comment   The comment that shall be rendered. Maybe <code>null</code>.
+   * @param comment   The comment that shall be rendered.
    * 
    * @return   this
    */
@@ -459,9 +456,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Writes all attributes sorted by their key names.
    * 
-   * @param attributes   The attributes that shall be written. Neither <code>null</code> nor empty.
+   * @param attributes   The attributes that shall be written.
    */
-  private void writeAttributes(Map<String, Object> attributes) {
+  private void writeAttributes(@NotNull Map<String, Object> attributes) {
     var keys = new ArrayList<String>(attributes.keySet());
     Collections.sort(keys);
     for (var key : keys) {
@@ -481,9 +478,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Returns the current xml content.
    * 
-   * @return   The current xml content. Not <code>null</code>.
+   * @return   The current xml content.
    */
-  public synchronized String toXml() {
+  public synchronized @NotNull String toXml() {
     stop();
     return builder.toString();
   }
@@ -491,15 +488,15 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   /**
    * Escapes the special characters for XML.
    * 
-   * @param text  The text that will require escaping. Not <code>null</code>.
+   * @param text  The text that will require escaping.
    * 
-   * @return   The escaped character. Not <code>null</code>.
+   * @return   The escaped character.
    */
-  private String escapeXml(String text) {
+  private @NotNull String escapeXml(@NotNull String text) {
     if (text.length() > 0) {
       return XmlFunctions.escapeXml(text);
     }
-    return "";
+    return Empty.NO_STRING;
   }
   
 } /* ENDCLASS */
