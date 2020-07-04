@@ -13,14 +13,8 @@ sourceCompatibility = '14'
 compileJava.options.fork = true
 
 repositories {
-
     mavenLocal()
     mavenCentral()
-
-    maven {
-        url = uri('https://oss.sonatype.org/content/repositories/snapshots')
-    }
-
 }
 
 dependencies {
