@@ -87,7 +87,7 @@ publishing {
 }
 
 generatePomFileForMavenPublication {
-  pom.name = '>KCL :: Kasisoft Common Library'
+  pom.name = 'KCL :: Kasisoft Common Library'
   pom.description = 'Collection of general purpose functionalities.'
   pom.organization({
     name = 'Kasisoft'
