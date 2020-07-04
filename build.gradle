@@ -4,11 +4,12 @@ plugins {
     id 'jacoco'
     id 'io.freefair.lombok' version '5.1.0'
     id 'signing'
+    id 'io.codearte.nexus-staging' version '0.21.2'
 }
 
 group = 'com.kasisoft'
 description = 'KCL :: Kasisoft Common Library'
-version = '3.8-SNAPSHOT'
+version = '3.8'
 def isSnapshot = version.endsWith('-SNAPSHOT')
 def isRelease = !isSnapshot;
 buildDir = 'target'
@@ -109,26 +110,33 @@ publishing {
 }
 
 generatePomFileForMavenPublication {
-  pom.name = 'KCL :: Kasisoft Common Library'
-  pom.description = 'Collection of general purpose functionalities.'
-  pom.organization({
-    name = 'Kasisoft'
-    url = 'https://kasisoft.com'
-  })
-  pom.license({
-    name = 'MIT License'
-    url = 'https://choosealicense.com/licenses/mit'
-  })
-  pom.developer({
-    id = 'costamojan'
-    name = 'Daniel Kasmeroglu'
-    email = 'daniel.kasmeroglu@kasisoft.com'
-  })
-  pom.scm({
-    connection = 'scm:git:https://github.com/kasisoft/kcl.git'
-    developerConnection = 'scm:git:https://github.com/kasisoft/kcl.git'
-    url = 'https://kasisoft.github.io/kcl'
-  })
+    
+    pom.name = 'KCL :: Kasisoft Common Library'
+    pom.description = 'Collection of general purpose functionalities.'
+    pom.url = 'https://kasisoft.github.io/kcl/'
+    
+    pom.organization({
+        name = 'Kasisoft'
+        url = 'https://kasisoft.com'
+    })
+    
+    pom.license({
+        name = 'MIT License'
+        url = 'https://choosealicense.com/licenses/mit'
+    })
+    
+    pom.developer({
+        id = 'costamojan'
+        name = 'Daniel Kasmeroglu'
+        email = 'daniel.kasmeroglu@kasisoft.com'
+    })
+    
+    pom.scm({
+        connection = 'scm:git:https://github.com/kasisoft/kcl.git'
+        developerConnection = 'scm:git:https://github.com/kasisoft/kcl.git'
+        url = 'https://kasisoft.github.io/kcl'
+    })
+    
 }
 
 tasks.withType(JavaCompile) {
