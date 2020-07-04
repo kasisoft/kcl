@@ -43,7 +43,7 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>4.0-SNAPSHOT</version>
+         <version>4.1-SNAPSHOT</version>
      </dependency>
      
      <repositories>
