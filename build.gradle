@@ -3,14 +3,36 @@ plugins {
     id 'maven-publish'
     id 'jacoco'
     id 'io.freefair.lombok' version '5.1.0'
+    id 'signing'
 }
 
 group = 'com.kasisoft'
-version = '3.8-SNAPSHOT'
 description = 'KCL :: Kasisoft Common Library'
+version = '3.8-SNAPSHOT'
+def isSnapshot = version.endsWith('-SNAPSHOT')
+def isRelease = !isSnapshot;
 buildDir = 'target'
 sourceCompatibility = '14'
 compileJava.options.fork = true
+
+if (isRelease) {
+    def pw = findProperty('signing.password')
+    if ((pw == null) || (pw.length() == 0)) {
+        throw new GradleException('Signing for a release requires as password (signing.password)')
+    }
+    def keyId = findProperty('signing.keyId')
+    if ((keyId == null) || (keyId.length() == 0)) {
+        throw new GradleException('Signing for a release requires as keyId (signing.keyId)')
+    }
+    def ringFile = findProperty('signing.secretKeyRingFile')
+    if ((ringFile == null) || (ringFile.length() == 0)) {
+        throw new GradleException('Signing for a release requires as key ring file (signing.secretKeyRingFile; binary version)')
+    }
+}
+
+println 'version: ' + version
+println 'snap : ' + isSnapshot
+println 'release : ' + isRelease
 
 repositories {
     mavenLocal()
@@ -131,4 +153,9 @@ jacocoTestReport {
         csv.enabled false
         html.destination file("${buildDir}/jacocoHtml")
     }
+}
+
+signing {
+    required { isRelease }
+    sign publishing.publications.maven
 }
