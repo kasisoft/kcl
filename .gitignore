@@ -9,7 +9,7 @@
 rebel.xml
 */test-output/
 test-output/
-
+release.sh
 /target/
 .factorypath
 

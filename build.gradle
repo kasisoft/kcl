@@ -9,7 +9,7 @@ plugins {
 
 group = 'com.kasisoft'
 description = 'KCL :: Kasisoft Common Library'
-version = '4.0-SNAPSHOT'
+version = '4.0'
 def isSnapshot = version.endsWith('-SNAPSHOT')
 def isRelease = !isSnapshot;
 buildDir = 'target'
