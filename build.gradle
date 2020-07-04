@@ -9,7 +9,7 @@ plugins {
 
 group = 'com.kasisoft'
 description = 'KCL :: Kasisoft Common Library'
-version = '3.9-SNAPSHOT'
+version = '4.0-SNAPSHOT'
 def isSnapshot = version.endsWith('-SNAPSHOT')
 def isRelease = !isSnapshot;
 buildDir = 'target'
@@ -30,10 +30,6 @@ if (isRelease) {
         throw new GradleException('Signing for a release requires as key ring file (signing.secretKeyRingFile; binary version)')
     }
 }
-
-println 'version: ' + version
-println 'snap : ' + isSnapshot
-println 'release : ' + isRelease
 
 repositories {
     mavenLocal()

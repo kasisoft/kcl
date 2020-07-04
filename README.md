@@ -8,18 +8,16 @@ purpose other than providing some handy functionalities.
 
 # Infos
 
-* [eMail: daniel.kasmeroglu@kasisoft.com](mailto:daniel.kasmeroglu@kasisoft.com)
+* [daniel.kasmeroglu@kasisoft.com](mailto:daniel.kasmeroglu@kasisoft.com)
 * [Github](https://github.com/kasisoft/kcl/issues)
-* [Jenkins](https://kasisoft.com/jenkins/job/libs.com.kasisoft.libs.common)
 * [GIT](https://github.com/kasisoft/kcl.git)
 
-https://kasisoft.github.io/kcl/
 
 # Development Setup
 
-I assume that you're familiar with Maven. If not I suggest to visit the following page:
+The build uses Gradke
 
-* https://maven.apache.org/
+* [https://gradle.org/](https://gradle.org/)
 
 
 ## Requirements
@@ -34,7 +32,7 @@ I assume that you're familiar with Maven. If not I suggest to visit the followin
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>3.5</version>
+         <version>4.0</version>
      </dependency>
 
 
@@ -45,12 +43,12 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>3.6-SNAPSHOT</version>
+         <version>4.0-SNAPSHOT</version>
      </dependency>
      
      <repositories>
          <repository>
-             <id>gh-kasisoft</id>
+             <id>github-kcl</id>
              <url>https://maven.pkg.github.com/kasisoft/kcl</url>
              <releases>
                  <enabled>false</enabled>
@@ -60,7 +58,23 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
              </snapshots>
          </repository>
      </repositories>
-     
+
+You need to provide credentials in your _~/.m2/settings.xml_:
+
+     <server>
+         <id>github-kcl</id>
+         <username>username</username>
+         <password>token</password>
+     </server>
+
+You can create a token with your github account:
+
+* Open your Github settings
+* Select _Developer settings_
+* Select _Personal access tokens_
+* Create a new token with read:package access
+
+
 
 # License
 
