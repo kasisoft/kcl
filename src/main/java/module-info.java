@@ -23,7 +23,6 @@ module com.kasisoft.libs.common {
 
   requires transitive java.desktop;
   requires transitive java.sql;
-  requires java.xml;
   requires transitive java.validation;
   requires lombok;
 
