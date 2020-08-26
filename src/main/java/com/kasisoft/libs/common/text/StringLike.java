@@ -3,7 +3,9 @@ package com.kasisoft.libs.common.text;
 import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import java.util.function.Function;
 
 import java.util.regex.Matcher;
@@ -397,11 +399,11 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    */
   default @NotNull T trimLeading() {
     while (length() > 0) {
-      int codePoint = codePointAt(0);
+      var codePoint = codePointAt(0);
       if (!Character.isWhitespace(codePoint)) {
         break;
       }
-      int charCount = Character.charCount(codePoint);
+      var charCount = Character.charCount(codePoint);
       delete(0, charCount);
     }
     return (T) this;
@@ -412,21 +414,17 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    */
   default @NotNull T trimTrailing() {
     while (length() > 0) {
-      int length    = length();
-      int codePoint = codePointAt(length - 1);
+      var length    = length();
+      var codePoint = codePointAt(length - 1);
       if (!Character.isWhitespace(codePoint)) {
         break;
       }
-      int charCount = Character.charCount(codePoint);
+      var charCount = Character.charCount(codePoint);
       delete(length - charCount, length);
     }
     return (T) this;
   }
 
-  default @NotNull T trim(@NotNull String chars, Boolean left) {
-    return (T) this;
-  }
-  
   /**
    * This function removes leading and trailing whitespace from this buffer.
    */
@@ -434,6 +432,57 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     return (T) trimLeading().trimTrailing();
   }
 
+  /**
+   * This function removes leading whitespace from this buffer.
+   * 
+   * @param chars   The whitespace characters.
+   */
+  default @NotNull T trimLeading(@NotBlank String chars) {
+    while (length() > 0) {
+      var ch = charAt(0);
+      if (chars.indexOf(ch) == -1) {
+        break;
+      }
+      deleteCharAt(0);
+    }
+    return (T) this;
+  }
+
+  /**
+   * This function removes trailing whitespace from this buffer.
+   * 
+   * @param chars   The whitespace characters.
+   */
+  default @NotNull T trimTrailing(@NotBlank String chars) {
+    while (length() > 0) {
+      var length = length();
+      var ch     = charAt(length - 1);
+      if (chars.indexOf(ch) == -1) {
+        break;
+      }
+      deleteCharAt(length - 1);
+    }
+    return (T) this;
+  }
+
+  /**
+   * Trims this instance depending on the provided settings.
+   * 
+   * @param chars   The whitespace characters.
+   * @param left    <code>null</code> <=> Trim left and right,
+   *                <code>true</code> <=> Trim left,
+   *                <code>false</code> <=> Trim right.
+   */
+  default @NotNull T trim(@NotNull String chars, Boolean left) {
+    if ((left == null) || left.booleanValue()) {
+      trimLeading(chars);
+    }
+    if ((left == null) || (!left.booleanValue())) {
+      trimTrailing(chars);
+    }
+    return (T) this;
+  }
+  
   /**
    * Returns <code>true</code> if the content of this buffer starts with the supplied literal.
    *  

@@ -288,9 +288,23 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
   }
 
   @Test(dataProvider = "data_buffers", groups = "all")
+  public void trimLeading__WithSpecifiedChars(T buffer) {
+    buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !", "Hello World", Integer.valueOf(17));
+    buffer.trimLeading("\r\n ");
+    assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test(dataProvider = "data_buffers", groups = "all")
   public void trimTrailing(T buffer) {
     buffer.appendF("My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
     buffer.trimTrailing();
+    assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test(dataProvider = "data_buffers", groups = "all")
+  public void trimTrailing__WithSpecifiedChars(T buffer) {
+    buffer.appendF("My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
+    buffer.trimTrailing("\r\n ");
     assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
   }
 
@@ -300,7 +314,28 @@ public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
     buffer.trim();
     assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
   }
-  
+
+  @Test(dataProvider = "data_buffers", groups = "all")
+  public void trim__WithSpecifiedChars(T buffer) {
+    buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
+    buffer.trim("\r\n ", null);
+    assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test(dataProvider = "data_buffers", groups = "all")
+  public void trim__WithSpecifiedChars_Left(T buffer) {
+    buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
+    buffer.trim("\r\n ", true);
+    assertThat(buffer.toString(), is("My test is this: Hello World ! Not 0x11 !\r\n   "));
+  }
+
+  @Test(dataProvider = "data_buffers", groups = "all")
+  public void trim__WithSpecifiedChars_Right(T buffer) {
+    buffer.appendF("\r\n   My test is this: %s ! Not 0x%02x !\r\n   ", "Hello World", Integer.valueOf(17));
+    buffer.trim("\r\n ", false);
+    assertThat(buffer.toString(), is("\r\n   My test is this: Hello World ! Not 0x11 !"));
+  }
+
   @Test(dataProvider = "data_buffers", groups = "all")
   public void endsWith(T buffer) {
     
