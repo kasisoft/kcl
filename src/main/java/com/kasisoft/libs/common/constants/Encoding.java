@@ -7,8 +7,6 @@ import com.kasisoft.libs.common.annotation.Specification;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -79,7 +77,7 @@ public final class Encoding {
    * @param requiresbom   <code>true</code> <=> Identifying this encoding requires a {@link ByteOrderMark}. 
    * @param mark          A {@link ByteOrderMark} which allows to identify the encoding.
    */
-  public Encoding(@NotBlank String key, boolean requiresbom, @Null ByteOrderMark mark) {
+  public Encoding(@NotBlank String key, boolean requiresbom, ByteOrderMark mark) {
     encoding      = key;
     bomRequired   = requiresbom;
     byteOrderMark = mark;
@@ -226,7 +224,7 @@ public final class Encoding {
     }
   }
   
-  public static @NotNull Encoding getEncoding(@Null Encoding encoding) {
+  public static @NotNull Encoding getEncoding(Encoding encoding) {
     if (encoding == null) {
       return KclConfig.DEFAULT_ENCODING;
     }

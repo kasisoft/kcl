@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.comparator;
 import com.kasisoft.libs.common.annotation.Prio;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Function;
 
 import java.util.Comparator;
@@ -46,7 +44,7 @@ public class Comparators {
     }
   }
 
-  public static <T extends Comparable<T>> int nullSafeCompareTo(@Null T o1, @Null T o2) {
+  public static <T extends Comparable<T>> int nullSafeCompareTo(T o1, T o2) {
     if ((o1 == null) && (o2 == null)) {
       return 0;
     }
@@ -60,7 +58,7 @@ public class Comparators {
     }
   }
 
-  public static <T> int nullSafeCompareTo(@Null T o1, @Null T o2, @NotNull Comparator<T> delegate) {
+  public static <T> int nullSafeCompareTo(T o1, T o2, @NotNull Comparator<T> delegate) {
     if ((o1 == null) && (o2 == null)) {
       return 0;
     }

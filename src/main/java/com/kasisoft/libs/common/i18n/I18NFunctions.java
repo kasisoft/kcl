@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.i18n;
 import com.kasisoft.libs.common.KclConfig;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.Locale;
 
 /**
@@ -21,7 +19,7 @@ public class I18NFunctions {
    * 
    * @return   The current locale.
    */
-  public static @NotNull Locale getLocale(@Null Locale locale) {
+  public static @NotNull Locale getLocale(Locale locale) {
     if (locale == null) {
       return KclConfig.DEFAULT_LOCALE;
     } else {

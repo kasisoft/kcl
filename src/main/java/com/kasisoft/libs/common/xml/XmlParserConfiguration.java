@@ -4,8 +4,6 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,17 +79,17 @@ public class XmlParserConfiguration {
       return this;
     }
     
-    public @NotNull XmlParserConfigurationBuilder baseurl(@Null URL baseurl) {
+    public @NotNull XmlParserConfigurationBuilder baseurl(URL baseurl) {
       result.setBaseurl(baseurl);
       return this;
     }
 
-    public @NotNull XmlParserConfigurationBuilder handler(@Null ErrorHandler errorhandler) {
+    public @NotNull XmlParserConfigurationBuilder handler(ErrorHandler errorhandler) {
       result.setHandler(errorhandler);
       return this;
     }
 
-    public @NotNull XmlParserConfigurationBuilder resolver(@Null EntityResolver entityresolver) {
+    public @NotNull XmlParserConfigurationBuilder resolver(EntityResolver entityresolver) {
       result.setResolver(entityresolver);
       return this;
     }
@@ -123,7 +121,7 @@ public class XmlParserConfiguration {
       return this;
     }
 
-    public @NotNull XmlParserConfigurationBuilder parameter(@NotNull DomConfigParameter parameter, @Null Object value) {
+    public @NotNull XmlParserConfigurationBuilder parameter(@NotNull DomConfigParameter parameter, Object value) {
       result.getParameters().put(parameter, value);
       return this;
     }

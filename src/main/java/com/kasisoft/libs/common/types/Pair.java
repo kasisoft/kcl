@@ -1,8 +1,6 @@
 package com.kasisoft.libs.common.types;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,23 +29,23 @@ public class Pair<T1, T2> implements Map.Entry<T1, T2>, HasFirstAndLast<T1, T2> 
    * @param val1   The first value.
    * @param val2   The second value.
    */
-  public void setValues(@Null T1 val1, @Null T2 val2) {
+  public void setValues(T1 val1, T2 val2) {
     value1 = val1;
     value2 = val2;
   }
 
   @Override
-  public @Null T1 getKey() {
+  public T1 getKey() {
     return getValue1();
   }
 
   @Override
-  public @Null T2 getValue() {
+  public T2 getValue() {
     return getValue2();
   }
 
   @Override
-  public @Null T2 setValue(@Null T2 value) {
+  public T2 setValue(T2 value) {
     T2 result = value2;
     value2    = value;
     return result;

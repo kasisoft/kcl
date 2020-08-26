@@ -5,8 +5,6 @@ import com.kasisoft.libs.common.constants.Empty;
 import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.regex.Pattern;
 
 import lombok.experimental.FieldDefaults;
@@ -39,7 +37,7 @@ public class LongArrayAdapter extends AbstractConverter<String, long[]> {
   }
 
   @Override
-  public @Null String encodeImpl(@NotNull long[] decoded) {
+  public String encodeImpl(@NotNull long[] decoded) {
     if (decoded.length == 0) {
       return Empty.NO_STRING;
     }
@@ -56,7 +54,7 @@ public class LongArrayAdapter extends AbstractConverter<String, long[]> {
   }
 
   @Override
-  public @Null long[] decodeImpl(@NotNull String encoded) {
+  public long[] decodeImpl(@NotNull String encoded) {
     if (encoded.length() == 0) {
       return Empty.NO_LONGS;
     }

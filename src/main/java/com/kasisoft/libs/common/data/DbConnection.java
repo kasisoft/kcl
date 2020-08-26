@@ -10,8 +10,6 @@ import javax.sql.DataSource;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -141,7 +139,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   The canonical name unless there's no correspondingly named table.
    */
-  public @Null String canonicalTableName(@NotNull String tablename) {
+  public String canonicalTableName(@NotNull String tablename) {
     var    tables = listTables();
     String result = null;
     for (var table : tables) {
@@ -216,7 +214,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   The name of the column or null in case of an error.
    */
-  private @Null String getColumnName(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
+  private String getColumnName(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
     try {
       return metadata.getColumnName(index);
     } catch(Exception ex) {
@@ -244,7 +242,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   The pair with the column name and jdbc type or null in case of an error.
    */
-  private @Null Pair<String, Integer> getColumnType(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
+  private Pair<String, Integer> getColumnType(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
     try {
       return new Pair<>(metadata.getColumnName(index), metadata.getColumnType(index));
     } catch (Exception ex) {
@@ -262,7 +260,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   A list of metadata results.
    */
-  private <T> @Null List<T> listColumnInfos(@NotNull Map<String, List<T>> cache, @NotBlank String table, @NotNull BiFunction<ResultSetMetaData, Integer, T> producer) {
+  private <T> List<T> listColumnInfos(@NotNull Map<String, List<T>> cache, @NotBlank String table, @NotNull BiFunction<ResultSetMetaData, Integer, T> producer) {
     var result = Collections.<T>emptyList();
     var name   = canonicalTableName(table);
     if (name != null) {
@@ -426,7 +424,7 @@ public class DbConnection implements AutoCloseable {
    * @param context     Some contextual object that shall be passed to the producer.
    * @param consumer    The {@link BiConsumer} which processes the jdbc outcome.
    */
-  public <C> void selectDo(@NotBlank String jdbcQuery, @Null C context, @NotNull BiConsumer<ResultSet, C> consumer) {
+  public <C> void selectDo(@NotBlank String jdbcQuery, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
     select(jdbcQuery, context, ($1, $2) -> {consumer.accept($1, $2); return null;});
   }
 
@@ -447,7 +445,7 @@ public class DbConnection implements AutoCloseable {
    * @param context    Some contextual object that shall be passed to the producer.
    * @param consumer   The {@link BiConsumer} which processes the jdbc outcome.
    */
-  public <C> void selectAllDo(@NotBlank String table, @Null C context, @NotNull BiConsumer<ResultSet, C> consumer) {
+  public <C> void selectAllDo(@NotBlank String table, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
     var name = canonicalTableName(table);
     selectDo(String.format(database.getSelectAllQuery(), name), context, consumer);
   }
@@ -472,7 +470,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   A list with all records.
    */
-  public <T, C> @NotNull List<T> select(@NotBlank String jdbcQuery, @Null C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+  public <T, C> @NotNull List<T> select(@NotBlank String jdbcQuery, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
     List<T>           result    = new ArrayList<>(100);
     PreparedStatement query     = null;
     ResultSet         resultset = null;
@@ -518,7 +516,7 @@ public class DbConnection implements AutoCloseable {
    * 
    * @return   A list with all records.
    */
-  public <T, C> @NotNull List<T> selectAll(@NotBlank String table, @Null C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+  public <T, C> @NotNull List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
     var name = canonicalTableName(table);
     return select(String.format(database.getSelectAllQuery(), name), context, producer);
   }

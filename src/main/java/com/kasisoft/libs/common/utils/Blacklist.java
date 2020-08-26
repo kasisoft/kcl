@@ -13,8 +13,6 @@ import com.kasisoft.libs.common.text.StringFBuilder;
 import com.kasisoft.libs.common.text.StringFunctions;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -66,7 +64,7 @@ public class Blacklist implements Predicate<String> {
     this(path, null);
   }
 
-  public Blacklist(@NotNull Path path, @Null Encoding encoding) {
+  public Blacklist(@NotNull Path path, Encoding encoding) {
     this();
     load(path, encoding);
   }
@@ -75,7 +73,7 @@ public class Blacklist implements Predicate<String> {
     this(url, null);
   }
 
-  public Blacklist(@NotNull URL url, @Null Encoding encoding) {
+  public Blacklist(@NotNull URL url, Encoding encoding) {
     this();
     load(url, encoding);
   }
@@ -84,7 +82,7 @@ public class Blacklist implements Predicate<String> {
     this(file, null);
   }
 
-  public Blacklist(@NotNull File file, @Null Encoding encoding) {
+  public Blacklist(@NotNull File file, Encoding encoding) {
     this();
     load(file, encoding);
   }
@@ -93,7 +91,7 @@ public class Blacklist implements Predicate<String> {
     this(uri, null);
   }
 
-  public Blacklist(@NotNull URI uri, @Null Encoding encoding) {
+  public Blacklist(@NotNull URI uri, Encoding encoding) {
     this();
     load(uri, encoding);
   }
@@ -112,7 +110,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @param blacklisted   The new value to be used for black listing. 
    */
-  public void add(@Null String blacklisted ) {
+  public void add(String blacklisted ) {
     var value = StringFunctions.cleanup(blacklisted);
     if (value != null) {
       var idx = Collections.binarySearch(list, value, Comparators.LENGTH_LONGEST_FIRST);
@@ -129,7 +127,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @param prefix   The prefix to be used for comments. If blank the default <i>#</i> is being used.
    */
-  public synchronized void setCommentPrefix(@Null String prefix) {
+  public synchronized void setCommentPrefix(String prefix) {
     commentPrefix = StringFunctions.cleanup(prefix);
     if (commentPrefix == null) {
       commentPrefix = "#";
@@ -149,7 +147,7 @@ public class Blacklist implements Predicate<String> {
     return IoFunctions.forReader(source, null, this::load);
   }
   
-  public synchronized Blacklist load(@NotNull Path source, @Null Encoding encoding) {
+  public synchronized Blacklist load(@NotNull Path source, Encoding encoding) {
     return IoFunctions.forReader(source, encoding, this::load);
   }
 
@@ -157,7 +155,7 @@ public class Blacklist implements Predicate<String> {
     return IoFunctions.forReader(source, null, this::load);
   }
   
-  public synchronized Blacklist load(@NotNull URL source, @Null Encoding encoding) {
+  public synchronized Blacklist load(@NotNull URL source, Encoding encoding) {
     return IoFunctions.forReader(source, encoding, this::load);
   }
 
@@ -165,7 +163,7 @@ public class Blacklist implements Predicate<String> {
     return IoFunctions.forReader(source, null, this::load);
   }
   
-  public synchronized Blacklist load(@NotNull File source, @Null Encoding encoding) {
+  public synchronized Blacklist load(@NotNull File source, Encoding encoding) {
     return IoFunctions.forReader(source, encoding, this::load);
   }
 
@@ -173,7 +171,7 @@ public class Blacklist implements Predicate<String> {
     return IoFunctions.forReader(source, null, this::load);
   }
   
-  public synchronized Blacklist load(@NotNull URI source, @Null Encoding encoding) {
+  public synchronized Blacklist load(@NotNull URI source, Encoding encoding) {
     return IoFunctions.forReader(source, encoding, this::load);
   }
 
@@ -216,7 +214,7 @@ public class Blacklist implements Predicate<String> {
    * @return   <code>true</code> <=> The supplied text is blacklisted.
    */
   @Override
-  public synchronized boolean test(@Null String t) {
+  public synchronized boolean test(String t) {
     if (t != null) {
       return list.contains(t);
     }
@@ -239,7 +237,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The supplied text is blacklisted.
    */
-  private synchronized boolean testCI(@Null String t) {
+  private synchronized boolean testCI(String t) {
     if (t != null) {
       return lowercaseList.contains(t.toLowerCase());
     }
@@ -253,7 +251,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A startsWith test for this blacklist.
    */
-  public @NotNull Predicate<@Null String> startsWith(boolean ignorecase) {
+  public @NotNull Predicate<String> startsWith(boolean ignorecase) {
     return ignorecase ? this::testStartsWithCI : this::testStartsWith;
   }
 
@@ -262,7 +260,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A startsWith test for this blacklist.
    */
-  public @NotNull Predicate<@Null String> startsWith() {
+  public @NotNull Predicate<String> startsWith() {
     return startsWith(false);
   }
   
@@ -273,7 +271,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The supplied text starts with a blacklisted literal.
    */
-  private synchronized boolean testStartsWith(@Null String t) {
+  private synchronized boolean testStartsWith(String t) {
     if (t != null) {
       return test(list, t::startsWith);
     }
@@ -287,7 +285,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The supplied text starts with a blacklisted literal.
    */
-  private synchronized boolean testStartsWithCI(@Null String t) {
+  private synchronized boolean testStartsWithCI(String t) {
     if (t != null) {
       return test(lowercaseList, t.toLowerCase()::startsWith);
     }
@@ -301,7 +299,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A endsWith test for this blacklist.
    */
-  public @NotNull Predicate<@Null String> endsWith(boolean ignorecase) {
+  public @NotNull Predicate<String> endsWith(boolean ignorecase) {
     return ignorecase ? this::testEndsWithCI : this::testEndsWith;
   }
   
@@ -310,7 +308,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A endsWith test for this blacklist.
    */
-  public @NotNull Predicate<@Null String> endsWith() {
+  public @NotNull Predicate<String> endsWith() {
     return endsWith(false);
   }
 
@@ -321,7 +319,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The supplied text ends with a blacklisted literal.
    */
-  private synchronized boolean testEndsWith(@Null String t) {
+  private synchronized boolean testEndsWith(String t) {
     if (t != null) {
       return test(list, t::endsWith);
     }
@@ -335,7 +333,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The supplied text ends with a blacklisted literal.
    */
-  private synchronized boolean testEndsWithCI(@Null String t) {
+  private synchronized boolean testEndsWithCI(String t) {
     if (t != null) {
       return test(lowercaseList, t.toLowerCase()::endsWith);
     }
@@ -349,7 +347,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A contains test for this blacklist.
    */
-  public @NotNull Predicate<@Null String> contains(boolean ignorecase) {
+  public @NotNull Predicate<String> contains(boolean ignorecase) {
     return ignorecase ? this::testContainsCI : this::testContains;
   }
 
@@ -358,7 +356,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A contains test for this blacklist.
    */
-  public @NotNull Predicate<@Null String> contains() {
+  public @NotNull Predicate<String> contains() {
     return contains(false);
   }
 
@@ -369,7 +367,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The supplied text contains a blacklisted literal.
    */
-  private synchronized boolean testContains(@Null String t) {
+  private synchronized boolean testContains(String t) {
     if (t != null) {
       return test(list, t::contains);
     }
@@ -383,7 +381,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The supplied text contains a blacklisted literal.
    */
-  private synchronized boolean testContainsCI(@Null String t) {
+  private synchronized boolean testContainsCI(String t) {
     if (t != null) {
       return test(lowercaseList, t.toLowerCase()::contains);
     }
@@ -398,7 +396,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> The predicate matched one entry.
    */
-  private boolean test(@NotNull List<String> list, @NotNull Predicate<@Null String> test) {
+  private boolean test(@NotNull List<String> list, @NotNull Predicate<String> test) {
     for (var element : list) {
       if (test.test(element)) {
         return true;
@@ -436,7 +434,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
    */
-  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(@Null Consumer<String> statistic) {
+  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(Consumer<String> statistic) {
     return cleanup(false, statistic);
   }
   
@@ -448,7 +446,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions. 
    */
-  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(boolean ignorecase, @Null Consumer<String> statistic) {
+  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(boolean ignorecase, Consumer<String> statistic) {
     int regexFlags = ignorecase ? Pattern.CASE_INSENSITIVE : 0;
     return $ -> apply($, regexFlags, statistic);
   }
@@ -461,7 +459,7 @@ public class Blacklist implements Predicate<String> {
    * 
    * @return   A StringBuilder instance providing the cleansed text.
    */
-  private synchronized @NotNull StringFBuilder apply(@Null CharSequence t, int regexFlags, @Null Consumer<String> statistic) {
+  private synchronized @NotNull StringFBuilder apply(CharSequence t, int regexFlags, Consumer<String> statistic) {
     var result = new StringFBuilder();
     if (t != null) {
       if (statistic == null) {

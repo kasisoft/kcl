@@ -4,8 +4,6 @@ import com.kasisoft.libs.common.utils.MiscFunctions;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Function;
 
 import java.util.stream.IntStream;
@@ -383,12 +381,12 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   }
 
   @Override
-  public synchronized <R extends CharSequence> @Null R startsWithMany(@Null R ... candidates) {
+  public synchronized <R extends CharSequence> R startsWithMany(R ... candidates) {
     return StringLike.super.startsWithMany(candidates);
   }
 
   @Override
-  public synchronized <R extends CharSequence> @Null R startsWithMany(boolean casesensitive, @Null R ... candidates) {
+  public synchronized <R extends CharSequence> R startsWithMany(boolean casesensitive, R ... candidates) {
     return StringLike.super.startsWithMany(casesensitive, candidates);
   }
 
@@ -398,12 +396,12 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   }
   
   @Override
-  public synchronized <R extends CharSequence> @Null R endsWithMany(@Null R ... candidates) {
+  public synchronized <R extends CharSequence> R endsWithMany(R ... candidates) {
     return StringLike.super.endsWithMany(candidates);
   }
 
   @Override
-  public synchronized <R extends CharSequence> @Null R endsWithMany(boolean casesensitive, @Null R ... candidates) {
+  public synchronized <R extends CharSequence> R endsWithMany(boolean casesensitive, R ... candidates) {
     return StringLike.super.endsWithMany(casesensitive, candidates);
   }
 
@@ -542,7 +540,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     return StringLike.super.replaceAll(replacements);
   }
 
-  public synchronized @NotNull StringFBuffer replaceAll(@NotNull Map<String, String> replacements, @Null String fmt) {
+  public synchronized @NotNull StringFBuffer replaceAll(@NotNull Map<String, String> replacements, String fmt) {
     return StringLike.super.replaceAll(replacements, fmt);
   }
 
@@ -550,7 +548,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     return StringLike.super.replaceRegions(open, replacement);
   }
 
-  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @Null String close, @NotNull String replacement) {
+  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, String close, @NotNull String replacement) {
     return StringLike.super.replaceRegions(open, close, replacement);
   }
 
@@ -558,7 +556,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     return StringLike.super.replaceRegions(open, replacement);
   }
   
-  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @Null String close, @NotNull Function<String, CharSequence> replacement) {
+  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
     return StringLike.super.replaceRegions(open, close, replacement);
   }
 

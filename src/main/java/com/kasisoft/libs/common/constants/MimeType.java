@@ -5,8 +5,6 @@ import com.kasisoft.libs.common.annotation.Specifications;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Predicate;
 
 import java.util.Arrays;
@@ -102,7 +100,7 @@ public enum MimeType implements Predicate<String> {
   }
   
   @Override
-  public boolean test(@Null String mime) {
+  public boolean test(String mime) {
     boolean result = false;
     if (mime != null) {
       result = mimeType.equalsIgnoreCase(mime);

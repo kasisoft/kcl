@@ -6,8 +6,6 @@ import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Function;
 
 import java.util.Arrays;
@@ -62,7 +60,7 @@ public class StringFunctions {
    * 
    * @return   null or a non-empty String.
    */
-  public static @Null String cleanup(@Null String input) {
+  public static String cleanup(String input) {
     if (input != null) {
       input = input.trim();
       if (input.length() == 0) {
@@ -128,7 +126,7 @@ public class StringFunctions {
    * 
    * @return   The modified String.
    */
-  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements, @Null String fmt) {
+  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements, String fmt) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements, fmt).toString());
   }
 
@@ -166,7 +164,7 @@ public class StringFunctions {
    *
    * @return   The altered text.
    */
-  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, @Null String close, @NotNull CharSequence replacement) {
+  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull CharSequence replacement) {
     return replaceRegions(input, open, close, $ -> replacement);
   }
 
@@ -194,27 +192,27 @@ public class StringFunctions {
    *
    * @return   The altered text.
    */
-  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, @Null String close, @NotNull Function<String, CharSequence> replacement) {
+  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceRegions(open, close, replacement).toString());
   }
 
-  public static <T extends CharSequence> @Null T startsWithMany(@NotNull String input, @NotNull T ... candidates) {
+  public static <T extends CharSequence> T startsWithMany(@NotNull String input, @NotNull T ... candidates) {
     return startsWithMany(input, true, candidates);
   }
   
-  public static <T extends CharSequence> @Null T startsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
+  public static <T extends CharSequence> T startsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).startsWithMany(casesensitive, candidates));
   }
 
-  public static <T extends CharSequence> @Null T endsWithMany(@NotNull String input, @NotNull T ... candidates) {
+  public static <T extends CharSequence> T endsWithMany(@NotNull String input, @NotNull T ... candidates) {
     return endsWithMany(input, true, candidates);
   }
 
-  public static <T extends CharSequence> @Null T endsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
+  public static <T extends CharSequence> T endsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).endsWithMany(casesensitive, candidates));
   }
   
-  public static @NotNull String trim(@NotNull String input, @NotNull String chars, @Null Boolean left) {
+  public static @NotNull String trim(@NotNull String input, @NotNull String chars, Boolean left) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).trim(chars, left).toString());
   }
 
@@ -227,7 +225,7 @@ public class StringFunctions {
    * 
    * @return   The concatenated String
    */
-  public static @NotNull String concatenate(@Null String delimiter, @Null CharSequence ... args) {
+  public static @NotNull String concatenate(String delimiter, CharSequence ... args) {
     return concatenate(delimiter, Arrays.asList(args));
   }
 
@@ -240,7 +238,7 @@ public class StringFunctions {
    * 
    * @return   The concatenated String.
    */
-  public static <C extends CharSequence, L extends Collection<C>> @NotNull String concatenate(@Null String delimiter, @Null L args) {
+  public static <C extends CharSequence, L extends Collection<C>> @NotNull String concatenate(String delimiter, L args) {
     if ((args == null) || args.isEmpty()) {
       return Empty.NO_STRING;
     }
@@ -269,7 +267,7 @@ public class StringFunctions {
    * 
    * @return   The concatenated reproduction string.
    */
-  public static @NotNull String repeat(@Min(0) int n, @Null CharSequence text ) {
+  public static @NotNull String repeat(@Min(0) int n, CharSequence text ) {
     if ((n > 0) && (text != null) && (text.length() > 0)) {
       return Buckets.bucketStringFBuilder().forInstance($ -> {
         var c = n;
@@ -292,7 +290,7 @@ public class StringFunctions {
    * 
    * @return   The text that is padded.
    */
-  public static @NotNull String padding(@Null String text, @Min(1) int limit, boolean left) {
+  public static @NotNull String padding(String text, @Min(1) int limit, boolean left) {
     return padding(text, limit, ' ', left);
   }
   
@@ -310,7 +308,7 @@ public class StringFunctions {
    * 
    * @return   The text that is padded.
    */
-  public static @NotNull String padding(@Null String text, @Min(1) int limit, char padding, boolean left) {
+  public static @NotNull String padding(String text, @Min(1) int limit, char padding, boolean left) {
     if (text == null) {
       return fillString(limit, padding);
     }
@@ -338,7 +336,7 @@ public class StringFunctions {
    * 
    * @return   The textual representation of the supplied object.
    */
-  public static @NotNull String objectToString(@Null Object obj) {
+  public static @NotNull String objectToString(Object obj) {
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       appendToString($, obj);
       return $.toString();
@@ -352,7 +350,7 @@ public class StringFunctions {
    * 
    * @return   The textual representation of the supplied object.
    */
-  private static <S extends StringLike> void appendToString(@NotNull S receiver, @Null Object obj) {
+  private static <S extends StringLike> void appendToString(@NotNull S receiver, Object obj) {
     if (obj == null) {
       receiver.append("null");
     } else if (obj instanceof boolean[]) {

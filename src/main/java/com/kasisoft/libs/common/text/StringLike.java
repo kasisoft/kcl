@@ -4,8 +4,6 @@ import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Function;
 
 import java.util.regex.Matcher;
@@ -289,7 +287,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   The index of the leftmost found literal or -1 if none matched.
    */
-  default int indexOf(@Null String ... literals) {
+  default int indexOf(String ... literals) {
     return indexOf(0, literals);
   }
   
@@ -359,7 +357,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   The index of the rightmost found literal or -1 if none matched.
    */
-  default int lastIndexOf(@Null String ... literals) {
+  default int lastIndexOf(String ... literals) {
     return lastIndexOf(-1, literals);
   }
   
@@ -372,7 +370,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   The index of the rightmost found literal or -1 if none matched.
    */
-  default int lastIndexOf(int index, @Null String ... literals) {
+  default int lastIndexOf(int index, String ... literals) {
     var result = -1;
     if (literals != null) {
       for (var literal : literals) {
@@ -476,7 +474,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   The sequence that's at the start or null.
    */
-  default <R extends CharSequence> @Null R startsWithMany(@Null R ... candidates) {
+  default <R extends CharSequence> R startsWithMany(R ... candidates) {
     return startsWithMany(true, candidates);
   }
   
@@ -488,7 +486,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   The sequence that's at start or null.
    */
-  default <R extends CharSequence> @Null R startsWithMany(boolean casesensitive, @Null R ... candidates) {
+  default <R extends CharSequence> R startsWithMany(boolean casesensitive, R ... candidates) {
     if ((candidates == null) || (candidates.length == 0)) {
       return null;
     }
@@ -540,7 +538,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   The sequence that's at the end or null.
    */
-  default <R extends CharSequence> @Null R endsWithMany(@Null R ... candidates) {
+  default <R extends CharSequence> R endsWithMany(R ... candidates) {
     return endsWithMany(true, candidates);
   }
   
@@ -552,7 +550,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   The sequence that's at the end or null.
    */
-  default <R extends CharSequence> @Null R endsWithMany(boolean casesensitive, @Null R ... candidates) {
+  default <R extends CharSequence> R endsWithMany(boolean casesensitive, R ... candidates) {
     if ((candidates == null) || (candidates.length == 0)) {
       return null;
     }
@@ -832,7 +830,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
    * 
    * @return   This buffer.
    */
-  default @NotNull T replaceAll(@NotNull Map<String, String> replacements, @Null String fmt) {
+  default @NotNull T replaceAll(@NotNull Map<String, String> replacements, String fmt) {
     
     var substitutions = Buckets.<String, String>bucketHashMap().allocate();
     var builder       = Buckets.bucketStringFBuilder().allocate();
@@ -1045,7 +1043,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     return replaceRegions(open, open, $ -> replacement);
   }
 
-  default @NotNull T replaceRegions(@NotNull String open, @Null String close, @NotNull String replacement) {
+  default @NotNull T replaceRegions(@NotNull String open, String close, @NotNull String replacement) {
     return replaceRegions(open, close, $ -> replacement);
   }
   
@@ -1053,7 +1051,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     return replaceRegions(open, open, replacement);
   }
   
-  default @NotNull T replaceRegions(@NotNull String open, @Null String close, @NotNull Function<String, CharSequence> replacement) {
+  default @NotNull T replaceRegions(@NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
     if (close == null) {
       close = open;
     }

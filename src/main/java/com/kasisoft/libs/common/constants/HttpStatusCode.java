@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.constants;
 import com.kasisoft.libs.common.annotation.Specification;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-
 import java.util.function.Predicate;
 
 import java.util.Optional;
@@ -119,7 +117,7 @@ public enum HttpStatusCode implements Predicate<Integer> {
   }
   
   @Override
-  public boolean test(@Null Integer statuscode) {
+  public boolean test(Integer statuscode) {
     return statuscode != null ? statuscode.intValue() == code : false;
   }
   
@@ -146,7 +144,7 @@ public enum HttpStatusCode implements Predicate<Integer> {
    * 
    * @return   The code if it could be found or empty.
    */
-  public static Optional<HttpStatusCode> findByStatusCode(@Null String statuscode) {
+  public static Optional<HttpStatusCode> findByStatusCode(String statuscode) {
     if (statuscode != null) {
       try {
         return findByStatusCode(Integer.parseInt(statuscode));

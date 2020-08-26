@@ -1,8 +1,6 @@
 package com.kasisoft.libs.common.types;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.Optional;
 
 import lombok.experimental.FieldDefaults;
@@ -32,7 +30,7 @@ public class Triple<T1, T2, T3> implements HasFirstAndLast<T1, T3>{
    * @param val2   The second value.
    * @param val3   The third value.
    */
-  public void setValues(@Null T1 val1, @Null T2 val2, @Null T3 val3) {
+  public void setValues(T1 val1, T2 val2, T3 val3) {
     value1 = val1;
     value2 = val2;
     value3 = val3;

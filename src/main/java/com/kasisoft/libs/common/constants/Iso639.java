@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.constants;
 import com.kasisoft.libs.common.annotation.Specification;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Predicate;
 
 import java.util.HashMap;
@@ -524,7 +522,7 @@ public enum Iso639 implements Predicate<String> {
   }
   
   @Override
-  public boolean test(@Null String code) {
+  public boolean test(String code) {
     var result = false;
     if(code != null ) {
       result = bibliography.equalsIgnoreCase(code) || terminology.equalsIgnoreCase(code);
@@ -542,7 +540,7 @@ public enum Iso639 implements Predicate<String> {
    * 
    * @return   The iso value.
    */
-  public static @NotNull Optional<Iso639> findByBibliography(@Null String bibliography) {
+  public static @NotNull Optional<Iso639> findByBibliography(String bibliography) {
     return findBy(LocalData.bibliography, bibliography);
   }
 
@@ -553,7 +551,7 @@ public enum Iso639 implements Predicate<String> {
    * 
    * @return   The iso value.
    */
-  public static @NotNull Optional<Iso639> findByTerminology(@Null String terminology) {
+  public static @NotNull Optional<Iso639> findByTerminology(String terminology) {
     return findBy(LocalData.terminology, terminology);
   }
 
@@ -564,7 +562,7 @@ public enum Iso639 implements Predicate<String> {
    * 
    * @return   The iso value.
    */
-  public static @NotNull Optional<Iso639> findByAlpha3(@Null String alpha3) {
+  public static @NotNull Optional<Iso639> findByAlpha3(String alpha3) {
     return findBy(LocalData.alpha3, alpha3);
   }
   
@@ -575,11 +573,11 @@ public enum Iso639 implements Predicate<String> {
    * 
    * @return   The iso value.
    */
-  public static @NotNull Optional<Iso639> findByAlpha2(@Null String alpha2) {
+  public static @NotNull Optional<Iso639> findByAlpha2(String alpha2) {
     return findBy(LocalData.alpha2, alpha2);
   }
 
-  private static @NotNull Optional<Iso639> findBy(@NotNull Map<String, Iso639> map, @Null String key) {
+  private static @NotNull Optional<Iso639> findBy(@NotNull Map<String, Iso639> map, String key) {
     if (key != null) {
       return Optional.ofNullable(map.get(key));
     }

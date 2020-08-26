@@ -6,8 +6,6 @@ import com.kasisoft.libs.common.KclException;
 import com.kasisoft.libs.common.text.StringFunctions;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +51,7 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   }
 
   @Override
-  protected @Null String encodeImpl(@NotNull Color v) {
+  protected String encodeImpl(@NotNull Color v) {
     return 
       String.format( 
         "#%02x%02x%02x%02x", 
@@ -65,7 +63,7 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   }
 
   @Override
-  protected @Null Color decodeImpl(@NotNull String v) {
+  protected Color decodeImpl(@NotNull String v) {
     if (v.startsWith("#")) {
       return unmarshalNumerical(v);
     } else if (v.toLowerCase().startsWith(RGB)) {

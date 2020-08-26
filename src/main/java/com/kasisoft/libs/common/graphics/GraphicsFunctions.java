@@ -14,8 +14,6 @@ import javax.swing.JComponent;
 import javax.imageio.ImageIO;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.net.URI;
 import java.net.URL;
 
@@ -323,7 +321,7 @@ public class GraphicsFunctions {
    * @param alpha       The alpha level. A range between 0.0 and 1.0 .
    * @param alignment   The horizontal/vertical alignment to be chosen. 
    */
-  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, @Null Alignment alignment) {
+  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, Alignment alignment) {
     applyWatermark(origin, watermark, alpha, alignment, alignment, 0);
   }
 
@@ -336,7 +334,7 @@ public class GraphicsFunctions {
    * @param alignment   The horizontal/vertical alignment to be chosen. 
    * @param padding     Some padding for the watermark within the original image. 
    */
-  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, @Null Alignment alignment, int padding) {
+  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, Alignment alignment, int padding) {
     applyWatermark(origin, watermark, alpha, alignment, alignment, padding);
   }
 
@@ -349,7 +347,7 @@ public class GraphicsFunctions {
    * @param alignmentX   The horizontal alignment to be chosen. 
    * @param alignmentY   The vertical alignment to be chosen.
    */
-  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, @Null Alignment alignmentX, @Null Alignment alignmentY) {
+  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, Alignment alignmentX, Alignment alignmentY) {
     applyWatermark( origin, watermark, alpha, alignmentX, alignmentY, 0);
   }
   
@@ -363,7 +361,7 @@ public class GraphicsFunctions {
    * @param alignmentY   The vertical alignment to be chosen.
    * @param padding      Some padding for the watermark within the original image. 
    */
-  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, @Null Alignment alignmentX, @Null Alignment alignmentY, int padding) {
+  public static void applyWatermark(@NotNull BufferedImage origin, @NotNull BufferedImage watermark, float alpha, Alignment alignmentX, Alignment alignmentY, int padding) {
     
     if (alignmentX == null) {
       alignmentX = Alignment.Left;

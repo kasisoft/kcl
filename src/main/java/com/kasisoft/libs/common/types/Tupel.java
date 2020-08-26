@@ -1,8 +1,6 @@
 package com.kasisoft.libs.common.types;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.Optional;
 
 import lombok.experimental.FieldDefaults;
@@ -29,7 +27,7 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
    * 
    * @param newvalues   The new values.
    */
-  public Tupel(@Null T ... newvalues) {
+  public Tupel(T ... newvalues) {
     setValues(newvalues);
   }
 
@@ -58,7 +56,7 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
    * 
    * @param newvalues   The new values.
    */
-  public void setValues(@Null T ... newvalues) {
+  public void setValues(T ... newvalues) {
     values = newvalues;
     length = newvalues != null ? newvalues.length : 0;
   }

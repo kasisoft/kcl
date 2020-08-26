@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.graphics;
 import com.kasisoft.libs.common.constants.MimeType;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Predicate;
 
 import java.util.Arrays;
@@ -40,7 +38,7 @@ public enum PictureFormat implements Predicate<String> {
   List<String>  suffices;
   
   @Override
-  public boolean test(@Null String t) {
+  public boolean test(String t) {
     if (t != null) {
       var lidx = t.lastIndexOf('.');
       if (lidx != -1) {

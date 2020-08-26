@@ -1,8 +1,6 @@
 package com.kasisoft.libs.common.types;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.Optional;
 
 /**
@@ -14,11 +12,11 @@ public interface HasFirstAndLast<F, L> {
   
   @NotNull Optional<L> findLast();
 
-  default @Null F getFirst() {
+  default F getFirst() {
     return findFirst().orElse(null);
   }
   
-  default @Null L getLast() {
+  default L getLast() {
     return findLast().orElse(null);
   }
   

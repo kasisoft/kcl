@@ -13,8 +13,6 @@ import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -55,7 +53,7 @@ public interface IoSupport<T> {
     return newReader(source, null);
   }
   
-  default @NotNull Reader newReader(@NotNull T source, @Null Encoding encoding) {
+  default @NotNull Reader newReader(@NotNull T source, Encoding encoding) {
     return new BufferedReader(new InputStreamReader(newInputStream(source), Encoding.getEncoding(encoding).getCharset()));
   }
   
@@ -63,7 +61,7 @@ public interface IoSupport<T> {
     return newWriter(destination, null);
   }
   
-  default @NotNull Writer newWriter(@NotNull T destination, @Null Encoding encoding) {
+  default @NotNull Writer newWriter(@NotNull T destination, Encoding encoding) {
     return new BufferedWriter(new OutputStreamWriter(newOutputStream(destination), Encoding.getEncoding(encoding).getCharset()));
   }
 
@@ -75,7 +73,7 @@ public interface IoSupport<T> {
     }
   }
   
-  default <R> @Null R forInputStream(@NotNull T source, @NotNull KFunction<@NotNull InputStream, @Null R> function) {
+  default <R> R forInputStream(@NotNull T source, @NotNull KFunction<@NotNull InputStream, R> function) {
     try (var instream = newInputStream(source)) {
       return function.apply(instream);
     } catch (Exception ex) {
@@ -91,7 +89,7 @@ public interface IoSupport<T> {
     }
   }
   
-  default <R> @Null R forOutputStream(@NotNull T destination, @NotNull KFunction<@NotNull OutputStream, @Null R> function) {
+  default <R> R forOutputStream(@NotNull T destination, @NotNull KFunction<@NotNull OutputStream, R> function) {
     try (var outstream = newOutputStream(destination)) {
       return function.apply(outstream);
     } catch (Exception ex) {
@@ -103,7 +101,7 @@ public interface IoSupport<T> {
     forReaderDo(source, null, action);
   }
 
-  default void forReaderDo(@NotNull T source, @Null Encoding encoding, @NotNull KConsumer<@NotNull Reader> action) {
+  default void forReaderDo(@NotNull T source, Encoding encoding, @NotNull KConsumer<@NotNull Reader> action) {
     try (var reader = newReader(source, encoding)) {
       action.accept(reader);
     } catch (Exception ex) {
@@ -111,11 +109,11 @@ public interface IoSupport<T> {
     }
   }
 
-  default <R> @Null R forReader(@NotNull T source, @NotNull KFunction<@NotNull Reader, @Null R> function) {
+  default <R> R forReader(@NotNull T source, @NotNull KFunction<@NotNull Reader, R> function) {
     return forReader(source, null, function);
   }
 
-  default <R> @Null R forReader(@NotNull T source, @Null Encoding encoding, @NotNull KFunction<@NotNull Reader, @Null R> function) {
+  default <R> R forReader(@NotNull T source, Encoding encoding, @NotNull KFunction<@NotNull Reader, R> function) {
     try (var reader = newReader(source, encoding)) {
       return function.apply(reader);
     } catch (Exception ex) {
@@ -127,7 +125,7 @@ public interface IoSupport<T> {
     forWriterDo(destination, null, action);
   }
 
-  default void forWriterDo(@NotNull T destination, @Null Encoding encoding, @NotNull KConsumer<@NotNull Writer> action) {
+  default void forWriterDo(@NotNull T destination, Encoding encoding, @NotNull KConsumer<@NotNull Writer> action) {
     try (var writer = newWriter(destination, encoding)) {
       action.accept(writer);
     } catch (Exception ex) {
@@ -135,11 +133,11 @@ public interface IoSupport<T> {
     }
   }
 
-  default <R> @Null R forWriter(@NotNull T destination, @NotNull KFunction<@NotNull Writer, @Null R> function) {
+  default <R> R forWriter(@NotNull T destination, @NotNull KFunction<@NotNull Writer, R> function) {
     return forWriter(destination, null, function);
   }
 
-  default <R> @Null R forWriter(@NotNull T destination, @Null Encoding encoding, @NotNull KFunction<@NotNull Writer, @Null R> function) {
+  default <R> R forWriter(@NotNull T destination, Encoding encoding, @NotNull KFunction<@NotNull Writer, R> function) {
     try (var writer = newWriter(destination, encoding)) {
       return function.apply(writer);
     } catch (Exception ex) {
@@ -172,11 +170,11 @@ public interface IoSupport<T> {
     return loadChars(source, null, offset, size);
   }
 
-  default @NotNull char[] loadChars(@NotNull T source, @Null Encoding encoding, @Min(1) int size) {
+  default @NotNull char[] loadChars(@NotNull T source, Encoding encoding, @Min(1) int size) {
     return loadChars(source, encoding, 0, size);
   }
   
-  default @NotNull char[] loadChars(@NotNull T source, @Null Encoding encoding, @Min(0) int offset, @Min(1) int size) {
+  default @NotNull char[] loadChars(@NotNull T source, Encoding encoding, @Min(0) int offset, @Min(1) int size) {
     return forReader(source, encoding, $reader -> {
       try {
         IoFunctions.skip($reader, offset);
@@ -223,11 +221,11 @@ public interface IoSupport<T> {
     return loadAllChars(source, null, offset);
   }
 
-  default @NotNull char[] loadAllChars(@NotNull T source, @Null Encoding encoding) {
+  default @NotNull char[] loadAllChars(@NotNull T source, Encoding encoding) {
     return loadAllChars(source, encoding, 0);
   }
   
-  default @NotNull char[] loadAllChars(@NotNull T source, @Null Encoding encoding, @Min(0) int offset) {
+  default @NotNull char[] loadAllChars(@NotNull T source, Encoding encoding, @Min(0) int offset) {
     return Buckets.bucketCharArrayWriter().forInstance($charout -> {
       forReaderDo(source, encoding, $reader -> {
         try {
@@ -259,11 +257,11 @@ public interface IoSupport<T> {
     saveChars(destination, null, data, 0, data.length);
   }
 
-  default void saveChars(@NotNull T destination, @Null Encoding encoding, @NotNull char[] data) {
+  default void saveChars(@NotNull T destination, Encoding encoding, @NotNull char[] data) {
     saveChars(destination, encoding, data, 0, data.length);
   }
 
-  default void saveChars(@NotNull T destination, @Null Encoding encoding, char[] data, @Min(0) int offset, @Min(0) int size) {
+  default void saveChars(@NotNull T destination, Encoding encoding, char[] data, @Min(0) int offset, @Min(0) int size) {
     forWriterDo(destination, encoding, $writer -> {
       try {
         $writer.write(data, offset, size);
@@ -277,7 +275,7 @@ public interface IoSupport<T> {
     return readText(source, null);
   }
 
-  default @NotNull String readText(@NotNull T source, @Null Encoding encoding) {
+  default @NotNull String readText(@NotNull T source, Encoding encoding) {
     return forReader(source, encoding, IoFunctions::readText);
   }
   
@@ -285,7 +283,7 @@ public interface IoSupport<T> {
     writeText(destination, null, text);
   }
 
-  default void writeText(@NotNull T destination, @Null Encoding encoding, @NotNull String text) {
+  default void writeText(@NotNull T destination, Encoding encoding, @NotNull String text) {
     forWriterDo(destination, encoding, $writer -> {
       try {
         IoFunctions.writeText($writer, text);

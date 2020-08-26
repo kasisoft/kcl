@@ -14,7 +14,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -145,7 +144,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The content if it could be loaded.
    */
-  public synchronized @Null byte[] loadResource(@NotNull String publicid) {
+  public synchronized byte[] loadResource(@NotNull String publicid) {
     return catalogdata.get(new PublicId(publicid));
   }
 
@@ -156,7 +155,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The content if it could be loaded.
    */
-  public synchronized @Null byte[] loadResource(@NotNull URL resource) {
+  public synchronized byte[] loadResource(@NotNull URL resource) {
     var publicid = new PublicId(resource.toExternalForm());
     if (catalogdata.containsKey(publicid)) {
       return catalogdata.get(publicid);
@@ -179,7 +178,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The loaded data or null.
    */
-  private @Null byte[] loadData(@Null String publicid, @Null String systemid) {
+  private byte[] loadData(String publicid, String systemid) {
     byte[] result = null;
     var    url    = toURL(systemid);
     if (publicid != null) {
@@ -203,7 +202,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   }
   
   @Override
-  public @Null InputSource resolveEntity(@Null String publicid, @Null String systemid) throws SAXException, IOException {
+  public InputSource resolveEntity(String publicid, String systemid) throws SAXException, IOException {
     var result = loadData(publicid, systemid);
     if (result != null) {
       var pid         = new PublicId(publicid);
@@ -216,7 +215,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   }
   
   @Override
-  public @Null LSInput resolveResource(String type, String namespaceuri, String publicid, String systemid, String baseuri) {
+  public LSInput resolveResource(String type, String namespaceuri, String publicid, String systemid, String baseuri) {
     if (domimpl != null) {
       if ((publicid != null) || (systemid != null)) {
         var result = loadData(publicid, systemid);
@@ -241,7 +240,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
    * 
    * @return   The url or null in case the system id could not be translated.
    */
-  private @Null URL toURL(@Null String systemid) {
+  private URL toURL(String systemid) {
     if (systemid != null) {
       try {
         return new URL(systemid);

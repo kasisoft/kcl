@@ -1,8 +1,6 @@
 package com.kasisoft.libs.common;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Supplier;
 
 /**
@@ -22,15 +20,15 @@ public class KclException extends RuntimeException {
     super(ex);
   }
   
-  public KclException(@Null String fmt, @Null Object ... args) {
+  public KclException(String fmt, Object ... args) {
     super(formatString(fmt, args));
   }
   
-  public KclException(@NotNull Exception ex, @Null String fmt, @Null Object ... args) {
+  public KclException(@NotNull Exception ex, String fmt, Object ... args) {
     super(formatString(fmt, args), ex);
   }
   
-  private static @Null String formatString(@Null String fmt, @Null Object ... args) {
+  private static String formatString(String fmt, Object ... args) {
     var result = fmt;
     if ((args != null) && (args.length > 0)) {
       result = String.format(fmt, args);
@@ -38,7 +36,7 @@ public class KclException extends RuntimeException {
     return result;
   }
   
-  public static <R> R execute(@NotNull Supplier<R> supplier, @Null String fmt, @Null Object ... args) {
+  public static <R> R execute(@NotNull Supplier<R> supplier, String fmt, Object ... args) {
     try {
       return supplier.get();
     } catch (Exception ex) {
@@ -54,7 +52,7 @@ public class KclException extends RuntimeException {
     }
   }
 
-  public static @NotNull KclException wrap(@NotNull Exception ex, @Null String fmt, @Null Object ... args) {
+  public static @NotNull KclException wrap(@NotNull Exception ex, String fmt, Object ... args) {
     if (ex instanceof KclException) {
       return (KclException) ex;
     } else {
@@ -62,7 +60,7 @@ public class KclException extends RuntimeException {
     }
   }
 
-  public static @Null KclException unwrap(@Null Exception ex) {
+  public static KclException unwrap(Exception ex) {
     if (ex != null) {
       if (ex instanceof KclException) {
         return (KclException) ex;

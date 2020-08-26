@@ -7,8 +7,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -73,7 +71,7 @@ public class Predicates {
 
   public static final KPredicate<String>  IS_DOUBLE = $ -> isValid($, Double::parseDouble);
 
-  private static boolean isValid(@Null String value, @NotNull Function<String, ?> parse) {
+  private static boolean isValid(String value, @NotNull Function<String, ?> parse) {
     if (value != null) {
       try {
         parse.apply(value);
@@ -101,7 +99,7 @@ public class Predicates {
     return $ -> true;
   }
 
-  public static <T> KPredicate<T> acceptAllIfUnset(@Null KPredicate<T> test) {
+  public static <T> KPredicate<T> acceptAllIfUnset(KPredicate<T> test) {
     if (test != null) {
       return test;
     }
@@ -112,7 +110,7 @@ public class Predicates {
     return $ -> false;
   }
 
-  public static <T> KPredicate<T> acceptNoneIfUnset(@Null KPredicate<T> test) {
+  public static <T> KPredicate<T> acceptNoneIfUnset(KPredicate<T> test) {
     if (test != null) {
       return test;
     }

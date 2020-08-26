@@ -34,8 +34,6 @@ import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierShort;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -1393,7 +1391,7 @@ public class PrimitiveFunctions {
    * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
    *           <code>false</code> <=> All other cases.
    */
-  public static boolean parseBoolean(@Null String value) {
+  public static boolean parseBoolean(String value) {
     if (value != null) {
       var lower = value.toLowerCase();
       if (BOOLEAN_TRUES.contains(lower)) {

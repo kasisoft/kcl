@@ -1,8 +1,6 @@
 package com.kasisoft.libs.common.text;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.Enumeration;
 
 import lombok.experimental.FieldDefaults;
@@ -76,7 +74,7 @@ public class LiteralTokenizer implements Enumeration<String> {
   }
 
   @Override
-  public @Null String nextElement() {
+  public String nextElement() {
     if (next == null) {
       return null;
     }
@@ -90,7 +88,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * 
    * @return   The next literal that has to be returned by this tokenizer.
    */
-  private @Null String getNext() {
+  private String getNext() {
     if (pos == -1) {
       // there's no more content
       return null;
@@ -135,7 +133,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * 
    * @return   The delimiting literal that will be detected first. 
    */
-  private @Null String firstDelimiter() {
+  private String firstDelimiter() {
     String result = null;
     var    next   = Integer.MAX_VALUE;
     for (var literal : literals) {

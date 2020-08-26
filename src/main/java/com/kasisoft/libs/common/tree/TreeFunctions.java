@@ -6,8 +6,6 @@ import com.kasisoft.libs.common.text.StringFunctions;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -60,7 +58,7 @@ public class TreeFunctions {
     return parenthesize(values, toPath, null);
   }
   
-  public static <T> NamedTreeNode<T> parenthesize(@NotNull List<T> values, @NotNull Function<T, String> toPath, @Null TriConsumer<String, T, T> addChild) {
+  public static <T> NamedTreeNode<T> parenthesize(@NotNull List<T> values, @NotNull Function<T, String> toPath, TriConsumer<String, T, T> addChild) {
 
     // create a list of named nodes first: the name is the leaf, the parents will be the parental segments of this nodes
     // tree path

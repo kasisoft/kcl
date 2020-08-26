@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.converters;
 import com.kasisoft.libs.common.pools.Buckets;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.regex.Pattern;
 
 import lombok.experimental.FieldDefaults;
@@ -37,7 +35,7 @@ public class ShortArrayAdapter extends AbstractConverter<String, short[]> {
   }
 
   @Override
-  public @Null String encodeImpl(@NotNull short[] decoded) {
+  public String encodeImpl(@NotNull short[] decoded) {
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       if (decoded.length > 0) {
         $.append(decoded[0]);
@@ -51,7 +49,7 @@ public class ShortArrayAdapter extends AbstractConverter<String, short[]> {
   }
 
   @Override
-  public @Null short[] decodeImpl(@NotNull String encoded) {
+  public short[] decodeImpl(@NotNull String encoded) {
     return Buckets.bucketStringFBuilder().forInstance($ -> {
       $.append(encoded);
       var values = $.splitRegex(pattern);

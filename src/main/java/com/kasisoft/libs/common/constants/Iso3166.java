@@ -2,8 +2,6 @@ package com.kasisoft.libs.common.constants;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Predicate;
 
 import java.util.HashMap;
@@ -291,7 +289,7 @@ public enum Iso3166 implements Predicate<String> {
   }
   
   @Override
-  public boolean test(@Null String langcode) {
+  public boolean test(String langcode) {
     boolean result = false;
     if (langcode != null) {
       result = alpha2.equalsIgnoreCase(langcode) || alpha3.equalsIgnoreCase(langcode);
@@ -306,7 +304,7 @@ public enum Iso3166 implements Predicate<String> {
    * 
    * @return   The iso value.
    */
-  public static @NotNull Optional<Iso3166> findByAlpha3(@Null String alpha3) {
+  public static @NotNull Optional<Iso3166> findByAlpha3(String alpha3) {
     return findBy(LocalData.valuebyalpha3, alpha3);
   }
   
@@ -317,7 +315,7 @@ public enum Iso3166 implements Predicate<String> {
    * 
    * @return   The iso value.
    */
-  public static @NotNull Optional<Iso3166> findByAlpha2(@Null String alpha2) {
+  public static @NotNull Optional<Iso3166> findByAlpha2(String alpha2) {
     return findBy(LocalData.valuebyalpha2, alpha2);
   }
 

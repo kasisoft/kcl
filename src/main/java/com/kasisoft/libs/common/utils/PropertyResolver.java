@@ -5,8 +5,6 @@ import com.kasisoft.libs.common.pools.Buckets;
 import com.kasisoft.libs.common.text.StringFunctions;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -43,7 +41,7 @@ public class PropertyResolver implements SimpleFunction<String> {
     keys                = new LinkedList<>();
   }
   
-  public @NotNull PropertyResolver withVarFormat(@Null String varFormat) {
+  public @NotNull PropertyResolver withVarFormat(String varFormat) {
     this.varFormat = varFormat != null ? varFormat : DEFAULT_VARFORMAT;
     return this;
   }
@@ -68,10 +66,10 @@ public class PropertyResolver implements SimpleFunction<String> {
    * @return   A map with the text replacements for expressions.
    */
   private <T> @NotNull PropertyResolver withReplacementMap(
-    @NotNull T                                                                  settings,
-    @Null    String                                                             prefix,
-    @NotNull Function<@NotNull T, @Null ? extends Collection<@NotNull String>>  getKeys,
-    @NotNull BiFunction<@NotNull T, String, @NotNull String>                    getValue
+    @NotNull T                                                              settings,
+             String                                                         prefix,
+    @NotNull Function<@NotNull T, ? extends Collection<@NotNull String>>    getKeys,
+    @NotNull BiFunction<@NotNull T, String, @NotNull String>                getValue
   ) {
     var keys = getKeys.apply(settings);
     if ((keys != null) && (!keys.isEmpty())) {
@@ -90,7 +88,7 @@ public class PropertyResolver implements SimpleFunction<String> {
     return withMap(null, map);
   }
   
-  public @NotNull PropertyResolver withMap(@Null String prefix, @NotNull Map<String, String> map) {
+  public @NotNull PropertyResolver withMap(String prefix, @NotNull Map<String, String> map) {
     return withReplacementMap(map, prefix, Map::keySet, Map::get);
   }
 
@@ -98,7 +96,7 @@ public class PropertyResolver implements SimpleFunction<String> {
     return withProperties(null, properties);
   }
 
-  public @NotNull PropertyResolver withProperties(@Null String prefix, @NotNull Properties properties) {
+  public @NotNull PropertyResolver withProperties(String prefix, @NotNull Properties properties) {
     return withReplacementMap(properties, prefix, $ -> Collections.list((Enumeration<String>) $.propertyNames()), Properties::getProperty);
   }
   
@@ -106,7 +104,7 @@ public class PropertyResolver implements SimpleFunction<String> {
     return withEnvironment((String) null, System.getenv());
   }
   
-  public @NotNull PropertyResolver withEnvironment(@Null String prefix) {
+  public @NotNull PropertyResolver withEnvironment(String prefix) {
     return withEnvironment(prefix, System.getenv());
   }
 
@@ -114,7 +112,7 @@ public class PropertyResolver implements SimpleFunction<String> {
     return withEnvironment(null, map);
   }
 
-  public @NotNull PropertyResolver withEnvironment(@Null String prefix, @NotNull Map<String, String> map) {
+  public @NotNull PropertyResolver withEnvironment(String prefix, @NotNull Map<String, String> map) {
     prefix = StringFunctions.cleanup(prefix);
     return withMap(prefix != null ? prefix : DEFAULT_ENV_PREFIX, map);
   }
@@ -123,7 +121,7 @@ public class PropertyResolver implements SimpleFunction<String> {
     return withSysProperties((String) null, System.getProperties());
   }
   
-  public @NotNull PropertyResolver withSysProperties(@Null String prefix) {
+  public @NotNull PropertyResolver withSysProperties(String prefix) {
     return withSysProperties(prefix, System.getProperties());
   }
 
@@ -131,7 +129,7 @@ public class PropertyResolver implements SimpleFunction<String> {
     return withSysProperties(null, properties);
   }
 
-  public @NotNull PropertyResolver withSysProperties(@Null String prefix, @NotNull Properties properties) {
+  public @NotNull PropertyResolver withSysProperties(String prefix, @NotNull Properties properties) {
     prefix = StringFunctions.cleanup(prefix);
     return withProperties(prefix != null ? prefix : DEFAULT_SYSPROP_PREFIX, properties);
   }

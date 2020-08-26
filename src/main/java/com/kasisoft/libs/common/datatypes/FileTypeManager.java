@@ -5,8 +5,6 @@ import com.kasisoft.libs.common.io.IoFunctions;
 import com.kasisoft.libs.common.spi.SPILoader;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -63,7 +61,7 @@ public class FileTypeManager {
    * 
    * @return   The FileType if it could be identified.
    */
-  public <T> @Null FileType identify(@NotNull T input) {
+  public <T> FileType identify(@NotNull T input) {
     Optional<byte[]> data = IoFunctions.genericLoadBytes(input, maxspace);
     return data.map(this::identify).orElse(null);
   }
@@ -75,7 +73,7 @@ public class FileTypeManager {
    * 
    * @return   The FileType if it could be identified.
    */
-  public @Null FileType identify(@NotNull byte[] data) {
+  public FileType identify(@NotNull byte[] data) {
     for (var i = 0; i < filetypes.size(); i++ ) {
       if (filetypes.get(i).test(data)) {
         return filetypes.get(i);

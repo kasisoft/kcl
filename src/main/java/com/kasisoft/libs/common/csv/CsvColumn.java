@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.csv;
 import com.kasisoft.libs.common.constants.Encoding;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Function;
 
 import java.util.HashMap;
@@ -66,7 +64,7 @@ public final class CsvColumn<T> {
    * 
    * @return   The current adapter associated with this column.
    */
-  public @Null Function<String, T> getAdapter() {
+  public Function<String, T> getAdapter() {
     var result = adapter;
     if ((result == null) && (type != null)) {
       result = (Function<String, T>) DEFAULT_ADAPTERS.get( type );
@@ -96,7 +94,7 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value.
    */
-  private static @Null Integer toIntegerValue(@Null String value) {
+  private static Integer toIntegerValue(String value) {
     return Integer.parseInt(value);
   }
 
@@ -107,7 +105,7 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value.
    */
-  private static @Null String toStringValue(@Null String value) {
+  private static String toStringValue(String value) {
     return value;
   }
 
@@ -118,7 +116,7 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value.
    */
-  private static @Null Boolean toBooleanValue(@Null String value) {
+  private static Boolean toBooleanValue(String value) {
     return Boolean.parseBoolean(value);
   }
 
@@ -129,7 +127,7 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value.
    */
-  private static @Null byte[] toByteArrayValue(@Null String value) {
+  private static byte[] toByteArrayValue(String value) {
     if (value != null) {
       return Encoding.UTF8.encode(value);
     } else {
@@ -144,11 +142,11 @@ public final class CsvColumn<T> {
    * 
    * @return   The converted value.
    */
-  private static @Null BigDecimal toBigDecimalValue(@Null String value) {
+  private static BigDecimal toBigDecimalValue(String value) {
     return new BigDecimal(value);
   }
 
-  public static <R> @NotNull CsvColumnBuilder<R> builder() {
+  public static <R> CsvColumnBuilder<R> builder() {
     return new CsvColumnBuilder<>();
   }
   

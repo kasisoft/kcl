@@ -9,8 +9,6 @@ import com.kasisoft.libs.common.text.StringFBuilder;
 import com.kasisoft.libs.common.text.StringFunctions;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
@@ -220,7 +218,7 @@ public class Version implements Comparable<Version> {
   }
   
   @Override
-  public int compareTo(@Null Version other) {
+  public int compareTo(Version other) {
     if (other == null) {
       return -1;
     }

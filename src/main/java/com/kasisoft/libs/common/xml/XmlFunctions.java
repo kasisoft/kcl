@@ -24,7 +24,6 @@ import org.xml.sax.SAXException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -112,7 +111,7 @@ public final class XmlFunctions {
     return TransformerFactory.newInstance();
   }
   
-  public static @NotNull Function<@NotNull Element, @Null String> getAttribute(@NotBlank String attribute) {
+  public static @NotNull Function<@NotNull Element, String> getAttribute(@NotBlank String attribute) {
     return $ -> StringFunctions.cleanup($.getAttribute(attribute));
   }
 
@@ -305,7 +304,7 @@ public final class XmlFunctions {
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
-  public static void writeDocument(@NotNull Path output, @NotNull Node node, @Null Encoding encoding) {
+  public static void writeDocument(@NotNull Path output, @NotNull Node node, Encoding encoding) {
     IoFunctions.forWriterDo(output, encoding, $ -> writeDocument($, node, encoding));
   }
 
@@ -318,7 +317,7 @@ public final class XmlFunctions {
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
-  public static void writeDocument(@NotNull File output, @NotNull Node node, @Null Encoding encoding) {
+  public static void writeDocument(@NotNull File output, @NotNull Node node, Encoding encoding) {
     IoFunctions.forWriterDo(output, encoding, $ -> writeDocument($, node, encoding));
   }
 
@@ -331,7 +330,7 @@ public final class XmlFunctions {
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
-  public static void writeDocument(@NotNull OutputStream output, @NotNull Node node, @Null Encoding encoding) {
+  public static void writeDocument(@NotNull OutputStream output, @NotNull Node node, Encoding encoding) {
     writeDocument(new StreamResult(output), node, encoding, ($x, $e) -> {
       output.write($e.encode($x));
       output.flush();
@@ -347,14 +346,14 @@ public final class XmlFunctions {
    *                       
    * @throws KclException   Saving the XML datastructure failed.
    */
-  public static void writeDocument(@NotNull Writer writer, @NotNull Node node, @Null Encoding encoding) {
+  public static void writeDocument(@NotNull Writer writer, @NotNull Node node, Encoding encoding) {
     writeDocument(new StreamResult(writer), node, encoding, ($x, $e) -> {
       writer.write($x);
       writer.flush();
     });
   }
   
-  private static void writeDocument(StreamResult streamResult, @NotNull Node node, @Null Encoding encoding, KBiConsumer<String, Encoding> handleXmlDecl) {
+  private static void writeDocument(StreamResult streamResult, @NotNull Node node, Encoding encoding, KBiConsumer<String, Encoding> handleXmlDecl) {
     
     try {
       
@@ -476,7 +475,7 @@ public final class XmlFunctions {
    * 
    * @return   An Element which contains all supplied informations.
    */
-  public static @NotNull Element createElement(@NotNull Document doc, @NotBlank String tag, @NotNull String content, @Null String ... attrs) {
+  public static @NotNull Element createElement(@NotNull Document doc, @NotBlank String tag, @NotNull String content, String ... attrs) {
     var result = doc.createElement(tag);
     if (content != null) {
       result.appendChild(doc.createTextNode(content));
@@ -494,7 +493,7 @@ public final class XmlFunctions {
    * 
    * @param nodes   A list of nodes which have to be removed from the DOM tree.
    */
-  public static void removeNodes(@Null NodeList nodes) {
+  public static void removeNodes(NodeList nodes) {
     if ((nodes != null) && (nodes.getLength() > 0)) {
       var parent = nodes.item(0).getParentNode();
       for (var i = nodes.getLength() - 1; i >= 0; i--) {
@@ -512,7 +511,7 @@ public final class XmlFunctions {
    * 
    * @return   A list with all matching elements.
    */
-  public static @NotNull List<Element> getChildElements(@NotNull Node parent, @Null String ... relevant) {
+  public static @NotNull List<Element> getChildElements(@NotNull Node parent, String ... relevant) {
     var childnodes = parent.getChildNodes();
     if ((childnodes != null) && (childnodes.getLength() > 0)) {
       var               tagnames = MiscFunctions.toSet(relevant);
@@ -532,7 +531,7 @@ public final class XmlFunctions {
     return Collections.emptyList();
   }
   
-  public static <T extends Node> @NotNull List<T> getChildNodes(@Null NodeList nodeList) {
+  public static <T extends Node> @NotNull List<T> getChildNodes(NodeList nodeList) {
     var result = Collections.<T>emptyList();
     if ((nodeList != null) && (nodeList.getLength() > 0)) {
       result = new ArrayList<>(nodeList.getLength());
@@ -558,16 +557,16 @@ public final class XmlFunctions {
     }
   }
   
-  public static @Null Element findElement(@NotNull Element parent, @NotNull String tag) {
+  public static Element findElement(@NotNull Element parent, @NotNull String tag) {
     var children = getChildElements(parent, tag);
     return (!children.isEmpty()) ? children.get(0) : null; 
   }
 
-  public static @NotNull Function<@NotNull Element, @Null String> getElementText(@NotBlank String tag) {
+  public static @NotNull Function<@NotNull Element, String> getElementText(@NotBlank String tag) {
     return $ -> getElementText($, tag);
   }
 
-  public static @Null String getElementText(@NotNull Element parent, @NotNull String tag) {
+  public static String getElementText(@NotNull Element parent, @NotNull String tag) {
     var element = findElement(parent, tag);
     return element != null ? StringFunctions.cleanup(element.getTextContent()) : null;
   }

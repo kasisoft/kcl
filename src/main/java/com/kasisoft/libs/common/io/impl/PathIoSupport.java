@@ -9,8 +9,6 @@ import com.kasisoft.libs.common.io.IoSupport;
 import com.kasisoft.libs.common.KclException;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,7 +49,7 @@ public class PathIoSupport implements IoSupport<Path> {
   }
   
   @Override
-  public @NotNull String readText(@NotNull Path source, @Null Encoding encoding) {
+  public @NotNull String readText(@NotNull Path source, Encoding encoding) {
     try {
       var fileSize = Files.size(source);
       if (fileSize <= MB_16) {

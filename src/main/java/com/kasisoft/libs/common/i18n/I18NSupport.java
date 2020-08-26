@@ -8,8 +8,6 @@ import com.kasisoft.libs.common.types.Pair;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -182,7 +180,7 @@ public class I18NSupport {
    *
    * @return   The value associated with the property.
    */
-  private static @Null String extractValue(@NotNull Properties translations, @Null I18N i18n, @NotBlank String property) {
+  private static String extractValue(@NotNull Properties translations, I18N i18n, @NotBlank String property) {
     String result = null;
     if (translations.containsKey(property)) {
       result = translations.getProperty(property);
@@ -201,7 +199,7 @@ public class I18NSupport {
    * @param value   The value which has to be set.
    */
   @SuppressWarnings("deprecation")
-  private static void applyFieldValue(@NotNull Field field, @Null String value) {
+  private static void applyFieldValue(@NotNull Field field, String value) {
     if (value != null) {
       try {
         if (field.getType() == String.class) {
@@ -235,7 +233,7 @@ public class I18NSupport {
    * @param locale      The {@link Locale} instance which has to be used. 
    * @param clazz       The class that is supposed to be translated.
    */
-  public static void initialize(@Null Locale locale, @NotNull Class<?> clazz) {
+  public static void initialize(Locale locale, @NotNull Class<?> clazz) {
 
     locale = I18NFunctions.getLocale(locale);
 
@@ -303,7 +301,7 @@ public class I18NSupport {
     return result;
   }
 
-  public static void writeProperties(@Null Locale locale, @NotNull Class<?> clazz, @NotNull Writer writer) {
+  public static void writeProperties(Locale locale, @NotNull Class<?> clazz, @NotNull Writer writer) {
 
     locale = I18NFunctions.getLocale(locale);
 

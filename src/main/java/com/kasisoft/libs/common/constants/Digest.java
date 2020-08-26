@@ -10,8 +10,6 @@ import com.kasisoft.libs.common.pools.Buckets;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -159,7 +157,7 @@ public final class Digest {
    *               
    * @return   The digest value or empty if it cannot be identified.
    */
-  public static Optional<Digest> findByName(@Null String name) {
+  public static Optional<Digest> findByName(String name) {
     for (val digest : Digest.values()) {
       if (digest.algorithm.equalsIgnoreCase(name)) {
         return Optional.of(digest);

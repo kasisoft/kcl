@@ -4,8 +4,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +45,7 @@ public class NamedTreeNode<T> extends DefaultMutableTreeNode {
     return getChildCount() == 0;
   }
   
-  public @Null NamedTreeNode<T> getChildByName(@NotBlank String name) {
+  public NamedTreeNode<T> getChildByName(@NotBlank String name) {
     return findChildByName(name).orElse(null);
   }
   

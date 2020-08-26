@@ -7,8 +7,6 @@ import com.kasisoft.libs.common.KclException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Predicate;
 
 import java.util.ArrayList;
@@ -150,7 +148,7 @@ public enum Database implements Predicate<String> {
    * 
    * @return   The Connection used for the database.
    */
-  public @NotNull Connection getConnection(@NotBlank String url, @NotNull String username, @Null String password) {
+  public @NotNull Connection getConnection(@NotBlank String url, @NotNull String username, String password) {
     try {
       activate();
       return DriverManager.getConnection(url, username, password);
@@ -168,7 +166,7 @@ public enum Database implements Predicate<String> {
    * 
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */
-  public boolean test(@NotBlank String url, @NotNull String username, @Null String password) {
+  public boolean test(@NotBlank String url, @NotNull String username, String password) {
     try (
       var connection = getConnection(url, username, password);
       var statement  = connection.prepareStatement(aliveQuery);

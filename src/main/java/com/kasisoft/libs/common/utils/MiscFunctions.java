@@ -8,8 +8,6 @@ import com.kasisoft.libs.common.text.StringFunctions;
 import com.kasisoft.libs.common.types.Pair;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.security.Permission;
 
 import java.util.function.Function;
@@ -76,7 +74,7 @@ public class MiscFunctions {
     return index;
   }
 
-  public static @Null String getGravatarLink(@Null String email, @Null Integer size) {
+  public static String getGravatarLink(String email, Integer size) {
     /** @spec [22-JUN-2020:KASI] https://en.gravatar.com/site/implement/hash/ */ 
     String result = null;
     if (email != null) {
@@ -97,7 +95,7 @@ public class MiscFunctions {
    * 
    * @return   The set created from the supplied elements.
    */
-  public static <T> @NotNull Set<@NotNull T> toSet(@Null T ... elements) {
+  public static <T> @NotNull Set<@NotNull T> toSet(T ... elements) {
     var result = new HashSet<T>();
     if (elements != null) {
       for (var i = 0; i < elements.length; i++) {
@@ -160,7 +158,7 @@ public class MiscFunctions {
     }
   }
   
-  public static <R> @NotNull List<R> toUniqueList(@Null List<R> list) {
+  public static <R> @NotNull List<R> toUniqueList(List<R> list) {
     var result = Collections.<R>emptyList();
     if (list != null) {
       result = new ArrayList<>(new TreeSet<R>(list));
@@ -175,7 +173,7 @@ public class MiscFunctions {
    * 
    * @return   A list of pairs.
    */
-  public static <R> @NotNull List<Pair<R, R>> toPairs(@Null R ... entries) {
+  public static <R> @NotNull List<Pair<R, R>> toPairs(R ... entries) {
     var result = Collections.<Pair<R, R>>emptyList();
     if (entries != null) {
       var count = entries.length / 2;
@@ -214,7 +212,7 @@ public class MiscFunctions {
    * 
    * @param thread   The Thread that will be executed.
    */
-  public static void joinThread(@Null Thread thread) {
+  public static void joinThread(Thread thread) {
     if (thread != null) {
       try {
         thread.join();
@@ -243,7 +241,7 @@ public class MiscFunctions {
    * 
    * @return   A boolean value if recognized or null if the argument is null as well. 
    */
-  public static @Null Boolean parseBoolean(@Null String value) {
+  public static Boolean parseBoolean(String value) {
     return parse(value, PrimitiveFunctions::parseBoolean);
   }
 
@@ -254,7 +252,7 @@ public class MiscFunctions {
    * 
    * @return   A byte value if recognized or null if the argument is null as well. 
    */
-  public static @Null Byte parseByte(@Null String value) {
+  public static Byte parseByte(String value) {
     return parse(value, Byte::parseByte);
   }
 
@@ -265,7 +263,7 @@ public class MiscFunctions {
    * 
    * @return   A short value if recognized or null if the argument is null as well. 
    */
-  public static @Null Short parseShort(@Null String value) {
+  public static Short parseShort(String value) {
     return parse(value, Short::parseShort);
   }
 
@@ -276,7 +274,7 @@ public class MiscFunctions {
    * 
    * @return   An int value if recognized or null if the argument is null as well. 
    */
-  public static @Null Integer parseInt(@Null String value) {
+  public static Integer parseInt(String value) {
     return parse(value, Integer::parseInt);
   }
 
@@ -287,7 +285,7 @@ public class MiscFunctions {
    * 
    * @return   A long value if recognized or null if the argument is null as well. 
    */
-  public static @Null Long parseLong(@Null String value) {
+  public static Long parseLong(String value) {
     return parse(value, Long::parseLong);
   }
 
@@ -298,7 +296,7 @@ public class MiscFunctions {
    * 
    * @return   A float value if recognized or null if the argument is null as well. 
    */
-  public static @Null Float parseFloat(@Null String value) {
+  public static Float parseFloat(String value) {
     return parse(value, Float::parseFloat);
   }
 
@@ -309,7 +307,7 @@ public class MiscFunctions {
    * 
    * @return   A double value if recognized or null if the argument is null as well. 
    */
-  public static @Null Double parseDouble(@Null String value) {
+  public static Double parseDouble(String value) {
     return parse( value, Double::parseDouble );
   }
 
@@ -321,7 +319,7 @@ public class MiscFunctions {
    * 
    * @return   The parsed value or null.
    */
-  private static <T> @Null T parse(@Null String value, @NotNull Function<String, T> parse) {
+  private static <T> T parse(String value, @NotNull Function<String, T> parse) {
     if (value != null) {
       try {
         return parse.apply(value);
@@ -340,7 +338,7 @@ public class MiscFunctions {
    * 
    * @return   A list with the supplied amount of elements.
    */
-  public static <T> @NotNull List<T> repeat(int count, @Null T element) {
+  public static <T> @NotNull List<T> repeat(int count, T element) {
     var result = new ArrayList<T>( count );
     for (var i = 0; i < count; i++) {
       result.add(element);
@@ -348,7 +346,7 @@ public class MiscFunctions {
     return result;
   }
 
-  public static @NotNull Map<@NotNull String, @Null String> propertiesToMap(@Null Properties properties) {
+  public static @NotNull Map<@NotNull String, String> propertiesToMap(Properties properties) {
     var result = new HashMap<String, String>(100);
     if (properties != null) {
       var names = (Enumeration<String>) properties.propertyNames(); 
@@ -360,7 +358,7 @@ public class MiscFunctions {
     return result;
   }
   
-  public static <R> @NotNull ExtendedList<R> wrapToExtendedList(@Null List<R> source) {
+  public static <R> @NotNull ExtendedList<R> wrapToExtendedList(List<R> source) {
     if (source == null) {
       return new ExtendedList<>(new ArrayList<>());
     } else {

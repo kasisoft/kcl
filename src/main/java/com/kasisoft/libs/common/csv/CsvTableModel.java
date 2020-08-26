@@ -28,8 +28,6 @@ import javax.swing.SwingUtilities;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -642,7 +640,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   The tokenized content.
    */
-  private @NotNull Content toContent(@Null String data) {
+  private @NotNull Content toContent(String data) {
     var type = ContentType.CONTENT;
     if ((data != null) && (data.length() < 2)) {
       if (data.charAt(0) == options.getDelimiter()) {
@@ -1120,7 +1118,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   A column specification.
    */
-  private <T> @Null CsvColumn<T> process(@NotNull Set<String> values, boolean nullable, @NotNull KPredicate<String> test, @NotNull Function<String, T> adapter, @NotNull Class<T> type, @Null T defValue) {
+  private <T> CsvColumn<T> process(@NotNull Set<String> values, boolean nullable, @NotNull KPredicate<String> test, @NotNull Function<String, T> adapter, @NotNull Class<T> type, T defValue) {
     var testP = test.protect();
     var is    = values.parallelStream().map($ -> testP.test($)).reduce(true, Boolean::logicalAnd);
     if (is) {
@@ -1158,7 +1156,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param rowData   The row data that shall be added.
    */
-  public void addRow(@Null Object[] rowData) {
+  public void addRow(Object[] rowData) {
     if (rowData != null) {
       try {
         for (var i = 0; i < rowData.length; i++) {
@@ -1184,7 +1182,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @return   The deserialized object.
    */
-  private @Null Object deserialize(@NotNull Function<String, ?> adapter, int idx, @Null String value) {
+  private Object deserialize(@NotNull Function<String, ?> adapter, int idx, String value) {
     try {
       return adapter.apply(value);
     } catch (Exception ex) {
@@ -1207,7 +1205,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param handler   The new error handler.
    */
-  public synchronized void setErrorHandlerForInvalidCellValue(@Null Consumer<String> handler) {
+  public synchronized void setErrorHandlerForInvalidCellValue(Consumer<String> handler) {
     ehInvalidCellValue = handler != null ? handler : this::ehDefault;
   }
 
@@ -1216,7 +1214,7 @@ public class CsvTableModel implements TableModel {
    * 
    * @param handler   The new error handler.
    */
-  public synchronized void setErrorHandlerForColumnSpecWithoutAdapter(@Null Consumer<String> handler) {
+  public synchronized void setErrorHandlerForColumnSpecWithoutAdapter(Consumer<String> handler) {
     ehColumnSpecWithoutAdapter = handler != null ? handler : this::ehDefault;
   }
 

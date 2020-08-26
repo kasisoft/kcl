@@ -1,8 +1,6 @@
 package com.kasisoft.libs.common.pools;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -111,7 +109,7 @@ public class Buffer<T> {
    * 
    * @param object   The object that shall be freed.
    */
-  public void free(@Null T object) {
+  public void free(T object) {
     if (object != null) {
       synchronized (references) {
         
@@ -138,7 +136,7 @@ public class Buffer<T> {
    * 
    * @return   The return value of the supplied function.
    */
-  public <R> @Null R forInstance(int size, @NotNull Function<T, R> function) {
+  public <R> R forInstance(int size, @NotNull Function<T, R> function) {
     T instance = allocate(size);
     try {
       return function.apply(instance);
@@ -155,7 +153,7 @@ public class Buffer<T> {
    * 
    * @return   The return value of the supplied function.
    */
-  public <R, P> @Null R forInstance(int size, @NotNull BiFunction<T, P, R> function, @Null P param) {
+  public <R, P> R forInstance(int size, @NotNull BiFunction<T, P, R> function, P param) {
     T instance = allocate(size);
     try {
       return function.apply(instance, param);
@@ -179,7 +177,7 @@ public class Buffer<T> {
    * @param consumer   The consumer that is supposed to be executed.
    * @param param      An additional parameter for the function.
    */
-  public <P> void forInstanceDo(int size, @NotNull BiConsumer<T, P> consumer, @Null P param) {
+  public <P> void forInstanceDo(int size, @NotNull BiConsumer<T, P> consumer, P param) {
     forInstance(size, $ -> {consumer.accept($, param); return null;});
   }
 

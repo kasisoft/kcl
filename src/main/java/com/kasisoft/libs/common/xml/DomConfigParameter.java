@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.xml;
 import org.w3c.dom.DOMConfiguration;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
@@ -69,7 +67,7 @@ public enum DomConfigParameter {
    * 
    * @return   The previously stored parameter.
    */
-  public @Null Object get(@NotNull DOMConfiguration config) {
+  public Object get(@NotNull DOMConfiguration config) {
     return config.getParameter(key);
   }
   

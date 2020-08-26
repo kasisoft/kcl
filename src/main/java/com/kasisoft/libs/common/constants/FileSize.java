@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.constants;
 
-import javax.validation.constraints.Null;
-
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;
@@ -61,7 +59,7 @@ public enum FileSize {
     return String.format("%d %s", computerSize(count), computerUnit);
   }
 
-  public @Null FileSize next() {
+  public FileSize next() {
     switch (this) {
     case Byte     : return KiloByte;
     case KiloByte : return MegaByte;
@@ -71,7 +69,7 @@ public enum FileSize {
     }
   }
 
-  public @Null FileSize previous() {
+  public FileSize previous() {
     switch (this) {
     case KiloByte  : return Byte;
     case MegaByte  : return KiloByte;

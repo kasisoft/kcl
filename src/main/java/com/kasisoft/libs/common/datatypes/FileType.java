@@ -5,8 +5,6 @@ import com.kasisoft.libs.common.constants.MimeType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.function.Predicate;
 
 /**
@@ -24,7 +22,7 @@ public interface FileType extends Predicate<byte[]> {
    * @return   <code>true</code> <=> The data indicates this type.
    */
   @Override
-  boolean test(@Null byte[] data);
+  boolean test(byte[] data);
   
   /**
    * Returns the minimum number of bytes needed to identify this type.

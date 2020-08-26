@@ -3,8 +3,6 @@ package com.kasisoft.libs.common.converters;
 import com.kasisoft.libs.common.KclConfig;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class BooleanAdapter extends AbstractConverter<String, Boolean> {
     return this;
   }
   
-  public BooleanAdapter withValues(@Null String ... values) {
+  public BooleanAdapter withValues(String ... values) {
     if ((values != null) && (values.length > 0)) {
       for (var v : values) {
         trueValues.add(v);
@@ -37,12 +35,12 @@ public class BooleanAdapter extends AbstractConverter<String, Boolean> {
   }
   
   @Override
-  public @Null Boolean decodeImpl(@NotNull String decoded) {
+  public Boolean decodeImpl(@NotNull String decoded) {
     return trueValues.contains(decoded.toLowerCase());
   }
 
   @Override
-  public @Null String encodeImpl(@NotNull Boolean encoded) {
+  public String encodeImpl(@NotNull Boolean encoded) {
     return String.valueOf(encoded);
   }
 
