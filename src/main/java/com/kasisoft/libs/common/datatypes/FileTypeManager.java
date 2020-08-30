@@ -2,13 +2,14 @@ package com.kasisoft.libs.common.datatypes;
 
 import com.kasisoft.libs.common.io.IoFunctions;
 
-import com.kasisoft.libs.common.spi.SPILoader;
-
 import javax.validation.constraints.NotNull;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 
 import lombok.experimental.FieldDefaults;
 
@@ -29,7 +30,8 @@ public class FileTypeManager {
    * Initializes this management type while looking for all SPI declarations.
    */
   public FileTypeManager() {
-    filetypes = SPILoader.builder().build().loadServices(FileType.class);
+    filetypes = new ArrayList<FileType>();
+    ServiceLoader.load(FileType.class).forEach(filetypes::add);
     Collections.sort(filetypes, new FileTypeBySizeComparator());
     if (!filetypes.isEmpty()) {
       maxspace = filetypes.get(0).getMinSize();

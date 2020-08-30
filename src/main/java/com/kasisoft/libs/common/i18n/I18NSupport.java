@@ -38,7 +38,7 @@ import lombok.AccessLevel;
  *    public static String   message;
  *
  *    static {
- *      I18NSupport.initialize( MyTexts.class );
+ *      I18NSupport.initialize(MyTexts.class);
  *    }
  *
  * }

@@ -32,7 +32,7 @@ public class FileTypeManagerTest extends AbstractTestCase {
     manager = new FileTypeManager();
   }
   
-  @DataProvider(name="identifyData")
+  @DataProvider(name = "identifyData")
   public Object[][] identifyData() {
     return new Object[][] {
       {"file0", "application/gzip"           },
