@@ -260,6 +260,9 @@
           <version>${maven-surefire-plugin.version}</version>
           <configuration>
             <argLine>--enable-preview -Duser.country=DE -Duser.language=de</argLine>
+            <excludes>
+              <exclude>com/kasisoft/libs/common/graphics/**</exclude>
+            </excludes>
           </configuration>
         </plugin>
         
