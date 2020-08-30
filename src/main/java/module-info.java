@@ -24,6 +24,7 @@ module com.kasisoft.libs.common {
   requires transitive java.desktop;
   requires transitive java.sql;
   requires transitive java.validation;
-  requires lombok;
+  requires static lombok;
+  requires static org.mapstruct.processor;
 
 } /* ENDMODULE */
