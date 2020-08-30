@@ -49,15 +49,10 @@ dependencies {
 }
 
 configurations.all {
-
     resolutionStrategy {
-
         failOnVersionConflict()
-
         preferProjectModules()
-
     }
-
 }
 
 lombok {

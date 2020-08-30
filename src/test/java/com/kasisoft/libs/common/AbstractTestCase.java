@@ -66,7 +66,7 @@ public class AbstractTestCase {
   }
   
   public @NotNull Optional<Path> findRootFolder() {
-    URL url = getClass().getClassLoader().getResource(rootFolder);
+    var url = getClass().getClassLoader().getResource(rootFolder);
     if (url == null) {
       return Optional.empty();
     }
