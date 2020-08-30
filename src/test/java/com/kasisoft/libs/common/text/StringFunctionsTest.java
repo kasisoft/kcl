@@ -110,7 +110,7 @@ public class StringFunctionsTest {
   }
   
   @DataProvider(name = "data_regionReplaceSimple")
-  private Object[][] data_regionReplaceSimple() {
+  public Object[][] data_regionReplaceSimple() {
     return new Object[][] {
       {"this is // my text // without a section // dodo //", "", "this is  without a section "},
       {"this is // // my text // without a section // dodo //", "", "this is  my text  dodo //"},
@@ -127,7 +127,7 @@ public class StringFunctionsTest {
   }
 
   @DataProvider(name = "data_regionReplaceFunction")
-  private Object[][] data_regionReplaceFunction() {
+  public Object[][] data_regionReplaceFunction() {
     Map<String, String> mapping = new HashMap<>();
     mapping.put("my text", "changed text");
     mapping.put("dodo", "dodo text");
