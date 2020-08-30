@@ -1,5 +1,5 @@
-# This workflow will build a Java project with Gradle
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+# This workflow will build a Java project with Maven
+# For more information see: https://docs.github.com/en/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
 name: KCL
 
@@ -24,22 +24,19 @@ jobs:
       with:
         java-version: 14
     
-    - name: Setup build cache
+    - name: Cache Maven packages
       uses: actions/cache@v2
       with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-    
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    
-    - name: Build with Gradle
-      run: ./gradlew build
-
-    - name: Publish with Gradle
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+          
+    - name: Build with Maven
+      run: mvn -B clean install
+      
+    - name: Publish with Maven
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-      run: ./gradlew publish
+      run: mvn -B deploy
+      
