@@ -246,7 +246,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     };
   }
   
-  @Test(groups = "all", dataProvider = "data_forOutputStream")
+  @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forOutputStream__Error")
   public <T> void forOutputStream(IoSupport<T> ioSupport, T destination) throws Exception {
     var asBytes = Encoding.UTF8.encode(CONTENT_FOR_STREAMS);
     var result  = ioSupport.forOutputStream(destination, $ -> {
@@ -278,7 +278,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
-  @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forOutputStream", expectedExceptions = KclException.class)
+  @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forInputStream", expectedExceptions = KclException.class)
   public <T> void forInputStream__Error(IoSupport<T> ioSupport, T source) throws Exception {
     ioSupport.forInputStream(source, $ -> { throw new KclException("error"); });
   }
@@ -295,7 +295,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     };
   }
   
-  @Test(groups = "all", dataProvider = "data_forWriterDo")
+  @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forWriterDo__Error")
   public <T> void forWriterDo(IoSupport<T> ioSupport, T destination) throws Exception {
     ioSupport.forWriterDo(destination, $ -> {
       try {
@@ -320,7 +320,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forWriterDo", expectedExceptions = KclException.class)
+  @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forReaderDo", expectedExceptions = KclException.class)
   public <T> void forReaderDo__Error(IoSupport<T> ioSupport, T source) throws Exception {
     ioSupport.forReaderDo(source, $ -> { throw new KclException("error"); });
   }
@@ -337,7 +337,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     };
   }
   
-  @Test(groups = "all", dataProvider = "data_forWriter")
+  @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forWriter__Error")
   public <T> void forWriter(IoSupport<T> ioSupport, T destination) throws Exception {
     var result  = ioSupport.forWriter(destination, $ -> {
       try {
@@ -367,7 +367,7 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forWriter", expectedExceptions = KclException.class)
+  @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forReader", expectedExceptions = KclException.class)
   public <T> void forReader__Error(IoSupport<T> ioSupport, T source) throws Exception {
     ioSupport.forReader(source, $ -> { throw new KclException("error"); });
   }
