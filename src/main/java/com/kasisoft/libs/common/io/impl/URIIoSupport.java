@@ -6,7 +6,6 @@ import java.net.URI;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,7 +22,7 @@ public class URIIoSupport implements IoSupport<URI> {
   
   @Override
   public OutputStream newOutputStreamImpl(URI destination) throws Exception {
-    return Files.newOutputStream(Paths.get(destination), StandardOpenOption.CREATE);
+    return Files.newOutputStream(Paths.get(destination));
   }
 
 } /* ENDCLASS */

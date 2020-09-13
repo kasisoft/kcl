@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,7 +30,7 @@ public class PathIoSupport implements IoSupport<Path> {
   
   @Override
   public OutputStream newOutputStreamImpl(Path destination) throws Exception {
-    return Files.newOutputStream(destination, StandardOpenOption.CREATE);
+    return Files.newOutputStream(destination);
   }
   
   @Override

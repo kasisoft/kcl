@@ -11,7 +11,6 @@ import com.kasisoft.libs.common.KclException;
 import javax.validation.constraints.NotNull;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 
 import java.io.File;
 import java.io.InputStream;
@@ -31,7 +30,7 @@ public class FileIoSupport implements IoSupport<File> {
   
   @Override
   public OutputStream newOutputStreamImpl(File destination) throws Exception {
-    return Files.newOutputStream(destination.toPath(), StandardOpenOption.CREATE);
+    return Files.newOutputStream(destination.toPath());
   }
 
   @Override
