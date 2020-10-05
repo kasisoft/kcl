@@ -15,9 +15,9 @@ purpose other than providing some handy functionalities.
 
 # Development Setup
 
-The build uses Gradke
+The build uses Maven
 
-* [https://gradle.org/](https://gradle.org/)
+* [https://maven.apache.org/](https://maven.apache.org/)
 
 
 ## Requirements
