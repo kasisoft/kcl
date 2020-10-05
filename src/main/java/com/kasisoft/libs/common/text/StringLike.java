@@ -1,19 +1,15 @@
 package com.kasisoft.libs.common.text;
 
-import com.kasisoft.libs.common.pools.Buckets;
+import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.function.Function;
+import java.util.function.*;
 
-import java.util.regex.Matcher;
+import java.util.regex.*;
 import java.util.regex.Pattern;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

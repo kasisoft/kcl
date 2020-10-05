@@ -1,13 +1,10 @@
 package com.kasisoft.libs.common.xml;
 
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 

@@ -1,14 +1,12 @@
 package com.kasisoft.libs.common.io.impl;
 
-import com.kasisoft.libs.common.io.IoSupport;
+import com.kasisoft.libs.common.io.*;
 
-import java.net.URI;
+import java.net.*;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

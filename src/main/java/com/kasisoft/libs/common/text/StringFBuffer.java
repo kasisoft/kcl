@@ -1,21 +1,18 @@
 package com.kasisoft.libs.common.text;
 
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import com.kasisoft.libs.common.utils.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.util.function.Function;
+import javax.validation.constraints.*;
 
-import java.util.stream.IntStream;
+import java.util.function.*;
+
+import java.util.stream.*;
 
 import java.util.regex.Pattern;
 
-import java.util.Map;
+import java.util.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

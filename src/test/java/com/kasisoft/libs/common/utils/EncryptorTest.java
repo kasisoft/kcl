@@ -1,12 +1,10 @@
 package com.kasisoft.libs.common.utils;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,12 +1,11 @@
 package com.kasisoft.libs.common.text;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Testcases for the class 'LiteralTokenizer'.

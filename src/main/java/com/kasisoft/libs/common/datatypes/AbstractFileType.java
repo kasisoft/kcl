@@ -1,15 +1,15 @@
 package com.kasisoft.libs.common.datatypes;
 
-import com.kasisoft.libs.common.constants.MimeType;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.utils.PrimitiveFunctions;
+import com.kasisoft.libs.common.utils.*;
 
-import java.util.List;
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**

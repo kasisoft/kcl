@@ -1,30 +1,26 @@
 package com.kasisoft.libs.common.xml;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.*;
 
-import lombok.experimental.FieldDefaults;
+import lombok.experimental.*;
 
-import lombok.AccessLevel;
+import lombok.*;
 
 /**
  * Collection of testcases for the type 'FlatXmlHandler'.

@@ -1,17 +1,17 @@
 package com.kasisoft.libs.common.graphics;
 
-import com.kasisoft.libs.common.constants.MimeType;
+import com.kasisoft.libs.common.constants.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.function.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**

@@ -1,15 +1,10 @@
 package com.kasisoft.libs.common.utils;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
-import lombok.experimental.FieldDefaults;
+import lombok.experimental.*;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,9 +1,8 @@
 package com.kasisoft.libs.common.data;
 
-import lombok.experimental.FieldDefaults;
+import lombok.experimental.*;
 
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 
 /**
  * Configuration allowing to setup a connection to a jdbc database.

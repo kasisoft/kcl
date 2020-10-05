@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.pools;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * Test for the class 'Bucket'.

@@ -1,17 +1,15 @@
 package com.kasisoft.libs.common.tree;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.text.StringFBuilder;
-import com.kasisoft.libs.common.types.Tupel;
+import com.kasisoft.libs.common.text.*;
+import com.kasisoft.libs.common.types.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 

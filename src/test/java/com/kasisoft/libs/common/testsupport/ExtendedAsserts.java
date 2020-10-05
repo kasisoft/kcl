@@ -1,13 +1,12 @@
 package com.kasisoft.libs.common.testsupport;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import java.util.List;
+import java.util.*;
 
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

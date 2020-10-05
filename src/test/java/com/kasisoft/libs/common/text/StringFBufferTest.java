@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.text;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * Testcase for the class 'StringFBuffer'.

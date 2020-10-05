@@ -1,17 +1,18 @@
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.annotation.Specification;
+import com.kasisoft.libs.common.annotation.*;
 
-import javax.validation.constraints.NotBlank;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
 
-import java.util.Optional;
+import java.util.function.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 
+import lombok.ToString;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.ToString;
 
 /**
  * Collection of HTTP stastus codes.

@@ -1,20 +1,19 @@
 package com.kasisoft.libs.common.functional;
 
-import com.kasisoft.libs.common.pools.Buckets;
-import com.kasisoft.libs.common.utils.PrimitiveFunctions;
+import com.kasisoft.libs.common.pools.*;
+import com.kasisoft.libs.common.utils.*;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import org.w3c.dom.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
+
+import java.util.function.*;
 
 import java.util.regex.Pattern;
 
-import java.nio.file.Path;
+import java.nio.file.*;
 
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 /**
  * Collection of predicates.

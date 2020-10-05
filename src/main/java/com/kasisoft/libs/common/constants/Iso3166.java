@@ -1,12 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.function.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 

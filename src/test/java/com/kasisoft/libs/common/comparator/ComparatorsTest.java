@@ -1,19 +1,15 @@
 package com.kasisoft.libs.common.comparator;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.utils.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

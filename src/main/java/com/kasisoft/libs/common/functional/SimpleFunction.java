@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.functional;
 
-import java.util.function.Function;
+import java.util.function.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

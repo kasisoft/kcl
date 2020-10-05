@@ -1,37 +1,25 @@
 package com.kasisoft.libs.common.xml;
 
-import static com.kasisoft.libs.common.internal.Messages.error_dom_impl_without_ls;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSInput;
-import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.w3c.dom.ls.*;
+import org.xml.sax.*;
 
-import javax.validation.constraints.NotNull;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.URIResolver;
+import javax.validation.constraints.*;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
 
-import java.util.function.Predicate;
+import java.util.function.*;
 
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

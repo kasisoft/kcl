@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.functional;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import lombok.experimental.FieldDefaults;
 

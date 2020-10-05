@@ -1,20 +1,19 @@
 package com.kasisoft.libs.common.io.impl;
 
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_read_from;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.IoSupport;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import javax.validation.constraints.*;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.charset.*;
+import java.nio.file.*;
+
+import java.io.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

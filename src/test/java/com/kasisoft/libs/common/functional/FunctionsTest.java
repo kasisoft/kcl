@@ -1,16 +1,16 @@
 package com.kasisoft.libs.common.functional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertNull;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.function.Function;
+import java.util.function.*;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,13 +1,12 @@
 package com.kasisoft.libs.common.comparator;
 
-import com.kasisoft.libs.common.annotation.Prio;
+import com.kasisoft.libs.common.annotation.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.function.Function;
+import javax.validation.constraints.*;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.function.*;
+
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.functional;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.function.Predicate;
+import java.util.function.*;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

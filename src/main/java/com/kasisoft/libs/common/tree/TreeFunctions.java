@@ -1,21 +1,15 @@
 package com.kasisoft.libs.common.tree;
 
-import com.kasisoft.libs.common.functional.Predicates;
-import com.kasisoft.libs.common.functional.TriConsumer;
-import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.functional.*;
+import com.kasisoft.libs.common.text.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import javax.validation.constraints.*;
 
-import java.util.stream.Collectors;
+import java.util.function.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.stream.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 

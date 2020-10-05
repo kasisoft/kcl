@@ -1,10 +1,8 @@
 package com.kasisoft.libs.common;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * This class provides the defaults for this library. Change them if necessary. 

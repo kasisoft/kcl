@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.converters;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import lombok.experimental.FieldDefaults;
 
 import lombok.AccessLevel;

@@ -1,19 +1,12 @@
 package com.kasisoft.libs.common.pools;
 
-import com.kasisoft.libs.common.text.StringFBuffer;
-import com.kasisoft.libs.common.text.StringFBuilder;
+import com.kasisoft.libs.common.text.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.zip.CRC32;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.zip.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.CharArrayWriter;
-import java.io.StringWriter;
+import java.io.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

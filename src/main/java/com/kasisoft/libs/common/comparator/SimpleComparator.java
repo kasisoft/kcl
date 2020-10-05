@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.comparator;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.function.Function;
+import java.util.function.*;
 
-import java.util.Comparator;
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 

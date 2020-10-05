@@ -1,14 +1,4 @@
-import com.kasisoft.libs.common.datatypes.BmpFileType;
-import com.kasisoft.libs.common.datatypes.Bzip2FileType;
-import com.kasisoft.libs.common.datatypes.FileType;
-import com.kasisoft.libs.common.datatypes.GifFileType;
-import com.kasisoft.libs.common.datatypes.GzipFileType;
-import com.kasisoft.libs.common.datatypes.JavaClassFileType;
-import com.kasisoft.libs.common.datatypes.JpegFileType;
-import com.kasisoft.libs.common.datatypes.PdfFileType;
-import com.kasisoft.libs.common.datatypes.PngFileType;
-import com.kasisoft.libs.common.datatypes.SevenZipFileType;
-import com.kasisoft.libs.common.datatypes.ZipFileType;
+import com.kasisoft.libs.common.datatypes.*;
 
 module com.kasisoft.libs.common {
 

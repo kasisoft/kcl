@@ -1,20 +1,18 @@
 package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.KclConfig;
-import com.kasisoft.libs.common.text.StringFBuilder;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.text.*;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
 
-import java.io.OutputStream;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

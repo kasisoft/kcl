@@ -1,16 +1,12 @@
 package com.kasisoft.libs.common.functional;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * Collection of useful adaptation functions.

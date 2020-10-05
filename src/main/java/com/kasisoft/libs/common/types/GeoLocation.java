@@ -2,10 +2,10 @@ package com.kasisoft.libs.common.types;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Data;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

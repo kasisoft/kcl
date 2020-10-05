@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.functional;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

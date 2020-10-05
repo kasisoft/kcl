@@ -1,34 +1,22 @@
 package com.kasisoft.libs.common.io;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.Encoding;
-import com.kasisoft.libs.common.constants.Iso3166Test;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.Arrays;
+import java.util.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

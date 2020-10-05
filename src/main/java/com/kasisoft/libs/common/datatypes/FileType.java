@@ -1,11 +1,10 @@
 package com.kasisoft.libs.common.datatypes;
 
-import com.kasisoft.libs.common.constants.MimeType;
+import com.kasisoft.libs.common.constants.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
+
+import java.util.function.*;
 
 /**
  * A simple definition of characteristics used to identify file types.

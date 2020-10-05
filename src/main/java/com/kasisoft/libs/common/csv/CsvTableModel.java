@@ -1,62 +1,37 @@
 package com.kasisoft.libs.common.csv;
 
-import static com.kasisoft.libs.common.internal.Messages.error_csv_cannot_add_row;
-import static com.kasisoft.libs.common.internal.Messages.error_csv_cannot_parse_cell_value;
-import static com.kasisoft.libs.common.internal.Messages.error_csv_inconsistent_column_counts;
-import static com.kasisoft.libs.common.internal.Messages.error_csv_missing_closing_quote;
-import static com.kasisoft.libs.common.internal.Messages.error_missing_csv_adapter;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.functional.Functions;
-import com.kasisoft.libs.common.functional.KPredicate;
-import com.kasisoft.libs.common.functional.Predicates;
-import com.kasisoft.libs.common.text.StringFBuilder;
-import com.kasisoft.libs.common.text.StringFunctions;
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.functional.*;
+import com.kasisoft.libs.common.text.*;
+import com.kasisoft.libs.common.utils.*;
 
-import javax.swing.event.EventListenerList;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+import javax.swing.event.*;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import javax.swing.table.*;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
 
-import java.util.stream.Collectors;
+import java.util.function.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
+import java.util.stream.*;
 
-import java.nio.file.Path;
+import java.util.*;
 
-import java.io.CharArrayWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.nio.file.*;
+
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 
 /**
  * A TableModel implementation that can be fed by CSV data.

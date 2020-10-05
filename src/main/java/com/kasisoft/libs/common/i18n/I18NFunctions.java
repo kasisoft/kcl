@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.i18n;
 
-import com.kasisoft.libs.common.KclConfig;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.Locale;
+import javax.validation.constraints.*;
+
+import java.util.*;
 
 /**
  * Collection of I18n related functions.

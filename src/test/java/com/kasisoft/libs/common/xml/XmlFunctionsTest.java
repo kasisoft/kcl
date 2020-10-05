@@ -1,34 +1,26 @@
 package com.kasisoft.libs.common.xml;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.StringWriter;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

@@ -1,64 +1,35 @@
 package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.libs.common.constants.Empty;
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.functional.KBiConsumer;
-import com.kasisoft.libs.common.functional.KFunction;
-import com.kasisoft.libs.common.functional.Predicates;
-import com.kasisoft.libs.common.pools.Buckets;
-import com.kasisoft.libs.common.text.StringFunctions;
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.functional.*;
+import com.kasisoft.libs.common.pools.*;
+import com.kasisoft.libs.common.text.*;
+import com.kasisoft.libs.common.utils.*;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+import javax.validation.constraints.*;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 
-import java.nio.file.Path;
+import java.nio.file.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 
 import lombok.experimental.FieldDefaults;
 

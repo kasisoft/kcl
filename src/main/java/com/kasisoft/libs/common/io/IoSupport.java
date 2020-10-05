@@ -1,28 +1,16 @@
 package com.kasisoft.libs.common.io;
 
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_read_from;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_write_text_to;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_write_to;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.functional.KConsumer;
-import com.kasisoft.libs.common.functional.KFunction;
-import com.kasisoft.libs.common.pools.Buckets;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.functional.*;
+import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
+import javax.validation.constraints.*;
+
+import java.io.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

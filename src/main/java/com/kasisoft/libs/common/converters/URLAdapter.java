@@ -1,13 +1,12 @@
 package com.kasisoft.libs.common.converters;
 
-import static com.kasisoft.libs.common.internal.Messages.error_invalid_url;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 
 /**
  * Adapter for URL values.

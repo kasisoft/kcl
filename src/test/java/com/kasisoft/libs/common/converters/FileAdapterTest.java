@@ -1,14 +1,13 @@
 package com.kasisoft.libs.common.converters;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.io.File;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

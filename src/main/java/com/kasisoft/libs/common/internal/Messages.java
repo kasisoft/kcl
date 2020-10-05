@@ -1,9 +1,7 @@
 package com.kasisoft.libs.common.internal;
 
-import com.kasisoft.libs.common.KclConfig;
-import com.kasisoft.libs.common.i18n.I18N;
-import com.kasisoft.libs.common.i18n.I18NString;
-import com.kasisoft.libs.common.i18n.I18NSupport;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.i18n.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

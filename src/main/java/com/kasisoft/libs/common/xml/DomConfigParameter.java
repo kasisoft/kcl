@@ -1,12 +1,13 @@
 package com.kasisoft.libs.common.xml;
 
-import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**

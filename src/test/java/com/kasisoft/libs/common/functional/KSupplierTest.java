@@ -1,9 +1,9 @@
 package com.kasisoft.libs.common.functional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import lombok.experimental.FieldDefaults;
 

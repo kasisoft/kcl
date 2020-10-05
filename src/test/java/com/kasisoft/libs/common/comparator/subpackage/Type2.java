@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.comparator.subpackage;
 
-import com.kasisoft.libs.common.annotation.Prio;
+import com.kasisoft.libs.common.annotation.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

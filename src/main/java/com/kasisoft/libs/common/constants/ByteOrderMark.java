@@ -1,15 +1,15 @@
 package com.kasisoft.libs.common.constants;
 
-import com.kasisoft.libs.common.utils.PrimitiveFunctions;
+import com.kasisoft.libs.common.utils.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.Optional;
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**

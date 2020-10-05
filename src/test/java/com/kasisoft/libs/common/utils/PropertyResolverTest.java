@@ -1,15 +1,15 @@
 package com.kasisoft.libs.common.utils;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

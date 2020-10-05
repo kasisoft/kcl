@@ -1,17 +1,14 @@
 package com.kasisoft.libs.common;
 
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.Optional;
+import java.util.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

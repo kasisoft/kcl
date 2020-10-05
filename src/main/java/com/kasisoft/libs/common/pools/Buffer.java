@@ -1,16 +1,12 @@
 package com.kasisoft.libs.common.pools;
 
-import javax.validation.constraints.NotNull;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import javax.validation.constraints.*;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.function.*;
 
-import java.lang.ref.SoftReference;
+import java.util.*;
+
+import java.lang.ref.*;
 
 import lombok.experimental.FieldDefaults;
 

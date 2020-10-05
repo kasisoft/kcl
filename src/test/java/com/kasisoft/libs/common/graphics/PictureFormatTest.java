@@ -1,9 +1,8 @@
 package com.kasisoft.libs.common.graphics;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

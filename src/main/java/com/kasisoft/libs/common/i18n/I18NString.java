@@ -2,8 +2,8 @@ package com.kasisoft.libs.common.i18n;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Setter;
 
 /**

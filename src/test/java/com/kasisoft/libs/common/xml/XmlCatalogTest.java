@@ -1,17 +1,14 @@
 package com.kasisoft.libs.common.xml;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.net.MalformedURLException;
+import java.net.*;
 
-import java.nio.file.Path;
+import java.nio.file.*;
 
 import lombok.experimental.FieldDefaults;
 

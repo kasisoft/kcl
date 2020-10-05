@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.converters;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 /**
  * Adapter for String values.

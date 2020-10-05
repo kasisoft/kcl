@@ -1,19 +1,17 @@
 package com.kasisoft.libs.common.csv;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
 import lombok.ToString;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * A collection of options used for the csv processing.
@@ -150,7 +148,7 @@ public final class CsvOptions {
       return this;
     }
     
-    public CsvOptionsBuilder columns(@NonNull List<CsvColumn> columns) {
+    public CsvOptionsBuilder columns(@NotNull List<CsvColumn> columns) {
       instance.columns.clear();
       instance.columns.addAll(columns);
       return this;

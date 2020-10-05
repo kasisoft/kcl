@@ -1,35 +1,27 @@
 package com.kasisoft.libs.common.graphics;
 
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_read_image;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_write_image;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.constants.Alignment;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
-import javax.imageio.ImageIO;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URL;
+import javax.imageio.*;
+import javax.validation.constraints.*;
 
-import java.awt.AlphaComposite;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
+import java.net.*;
 
-import java.nio.file.Path;
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.image.*;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.file.*;
+
+import java.io.*;
 
 /**
  * Several utility functions related to graphical operations.

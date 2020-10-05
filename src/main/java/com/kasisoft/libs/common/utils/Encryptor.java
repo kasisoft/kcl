@@ -1,22 +1,17 @@
 package com.kasisoft.libs.common.utils;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.text.*;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.validation.constraints.NotNull;
-import java.security.NoSuchAlgorithmException;
+import javax.crypto.*;
+import javax.crypto.spec.*;
+import javax.validation.constraints.*;
 
-import java.util.Base64;
-import java.util.Optional;
-import java.util.Random;
+import java.security.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 

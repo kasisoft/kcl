@@ -1,75 +1,28 @@
 package com.kasisoft.libs.common.io;
 
-import static com.kasisoft.libs.common.internal.Messages.error_directory_does_not_exist;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_copy;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_create_directory;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_create_temporary_file;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_delete_directory;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_delete_file;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_gzip;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_load_gzipped;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_load_properties;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_process_zip;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_scan_dir;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_ungzip;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_unzip;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_zip;
-import static com.kasisoft.libs.common.internal.Messages.error_file_does_not_exist;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.impl.FileIoSupport;
-import com.kasisoft.libs.common.io.impl.PathIoSupport;
-import com.kasisoft.libs.common.io.impl.URIIoSupport;
-import com.kasisoft.libs.common.io.impl.URLIoSupport;
+import com.kasisoft.libs.common.io.impl.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.functional.KBiConsumer;
-import com.kasisoft.libs.common.functional.KConsumer;
-import com.kasisoft.libs.common.functional.KFunction;
-import com.kasisoft.libs.common.functional.KPredicate;
-import com.kasisoft.libs.common.functional.Predicates;
-import com.kasisoft.libs.common.pools.Buckets;
-import com.kasisoft.libs.common.pools.Buffers;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.functional.*;
+import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import java.util.regex.Pattern;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
+import java.util.*;
+import java.util.zip.*;
 
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

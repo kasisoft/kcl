@@ -1,15 +1,15 @@
 package com.kasisoft.libs.common.types;
 
-import javax.validation.constraints.NotNull;
-import java.util.Map;
-import java.util.Optional;
+import javax.validation.constraints.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Data;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).

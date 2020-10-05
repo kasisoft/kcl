@@ -1,14 +1,14 @@
 package com.kasisoft.libs.common.io;
 
-import com.kasisoft.libs.common.functional.Functions;
-import com.kasisoft.libs.common.utils.PrimitiveFunctions;
+import com.kasisoft.libs.common.functional.*;
+import com.kasisoft.libs.common.utils.*;
 
-import java.io.Writer;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

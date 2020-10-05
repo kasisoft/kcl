@@ -1,22 +1,21 @@
 package com.kasisoft.libs.common.types;
 
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import com.kasisoft.libs.common.utils.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.util.function.Function;
+import java.util.function.*;
 
-import java.util.Comparator;
+import java.util.*;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
+import java.awt.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.ToString;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

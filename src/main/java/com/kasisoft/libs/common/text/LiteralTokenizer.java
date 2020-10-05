@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.text;
 
-import javax.validation.constraints.NotNull;
-import java.util.Enumeration;
+import javax.validation.constraints.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 

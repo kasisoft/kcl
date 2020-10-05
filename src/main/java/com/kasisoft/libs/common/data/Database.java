@@ -1,22 +1,16 @@
 package com.kasisoft.libs.common.data;
 
-import static com.kasisoft.libs.common.internal.Messages.error_cannot_connect_to_database;
-import static com.kasisoft.libs.common.internal.Messages.error_failed_to_activate_jdbc_driver;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.function.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.*;
+
+import java.sql.*;
 
 import lombok.experimental.FieldDefaults;
 

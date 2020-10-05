@@ -1,9 +1,9 @@
 package com.kasisoft.libs.common.utils;
 
-import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.text.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import java.util.regex.Pattern;
 
 /**

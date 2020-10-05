@@ -1,44 +1,15 @@
 package com.kasisoft.libs.common.utils;
 
-import static com.kasisoft.libs.common.internal.Messages.error_api_misuse_empty_buffer;
-import static com.kasisoft.libs.common.internal.Messages.error_buffer_insertion;
-import static com.kasisoft.libs.common.internal.Messages.error_invalid_boolean_value;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.constants.Empty;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerBoolean;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerByte;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerChar;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerDouble;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerFloat;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerInt;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerLong;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KConsumerShort;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionBoolean;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionByte;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionChar;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionDouble;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionFloat;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionInt;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionLong;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KFunctionShort;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierBoolean;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierByte;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierChar;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierDouble;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierFloat;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierInt;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierLong;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.KSupplierShort;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.validation.constraints.*;
+
+import java.util.*;
 
 /**
  * Declarations used to identify primitive types.

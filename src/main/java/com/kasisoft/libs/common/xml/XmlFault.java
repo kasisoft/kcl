@@ -1,9 +1,8 @@
 package com.kasisoft.libs.common.xml;
 
-import org.xml.sax.SAXParseException;
+import org.xml.sax.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 import lombok.experimental.FieldDefaults;
 

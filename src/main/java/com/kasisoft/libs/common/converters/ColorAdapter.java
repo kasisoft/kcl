@@ -1,15 +1,15 @@
 package com.kasisoft.libs.common.converters;
 
-import static com.kasisoft.libs.common.internal.Messages.error_invalid_color;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.text.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.Map;
+import javax.validation.constraints.*;
 
-import java.awt.Color;
+import java.util.*;
+
+import java.awt.*;
 
 import lombok.experimental.FieldDefaults;
 

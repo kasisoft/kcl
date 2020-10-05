@@ -1,17 +1,16 @@
 package com.kasisoft.libs.common.io.impl;
 
-import static com.kasisoft.libs.common.internal.Messages.error_no_write_support_for_urls;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.io.IoSupport;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.net.URL;
+import java.net.*;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

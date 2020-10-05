@@ -1,19 +1,17 @@
 package com.kasisoft.libs.common.utils;
 
-import static com.kasisoft.libs.common.testsupport.ExtendedAsserts.assertLists;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static com.kasisoft.libs.common.testsupport.ExtendedAsserts.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.Empty;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Tests for the constants 'PrimitiveFunctions'.

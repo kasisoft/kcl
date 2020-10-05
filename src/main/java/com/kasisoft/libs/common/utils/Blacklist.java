@@ -1,41 +1,34 @@
 package com.kasisoft.libs.common.utils;
 
-import static com.kasisoft.libs.common.internal.Messages.error_blacklist_loading_failure;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.constants.Empty;
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 import com.kasisoft.libs.common.comparator.Comparators;
-import com.kasisoft.libs.common.text.StringFBuilder;
-import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.text.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import javax.validation.constraints.*;
+
+import java.util.function.*;
 
 import java.util.regex.Pattern;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 
-import java.nio.file.Path;
+import java.nio.file.*;
 
-import java.io.File;
-import java.io.Reader;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.AccessLevel;
 
 /**
  * A simple helper allowing to manage blacklists. It obviously can be used as a whitelist. 

@@ -1,18 +1,17 @@
 package com.kasisoft.libs.common.types;
 
-import static com.kasisoft.libs.common.internal.Messages.error_version_cannot_parse_version;
-import static com.kasisoft.libs.common.internal.Messages.error_version_missing_qualifier;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.pools.Buckets;
-import com.kasisoft.libs.common.text.StringFBuilder;
-import com.kasisoft.libs.common.text.StringFunctions;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.pools.*;
+import com.kasisoft.libs.common.text.*;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
+
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**

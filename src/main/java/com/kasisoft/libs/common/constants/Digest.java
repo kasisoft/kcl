@@ -1,28 +1,22 @@
 package com.kasisoft.libs.common.constants;
 
-import static com.kasisoft.libs.common.internal.Messages.error_unknown_digest_algorithm;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.annotation.Specification;
-import com.kasisoft.libs.common.pools.Bucket;
-import com.kasisoft.libs.common.pools.Buckets;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.annotation.*;
+import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import javax.validation.constraints.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.security.*;
+
+import java.util.*;
 
 import lombok.experimental.FieldDefaults;
 
+import lombok.ToString;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.ToString;
-import lombok.val;
 
 /**
  * Collection of supported MessageDigest implementations.
@@ -158,7 +152,7 @@ public final class Digest {
    * @return   The digest value or empty if it cannot be identified.
    */
   public static Optional<Digest> findByName(String name) {
-    for (val digest : Digest.values()) {
+    for (var digest : Digest.values()) {
       if (digest.algorithm.equalsIgnoreCase(name)) {
         return Optional.of(digest);
       }

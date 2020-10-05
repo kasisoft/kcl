@@ -1,43 +1,34 @@
 package com.kasisoft.libs.common.graphics;
 
-import static com.kasisoft.libs.common.testsupport.ExtendedAsserts.assertImages;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static com.kasisoft.libs.common.testsupport.ExtendedAsserts.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.constants.Alignment;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.functional.TriConsumer;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.functional.*;
 
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-import java.util.function.Function;
+import java.util.function.*;
 
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
-import java.net.URI;
+import java.net.*;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.image.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 
-import java.io.File;
+import java.io.*;
 
 import lombok.experimental.FieldDefaults;
 

@@ -1,16 +1,15 @@
 package com.kasisoft.libs.common.converters;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.net.URI;
+import java.net.*;
 
-import lombok.experimental.FieldDefaults;
+import lombok.experimental.*;
 
-import lombok.AccessLevel;
+import lombok.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

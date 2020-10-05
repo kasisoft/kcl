@@ -1,22 +1,21 @@
 package com.kasisoft.libs.common.csv;
 
-import com.kasisoft.libs.common.constants.Encoding;
+import com.kasisoft.libs.common.constants.*;
 
-import javax.validation.constraints.NotNull;
-import java.util.function.Function;
+import javax.validation.constraints.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.function.*;
 
-import java.math.BigDecimal;
+import java.util.*;
+
+import java.math.*;
 
 import lombok.experimental.FieldDefaults;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.AccessLevel;
+import lombok.Data;
 
 /**
  * A basic description of a csv column.
@@ -158,7 +157,7 @@ public final class CsvColumn<T> {
     private CsvColumnBuilder() {
     }
 
-    public CsvColumnBuilder<R> type(@NonNull Class<R> type) {
+    public CsvColumnBuilder<R> type(@NotNull Class<R> type) {
       instance.type = type;
       return this;
     }

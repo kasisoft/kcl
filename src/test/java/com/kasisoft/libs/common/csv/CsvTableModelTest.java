@@ -1,16 +1,15 @@
 package com.kasisoft.libs.common.csv;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
 
-import com.kasisoft.libs.common.io.IoFunctions;
+import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.AbstractTestCase;
-import com.kasisoft.libs.common.KclException;
-import com.kasisoft.libs.common.utils.MiscFunctions;
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.utils.*;
 
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

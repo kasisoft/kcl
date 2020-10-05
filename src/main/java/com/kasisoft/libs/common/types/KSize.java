@@ -1,18 +1,22 @@
 package com.kasisoft.libs.common.types;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-import java.awt.Dimension;
+import java.awt.*;
+
+import lombok.experimental.FieldDefaults;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Data;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Data
 @AllArgsConstructor @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KSize {
 
   int   width;

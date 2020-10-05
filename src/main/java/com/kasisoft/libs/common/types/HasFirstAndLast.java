@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.types;
 
-import javax.validation.constraints.NotNull;
-import java.util.Optional;
+import javax.validation.constraints.*;
+
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

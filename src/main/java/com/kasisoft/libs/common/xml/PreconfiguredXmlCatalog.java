@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.xml;
 
-import static com.kasisoft.libs.common.internal.Messages.error_missing_resource;
+import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.KclException;
+import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 import lombok.experimental.FieldDefaults;
 

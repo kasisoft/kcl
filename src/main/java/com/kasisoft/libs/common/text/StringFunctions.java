@@ -1,18 +1,16 @@
 package com.kasisoft.libs.common.text;
 
-import com.kasisoft.libs.common.constants.Empty;
+import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.pools.Buckets;
+import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.util.function.Function;
+import javax.validation.constraints.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.function.*;
 
-import java.io.PrintWriter;
+import java.util.*;
+
+import java.io.*;
 
 /**
  * Collection of functions used for String processing.
