@@ -22,7 +22,7 @@ The build uses Maven
 
 ## Requirements
 
-* Java 14
+* Java 11
 
 
 ## Maven
@@ -32,7 +32,7 @@ The build uses Maven
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>4.2</version>
+         <version>4.3</version>
      </dependency>
 
 
@@ -43,7 +43,7 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>4.3-SNAPSHOT</version>
+         <version>4.4-SNAPSHOT</version>
      </dependency>
      
      <repositories>
