@@ -241,7 +241,7 @@ public class IoFunctions {
   public static void skip(@NotNull InputStream input, @Min(0) long size) {
     if (size > 0) {
       try {
-        input.skipNBytes(size);
+        input.skip(size);
       } catch (Exception ex) {
         throw KclException.wrap(ex);
       }

@@ -55,11 +55,6 @@ public class KInputStream extends InputStream {
   }
 
   @Override
-  public void skipNBytes(long n) {
-    PrimitiveFunctions.acceptLong(impl::skipNBytes, n);
-  }
-
-  @Override
   public int available() {
     return PrimitiveFunctions.getInt(impl::available);
   }

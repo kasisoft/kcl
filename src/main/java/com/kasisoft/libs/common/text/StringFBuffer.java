@@ -525,38 +525,47 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     return StringLike.super.camelCase();
   }
   
+  @Override
   public synchronized @NotNull StringFBuffer toLowerCase() {
     return StringLike.super.toLowerCase();
   }
 
+  @Override
   public synchronized @NotNull StringFBuffer toUpperCase() {
     return StringLike.super.toUpperCase();
   }
 
+  @Override
   public synchronized @NotNull StringFBuffer replaceAll(@NotNull Map<String, String> replacements) {
     return StringLike.super.replaceAll(replacements);
   }
 
+  @Override
   public synchronized @NotNull StringFBuffer replaceAll(@NotNull Map<String, String> replacements, String fmt) {
     return StringLike.super.replaceAll(replacements, fmt);
   }
 
+  @Override
   public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @NotNull String replacement) {
     return StringLike.super.replaceRegions(open, replacement);
   }
 
+  @Override
   public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, String close, @NotNull String replacement) {
     return StringLike.super.replaceRegions(open, close, replacement);
   }
 
+  @Override
   public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @NotNull Function<String, CharSequence> replacement) {
     return StringLike.super.replaceRegions(open, replacement);
   }
   
+  @Override
   public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
     return StringLike.super.replaceRegions(open, close, replacement);
   }
 
+  @Override
   public synchronized @NotNull StringFBuffer appendFilling(@Min(1) int count, char ch) {
     return StringLike.super.appendFilling(count, ch);
   }

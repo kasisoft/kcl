@@ -6,11 +6,9 @@ import com.kasisoft.libs.common.utils.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
+import lombok.experimental.*;
 
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -19,20 +17,25 @@ import lombok.Getter;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractFileType implements FileType {
 
-  @Getter
   int           minSize;
-  
-  @Getter
   MimeType      contentType;
-  
   int           offset;
-  
   List<byte[]>  magics;
+  
+  @Override
+  public int getMinSize() {
+    return minSize;
+  }
+  
+  @Override
+  public MimeType getContentType() {
+    return contentType;
+  }
   
   @Override
   public boolean test(byte[] data) {
     if ((data != null) && (getMinSize() <= data.length)) {
-      for (var magic : magics) {
+      for (byte[] magic : magics) {
         if (PrimitiveFunctions.compare(data, magic, offset)) {
           return true;
         }

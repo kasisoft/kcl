@@ -45,6 +45,7 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
    * 
    * @return   The first value.
    */
+  @Override
   public @NotNull Optional<T> findFirst() {
     if (length > 0) {
       return Optional.ofNullable(values[0]);
