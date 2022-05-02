@@ -2,16 +2,11 @@ package com.kasisoft.libs.common.converters;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for float values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FloatAdapter extends AbstractConverter<String, Float> {
 
   private static final String NAN       = "NaN";

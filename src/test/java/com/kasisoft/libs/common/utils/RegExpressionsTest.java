@@ -5,15 +5,10 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegExpressionsTest {
 
   @DataProvider(name = "extractYoutubeIdData")

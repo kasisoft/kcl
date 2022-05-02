@@ -9,17 +9,12 @@ import org.testng.annotations.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileAdapterTest extends AbstractTestCase {
 
-  FileAdapter adapter = new FileAdapter();
+  private FileAdapter adapter = new FileAdapter();
 
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

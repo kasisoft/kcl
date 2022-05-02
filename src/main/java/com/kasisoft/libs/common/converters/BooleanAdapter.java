@@ -6,19 +6,14 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for boolean values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BooleanAdapter extends AbstractConverter<String, Boolean> {
 
-  List<String>   trueValues = new ArrayList<>(KclConfig.TRUE_VALUES);
+  private List<String>   trueValues = new ArrayList<>(KclConfig.TRUE_VALUES);
   
   public BooleanAdapter clear() {
     trueValues.clear();

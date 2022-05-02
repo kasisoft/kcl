@@ -27,18 +27,11 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.ToString;
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-
 /**
  * A TableModel implementation that can be fed by CSV data.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CsvTableModel implements TableModel {
 
   private static final char CR = '\r';
@@ -70,14 +63,14 @@ public class CsvTableModel implements TableModel {
     
   } /* ENDENUM */
 
-  CsvOptions            options;
-  DefaultTableModel     tableModel;
-  EventListenerList     listeners;
+  private CsvOptions            options;
+  private DefaultTableModel     tableModel;
+  private EventListenerList     listeners;
   
-  Consumer<String>      ehInvalidCellValue;
-  Consumer<String>      ehColumnSpecWithoutAdapter;
-  Consumer<String>      ehInconsistentColumnCount;
-  Consumer<String>      ehInvalidAddRow;
+  private Consumer<String>      ehInvalidCellValue;
+  private Consumer<String>      ehColumnSpecWithoutAdapter;
+  private Consumer<String>      ehInconsistentColumnCount;
+  private Consumer<String>      ehInvalidAddRow;
   
   private CsvTableModel() {
     ehInvalidCellValue          = this::ehDefault;
@@ -1251,11 +1244,20 @@ public class CsvTableModel implements TableModel {
     listeners.remove(TableModelListener.class, l);
   }
 
-  @AllArgsConstructor @ToString
   private static class Content {
     
     String        data;
     ContentType   type;
+    
+    public Content(String data, ContentType type) {
+      this.data  = data;
+      this.type = type;
+    }
+    
+    @Override
+    public String toString() {
+      return "Content [data=" + data + ", type=" + type + "]";
+    }
     
   } /* ENDCLASS */
 

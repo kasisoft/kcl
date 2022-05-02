@@ -8,17 +8,12 @@ import com.kasisoft.libs.common.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LongAdapterTest {
 
-  LongAdapter adapter = new LongAdapter();
+  private LongAdapter adapter = new LongAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

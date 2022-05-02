@@ -8,21 +8,16 @@ import java.util.*;
 
 import java.lang.ref.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
- 
 /**
  * Collector for often used objects like collections, maps etc. .
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bucket<T> {
 
-  List<SoftReference<T>>   references;
-  Supplier<T>              creator;
-  Consumer<T>              reset;
+  private List<SoftReference<T>>   references;
+  private Supplier<T>              creator;
+  private Consumer<T>              reset;
 
   /**
    * Initializes this bucket.

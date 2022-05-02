@@ -16,14 +16,9 @@ import java.util.*;
 
 import java.time.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctions {
   
   public static <R> @NotNull List<R> trimLeading(@NotNull List<R> input) {

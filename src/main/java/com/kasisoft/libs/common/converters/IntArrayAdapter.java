@@ -6,21 +6,16 @@ import javax.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for int array values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class IntArrayAdapter extends AbstractConverter<String, int[]> {
 
-  char              delimiter = ',';
-  Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  IntAdapter        converter = new IntAdapter();
+  private char              delimiter = ',';
+  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
+  private IntAdapter        converter = new IntAdapter();
 
   public @NotNull IntArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (this.delimiter != delimiter) {

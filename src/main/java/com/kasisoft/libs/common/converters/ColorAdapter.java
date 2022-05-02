@@ -11,21 +11,16 @@ import java.util.*;
 
 import java.awt.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for Color values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColorAdapter extends AbstractConverter<String, Color> {
 
   private static final String RGB = "rgb";
   
-  Map<String, Color>   colors;
+  private Map<String, Color>   colors;
   
   public ColorAdapter() {
     colors      = new HashMap<>();

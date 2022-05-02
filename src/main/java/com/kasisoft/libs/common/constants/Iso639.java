@@ -8,19 +8,12 @@ import java.util.function.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Collection of iso-639 codes.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://www.loc.gov/standards/iso639-2/php/code_list.php", date = "04-JUN-2020")
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Iso639 implements Predicate<String> {
 
   Abkhazian                 ("ABK", "ABK", "AB"),
@@ -505,9 +498,9 @@ public enum Iso639 implements Predicate<String> {
   Zuni                      ("ZUN", "ZUN", null),
   Zaza                      ("ZZA", "ZZA", null);
   
-  String   bibliography; 
-  String   terminology; 
-  String   alpha2;
+  private String   bibliography; 
+  private String   terminology; 
+  private String   alpha2;
   
   Iso639(String bib, String term, String al2) {
     bibliography    = bib;
@@ -518,6 +511,18 @@ public enum Iso639 implements Predicate<String> {
     LocalData.alpha2      .put(al2  , this);
     LocalData.alpha3      .put(bib  , this);
     LocalData.alpha3      .put(term , this);
+  }
+  
+  public String getBibliography() {
+    return bibliography;
+  }
+  
+  public String getTerminology() {
+    return terminology;
+  }
+  
+  public String getAlpha2() {
+    return alpha2;
   }
   
   @Override

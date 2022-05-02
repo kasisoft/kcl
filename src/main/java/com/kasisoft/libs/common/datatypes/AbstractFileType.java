@@ -6,21 +6,22 @@ import com.kasisoft.libs.common.utils.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractFileType implements FileType {
 
-  int           minSize;
-  MimeType      contentType;
-  int           offset;
-  List<byte[]>  magics;
+  private int           minSize;
+  private MimeType      contentType;
+  private int           offset;
+  private List<byte[]>  magics;
+
+  public AbstractFileType(int minSize, MimeType contentType, int offset, List<byte[]> magics) {
+    this.minSize        = minSize;
+    this.contentType    = contentType;
+    this.offset         = offset;
+    this.magics         = magics;
+  }
   
   @Override
   public int getMinSize() {

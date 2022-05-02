@@ -8,12 +8,6 @@ import com.kasisoft.libs.common.text.*;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.EqualsAndHashCode;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * A simple descriptional datastructure for a version.
  * 
@@ -21,15 +15,13 @@ import lombok.Getter;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@EqualsAndHashCode(of = "text")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Version implements Comparable<Version> {
 
-  @Getter int       major;
-  @Getter int       minor;
-  @Getter Integer   micro;
-  @Getter String    qualifier;
-          String    text;
+  private int       major;
+  private int       minor;
+  private Integer   micro;
+  private String    qualifier;
+  private String    text;
 
   /**
    * Sets up this version with the supplied settings.
@@ -165,6 +157,22 @@ public class Version implements Comparable<Version> {
     
   }
 
+  public int getMajor() {
+    return major;
+  }
+  
+  public int getMinor() {
+    return minor;
+  }
+  
+  public Integer getMicro() {
+    return micro;
+  }
+  
+  public String getQualifier() {
+    return qualifier;
+  }
+
   /**
    * Creates a textual presentation of this version.
    * 
@@ -240,6 +248,31 @@ public class Version implements Comparable<Version> {
       result = text.compareTo(other.text);
     }
     return result;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((text == null) ? 0 : text.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Version other = (Version) obj;
+    if (text == null) {
+      if (other.text != null)
+        return false;
+    } else if (!text.equals(other.text))
+      return false;
+    return true;
   }
 
 } /* ENDCLASS */

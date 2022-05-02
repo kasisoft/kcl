@@ -9,18 +9,13 @@ import org.testng.annotations.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @SuppressWarnings("deprecation")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DateAdapterTest {
 
-  DateAdapter adapter = new DateAdapter().withPattern("dd'.'MM'.'yyyy");
+  private DateAdapter adapter = new DateAdapter().withPattern("dd'.'MM'.'yyyy");
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

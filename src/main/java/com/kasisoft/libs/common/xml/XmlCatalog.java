@@ -21,23 +21,17 @@ import java.net.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Basic data structure used to store entity ids together with the urls.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver, Predicate<String> {
 
-  Map<PublicId, byte[]>   catalogdata;
-  Map<PublicId, String>   systemIds;
-  Set<URL>                failures;
-  DOMImplementationLS     domimpl;
+  private Map<PublicId, byte[]>   catalogdata;
+  private Map<PublicId, String>   systemIds;
+  private Set<URL>                failures;
+  private DOMImplementationLS     domimpl;
   
   public XmlCatalog() {
     this(false);
@@ -262,16 +256,18 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     return result;
   }
   
-  @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class PublicId implements Comparable<PublicId> {
     
-    @Getter
-    String   id;
-    String   lowerid;
+    private String   id;
+    private String   lowerid;
     
     public PublicId(String publicid) {
       id      = publicid;
       lowerid = publicid.toLowerCase();
+    }
+    
+    public String getId() {
+      return id;
     }
     
     @Override

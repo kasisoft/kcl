@@ -2,16 +2,11 @@ package com.kasisoft.libs.common.converters;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for double values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoubleAdapter extends AbstractConverter<String, Double> {
 
   private static final String NAN       = "NaN";

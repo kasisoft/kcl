@@ -6,20 +6,11 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Constants the different byte order marks.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Getter
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ByteOrderMark {
 
   UTF8    (new byte[] {(byte) 0xef, (byte) 0xbb, (byte) 0xbf}) ,
@@ -28,7 +19,15 @@ public enum ByteOrderMark {
   UTF32BE (new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff}),
   UTF32LE (new byte[] {(byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00});
   
-  byte[]   BOM;
+  private byte[]   BOM;
+  
+  ByteOrderMark(byte[] bom) {
+    BOM = bom;
+  }
+  
+  public byte[] getBOM() {
+    return BOM;
+  }
   
   /**
    * Returns <code>true</code> if the supplied data starts with this BOM.

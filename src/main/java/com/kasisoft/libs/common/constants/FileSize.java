@@ -1,16 +1,10 @@
 package com.kasisoft.libs.common.constants;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * A collection of file sizes. Calculation won't work on {@link #TerraByte} due to value limits.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum FileSize {
   
   Byte      (                 1 ,                  1 , "B"  ,   "B"),
@@ -19,20 +13,24 @@ public enum FileSize {
   GigaByte  (1000 * 1000 * 1000 , 1024 * 1024 * 1024 , "GB" , "GiB"),
   TerraByte (                0L ,                 0L , "TB" , "TiB");
   
-  long     humanSize;
-  long     computerSize;
-  
-  @Getter 
-  String   humanUnit;
-  
-  @Getter 
-  String   computerUnit;
+  private long     humanSize;
+  private long     computerSize;
+  private String   humanUnit;
+  private String   computerUnit;
   
   FileSize(long human, long computer, String humanU, String computerU) {
     humanSize    = human;
     computerSize = computer;
     humanUnit    = humanU;
     computerUnit = computerU;
+  }
+  
+  public String getHumanUnit() {
+    return humanUnit;
+  }
+  
+  public String getComputerUnit() {
+    return computerUnit;
   }
   
   public long getHumanSize() {

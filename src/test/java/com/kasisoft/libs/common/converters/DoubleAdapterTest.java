@@ -7,19 +7,14 @@ import com.kasisoft.libs.common.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'DoubleAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoubleAdapterTest {
 
-  DoubleAdapter adapter = new DoubleAdapter();
+  private DoubleAdapter adapter = new DoubleAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

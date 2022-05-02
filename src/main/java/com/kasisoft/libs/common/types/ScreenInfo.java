@@ -10,23 +10,11 @@ import java.util.*;
 
 import java.awt.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Getter
-@EqualsAndHashCode(of = "id")
-@ToString
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ScreenInfo implements Comparable<ScreenInfo> {
   
-  @FieldDefaults(level = AccessLevel.PRIVATE)
   public enum ComparisonMode implements Comparator<ScreenInfo> {
     
     Ratio      (ScreenInfo::compareByRatio     , ScreenInfo::getRatioPixels),
@@ -34,8 +22,8 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     Width      (ScreenInfo::compareByWidth     , ScreenInfo::getWidth),
     Height     (ScreenInfo::compareByHeight    , ScreenInfo::getHeight);
     
-    Comparator<ScreenInfo>          comparator;
-    Function<ScreenInfo, Integer>   getter;
+    private Comparator<ScreenInfo>          comparator;
+    private Function<ScreenInfo, Integer>   getter;
     
     ComparisonMode(Comparator<ScreenInfo> comp, Function<ScreenInfo, Integer> get) {
       comparator = comp;
@@ -53,16 +41,16 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     
   } /* ENDENUM */
   
-  String                  id;
-  GraphicsConfiguration   graphicsConfiguration;
-  GraphicsDevice          screen;
-  KSize                   size;
-  int                     width;
-  int                     height;
-  int                     ratioX;
-  int                     ratioY;
-  int                     pixels;
-  int                     ratioPixels;
+  private String                  id;
+  private GraphicsConfiguration   graphicsConfiguration;
+  private GraphicsDevice          screen;
+  private KSize                   size;
+  private int                     width;
+  private int                     height;
+  private int                     ratioX;
+  private int                     ratioY;
+  private int                     pixels;
+  private int                     ratioPixels;
   
   public ScreenInfo(String idString, GraphicsConfiguration gc, GraphicsDevice scr, int sWidth, int sHeight) {
     id                    = idString;
@@ -119,4 +107,61 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     return (int) (v * 100.0);
   }
 
+  public String getId() {
+    return id;
+  }
+
+  public GraphicsConfiguration getGraphicsConfiguration() {
+    return graphicsConfiguration;
+  }
+
+  public GraphicsDevice getScreen() {
+    return screen;
+  }
+
+  public KSize getSize() {
+    return size;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public int getRatioX() {
+    return ratioX;
+  }
+
+  public int getRatioY() {
+    return ratioY;
+  }
+
+  public int getPixels() {
+    return pixels;
+  }
+
+  public int getRatioPixels() {
+    return ratioPixels;
+  }
+
+  @Override
+  public String toString() {
+    return id;
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+  
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof ScreenInfo) {
+      return id.equals(((ScreenInfo) other).id);
+    }
+    return false;
+  }
 } /* ENDCLASS */

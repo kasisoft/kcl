@@ -13,29 +13,17 @@ import java.security.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Encryptor {
   
-  @Getter
-  String                cipher;
-  
-  @Getter
-  String                algorithm;
-  
-  @Getter
-  String                secret;
-  
-  Random                random;
-  SecretKey             key;
-  IvParameterSpec       ivParameter;
+  private String                cipher;
+  private String                algorithm;
+  private String                secret;
+  private Random                random;
+  private SecretKey             key;
+  private IvParameterSpec       ivParameter;
 
   public Encryptor(@NotNull String cipher, @NotNull String algorithm) {
     this(cipher, algorithm, null, null);
@@ -55,6 +43,18 @@ public class Encryptor {
     this.ivParameter  = new IvParameterSpec(setupSalt(salt));
   }
   
+  public String getCipher() {
+    return cipher;
+  }
+  
+  public String getAlgorithm() {
+    return algorithm;
+  }
+  
+  public String getSecret() {
+    return secret;
+  }
+
   public @NotNull Optional<@NotNull byte[]> encrypt(byte[] data) {
     var result = Optional.<byte[]>empty();
     if (data != null) {

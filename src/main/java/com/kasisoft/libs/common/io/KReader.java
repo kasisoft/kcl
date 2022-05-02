@@ -7,20 +7,17 @@ import java.nio.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KReader extends Reader {
 
-  Reader    impl;
+  private Reader    impl;
 
+  public KReader(Reader impl) {
+    this.impl = impl;
+  }
+  
   @Override
   public int read(CharBuffer target) {
     return PrimitiveFunctions.applyInt(impl::read, target);

@@ -14,21 +14,18 @@ import java.util.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-
 /**
  * Common tests for StringLike types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractStringLikeTestCase<T extends StringLike<T>> {
 
-  Class<T>   stringLikeType;
+  private Class<T>   stringLikeType;
+  
+  public AbstractStringLikeTestCase(Class<T> stringLikeType) {
+    this.stringLikeType = stringLikeType;
+  }
   
   @DataProvider(name = "data_buffers")
   public Object[][] data_buffers() {

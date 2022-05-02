@@ -5,20 +5,17 @@ import com.kasisoft.libs.common.utils.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KInputStream extends InputStream {
 
-  InputStream   impl;
+  private InputStream   impl;
 
+  public KInputStream(InputStream impl) {
+    this.impl = impl;
+  }
+  
   @Override
   public int read() {
     return PrimitiveFunctions.getInt(impl::read);

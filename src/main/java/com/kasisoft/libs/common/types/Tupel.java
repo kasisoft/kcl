@@ -4,24 +4,15 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.ToString;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Simple class used to work as a container (f.e. out-parameters).
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@ToString
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tupel<T> implements HasFirstAndLast<T, T> {
 
-  @Getter 
-  T[]   values;
-  int   length;
+  private T[]   values;
+  private int   length;
   
   /**
    * Changes the current values.
@@ -32,6 +23,10 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
     setValues(newvalues);
   }
 
+  public T[] getValues() {
+    return values;
+  }
+  
   @Override
   public @NotNull Optional<T> findLast() {
     if (length > 0) {
@@ -70,6 +65,11 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
    */
   public boolean isEmpty() {
     return length == 0;
+  }
+
+  @Override
+  public String toString() {
+    return "Tupel [values=" + Arrays.toString(values) + ", length=" + length + "]";
   }
   
 } /* ENDCLASS */

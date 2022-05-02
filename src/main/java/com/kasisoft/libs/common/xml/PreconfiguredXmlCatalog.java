@@ -6,17 +6,12 @@ import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 
  * the classpath. This catalog doesn't care about missing resources as they're supposed to be made available afterwards.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreconfiguredXmlCatalog extends XmlCatalog {
 
   private static final String[] PRECONFIGURED = new String[] {

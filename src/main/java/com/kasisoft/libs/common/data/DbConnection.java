@@ -15,31 +15,23 @@ import java.util.*;
 
 import java.sql.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Simple wrapper around a jdbc {@link Connection} instance which provides some helpful utility features.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @SuppressWarnings("resource")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DbConnection implements AutoCloseable {
   
-  @Getter
-  Connection                                connection;
-  
-  Database                                  database;
-  Consumer<Exception>                       errorHandler;
-  Map<String, PreparedStatement>            queries;
-  List<String>                              tableNames;
-  Map<String, List<String>>                 columnNames;
-  Map<String, List<Pair<String, Integer>>>  columnTypes;
-  Map<String, List<CsvColumn>>              columnSpecs;
-  Closer                                    closer;
+  private Connection                                connection;
+  private Database                                  database;
+  private Consumer<Exception>                       errorHandler;
+  private Map<String, PreparedStatement>            queries;
+  private List<String>                              tableNames;
+  private Map<String, List<String>>                 columnNames;
+  private Map<String, List<Pair<String, Integer>>>  columnTypes;
+  private Map<String, List<CsvColumn>>              columnSpecs;
+  private Closer                                    closer;
 
   /**
    * Sets up the connection which will be opened right away.
@@ -99,6 +91,10 @@ public class DbConnection implements AutoCloseable {
     queries         = new HashMap<>();
     errorHandler    = this::errorHandler;
     closer          = new Closer().withErrorHandler(errorHandler);
+  }
+  
+  public Connection getConnection() {
+    return connection;
   }
   
   /**

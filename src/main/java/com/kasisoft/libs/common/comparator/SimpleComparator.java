@@ -6,19 +6,14 @@ import java.util.function.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Abstract comparator.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleComparator<T> implements Comparator<T> {
 
-  Function<T, ? extends Comparable<?>>[]    getters;
+  private Function<T, ? extends Comparable<?>>[]    getters;
   
   public SimpleComparator(@NotNull Function<T, ? extends Comparable<?>> ... getters) {
     this.getters = getters;

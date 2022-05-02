@@ -6,21 +6,16 @@ import javax.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for short array values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ShortArrayAdapter extends AbstractConverter<String, short[]> {
 
-  char              delimiter = ',';
-  Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  ShortAdapter      converter = new ShortAdapter();
+  private char              delimiter = ',';
+  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
+  private ShortAdapter      converter = new ShortAdapter();
 
   public @NotNull ShortArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (this.delimiter != delimiter) {

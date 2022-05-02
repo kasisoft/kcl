@@ -9,19 +9,14 @@ import org.testng.annotations.*;
 
 import java.awt.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'ColorAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColorAdapterTest {
 
-  ColorAdapter adapter = new ColorAdapter();
+  private ColorAdapter adapter = new ColorAdapter();
 
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

@@ -8,20 +8,11 @@ import java.util.function.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Collection of constants used to identify image formats.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum PictureFormat implements Predicate<String> {
 
   Bmp   (true , MimeType.Bitmap                , "bmp", Arrays.asList("bmp")),
@@ -32,10 +23,33 @@ public enum PictureFormat implements Predicate<String> {
   Ps    (false, MimeType.Postscript            , null , Arrays.asList("ps")),
   Svg   (false, MimeType.Svg                   , null , Arrays.asList("svg"));
   
-  boolean       rasterFormat;
-  MimeType      mimeType;
-  String        imageIOFormat;
-  List<String>  suffices;
+  private boolean       rasterFormat;
+  private MimeType      mimeType;
+  private String        imageIOFormat;
+  private List<String>  suffices;
+  
+  PictureFormat(boolean rasterFormat, MimeType mimeType, String imageIOFormat, List<String> suffices) {
+    this.rasterFormat   = rasterFormat;
+    this.mimeType       = mimeType;
+    this.imageIOFormat  = imageIOFormat;
+    this.suffices       = suffices;
+  }
+  
+  public boolean isRasterFormat() {
+    return rasterFormat;
+  }
+  
+  public MimeType getMimeType() {
+    return mimeType;
+  }
+  
+  public String getImageIOFormat() {
+    return imageIOFormat;
+  }
+  
+  public List<String> getSuffices() {
+    return suffices;
+  }
   
   @Override
   public boolean test(String t) {

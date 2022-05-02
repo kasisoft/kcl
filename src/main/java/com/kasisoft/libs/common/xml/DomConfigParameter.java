@@ -4,12 +4,6 @@ import org.w3c.dom.*;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Collection of parameters for the {@link DOMConfiguration} .
  * 
@@ -18,9 +12,6 @@ import lombok.Getter;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Getter
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum DomConfigParameter {
 
   CanonicalForm                         ("canonical-form"                           , false),
@@ -46,8 +37,21 @@ public enum DomConfigParameter {
   Wellformed                            ("well-formed"                              , false),
   XmlDeclaration                        ("xml-declaration"                          , true );
 
-  String    key;
-  boolean   xerces;
+  private String    key;
+  private boolean   xerces;
+  
+  DomConfigParameter(String key, boolean xerces) {
+    this.key    = key;
+    this.xerces = xerces;
+  }
+  
+  public String getKey() {
+    return key;
+  }
+  
+  public boolean isXerces() {
+    return xerces;
+  }
   
   /**
    * Sets this parameter for the supplied configuration.

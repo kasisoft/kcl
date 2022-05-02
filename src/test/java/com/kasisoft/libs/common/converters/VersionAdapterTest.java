@@ -7,19 +7,14 @@ import com.kasisoft.libs.common.types.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'VersionAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class VersionAdapterTest {
 
-  VersionAdapter adapter = new VersionAdapter().withMicro(true).withQualifier(true);
+  private VersionAdapter adapter = new VersionAdapter().withMicro(true).withQualifier(true);
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

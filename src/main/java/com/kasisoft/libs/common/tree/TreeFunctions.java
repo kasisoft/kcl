@@ -11,17 +11,12 @@ import java.util.stream.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Functions to process a list of values in a tree like fashion assuming there's a mapping for each value to generate 
  * a treepath.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeFunctions {
 
   private static List<String> split(@NotBlank String str) {

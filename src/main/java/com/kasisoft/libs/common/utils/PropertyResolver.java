@@ -10,23 +10,18 @@ import java.util.function.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PropertyResolver implements SimpleFunction<String> {
   
   public static final String DEFAULT_VARFORMAT          = "${%s}";
   public static final String DEFAULT_SYSPROP_PREFIX     = "sys";
   public static final String DEFAULT_ENV_PREFIX         = "env";
 
-  String                varFormat;
-  Map<String, String>   replacementMap;
-  List<String>          keys;
+  private String                varFormat;
+  private Map<String, String>   replacementMap;
+  private List<String>          keys;
   
   public PropertyResolver() {
     varFormat           = DEFAULT_VARFORMAT;

@@ -14,12 +14,6 @@ import java.util.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Simple converter which allows to create flat representations of a XML document. This converter simply implements a 
  * DefaultHandler used in conjunction with the SAX Parser. An OutputStream must be supplied in order to generate the 
@@ -28,24 +22,18 @@ import lombok.Setter;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FlatXmlHandler extends DefaultHandler {
 
-  Stack<String>                   elements;
-  StringFBuilder                  path;
-  StringBuilder                   buffer;
-  Encoding                        encoding;
-  
-  @Setter         OutputStream    target;
+  private Stack<String>   elements;
+  private StringFBuilder  path;
+  private StringBuilder   buffer;
+  private Encoding        encoding;
+  private OutputStream    target;
+  private String          newline;
+  private boolean         trimValues;
+  private boolean         escaping;
+  private boolean         attributes;
 
-  @Getter         String          newline;
-  
-  @Getter @Setter boolean         trimValues;
-  @Getter @Setter boolean         escaping;
-  @Getter @Setter boolean         attributes;
-  
-  
-  
   /**
    * Initialises this generator. An instance may be used multiple times.
    */
@@ -62,6 +50,14 @@ public class FlatXmlHandler extends DefaultHandler {
     encoding   = Encoding.UTF8;
   }
   
+  public void setTarget(OutputStream target) {
+    this.target = target;
+  }
+  
+  public String getNewline() {
+    return newline;
+  }
+  
   /**
    * Changes the current line separator sequence.
    * 
@@ -72,6 +68,30 @@ public class FlatXmlHandler extends DefaultHandler {
     if (newline == null) {
       newline = KclConfig.LINE_ENDING;
     }
+  }
+  
+  public boolean isTrimValues() {
+    return trimValues;
+  }
+  
+  public void setTrimValues(boolean trimValues) {
+    this.trimValues = trimValues;
+  }
+  
+  public boolean isEscaping() {
+    return escaping;
+  }
+  
+  public void setEscaping(boolean escaping) {
+    this.escaping = escaping;
+  }
+  
+  public boolean isAttributes() {
+    return attributes;
+  }
+  
+  public void setAttributes(boolean attributes) {
+    this.attributes = attributes;
   }
   
   /**

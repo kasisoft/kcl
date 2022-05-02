@@ -8,19 +8,14 @@ import javax.validation.constraints.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for File values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileAdapter extends AbstractConverter<String, File> {
 
-  boolean   canonical = false;
+  private boolean   canonical = false;
   
   public FileAdapter withCanonical(boolean canonical) {
     this.canonical = canonical;

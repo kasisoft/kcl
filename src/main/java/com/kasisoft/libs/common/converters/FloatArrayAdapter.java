@@ -6,21 +6,16 @@ import javax.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for float array values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FloatArrayAdapter extends AbstractConverter<String, float[]> {
 
-  char              delimiter = ',';
-  Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  FloatAdapter      converter = new FloatAdapter();
+  private char              delimiter = ',';
+  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
+  private FloatAdapter      converter = new FloatAdapter();
 
   public @NotNull FloatArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (delimiter != '.') {

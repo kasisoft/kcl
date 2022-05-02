@@ -1,22 +1,21 @@
 package com.kasisoft.libs.common.i18n;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Setter;
-
 /**
  * Helper which provides formatting capabilities to a translation.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18NString {
 
-  @Setter
-  String   value;
+  private String   value;
+  
+  public I18NString(String value) {
+    this.value = value;
+  }
+  
+  public void setValue(String value) {
+    this.value = value;
+  }
   
   /**
    * @see String#format(String, Object...)

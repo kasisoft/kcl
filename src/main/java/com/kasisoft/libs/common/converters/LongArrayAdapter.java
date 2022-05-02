@@ -8,21 +8,16 @@ import javax.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for long array values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LongArrayAdapter extends AbstractConverter<String, long[]> {
 
-  char              delimiter = ',';
-  Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  LongAdapter       converter = new LongAdapter();
+  private char              delimiter = ',';
+  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
+  private LongAdapter       converter = new LongAdapter();
 
   public @NotNull LongArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (this.delimiter != delimiter) {

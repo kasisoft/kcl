@@ -6,21 +6,16 @@ import javax.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for boolean array values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
 
-  char              delimiter = ',';
-  Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  BooleanAdapter    converter = new BooleanAdapter();
+  private char              delimiter = ',';
+  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
+  private BooleanAdapter    converter = new BooleanAdapter();
   
   public @NotNull BooleanArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (this.delimiter != delimiter) {

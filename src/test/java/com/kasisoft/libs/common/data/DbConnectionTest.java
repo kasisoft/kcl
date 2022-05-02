@@ -19,20 +19,15 @@ import java.nio.file.*;
 
 import java.sql.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DbConnectionTest extends AbstractTestCase {
   
   private static AtomicInteger firstSetup = new AtomicInteger(0); 
       
-  Path      dbLocation;
-  Server    server;
+  private Path      dbLocation;
+  private Server    server;
   
   @BeforeSuite
   public void prepare() throws Exception {

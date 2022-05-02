@@ -8,10 +8,6 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise 
  * the following constraints:
@@ -24,12 +20,11 @@ import lombok.AccessLevel;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnumerationAdapter<T extends Enum<T>> extends AbstractConverter<String, T> {
 
-  Class<T>        enumtype;
-  Map<String,T>   values;
-  boolean         ignorecase;
+  private Class<T>        enumtype;
+  private Map<String,T>   values;
+  private boolean         ignorecase;
   
   public EnumerationAdapter(@NotNull Class<T> type) {
     enumtype    = type;

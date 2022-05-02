@@ -5,17 +5,12 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BooleanArrayAdapterTest {
 
-  BooleanArrayAdapter adapter = new BooleanArrayAdapter();
+  private BooleanArrayAdapter adapter = new BooleanArrayAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

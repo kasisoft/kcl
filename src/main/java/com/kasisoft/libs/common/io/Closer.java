@@ -6,17 +6,12 @@ import javax.validation.constraints.*;
 
 import java.util.function.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Closer {
 
-  Consumer<Exception>       errorHandler = Closer::defaultErrorHandler;
+  private Consumer<Exception>       errorHandler = Closer::defaultErrorHandler;
   
   public @NotNull Closer withErrorHandler(Consumer<Exception> handler) {
     this.errorHandler = handler != null ? handler : Closer::defaultErrorHandler;

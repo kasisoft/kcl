@@ -18,17 +18,12 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Tests for the class 'IoFunctions'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @SuppressWarnings("preview")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctionsTest extends AbstractTestCase {
 
   private static final String CONTENT_FOR_STREAMS = ""
@@ -62,8 +57,8 @@ public class IoFunctionsTest extends AbstractTestCase {
                                                  + "</schema>\n"
                                                  ;
   
-  Path  httpXsd;
-  Path  tempHttpXsd;
+  private Path  httpXsd;
+  private Path  tempHttpXsd;
   
   @BeforeSuite
   public void setup() throws Exception {

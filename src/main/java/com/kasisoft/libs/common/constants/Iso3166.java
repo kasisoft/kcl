@@ -6,18 +6,11 @@ import java.util.function.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Collection of iso-3166 codes.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Iso3166 implements Predicate<String> {
 
   Afghanistan                          ("AFG", "AF",   4),
@@ -266,9 +259,9 @@ public enum Iso3166 implements Predicate<String> {
   Zambia                               ("ZMB", "ZM", 894),
   Zimbabwe                             ("ZWE", "ZW", 716);
   
-  String   alpha3; 
-  String   alpha2;
-  int      numerical;
+  private String   alpha3; 
+  private String   alpha2;
+  private int      numerical;
   
   /**
    * Initialises this constant.
@@ -284,6 +277,18 @@ public enum Iso3166 implements Predicate<String> {
     LocalData.valuebyalpha3.put(al3, this);
     LocalData.valuebyalpha2.put(al2, this);
     LocalData.valuebynum   .put(Integer.valueOf(value), this);
+  }
+  
+  public String getAlpha3() {
+    return alpha3;
+  }
+  
+  public String getAlpha2() {
+    return alpha2;
+  }
+  
+  public int getNumerical() {
+    return numerical;
   }
   
   @Override

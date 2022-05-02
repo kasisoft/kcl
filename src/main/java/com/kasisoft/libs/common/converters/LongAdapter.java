@@ -2,16 +2,11 @@ package com.kasisoft.libs.common.converters;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for long values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LongAdapter extends AbstractConverter<String, Long> {
 
   @Override

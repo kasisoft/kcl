@@ -30,19 +30,14 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GraphicsFunctionsTest extends AbstractTestCase {
   
-  Path          images;
-  List<Path>    inputfiles;
-  int           idx;
+  private Path          images;
+  private List<Path>    inputfiles;
+  private int           idx;
   
   @BeforeSuite
   public void setup() {

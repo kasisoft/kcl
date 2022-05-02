@@ -8,19 +8,14 @@ import com.kasisoft.libs.common.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'ByteAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ByteAdapterTest {
 
-  ByteAdapter adapter = new ByteAdapter();
+  private ByteAdapter adapter = new ByteAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

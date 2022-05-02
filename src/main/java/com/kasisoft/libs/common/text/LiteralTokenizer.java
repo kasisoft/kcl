@@ -4,24 +4,19 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 
  * can be used for the tokenization process.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LiteralTokenizer implements Enumeration<String> {
 
-  int            pos;
-  String[]       literals;
-  StringLike     input;
-  boolean        doreturn;
-  String         next;
+  private int            pos;
+  private String[]       literals;
+  private StringLike     input;
+  private boolean        doreturn;
+  private String         next;
   
   /**
    * Prepares this tokenizer to operate using delimiting literals.

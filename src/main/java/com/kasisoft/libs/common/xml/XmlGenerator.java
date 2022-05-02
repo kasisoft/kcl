@@ -10,29 +10,21 @@ import java.util.function.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.AccessLevel;
-
 /**
  * Helper class which allows to generate xml files.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = "builder") @ToString(of = "builder")
 public class XmlGenerator<T extends XmlGenerator<T>> {
 
-  StringFBuilder                      builder;
-  Encoding                            encoding;
-  Stack<String>                       tags;
-  StringBuilder                       indentation;
-  String                              indent;
+  private StringFBuilder                      builder;
+  private Encoding                            encoding;
+  private Stack<String>                       tags;
+  private StringBuilder                       indentation;
+  private String                              indent;
   
-  BiConsumer<Object, Object>          handleInvalidAttribute;
-  BiFunction<String, Object, String>  attributeValueConverter;
+  private BiConsumer<Object, Object>          handleInvalidAttribute;
+  private BiFunction<String, Object, String>  attributeValueConverter;
   
   /**
    * Creates this generator using a certain encoding and a specific indentation size.
@@ -486,6 +478,36 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
       return XmlFunctions.escapeXml(text);
     }
     return Empty.NO_STRING;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((builder == null) ? 0 : builder.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    XmlGenerator other = (XmlGenerator) obj;
+    if (builder == null) {
+      if (other.builder != null)
+        return false;
+    } else if (!builder.equals(other.builder))
+      return false;
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "XmlGenerator [builder=" + builder + "]";
   }
   
 } /* ENDCLASS */

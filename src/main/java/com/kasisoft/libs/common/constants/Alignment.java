@@ -5,20 +5,11 @@ import javax.swing.border.*;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Values to specify an alignment.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Alignment {
 
   Left   (SwingConstants.LEFT  , TitledBorder.LEFT  , true),
@@ -28,9 +19,27 @@ public enum Alignment {
   Middle (SwingConstants.CENTER, TitledBorder.LEFT  , false),
   Bottom (SwingConstants.BOTTOM, TitledBorder.LEFT  , false);
   
-  int       alignment;
-  int       titledBorderX;
-  boolean   horizontal;
+  private int       alignment;
+  private int       titledBorderX;
+  private boolean   horizontal;
+  
+  Alignment(int alignment, int titledBorderX, boolean horizontal) {
+    this.alignment      = alignment;
+    this.titledBorderX  = titledBorderX;
+    this.horizontal     = horizontal;
+  }
+  
+  public int getAlignment() {
+    return alignment;
+  }
+  
+  public int getTitledBorderX() {
+    return titledBorderX;
+  }
+  
+  public boolean isHorizontal() {
+    return horizontal;
+  }
   
   public void set(@NotNull JComponent component) {
     if (horizontal) {

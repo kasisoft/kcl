@@ -12,17 +12,12 @@ import java.util.*;
 
 import java.time.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Test for various functions of the class 'MiscFunctions'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @SuppressWarnings("deprecation")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MiscFunctionsTest {
 
   @DataProvider(name = "data_getGravatarLink")

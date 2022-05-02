@@ -7,19 +7,14 @@ import org.testng.annotations.*;
 
 import java.net.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'URLAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class URLAdapterTest {
 
-  URLAdapter adapter = new URLAdapter();
+  private URLAdapter adapter = new URLAdapter();
 
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() throws Exception {

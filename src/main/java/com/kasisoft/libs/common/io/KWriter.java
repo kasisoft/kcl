@@ -5,19 +5,16 @@ import com.kasisoft.libs.common.utils.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KWriter extends Writer {
 
-  Writer    impl;
+  private Writer    impl;
+  
+  public KWriter(Writer impl) {
+    this.impl = impl;
+  }
 
   @Override
   public void write(int c) {

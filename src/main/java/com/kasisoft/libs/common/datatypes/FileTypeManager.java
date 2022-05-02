@@ -6,20 +6,15 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Management for file type recognizers.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileTypeManager {
 
-  List<FileType>    filetypes;
-  int               maxspace;
+  private List<FileType>    filetypes;
+  private int               maxspace;
   
   /**
    * Initializes this management type while looking for all SPI declarations.

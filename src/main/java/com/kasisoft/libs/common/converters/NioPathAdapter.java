@@ -4,16 +4,11 @@ import javax.validation.constraints.*;
 
 import java.nio.file.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for Path values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class NioPathAdapter extends AbstractConverter<String, Path> {
 
   @Override

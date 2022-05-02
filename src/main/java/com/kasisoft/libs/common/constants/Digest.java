@@ -12,20 +12,12 @@ import java.security.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.ToString;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Collection of supported MessageDigest implementations.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://docs.oracle.com/javase/10/docs/api/java/security/MessageDigest.html", date = "04-JUN-2020")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@ToString(of = "algorithm")
 public final class Digest {
   
   public static final Digest   MD2;
@@ -47,10 +39,10 @@ public final class Digest {
     SHA512    = new Digest("SHA-512");
   }
   
-  @Getter @NotBlank
-  String                    algorithm;
+  @NotBlank
+  private String                    algorithm;
   
-  Bucket<MessageDigest>     bucket;
+  private Bucket<MessageDigest>     bucket;
 
   
   /**
@@ -71,6 +63,10 @@ public final class Digest {
     synchronized (DIGESTS) {
       DIGESTS.put(algorithm, this);
     }
+  }
+  
+  public String getAlgorithm() {
+    return algorithm;
   }
   
   /**
@@ -137,6 +133,11 @@ public final class Digest {
     return result;
   }
 
+  @Override
+  public String toString() {
+    return algorithm;
+  }
+  
   public static @NotNull Digest[] values() {
     synchronized (DIGESTS) {
       return DIGESTS.values().toArray(new Digest[DIGESTS.size()]);

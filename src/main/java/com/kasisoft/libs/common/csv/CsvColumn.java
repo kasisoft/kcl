@@ -10,20 +10,11 @@ import java.util.*;
 
 import java.math.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Data;
-
 /**
  * A basic description of a csv column.
  *  
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Data @NoArgsConstructor @AllArgsConstructor
 public final class CsvColumn<T> {
   
   private static Map<Class<?>, Function<String, ?>> DEFAULT_ADAPTERS = new HashMap<>();
@@ -36,11 +27,15 @@ public final class CsvColumn<T> {
     DEFAULT_ADAPTERS.put(BigDecimal.class  , CsvColumn::toBigDecimalValue);
   }
   
-  String                title;
-  Class<T>              type;
-  boolean               nullable;
-  T                     defval;
-  Function<String, T>   adapter;
+  private String                title;
+  private Class<T>              type;
+  private boolean               nullable;
+  private T                     defval;
+  private Function<String, T>   adapter;
+  
+  public CsvColumn() {
+    this(null, (Class<T>) String.class, true, null, null);
+  }
   
   public CsvColumn(String title) {
     this(title, (Class<T>) String.class, true, null, null);
@@ -56,6 +51,54 @@ public final class CsvColumn<T> {
 
   public CsvColumn(String title, Class<T> type) {
     this(title, type, true, null, null);
+  }
+
+  public CsvColumn(String title, Class<T> type, boolean nullable, T defval, Function<String, T> adapter) {
+    this.title      = title;
+    this.type       = type;
+    this.nullable   = nullable;
+    this.defval     = defval;
+    this.adapter    = adapter;
+  }
+  
+  public String getTitle() {
+    return title;
+  }
+  
+  public void setTitle(String title) {
+    this.title = title;
+  }
+  
+  public Class<T> getType() {
+    return type;
+  }
+  
+  public void setType(Class<T> type) {
+    this.type = type;
+  }
+  
+  public boolean isNullable() {
+    return nullable;
+  }
+  
+  public void setNullable(boolean nullable) {
+    this.nullable = nullable;
+  }
+  
+  public T getDefval() {
+    return defval;
+  }
+  
+  public void setDefval(T defval) {
+    this.defval = defval;
+  }
+  
+  public Function<String, T> getAdatper() {
+    return adapter;
+  }
+  
+  public void setAdapter(Function<String, T> adapter) {
+    this.adapter = adapter;
   }
 
   /**
@@ -86,6 +129,58 @@ public final class CsvColumn<T> {
     return result;
   }
   
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((adapter == null) ? 0 : adapter.hashCode());
+    result = prime * result + ((defval == null) ? 0 : defval.hashCode());
+    result = prime * result + (nullable ? 1231 : 1237);
+    result = prime * result + ((title == null) ? 0 : title.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CsvColumn other = (CsvColumn) obj;
+    if (adapter == null) {
+      if (other.adapter != null)
+        return false;
+    } else if (!adapter.equals(other.adapter))
+      return false;
+    if (defval == null) {
+      if (other.defval != null)
+        return false;
+    } else if (!defval.equals(other.defval))
+      return false;
+    if (nullable != other.nullable)
+      return false;
+    if (title == null) {
+      if (other.title != null)
+        return false;
+    } else if (!title.equals(other.title))
+      return false;
+    if (type == null) {
+      if (other.type != null)
+        return false;
+    } else if (!type.equals(other.type))
+      return false;
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "CsvColumn [title=" + title + ", type=" + type + ", nullable=" + nullable + ", defval=" + defval
+        + ", adapter=" + adapter + "]";
+  }
+
   /**
    * Default adapter for Integer.
    * 
@@ -149,10 +244,9 @@ public final class CsvColumn<T> {
     return new CsvColumnBuilder<>();
   }
   
-  @FieldDefaults(level = AccessLevel.PRIVATE)
   public static class CsvColumnBuilder<R> {
     
-    CsvColumn<R>   instance = new CsvColumn<>();
+    private CsvColumn<R>   instance = new CsvColumn<>();
     
     private CsvColumnBuilder() {
     }

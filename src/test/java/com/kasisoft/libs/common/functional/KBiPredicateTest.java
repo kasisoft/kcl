@@ -4,19 +4,14 @@ import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KBiPredicateTest {
   
-  KBiPredicate<String, String> isEqualIgnoreCase = ($a, $b) -> $a.equalsIgnoreCase($b);
+  private KBiPredicate<String, String> isEqualIgnoreCase = ($a, $b) -> $a.equalsIgnoreCase($b);
   
-  KBiPredicate<String, String> areBothUppercase  = ($a, $b) -> {
+  private KBiPredicate<String, String> areBothUppercase  = ($a, $b) -> {
     var strA = $a.toUpperCase();
     var strB = $b.toUpperCase();
     return strA.equals($a) && strB.equals($b);

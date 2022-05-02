@@ -7,14 +7,9 @@ import com.kasisoft.libs.common.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EnumerationAdapterTest {
 
   enum LordOfTheRings {

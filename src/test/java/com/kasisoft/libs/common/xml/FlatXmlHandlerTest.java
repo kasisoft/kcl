@@ -18,19 +18,14 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Collection of testcases for the type 'FlatXmlHandler'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FlatXmlHandlerTest extends AbstractTestCase {
 
-  Path    simplexml;
+  private Path    simplexml;
   
   @BeforeTest
   public void setup() {

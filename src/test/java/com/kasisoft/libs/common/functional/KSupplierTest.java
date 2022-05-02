@@ -5,17 +5,12 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KSupplierTest {
 
-  KSupplier<String> getName = () -> "name";
+  private KSupplier<String> getName = () -> "name";
   
   @Test(groups = "all")
   public void get() throws Exception {

@@ -24,25 +24,16 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.AccessLevel;
-
 /**
  * A simple helper allowing to manage blacklists. It obviously can be used as a whitelist. 
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@ToString(of = {"list", "commentPrefix"})
-@EqualsAndHashCode(of = {"list", "commentPrefix"})
 public class Blacklist implements Predicate<String> {
   
-  List<String>          list;
-  List<String>          lowercaseList;
-  String                commentPrefix;
+  private List<String>          list;
+  private List<String>          lowercaseList;
+  private String                commentPrefix;
   
   /**
    * Sets up an empty blacklist.
@@ -472,6 +463,42 @@ public class Blacklist implements Predicate<String> {
  
   @SuppressWarnings("unused")
   private void noStatistic(String literal) {
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((commentPrefix == null) ? 0 : commentPrefix.hashCode());
+    result = prime * result + ((list == null) ? 0 : list.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Blacklist other = (Blacklist) obj;
+    if (commentPrefix == null) {
+      if (other.commentPrefix != null)
+        return false;
+    } else if (!commentPrefix.equals(other.commentPrefix))
+      return false;
+    if (list == null) {
+      if (other.list != null)
+        return false;
+    } else if (!list.equals(other.list))
+      return false;
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "Blacklist [list=" + list + ", commentPrefix=" + commentPrefix + "]";
   }
   
 } /* ENDCLASS */

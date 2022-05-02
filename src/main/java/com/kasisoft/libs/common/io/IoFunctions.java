@@ -24,16 +24,11 @@ import java.nio.file.attribute.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Collection of functions used for IO operations.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class IoFunctions {
 
   private static final String WC1 = "([^/]+)";    // *

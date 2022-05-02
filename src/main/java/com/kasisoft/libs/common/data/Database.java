@@ -12,17 +12,11 @@ import java.util.*;
 
 import java.sql.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Simple wrapper for various database types.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Database implements Predicate<String> {
 
   derby       (false, "VALUES 1"                                     , "SELECT * FROM %s LIMIT 1", "org.apache.derby.jdbc.EmbeddedDriver"),
@@ -35,22 +29,13 @@ public enum Database implements Predicate<String> {
   postgresql  (false, "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "org.postgresql.Driver"),
   sqlite      (false, "SELECT 1"                                     , "SELECT * FROM %s LIMIT 1", "org.sqlite.JDBC");
 
-  @Getter 
-  String        driver;
-  
-  @Getter
-  String        listColumnsQuery;
-  
-  @Getter
-  String        selectAllQuery;
-
-  @Getter
-  String        countQuery;
-
-  List<String>  secondaryDrivers;
-  
-  boolean       active;
-  String        aliveQuery;
+  private String        driver;
+  private String        listColumnsQuery;
+  private String        selectAllQuery;
+  private String        countQuery;
+  private List<String>  secondaryDrivers;
+  private boolean       active;
+  private String        aliveQuery;
   
   Database(boolean spi, String alive, String listColumns, String ... driverclasses) {
     driver           = driverclasses[0];
@@ -65,6 +50,22 @@ public enum Database implements Predicate<String> {
     } else {
       secondaryDrivers = Collections.emptyList();
     }
+  }
+  
+  public String getDriver() {
+    return driver;
+  }
+  
+  public String getListColumnsQuery() {
+    return listColumnsQuery;
+  }
+  
+  public String getSelectAllQuery() {
+    return selectAllQuery;
+  }
+  
+  public String getCountQuery() {
+    return countQuery;
   }
 
   /**

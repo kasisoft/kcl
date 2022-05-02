@@ -14,23 +14,18 @@ import java.util.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which 
  * means that the original index is calculated beginning from the end of the buffer.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   
   private static final long serialVersionUID = 6094891463351971217L;
   
   // the original implementation
-  StringBuffer   origin;
+  private StringBuffer   origin;
   
   /**
    * @see StringBuffer#StringBuffer()

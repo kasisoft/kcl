@@ -10,14 +10,9 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AbstractTestCase {
 
   private static Path tempDir;
@@ -30,8 +25,8 @@ public class AbstractTestCase {
     }
   }
   
-  String rootFolder;
-  Path   tempFolder;
+  private String rootFolder;
+  private Path   tempFolder;
   
   public AbstractTestCase() {
     this(null);

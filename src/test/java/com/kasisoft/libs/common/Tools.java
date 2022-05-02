@@ -10,37 +10,125 @@ import java.util.*;
 
 import java.lang.reflect.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Data;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Tools {
 
-  @Data @AllArgsConstructor
-  @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class ParamRecord {
     
-    boolean         typeVar;
-    String          name;
-    String          type;
-    List<String>    annotations;
+    private boolean         typeVar;
+    private String          name;
+    private String          type;
+    private List<String>    annotations;
+
+    public ParamRecord(boolean typeVar, String name, String type, List<String> annotations) {
+      super();
+      this.typeVar = typeVar;
+      this.name = name;
+      this.type = type;
+      this.annotations = annotations;
+    }
+
+    public boolean isTypeVar() {
+      return typeVar;
+    }
+
+    public void setTypeVar(boolean typeVar) {
+      this.typeVar = typeVar;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public void setType(String type) {
+      this.type = type;
+    }
+
+    public List<String> getAnnotations() {
+      return annotations;
+    }
+
+    public void setAnnotations(List<String> annotations) {
+      this.annotations = annotations;
+    }
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((annotations == null) ? 0 : annotations.hashCode());
+      result = prime * result + ((name == null) ? 0 : name.hashCode());
+      result = prime * result + ((type == null) ? 0 : type.hashCode());
+      result = prime * result + (typeVar ? 1231 : 1237);
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      ParamRecord other = (ParamRecord) obj;
+      if (annotations == null) {
+        if (other.annotations != null)
+          return false;
+      } else if (!annotations.equals(other.annotations))
+        return false;
+      if (name == null) {
+        if (other.name != null)
+          return false;
+      } else if (!name.equals(other.name))
+        return false;
+      if (type == null) {
+        if (other.type != null)
+          return false;
+      } else if (!type.equals(other.type))
+        return false;
+      if (typeVar != other.typeVar)
+        return false;
+      return true;
+    }
+
+    @Override
+    public String toString() {
+      return "ParamRecord [typeVar=" + typeVar + ", name=" + name + ", type=" + type + ", annotations=" + annotations
+          + "]";
+    }
+
     
   } /* ENDCLASS */
   
-  @Data @AllArgsConstructor
-  @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class MethodRecord implements Comparable<MethodRecord> {
     
-    String              name;
-    List<ParamRecord>   params;
-    Class<?>            returnType;
-    String              returnTypeName;
-    List<String>        returnAnnotations;
+    private String              name;
+    private List<ParamRecord>   params;
+    private Class<?>            returnType;
+    private String              returnTypeName;
+    private List<String>        returnAnnotations;
+    
+    public MethodRecord(String name, List<ParamRecord> params, Class<?> returnType, String returnTypeName, List<String> returnAnnotations) {
+      super();
+      this.name = name;
+      this.params = params;
+      this.returnType = returnType;
+      this.returnTypeName = returnTypeName;
+      this.returnAnnotations = returnAnnotations;
+    }
+    
+    
     
     @Override
     public int compareTo(MethodRecord o) {
@@ -49,6 +137,103 @@ public class Tools {
         result = Integer.compare(params.size(), o.getParams().size());
       }
       return result;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public List<ParamRecord> getParams() {
+      return params;
+    }
+
+    public void setParams(List<ParamRecord> params) {
+      this.params = params;
+    }
+
+    public Class<?> getReturnType() {
+      return returnType;
+    }
+
+    public void setReturnType(Class<?> returnType) {
+      this.returnType = returnType;
+    }
+
+    public String getReturnTypeName() {
+      return returnTypeName;
+    }
+
+    public void setReturnTypeName(String returnTypeName) {
+      this.returnTypeName = returnTypeName;
+    }
+
+    public List<String> getReturnAnnotations() {
+      return returnAnnotations;
+    }
+
+    public void setReturnAnnotations(List<String> returnAnnotations) {
+      this.returnAnnotations = returnAnnotations;
+    }
+
+
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((name == null) ? 0 : name.hashCode());
+      result = prime * result + ((params == null) ? 0 : params.hashCode());
+      result = prime * result + ((returnAnnotations == null) ? 0 : returnAnnotations.hashCode());
+      result = prime * result + ((returnType == null) ? 0 : returnType.hashCode());
+      result = prime * result + ((returnTypeName == null) ? 0 : returnTypeName.hashCode());
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      MethodRecord other = (MethodRecord) obj;
+      if (name == null) {
+        if (other.name != null)
+          return false;
+      } else if (!name.equals(other.name))
+        return false;
+      if (params == null) {
+        if (other.params != null)
+          return false;
+      } else if (!params.equals(other.params))
+        return false;
+      if (returnAnnotations == null) {
+        if (other.returnAnnotations != null)
+          return false;
+      } else if (!returnAnnotations.equals(other.returnAnnotations))
+        return false;
+      if (returnType == null) {
+        if (other.returnType != null)
+          return false;
+      } else if (!returnType.equals(other.returnType))
+        return false;
+      if (returnTypeName == null) {
+        if (other.returnTypeName != null)
+          return false;
+      } else if (!returnTypeName.equals(other.returnTypeName))
+        return false;
+      return true;
+    }
+
+    @Override
+    public String toString() {
+      return "MethodRecord [name=" + name + ", params=" + params + ", returnType=" + returnType + ", returnTypeName="
+          + returnTypeName + ", returnAnnotations=" + returnAnnotations + "]";
     }
     
   } /* ENDCLASS */

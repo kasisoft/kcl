@@ -5,17 +5,12 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class StringAdapterTest {
 
-  StringAdapter adapter = new StringAdapter();
+  private StringAdapter adapter = new StringAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

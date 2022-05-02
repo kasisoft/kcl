@@ -19,17 +19,17 @@ import java.util.*;
  */
 public class BlacklistTest extends AbstractTestCase {
 
-  Blacklist   csblacklistPath;
-  Blacklist   csblacklistURL;
-  Blacklist   csblacklistFile;
-  Blacklist   csblacklistURI;
+  private Blacklist   csblacklistPath;
+  private Blacklist   csblacklistURL;
+  private Blacklist   csblacklistFile;
+  private Blacklist   csblacklistURI;
   
-  Blacklist   ciblacklistPath;
-  Blacklist   ciblacklistURL;
-  Blacklist   ciblacklistFile;
-  Blacklist   ciblacklistURI;
+  private Blacklist   ciblacklistPath;
+  private Blacklist   ciblacklistURL;
+  private Blacklist   ciblacklistFile;
+  private Blacklist   ciblacklistURI;
   
-  String      expected;
+  private String      expected;
   
   @SuppressWarnings("deprecation")
   @BeforeTest

@@ -8,23 +8,18 @@ import java.util.stream.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * StringF(ormatting)Builder  equivalent which supports formatting. This builder also supports negative indices which 
  * means that the original index is calculated beginning from the end of the buffer.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class StringFBuilder implements Serializable, StringLike<StringFBuilder> {
 
   private static final long serialVersionUID = 1050795857819832439L;
   
   // the original implementation
-  StringBuilder  origin;
+  private StringBuilder  origin;
   
   /**
    * @see StringBuilder#StringBuilder()

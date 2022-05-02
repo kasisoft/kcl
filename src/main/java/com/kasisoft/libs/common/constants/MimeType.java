@@ -8,11 +8,6 @@ import java.util.function.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Collection of supported mime types.
  * 
@@ -24,8 +19,6 @@ import lombok.Getter;
   @Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "04-JUN-2020"),
   @Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "04-JUN-2020")
 })
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum MimeType implements Predicate<String> {
 
   AdobePdf                    ("application/pdf"               , "pdf"                              ),  // Adobe PDF
@@ -74,11 +67,10 @@ public enum MimeType implements Predicate<String> {
     }
   }
   
-  String         mimeType;
-  List<String>   suffices;
-  String         primarySuffix;
-  String         primarySuffixWithDot;
-  
+  private String         mimeType;
+  private List<String>   suffices;
+  private String         primarySuffix;
+  private String         primarySuffixWithDot;
   
   MimeType(@NotBlank String type, @NotNull String ... suffixlist) {
     mimeType  = type;
@@ -89,6 +81,22 @@ public enum MimeType implements Predicate<String> {
     }
     primarySuffix        = suffices.get(0);
     primarySuffixWithDot = String.format(".%s", primarySuffix);
+  }
+
+  public String getMimeType() {
+    return mimeType;
+  }
+  
+  public List<String> getSuffices() {
+    return suffices;
+  }
+  
+  public String getPrimarySuffix() {
+    return primarySuffix;
+  }
+  
+  public String getPrimarySuffixWithDot() {
+    return primarySuffixWithDot;
   }
   
   @Override

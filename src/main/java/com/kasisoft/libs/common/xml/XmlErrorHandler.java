@@ -6,20 +6,15 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Default implementation of an ErrorHandler.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlErrorHandler implements ErrorHandler {
 
-  int              errorcount;
-  List<XmlFault>   faults;
+  private int              errorcount;
+  private List<XmlFault>   faults;
   
   /**
    * Initialises this basic error handler.

@@ -8,17 +8,12 @@ import com.kasisoft.libs.common.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ShortAdapterTest {
 
-  ShortAdapter adapter = new ShortAdapter();
+  private ShortAdapter adapter = new ShortAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

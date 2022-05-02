@@ -10,19 +10,14 @@ import java.text.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for Date values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DateAdapter extends AbstractConverter<String, Date> {
 
-  SimpleDateFormat   formatter = new SimpleDateFormat("yyyy-MM-dd");
+  private SimpleDateFormat   formatter = new SimpleDateFormat("yyyy-MM-dd");
   
   public @NotNull DateAdapter withPattern(@NotNull String pattern) {
     formatter = new SimpleDateFormat(pattern);

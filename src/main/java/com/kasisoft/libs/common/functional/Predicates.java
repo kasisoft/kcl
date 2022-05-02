@@ -13,8 +13,6 @@ import java.util.regex.Pattern;
 
 import java.nio.file.*;
 
-import lombok.*;
-
 /**
  * Collection of predicates.
  * 
@@ -120,10 +118,13 @@ public class Predicates {
     return $ -> predicate.test($.toString());
   }
 
-  @AllArgsConstructor
   private static class IsXmlElement implements KPredicate<Node> {
 
     String   tag;
+    
+    public IsXmlElement(String tag) {
+      this.tag = tag;
+    }
     
     @Override
     public boolean test(@NotNull Node node) {

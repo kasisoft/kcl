@@ -9,19 +9,14 @@ import org.testng.annotations.*;
 
 import java.nio.file.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'NioPathAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class NioPathAdapterTest extends AbstractTestCase {
 
-  NioPathAdapter adapter = new NioPathAdapter();
+  private NioPathAdapter adapter = new NioPathAdapter();
 
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

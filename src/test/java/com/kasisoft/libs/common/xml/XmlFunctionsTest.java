@@ -22,22 +22,17 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Tests for the class 'XmlFunctions'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlFunctionsTest extends AbstractTestCase {
   
-  Path   simplexml;
-  Path   simplexsl;
-  Path   testfile;
-  Path   tempfile;
+  private Path   simplexml;
+  private Path   simplexsl;
+  private Path   testfile;
+  private Path   tempfile;
   
   @BeforeTest
   public void setup() {

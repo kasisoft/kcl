@@ -6,22 +6,15 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class NamedTreeNode<T> extends DefaultMutableTreeNode {
   
   private static final long serialVersionUID = 674825043503770345L;
 
-  T             value;
-  List<String>  parents;
+  private T             value;
+  private List<String>  parents;
   
   public NamedTreeNode(@NotNull T val, @NotBlank String name) {
     super(name);
@@ -33,6 +26,14 @@ public class NamedTreeNode<T> extends DefaultMutableTreeNode {
     super(segments.remove(segments.size() - 1));
     value   = val;
     parents = new LinkedList<>(segments);
+  }
+  
+  public T getValue() {
+    return value;
+  }
+  
+  public List<String> getParents() {
+    return parents;
   }
   
   public @NotBlank String getName() {

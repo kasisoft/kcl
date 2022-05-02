@@ -10,19 +10,14 @@ import org.testng.annotations.*;
 
 import java.nio.file.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Tests for the class 'FileTypeManager'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileTypeManagerTest extends AbstractTestCase {
 
-  FileTypeManager   manager;
+  private FileTypeManager   manager;
   
   @BeforeClass
   public void setup() {

@@ -5,17 +5,12 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FloatArrayAdapterTest {
 
-  FloatArrayAdapter adapter = new FloatArrayAdapter();
+  private FloatArrayAdapter adapter = new FloatArrayAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

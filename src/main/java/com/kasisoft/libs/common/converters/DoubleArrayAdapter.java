@@ -6,21 +6,16 @@ import javax.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Adapter for double array values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoubleArrayAdapter extends AbstractConverter<String, double[]> {
 
-  char              delimiter = ',';
-  Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  DoubleAdapter     converter = new DoubleAdapter();
+  private char              delimiter = ',';
+  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
+  private DoubleAdapter     converter = new DoubleAdapter();
 
   public @NotNull DoubleArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (delimiter != '.') {

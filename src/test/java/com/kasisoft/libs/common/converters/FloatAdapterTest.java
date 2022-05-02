@@ -7,19 +7,14 @@ import com.kasisoft.libs.common.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'FloatAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FloatAdapterTest {
 
-  FloatAdapter adapter = new FloatAdapter();
+  private FloatAdapter adapter = new FloatAdapter();
   
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() {

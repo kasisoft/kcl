@@ -1,19 +1,19 @@
 package com.kasisoft.libs.common.utils;
 
+import javax.validation.constraints.*;
+
 import java.util.*;
-
-import lombok.experimental.*;
-
-import lombok.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ExtendedList<T> implements List<T> {
 
-  List<T>   origin;
+  private List<T>   origin;
+  
+  public ExtendedList(List<T> origin) {
+    this.origin = origin;
+  }
 
   @Override
   public boolean add(T element) {
@@ -26,12 +26,12 @@ public class ExtendedList<T> implements List<T> {
   }
 
   @Override
-  public boolean addAll(@NonNull Collection<? extends T> collection) {
+  public boolean addAll(@NotNull Collection<? extends T> collection) {
     return addAll(size(), collection);
   }
   
   @Override
-  public boolean addAll(int index, @NonNull Collection<? extends T> collection) {
+  public boolean addAll(int index, @NotNull Collection<? extends T> collection) {
     return origin.addAll(MiscFunctions.adjustIndex(size(), index, false), collection);
   }
 

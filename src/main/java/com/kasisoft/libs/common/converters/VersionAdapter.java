@@ -4,21 +4,16 @@ import com.kasisoft.libs.common.types.*;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Adapter for Version values.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class VersionAdapter extends AbstractConverter<String, Version> {
 
-  boolean   micro = false;
-  boolean   qualifier = false;
-  boolean   all = false;
+  private boolean   micro       = false;
+  private boolean   qualifier   = false;
+  private boolean   all         = false;
   
   public VersionAdapter withMicro(boolean micro) {
     this.micro = micro;

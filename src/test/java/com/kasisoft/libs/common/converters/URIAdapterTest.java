@@ -7,17 +7,12 @@ import org.testng.annotations.*;
 
 import java.net.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class URIAdapterTest {
 
-  URIAdapter adapter = new URIAdapter();
+  private URIAdapter adapter = new URIAdapter();
 
   @DataProvider(name = "data_decode")
   public Object[][] data_decode() throws Exception {

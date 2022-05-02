@@ -17,25 +17,14 @@ import java.nio.file.*;
 
 import java.io.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.AccessLevel;
-import lombok.Getter;
-
 /**
  * Collection of supported encodings.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://docs.oracle.com/javase/10/docs/api/java/nio/charset/Charset.html", date = "04-JUN-2020")
-@Getter
-@EqualsAndHashCode(of = "encoding")
-@ToString(of = "encoding")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Encoding {
-  
+
   public static final Encoding ASCII;
   public static final Encoding UTF8;
   public static final Encoding UTF16;
@@ -57,10 +46,10 @@ public final class Encoding {
     IBM437      = new Encoding("IBM437"    , false, null);
   }
   
-  String          encoding;
-  boolean         bomRequired;
-  ByteOrderMark   byteOrderMark;
-  Charset         charset;
+  private String          encoding;
+  private boolean         bomRequired;
+  private ByteOrderMark   byteOrderMark;
+  private Charset         charset;
   
   /**
    * Initializes this Encoding instance for a specific character set.
@@ -78,7 +67,23 @@ public final class Encoding {
       ENCODINGS.put(key, this);
     }
   }
+
+  public String getEncoding() {
+    return encoding;
+  }
   
+  public boolean isBomRequired() {
+    return bomRequired;
+  }
+  
+  public ByteOrderMark getByteOrderMark() {
+    return byteOrderMark;
+  }
+  
+  public Charset getCharset() {
+    return charset;
+  }
+
   /**
    * Opens a Reader for a specific file using this encoding.
    * 
@@ -195,7 +200,25 @@ public final class Encoding {
   public @NotNull String decode(@NotNull byte[] data) {
     return charset.decode(ByteBuffer.wrap(data)).toString();
   }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof Encoding) {
+      return encoding.equals(((Encoding) other).encoding);
+    }
+    return false;
+  }
   
+  @Override
+  public int hashCode() {
+    return encoding.hashCode();
+  }
+  
+  @Override
+  public String toString() {
+    return encoding;
+  }
+
   public static Encoding[] values() {
     synchronized (ENCODINGS) {
       return ENCODINGS.values().toArray(new Encoding[ENCODINGS.size()]);

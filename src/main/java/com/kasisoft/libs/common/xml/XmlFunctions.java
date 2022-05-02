@@ -31,16 +31,11 @@ import java.io.*;
 
 import java.lang.reflect.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Collection of xml related functions.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class XmlFunctions {
 
   static final Map<String, String> XML2NORMAL       = new HashMap<>();
@@ -632,10 +627,9 @@ public final class XmlFunctions {
     });
   }
 
-  @FieldDefaults(level = AccessLevel.PRIVATE)
   private static class SatisfyingEntityResolver implements EntityResolver {
 
-    EntityResolver    resolver;
+    private EntityResolver    resolver;
     
     public SatisfyingEntityResolver() {
       this(null);

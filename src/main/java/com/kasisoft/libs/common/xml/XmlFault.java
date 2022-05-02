@@ -4,28 +4,21 @@ import org.xml.sax.*;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-import lombok.Data;
-
 /**
  * Simple datastructure representing a fault within a xml document.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlFault {
   
   public enum FaultType {
     warning, error, fatal;
   } /* ENDENUM */
 
-  FaultType   type;
-  int         line;
-  int         column;
-  String      message;
+  private FaultType   type;
+  private int         line;
+  private int         column;
+  private String      message;
   
   /**
    * Initialises this datastructure from the supplied exception.
@@ -87,6 +80,77 @@ public class XmlFault {
    */
   public boolean isFatal() {
     return type == FaultType.fatal;
+  }
+
+  public FaultType getType() {
+    return type;
+  }
+
+  public void setType(FaultType type) {
+    this.type = type;
+  }
+
+  public int getLine() {
+    return line;
+  }
+
+  public void setLine(int line) {
+    this.line = line;
+  }
+
+  public int getColumn() {
+    return column;
+  }
+
+  public void setColumn(int column) {
+    this.column = column;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + column;
+    result = prime * result + line;
+    result = prime * result + ((message == null) ? 0 : message.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    XmlFault other = (XmlFault) obj;
+    if (column != other.column)
+      return false;
+    if (line != other.line)
+      return false;
+    if (message == null) {
+      if (other.message != null)
+        return false;
+    } else if (!message.equals(other.message))
+      return false;
+    if (type != other.type)
+      return false;
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "XmlFault [type=" + type + ", line=" + line + ", column=" + column + ", message=" + message + "]";
   }
 
 } /* ENDCLASS */

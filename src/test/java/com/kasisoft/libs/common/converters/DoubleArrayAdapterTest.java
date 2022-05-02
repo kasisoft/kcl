@@ -5,19 +5,14 @@ import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Tests for the type 'DoubleArrayAdapter'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DoubleArrayAdapterTest {
 
-  DoubleArrayAdapter adapter = new DoubleArrayAdapter();
+  private DoubleArrayAdapter adapter = new DoubleArrayAdapter();
   
   @DataProvider(name = "dataDecode")
   public Object[][] dataDecode() {

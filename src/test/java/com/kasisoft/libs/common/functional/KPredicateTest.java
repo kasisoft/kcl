@@ -4,19 +4,14 @@ import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KPredicateTest {
   
-  KPredicate<String> isName         = $ -> $.equalsIgnoreCase("name");
+  private KPredicate<String> isName         = $ -> $.equalsIgnoreCase("name");
   
-  KPredicate<String> isUppercase    = $ -> $.equals($.toUpperCase());
+  private KPredicate<String> isUppercase    = $ -> $.equals($.toUpperCase());
   
   @Test(groups = "all")
   public void predicate() throws Exception {

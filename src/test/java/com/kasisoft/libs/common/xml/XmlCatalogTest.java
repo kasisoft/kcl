@@ -10,20 +10,15 @@ import java.net.*;
 
 import java.nio.file.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Collection of testcases for the type 'XmlCatalog'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class XmlCatalogTest extends AbstractTestCase {
 
-  Path  httpxsd;
-  Path  xmlxsd;
+  private Path  httpxsd;
+  private Path  xmlxsd;
   
   @BeforeSuite
   public void setup() {

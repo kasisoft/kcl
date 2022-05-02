@@ -14,10 +14,6 @@ import java.io.*;
 
 import java.lang.reflect.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * A helper which initializes the translations managed by a class. Each translation class is supposed to provide fields
  * with the modifiers <code>public static String</code> and a corresponding <code>I18N</code> annotation.
@@ -38,7 +34,6 @@ import lombok.AccessLevel;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18NSupport {
 
   static final int MODIFIERS = Modifier.STATIC | Modifier.PUBLIC;

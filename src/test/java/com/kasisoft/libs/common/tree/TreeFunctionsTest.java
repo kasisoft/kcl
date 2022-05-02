@@ -11,17 +11,12 @@ import org.testng.annotations.*;
 
 import java.util.*;
 
-import lombok.experimental.FieldDefaults;
-
-import lombok.AccessLevel;
-
 /**
  * Test for various functions of the class 'TreeFunctions'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @SuppressWarnings({"deprecation", "preview"})
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeFunctionsTest {
 
   private static final List<String> PARENTHESIZE_DATA = Arrays.asList(
