@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.kasisoft</groupId>
   <artifactId>com.kasisoft.libs.common</artifactId>
   <version>5.0-SNAPSHOT</version>
@@ -9,35 +10,35 @@
   <name>KCL :: Kasisoft Common Library</name>
   <url>https://kasisoft.github.io/kcl/</url>
   <description>Collection of general purpose functionalities.</description>
-  
+
   <licenses>
     <license>
       <name>MIT License</name>
       <url>https://choosealicense.com/licenses/mit</url>
     </license>
   </licenses>
-  
+
   <organization>
     <name>Kasisoft</name>
     <url>https://kasisoft.com</url>
   </organization>
-  
+
   <scm>
     <url>https://kasisoft.github.io/kcl</url>
     <connection>scm:git:https://github.com/kasisoft/kcl.git</connection>
     <developerConnection>scm:git:https://github.com/kasisoft/kcl.git</developerConnection>
   </scm>
-  
+
   <issueManagement>
     <system>github</system>
     <url>https://github.com/kasisoft/kcl/issues</url>
   </issueManagement>
-  
+
   <ciManagement>
     <system>github</system>
     <url>https://github.com/kasisoft/kcl/actions</url>
   </ciManagement>
-  
+
   <developers>
     <developer>
       <id>costamojan</id>
@@ -45,9 +46,9 @@
       <email>daniel.kasmeroglu@kasisoft.com</email>
     </developer>
   </developers>
-  
+
   <properties>
-  
+
     <java.version>11</java.version>
   
     <!-- versioning: dependencies -->
@@ -68,18 +69,18 @@
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-    
+
     <!-- maven settings -->
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
+
   </properties>
-  
+
   <dependencyManagement>
     <dependencies>
-    
+
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>
@@ -91,21 +92,22 @@
         <artifactId>jakarta.validation-api</artifactId>
         <version>${jakarta.validation-api.version}</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
         <version>${log4j.version}</version>
         <scope>test</scope>
       </dependency>
-      
+
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <version>${testng.version}</version>
         <scope>test</scope>
       </dependency>
-      
+
+
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest-all</artifactId>
@@ -119,17 +121,17 @@
         <version>${h2.version}</version>
         <scope>test</scope>
       </dependency>
-      
+
     </dependencies>
   </dependencyManagement>
-  
+
   <dependencies>
-  
+
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
@@ -139,17 +141,17 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
     </dependency>
-  
+
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
-  
+
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
@@ -158,30 +160,30 @@
   </dependencies>
 
   <build>
-  
+
     <finalName>${project.artifactId}-${project.version}</finalName>
-    
+
     <pluginManagement>
       <plugins>
-      
-        <plugin> 
-          <groupId>org.apache.felix</groupId> 
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
           <version>${maven-bundle-plugin.version}</version>
-        </plugin> 
-      
+        </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>${maven-source-plugin.version}</version>
         </plugin>
-        
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${maven-deploy-plugin.version}</version>
         </plugin>
-        
+
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
@@ -200,7 +202,7 @@
             </excludes>
           </configuration>
         </plugin>
-        
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -210,7 +212,7 @@
             <parameters>true</parameters>
           </configuration>
         </plugin>
-        
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -228,7 +230,7 @@
             <additionalparam>-Xdoclint:none</additionalparam>
           </configuration>
         </plugin>
-        
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -243,23 +245,24 @@
         
       </plugins>
     </pluginManagement>
-    
+
     <plugins>
-    
-      <plugin> 
+
+      <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-      </plugin> 
-      
+      </plugin>
+
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
-      
+
+
     </plugins>
-    
+
   </build>
-  
+
   <profiles>
     <profile>
       <id>release-sign-artifacts</id>
@@ -271,7 +274,7 @@
       </activation>
       <build>
         <plugins>
-        
+
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -283,7 +286,7 @@
               <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
           </plugin>
-          
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
@@ -293,7 +296,7 @@
               <mavenExecutorId>forked-path</mavenExecutorId>
             </configuration>
           </plugin>
-          
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -308,16 +311,16 @@
               </execution>
             </executions>
           </plugin>
-          
+
         </plugins>
       </build>
     </profile>
   </profiles>
-  
+
   <distributionManagement>
     <!--
     freemarker must be modularized first, so we're not allowing this for now
-    ### 
+    ###
     <repository>
       <id>sonatype-nexus-staging</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
@@ -328,5 +331,5 @@
       <url>https://maven.pkg.github.com/kasisoft/kcl</url>
     </snapshotRepository>
   </distributionManagement>
-  
+
 </project>
