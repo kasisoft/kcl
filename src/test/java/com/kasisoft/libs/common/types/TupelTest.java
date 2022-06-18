@@ -1,26 +1,32 @@
 package com.kasisoft.libs.common.types;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class TupelTest {
 
-  @DataProvider(name = "data_processTupels")
-  public Object[][] data_processTupels() {
-    return new Object[][] {
-      {new Tupel<String>(), null, null},
-      {new Tupel<String>("A"), "A", "A"},
-      {new Tupel<String>("A", "B"), "A", "B"},
-      {new Tupel<String>("A", "B", "C"), "A", "C"},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_processTupels() {
+    return Stream.of(
+      Arguments.of(new Tupel<String>(), null, null),
+      Arguments.of(new Tupel<String>("A"), "A", "A"),
+      Arguments.of(new Tupel<String>("A", "B"), "A", "B"),
+      Arguments.of(new Tupel<String>("A", "B", "C"), "A", "C")
+    );
   }
   
-  @Test(dataProvider = "data_processTupels", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_processTupels")
   public void processTupels(Tupel<String> tupel, String first, String last) {
     assertThat(tupel.getFirst(), is(first));
     assertThat(tupel.getLast(), is(last ));

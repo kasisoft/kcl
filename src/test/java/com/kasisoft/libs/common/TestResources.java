@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.validation.constraints.*;
+
+import java.util.concurrent.*;
 
 import java.util.*;
 
@@ -13,9 +15,11 @@ import java.io.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class AbstractTestCase {
+public class TestResources {
 
   private static Path tempDir;
+  
+  private static Map<Class<?>, TestResources> testResources = new ConcurrentHashMap<>();
   
   static {
     try {
@@ -25,18 +29,15 @@ public class AbstractTestCase {
     }
   }
   
+  public static TestResources createTestResources(Class<?> cls) {
+    return testResources.computeIfAbsent(cls, TestResources::new);
+  }
+  
   private String rootFolder;
   private Path   tempFolder;
   
-  public AbstractTestCase() {
-    this(null);
-  }
-  
-  public AbstractTestCase(String root) {
-    rootFolder = root;
-    if (rootFolder == null) {
-      rootFolder = getClass().getSimpleName();
-    }
+  private TestResources(Class<?> cls) {
+    rootFolder = cls.getSimpleName();
     if (!rootFolder.endsWith("/")) {
       rootFolder += "/";
     }
@@ -78,6 +79,18 @@ public class AbstractTestCase {
   
   public @NotNull Path getResource(@NotNull String resource) {
     return findResource(resource).orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", resource)));
+  }
+
+  public @NotNull Path getDir(@NotNull String resource) {
+    var result = getResource(resource);
+    assertTrue(Files.isDirectory(result));
+    return result;
+  }
+
+  public @NotNull Path getFile(@NotNull String resource) {
+    var result = getResource(resource);
+    assertTrue(Files.isRegularFile(result));
+    return result;
   }
 
   public @NotNull Optional<File> findResourceAsFile(@NotNull String resource) {

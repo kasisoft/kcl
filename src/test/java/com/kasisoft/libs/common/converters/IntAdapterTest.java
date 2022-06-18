@@ -1,12 +1,18 @@
 package com.kasisoft.libs.common.converters;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -15,48 +21,53 @@ public class IntAdapterTest {
 
   private IntAdapter adapter = new IntAdapter();
   
-  @DataProvider(name = "data_decode")
-  public Object[][] data_decode() {
-    return new Object[][] {
-      { null    , null                                  },
-      { "0"     , Integer.valueOf( 0                  ) },
-      { "13"    , Integer.valueOf( 13                 ) },
-      { "-23"   , Integer.valueOf( -23                ) },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_decode() {
+    return Stream.of(
+      Arguments.of(null  , null),
+      Arguments.of("0"   ,    0),
+      Arguments.of("13"  ,   13),
+      Arguments.of("-23" ,  -23)
+    );
   }
 
-  @Test(dataProvider = "data_decode", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_decode")
   public void decode(String value, Integer expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
   
-  @DataProvider(name = "data_encode")
-  public Object[][] data_encode() {
-    return new Object[][] {
-      { null                                  , null          },
-      { Integer.valueOf( 0                  ) , "0"           },
-      { Integer.valueOf( 13                 ) , "13"          },
-      { Integer.valueOf( -23                ) , "-23"         },
-      { Integer.valueOf( Integer.MAX_VALUE  ) , "2147483647"  },
-      { Integer.valueOf( Integer.MIN_VALUE  ) , "-2147483648" },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_encode() {
+    return Stream.of(
+      Arguments.of(null              , null         ),
+      Arguments.of(0                 , "0"          ),
+      Arguments.of(13                , "13"         ),
+      Arguments.of(-23               , "-23"        ),
+      Arguments.of(Integer.MAX_VALUE , "2147483647" ),
+      Arguments.of(Integer.MIN_VALUE , "-2147483648")
+    );
   }
 
-  @Test(dataProvider = "data_encode", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_encode")
   public void encode(Integer value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }
 
-  @DataProvider(name = "data_invalidDecode")
-  public Object[][] data_invalidDecode() {
-    return new Object[][] {
-      { "3.7" },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_invalidDecode() {
+    return Stream.of(
+      Arguments.of("3.7")
+    );
   }
 
-  @Test(dataProvider = "data_invalidDecode", groups="all", expectedExceptions = KclException.class)
+  @ParameterizedTest
+  @MethodSource("data_invalidDecode")
   public void invalidDecode(String value) throws Exception {
-    assertNull(adapter.decode(value));
+    assertThrows(KclException.class, () -> {
+      adapter.decode(value);
+    });
   }
 
 } /* ENDCLASS */

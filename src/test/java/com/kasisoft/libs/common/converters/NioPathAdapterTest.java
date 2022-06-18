@@ -1,11 +1,16 @@
 package com.kasisoft.libs.common.converters;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 import java.nio.file.*;
 
@@ -14,38 +19,42 @@ import java.nio.file.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class NioPathAdapterTest extends AbstractTestCase {
+public class NioPathAdapterTest {
 
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(NioPathAdapterTest.class);
+  
   private NioPathAdapter adapter = new NioPathAdapter();
 
-  @DataProvider(name = "data_decode")
-  public Object[][] data_decode() {
-    String path = getRootFolder().toString();
-    return new Object[][] {
-      {null                                , null                   },
-      {String.format( "%s\\http.xsd", path), getResource("http.xsd")},
-      {String.format( "%s/http.xsd" , path), getResource("http.xsd")},
-      {String.format( "%s\\bibo.txt", path), getResource("bibo.txt")},
-      {String.format( "%s/bibo.txt" , path), getResource("bibo.txt")},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_decode() {
+    String path = TEST_RESOURCES.getRootFolder().toString();
+    return Stream.of(
+      Arguments.of(null                                , null                                  ),
+      Arguments.of(String.format( "%s\\http.xsd", path), TEST_RESOURCES.getResource("http.xsd")),
+      Arguments.of(String.format( "%s/http.xsd" , path), TEST_RESOURCES.getResource("http.xsd")),
+      Arguments.of(String.format( "%s\\bibo.txt", path), TEST_RESOURCES.getResource("bibo.txt")),
+      Arguments.of(String.format( "%s/bibo.txt" , path), TEST_RESOURCES.getResource("bibo.txt"))
+    );
   }
 
-  @Test(dataProvider = "data_decode", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_decode")
   public void decode(String value, Path expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
   
-  @DataProvider(name = "data_encode")
-  public Object[][] data_encode() {
-    String path = getRootFolder().toString();
-    return new Object[][] {
-      {null                   , null                              },
-      {getResource("http.xsd"), String.format("%s/http.xsd", path)},
-      {getResource("bibo.txt"), String.format("%s/bibo.txt", path)},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_encode() {
+    String path = TEST_RESOURCES.getRootFolder().toString();
+    return Stream.of(
+      Arguments.of(null                                  , null                              ),
+      Arguments.of(TEST_RESOURCES.getResource("http.xsd"), String.format("%s/http.xsd", path)),
+      Arguments.of(TEST_RESOURCES.getResource("bibo.txt"), String.format("%s/bibo.txt", path))
+    );
   }
 
-  @Test(dataProvider = "data_encode", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_encode")
   public void encode(Path value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

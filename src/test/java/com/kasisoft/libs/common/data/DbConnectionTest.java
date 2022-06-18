@@ -1,16 +1,18 @@
 package com.kasisoft.libs.common.data;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
-
 import org.h2.tools.*;
+
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -22,19 +24,21 @@ import java.sql.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class DbConnectionTest extends AbstractTestCase {
+public class DbConnectionTest {
+  
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(DbConnectionTest.class);
   
   private static AtomicInteger firstSetup = new AtomicInteger(0); 
       
   private Path      dbLocation;
   private Server    server;
   
-  @BeforeSuite
+  @BeforeEach
   public void prepare() throws Exception {
     
     if (firstSetup.getAndIncrement() == 0) {
     
-      dbLocation = getTempPath("tempdir").resolve( "h2db" );
+      dbLocation = TEST_RESOURCES.getTempPath("tempdir").resolve( "h2db" );
       IoFunctions.mkDirs(dbLocation);
       assertTrue(Files.isDirectory(dbLocation));
       
@@ -44,7 +48,7 @@ public class DbConnectionTest extends AbstractTestCase {
     
   }
 
-  @AfterSuite
+  @AfterEach
   public void shutDown() throws Exception {
     if (firstSetup.decrementAndGet() == 0) {
       if (server != null) {
@@ -55,7 +59,7 @@ public class DbConnectionTest extends AbstractTestCase {
   }
   
   private DbConfig newDbConfig( String dbname, String initscript ) throws Exception {
-    var location = getResource(initscript);
+    var location = TEST_RESOURCES.getResource(initscript);
     var url      = String.format("jdbc:h2:tcp://localhost/%s/%s;MODE=MySQL;DATABASE_TO_UPPER=false;INIT=runscript from '%s'", dbLocation.toString(), dbname, location.toString());
     var result   = new DbConfig();
     // we're using mysql mode on h2: because we can ;-)

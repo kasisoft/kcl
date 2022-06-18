@@ -1,25 +1,30 @@
 package com.kasisoft.libs.common.csv;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+
+import com.kasisoft.libs.common.utils.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.utils.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class CsvTableModelTest extends AbstractTestCase {
+public class CsvTableModelTest {
 
-  @Test(groups = "all")
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(CsvTableModelTest.class);
+  
+  @Test
   public void loading() {
     
-    var source = getResource( "text1.csv" );
+    var source = TEST_RESOURCES.getResource( "text1.csv" );
     
     var options = CsvOptions.builder()
       .fillMissingColumns()
@@ -37,10 +42,10 @@ public class CsvTableModelTest extends AbstractTestCase {
     
   }
 
-  @Test(groups = "all")
+  @Test
   public void enforceType() {
     
-    var source = getResource("text1.csv");
+    var source = TEST_RESOURCES.getResource("text1.csv");
     
     var options = CsvOptions.builder()
       .column(null)
@@ -62,21 +67,21 @@ public class CsvTableModelTest extends AbstractTestCase {
     
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void inconsistentColumnNumbers() {
-    
-    var source  = getResource("text2.csv");
-    var options = CsvOptions.builder().build();
-    var model   = new CsvTableModel(options);
-    
-    IoFunctions.forInputStreamDo(source, model::load);
-    
+    assertThrows(KclException.class, () -> {
+      var source  = TEST_RESOURCES.getResource("text2.csv");
+      var options = CsvOptions.builder().build();
+      var model   = new CsvTableModel(options);
+      
+      IoFunctions.forInputStreamDo(source, model::load);
+    });
   }
 
-  @Test(groups = "all")
+  @Test
   public void inconsistentColumnNumbersWithErrorHandling() {
     
-    var source  = getResource( "text2.csv" );
+    var source  = TEST_RESOURCES.getResource( "text2.csv" );
     var options = CsvOptions.builder().build();
     var model   = new CsvTableModel(options);
     

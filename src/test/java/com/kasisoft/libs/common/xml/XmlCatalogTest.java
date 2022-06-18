@@ -1,33 +1,27 @@
 package com.kasisoft.libs.common.xml;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 import java.net.*;
-
-import java.nio.file.*;
 
 /**
  * Collection of testcases for the type 'XmlCatalog'.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class XmlCatalogTest extends AbstractTestCase {
+public class XmlCatalogTest {
 
-  private Path  httpxsd;
-  private Path  xmlxsd;
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(XmlCatalogTest.class);
   
-  @BeforeSuite
-  public void setup() {
-    httpxsd = getResource("http.xsd");
-    xmlxsd  = getResource("xml.xsd");
-  }
-  
-  @Test(groups = "all")
+  @Test
   public void loadResources() throws MalformedURLException {
+    
+    var httpxsd      = TEST_RESOURCES.getResource("http.xsd");
+    var xmlxsd       = TEST_RESOURCES.getResource("xml.xsd");
     
     var catalog1     = new XmlCatalog();
     var xmlschemadtd = getClass().getClassLoader().getResource("dtds/XMLSchema.dtd"); 
@@ -55,9 +49,11 @@ public class XmlCatalogTest extends AbstractTestCase {
 
   }
 
-  @Test(groups = "all")
+  @Test
   public void test() throws MalformedURLException {
     
+    var httpxsd      = TEST_RESOURCES.getResource("http.xsd");
+
     var catalog1     = new XmlCatalog();
     var xmlschemadtd = getClass().getClassLoader().getResource("dtds/XMLSchema.dtd"); 
     assertNotNull(xmlschemadtd);

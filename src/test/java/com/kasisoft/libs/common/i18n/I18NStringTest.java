@@ -1,11 +1,12 @@
 package com.kasisoft.libs.common.i18n;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
 import com.kasisoft.libs.common.constants.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 /**
  * Tests for the i18n class 'I18NSupport'.
@@ -19,7 +20,7 @@ public class I18NStringTest {
   I18NString   formatterWithArgs    = new I18NString("Hello '%s' %s");
   I18NString   formatterWithoutArgs = new I18NString("Constant string");
   
-  @Test(groups = "all")
+  @Test
   public void format() {
     
     Object[] args = null;

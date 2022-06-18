@@ -1,9 +1,10 @@
 package com.kasisoft.libs.common.i18n;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ import java.util.*;
  */
 public class I18NSupportTest {
 
-  @Test(groups = "all")
+  @Test
   public void correctMessages1() {
     assertThat(Messages1.m0, is("Default.0"    ));
     assertThat(Messages1.m1, is("Translation.1"));
@@ -25,7 +26,7 @@ public class I18NSupportTest {
     assertThat(Messages1.m4, is("wrong"        ));
   }
 
-  @Test(groups = "all")
+  @Test
   public void correctMessages2() {
     assertThat(Messages2.m0, is("Default.0"    ));
     assertThat(Messages2.m1, is("Translation.1"));
@@ -34,7 +35,7 @@ public class I18NSupportTest {
     assertThat(Messages2.m4, is("wrong"        ));
   }
 
-  @Test(groups = "all")
+  @Test
   public void correctMessages3() {
     assertThat(Messages3.m0, is("Default.0"    ));
     assertThat(Messages3.m1, is("Translation.1"));
@@ -43,7 +44,7 @@ public class I18NSupportTest {
     assertThat(Messages3.m4, is("wrong"        ));
   }
 
-  @Test(groups = "all")
+  @Test
   public void correctMessages4() {
     assertThat(Messages4.m0, is("Default.0"));
     assertThat(Messages4.m1, is("Translation.1"));
@@ -53,7 +54,7 @@ public class I18NSupportTest {
     assertThat(Messages4.m2.format("test"), is("Translation.test.2"));
   }
 
-  @Test(groups = "all")
+  @Test
   public void correctMessages5() {
     
     assertThat(Messages5.m0, is("Default.0"));

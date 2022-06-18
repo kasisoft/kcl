@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.xml;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.constants.*;
 
@@ -10,13 +12,17 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
-
 import org.w3c.dom.*;
 
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
+import org.junit.jupiter.api.MethodOrderer.*;
+
+import org.junit.jupiter.api.*;
+
 import javax.xml.transform.stream.*;
+
+import javax.xml.transform.dom.*;
+
+import javax.xml.transform.*;
 
 import java.nio.file.*;
 
@@ -27,27 +33,19 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class XmlFunctionsTest extends AbstractTestCase {
+@TestMethodOrder(OrderAnnotation.class)
+public class XmlFunctionsTest {
   
-  private Path   simplexml;
-  private Path   simplexsl;
-  private Path   testfile;
-  private Path   tempfile;
-  
-  @BeforeTest
-  public void setup() {
-    simplexml   = getResource("simple.xml"); 
-    simplexsl   = getResource("simple.xsl");
-    testfile    = getResource("testfile.gz");
-    tempfile    = getTempPath("xmlfunctions.xml");
-  }
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(XmlFunctionsTest.class);
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
+  @Order(1)
   public void readDocumentFailure() {
-    
-    var config = XmlParserConfiguration.builder().validate(true).xmlnamespaces(true).build();
-    XmlFunctions.readDocument(testfile, config);
-    
+    assertThrows(KclException.class, () -> {
+      var testfile = TEST_RESOURCES.getResource("testfile.gz");
+      var config   = XmlParserConfiguration.builder().validate(true).xmlnamespaces(true).build();
+      XmlFunctions.readDocument(testfile, config);
+    });
   }
   
   private void readDocument(Document doc) {
@@ -56,52 +54,67 @@ public class XmlFunctionsTest extends AbstractTestCase {
     assertThat(doc.getDocumentElement().getTagName(), is("bookstore"));
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(2)
   public void readDocument() {
-    var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml"); 
+    var config      = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
     readDocument(XmlFunctions.readDocument(simplexml, config));
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(3)
   public void readDocument__NormalizeDocument() {
-    var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).normalize().build();
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml"); 
+    var config      = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).normalize().build();
     readDocument(XmlFunctions.readDocument(simplexml, config));
   }
 
   @SuppressWarnings("deprecation")
-  @Test(groups = "all")
+  @Test
+  @Order(4)
   public void readDocument__URL() throws Exception {
-    var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml"); 
+    var config      = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
     readDocument(XmlFunctions.readDocument(simplexml.toFile().toURL(), config));
     
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(5)
   public void readDocument__URI() throws Exception {
-    var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml"); 
+    var config      = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
     readDocument(XmlFunctions.readDocument(simplexml.toUri(), config));
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(6)
   public void readDocument__Reader() throws Exception {
+    var simplexml = TEST_RESOURCES.getResource("simple.xml"); 
     IoFunctions.forReaderDo(simplexml, $ -> {
       var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
       readDocument(XmlFunctions.readDocument($, config));
     });
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(7)
   public void readDocument__InputStream() throws Exception {
+    var simplexml = TEST_RESOURCES.getResource("simple.xml"); 
     IoFunctions.forInputStreamDo(simplexml, $ -> {
       var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
       readDocument(XmlFunctions.readDocument($, config));
     });
   }
 
-  @Test(groups = "all", dependsOnMethods = "readDocument")
+  @Test
+  @Order(8)
   public void writeDocument() {
     
-    var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
+    var simplexml = TEST_RESOURCES.getResource("simple.xml");
+    var tempfile  = TEST_RESOURCES.getTempPath("xmlfunctions.xml");
+    var config    = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
     
     var document = XmlFunctions.readDocument(simplexml, config);
     XmlFunctions.writeDocument(tempfile, document, Encoding.ISO88591);
@@ -136,7 +149,8 @@ public class XmlFunctionsTest extends AbstractTestCase {
     return builder.toString();
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(9)
   public void encodeAndDecodeString() {
     
     var encoded = XmlFunctions.escapeXml("<Bla\nBlub\r\n>", true);
@@ -147,9 +161,11 @@ public class XmlFunctionsTest extends AbstractTestCase {
   }
   
   private void newTransformer(Transformer transformer) throws Exception {
+    
     assertNotNull(transformer);
     
-    var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
+    var simplexml = TEST_RESOURCES.getResource("simple.xml");
+    var config    = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
     
     var document  = XmlFunctions.readDocument(simplexml, config);
     var byteout   = new ByteArrayOutputStream();
@@ -160,61 +176,75 @@ public class XmlFunctionsTest extends AbstractTestCase {
     assertThat(str, is("Blöde Schuhe"));
   }
 
-  @Test(groups = "all", dependsOnMethods = "readDocument")
+  @Test
+  @Order(10)
   public void newTransformer() throws Exception {
+    var simplexsl = TEST_RESOURCES.getResource("simple.xsl");
     newTransformer(XmlFunctions.newTransformer(simplexsl));
   }
 
-  @Test(groups = "all", dependsOnMethods = "readDocument")
+  @Test
+  @Order(11)
   public void newTransformer__File() throws Exception {
+    var simplexsl = TEST_RESOURCES.getResource("simple.xsl");
     newTransformer(XmlFunctions.newTransformer(simplexsl.toFile()));
   }
 
-  @Test(groups = "all", dependsOnMethods = "readDocument")
+  @Test
+  @Order(12)
   public void newTransformer__URI() throws Exception {
+    var simplexsl = TEST_RESOURCES.getResource("simple.xsl");
     newTransformer(XmlFunctions.newTransformer(simplexsl.toUri()));
   }
 
   @SuppressWarnings("deprecation")
-  @Test(groups = "all", dependsOnMethods = "readDocument")
+  @Test
+  @Order(13)
   public void newTransformer__URL() throws Exception {
+    var simplexsl = TEST_RESOURCES.getResource("simple.xsl");
     newTransformer(XmlFunctions.newTransformer(simplexsl.toFile().toURL()));
   }
 
   @Test
+  @Order(14)
   public void getChildElements() {
     
-    var config = XmlParserConfiguration.builder().build();
+    var simplexml = TEST_RESOURCES.getResource("simple.xml");
+    var config    = XmlParserConfiguration.builder().build();
     
-    var document = XmlFunctions.readDocument(simplexml, config);
-    var list     = XmlFunctions.getChildElements(document.getDocumentElement());
+    var document  = XmlFunctions.readDocument(simplexml, config);
+    var list      = XmlFunctions.getChildElements(document.getDocumentElement());
     assertNotNull(list);
     assertThat(list.size(), is(1));
     
-    var text = list.get(0).getTextContent();
+    var text      = list.get(0).getTextContent();
     assertThat(text, is("Blöde Schuhe"));
     
   }
 
   @Test
+  @Order(15)
   public void getChildElements__UnknownElement() {
     
-    var config = XmlParserConfiguration.builder().build();
+    var simplexml = TEST_RESOURCES.getResource("simple.xml");
+    var config    = XmlParserConfiguration.builder().build();
     
-    var document = XmlFunctions.readDocument(simplexml, config);
-    var list     = XmlFunctions.getChildElements(document.getDocumentElement(), "crowd");
+    var document  = XmlFunctions.readDocument(simplexml, config);
+    var list      = XmlFunctions.getChildElements(document.getDocumentElement(), "crowd");
     assertNotNull(list);
     assertTrue(list.isEmpty());
     
   }
 
   @Test
+  @Order(16)
   public void getChildElements__Selective() {
     
-    var config = XmlParserConfiguration.builder().build();
+    var simplexml = TEST_RESOURCES.getResource("simple.xml");
+    var config    = XmlParserConfiguration.builder().build();
     
-    var document = XmlFunctions.readDocument(simplexml, config);
-    var list     = XmlFunctions.getChildElements(document.getDocumentElement(), "title");
+    var document  = XmlFunctions.readDocument(simplexml, config);
+    var list      = XmlFunctions.getChildElements(document.getDocumentElement(), "title");
     assertNotNull(list);
     assertThat(list.size(), is(1));
     
@@ -224,12 +254,14 @@ public class XmlFunctionsTest extends AbstractTestCase {
   }
 
   @Test
+  @Order(17)
   public void getChildNodes() {
     
-    var config   = XmlParserConfiguration.builder().build();
-    var document = XmlFunctions.readDocument(simplexml, config);
+    var simplexml = TEST_RESOURCES.getResource("simple.xml");
+    var config    = XmlParserConfiguration.builder().build();
+    var document  = XmlFunctions.readDocument(simplexml, config);
 
-    var list     = XmlFunctions.getChildNodes(document.getDocumentElement().getChildNodes());
+    var list      = XmlFunctions.getChildNodes(document.getDocumentElement().getChildNodes());
     assertNotNull(list);
     assertThat(list.size(), is(3));
     
@@ -240,8 +272,10 @@ public class XmlFunctionsTest extends AbstractTestCase {
   }
   
   @Test
+  @Order(18)
   public void getAttribute() {
    
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml");
     var config      = XmlParserConfiguration.builder().build();
     var document    = XmlFunctions.readDocument(simplexml, config);
     
@@ -253,8 +287,10 @@ public class XmlFunctionsTest extends AbstractTestCase {
   }
 
   @Test
+  @Order(19)
   public void getElementText() {
    
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml");
     var config      = XmlParserConfiguration.builder().build();
     var document    = XmlFunctions.readDocument(simplexml, config);
     
@@ -266,15 +302,17 @@ public class XmlFunctionsTest extends AbstractTestCase {
   }
   
   @Test
+  @Order(20)
   public void createElement() {
     
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml");
     var config      = XmlParserConfiguration.builder().build();
     var document    = XmlFunctions.readDocument(simplexml, config);
     
     var element     = XmlFunctions.createElement(document, "bobo", "My TEXT", "fruppel", "dodo");
     document.getDocumentElement().appendChild(element);
     
-    var writer = new StringWriter();
+    var writer      = new StringWriter();
     XmlFunctions.writeDocument(writer, document, Encoding.UTF8);
     
     assertTrue(writer.toString().contains("<bobo fruppel=\"dodo\">My TEXT</bobo>"));
@@ -282,8 +320,10 @@ public class XmlFunctionsTest extends AbstractTestCase {
   }
   
   @Test
+  @Order(21)
   public void insertFirst() {
 
+    var simplexml   = TEST_RESOURCES.getResource("simple.xml");
     var config      = XmlParserConfiguration.builder().build();
     var document    = XmlFunctions.readDocument(simplexml, config);
     var docElement  = document.getDocumentElement();
@@ -291,13 +331,13 @@ public class XmlFunctionsTest extends AbstractTestCase {
     var element     = XmlFunctions.createElement(document, "bobo", "My TEXT", "fruppel", "dodo");
     XmlFunctions.insertFirst(docElement, element);
     
-    var writer = new StringWriter();
+    var writer      = new StringWriter();
     XmlFunctions.writeDocument(writer, document, Encoding.UTF8);
     
-    var xmldoc = writer.toString();
+    var xmldoc      = writer.toString();
     
-    var idx1   = xmldoc.indexOf("<bobo fruppel=\"dodo\">My TEXT</bobo>");
-    var idx2   = xmldoc.indexOf("<title>Blöde Schuhe</title>");
+    var idx1        = xmldoc.indexOf("<bobo fruppel=\"dodo\">My TEXT</bobo>");
+    var idx2        = xmldoc.indexOf("<title>Blöde Schuhe</title>");
     
     assertTrue(idx1 < idx2);
 

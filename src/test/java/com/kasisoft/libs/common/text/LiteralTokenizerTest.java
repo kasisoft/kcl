@@ -1,9 +1,14 @@
 package com.kasisoft.libs.common.text;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
@@ -14,8 +19,8 @@ import java.util.*;
  */
 public class LiteralTokenizerTest {
 
-  @DataProvider(name = "data_tokenize")
-  public Object[][] data_tokenize() {
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_tokenize() {
     
     String input1 = "@PART@ ist @FLUPPE@ heute hier";
     String input2 = "Fred ist @FLUPPE@ heute @PART@";
@@ -23,22 +28,23 @@ public class LiteralTokenizerTest {
     String input4 = "#PART# ist #FLUPPE# heute hier";
     String input5 = "";
     
-    return new Object[][] {
-      {input1, Boolean.FALSE, new String[] {" ist ", " heute hier"}},
-      {input1, Boolean.TRUE , new String[] {"@PART@", " ist ", "@FLUPPE@", " heute hier"}},
-      {input2, Boolean.FALSE, new String[] {"Fred ist ", " heute "}},
-      {input2, Boolean.TRUE , new String[] {"Fred ist ", "@FLUPPE@", " heute ", "@PART@"}},
-      {input3, Boolean.FALSE, new String[] {"Fred ", " ", " heute hier"}},
-      {input3, Boolean.TRUE , new String[] {"Fred ", "@PART@", " ", "@FLUPPE@", " heute hier"}},
-      {input4, Boolean.FALSE, new String[] {"#PART# ist #FLUPPE# heute hier"}},
-      {input4, Boolean.TRUE , new String[] {"#PART# ist #FLUPPE# heute hier"}},
-      {input5, Boolean.FALSE, new String[] {""}},
-      {input5, Boolean.TRUE , new String[] {""}},
-    };
+    return Stream.of(
+      Arguments.of(input1, Boolean.FALSE, new String[] {" ist ", " heute hier"}),
+      Arguments.of(input1, Boolean.TRUE , new String[] {"@PART@", " ist ", "@FLUPPE@", " heute hier"}),
+      Arguments.of(input2, Boolean.FALSE, new String[] {"Fred ist ", " heute "}),
+      Arguments.of(input2, Boolean.TRUE , new String[] {"Fred ist ", "@FLUPPE@", " heute ", "@PART@"}),
+      Arguments.of(input3, Boolean.FALSE, new String[] {"Fred ", " ", " heute hier"}),
+      Arguments.of(input3, Boolean.TRUE , new String[] {"Fred ", "@PART@", " ", "@FLUPPE@", " heute hier"}),
+      Arguments.of(input4, Boolean.FALSE, new String[] {"#PART# ist #FLUPPE# heute hier"}),
+      Arguments.of(input4, Boolean.TRUE , new String[] {"#PART# ist #FLUPPE# heute hier"}),
+      Arguments.of(input5, Boolean.FALSE, new String[] {""}),
+      Arguments.of(input5, Boolean.TRUE , new String[] {""})
+    );
     
   }
 
-  @Test(dataProvider = "data_tokenize", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_tokenize")
   public void tokenize(String input, boolean returndelimiters, Object[] expected) {
     var tokenizer = new LiteralTokenizer(input, returndelimiters, "@PART@", "@FLUPPE@");
     var tokens    = new ArrayList<>();
@@ -48,28 +54,30 @@ public class LiteralTokenizerTest {
     assertThat(tokens.toArray(), is(expected));
   }
 
-  @DataProvider(name = "data_tokenizeStringLike")
-  public Object[][] data_tokenizeStringLike() {
-    StringLike input1 = new StringFBuilder("@PART@ ist @FLUPPE@ heute hier");
-    StringLike input2 = new StringFBuilder("Fred ist @FLUPPE@ heute @PART@");
-    StringLike input3 = new StringFBuilder("Fred @PART@ @FLUPPE@ heute hier");
-    StringLike input4 = new StringFBuilder("#PART# ist #FLUPPE# heute hier");
-    StringLike input5 = new StringFBuilder("");
-    return new Object[][] {
-      {input1, Boolean.FALSE, new String[] {" ist ", " heute hier"}},
-      {input1, Boolean.TRUE , new String[] {"@PART@", " ist ", "@FLUPPE@", " heute hier"}},
-      {input2, Boolean.FALSE, new String[] {"Fred ist ", " heute "}},
-      {input2, Boolean.TRUE , new String[] {"Fred ist ", "@FLUPPE@", " heute ", "@PART@"}},
-      {input3, Boolean.FALSE, new String[] {"Fred ", " ", " heute hier"}},
-      {input3, Boolean.TRUE , new String[] {"Fred ", "@PART@", " ", "@FLUPPE@", " heute hier"}},
-      {input4, Boolean.FALSE, new String[] {"#PART# ist #FLUPPE# heute hier"}},
-      {input4, Boolean.TRUE , new String[] {"#PART# ist #FLUPPE# heute hier"}},
-      {input5, Boolean.FALSE, new String[] {""}},
-      {input5, Boolean.TRUE , new String[] {""}},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_tokenizeStringLike() {
+    var input1 = new StringFBuilder("@PART@ ist @FLUPPE@ heute hier");
+    var input2 = new StringFBuilder("Fred ist @FLUPPE@ heute @PART@");
+    var input3 = new StringFBuilder("Fred @PART@ @FLUPPE@ heute hier");
+    var input4 = new StringFBuilder("#PART# ist #FLUPPE# heute hier");
+    var input5 = new StringFBuilder("");
+    return Stream.of(
+      Arguments.of(input1, Boolean.FALSE, new String[] {" ist ", " heute hier"}),
+      Arguments.of(input1, Boolean.TRUE , new String[] {"@PART@", " ist ", "@FLUPPE@", " heute hier"}),
+      Arguments.of(input2, Boolean.FALSE, new String[] {"Fred ist ", " heute "}),
+      Arguments.of(input2, Boolean.TRUE , new String[] {"Fred ist ", "@FLUPPE@", " heute ", "@PART@"}),
+      Arguments.of(input3, Boolean.FALSE, new String[] {"Fred ", " ", " heute hier"}),
+      Arguments.of(input3, Boolean.TRUE , new String[] {"Fred ", "@PART@", " ", "@FLUPPE@", " heute hier"}),
+      Arguments.of(input4, Boolean.FALSE, new String[] {"#PART# ist #FLUPPE# heute hier"}),
+      Arguments.of(input4, Boolean.TRUE , new String[] {"#PART# ist #FLUPPE# heute hier"}),
+      Arguments.of(input5, Boolean.FALSE, new String[] {""}),
+      Arguments.of(input5, Boolean.TRUE , new String[] {""})
+    );
   }
 
-  @Test(dataProvider = "data_tokenizeStringLike", groups = "all")
+  @SuppressWarnings("rawtypes")
+  @ParameterizedTest
+  @MethodSource("data_tokenizeStringLike")
   public void tokenizeStringLike(StringLike input, boolean returndelimiters, Object[] expected) {
     var tokenizer = new LiteralTokenizer(input, returndelimiters, "@PART@", "@FLUPPE@");
     var tokens    = new ArrayList<>();

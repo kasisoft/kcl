@@ -1,56 +1,64 @@
 package com.kasisoft.libs.common;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.Matchers.*;
+
+import org.junit.jupiter.api.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class KclExceptionTest {
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void wrap() {
-    try {
-      throw new RuntimeException("simple text");
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
-    }
+    assertThrows(KclException.class, () -> {
+      try {
+        throw new RuntimeException("simple text");
+      } catch (Exception ex) {
+        throw KclException.wrap(ex);
+      }
+    });
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void wrap__KclException() {
-    try {
-      throw new KclException("simple text");
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
-    }
+    assertThrows(KclException.class, () -> {
+      try {
+        throw new KclException("simple text");
+      } catch (Exception ex) {
+        throw KclException.wrap(ex);
+      }
+    });
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void wrap__KclExceptionWithMessage() {
-    try {
-      throw new KclException("simple text");
-    } catch (Exception ex) {
-      throw KclException.wrap(ex, "Error Message: %s", ex.getLocalizedMessage());
-    }
+    assertThrows(KclException.class, () -> {
+      try {
+        throw new KclException("simple text");
+      } catch (Exception ex) {
+        throw KclException.wrap(ex, "Error Message: %s", ex.getLocalizedMessage());
+      }
+    });
   }
 
-  @Test(groups = "all")
+  @Test
   public void unwrap() {
     try {
       wrap();
     } catch (KclException ex) {
-      Exception cause = KclException.unwrap(ex);
+      var cause = KclException.unwrap(ex);
       assertNotNull(cause);
       assertTrue(cause instanceof RuntimeException);
       assertThat(cause.getLocalizedMessage(), is("java.lang.RuntimeException: simple text"));
     }
   }
 
-  @Test(groups = "all")
+  @Test
   public void unwrap__NotAKclException() {
     try {
       try {
@@ -64,19 +72,25 @@ public class KclExceptionTest {
     }
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void defaultConstructor() {
-    throw new KclException();
+    assertThrows(KclException.class, () -> { 
+      throw new KclException();
+    });
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void constructor__Formatting() {
-    throw new KclException("Message: %s", "Value");
+    assertThrows(KclException.class, () -> {
+      throw new KclException("Message: %s", "Value");
+    });
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void constructor__Message() {
-    throw new KclException("Message");
+    assertThrows(KclException.class, () -> {
+      throw new KclException("Message");
+    });
   }
 
 } /* ENDCLASS */

@@ -33,7 +33,7 @@ public class EnumerationAdapter<T extends Enum<T>> extends AbstractConverter<Str
     withIgnoreCase(true);
   }
   
-  public EnumerationAdapter withIgnoreCase(boolean ignorecase) {
+  public EnumerationAdapter<T> withIgnoreCase(boolean ignorecase) {
     this.ignorecase = ignorecase;
     T[] enums = enumtype.getEnumConstants();
     for (int i = 0; i < enums.length; i++) {

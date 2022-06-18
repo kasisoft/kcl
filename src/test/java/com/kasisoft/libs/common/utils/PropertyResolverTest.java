@@ -1,25 +1,28 @@
 package com.kasisoft.libs.common.utils;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class PropertyResolverTest extends AbstractTestCase {
+public class PropertyResolverTest {
 
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(PropertyResolverTest.class);
+  
   @Test
   public void apply__env() {
     
-    var text    = getResource("text_01.txt");
+    var text    = TEST_RESOURCES.getResource("text_01.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -34,7 +37,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__sys() {
     
-    var text    = getResource("text_02.txt");
+    var text    = TEST_RESOURCES.getResource("text_02.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -49,7 +52,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__envAndPrefix() {
     
-    var text    = getResource("text_03.txt");
+    var text    = TEST_RESOURCES.getResource("text_03.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -64,7 +67,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__sysAndPrefix() {
     
-    var text    = getResource("text_04.txt");
+    var text    = TEST_RESOURCES.getResource("text_04.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -79,7 +82,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__custom() {
     
-    var text    = getResource("text_05.txt");
+    var text    = TEST_RESOURCES.getResource("text_05.txt");
     var loaded  = IoFunctions.readText(text);
     
     var map = new HashMap<String, String>();
@@ -97,7 +100,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__envAndCustomVarFormat() {
     
-    var text    = getResource("text_06.txt");
+    var text    = TEST_RESOURCES.getResource("text_06.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -113,7 +116,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__sysAndCustomVarFormat() {
     
-    var text    = getResource("text_07.txt");
+    var text    = TEST_RESOURCES.getResource("text_07.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -129,7 +132,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__envAndPrefixAndCustomVarFormat() {
     
-    var text    = getResource("text_08.txt");
+    var text    = TEST_RESOURCES.getResource("text_08.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -145,7 +148,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__sysAndPrefixAndCustomVarFormat() {
     
-    var text    = getResource("text_09.txt");
+    var text    = TEST_RESOURCES.getResource("text_09.txt");
     var loaded  = IoFunctions.readText(text);
     
     var resolver = new PropertyResolver()
@@ -161,7 +164,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__customAndCustomVarFormat() {
     
-    var text    = getResource("text_10.txt");
+    var text    = TEST_RESOURCES.getResource("text_10.txt");
     var loaded  = IoFunctions.readText(text);
     
     var map = new HashMap<String, String>();
@@ -180,7 +183,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__all() {
     
-    var text    = getResource("text_11.txt");
+    var text    = TEST_RESOURCES.getResource("text_11.txt");
     var loaded  = IoFunctions.readText(text);
     
     var map = new HashMap<String, String>();
@@ -200,7 +203,7 @@ public class PropertyResolverTest extends AbstractTestCase {
   @Test
   public void apply__allAndCustomVarFormat() {
     
-    var text    = getResource("text_12.txt");
+    var text    = TEST_RESOURCES.getResource("text_12.txt");
     var loaded  = IoFunctions.readText(text);
     
     var map = new HashMap<String, String>();

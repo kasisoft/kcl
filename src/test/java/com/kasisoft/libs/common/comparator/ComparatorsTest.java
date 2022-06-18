@@ -1,30 +1,31 @@
 package com.kasisoft.libs.common.comparator;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import com.kasisoft.libs.common.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.Matchers.*;
+
 import com.kasisoft.libs.common.utils.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class ComparatorsTest extends AbstractTestCase {
+public class ComparatorsTest {
 
   @Test
   public void classByName() {
     
-    List<Class<?>> types = new ArrayList<>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
+    var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
     Collections.shuffle(types);
     
     Collections.sort(types, Comparators.CLASS_BY_NAME);
     
-    Class<?>[] asArray = types.toArray(new Class<?>[types.size()]);
+    var asArray = types.toArray(new Class<?>[types.size()]);
     assertThat(asArray, is(new Class<?>[] {Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class}));
     
   }
@@ -32,12 +33,12 @@ public class ComparatorsTest extends AbstractTestCase {
   @Test
   public void classByName__CaseInsensitive() {
     
-    List<Class<?>> types = new ArrayList<>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
+    var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
     Collections.shuffle(types);
     
     Collections.sort(types, Comparators.CLASS_BY_NAME_CI);
     
-    Class<?>[] asArray = types.toArray(new Class<?>[types.size()]);
+    var asArray = types.toArray(new Class<?>[types.size()]);
     assertThat(asArray, is(new Class<?>[] {com.kasisoft.libs.common.comparator.subpackage.Type2.class, Type1.class, Type2.class, Type3.class, Type4.class}));
     
   }
@@ -45,12 +46,12 @@ public class ComparatorsTest extends AbstractTestCase {
   @Test
   public void classBySimpleName() {
     
-    List<Class<?>> types = new ArrayList<>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
+    var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
     Collections.shuffle(types);
     
     Collections.sort(types, Comparators.CLASS_BY_SIMPLE_NAME);
     
-    Class<?>[] asArray = types.toArray(new Class<?>[types.size()]);
+    var asArray = types.toArray(new Class<?>[types.size()]);
     assertThat(asArray, is(new Class<?>[] {Type1.class, Type2.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class, Type3.class, Type4.class}));
     
   }
@@ -58,12 +59,12 @@ public class ComparatorsTest extends AbstractTestCase {
   @Test
   public void classBySimpleName__CaseInsensitive() {
     
-    List<Class<?>> types = new ArrayList<>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
+    var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
     Collections.shuffle(types);
     
     Collections.sort(types, Comparators.CLASS_BY_SIMPLE_NAME_CI);
     
-    Class<?>[] asArray = types.toArray(new Class<?>[types.size()]);
+    var asArray = types.toArray(new Class<?>[types.size()]);
     assertThat(asArray, is(new Class<?>[] {Type1.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class, Type2.class, Type3.class, Type4.class}));
     
   }
@@ -71,17 +72,17 @@ public class ComparatorsTest extends AbstractTestCase {
   @Test
   public void classByPrio() {
     
-    List<Class<?>> types = new ArrayList<>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
+    var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class));
     Collections.shuffle(types);
     
     Collections.sort(types, Comparators.CLASS_BY_PRIORITY);
     
-    Class<?>[] asArray = types.toArray(new Class<?>[types.size()]);
+    var asArray = types.toArray(new Class<?>[types.size()]);
     assertThat(asArray, is(new Class<?>[] {Type3.class, Type2.class, Type1.class, com.kasisoft.libs.common.comparator.subpackage.Type2.class, Type4.class}));
     
   }
 
-  @Test(groups = "all")
+  @Test
   public void nullSafeIntegers() {
 
     // create random integer values with some nulls in it 

@@ -1,11 +1,18 @@
 package com.kasisoft.libs.common.converters;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -23,86 +30,100 @@ public class EnumerationAdapterTest {
   private EnumerationAdapter<LordOfTheRings> adapter_ci = new EnumerationAdapter<>(LordOfTheRings.class);
   private EnumerationAdapter<LordOfTheRings> adapter    = new EnumerationAdapter<>(LordOfTheRings.class).withIgnoreCase(false);
   
-  @DataProvider(name = "data_decode_ci")
-  public Object[][] data_decode_ci() {
-    return new Object[][] {
-      {null     , null},
-      {"gandalf", LordOfTheRings.Gandalf},
-      {"bilbo"  , LordOfTheRings.Bilbo},
-      {"boromir", LordOfTheRings.Boromir},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_decode_ci() {
+    return Stream.of(
+      Arguments.of(null     , null),
+      Arguments.of("gandalf", LordOfTheRings.Gandalf),
+      Arguments.of("bilbo"  , LordOfTheRings.Bilbo),
+      Arguments.of("boromir", LordOfTheRings.Boromir)
+    );
   }
 
-  @Test(dataProvider = "data_decode_ci", groups = "all")
+  @SuppressWarnings("exports")
+  @ParameterizedTest
+  @MethodSource("data_decode_ci")
   public void decode_ci(String value, LordOfTheRings expected) throws Exception {
     assertThat(adapter_ci.decode(value), is(expected));
   }
 
-  @DataProvider(name = "data_invalidDecode_ci")
-  public Object[][] data_invalidDecode_ci() {
-    return new Object[][] {
-      {"gollum", null},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_invalidDecode_ci() {
+    return Stream.of(
+      Arguments.of("gollum")
+    );
   }
 
-  @Test(dataProvider = "data_invalidDecode_ci", expectedExceptions = KclException.class, groups = "all")
-  public void invalidDecode_ci(String value, LordOfTheRings expected) throws Exception {
-    assertThat(adapter_ci.decode(value), is(expected));
+  @ParameterizedTest
+  @MethodSource("data_invalidDecode_ci")
+  public void invalidDecode_ci(String value) throws Exception {
+    assertThrows(KclException.class, () -> {
+      adapter_ci.decode(value);
+    });
   }
 
-  @DataProvider(name = "data_encode_ci")
-  public Object[][] data_encode_ci() {
-    return new Object[][] {
-      {null                  , null},
-      {LordOfTheRings.Gandalf, "Gandalf"},
-      {LordOfTheRings.Bilbo  , "Bilbo"},
-      {LordOfTheRings.Boromir, "Boromir"},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_encode_ci() {
+    return Stream.of(
+      Arguments.of(null                  , null),
+      Arguments.of(LordOfTheRings.Gandalf, "Gandalf"),
+      Arguments.of(LordOfTheRings.Bilbo  , "Bilbo"),
+      Arguments.of(LordOfTheRings.Boromir, "Boromir")
+    );
   }
 
-  @Test(dataProvider = "data_encode_ci", groups = "all")
+  @SuppressWarnings("exports")
+  @ParameterizedTest
+  @MethodSource("data_encode_ci")
   public void encode_ci(LordOfTheRings value, String expected) throws Exception {
     assertThat(adapter_ci.encode(value), is(expected));
   }
   
-  @DataProvider(name = "data_decode")
-  public Object[][] data_decode() {
-    return new Object[][] {
-      {null     , null},
-      {"Gandalf", LordOfTheRings.Gandalf},
-      {"Bilbo"  , LordOfTheRings.Bilbo},
-      {"Boromir", LordOfTheRings.Boromir},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_decode() {
+    return Stream.of(
+      Arguments.of(null     , null),
+      Arguments.of("Gandalf", LordOfTheRings.Gandalf),
+      Arguments.of("Bilbo"  , LordOfTheRings.Bilbo),
+      Arguments.of("Boromir", LordOfTheRings.Boromir)
+    );
   }
 
-  @Test(dataProvider = "data_decode", groups = "all")
+  @SuppressWarnings("exports")
+  @ParameterizedTest
+  @MethodSource("data_decode")
   public void decode(String value, LordOfTheRings expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @DataProvider(name = "data_invalidDecode")
-  public Object[][] data_invalidDecode() {
-    return new Object[][] {
-      {"Gollum", null},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_invalidDecode() {
+    return Stream.of(
+      Arguments.of("Gollum")
+    );
   }
 
-  @Test(dataProvider = "data_invalidDecode", expectedExceptions = KclException.class, groups = "all")
-  public void invalidDecode(String value, LordOfTheRings expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
+  @ParameterizedTest
+  @MethodSource("data_invalidDecode")
+  public void invalidDecode(String value) throws Exception {
+    assertThrows(KclException.class, () -> {
+      adapter.decode(value);
+    });
   }
 
-  @DataProvider(name = "data_encode")
-  public Object[][] data_encode() {
-    return new Object[][] {
-      {null                  , null},
-      {LordOfTheRings.Gandalf, "Gandalf"},
-      {LordOfTheRings.Bilbo  , "Bilbo"},
-      {LordOfTheRings.Boromir, "Boromir"},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_encode() {
+    return Stream.of(
+      Arguments.of(null                  , null),
+      Arguments.of(LordOfTheRings.Gandalf, "Gandalf"),
+      Arguments.of(LordOfTheRings.Bilbo  , "Bilbo"),
+      Arguments.of(LordOfTheRings.Boromir, "Boromir")
+    );
   }
 
-  @Test(dataProvider = "data_encode", groups = "all")
+  @SuppressWarnings("exports")
+  @ParameterizedTest
+  @MethodSource("data_encode")
   public void encode(LordOfTheRings value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }

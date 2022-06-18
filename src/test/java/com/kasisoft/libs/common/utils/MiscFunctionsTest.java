@@ -1,12 +1,22 @@
 package com.kasisoft.libs.common.utils;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.types.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import org.junit.jupiter.api.*;
+
+import java.util.function.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
@@ -17,34 +27,35 @@ import java.time.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("deprecation")
 public class MiscFunctionsTest {
-
-  @DataProvider(name = "data_getGravatarLink")
-  public Object[][] data_getGravatarLink() {
-    return new Object[][] {
-      { null                                                                      , null                                  , null },
-      { null                                                                      , null                                  , 12   },
-      { "https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"        , " Daniel.KASMEROGLU@kasisoft.net \n"  , null },
-      { "https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"        , "daniel.kasmeroglu@kasisoft.net"      , null },
-      { "https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d?s=100"  , "daniel.kasmeroglu@kasisoft.net"      , 100  },
-    };
+  
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_getGravatarLink() {
+    return Stream.of(
+      Arguments.of(null                                                                    , null                                  , null),
+      Arguments.of(null                                                                    , null                                  , 12),
+      Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"      , " Daniel.KASMEROGLU@kasisoft.net \n"  , null),
+      Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"      , "daniel.kasmeroglu@kasisoft.net"      , null),
+      Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d?s=100", "daniel.kasmeroglu@kasisoft.net"      , 100)
+    );
   }
   
-  @Test(groups = "all", dataProvider = "data_getGravatarLink")
-  public void getGravatarLink( String expected, String email, Integer size ) {
-    assertThat( MiscFunctions.getGravatarLink( email, size ), is( expected ) );
+  @ParameterizedTest
+  @MethodSource("data_getGravatarLink")
+  public void getGravatarLink(String expected, String email, Integer size) {
+    assertThat(MiscFunctions.getGravatarLink(email, size), is(expected));
   }
   
-  @DataProvider(name="data_toUniqueList")
-  public Object[][] data_toUniqueList() {
-    return new Object[][] {
-      {Arrays.asList("Otto", "Fred", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")},
-      {Arrays.asList("Otto", "Fred", "Otto", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_toUniqueList() {
+    return Stream.of(
+      Arguments.of(Arrays.asList("Otto", "Fred", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")),
+      Arguments.of(Arrays.asList("Otto", "Fred", "Otto", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto"))
+    );
   }
 
-  @Test(dataProvider = "data_toUniqueList", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_toUniqueList")
   public void toUniqueList(List<String> list, List<String> expected) {
     
     var altered1 = MiscFunctions.toUniqueList(null);
@@ -60,7 +71,8 @@ public class MiscFunctionsTest {
     
   }
 
-  @Test(dataProvider = "data_toUniqueList", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_toUniqueList")
   public void toSet(List<String> list, List<String> expected) {
     
     var altered1 = MiscFunctions.toSet((String[]) null);
@@ -76,7 +88,7 @@ public class MiscFunctionsTest {
     
   }
 
-  @Test(groups = "all")
+  @Test
   public void joinThread() {
     final var outparam = new OutParam<>(Boolean.FALSE);
     Runnable runnable = new Runnable() {
@@ -92,89 +104,88 @@ public class MiscFunctionsTest {
     assertThat(outparam.getValue(), is(Boolean.TRUE));
   }
   
-  @DataProvider(name = "data_isLeapYear")
-  public Object[][] data_isLeapYear() {
-    return new Object[][] {
-      {Integer.valueOf(1900), Boolean.FALSE},
-      {Integer.valueOf(1901), Boolean.FALSE},
-      {Integer.valueOf(1904), Boolean.TRUE},
-      {Integer.valueOf(2000), Boolean.TRUE},
-      {Integer.valueOf(2001), Boolean.FALSE}
-    };
+  private static <T> Stream<Arguments> createLeapYearTests(Function<Integer, T> year2Info) {
+    return Arrays.asList(
+      Arguments.of(year2Info.apply(1900), false),
+      Arguments.of(year2Info.apply(1901), false),
+      Arguments.of(year2Info.apply(1904), true),
+      Arguments.of(year2Info.apply(2000), true),
+      Arguments.of(year2Info.apply(2001), false)
+    ).stream();
   }
   
-  @Test(dataProvider = "data_isLeapYear", groups = "all")
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isLeapYear() {
+    return createLeapYearTests(Function.identity());
+  }
+  
+  @ParameterizedTest
+  @MethodSource("data_isLeapYear")
   public void isLeapYear(int year, boolean expected) {
     assertThat(MiscFunctions.isLeapYear(year), is(expected));
   }
 
-  private Date createDate(int year) {
+  private static Date createDate(int year) {
     var calendar = Calendar.getInstance();
-    calendar.set( Calendar.YEAR, year );
+    calendar.set(Calendar.YEAR, year);
     return calendar.getTime();
   }
 
-  @DataProvider(name="data_isLeapYear__Date")
-  public Object[][] data_isLeapYear__Date() {
-    return new Object[][] {
-      {createDate(1900), Boolean.FALSE},
-      {createDate(1901), Boolean.FALSE},
-      {createDate(1904), Boolean.TRUE},
-      {createDate(2000), Boolean.TRUE},
-      {createDate(2001), Boolean.FALSE}
-    };
+  private static OffsetDateTime createOffsetDateTime(int year) {
+    return OffsetDateTime.ofInstant(createDate(year).toInstant(), ZoneId.of("UTC"));
   }
 
-  @Test(dataProvider = "data_isLeapYear__Date", groups = "all")
+  private static LocalDateTime createLocalDateTime(int year) {
+    return LocalDateTime.ofInstant(createDate(year).toInstant(), ZoneId.of("UTC"));
+  }
+
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isLeapYear__Date() {
+    return createLeapYearTests(MiscFunctionsTest::createDate);
+  }
+
+  @ParameterizedTest
+  @MethodSource("data_isLeapYear__Date")
   public void isLeapYear__Date(Date year, boolean expected) {
     assertThat(MiscFunctions.isLeapYear(year), is(expected));
   }
 
-  @DataProvider(name="data_isLeapYear__OffsetDateTime")
-  public Object[][] data_isLeapYear__OffsetDateTime() {
-    return new Object[][] {
-      {OffsetDateTime.ofInstant(createDate(1900).toInstant(), ZoneId.of("UTC")), Boolean.FALSE},
-      {OffsetDateTime.ofInstant(createDate(1901).toInstant(), ZoneId.of("UTC")), Boolean.FALSE},
-      {OffsetDateTime.ofInstant(createDate(1904).toInstant(), ZoneId.of("UTC")), Boolean.TRUE},
-      {OffsetDateTime.ofInstant(createDate(2000).toInstant(), ZoneId.of("UTC")), Boolean.TRUE},
-      {OffsetDateTime.ofInstant(createDate(2001).toInstant(), ZoneId.of("UTC")), Boolean.FALSE}
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isLeapYear__OffsetDateTime() {
+    return createLeapYearTests(MiscFunctionsTest::createOffsetDateTime);
   }
 
-  @Test(dataProvider = "data_isLeapYear__OffsetDateTime", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isLeapYear__OffsetDateTime")
   public void isLeapYear__OffsetDateTime(OffsetDateTime year, boolean expected) {
     assertThat(MiscFunctions.isLeapYear(year), is(expected));
   }
 
-  @DataProvider(name="data_isLeapYear__LocalDateTime")
-  public Object[][] data_isLeapYear__LocalDateTime() {
-    return new Object[][] {
-      {LocalDateTime.ofInstant(createDate(1900).toInstant(), ZoneId.of("UTC")), Boolean.FALSE},
-      {LocalDateTime.ofInstant(createDate(1901).toInstant(), ZoneId.of("UTC")), Boolean.FALSE},
-      {LocalDateTime.ofInstant(createDate(1904).toInstant(), ZoneId.of("UTC")), Boolean.TRUE},
-      {LocalDateTime.ofInstant(createDate(2000).toInstant(), ZoneId.of("UTC")), Boolean.TRUE},
-      {LocalDateTime.ofInstant(createDate(2001).toInstant(), ZoneId.of("UTC")), Boolean.FALSE}
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isLeapYear__LocalDateTime() {
+    return createLeapYearTests(MiscFunctionsTest::createLocalDateTime);
   }
 
-  @Test(dataProvider = "data_isLeapYear__LocalDateTime", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isLeapYear__LocalDateTime")
   public void isLeapYear__LocalDateTime(LocalDateTime year, boolean expected) {
     assertThat(MiscFunctions.isLeapYear(year), is(expected));
   }
 
-  @DataProvider(name = "data_repeat")
-  public Object[][] data_repeat() {
-    return new Object[][] {
-      { Integer.valueOf(0), null, Arrays.asList() },  
-      { Integer.valueOf(1), null, Arrays.asList( new Object[] { null } ) },
-      { Integer.valueOf(5), null, Arrays.asList( null, null, null, null, null ) },
-      { Integer.valueOf(0), "Dodo", Arrays.asList() },  
-      { Integer.valueOf(1), "Dodo", Arrays.asList( "Dodo" ) },
-      { Integer.valueOf(5), "Dodo", Arrays.asList( "Dodo", "Dodo", "Dodo", "Dodo", "Dodo" ) },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_repeat() {
+    return Stream.of(
+      Arguments.of(0, null, Arrays.asList()),  
+      Arguments.of(1, null, Arrays.asList( new Object[] {null})),
+      Arguments.of(5, null, Arrays.asList( null, null, null, null, null)),
+      Arguments.of(0, "Dodo", Arrays.asList()),  
+      Arguments.of(1, "Dodo", Arrays.asList("Dodo")),
+      Arguments.of(5, "Dodo", Arrays.asList("Dodo", "Dodo", "Dodo", "Dodo", "Dodo"))
+    );
   }
   
-  @Test(dataProvider = "data_repeat", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_repeat")
   public <T> void repeat(int count, T element, List<T> expected) {
     var actual = MiscFunctions.repeat(count, element);
     assertThat(actual, notNullValue());
@@ -182,7 +193,7 @@ public class MiscFunctionsTest {
     assertThat(actual, is(expected));
   }
   
-  @Test(groups = "all")
+  @Test
   public void toPairs() {
     
     var noentries1 = MiscFunctions.toPairs();
@@ -207,7 +218,7 @@ public class MiscFunctionsTest {
 
   }
   
-  @Test(groups = "all")
+  @Test
   public void executeWithoutExit() {
 
     var exitcode1 = MiscFunctions.executeWithoutExit(() -> System.exit(13));
@@ -218,7 +229,7 @@ public class MiscFunctionsTest {
     
   }
 
-  @Test(groups = "all")
+  @Test
   public void wrapToExtendedList__newList() {
     
     var list1 = MiscFunctions.wrapToExtendedList(new ArrayList<String>());
@@ -231,7 +242,7 @@ public class MiscFunctionsTest {
     
   }
   
-  @Test(groups = "all")
+  @Test
   public void wrapToExtendedList__add() {
     
     var list1 = MiscFunctions.wrapToExtendedList(new ArrayList<String>());
@@ -258,7 +269,7 @@ public class MiscFunctionsTest {
 
   }
   
-  @Test(groups = "all")
+  @Test
   public void twrapToExtendedList__sublist() {
     
     var list1 = MiscFunctions.wrapToExtendedList(Arrays.asList("BLA", "BLUB", "BLAU", "KRAUT", "FROG"));
@@ -271,7 +282,7 @@ public class MiscFunctionsTest {
 
   }
   
-  @Test(groups = "all")
+  @Test
   public void toMap() {
     
     var map1 = MiscFunctions.toMap("key1", "value1", "key2", "value2");
@@ -290,13 +301,13 @@ public class MiscFunctionsTest {
 
   }
 
-  @Test(groups = "all")
+  @Test
   public void gcd() {
     assertThat(MiscFunctions.gcd(20, 15), is(5));
     assertThat(MiscFunctions.gcd(99, 44), is(11));
   }
   
-  @Test(groups = "all")
+  @Test
   public void trimLeading() {
     
     var list1        = new ArrayList<String>(Arrays.asList(null, null, null, "str1", "str2", null, null));
@@ -310,7 +321,7 @@ public class MiscFunctionsTest {
 
   }
 
-  @Test(groups = "all")
+  @Test
   public void trimTrailing() {
     
     var list1        = new ArrayList<String>(Arrays.asList(null, null, null, "str1", "str2", null, null));
@@ -338,7 +349,7 @@ public class MiscFunctionsTest {
 
   }
 
-  @Test(groups = "all")
+  @Test
   public void parseBoolean() {
     assertThat(MiscFunctions.parseBoolean("false"), is(false));
     assertNull(MiscFunctions.parseBoolean("Afalse"));
@@ -346,49 +357,49 @@ public class MiscFunctionsTest {
   }
 
   
-  @Test(groups = "all")
+  @Test
   public void parseByte() {
     assertThat(MiscFunctions.parseByte("54"), is((byte) 54));
     assertNull(MiscFunctions.parseByte("A54"));
     assertNull(MiscFunctions.parseByte(null));
   }
 
-  @Test(groups = "all")
+  @Test
   public void parseShort() {
     assertThat(MiscFunctions.parseShort("54"), is((short) 54));
     assertNull(MiscFunctions.parseShort("A54"));
     assertNull(MiscFunctions.parseShort(null));
   }
 
-  @Test(groups = "all")
+  @Test
   public void parseInt() {
     assertThat(MiscFunctions.parseInt("54"), is(54));
     assertNull(MiscFunctions.parseInt("A54"));
     assertNull(MiscFunctions.parseInt(null));
   }
 
-  @Test(groups = "all")
+  @Test
   public void parseLong() {
     assertThat(MiscFunctions.parseLong("54"), is(54L));
     assertNull(MiscFunctions.parseLong("A54"));
     assertNull(MiscFunctions.parseLong(null));
   }
 
-  @Test(groups = "all")
+  @Test
   public void parseFloat() {
     assertThat(MiscFunctions.parseFloat("54.3"), is(54.3f));
     assertNull(MiscFunctions.parseFloat("A54.3"));
     assertNull(MiscFunctions.parseFloat(null));
   }
 
-  @Test(groups = "all")
+  @Test
   public void parseDouble() {
     assertThat(MiscFunctions.parseDouble("55.3"), is(55.3));
     assertNull(MiscFunctions.parseDouble("A55.3"));
     assertNull(MiscFunctions.parseDouble(null));
   }
   
-  @Test(groups = "all")
+  @Test
   public void wrapToExtendedList() {
     
     var list1 = MiscFunctions.wrapToExtendedList(new ArrayList<String>(Arrays.asList("pos1", "pos2", "pos3", "pos4")));
@@ -402,7 +413,7 @@ public class MiscFunctionsTest {
 
   }
 
-  @Test(groups = "all")
+  @Test
   public void propertiesToMap() {
     
     var props1 = MiscFunctions.propertiesToMap(null);

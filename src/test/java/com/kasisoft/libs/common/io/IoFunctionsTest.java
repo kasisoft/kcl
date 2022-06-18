@@ -1,16 +1,26 @@
 package com.kasisoft.libs.common.io;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import org.junit.jupiter.api.MethodOrderer.*;
+
+import org.junit.jupiter.api.*;
 
 import javax.validation.constraints.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
@@ -23,8 +33,10 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("preview")
-public class IoFunctionsTest extends AbstractTestCase {
+@TestMethodOrder(OrderAnnotation.class)
+public class IoFunctionsTest {
+  
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(IoFunctionsTest.class);
 
   private static final String CONTENT_FOR_STREAMS = ""
                                                     + "Dies ist mein Text mit Umlauten.\n"
@@ -57,46 +69,40 @@ public class IoFunctionsTest extends AbstractTestCase {
                                                  + "</schema>\n"
                                                  ;
   
-  private Path  httpXsd;
-  private Path  tempHttpXsd;
-  
-  @BeforeSuite
-  public void setup() throws Exception {
-    httpXsd     = getResource("http.xsd");
-    tempHttpXsd = getTempPath("http.xsd");
-    Files.copy(httpXsd, tempHttpXsd);
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_compileFileSystemPattern() {
+    return Stream.of(
+      Arguments.of("*", "([^/]+)"),
+      Arguments.of("**", "(.+)"),
+      Arguments.of("dir/**", "\\Qdir/\\E(.+)"),
+      Arguments.of("dir/*", "\\Qdir/\\E([^/]+)"),
+      Arguments.of("dir/*/subdir", "\\Qdir/\\E([^/]+)\\Q/subdir\\E")
+    );
   }
   
-  @DataProvider(name = "data_compileFileSystemPattern")
-  public Object[][] data_compileFileSystemPattern() {
-    return new Object[][] {
-      {"*", "([^/]+)"},
-      {"**", "(.+)"},
-      {"dir/**", "\\Qdir/\\E(.+)"},
-      {"dir/*", "\\Qdir/\\E([^/]+)"},
-      {"dir/*/subdir", "\\Qdir/\\E([^/]+)\\Q/subdir\\E"},
-    };
-  }
-  
-  @Test(groups = "all", dataProvider = "data_compileFileSystemPattern")
+  @ParameterizedTest
+  @MethodSource("data_compileFileSystemPattern")
+  @Order(1)
   public void compileFileSystemPattern(String pattern, String regex) {
     var p = IoFunctions.compileFilesystemPattern(pattern);
     assertThat(p.pattern(), is(regex));
   }
   
-  @DataProvider(name = "data_newOutputStream")
-  public Object[][] data_newOutputStream() throws Exception {
-    var file1 = getTempPath("text1.txt");
-    var file2 = getTempPath("text2.txt");
-    var file3 = getTempPath("text3.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_newOutputStream() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text1.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text2.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text3.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
     
-  @Test(groups = "all", dataProvider = "data_newOutputStream")
+  @ParameterizedTest
+  @MethodSource("data_newOutputStream")
+  @Order(2)
   public <T> void newOutputStream(IoSupport<T> ioSupport, T destination) throws Exception {
     var asBytes = Encoding.UTF8.encode(CONTENT_FOR_STREAMS);
     try (var outstream = ioSupport.newOutputStream(destination)) {
@@ -104,7 +110,9 @@ public class IoFunctionsTest extends AbstractTestCase {
     }
   }
   
-  @Test(groups = "all", dataProvider = "data_newOutputStream", dependsOnMethods = "newOutputStream")
+  @ParameterizedTest
+  @MethodSource("data_newOutputStream")
+  @Order(3)
   public <T> void newInputStream(IoSupport<T> ioSupport, T source) throws Exception {
     var byteout = new ByteArrayOutputStream();
     try (var instream = ioSupport.newInputStream(source)) {
@@ -114,32 +122,36 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(asText, is(CONTENT_FOR_STREAMS));
   }
 
-  @DataProvider(name = "data_newWriter")
-  public Object[][] data_newWriter() throws Exception {
-    var file1 = getTempPath("text4.txt");
-    var file2 = getTempPath("text5.txt");
-    var file3 = getTempPath("text6.txt");
-    var file4 = getTempPath("text7.txt");
-    var file5 = getTempPath("text8.txt");
-    var file6 = getTempPath("text9.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1, Encoding.ISO88591},
-      { IoFunctions.IO_PATH, file2, Encoding.UTF8},
-      { IoFunctions.IO_FILE, file3.toFile(), Encoding.ISO88591},
-      { IoFunctions.IO_FILE, file4.toFile(), Encoding.UTF8},
-      { IoFunctions.IO_URI,  file5.toUri(), Encoding.ISO88591},
-      { IoFunctions.IO_URI,  file6.toUri(), Encoding.UTF8},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_newWriter() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text4.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text5.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text6.txt");
+    var file4 = TEST_RESOURCES.getTempPath("text7.txt");
+    var file5 = TEST_RESOURCES.getTempPath("text8.txt");
+    var file6 = TEST_RESOURCES.getTempPath("text9.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1, Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_PATH, file2, Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_FILE, file3.toFile(), Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_FILE, file4.toFile(), Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_URI,  file5.toUri(), Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_URI,  file6.toUri(), Encoding.UTF8)
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_newWriter")
+  @ParameterizedTest
+  @MethodSource("data_newWriter")
+  @Order(4)
   public <T> void newWriter(IoSupport<T> ioSupport, T destination, Encoding ignoredEncoding) throws Exception {
     try (var writer = ioSupport.newWriter(destination)) {
       writer.write(CONTENT_FOR_READERS);
     }
   }
 
-  @Test(groups = "all", dataProvider = "data_newWriter", dependsOnMethods = "newWriter")
+  @ParameterizedTest
+  @MethodSource("data_newWriter")
+  @Order(5)
   public <T> void newReader(IoSupport<T> ioSupport, T destination, Encoding ignoredEncoding) throws Exception {
     var writer = new StringWriter();
     try (var reader = ioSupport.newReader(destination)) {
@@ -148,32 +160,36 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
   
-  @DataProvider(name = "data_newWriter__WithEncoding")
-  public Object[][] data_newWriter__WithEncoding() throws Exception {
-    var file1 = getTempPath("text10.txt");
-    var file2 = getTempPath("text11.txt");
-    var file3 = getTempPath("text12.txt");
-    var file4 = getTempPath("text13.txt");
-    var file5 = getTempPath("text14.txt");
-    var file6 = getTempPath("text15.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1, Encoding.ISO88591},
-      { IoFunctions.IO_PATH, file2, Encoding.UTF8},
-      { IoFunctions.IO_FILE, file3.toFile(), Encoding.ISO88591},
-      { IoFunctions.IO_FILE, file4.toFile(), Encoding.UTF8},
-      { IoFunctions.IO_URI,  file5.toUri(), Encoding.ISO88591},
-      { IoFunctions.IO_URI,  file6.toUri(), Encoding.UTF8},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_newWriter__WithEncoding() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text10.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text11.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text12.txt");
+    var file4 = TEST_RESOURCES.getTempPath("text13.txt");
+    var file5 = TEST_RESOURCES.getTempPath("text14.txt");
+    var file6 = TEST_RESOURCES.getTempPath("text15.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1, Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_PATH, file2, Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_FILE, file3.toFile(), Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_FILE, file4.toFile(), Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_URI,  file5.toUri(), Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_URI,  file6.toUri(), Encoding.UTF8)
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_newWriter__WithEncoding")
+  @ParameterizedTest
+  @MethodSource("data_newWriter__WithEncoding")
+  @Order(6)
   public <T> void newWriter__WithEncoding(IoSupport<T> ioSupport, T destination, Encoding encoding) throws Exception {
     try (var writer = ioSupport.newWriter(destination, encoding)) {
       writer.write(CONTENT_FOR_READERS);
     }
   }
 
-  @Test(groups = "all", dataProvider = "data_newWriter__WithEncoding", dependsOnMethods = "newWriter__WithEncoding")
+  @ParameterizedTest
+  @MethodSource("data_newWriter__WithEncoding")
+  @Order(7)
   public <T> void newReader__WithEncoding(IoSupport<T> ioSupport, T destination, Encoding encoding) throws Exception {
     var writer = new StringWriter();
     try (var reader = ioSupport.newReader(destination, encoding)) {
@@ -182,20 +198,21 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @SuppressWarnings("deprecation")
-  @DataProvider(name = "data_forOutputStreamDo")
-  public Object[][] data_forOutputStreamDo() throws Exception {
-    var file1 = getTempPath("text16.txt");
-    var file2 = getTempPath("text17.txt");
-    var file3 = getTempPath("text18.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_forOutputStreamDo() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text16.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text17.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text18.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
   
-  @Test(groups = "all", dataProvider = "data_forOutputStreamDo")
+  @ParameterizedTest
+  @MethodSource("data_forOutputStreamDo")
+  @Order(8)
   public <T> void forOutputStreamDo(IoSupport<T> ioSupport, T destination) throws Exception {
     var asBytes = Encoding.UTF8.encode(CONTENT_FOR_STREAMS);
     ioSupport.forOutputStreamDo(destination, $ -> {
@@ -207,7 +224,9 @@ public class IoFunctionsTest extends AbstractTestCase {
     });
   }
 
-  @Test(groups = "all", dataProvider = "data_forOutputStreamDo", dependsOnMethods = "forOutputStreamDo")
+  @ParameterizedTest
+  @MethodSource("data_forOutputStreamDo")
+  @Order(9)
   public <T> void forInputStreamDo(IoSupport<T> ioSupport, T source) throws Exception {
     var byteout = new ByteArrayOutputStream();
     ioSupport.forInputStreamDo(source, $ -> {
@@ -217,19 +236,30 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(asText, is(CONTENT_FOR_STREAMS));
   }
   
-  @DataProvider(name = "data_forOutputStream")
-  public Object[][] data_forOutputStream() throws Exception {
-    var file1 = getTempPath("text22.txt");
-    var file2 = getTempPath("text23.txt");
-    var file3 = getTempPath("text24.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_forOutputStream() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text22.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text23.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text24.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
-  
-  @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forOutputStream__Error")
+
+  @ParameterizedTest
+  @MethodSource("data_forOutputStream")
+  @Order(10)
+  public <T> void forOutputStream__Error(IoSupport<T> ioSupport, T destination) throws Exception {
+    assertThrows(KclException.class, () -> {
+      ioSupport.forOutputStream(destination, $ -> { throw new KclException("error"); });
+    });
+  }
+
+  @ParameterizedTest
+  @MethodSource("data_forOutputStream")
+  @Order(11)
   public <T> void forOutputStream(IoSupport<T> ioSupport, T destination) throws Exception {
     var asBytes = Encoding.UTF8.encode(CONTENT_FOR_STREAMS);
     var result  = ioSupport.forOutputStream(destination, $ -> {
@@ -244,12 +274,9 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
-  @Test(groups = "all", dataProvider = "data_forOutputStream", expectedExceptions = KclException.class)
-  public <T> void forOutputStream__Error(IoSupport<T> ioSupport, T destination) throws Exception {
-    ioSupport.forOutputStream(destination, $ -> { throw new KclException("error"); });
-  }
-
-  @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forOutputStream")
+  @ParameterizedTest
+  @MethodSource("data_forOutputStream")
+  @Order(12)
   public <T> void forInputStream(IoSupport<T> ioSupport, T source) throws Exception {
     var byteout = new ByteArrayOutputStream();
     var result  = ioSupport.forInputStream(source, $ -> {
@@ -261,24 +288,42 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
-  @Test(groups = "all", dataProvider = "data_forOutputStream", dependsOnMethods = "forInputStream", expectedExceptions = KclException.class)
+  @ParameterizedTest
+  @MethodSource("data_forOutputStream")
+  @Order(13)
   public <T> void forInputStream__Error(IoSupport<T> ioSupport, T source) throws Exception {
-    ioSupport.forInputStream(source, $ -> { throw new KclException("error"); });
+    assertThrows(KclException.class, () -> {
+      ioSupport.forInputStream(source, $ -> { throw new KclException("error"); });
+    });
   }
 
-  @DataProvider(name = "data_forWriterDo")
-  public Object[][] data_forWriterDo() throws Exception {
-    var file1 = getTempPath("text28.txt");
-    var file2 = getTempPath("text29.txt");
-    var file3 = getTempPath("text30.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_forWriterDo() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text28.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text29.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text30.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
-  
-  @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forWriterDo__Error")
+
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_forReaderDo() throws Exception {
+    var file1 = TEST_RESOURCES.getFile("text34.txt");
+    var file2 = TEST_RESOURCES.getFile("text35.txt");
+    var file3 = TEST_RESOURCES.getFile("text36.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
+  }
+
+  @ParameterizedTest
+  @MethodSource("data_forWriterDo")
+  @Order(14)
   public <T> void forWriterDo(IoSupport<T> ioSupport, T destination) throws Exception {
     ioSupport.forWriterDo(destination, $ -> {
       try {
@@ -289,12 +334,18 @@ public class IoFunctionsTest extends AbstractTestCase {
     });
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriterDo", expectedExceptions = KclException.class)
+  @ParameterizedTest
+  @MethodSource("data_forWriterDo")
+  @Order(15)
   public <T> void forWriterDo__Error(IoSupport<T> ioSupport, T destination) throws Exception {
-    ioSupport.forWriterDo(destination, $ -> { throw new KclException("error"); });
+    assertThrows(KclException.class, () -> {
+      ioSupport.forWriterDo(destination, $ -> { throw new KclException("error"); });
+    });
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forWriterDo")
+  @ParameterizedTest
+  @MethodSource("data_forReaderDo")
+  @Order(16)
   public <T> void forReaderDo(IoSupport<T> ioSupport, T source) throws Exception {
     var writer = new StringWriter();
     ioSupport.forReaderDo(source, $ -> {
@@ -303,24 +354,39 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriterDo", dependsOnMethods = "forReaderDo", expectedExceptions = KclException.class)
+  @ParameterizedTest
+  @MethodSource("data_forWriterDo")
+  @Order(17)
   public <T> void forReaderDo__Error(IoSupport<T> ioSupport, T source) throws Exception {
-    ioSupport.forReaderDo(source, $ -> { throw new KclException("error"); });
+    assertThrows(KclException.class, () -> {
+      ioSupport.forReaderDo(source, $ -> { throw new KclException("error"); });
+    });
   }
 
-  @DataProvider(name = "data_forWriter")
-  public Object[][] data_forWriter() throws Exception {
-    var file1 = getTempPath("text34.txt");
-    var file2 = getTempPath("text35.txt");
-    var file3 = getTempPath("text36.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_forWriter() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text34.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text35.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text36.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
   
-  @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forWriter__Error")
+  @ParameterizedTest
+  @MethodSource("data_forWriter")
+  @Order(18)
+  public <T> void forWriter__Error(IoSupport<T> ioSupport, T destination) throws Exception {
+    assertThrows(KclException.class, () -> {
+      ioSupport.forWriter(destination, $ -> { throw new KclException("error"); });
+    });
+  }
+
+  @ParameterizedTest
+  @MethodSource("data_forWriter")
+  @Order(19)
   public <T> void forWriter(IoSupport<T> ioSupport, T destination) throws Exception {
     var result  = ioSupport.forWriter(destination, $ -> {
       try {
@@ -334,12 +400,9 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriter", expectedExceptions = KclException.class)
-  public <T> void forWriter__Error(IoSupport<T> ioSupport, T destination) throws Exception {
-    ioSupport.forWriter(destination, $ -> { throw new KclException("error"); });
-  }
-
-  @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forWriter")
+  @ParameterizedTest
+  @MethodSource("data_forWriter")
+  @Order(20)
   public <T> void forReader(IoSupport<T> ioSupport, T source) throws Exception {
     var writer = new StringWriter();
     var result  = ioSupport.forReader(source, $ -> {
@@ -350,30 +413,36 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriter", dependsOnMethods = "forReader", expectedExceptions = KclException.class)
+  @ParameterizedTest
+  @MethodSource("data_forWriter")
+  @Order(21)
   public <T> void forReader__Error(IoSupport<T> ioSupport, T source) throws Exception {
-    ioSupport.forReader(source, $ -> { throw new KclException("error"); });
+    assertThrows(KclException.class, () -> {
+      ioSupport.forReader(source, $ -> { throw new KclException("error"); });
+    });
   }
 
-  @DataProvider(name = "data_forWriterDo__WithEncoding")
-  public Object[][] data_forWriterDo__WithEncoding() throws Exception {
-    var file1 = getTempPath("text40.txt");
-    var file2 = getTempPath("text41.txt");
-    var file3 = getTempPath("text42.txt");
-    var file4 = getTempPath("text43.txt");
-    var file5 = getTempPath("text44.txt");
-    var file6 = getTempPath("text45.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1, Encoding.UTF8 },
-      { IoFunctions.IO_PATH, file2, Encoding.ISO88591 },
-      { IoFunctions.IO_FILE, file3.toFile(), Encoding.UTF8 },
-      { IoFunctions.IO_FILE, file4.toFile(), Encoding.ISO88591 },
-      { IoFunctions.IO_URI,  file5.toUri(), Encoding.UTF8  },
-      { IoFunctions.IO_URI,  file6.toUri(), Encoding.ISO88591 },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_forWriterDo__WithEncoding() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text40.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text41.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text42.txt");
+    var file4 = TEST_RESOURCES.getTempPath("text43.txt");
+    var file5 = TEST_RESOURCES.getTempPath("text44.txt");
+    var file6 = TEST_RESOURCES.getTempPath("text45.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1, Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_PATH, file2, Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_FILE, file3.toFile(), Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_FILE, file4.toFile(), Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_URI,  file5.toUri(), Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_URI,  file6.toUri(), Encoding.ISO88591)
+    );
   }
   
-  @Test(groups = "all", dataProvider = "data_forWriterDo__WithEncoding")
+  @ParameterizedTest
+  @MethodSource("data_forWriterDo__WithEncoding")
+  @Order(22)
   public <T> void forWriterDo__WithEncoding(IoSupport<T> ioSupport, T destination, Encoding encoding) throws Exception {
     ioSupport.forWriterDo(destination, encoding, $ -> {
       try {
@@ -384,7 +453,9 @@ public class IoFunctionsTest extends AbstractTestCase {
     });
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriterDo__WithEncoding", dependsOnMethods = "forWriterDo__WithEncoding")
+  @ParameterizedTest
+  @MethodSource("data_forWriterDo__WithEncoding")
+  @Order(23)
   public <T> void forReaderDo__WithEncoding(IoSupport<T> ioSupport, T source, Encoding encoding) throws Exception {
     var writer = new StringWriter();
     ioSupport.forReaderDo(source, encoding, $ -> {
@@ -393,25 +464,27 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
   
-  @DataProvider(name = "data_forWriter__WithEncoding")
-  public Object[][] data_forWriter__WithEncoding() throws Exception {
-    var file1 = getTempPath("text52.txt");
-    var file2 = getTempPath("text53.txt");
-    var file3 = getTempPath("text54.txt");
-    var file4 = getTempPath("text55.txt");
-    var file5 = getTempPath("text56.txt");
-    var file6 = getTempPath("text57.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1, Encoding.UTF8 },
-      { IoFunctions.IO_FILE, file2.toFile(), Encoding.ISO88591 },
-      { IoFunctions.IO_URI,  file3.toUri(), Encoding.UTF8 },
-      { IoFunctions.IO_PATH, file4, Encoding.ISO88591 },
-      { IoFunctions.IO_FILE, file5.toFile(), Encoding.UTF8 },
-      { IoFunctions.IO_URI,  file6.toUri(), Encoding.ISO88591 },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_forWriter__WithEncoding() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text52.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text53.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text54.txt");
+    var file4 = TEST_RESOURCES.getTempPath("text55.txt");
+    var file5 = TEST_RESOURCES.getTempPath("text56.txt");
+    var file6 = TEST_RESOURCES.getTempPath("text57.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1, Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile(), Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri(), Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_PATH, file4, Encoding.ISO88591),
+      Arguments.of(IoFunctions.IO_FILE, file5.toFile(), Encoding.UTF8),
+      Arguments.of(IoFunctions.IO_URI,  file6.toUri(), Encoding.ISO88591)
+    );
   }
   
-  @Test(groups = "all", dataProvider = "data_forWriter__WithEncoding")
+  @ParameterizedTest
+  @MethodSource("data_forWriter__WithEncoding")
+  @Order(24)
   public <T> void forWriter__WithEncoding(IoSupport<T> ioSupport, T destination, Encoding encoding) throws Exception {
     var result  = ioSupport.forWriter(destination, encoding, $ -> {
       try {
@@ -425,7 +498,9 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
 
-  @Test(groups = "all", dataProvider = "data_forWriter__WithEncoding", dependsOnMethods = "forWriter__WithEncoding")
+  @ParameterizedTest
+  @MethodSource("data_forWriter__WithEncoding")
+  @Order(25)
   public <T> void forReader__WithEncoding(IoSupport<T> ioSupport, T source, Encoding encoding) throws Exception {
     var writer = new StringWriter();
     var result  = ioSupport.forReader(source, encoding, $ -> {
@@ -436,7 +511,8 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(result, is("DUMMY"));
   }
   
-  @Test(groups = "all")
+  @Order(26)
+  @Test
   public void copy__Streams() throws Exception {
     var asBytes = Encoding.UTF8.encode(CONTENT_FOR_STREAMS);
     var bytein  = new ByteArrayInputStream(asBytes);
@@ -445,7 +521,8 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(byteout.toByteArray(), is(asBytes));
   }
   
-  @Test(groups = "all")
+  @Order(27)
+  @Test
   public void copy__Streams__WithBlockSizeSmall() throws Exception {
     var asBytes = Encoding.UTF8.encode(CONTENT_FOR_STREAMS);
     var bytein  = new ByteArrayInputStream(asBytes);
@@ -454,7 +531,8 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(byteout.toByteArray(), is(asBytes));
   }
   
-  @Test(groups = "all")
+  @Order(28)
+  @Test
   public void copy__Streams__WithBlockSizeLarge() throws Exception {
     var asBytes = Encoding.UTF8.encode(CONTENT_FOR_STREAMS);
     var bytein  = new ByteArrayInputStream(asBytes);
@@ -463,7 +541,8 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(byteout.toByteArray(), is(asBytes));
   }
   
-  @Test(groups = "all")
+  @Order(29)
+  @Test
   public void copy__CharStreams() throws Exception {
     var reader = new StringReader(CONTENT_FOR_READERS);
     var writer = new StringWriter();
@@ -471,7 +550,8 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
   
-  @Test(groups = "all")
+  @Order(30)
+  @Test
   public void copy__CharStreams__WithBlockSizeSmall() throws Exception {
     var reader = new StringReader(CONTENT_FOR_READERS);
     var writer = new StringWriter();
@@ -479,7 +559,8 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
   
-  @Test(groups = "all")
+  @Order(31)
+  @Test
   public void copy__CharStreams__WithBlockSizeLarge() throws Exception {
     var reader = new StringReader(CONTENT_FOR_READERS);
     var writer = new StringWriter();
@@ -487,25 +568,29 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @SuppressWarnings("deprecation")
-  @DataProvider(name = "data_loadBytes")
-  public Object[][] data_loadBytes() throws Exception {
-    return new Object[][] {
-      { IoFunctions.IO_PATH, httpXsd },
-      { IoFunctions.IO_FILE, httpXsd.toFile() },
-      { IoFunctions.IO_URI,  httpXsd.toUri() },
-      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
-    };
+  @SuppressWarnings({ "deprecation", "exports" })
+  public static Stream<Arguments> data_loadBytes() throws Exception {
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, httpXsd),
+      Arguments.of(IoFunctions.IO_FILE, httpXsd.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  httpXsd.toUri()),
+      Arguments.of(IoFunctions.IO_URL,  httpXsd.toFile().toURL())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_loadBytes")
+  @ParameterizedTest
+  @MethodSource("data_loadBytes")
+  @Order(32)
   public <T> void loadBytes(IoSupport<T> ioSupport, T source) {
     var expected = Encoding.UTF8.encode("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
     var loaded   = ioSupport.loadBytes(source, 39);
     assertThat(loaded, is(expected));
   }
     
-  @Test(groups = "all", dataProvider = "data_loadBytes")
+  @ParameterizedTest
+  @MethodSource("data_loadBytes")
+  @Order(33)
   public <T> void loadBytes__WithOffset(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = Encoding.UTF8.encode("version=\"1.0\"");
     var loaded   = ioSupport.loadBytes(source, 6, 13);
@@ -513,122 +598,144 @@ public class IoFunctionsTest extends AbstractTestCase {
   }
 
   
-  @SuppressWarnings("deprecation")
-  @DataProvider(name = "data_loadChars")
-  public Object[][] data_loadChars() throws Exception {
-    return new Object[][] {
-      { IoFunctions.IO_PATH, httpXsd },
-      { IoFunctions.IO_FILE, httpXsd.toFile() },
-      { IoFunctions.IO_URI,  httpXsd.toUri() },
-      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
-    };
+  @SuppressWarnings({ "deprecation", "exports" })
+  public static Stream<Arguments> data_loadChars() throws Exception {
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, httpXsd),
+      Arguments.of(IoFunctions.IO_FILE, httpXsd.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  httpXsd.toUri()),
+      Arguments.of(IoFunctions.IO_URL,  httpXsd.toFile().toURL())
+    );
   }
   
-  @Test(groups = "all", dataProvider = "data_loadChars")
+  @ParameterizedTest
+  @MethodSource("data_loadChars")
+  @Order(34)
   public <T> void loadChars(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".toCharArray();
     var loaded   = ioSupport.loadChars(source, 39);
     assertThat(loaded, is(expected));
   }
   
-  @Test(groups = "all", dataProvider = "data_loadChars")
+  @ParameterizedTest
+  @MethodSource("data_loadChars")
+  @Order(35)
   public <T> void loadChars__WithOffset(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = "version=\"1.0\"".toCharArray();
     var loaded   = ioSupport.loadChars(source, 6, 13);
     assertThat(loaded, is(expected));
   }
   
-  @Test(groups = "all", dataProvider = "data_loadChars")
+  @ParameterizedTest
+  @MethodSource("data_loadChars")
+  @Order(36)
   public <T> void loadChars__WithEncoding(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>".toCharArray();
     var loaded   = ioSupport.loadChars(source, Encoding.ISO88591, 39);
     assertThat(loaded, is(expected));
   }
   
-  @Test(groups = "all", dataProvider = "data_loadChars")
+  @ParameterizedTest
+  @MethodSource("data_loadChars")
+  @Order(37)
   public <T> void loadChars__WithEncoding__WithOffset(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = "version=\"1.0\"".toCharArray();
     var loaded   = ioSupport.loadChars(source, Encoding.ISO88591, 6, 13);
     assertThat(loaded, is(expected));
   }
   
-  @SuppressWarnings("deprecation")
-  @DataProvider(name = "data_loadAllBytes")
-  public Object[][] data_loadAllBytes() throws Exception {
-    return new Object[][] {
-      { IoFunctions.IO_PATH, httpXsd },
-      { IoFunctions.IO_FILE, httpXsd.toFile() },
-      { IoFunctions.IO_URI,  httpXsd.toUri() },
-      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
-    };
+  @SuppressWarnings({ "deprecation", "exports" })
+  public static Stream<Arguments> data_loadAllBytes() throws Exception {
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, httpXsd),
+      Arguments.of(IoFunctions.IO_FILE, httpXsd.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  httpXsd.toUri()),
+      Arguments.of(IoFunctions.IO_URL,  httpXsd.toFile().toURL())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_loadAllBytes")
+  @ParameterizedTest
+  @MethodSource("data_loadAllBytes")
+  @Order(38)
   public <T> void loadAllBytes(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = Encoding.UTF8.encode(CONTENT_HTTP_XSD);
     var loaded   = ioSupport.loadAllBytes(source);
     assertThat(loaded, is(expected));
   }
   
-  @Test(groups = "all", dataProvider = "data_loadAllBytes")
+  @ParameterizedTest
+  @MethodSource("data_loadAllBytes")
+  @Order(39)
   public <T> void loadAllBytes__WithOffset(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = Encoding.UTF8.encode(CONTENT_HTTP_XSD.substring(40));
     var loaded   = ioSupport.loadAllBytes(source, 40);
     assertThat(loaded, is(expected));
   }
   
-  @SuppressWarnings("deprecation")
-  @DataProvider(name = "data_loadAllChars")
-  public Object[][] data_loadAllChars() throws Exception {
-    return new Object[][] {
-      { IoFunctions.IO_PATH, httpXsd },
-      { IoFunctions.IO_FILE, httpXsd.toFile() },
-      { IoFunctions.IO_URI,  httpXsd.toUri() },
-      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
-    };
+  @SuppressWarnings({ "deprecation", "exports" })
+  public static Stream<Arguments> data_loadAllChars() throws Exception {
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, httpXsd),
+      Arguments.of(IoFunctions.IO_FILE, httpXsd.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  httpXsd.toUri()),
+      Arguments.of(IoFunctions.IO_URL,  httpXsd.toFile().toURL())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_loadAllChars")
+  @ParameterizedTest
+  @MethodSource("data_loadAllChars")
+  @Order(40)
   public <T> void loadAllChars(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = CONTENT_HTTP_XSD.toCharArray();
     var loaded   = ioSupport.loadAllChars(source);
     assertThat(loaded, is(expected));
   }
   
-  @Test(groups = "all", dataProvider = "data_loadAllChars")
+  @ParameterizedTest
+  @MethodSource("data_loadAllChars")
+  @Order(41)
   public <T> void loadAllChars__WithOffset(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = CONTENT_HTTP_XSD.substring(40).toCharArray();
     var loaded   = ioSupport.loadAllChars(source, 40);
     assertThat(loaded, is(expected));
   }
   
-  @Test(groups = "all", dataProvider = "data_loadAllChars")
+  @ParameterizedTest
+  @MethodSource("data_loadAllChars")
+  @Order(42)
   public <T> void loadAllChars__WithEncoding(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = CONTENT_HTTP_XSD.toCharArray();
     var loaded   = ioSupport.loadAllChars(source, Encoding.ISO88591);
     assertThat(loaded, is(expected));
   }
   
-  @Test(groups = "all", dataProvider = "data_loadAllChars")
+  @ParameterizedTest
+  @MethodSource("data_loadAllChars")
+  @Order(43)
   public <T> void loadAllChars__WithEncoding__WithOffset(IoSupport<T> ioSupport, @NotNull T source) {
     var expected = CONTENT_HTTP_XSD.substring(40).toCharArray();
     var loaded   = ioSupport.loadAllChars(source, Encoding.ISO88591, 40);
     assertThat(loaded, is(expected));
   }
   
-  @DataProvider(name = "data_saveBytes")
-  public Object[][] data_saveBytes() throws Exception {
-    var file1 = getTempPath("text64.txt");
-    var file2 = getTempPath("text65.txt");
-    var file3 = getTempPath("text66.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_saveBytes() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text64.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text65.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text66.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_saveBytes")
+  @ParameterizedTest
+  @MethodSource("data_saveBytes")
+  @Order(44)
   public <T> void saveBytes(IoSupport<T> ioSupport, @NotNull T destination) {
     var toSave = Encoding.UTF8.encode(CONTENT_HTTP_XSD);
     ioSupport.saveBytes(destination, toSave);
@@ -637,19 +744,21 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(loaded, is(toSave));
   }
   
-  @DataProvider(name = "data_saveBytes__WithOffset__WithSize")
-  public Object[][] data_saveBytes__WithOffset__WithSize() throws Exception {
-    var file1 = getTempPath("text91.txt");
-    var file2 = getTempPath("text92.txt");
-    var file3 = getTempPath("text93.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_saveBytes__WithOffset__WithSize() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text91.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text92.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text93.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_saveBytes__WithOffset__WithSize")
+  @ParameterizedTest
+  @MethodSource("data_saveBytes__WithOffset__WithSize")
+  @Order(45)
   public <T> void saveBytes__WithOffset__WithSize(IoSupport<T> ioSupport, @NotNull T destination) throws Exception {
     var toSave = Encoding.UTF8.encode(CONTENT_HTTP_XSD);
     ioSupport.saveBytes(destination, toSave, 20, 100);
@@ -658,19 +767,21 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(loaded, is(Arrays.copyOfRange(toSave, 20, 20 + 100)));
   }
 
-  @DataProvider(name = "data_saveChars")
-  public Object[][] data_saveChars() throws Exception {
-    var file1 = getTempPath("text67.txt");
-    var file2 = getTempPath("text68.txt");
-    var file3 = getTempPath("text69.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_saveChars() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text67.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text68.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text69.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_saveChars")
+  @ParameterizedTest
+  @MethodSource("data_saveChars")
+  @Order(46)
   public <T> void saveChars(IoSupport<T> ioSupport, @NotNull T destination) {
     var toSave = CONTENT_HTTP_XSD.toCharArray();
     ioSupport.saveChars(destination, toSave);
@@ -679,7 +790,9 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(loaded, is(toSave));
   }
 
-  @Test(groups = "all", dataProvider = "data_saveChars")
+  @ParameterizedTest
+  @MethodSource("data_saveChars")
+  @Order(47)
   public <T> void saveChars__WithEncoding(IoSupport<T> ioSupport, @NotNull T destination) {
     var toSave = CONTENT_HTTP_XSD.toCharArray();
     ioSupport.saveChars(destination, Encoding.ISO88591, toSave);
@@ -688,19 +801,21 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(loaded, is(toSave));
   }
 
-  @DataProvider(name = "data_saveChars__WithEncoding__WithOffset__WithSize")
-  public Object[][] data_saveChars__WithEncoding__WithOffset__WithSize() throws Exception {
-    var file1 = getTempPath("text94.txt");
-    var file2 = getTempPath("text95.txt");
-    var file3 = getTempPath("text96.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_saveChars__WithEncoding__WithOffset__WithSize() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text94.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text95.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text96.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
   
-  @Test(groups = "all", dataProvider = "data_saveChars__WithEncoding__WithOffset__WithSize")
+  @ParameterizedTest
+  @MethodSource("data_saveChars__WithEncoding__WithOffset__WithSize")
+  @Order(48)
   public <T> void saveChars__WithEncoding__WithOffset__WithSize(IoSupport<T> ioSupport, @NotNull T destination) {
     var toSave = CONTENT_HTTP_XSD.toCharArray();
     ioSupport.saveChars(destination, Encoding.ISO88591, toSave, 20, 100);
@@ -710,78 +825,91 @@ public class IoFunctionsTest extends AbstractTestCase {
   }
 
   
-  @SuppressWarnings("deprecation")
-  @DataProvider(name = "data_readText")
-  public Object[][] data_readText() throws Exception {
-    return new Object[][] {
-      { IoFunctions.IO_PATH, httpXsd },
-      { IoFunctions.IO_FILE, httpXsd.toFile() },
-      { IoFunctions.IO_URI,  httpXsd.toUri() },
-      { IoFunctions.IO_URL,  httpXsd.toFile().toURL() },
-    };
+  @SuppressWarnings({ "deprecation", "exports" })
+  public static Stream<Arguments> data_readText() throws Exception {
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, httpXsd),
+      Arguments.of(IoFunctions.IO_FILE, httpXsd.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  httpXsd.toUri()),
+      Arguments.of(IoFunctions.IO_URL,  httpXsd.toFile().toURL())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_readText")
+  @ParameterizedTest
+  @MethodSource("data_readText")
+  @Order(49)
   public <T> void readText(IoSupport<T> ioSupport, @NotNull T source) {
     String read = ioSupport.readText(source);
     assertThat(read, is(CONTENT_HTTP_XSD));
   }
 
-  @Test(groups = "all", dataProvider = "data_readText")
+  @ParameterizedTest
+  @MethodSource("data_readText")
+  @Order(50)
   public <T> void readText__WithEncoding(IoSupport<T> ioSupport, @NotNull T source) {
     String read = ioSupport.readText(source, Encoding.ISO88591);
     assertThat(read, is(CONTENT_HTTP_XSD));
   }
 
-  @DataProvider(name = "data_writeText")
-  public Object[][] data_writeText() throws Exception {
-    var file1 = getTempPath("text70.txt");
-    var file2 = getTempPath("text71.txt");
-    var file3 = getTempPath("text72.txt");
-    return new Object[][] {
-      { IoFunctions.IO_PATH, file1 },
-      { IoFunctions.IO_FILE, file2.toFile() },
-      { IoFunctions.IO_URI,  file3.toUri() },
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_writeText() throws Exception {
+    var file1 = TEST_RESOURCES.getTempPath("text70.txt");
+    var file2 = TEST_RESOURCES.getTempPath("text71.txt");
+    var file3 = TEST_RESOURCES.getTempPath("text72.txt");
+    return Stream.of(
+      Arguments.of(IoFunctions.IO_PATH, file1),
+      Arguments.of(IoFunctions.IO_FILE, file2.toFile()),
+      Arguments.of(IoFunctions.IO_URI,  file3.toUri())
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_writeText")
+  @ParameterizedTest
+  @MethodSource("data_writeText")
+  @Order(51)
   public <T> void writeText(IoSupport<T> ioSupport, T destination) {
     ioSupport.writeText(destination, CONTENT_HTTP_XSD);
     var read = ioSupport.readText(destination);
     assertThat(read, is(CONTENT_HTTP_XSD));
   }
 
-  @Test(groups = "all", dataProvider = "data_writeText")
+  @ParameterizedTest
+  @MethodSource("data_writeText")
+  @Order(52)
   public <T> void writeText__WithEncoding(IoSupport<T> ioSupport, T destination) {
     ioSupport.writeText(destination, Encoding.ISO88591, CONTENT_HTTP_XSD);
     var read = ioSupport.readText(destination, Encoding.ISO88591);
     assertThat(read, is(CONTENT_HTTP_XSD));
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(53)
   public void gzip() throws Exception {
-    var file1 = getTempPath("text73.xsd");
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    var file1   = TEST_RESOURCES.getTempPath("text73.xsd");
     Files.copy(httpXsd, file1);
     var gzipped = IoFunctions.gzip(file1);
     assertNotNull(gzipped);
     assertTrue(Files.isRegularFile(gzipped));
   }
   
-  @Test(groups = "all", dependsOnMethods = "gzip")
+  @Test
+  @Order(54)
   public void ungzip() throws Exception {
-    var file1       = getTempPath("text73.xsd");
-    var file3       = getTempPath("text74.xsd.gz");
+    var file1       = TEST_RESOURCES.getTempPath("text73.xsd");
+    var file3       = TEST_RESOURCES.getTempPath("text74.xsd.gz");
     Files.copy(file1.toAbsolutePath().getParent().resolve(file1.getFileName().toString() + ".gz"), file3);
     var ungzipped   = IoFunctions.ungzip(file3);
     assertNotNull(ungzipped);
     assertThat(IoFunctions.IO_PATH.loadAllBytes(file1), is(IoFunctions.IO_PATH.loadAllBytes(ungzipped)));
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(55)
   public void gzip__WithDestination() throws Exception {
-    var file1 = getTempPath("text75.xsd");
-    var file2 = getTempPath("text76.xsd.gz");
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    var file1   = TEST_RESOURCES.getTempPath("text75.xsd");
+    var file2   = TEST_RESOURCES.getTempPath("text76.xsd.gz");
     Files.copy(httpXsd, file1);
     var gzipped = IoFunctions.gzip(file1, file2);
     assertNotNull(gzipped);
@@ -789,10 +917,12 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertTrue(Files.isRegularFile(gzipped));
   }
 
-  @Test(groups = "all", dependsOnMethods = "gzip__WithDestination")
+  @Test
+  @Order(56)
   public <T> void ungzip__WithDestination() {
-    var file1 = getTempPath("text76.xsd.gz");
-    var file2 = getTempPath("text77.xsd");
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    var file1   = TEST_RESOURCES.getTempPath("text76.xsd.gz");
+    var file2   = TEST_RESOURCES.getTempPath("text77.xsd");
     var ungzipped = IoFunctions.ungzip(file1, file2);
     assertNotNull(ungzipped);
     assertThat(ungzipped.normalize(), is(file2.normalize()));
@@ -800,9 +930,11 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(IoFunctions.IO_PATH.loadAllBytes(httpXsd), is(IoFunctions.IO_PATH.loadAllBytes(file2)));
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(57)
   public void gzip__Inline() throws Exception {
-    var file1 = getTempPath("text78");
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    var file1   = TEST_RESOURCES.getTempPath("text78");
     Files.copy(httpXsd, file1);
     var gzipped = IoFunctions.gzip(file1, file1);
     assertNotNull(gzipped);
@@ -810,9 +942,11 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertTrue(Files.isRegularFile(gzipped));
   }
 
-  @Test(groups = "all", dependsOnMethods = "gzip__Inline")
+  @Test
+  @Order(58)
   public void ungzip__Inline() throws Exception {
-    var file1 = getTempPath("text78");
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    var file1   = TEST_RESOURCES.getTempPath("text78");
     var ungzipped = IoFunctions.ungzip(file1, file1);
     assertNotNull(ungzipped);
     assertThat(ungzipped.normalize(), is(file1.normalize()));
@@ -820,15 +954,16 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(IoFunctions.IO_PATH.loadAllBytes(ungzipped), is(IoFunctions.IO_PATH.loadAllBytes(httpXsd)));
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(59)
   public void findExistingPath() {
     
-    var file1       = getResource("folder1/folder2/folder3/myfile.txt");
+    var file1       = TEST_RESOURCES.getResource("folder1/folder2/folder3/myfile.txt");
     var result1     = IoFunctions.findExistingPath(file1);
     assertTrue(result1.isPresent());
     assertThat(result1.get().getFileName().toString(), is("folder3"));
 
-    var file2       = getResource("folder1/folder2/folder4/myfile.txt");
+    var file2       = TEST_RESOURCES.getResource("folder1/folder2/folder4/myfile.txt");
     var result2     = IoFunctions.findExistingPath(file2);
     assertTrue(result2.isPresent());
     assertThat(result2.get().getFileName().toString(), is("folder2"));
@@ -839,26 +974,33 @@ public class IoFunctionsTest extends AbstractTestCase {
 
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(60)
   public void copyFile() {
-    var file1 = getTempPath("text79.txt");
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    var file1   = TEST_RESOURCES.getTempPath("text79.txt");
     IoFunctions.copyFile(httpXsd, file1);
     assertThat(IoFunctions.IO_PATH.loadAllBytes(file1), is(IoFunctions.IO_PATH.loadAllBytes(httpXsd)));
     assertTrue(Files.isRegularFile(httpXsd));
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
+  @Order(61)
   public void copyFile__MissingSource() {
-    var file1 = getTempPath("text80.txt");
-    var file2 = getTempPath("text82.txt");
-    IoFunctions.copyFile(file1, file2);
+    assertThrows(KclException.class, () -> {
+      var file1 = TEST_RESOURCES.getTempPath("text80.txt");
+      var file2 = TEST_RESOURCES.getTempPath("text82.txt");
+      IoFunctions.copyFile(file1, file2);
+    });
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(62)
   public void moveFile() {
     
-    var file1 = getTempPath("text83.txt");
-    var file2 = getTempPath("text84.txt");
+    var httpXsd = TEST_RESOURCES.getResource("http.xsd");
+    var file1   = TEST_RESOURCES.getTempPath("text83.txt");
+    var file2   = TEST_RESOURCES.getTempPath("text84.txt");
     IoFunctions.copyFile(httpXsd, file1);
     
     IoFunctions.moveFile(file1, file2);
@@ -869,31 +1011,36 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(IoFunctions.IO_PATH.loadAllBytes(file2), is(IoFunctions.IO_PATH.loadAllBytes(httpXsd)));
   }
 
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
+  @Order(63)
   public void moveFile__MissingSource() {
-    var file1 = getTempPath("text85.txt");
-    var file2 = getTempPath("text86.txt");
-    IoFunctions.moveFile(file1, file2);
+    assertThrows(KclException.class, () -> {
+      var file1 = TEST_RESOURCES.getTempPath("text85.txt");
+      var file2 = TEST_RESOURCES.getTempPath("text86.txt");
+      IoFunctions.moveFile(file1, file2);
+    });
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(64)
   public void mkDirs() {
     
-    var dir1 = getTempPath("text87");
+    var dir1 = TEST_RESOURCES.getTempPath("text87");
     assertFalse(Files.isDirectory(dir1));
     IoFunctions.mkDirs(dir1);
     assertTrue(Files.isDirectory(dir1));
     
-    var dir2 = getTempPath("text88/folder1/folder2/folder3");
+    var dir2 = TEST_RESOURCES.getTempPath("text88/folder1/folder2/folder3");
     assertFalse(Files.isDirectory(dir2));
     IoFunctions.mkDirs(dir2);
     assertTrue(Files.isDirectory(dir2));
     
   }
   
+  @Order(65)
   @Test
   public void listPathes() {
-    var dir      = getResource("simpleton");
+    var dir      = TEST_RESOURCES.getResource("simpleton");
     var files    = IoFunctions.listPathes(dir, null, true);
     var expected = Arrays.asList(
       "file1.txt",
@@ -923,9 +1070,10 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(files, is(expected));
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(66)
   public void listZipFile() {
-    var zipFile  = getResource("simpleton.zip");
+    var zipFile  = TEST_RESOURCES.getResource("simpleton.zip");
     var files    = IoFunctions.listZipFile(zipFile);
     var expected = Arrays.asList(
       "simpleton/",
@@ -956,9 +1104,10 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(files, is(expected));
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(67)
   public void listZipFile__FilterDirectories() {
-    var zipFile  = getResource("simpleton.zip");
+    var zipFile  = TEST_RESOURCES.getResource("simpleton.zip");
     var files    = IoFunctions.listZipFile(zipFile, null, $ -> !$.isDirectory());
     var expected = Arrays.asList(
       "simpleton/file1.txt",
@@ -982,21 +1131,23 @@ public class IoFunctionsTest extends AbstractTestCase {
     assertThat(files, is(expected));
   }
 
-  @Test(groups = "all")
+  @Test
+  @Order(68)
   public void zip() {
-    var dir      = getResource("simpleton");
-    var zipFile  = getTempPath("zipped89.zip");
+    var dir      = TEST_RESOURCES.getResource("simpleton");
+    var zipFile  = TEST_RESOURCES.getTempPath("zipped89.zip");
     assertFalse(Files.isRegularFile(zipFile));
     IoFunctions.zip(zipFile, dir, null);
     assertTrue(Files.isRegularFile(zipFile));
   }
   
-  @Test(groups = "all", dependsOnMethods = "zip")
+  @Test
+  @Order(69)
   public void unzip() {
 
-    var dir      = getResource("simpleton");
-    var zipFile  = getTempPath("zipped89.zip");
-    var unpacked = getTempPath("dir90");
+    var dir      = TEST_RESOURCES.getResource("simpleton");
+    var zipFile  = TEST_RESOURCES.getTempPath("zipped89.zip");
+    var unpacked = TEST_RESOURCES.getTempPath("dir90");
     IoFunctions.unzip(zipFile, unpacked);
     
     var filesFromOrigin    = IoFunctions.listPathes(dir);
@@ -1005,7 +1156,8 @@ public class IoFunctionsTest extends AbstractTestCase {
     
   }
   
-  @Test(groups = "all")
+  @Test
+  @Order(70)
   public void locateDirectory() throws Exception {
     
     Path dir1 = IoFunctions.locateDirectory(Iso3166Test.class);

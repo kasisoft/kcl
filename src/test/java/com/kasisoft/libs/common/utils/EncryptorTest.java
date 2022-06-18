@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.utils;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.Matchers.*;
+
+import org.junit.jupiter.api.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -17,7 +19,7 @@ public class EncryptorTest {
   
   private static final String SECRET    = "CK3gFoo+ddY=";
   
-  @Test(groups = "all")
+  @Test
   public void cipherAndAlgorithm() {
     
     var encryptor = new Encryptor(CIPHER, ALGORITHM);
@@ -64,7 +66,7 @@ public class EncryptorTest {
     
   }
 
-  @Test(groups = "all")
+  @Test
   public void cipherAndAlgorithmAndSecret() {
     
     var encryptor = new Encryptor(CIPHER, ALGORITHM, SECRET);
@@ -111,7 +113,7 @@ public class EncryptorTest {
     
   }
 
-  @Test(groups = "all")
+  @Test
   public void cipherAndAlgorithmAndSecretAndSalt() {
     
     var encryptor = new Encryptor(CIPHER, ALGORITHM, SECRET, "01234567".getBytes());

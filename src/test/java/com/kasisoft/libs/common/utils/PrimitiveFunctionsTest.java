@@ -1,15 +1,18 @@
 package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.testsupport.ExtendedAsserts.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
@@ -143,14 +146,18 @@ public class PrimitiveFunctionsTest {
 
   /* BYTE */
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void min__byte_error() {
-    PrimitiveFunctions.min(Empty.NO_BYTES);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.min(Empty.NO_BYTES);
+    });
   }
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void max__byte_error() {
-    PrimitiveFunctions.max(Empty.NO_BYTES);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.max(Empty.NO_BYTES);
+    });
   }
   
   @Test
@@ -286,14 +293,18 @@ public class PrimitiveFunctionsTest {
 
   /* SHORT */
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void min__short_error() {
-    PrimitiveFunctions.min(Empty.NO_SHORTS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.min(Empty.NO_SHORTS);
+    });
   }
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void max__short_error() {
-    PrimitiveFunctions.max(Empty.NO_SHORTS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.max(Empty.NO_SHORTS);
+    });
   }
   
   @Test
@@ -429,14 +440,18 @@ public class PrimitiveFunctionsTest {
 
   /* INTEGER */
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void min__int_error() {
-    PrimitiveFunctions.min(Empty.NO_INTS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.min(Empty.NO_INTS);
+    });
   }
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void max__int_error() {
-    PrimitiveFunctions.max(Empty.NO_INTS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.max(Empty.NO_INTS);
+    });
   }
   
   @Test
@@ -572,14 +587,18 @@ public class PrimitiveFunctionsTest {
 
   /* LONG */
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void min__long_error() {
-    PrimitiveFunctions.min(Empty.NO_LONGS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.min(Empty.NO_LONGS);
+    });
   }
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void max__long_error() {
-    PrimitiveFunctions.max(Empty.NO_LONGS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.max(Empty.NO_LONGS);
+    });
   }
   
   @Test
@@ -715,14 +734,18 @@ public class PrimitiveFunctionsTest {
 
   /* FLOAT */
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void min__float_error() {
-    PrimitiveFunctions.min(Empty.NO_FLOATS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.min(Empty.NO_FLOATS);
+    });
   }
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void max__float_error() {
-    PrimitiveFunctions.max(Empty.NO_FLOATS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.max(Empty.NO_FLOATS);
+    });
   }
   
   @Test
@@ -858,14 +881,18 @@ public class PrimitiveFunctionsTest {
 
   /* DOUBLE */
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void min__double_error() {
-    PrimitiveFunctions.min(Empty.NO_DOUBLES);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.min(Empty.NO_DOUBLES);
+    });
   }
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void max__double_error() {
-    PrimitiveFunctions.max(Empty.NO_DOUBLES);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.max(Empty.NO_DOUBLES);
+    });
   }
   
   @Test
@@ -1001,14 +1028,18 @@ public class PrimitiveFunctionsTest {
 
   /* BOOLEAN */
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void or__boolean_error() {
-    PrimitiveFunctions.or(Empty.NO_BOOLEANS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.or(Empty.NO_BOOLEANS);
+    });
   }
   
-  @Test(expectedExceptions = KclException.class)
+  @Test
   public void and__boolean_error() {
-    PrimitiveFunctions.and(Empty.NO_BOOLEANS);
+    assertThrows(KclException.class, () -> {
+      PrimitiveFunctions.and(Empty.NO_BOOLEANS);
+    });
   }
   
   @Test

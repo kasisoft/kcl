@@ -1,158 +1,171 @@
 package com.kasisoft.libs.common.functional;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.Matchers.*;
+
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PredicatesTest {
 
-  @DataProvider(name = "data_isMaven")
-  public Object[][] data_isMaven() {
-    return new Object[][] {
-      {"com/sample/Bibo.class"       , false},
-      {"Bibo.class"                  , false},
-      {"com/sample/Bibo$1.class"     , false},
-      {"Bibo$1.class"                , false},
-      {"com/sample/Bibo$Sample.class", false},
-      {"Bibo$Sample.class"           , false},
-      {"pom.xml"                     , true },
-      {"/pom.xml"                    , true },
-      {"pom.properties"              , true },
-      {"/pom.properties"             , true },
-      {""                            , false},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isMaven() {
+    return Stream.of(
+      Arguments.of("com/sample/Bibo.class"       , false),
+      Arguments.of("Bibo.class"                  , false),
+      Arguments.of("com/sample/Bibo$1.class"     , false),
+      Arguments.of("Bibo$1.class"                , false),
+      Arguments.of("com/sample/Bibo$Sample.class", false),
+      Arguments.of("Bibo$Sample.class"           , false),
+      Arguments.of("pom.xml"                     , true ),
+      Arguments.of("/pom.xml"                    , true ),
+      Arguments.of("pom.properties"              , true ),
+      Arguments.of("/pom.properties"             , true ),
+      Arguments.of(""                            , false)
+    );
   }
   
-  @Test(dataProvider = "data_isMaven", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isMaven")
   public void isMaven(String classname, boolean expected) throws Exception {
     assertThat(Predicates.IS_MAVEN_FILE.test(classname), is(expected));
   }
   
-  @DataProvider(name = "data_isSPIFile")
-  public Object[][] data_isSPIFile() {
-    return new Object[][] {
-      {"META-INF/services/-klddd"           , false},
-      {"META-INF/services/com.Bibo"         , true },
-      {"META-INF/services/com.sample.Bibo"  , true },
-      {"META-INF/services/com.sample.Bibo$1", false},
-      {"META-INF/com.Bibo"                  , false},
-      {"META-INF/com.sample.Bibo"           , false},
-      {""                                   , false},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isSPIFile() {
+    return Stream.of(
+      Arguments.of("META-INF/services/-klddd"           , false),
+      Arguments.of("META-INF/services/com.Bibo"         , true ),
+      Arguments.of("META-INF/services/com.sample.Bibo"  , true ),
+      Arguments.of("META-INF/services/com.sample.Bibo$1", false),
+      Arguments.of("META-INF/com.Bibo"                  , false),
+      Arguments.of("META-INF/com.sample.Bibo"           , false),
+      Arguments.of(""                                   , false)
+    );
   }
   
-  @Test(dataProvider = "data_isSPIFile", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isSPIFile")
   public void isSPIFile(String classname, boolean expected) throws Exception {
     assertThat(Predicates.IS_SPI_FILE.test(classname), is(expected));
   }
 
-  @DataProvider(name = "data_isMagnoliaFile")
-  public Object[][] data_isMagnoliaFile() {
-    return new Object[][] {
-      {"META-INF/magnolia/"               , false},
-      {"META-INF/magnolia/com.Bibo"       , true },
-      {"META-INF/magnolia/com.sample.Bibo", true },
-      {""                                 , false},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isMagnoliaFile() {
+    return Stream.of(
+      Arguments.of("META-INF/magnolia/"               , false),
+      Arguments.of("META-INF/magnolia/com.Bibo"       , true ),
+      Arguments.of("META-INF/magnolia/com.sample.Bibo", true ),
+      Arguments.of(""                                 , false)
+    );
   }
   
-  @Test(dataProvider = "data_isMagnoliaFile", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isMagnoliaFile")
   public void isMagnoliaFile(String classname, boolean expected) throws Exception {
     assertThat(Predicates.IS_MAGNOLIA_FILE.test(classname), is(expected));
   }
 
-  @DataProvider(name = "data_isJavaFqdn")
-  public Object[][] data_isJavaFqdn() {
-    return new Object[][] {
-      {"com.sample.Bibo.class"           , false},
-      {"Bibo"                            , true },
-      {"com.sample.Bibo$1"               , true },
-      {"Bibo$1"                          , true },
-      {"com.sample.Bibo$Sample"          , true },
-      {"Bibo$Sample"                     , true },
-      {"com/sample/Bibo"                 , false},
-      {""                                , false},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isJavaFqdn() {
+    return Stream.of(
+      Arguments.of("com.sample.Bibo.class"           , false),
+      Arguments.of("Bibo"                            , true ),
+      Arguments.of("com.sample.Bibo$1"               , true ),
+      Arguments.of("Bibo$1"                          , true ),
+      Arguments.of("com.sample.Bibo$Sample"          , true ),
+      Arguments.of("Bibo$Sample"                     , true ),
+      Arguments.of("com/sample/Bibo"                 , false),
+      Arguments.of(""                                , false)
+    );
   }
   
-  @Test(dataProvider = "data_isJavaFqdn", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isJavaFqdn")
   public void isJavaFqdn(String classname, boolean expected) throws Exception {
     assertThat(Predicates.IS_JAVA_FQDN.test(classname), is(expected));
   }
   
-  @DataProvider(name = "data_isJavaClassFile")
-  public Object[][] data_isJavaClassFile() {
-    return new Object[][] {
-      {"com/sample/Bibo.class"           , true },
-      {"Bibo.class"                      , true },
-      {"com/sample/Bibo$1.class"         , true },
-      {"Bibo$1.class"                    , true },
-      {"com/sample/Bibo$Sample.class"    , true },
-      {"Bibo$Sample.class"               , true },
-      {"com.sample.Bibo"                 , false},
-      {"Bibo"                            , false},
-      {""                                , false},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isJavaClassFile() {
+    return Stream.of(
+      Arguments.of("com/sample/Bibo.class"           , true ),
+      Arguments.of("Bibo.class"                      , true ),
+      Arguments.of("com/sample/Bibo$1.class"         , true ),
+      Arguments.of("Bibo$1.class"                    , true ),
+      Arguments.of("com/sample/Bibo$Sample.class"    , true ),
+      Arguments.of("Bibo$Sample.class"               , true ),
+      Arguments.of("com.sample.Bibo"                 , false),
+      Arguments.of("Bibo"                            , false),
+      Arguments.of(""                                , false)
+    );
   }
   
-  @Test(dataProvider = "data_isJavaClassFile", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isJavaClassFile")
   public void isJavaClassFile(String classname, boolean expected) throws Exception {
     assertThat(Predicates.IS_JAVA_CLASS_FILE.test(classname), is(expected));
   }
   
-  @DataProvider(name = "data_isInnerJavaClassFile")
-  public Object[][] data_isInnerJavaClassFile() {
-    return new Object[][] {
-      {"com/sample/Bibo.class"           , false},
-      {"Bibo.class"                      , false},
-      {"com/sample/Bibo$1.class"         , true },
-      {"Bibo$1.class"                    , true },
-      {"com/sample/Bibo$Sample.class"    , true },
-      {"Bibo$Sample.class"               , true },
-      {"com.sample.Bibo"                 , false},
-      {"Bibo"                            , false},
-      {""                                , false},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isInnerJavaClassFile() {
+    return Stream.of(
+      Arguments.of("com/sample/Bibo.class"           , false),
+      Arguments.of("Bibo.class"                      , false),
+      Arguments.of("com/sample/Bibo$1.class"         , true ),
+      Arguments.of("Bibo$1.class"                    , true ),
+      Arguments.of("com/sample/Bibo$Sample.class"    , true ),
+      Arguments.of("Bibo$Sample.class"               , true ),
+      Arguments.of("com.sample.Bibo"                 , false),
+      Arguments.of("Bibo"                            , false),
+      Arguments.of(""                                , false)
+    );
   }
   
-  @Test(dataProvider = "data_isInnerJavaClassFile", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isInnerJavaClassFile")
   public void isInnerJavaClassFile(String classname, boolean expected) throws Exception {
     assertThat(Predicates.IS_INNER_JAVA_CLASS_FILE.test(classname), is(expected));
   }
 
-  @DataProvider(name = "data_isEnclosingJavaClassFile")
-  public Object[][] data_isEnclosingJavaClassFile() {
-    return new Object[][] {
-      {"com/sample/Bibo.class"           , true },
-      {"Bibo.class"                      , true },
-      {"com/sample/Bibo$1.class"         , false},
-      {"Bibo$1.class"                    , false},
-      {"com/sample/Bibo$Sample.class"    , false},
-      {"Bibo$Sample.class"               , false},
-      {"com.sample.Bibo"                 , false},
-      {"Bibo"                            , false},
-      {""                                , false},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_isEnclosingJavaClassFile() {
+    return Stream.of(
+      Arguments.of("com/sample/Bibo.class"           , true ),
+      Arguments.of("Bibo.class"                      , true ),
+      Arguments.of("com/sample/Bibo$1.class"         , false),
+      Arguments.of("Bibo$1.class"                    , false),
+      Arguments.of("com/sample/Bibo$Sample.class"    , false),
+      Arguments.of("Bibo$Sample.class"               , false),
+      Arguments.of("com.sample.Bibo"                 , false),
+      Arguments.of("Bibo"                            , false),
+      Arguments.of(""                                , false)
+    );
   }
   
-  @Test(dataProvider = "data_isEnclosingJavaClassFile", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isEnclosingJavaClassFile")
   public void isEnclosingJavaClassFile(String classname, boolean expected) throws Exception {
     assertThat(Predicates.IS_ENCLOSING_JAVA_CLASS_FILE.test(classname), is(expected));
   }
 
-  @SuppressWarnings("unused")
-  @Test(dataProvider = "data_isEnclosingJavaClassFile", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isEnclosingJavaClassFile")
   public void acceptAll(String classname, boolean ignore) {
     assertTrue(Predicates.acceptAll().test(classname));
   }
 
-  @SuppressWarnings("unused")
-  @Test(dataProvider = "data_isEnclosingJavaClassFile", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_isEnclosingJavaClassFile")
   public void acceptNone(String classname, boolean ignore) {
     assertFalse(Predicates.acceptNone().test(classname));
   }

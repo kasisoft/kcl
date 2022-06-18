@@ -1,10 +1,20 @@
 package com.kasisoft.libs.common.constants;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.Matchers.*;
+
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import org.junit.jupiter.api.*;
+
+import java.util.stream.*;
+
+import java.util.*;
 
 /**
  * Tests for the enumeration 'MimeType'.
@@ -13,7 +23,7 @@ import org.testng.annotations.*;
  */
 public class MimeTypeTest {
 
-  @Test(groups = "all")
+  @Test
   public void findBySuffix() {
     var result = MimeType.findBySuffix("tex");
     assertNotNull(result);
@@ -22,14 +32,14 @@ public class MimeTypeTest {
     assertTrue(result.contains(MimeType.TeX));
   }
 
-  @Test(groups = "all")
+  @Test
   public void findBySuffix__UnknownSuffix() {
     var result = MimeType.findBySuffix("kiq");
     assertNotNull(result);
     assertTrue(result.isEmpty());
   }
 
-  @Test(groups = "all")
+  @Test
   public void findByMimeType() {
     
     var result1 = MimeType.findByMimeType("text/html;charset=UTF-8");
@@ -48,43 +58,35 @@ public class MimeTypeTest {
 
   }
   
-  @DataProvider(name = "data_test")
-  public Object[][] data_test() {
-    var values = MimeType.values();
-    var result = new Object[values.length][2];
-    for (var i = 0; i < values.length; i++) {
-      result[i][0] = values[i].getMimeType();
-      result[i][1] = values[i];
-    }
-    return result;
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_test() {
+    return Arrays.asList(MimeType.values()).stream()
+      .map($ -> Arguments.of($.getMimeType(), $)) 
+      ;
   }
   
-  
-  @Test(groups = "all", dataProvider = "data_test")
+  @ParameterizedTest
+  @MethodSource("data_test")
   public void test(String type, MimeType mt) {
     assertTrue(mt.test(type));
   }
 
-  
-  @Test(groups = "all")
+  @Test
   public void test__NullValue() {
     for (var mt : MimeType.values()) {
       assertFalse(mt.test(null));
     }
   }
 
-  @DataProvider(name = "data_supportsSuffix")
-  public Object[][] data_supportsSuffix() {
-    var values = MimeType.values();
-    var result = new Object[values.length][2];
-    for (var i = 0; i < values.length; i++) {
-      result[i][0] = values[i].getPrimarySuffix();
-      result[i][1] = values[i];
-    }
-    return result;
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_supportsSuffix() {
+    return Arrays.asList(MimeType.values()).stream()
+      .map($ -> Arguments.of($.getPrimarySuffix(), $)) 
+      ;
   }
   
-  @Test(groups = "all", dataProvider = "data_supportsSuffix")
+  @ParameterizedTest
+  @MethodSource("data_supportsSuffix")
   public void supportsSuffix(String suffix, MimeType mt) {
     assertTrue(mt.supportsSuffix(suffix));
   }

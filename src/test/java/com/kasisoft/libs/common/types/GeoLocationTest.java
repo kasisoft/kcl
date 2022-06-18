@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.types;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.Matchers.*;
+
+import org.junit.jupiter.api.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

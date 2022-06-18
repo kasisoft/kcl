@@ -1,12 +1,16 @@
 package com.kasisoft.libs.common.xml;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
-@Test
-@SuppressWarnings("preview")
+/**
+ * @author daniel.kasmeroglu@kasisoft.com
+ */
 public class XmlGeneratorTest {
 
   private static final String EXPECTED_TAG = ""
@@ -28,7 +32,8 @@ public class XmlGeneratorTest {
                                                            ;
   
   
-  @Test(groups = "all")
+  @SuppressWarnings("rawtypes")
+  @Test
   public void tag() {
     
     var generator = new XmlGenerator()
@@ -44,7 +49,8 @@ public class XmlGeneratorTest {
     
   }
 
-  @Test(groups = "all")
+  @SuppressWarnings("rawtypes")
+  @Test
   public void invalidAttribute() {
     
     var generator = new XmlGenerator()
@@ -60,20 +66,22 @@ public class XmlGeneratorTest {
     
   }
 
-  @Test(groups = "all", expectedExceptions = RuntimeException.class)
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Test
   public void invalidAttributeWithException() {
-    new XmlGenerator()
-      .withInvalidAttributeHandler(this::throwEx)
-      .processingInstruction()
-      .openTag("bibo")
+    assertThrows(RuntimeException.class, () -> {
+      new XmlGenerator()
+        .withInvalidAttributeHandler(this::throwEx)
+        .processingInstruction()
+        .openTag("bibo")
         .openTagV("dodo", new Object(), "beta<>")
-          .tag("marker", "Wumpi & Stumpi")
+        .tag("marker", "Wumpi & Stumpi")
         .closeTag()
-      .closeTag()
-      ;
+        .closeTag()
+        ;
+    });
   }
   
-  @SuppressWarnings("unused")
   private void throwEx(Object key, Object val) {
     throw new RuntimeException();
   }

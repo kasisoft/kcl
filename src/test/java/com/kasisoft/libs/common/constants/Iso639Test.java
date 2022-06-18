@@ -1,10 +1,18 @@
 package com.kasisoft.libs.common.constants;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.testng.annotations.*;
+import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.Matchers.*;
+
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import org.junit.jupiter.api.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
@@ -13,17 +21,15 @@ import java.util.*;
  */
 public class Iso639Test {
 
-  @DataProvider(name = "data_validCode")
-  public Object[][] data_validCode() {
-    var values = Iso639.values();
-    var result = new Object[values.length][];
-    for (var i = 0; i < values.length; i++) {
-      result[i] = new Object[] {values[i]};
-    }
-    return result;
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_validCode() {
+    return Arrays.asList(Iso639.values()).stream()
+      .map(Arguments::of)
+      ;
   }
 
-  @Test(dataProvider = "data_validCode", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_validCode")
   public void validCode(Iso639 value) {
     assertNotNull(value.getBibliography());
     assertNotNull(value.getTerminology() );
@@ -34,26 +40,16 @@ public class Iso639Test {
     }
   }
   
-  @DataProvider(name = "data_findByAlpha2")
-  public Object[][] data_findByAlpha2() {
-    var values = Iso639.values();
-    var count  = 0;
-    for (var value : values ) {
-      if (value.getAlpha2() != null) {
-        count++;
-      }
-    }
-    var result = new Object[count][];
-    var j      = 0;
-    for (var value : values) {
-      if (value.getAlpha2() != null) {
-        result[j++] = new Object[] {value, value.getAlpha2()};
-      }
-    }
-    return result;
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_findByAlpha2() {
+    return Arrays.asList(Iso639.values()).stream()
+      .filter($ -> $.getAlpha2() != null)
+      .map($ -> Arguments.of($, $.getAlpha2()))
+      ;
   }
 
-  @Test(dataProvider = "data_findByAlpha2", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_findByAlpha2")
   public void findByAlpha2(Iso639 expected, String alpha2) {
     var identified = Iso639.findByAlpha2(alpha2);
     assertNotNull(identified);
@@ -61,17 +57,15 @@ public class Iso639Test {
     assertThat(identified.get(), is(expected));
   }
 
-  @DataProvider(name = "data_findByBibliography")
-  public Object[][] data_findByBibliography() {
-    var values = Iso639.values();
-    var result = new Object[values.length][];
-    for (var i = 0; i < values.length; i++) {
-      result[i] = new Object[] {values[i], values[i].getBibliography()};
-    }
-    return result;
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_findByBibliography() {
+    return Arrays.asList(Iso639.values()).stream()
+      .map($ -> Arguments.of($, $.getBibliography()))
+      ;
   }
   
-  @Test(dataProvider = "data_findByBibliography", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_findByBibliography")
   public void findByBibliography(Iso639 expected, String bibliography) {
     var identified = Iso639.findByBibliography(bibliography);
     assertNotNull(identified);
@@ -79,17 +73,15 @@ public class Iso639Test {
     assertThat(identified.get(), is(expected));
   }
   
-  @DataProvider(name = "data_findByTerminology")
-  public Object[][] data_findByTerminology() {
-    var values = Iso639.values();
-    var result = new Object[values.length][];
-    for (var i = 0; i < values.length; i++) {
-      result[i] = new Object[] {values[i], values[i].getTerminology()};
-    }
-    return result;
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_findByTerminology() {
+    return Arrays.asList(Iso639.values()).stream()
+      .map($ -> Arguments.of($, $.getTerminology()))
+      ;
   }
   
-  @Test(dataProvider = "data_findByTerminology",groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_findByTerminology")
   public void findByTerminology(Iso639 expected, String terminology) {
     var identified = Iso639.findByTerminology(terminology);
     assertNotNull(identified);
@@ -97,45 +89,42 @@ public class Iso639Test {
     assertThat(identified.get(), is( expected));
   }
 
-  @DataProvider(name = "data_test")
-  public Object[][] data_test() {
-    var list = new ArrayList<Object[]>();
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_test() {
+    var list = new ArrayList<Arguments>();
     for (var iso : Iso639.values()) {
       if (iso.getAlpha2() != null) {
-        list.add(new Object[] {iso.getAlpha2(), iso});
+        list.add(Arguments.of(iso.getAlpha2(), iso));
       }
-      list.add(new Object[] {iso.getBibliography(), iso});
-      list.add(new Object[] {iso.getTerminology(), iso});
+      list.add(Arguments.of(iso.getBibliography(), iso));
+      list.add(Arguments.of(iso.getTerminology(), iso));
     }
-    return list.toArray(new Object[list.size()][2]);
+    return list.stream();
   }
   
-  @Test(groups = "all", dataProvider = "data_test")
+  @ParameterizedTest
+  @MethodSource("data_test")
   public void test(String code, Iso639 iso639) {
     assertTrue(iso639.test(code));
   }
 
-  @Test(groups = "all")
-  public void test__NullValue() {
+  @Test
+  public void test__NULL_VALUE() {
     for (var iso : Iso639.values()) {
       assertFalse(iso.test(null));
     }
   }
 
-  @Test(groups = "all")
-  public void findBy__NullValue() {
+  @Test
+  public void findBy__NULL_VALUE() {
     
-    for (var iso : Iso639.values()) {
-      
-      var opt1 = iso.findByAlpha2(null);
-      assertNotNull(opt1);
-      assertFalse(opt1.isPresent());
-      
-      var opt2 = iso.findByAlpha3(null);
-      assertNotNull(opt2);
-      assertFalse(opt2.isPresent());
-      
-    }
+    var opt1 = Iso639.findByAlpha2(null);
+    assertNotNull(opt1);
+    assertFalse(opt1.isPresent());
+    
+    var opt2 = Iso639.findByAlpha3(null);
+    assertNotNull(opt2);
+    assertFalse(opt2.isPresent());
     
   }
 

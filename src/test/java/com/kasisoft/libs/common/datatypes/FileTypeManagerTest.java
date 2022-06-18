@@ -1,12 +1,18 @@
 package com.kasisoft.libs.common.datatypes;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 import java.nio.file.*;
 
@@ -15,39 +21,37 @@ import java.nio.file.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class FileTypeManagerTest extends AbstractTestCase {
+public class FileTypeManagerTest {
 
-  private FileTypeManager   manager;
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(FileTypeManagerTest.class);
   
-  @BeforeClass
-  public void setup() {
-    manager = new FileTypeManager();
+  private static FileTypeManager MANAGER = new FileTypeManager();
+  
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> identifyData() {
+    return Stream.of(
+      Arguments.of("file0", "application/gzip"           ),
+      Arguments.of("file1", "application/pdf"            ),
+      Arguments.of("file2", "image/png"                  ),
+      Arguments.of("file3", "image/bmp"                  ),
+      Arguments.of("file4", "image/gif"                  ),
+      Arguments.of("file5", "image/jpeg"                 ),
+      Arguments.of("file6", "application/x-bzip"         ),
+      Arguments.of("file7", "application/zip"            ),
+      Arguments.of("file8", "application/x-7z-compressed"),
+      Arguments.of("file9", "application/java-vm"        )
+    );
   }
   
-  @DataProvider(name = "identifyData")
-  public Object[][] identifyData() {
-    return new Object[][] {
-      {"file0", "application/gzip"           },
-      {"file1", "application/pdf"            },
-      {"file2", "image/png"                  },
-      {"file3", "image/bmp"                  },
-      {"file4", "image/gif"                  },
-      {"file5", "image/jpeg"                 },
-      {"file6", "application/x-bzip"         },
-      {"file7", "application/zip"            },
-      {"file8", "application/x-7z-compressed"},
-      {"file9", "application/java-vm"        }
-    };
-  }
-  
-  @Test(dataProvider = "identifyData", groups = "all")
+  @ParameterizedTest
+  @MethodSource("identifyData")
   public void identify(String resource, String mime) throws Exception {
     
-    var file     = getResource(resource);
+    var file     = TEST_RESOURCES.getResource(resource);
     var content  = Files.readAllBytes(file);
     assertNotNull(content);
     
-    var filetype = manager.identify(content);
+    var filetype = MANAGER.identify(content);
     if (mime == null) {
       assertNull(filetype);
     } else {

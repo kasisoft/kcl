@@ -1,8 +1,9 @@
 package com.kasisoft.libs.common.testsupport;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import java.util.*;
 

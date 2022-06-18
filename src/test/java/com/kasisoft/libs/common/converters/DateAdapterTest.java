@@ -1,11 +1,19 @@
 package com.kasisoft.libs.common.converters;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import org.junit.jupiter.api.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
@@ -17,37 +25,41 @@ public class DateAdapterTest {
 
   private DateAdapter adapter = new DateAdapter().withPattern("dd'.'MM'.'yyyy");
   
-  @DataProvider(name = "data_decode")
-  public Object[][] data_decode() {
-    return new Object[][] {
-      {null        , null},
-      {"12.04.1987", new Date(87, 3, 12)},
-      {"03.07.1964", new Date(64, 6, 3)},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_decode() {
+    return Stream.of(
+      Arguments.of(null        , null),
+      Arguments.of("12.04.1987", new Date(87, 3, 12)),
+      Arguments.of("03.07.1964", new Date(64, 6, 3))
+    );
   }
 
-  @Test(dataProvider = "data_decode", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_decode")
   public void decode(String value, Date expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
   
-  @DataProvider(name = "data_encode")
-  public Object[][] data_encode() {
-    return new Object[][] {
-      {null               , null},
-      {new Date(87, 3, 12), "12.04.1987"},
-      {new Date(64, 6, 3) , "03.07.1964"},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_encode() {
+    return Stream.of(
+      Arguments.of(null               , null),
+      Arguments.of(new Date(87, 3, 12), "12.04.1987"),
+      Arguments.of(new Date(64, 6, 3) , "03.07.1964")
+    );
   }
 
-  @Test(dataProvider = "data_encode", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_encode")
   public void encode(Date value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }
   
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void decodeFailure() {
-    adapter.decode("jfjjfjfjf");
+    assertThrows(KclException.class, () -> {
+      adapter.decode("jfjjfjfjf");
+    });
   }
   
 } /* ENDCLASS */

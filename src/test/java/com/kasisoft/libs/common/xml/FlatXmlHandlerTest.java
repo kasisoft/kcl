@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.xml;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.constants.*;
 
@@ -10,11 +10,9 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 import javax.xml.parsers.*;
-
-import java.nio.file.*;
 
 import java.io.*;
 
@@ -23,22 +21,17 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class FlatXmlHandlerTest extends AbstractTestCase {
+public class FlatXmlHandlerTest {
 
-  private Path    simplexml;
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(FlatXmlHandlerTest.class);
   
-  @BeforeTest
-  public void setup() {
-    simplexml     = getResource("simple.xml");
-    assertTrue( Files.isRegularFile(simplexml) );
-  }
-  
-  @SuppressWarnings("resource")
-  @Test(groups="all")
+  @Test
   public void flatXml() throws Exception {
     
-    FlatXmlHandler        handler = new FlatXmlHandler();
-    ByteArrayOutputStream byteout = new ByteArrayOutputStream();
+    var simplexml = TEST_RESOURCES.getFile("simple.xml");
+    
+    var handler   = new FlatXmlHandler();
+    var byteout   = new ByteArrayOutputStream();
     handler.setTarget( byteout );
     
     SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -51,8 +44,8 @@ public class FlatXmlHandlerTest extends AbstractTestCase {
       }
     });
 
-    String text = IoFunctions.readText( new ByteArrayInputStream( byteout.toByteArray() ), Encoding.UTF8 );
-    String[] lines = text.split("\n");
+    var text  = IoFunctions.readText( new ByteArrayInputStream( byteout.toByteArray() ), Encoding.UTF8 );
+    var lines = text.split("\n");
     assertThat( lines[0], is( "bookstore/@age=20" ) );
     assertThat( lines[1], is( "bookstore/@soup=40" ) );
     assertThat( lines[2], is( "bookstore/title/text()=Blöde Schuhe" ) );

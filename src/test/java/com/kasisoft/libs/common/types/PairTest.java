@@ -1,25 +1,31 @@
 package com.kasisoft.libs.common.types;
 
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PairTest {
 
-  @DataProvider(name = "data_processPairs")
-  public Object[][] data_processPairs() {
-    return new Object[][] {
-      {new Pair<String, Boolean>("A", true), "A", true},
-      {new Pair<String, Boolean>("A", false), "A", false},
-      {new Pair<String, Boolean>("B", true), "B", true},
-    };
+  @SuppressWarnings("exports")
+  public static Stream<Arguments> data_processPairs() {
+    return Stream.of(
+      Arguments.of(new Pair<String, Boolean>("A", true), "A", true),
+      Arguments.of(new Pair<String, Boolean>("A", false), "A", false),
+      Arguments.of(new Pair<String, Boolean>("B", true), "B", true)
+    );
   }
   
-  @Test(dataProvider = "data_processPairs", groups = "all")
+  @ParameterizedTest
+  @MethodSource("data_processPairs")
   public void processPairs(Pair<String, Boolean> pair, String key, boolean value) {
     assertThat(pair.getFirst(), is(key));
     assertThat(pair.getLast(), is(value));

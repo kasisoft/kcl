@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.utils;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.constants.*;
 
@@ -10,71 +12,56 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.params.provider.*;
+
+import org.junit.jupiter.params.*;
+
+import java.util.stream.*;
 
 import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class BlacklistTest extends AbstractTestCase {
+public class BlacklistTest {
 
-  private Blacklist   csblacklistPath;
-  private Blacklist   csblacklistURL;
-  private Blacklist   csblacklistFile;
-  private Blacklist   csblacklistURI;
+  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(BlacklistTest.class);
   
-  private Blacklist   ciblacklistPath;
-  private Blacklist   ciblacklistURL;
-  private Blacklist   ciblacklistFile;
-  private Blacklist   ciblacklistURI;
-  
-  private String      expected;
-  
-  @SuppressWarnings("deprecation")
-  @BeforeTest
-  public void setUp() throws Exception {
-    
-    expected        = IoFunctions.readText(getResource("text_base.txt"));
-    
-    csblacklistPath = new Blacklist(getResource("blacklist_01.txt"), Encoding.UTF8);
-    csblacklistURL  = new Blacklist(getResource("blacklist_01.txt").toFile().toURL(), Encoding.UTF8);
-    csblacklistFile = new Blacklist(getResource("blacklist_01.txt").toFile(), Encoding.UTF8);
-    csblacklistURI  = new Blacklist(getResource("blacklist_01.txt").toUri(), Encoding.UTF8);
-    
-    ciblacklistPath = new Blacklist(getResource("blacklist_02.txt"), Encoding.UTF8);
-    ciblacklistURL  = new Blacklist(getResource("blacklist_02.txt").toFile().toURL(), Encoding.UTF8);
-    ciblacklistFile = new Blacklist(getResource("blacklist_02.txt").toFile(), Encoding.UTF8);
-    ciblacklistURI  = new Blacklist(getResource("blacklist_02.txt").toUri(), Encoding.UTF8);
-    
+  @SuppressWarnings({ "exports", "deprecation" })
+  public static Stream<Arguments> data_csblacklist() throws Exception {
+    var csblacklistPath = new Blacklist(TEST_RESOURCES.getResource("blacklist_01.txt"), Encoding.UTF8);
+    var csblacklistURL  = new Blacklist(TEST_RESOURCES.getResource("blacklist_01.txt").toFile().toURL(), Encoding.UTF8);
+    var csblacklistFile = new Blacklist(TEST_RESOURCES.getResource("blacklist_01.txt").toFile(), Encoding.UTF8);
+    var csblacklistURI  = new Blacklist(TEST_RESOURCES.getResource("blacklist_01.txt").toUri(), Encoding.UTF8);
+    return Stream.of(
+      Arguments.of(csblacklistPath),
+      Arguments.of(csblacklistURL),
+      Arguments.of(csblacklistFile),
+      Arguments.of(csblacklistURI)
+    );
   }
   
-  @DataProvider(name = "data_csblacklist")
-  public Object[][] data_csblacklist() {
-    return new Object[][] {
-      { csblacklistPath },
-      { csblacklistURL },
-      { csblacklistFile },
-      { csblacklistURI },
-    };
-  }
-  
-  @DataProvider(name = "data_ciblacklist")
-  public Object[][] data_ciblacklist() {
-    return new Object[][] {
-      { ciblacklistPath },
-      { ciblacklistURL },
-      { ciblacklistFile },
-      { ciblacklistURI },
-    };
+  @SuppressWarnings({ "exports", "deprecation" })
+  public static Stream<Arguments> data_ciblacklist() throws Exception {
+    var ciblacklistPath = new Blacklist(TEST_RESOURCES.getResource("blacklist_02.txt"), Encoding.UTF8);
+    var ciblacklistURL  = new Blacklist(TEST_RESOURCES.getResource("blacklist_02.txt").toFile().toURL(), Encoding.UTF8);
+    var ciblacklistFile = new Blacklist(TEST_RESOURCES.getResource("blacklist_02.txt").toFile(), Encoding.UTF8);
+    var ciblacklistURI  = new Blacklist(TEST_RESOURCES.getResource("blacklist_02.txt").toUri(), Encoding.UTF8);
+    return Stream.of(
+      Arguments.of(ciblacklistPath),
+      Arguments.of(ciblacklistURL),
+      Arguments.of(ciblacklistFile),
+      Arguments.of(ciblacklistURI)
+    );
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void commentPrefix(Blacklist csblacklist) {
     
     var prefixed = new Blacklist();
     prefixed.setCommentPrefix("$%");
-    prefixed.load(getResource("blacklist_03.txt"));
+    prefixed.load(TEST_RESOURCES.getResource("blacklist_03.txt"));
     
     var original = csblacklist.getBlacklisted();
     var other    = prefixed.getBlacklisted();
@@ -84,67 +71,81 @@ public class BlacklistTest extends AbstractTestCase {
     
   }
   
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void simpleCaseSensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.test("blacklisted"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void simpleCaseInsensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.testIgnoreCase().test("blackLISTED"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void startsWithCaseSensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.startsWith().test("blacklisted TEXT"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void startsWithCaseInsensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.startsWith(true).test("blackLISTED TEXT"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void endsWithCaseSensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.endsWith().test("TEXT blacklisted"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void endsWithCaseInsensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.endsWith(true).test("TEXT blackLISTED"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void containsCaseSensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.contains().test("TEXTA blacklisted TEXTB"));
   }
 
-  @Test(groups="all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void containsCaseInsensitiveMatch(Blacklist csblacklist) {
     assertTrue(csblacklist.contains(true).test( "TEXTA blackLISTEDTEXTB"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void cleanTextCaseSensitive(Blacklist csblacklist) {
-    var text = IoFunctions.readText(getResource("text_01.txt"));
+    var expected    = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+    var text        = IoFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
     assertNotNull(text);
     assertFalse(text.equals(expected));
     assertFalse(csblacklist.test(text));
     assertThat(csblacklist.cleanup().apply(text).toString(), is(expected));
   }
 
-  @Test(groups = "all", dataProvider = "data_ciblacklist")
+  @ParameterizedTest
+  @MethodSource("data_ciblacklist")
   public void cleanTextCaseInsensitive(Blacklist ciblacklist) {
-    var text = IoFunctions.readText(getResource("text_02.txt"));
+    var expected    = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+    var text        = IoFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
     assertNotNull(text);
     assertFalse(text.equals(expected));
     assertTrue(ciblacklist.contains(true).test(text));
     assertThat(ciblacklist.cleanup(true).apply(text).toString(), is(expected));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void cleanAndListTextCaseSensitive(Blacklist csblacklist) {
-    var text = IoFunctions.readText(getResource("text_01.txt"));
+    var expected    = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+    var text        = IoFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
     assertNotNull(text);
     assertFalse(text.equals(expected));
     assertFalse(csblacklist.test(text));
@@ -155,9 +156,11 @@ public class BlacklistTest extends AbstractTestCase {
     assertTrue(collector.contains("blacklisted2"));
   }
 
-  @Test(groups = "all", dataProvider = "data_ciblacklist")
+  @ParameterizedTest
+  @MethodSource("data_ciblacklist")
   public void cleanAndListTextCaseInsensitive(Blacklist ciblacklist) {
-    var text = IoFunctions.readText(getResource("text_02.txt"));
+    var expected    = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+    var text        = IoFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
     assertNotNull(text);
     assertFalse(text.equals(expected));
     assertTrue(ciblacklist.contains(true).test(text));
@@ -169,9 +172,11 @@ public class BlacklistTest extends AbstractTestCase {
     assertTrue(collector.contains("blACKListed"));
   }
 
-  @Test(groups = "all", dataProvider = "data_csblacklist")
+  @ParameterizedTest
+  @MethodSource("data_csblacklist")
   public void cleanAndCountTextCaseSensitive(Blacklist csblacklist) {
-    var text = IoFunctions.readText(getResource("text_01.txt"));
+    var expected    = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+    var text        = IoFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
     assertNotNull(text);
     assertFalse(text.equals(expected));
     assertFalse(csblacklist.test(text));
@@ -184,9 +189,11 @@ public class BlacklistTest extends AbstractTestCase {
     assertThat(counts.get("blacklisted2"), is( Integer.valueOf(1)));
   }
 
-  @Test(groups = "all", dataProvider = "data_ciblacklist")
+  @ParameterizedTest
+  @MethodSource("data_ciblacklist")
   public void cleanAndCountTextCaseInsensitive(Blacklist ciblacklist) {
-    var text = IoFunctions.readText(getResource("text_02.txt"));
+    var expected    = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+    var text        = IoFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
     assertNotNull(text);
     assertFalse(text.equals(expected));
     assertTrue(ciblacklist.contains(true).test(text));

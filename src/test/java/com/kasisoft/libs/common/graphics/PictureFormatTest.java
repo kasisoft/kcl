@@ -1,22 +1,22 @@
 package com.kasisoft.libs.common.graphics;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PictureFormatTest {
 
-  @Test(groups = "all")
+  @Test
   public void nullTestsAsFalse() {
     for (PictureFormat fmt : PictureFormat.values()) {
       assertFalse(fmt.test(null));
     }
   }
 
-  @Test(groups = "all")
+  @Test
   public void testForFilename() {
     for (PictureFormat fmt : PictureFormat.values()) {
       var filename = String.format("example.%s", fmt.getSuffix());
@@ -24,7 +24,7 @@ public class PictureFormatTest {
     }
   }
 
-  @Test(groups = "all")
+  @Test
   public void fileNamesWithoutSuffix() {
     for (PictureFormat fmt : PictureFormat.values()) {
       var filename = String.format("example_%s", fmt.getSuffix());

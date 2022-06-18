@@ -1,8 +1,10 @@
 package com.kasisoft.libs.common.functional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.kasisoft.libs.common.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -11,14 +13,18 @@ public class KRunnableTest {
 
   private KRunnable runnable = () -> { throw new RuntimeException("error"); };
   
-  @Test(groups = "all", expectedExceptions = RuntimeException.class)
+  @Test
   public void run() throws Exception {
-    runnable.run();
+    assertThrows(RuntimeException.class, () -> {
+      runnable.run();
+    });
   }
   
-  @Test(groups = "all", expectedExceptions = KclException.class)
+  @Test
   public void protect() {
-    runnable.protect().run();
+    assertThrows(KclException.class, () -> {
+      runnable.protect().run();
+    });
   }
   
 } /* ENDCLASS */

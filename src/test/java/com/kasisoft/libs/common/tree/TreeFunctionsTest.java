@@ -1,13 +1,15 @@
 package com.kasisoft.libs.common.tree;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
 
 import com.kasisoft.libs.common.text.*;
 import com.kasisoft.libs.common.types.*;
 
-import org.testng.annotations.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
@@ -16,7 +18,6 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings({"deprecation", "preview"})
 public class TreeFunctionsTest {
 
   private static final List<String> PARENTHESIZE_DATA = Arrays.asList(
@@ -53,7 +54,7 @@ public class TreeFunctionsTest {
     "/root3/child1/child2/child3"
   );
 
-  @Test(groups = "all")
+  @Test
   public void parenthesize() {
     var children = new HashSet<Tupel<String>>();
     TreeFunctions.parenthesize(
@@ -111,7 +112,7 @@ public class TreeFunctionsTest {
                                                        + "[4,child3]\n"
                                                        ; 
   
-  @Test(groups = "all")
+  @Test
   public void forTreeNodeDo() {
     StringFBuilder builder = new StringFBuilder();
     TreeFunctions.forTreeNodeDo(
@@ -163,7 +164,7 @@ public class TreeFunctionsTest {
                                                                  + "[4,child3]\n"
                                                                  ; 
   
-  @Test(groups = "all")
+  @Test
   public void forTreeNodeDo__WithRoot() {
     StringFBuilder builder = new StringFBuilder();
     TreeFunctions.forTreeNodeDo(
@@ -215,7 +216,7 @@ public class TreeFunctionsTest {
                                                         ; 
 
 
-  @Test(groups = "all")
+  @Test
   public void forTreeValueDo() {
     StringFBuilder builder = new StringFBuilder();
     TreeFunctions.forTreeValueDo(
@@ -265,7 +266,7 @@ public class TreeFunctionsTest {
                                                                   ; 
 
 
-  @Test(groups = "all")
+  @Test
   public void forTreeValueDo__WithRoot() {
     StringFBuilder builder = new StringFBuilder();
     TreeFunctions.forTreeValueDo(
