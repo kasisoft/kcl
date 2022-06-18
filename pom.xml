@@ -1,310 +1,302 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.kasisoft</groupId>
-  <artifactId>com.kasisoft.libs.common</artifactId>
-  <version>5.0-SNAPSHOT</version>
+    <groupId>com.kasisoft</groupId>
+    <artifactId>com.kasisoft.libs.common</artifactId>
+    <version>5.0-SNAPSHOT</version>
 
-  <name>KCL :: Kasisoft Common Library</name>
-  <url>https://kasisoft.github.io/kcl/</url>
-  <description>Collection of general purpose functionalities.</description>
+    <name>KCL :: Kasisoft Common Library</name>
+    <url>https://kasisoft.github.io/kcl/</url>
+    <description>Collection of general purpose functionalities.</description>
 
-  <licenses>
-    <license>
-      <name>MIT License</name>
-      <url>https://choosealicense.com/licenses/mit</url>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://choosealicense.com/licenses/mit</url>
+        </license>
+    </licenses>
 
-  <organization>
-    <name>Kasisoft</name>
-    <url>https://kasisoft.com</url>
-  </organization>
+    <organization>
+        <name>Kasisoft</name>
+        <url>https://kasisoft.com</url>
+    </organization>
 
-  <scm>
-    <url>https://kasisoft.github.io/kcl</url>
-    <connection>scm:git:https://github.com/kasisoft/kcl.git</connection>
-    <developerConnection>scm:git:https://github.com/kasisoft/kcl.git</developerConnection>
-  </scm>
+    <scm>
+        <url>https://kasisoft.github.io/kcl</url>
+        <connection>scm:git:https://github.com/kasisoft/kcl.git</connection>
+        <developerConnection>scm:git:https://github.com/kasisoft/kcl.git</developerConnection>
+    </scm>
 
-  <issueManagement>
-    <system>github</system>
-    <url>https://github.com/kasisoft/kcl/issues</url>
-  </issueManagement>
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/kasisoft/kcl/issues</url>
+    </issueManagement>
 
-  <ciManagement>
-    <system>github</system>
-    <url>https://github.com/kasisoft/kcl/actions</url>
-  </ciManagement>
+    <ciManagement>
+        <system>github</system>
+        <url>https://github.com/kasisoft/kcl/actions</url>
+    </ciManagement>
 
-  <developers>
-    <developer>
-      <id>costamojan</id>
-      <name>Daniel Kasmeroglu</name>
-      <email>daniel.kasmeroglu@kasisoft.com</email>
-    </developer>
-  </developers>
+    <developers>
+        <developer>
+            <id>costamojan</id>
+            <name>Daniel Kasmeroglu</name>
+            <email>daniel.kasmeroglu@kasisoft.com</email>
+        </developer>
+    </developers>
 
-  <properties>
+    <properties>
 
-    <java.version>11</java.version>
-  
-    <!-- versioning: dependencies -->
-    <h2.version>1.4.192</h2.version>
-    <hamcrest.version>1.3</hamcrest.version>
-    <jakarta.validation-api.version>2.0.2</jakarta.validation-api.version>
-    <testng.version>7.3.0</testng.version>
-    
-    <!-- versioning: plugins -->
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-    <maven-bundle-plugin.version>5.1.1</maven-bundle-plugin.version>
-    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-    <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
-    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-    <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
-    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+        <java.version>11</java.version>
 
-    <!-- maven settings -->
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
-    <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- versioning: dependencies -->
+        <h2.version>1.4.192</h2.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <jakarta.validation-api.version>2.0.2</jakarta.validation-api.version>
+        <testng.version>7.3.0</testng.version>
 
-  </properties>
+        <!-- versioning: plugins -->
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <maven-bundle-plugin.version>5.1.1</maven-bundle-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
-  <dependencyManagement>
+        <!-- maven settings -->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
 
-      <dependency>
-        <groupId>jakarta.validation</groupId>
-        <artifactId>jakarta.validation-api</artifactId>
-        <version>${jakarta.validation-api.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
 
-      <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>${testng.version}</version>
-        <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+        </dependency>
 
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-all</artifactId>
-        <version>${hamcrest.version}</version>
-        <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+        </dependency>
 
-      <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <version>${h2.version}</version>
-        <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
 
     </dependencies>
-  </dependencyManagement>
 
-  <dependencies>
+    <build>
 
-    <dependency>
-      <groupId>jakarta.validation</groupId>
-      <artifactId>jakarta.validation-api</artifactId>
-    </dependency>
+        <finalName>${project.artifactId}-${project.version}</finalName>
 
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-    </dependency>
+        <pluginManagement>
+            <plugins>
 
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
-    </dependency>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${maven-bundle-plugin.version}</version>
+                </plugin>
 
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-    </dependency>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
 
-  </dependencies>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
 
-  <build>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <haltOnFailure>false</haltOnFailure>
+                        <excludes>
+                            <exclude>**/*Test.class</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
 
-    <finalName>${project.artifactId}-${project.version}</finalName>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <release>${java.version}</release>
+                        <parameters>true</parameters>
+                    </configuration>
+                </plugin>
 
-    <pluginManagement>
-      <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                    </configuration>
+                </plugin>
 
-        <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <version>${maven-bundle-plugin.version}</version>
-        </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <argLine>-Duser.country=DE -Duser.language=de</argLine>
+                        <excludes>
+                            <exclude>com/kasisoft/libs/common/graphics/**</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
-        </plugin>
+            </plugins>
+        </pluginManagement>
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${maven-deploy-plugin.version}</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <haltOnFailure>false</haltOnFailure>
-            <excludes>
-              <exclude>**/*Test.class</exclude>
-            </excludes>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven-compiler-plugin.version}</version>
-          <configuration>
-            <release>${java.version}</release>
-            <parameters>true</parameters>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <failOnError>false</failOnError>
-            <additionalparam>-Xdoclint:none</additionalparam>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <configuration>
-            <argLine>-Duser.country=DE -Duser.language=de</argLine>
-            <excludes>
-              <exclude>com/kasisoft/libs/common/graphics/**</exclude>
-            </excludes>
-          </configuration>
-        </plugin>
-        
-      </plugins>
-    </pluginManagement>
-
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-
-
-    </plugins>
-
-  </build>
-
-  <profiles>
-    <profile>
-      <id>release-sign-artifacts</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
         <plugins>
 
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>${nexus-staging-maven-plugin.version}</version>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>sonatype-nexus-staging</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+            </plugin>
 
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <version>${maven-release-plugin.version}</version>
-            <configuration>
-              <!-- [MRELEASE-263] -->
-              <mavenExecutorId>forked-path</mavenExecutorId>
-            </configuration>
-          </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
 
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>${maven-gpg-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
 
         </plugins>
-      </build>
-    </profile>
-  </profiles>
 
-  <distributionManagement>
-    <!--
-    freemarker must be modularized first, so we're not allowing this for now
-    ###
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    -->
-    <snapshotRepository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/kasisoft/kcl</url>
-    </snapshotRepository>
-  </distributionManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>sonatype-nexus-staging</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>${maven-release-plugin.version}</version>
+                        <configuration>
+                            <!-- [MRELEASE-263] -->
+                            <mavenExecutorId>forked-path</mavenExecutorId>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/kasisoft/kcl</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
