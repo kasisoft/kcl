@@ -1,7 +1,9 @@
 package com.kasisoft.libs.common.utils;
 
 import com.kasisoft.libs.common.functional.*;
+
 import com.kasisoft.libs.common.pools.*;
+
 import com.kasisoft.libs.common.text.*;
 
 import javax.validation.constraints.*;

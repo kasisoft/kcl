@@ -6,10 +6,9 @@ import javax.validation.constraints.*;
 
 import java.util.function.*;
 
+import java.util.*;
 import java.util.regex.*;
 import java.util.regex.Pattern;
-
-import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -6,9 +6,9 @@ import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 
-import java.text.*;
-
 import java.util.*;
+
+import java.text.*;
 
 /**
  * Adapter for Date values.

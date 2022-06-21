@@ -1,6 +1,7 @@
 package com.kasisoft.libs.common.tree;
 
 import com.kasisoft.libs.common.functional.*;
+
 import com.kasisoft.libs.common.text.*;
 
 import javax.validation.constraints.*;

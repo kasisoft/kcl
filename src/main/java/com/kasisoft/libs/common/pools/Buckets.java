@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.pools;
 
 import com.kasisoft.libs.common.text.*;
 
-import java.util.*;
 import java.util.concurrent.*;
+
+import java.util.*;
 import java.util.zip.*;
 
 import java.io.*;

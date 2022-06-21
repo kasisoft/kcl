@@ -2,9 +2,9 @@ package com.kasisoft.libs.common.io.impl;
 
 import com.kasisoft.libs.common.io.*;
 
-import java.net.*;
-
 import java.nio.file.*;
+
+import java.net.*;
 
 import java.io.*;
 

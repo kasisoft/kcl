@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.converters;
 
-import static com.kasisoft.libs.common.internal.Messages.*;
+import com.kasisoft.libs.common.internal.*;
 
 import com.kasisoft.libs.common.*;
 
@@ -28,7 +28,7 @@ public class FileAdapter extends AbstractConverter<String, File> {
       try {
         v = v.getCanonicalFile();
       } catch (Exception ex) {
-        throw new KclException(ex, error_cannot_determine_canonical_file, v);
+        throw new KclException(ex, Messages.error_cannot_determine_canonical_file, v);
       }
     }
     return v.getPath().replace( '\\', '/' );
@@ -41,7 +41,7 @@ public class FileAdapter extends AbstractConverter<String, File> {
       try {
         result = result.getCanonicalFile();
       } catch (Exception ex) {
-        throw new KclException(ex, error_cannot_determine_canonical_file, v);
+        throw new KclException(ex, Messages.error_cannot_determine_canonical_file, v);
       }
     }
     return result;

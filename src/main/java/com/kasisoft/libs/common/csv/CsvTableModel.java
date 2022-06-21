@@ -2,18 +2,19 @@ package com.kasisoft.libs.common.csv;
 
 import static com.kasisoft.libs.common.internal.Messages.*;
 
+import com.kasisoft.libs.common.functional.*;
+
+import com.kasisoft.libs.common.utils.*;
+
+import com.kasisoft.libs.common.text.*;
+
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.functional.*;
-import com.kasisoft.libs.common.text.*;
-import com.kasisoft.libs.common.utils.*;
-
-import javax.swing.event.*;
-
-import javax.swing.table.*;
 
 import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
 
 import javax.validation.constraints.*;
 

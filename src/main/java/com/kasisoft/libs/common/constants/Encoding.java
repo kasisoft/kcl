@@ -1,19 +1,21 @@
 package com.kasisoft.libs.common.constants;
 
+import com.kasisoft.libs.common.annotation.*;
+
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.annotation.*;
 
 import javax.validation.constraints.*;
 
 import java.util.*;
 
-import java.net.*;
+import java.nio.file.*;
 
 import java.nio.*;
 import java.nio.charset.*;
-import java.nio.file.*;
+
+import java.net.*;
 
 import java.io.*;
 

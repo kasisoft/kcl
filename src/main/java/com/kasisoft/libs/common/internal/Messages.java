@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.internal;
 
-import com.kasisoft.libs.common.*;
 import com.kasisoft.libs.common.i18n.*;
+
+import com.kasisoft.libs.common.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

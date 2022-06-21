@@ -1,35 +1,42 @@
 package com.kasisoft.libs.common.xml;
 
+import com.kasisoft.libs.common.functional.*;
+
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.pools.*;
+
+import com.kasisoft.libs.common.utils.*;
+
+import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.functional.*;
-import com.kasisoft.libs.common.pools.*;
-import com.kasisoft.libs.common.text.*;
-import com.kasisoft.libs.common.utils.*;
 
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
+import javax.xml.transform.stream.*;
+
+import javax.xml.transform.dom.*;
+
+import javax.xml.transform.*;
+
 import javax.validation.constraints.*;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
 
 import java.util.function.*;
 
 import java.util.*;
 
-import java.net.*;
+import java.lang.reflect.*;
 
 import java.nio.file.*;
 
-import java.io.*;
+import java.net.*;
 
-import java.lang.reflect.*;
+import java.io.*;
 
 /**
  * Collection of xml related functions.

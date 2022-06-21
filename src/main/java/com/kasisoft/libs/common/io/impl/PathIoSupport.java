@@ -1,8 +1,8 @@
 package com.kasisoft.libs.common.io.impl;
 
-import static com.kasisoft.libs.common.internal.Messages.*;
-
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.internal.*;
 
 import com.kasisoft.libs.common.io.*;
 
@@ -10,8 +10,9 @@ import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 
-import java.nio.charset.*;
 import java.nio.file.*;
+
+import java.nio.charset.*;
 
 import java.io.*;
 
@@ -42,7 +43,7 @@ public class PathIoSupport implements IoSupport<Path> {
         return IoSupport.super.loadAllBytes(source);
       }
     } catch (Exception ex) {
-      throw new KclException(ex, error_failed_to_read_from, source);
+      throw new KclException(ex, Messages.error_failed_to_read_from, source);
     }
   }
   
@@ -56,7 +57,7 @@ public class PathIoSupport implements IoSupport<Path> {
         return IoSupport.super.readText(source, encoding);
       }
     } catch (Exception ex) {
-      throw new KclException(ex, error_failed_to_read_from, source);
+      throw new KclException(ex, Messages.error_failed_to_read_from, source);
     }
   }
   

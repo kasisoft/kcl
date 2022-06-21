@@ -2,8 +2,9 @@ package com.kasisoft.libs.common.converters;
 
 import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.*;
 import com.kasisoft.libs.common.text.*;
+
+import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 

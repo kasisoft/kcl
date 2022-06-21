@@ -8,9 +8,8 @@ import java.util.function.*;
 
 import java.util.stream.*;
 
-import java.util.regex.Pattern;
-
 import java.util.*;
+import java.util.regex.Pattern;
 
 import java.io.*;
 

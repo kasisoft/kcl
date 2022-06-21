@@ -1,10 +1,12 @@
 package com.kasisoft.libs.common.data;
 
+import com.kasisoft.libs.common.types.*;
+
+import com.kasisoft.libs.common.csv.*;
+
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.csv.*;
-import com.kasisoft.libs.common.types.*;
 
 import javax.sql.*;
 import javax.validation.constraints.*;

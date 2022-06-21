@@ -2,25 +2,26 @@ package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.internal.Messages.*;
 
+import com.kasisoft.libs.common.comparator.Comparators;
+
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.comparator.Comparators;
-import com.kasisoft.libs.common.text.*;
 
 import javax.validation.constraints.*;
 
 import java.util.function.*;
 
+import java.util.*;
 import java.util.regex.Pattern;
 
-import java.util.*;
+import java.nio.file.*;
 
 import java.net.*;
-
-import java.nio.file.*;
 
 import java.io.*;
 

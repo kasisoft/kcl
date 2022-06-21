@@ -1,25 +1,28 @@
 package com.kasisoft.libs.common.graphics;
 
-import static com.kasisoft.libs.common.internal.Messages.*;
-
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.internal.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
+import javax.imageio.*;
+
 import javax.swing.*;
 
-import javax.imageio.*;
 import javax.validation.constraints.*;
+
+import java.nio.file.*;
 
 import java.net.*;
 
-import java.awt.*;
-import java.awt.geom.*;
 import java.awt.image.*;
 
-import java.nio.file.*;
+import java.awt.geom.*;
+
+import java.awt.*;
 
 import java.io.*;
 
@@ -86,7 +89,7 @@ public class GraphicsFunctions {
     try {
       return ImageIO.read(instream);
     } catch (Exception ex) {
-      throw KclException.wrap(ex, error_failed_to_read_image, source);
+      throw KclException.wrap(ex, Messages.error_failed_to_read_image, source);
     }
   }
 
@@ -151,10 +154,10 @@ public class GraphicsFunctions {
         image = to3ByteBGR(image);
       }
       if (!ImageIO.write(image, format.getImageIOFormat(), outstream)) {
-        throw new KclException(error_failed_to_write_image, source, format);
+        throw new KclException(Messages.error_failed_to_write_image, source, format);
       }
     } catch (Exception ex) {
-      throw KclException.wrap(ex, error_failed_to_write_image, source, format);
+      throw KclException.wrap(ex, Messages.error_failed_to_write_image, source, format);
     }
   }
   

@@ -2,16 +2,17 @@ package com.kasisoft.libs.common.utils;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.*;
 import com.kasisoft.libs.common.text.*;
+
+import com.kasisoft.libs.common.*;
 
 import javax.crypto.*;
 import javax.crypto.spec.*;
 import javax.validation.constraints.*;
 
-import java.security.*;
-
 import java.util.*;
+
+import java.security.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net

@@ -2,15 +2,17 @@ package com.kasisoft.libs.common.constants;
 
 import static com.kasisoft.libs.common.internal.Messages.*;
 
-import com.kasisoft.libs.common.*;
 import com.kasisoft.libs.common.annotation.*;
+
 import com.kasisoft.libs.common.pools.*;
+
+import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 
-import java.security.*;
-
 import java.util.*;
+
+import java.security.*;
 
 /**
  * Collection of supported MessageDigest implementations.

@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.internal.Messages.*;
 
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.*;
+
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.*;
 
 import javax.validation.constraints.*;
 

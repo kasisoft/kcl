@@ -2,17 +2,19 @@ package com.kasisoft.libs.common.i18n;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.text.*;
 import com.kasisoft.libs.common.types.*;
+
+import com.kasisoft.libs.common.text.*;
+
+import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 
 import java.util.*;
 
-import java.io.*;
-
 import java.lang.reflect.*;
+
+import java.io.*;
 
 /**
  * A helper which initializes the translations managed by a class. Each translation class is supposed to provide fields

@@ -1,7 +1,8 @@
 package com.kasisoft.libs.common.constants;
 
-import javax.swing.*;
 import javax.swing.border.*;
+
+import javax.swing.*;
 
 import javax.validation.constraints.*;
 

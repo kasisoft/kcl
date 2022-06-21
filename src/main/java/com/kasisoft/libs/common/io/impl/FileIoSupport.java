@@ -10,8 +10,9 @@ import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 
-import java.nio.charset.*;
 import java.nio.file.*;
+
+import java.nio.charset.*;
 
 import java.io.*;
 
