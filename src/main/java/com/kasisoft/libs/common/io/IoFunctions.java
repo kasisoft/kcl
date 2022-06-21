@@ -14,12 +14,15 @@ import com.kasisoft.libs.common.*;
 
 import javax.validation.constraints.*;
 
-import java.util.*;
+import java.util.stream.*;
+
 import java.util.regex.Pattern;
+
 import java.util.zip.*;
 
+import java.util.*;
+
 import java.nio.file.*;
-import java.nio.file.attribute.*;
 
 import java.net.*;
 
@@ -448,36 +451,12 @@ public class IoFunctions {
   
   public static void copyDir(@NotNull Path source, @NotNull Path destination) {
     
-    try {
-      
-      if (!Files.isDirectory(source)) {
-        throw new KclException(error_directory_does_not_exist, source);
-      }
-      
-      mkDirs(destination);
-
-      Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
-    
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-          var destDir = destination.resolve(source.relativize(dir));
-          mkDirs(destDir);
-          return FileVisitResult.CONTINUE;
-        }
-  
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-          var destFile = destination.resolve(source.relativize(file));
-          copyFile(file, destFile);
-          return FileVisitResult.CONTINUE;
-        }
-  
-      });
-      
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    if (!Files.isDirectory(source)) {
+      throw new KclException(error_directory_does_not_exist, source);
     }
     
+    new CopyingFileWalker(source, destination).run();
+      
   }
   
   public static void copy(@NotNull Path source, @NotNull Path destination) {
@@ -511,35 +490,8 @@ public class IoFunctions {
         Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
         
       } else {
-        
-        mkDirs(destination);
-        
-        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
-          
-          @Override
-          public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-            var destDir = destination.resolve(source.relativize(dir));
-            mkDirs(destDir);
-            return FileVisitResult.CONTINUE;
-          }
-          
-          @Override
-          public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-            var destFile = destination.resolve(source.relativize(file));
-            moveFile(file, destFile);
-            return FileVisitResult.CONTINUE;
-          }
-          
-          @Override
-          public FileVisitResult postVisitDirectory(Path dir, IOException ex) throws IOException {
-            Files.delete(dir);
-            return FileVisitResult.CONTINUE;
-          }
-
-        });
-        
+        new MovingFileWalker(source, destination).run();
       }
-      
       
     } catch (Exception ex) {
       throw KclException.wrap(ex);
@@ -575,27 +527,7 @@ public class IoFunctions {
 
   public static void deleteDir(@NotNull Path dir) {
     if (Files.isDirectory(dir)) {
-      try {
-        
-        Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
-          
-          @Override
-          public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-            Files.delete(file);
-            return FileVisitResult.CONTINUE;
-          }
-          
-          @Override
-          public FileVisitResult postVisitDirectory(Path dir, IOException ex) throws IOException {
-            Files.delete(dir);
-            return FileVisitResult.CONTINUE;
-          }
-
-        });
-        
-      } catch (Exception ex) {
-        throw KclException.wrap(ex, error_failed_to_delete_directory, dir);
-      }
+      new DeletingFileWalker(dir).run();
     }
   }
   
@@ -644,46 +576,11 @@ public class IoFunctions {
     try {
       
       KPredicate<String> predicate = filter != null ? filter : $ -> true;
-      var                result    = new ArrayList<String>(100);
-      
-      Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
-        
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-          if (includeDirs) {
-            addRelativePath(dir, true);
-          }
-          return FileVisitResult.CONTINUE;
-        }
-
-        @Override 
-        public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-          addRelativePath(path, false);
-          return FileVisitResult.CONTINUE;
-        }
-        
-        private void addRelativePath(Path current, boolean dir) throws IOException {
-          String str = start.relativize(current).toString().replace('\\', '/');
-          if (str.isBlank()) {
-            return;
-          }
-          if (dir && (!str.endsWith("/"))) {
-            str = str + '/';
-          }
-          try {
-            if (predicate.test(str)) {
-              result.add(str);
-            }
-          } catch (Exception ex) {
-            throw new IOException(ex);
-          }
-        }
-        
-      });
-      
-      Collections.sort(result);
-      
-      return result;
+      return new ListingFileWalker(start, includeDirs).get().stream()
+        .filter(predicate.protect())
+        .sorted()
+        .collect(Collectors.toList())
+        ;
       
     } catch (Exception ex) {
       throw KclException.wrap(ex, error_failed_to_scan_dir, start);
