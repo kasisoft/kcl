@@ -18,3 +18,5 @@ bin/
 
 .attach_pid*
 create-release.txt
+*.iml
+
