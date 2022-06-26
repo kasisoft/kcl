@@ -21,9 +21,9 @@ module com.kasisoft.libs.common {
   exports com.kasisoft.libs.common.types;
   exports com.kasisoft.libs.common.utils;
   exports com.kasisoft.libs.common.xml;
-  
-  provides FileType with 
-    BmpFileType, 
+
+  provides FileType with
+    BmpFileType,
     Bzip2FileType,
     GifFileType,
     GzipFileType,
@@ -36,9 +36,10 @@ module com.kasisoft.libs.common {
     ;
 
   uses FileType;
-  
+
   requires transitive java.desktop;
   requires transitive java.sql;
   requires transitive java.validation;
+    requires kotlin.stdlib;
 
 } /* ENDMODULE */
