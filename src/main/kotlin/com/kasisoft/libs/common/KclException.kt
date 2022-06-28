@@ -1,75 +1,66 @@
-package com.kasisoft.libs.common;
+package com.kasisoft.libs.common
 
-import javax.validation.constraints.*;
-
-import java.util.function.*;
+import java.util.function.*
 
 /**
  * Specialisation of the RuntimeException which is commonly used within this library.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public class KclException extends RuntimeException {
+open class KclException: RuntimeException {
 
-  private static final long serialVersionUID = -7284302896487719569L;
+    constructor() : super()
 
-  public KclException() {
-    super();
-  }
-  
-  public KclException(@NotNull Exception ex) {
-    super(ex);
-  }
-  
-  public KclException(String fmt, Object ... args) {
-    super(formatString(fmt, args));
-  }
-  
-  public KclException(@NotNull Exception ex, String fmt, Object ... args) {
-    super(formatString(fmt, args), ex);
-  }
-  
-  private static String formatString(String fmt, Object ... args) {
-    var result = fmt;
-    if ((args != null) && (args.length > 0)) {
-      result = String.format(fmt, args);
-    }
-    return result;
-  }
-  
-  public static <R> R execute(@NotNull Supplier<R> supplier, String fmt, Object ... args) {
-    try {
-      return supplier.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex, fmt, args);
-    }
-  }
-  
-  public static @NotNull KclException wrap(@NotNull Exception ex) {
-    if (ex instanceof KclException) {
-      return (KclException) ex;
-    } else {
-      return new KclException(ex);
-    }
-  }
+    constructor(ex: Exception) : super(ex)
 
-  public static @NotNull KclException wrap(@NotNull Exception ex, String fmt, Object ... args) {
-    if (ex instanceof KclException) {
-      return (KclException) ex;
-    } else {
-      return new KclException(ex, fmt, args);
-    }
-  }
+    constructor(fmt: String, vararg args: Any) : super(formatString(fmt, *args))
 
-  public static KclException unwrap(Exception ex) {
-    if (ex != null) {
-      if (ex instanceof KclException) {
-        return (KclException) ex;
-      } else if (ex.getCause() instanceof Exception) {
-        return unwrap((Exception) ex.getCause());
-      }
-    }
-    return null;
-  }
-  
+    constructor(ex: Exception, fmt: String, vararg args: Any): super(formatString(fmt, *args), ex)
+
+    companion object {
+
+        private fun formatString(fmt: String, vararg args: Any): String =
+            if (args.isNotEmpty()) {
+                String.format(fmt, *args)
+            } else {
+                fmt
+            }
+
+        @JvmStatic
+        fun wrap(ex: Exception): KclException =
+            when (ex) {
+                is KclException -> ex
+                else -> KclException(ex)
+            }
+
+        @JvmStatic
+        fun wrap(ex: Exception, fmt: String, vararg args: Any): KclException =
+            when (ex) {
+                is KclException -> ex
+                else -> KclException(ex, fmt, *args)
+            }
+
+
+        @JvmStatic
+        fun unwrap(ex: Exception?): KclException? =
+            if  (ex is KclException) {
+                ex
+            } else if (ex!!.cause is Exception) {
+                unwrap(ex.cause as Exception)
+            } else {
+                null
+            }
+
+        @JvmStatic
+        @Deprecated("KASI")
+        fun <R> execute(supplier: Supplier<R>, fmt: String, vararg args: Any): R {
+            return try {
+                supplier.get()
+            } catch (ex: Exception) {
+                throw wrap(ex, fmt, *args)
+            }
+        }
+
+    } /* ENDOBJECT */
+
 } /* ENDCLASS */
