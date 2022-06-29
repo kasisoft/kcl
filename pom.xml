@@ -344,6 +344,7 @@
                             <configuration>
                                 <args>
                                     <arg>-Xjsr305=strict</arg>
+                                    <arg>-Xjvm-default=all</arg>
                                 </args>
                                 <sourceDirs>
                                     <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
