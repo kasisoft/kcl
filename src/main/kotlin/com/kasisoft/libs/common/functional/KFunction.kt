@@ -2,38 +2,25 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
-
-import java.util.function.*;
+import java.util.function.Function
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * This implementation allows to throw Exceptions (useful on the Java side)
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@FunctionalInterface
-public interface KFunction<T, R> {
+fun interface KFunction<T: Any?, R: Any?> {
 
-  R apply(T input) throws Exception;
-  
-  default <V> @NotNull KFunction<V, R> compose(@NotNull KFunction<? super V, ? extends T> before) {
-    return (V v) -> apply(before.apply(v));
-  }
+    @Throws(Exception::class)
+    fun apply(t: T): R
 
-  default <V> @NotNull KFunction<T, V> andThen(@NotNull KFunction<? super R, ? extends V> after) {
-    return (T t) -> after.apply(apply(t));
-  }
-  
-  default @NotNull Function<T, R> protect() {
-    return (T t) -> {
-      try {
-        return apply(t);
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
-
-  static <T> @NotNull KFunction<T, T> identity() {
-    return t -> t;
-  }
+    fun protect(): Function<T, R> =
+        Function<T, R> { t: T ->
+            try {
+                apply(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
 
 } /* ENDINTERFACE */

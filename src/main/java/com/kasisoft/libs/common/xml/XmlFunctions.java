@@ -40,7 +40,7 @@ import java.io.*;
 
 /**
  * Collection of xml related functions.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public final class XmlFunctions {
@@ -50,62 +50,62 @@ public final class XmlFunctions {
 
   static final Map<String, String> NORMAL2XML       = new HashMap<>();
   static final Map<String, String> NORMAL2XML_LE    = new HashMap<>();
-  
+
   static {
-    
+
     XML2NORMAL.put( "&apos;" , "'"  );
     XML2NORMAL.put( "&gt;"   , ">"  );
     XML2NORMAL.put( "&lt;"   , "<"  );
     XML2NORMAL.put( "&amp;"  , "&"  );
     XML2NORMAL.put( "&quot;" , "\"" );
-    
+
     XML2NORMAL_LE.putAll( XML2NORMAL );
     XML2NORMAL_LE.put( "\\n"    , "\n" );
     XML2NORMAL_LE.put( "\\r"    , "\r" );
     XML2NORMAL_LE.put( "&#10;"  , "\n" );
     XML2NORMAL_LE.put( "&#13;"  , "\r" );
-    
-    
+
+
     NORMAL2XML.put( "'"  , "&apos;" );
     NORMAL2XML.put( ">"  , "&gt;"   );
     NORMAL2XML.put( "<"  , "&lt;"   );
     NORMAL2XML.put( "&"  , "&amp;"  );
     NORMAL2XML.put( "\"" , "&quot;" );
-    
+
     NORMAL2XML_LE.putAll( NORMAL2XML );
     NORMAL2XML_LE.put( "\n" , "\\n"    );
     NORMAL2XML_LE.put( "\r" , "\\r"    );
     NORMAL2XML_LE.put( "\n" , "&#10;"  );
     NORMAL2XML_LE.put( "\r" , "&#13;"  );
-  
+
   }
 
   public static TransformerFactory newTransformerFactory() {
     return TransformerFactory.newInstance();
   }
-  
+
   public static @NotNull Function<@NotNull Element, String> getAttribute(@NotBlank String attribute) {
     return $ -> StringFunctions.cleanup($.getAttribute(attribute));
   }
 
   /**
    * Reads the content of the supplied stream.
-   * 
+   *
    * @param input    The stream which provides the xml content.
    * @param config   A configuration for the xml parser.
-   * 
+   *
    * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull URL input, @NotNull XmlParserConfiguration config) {
-    return IoFunctions.forInputStream(input, $ -> readDocument($, config));
+    return IoFunctions.forInputStream(input, (InputStream $) -> readDocument($, config));
   }
 
   /**
    * Reads the content of the supplied stream.
-   * 
+   *
    * @param input    The stream which provides the xml content.
    * @param config   A configuration for the xml parser.
-   * 
+   *
    * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull URI input, @NotNull XmlParserConfiguration config) {
@@ -114,10 +114,10 @@ public final class XmlFunctions {
 
   /**
    * Reads the content of the supplied stream.
-   * 
+   *
    * @param input    The stream which provides the xml content.
    * @param config   A configuration for the xml parser.
-   * 
+   *
    * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull File input, @NotNull XmlParserConfiguration config) {
@@ -126,22 +126,22 @@ public final class XmlFunctions {
 
   /**
    * Reads the content of the supplied stream.
-   * 
+   *
    * @param input    The stream which provides the xml content.
    * @param config   A configuration for the xml parser.
-   * 
+   *
    * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull Path input, @NotNull XmlParserConfiguration config) {
     return IoFunctions.forInputStream(input, $ -> readDocument($, config));
   }
-  
+
   /**
    * Reads the content of the supplied stream.
-   * 
+   *
    * @param input    The stream which provides the xml content.
    * @param config   A configuration for the xml parser.
-   * 
+   *
    * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull Reader input, @NotNull XmlParserConfiguration config) {
@@ -156,10 +156,10 @@ public final class XmlFunctions {
 
   /**
    * Reads the content of the supplied stream.
-   * 
+   *
    * @param input    The stream which provides the xml content.
    * @param config   A configuration for the xml parser.
-   * 
+   *
    * @return   The Document node itself.
    */
   public static @NotNull Document readDocument(@NotNull InputStream input, @NotNull XmlParserConfiguration config) {
@@ -171,7 +171,7 @@ public final class XmlFunctions {
       }
     });
   }
-  
+
   private static @NotNull Document readDocument(@NotNull XmlParserConfiguration config, @NotNull KFunction<DocumentBuilder, Document> parse) {
     var builder = newDocumentBuilder(config);
     try {
@@ -186,34 +186,34 @@ public final class XmlFunctions {
       throw KclException.wrap(ex);
     }
   }
-  
+
   /**
    * Creates a {@link DocumentBuilder} instance for the supplied parser configuration.
-   * 
+   *
    * @param config   A configuration for the xml parser.
-   * 
+   *
    * @return   The {@link DocumentBuilder} instance.
-   * 
+   *
    * @throws KclException   Configuring the builder failed for some reason.
    */
   public static @NotNull DocumentBuilder newDocumentBuilder(@NotNull XmlParserConfiguration config) {
-    
+
     var factory = DocumentBuilderFactory.newInstance();
-    
+
     factory.setNamespaceAware(config.isXmlnamespaces());
     factory.setValidating(config.isValidate());
-    
+
     try {
       Method method = factory.getClass().getMethod("XIncludeAware", Boolean.TYPE);
       method.invoke( factory, Boolean.valueOf(config.isXincludes()));
     } catch (Exception ex) {
       // no effect here
     }
-    
+
     try {
-      
+
       var result = factory.newDocumentBuilder();
-      
+
       if (config.isSatisfyUnknownSchemas()) {
         if (config.getResolver() != null) {
           result.setEntityResolver(new SatisfyingEntityResolver(config.getResolver()));
@@ -225,21 +225,21 @@ public final class XmlFunctions {
           result.setEntityResolver(config.getResolver());
         }
       }
-      
+
       if (config.getHandler() != null) {
         result.setErrorHandler(config.getHandler());
       } else {
         result.setErrorHandler(new XmlErrorHandler());
       }
-      
+
       return result;
-      
+
     } catch (Exception ex) {
       throw KclException.wrap(ex);
     }
-    
+
   }
-  
+
   private static String toDocumentMethod(@NotNull Node node) {
     var result      = "xml";
     var document    = node.getOwnerDocument();
@@ -250,31 +250,31 @@ public final class XmlFunctions {
     }
     return result;
   }
-  
+
   private static Transformer toTransformer(@NotNull String method, @NotNull Encoding encoding) throws TransformerConfigurationException {
-    
+
     var factory = newTransformerFactory();
     var result  = factory.newTransformer();
-    
+
     result.setOutputProperty(OutputKeys.METHOD, method);
     result.setOutputProperty(OutputKeys.INDENT, "yes");
     result.setOutputProperty(OutputKeys.ENCODING, encoding.getEncoding());
     result.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-    
+
     // a transformer can generate output in different formats, so it doesn't know
     // about the target format which means that we have to alter the pi by our own
     result.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION , "yes");
-    
+
     return result;
   }
 
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
-   * 
+   *
    * @param output     The OutputStream used to receive the content.
    * @param node       The DOM tree which will be saved.
    * @param encoding   The encoding to use while saving.
-   *                       
+   *
    * @throws KclException   Saving the XML datastructure failed.
    */
   public static void writeDocument(@NotNull Path output, @NotNull Node node, Encoding encoding) {
@@ -283,11 +283,11 @@ public final class XmlFunctions {
 
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
-   * 
+   *
    * @param output     The OutputStream used to receive the content.
    * @param node       The DOM tree which will be saved.
    * @param encoding   The encoding to use while saving.
-   *                       
+   *
    * @throws KclException   Saving the XML datastructure failed.
    */
   public static void writeDocument(@NotNull File output, @NotNull Node node, Encoding encoding) {
@@ -296,11 +296,11 @@ public final class XmlFunctions {
 
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
-   * 
+   *
    * @param output     The OutputStream used to receive the content.
    * @param node       The DOM tree which will be saved.
    * @param encoding   The encoding to use while saving.
-   *                       
+   *
    * @throws KclException   Saving the XML datastructure failed.
    */
   public static void writeDocument(@NotNull OutputStream output, @NotNull Node node, Encoding encoding) {
@@ -312,11 +312,11 @@ public final class XmlFunctions {
 
   /**
    * Writes the XML content from a DOM tree into an OutputStream.
-   * 
+   *
    * @param writer     The Writer used to receive the content.
    * @param node       The DOM tree which will be saved.
    * @param encoding   The encoding to use while saving.
-   *                       
+   *
    * @throws KclException   Saving the XML datastructure failed.
    */
   public static void writeDocument(@NotNull Writer writer, @NotNull Node node, Encoding encoding) {
@@ -325,34 +325,34 @@ public final class XmlFunctions {
       writer.flush();
     });
   }
-  
+
   private static void writeDocument(StreamResult streamResult, @NotNull Node node, Encoding encoding, KBiConsumer<String, Encoding> handleXmlDecl) {
-    
+
     try {
-      
+
       encoding          = Encoding.getEncoding(encoding);
       var method        = toDocumentMethod(node);
       var transformer   = toTransformer(method, encoding);
       var xmldecl       = String.format( "<?xml version=\"1.0\" encoding=\"%s\"?>\n", encoding.getEncoding());
-      
+
       handleXmlDecl.accept(xmldecl, encoding);
-      
+
       transformer.transform(new DOMSource(node), streamResult);
-    
+
     } catch (Exception ex) {
       throw KclException.wrap(ex);
     }
-    
+
   }
 
   /**
    * Sets up a new transformer from the supplied stylesheet file. This transformer can be used to
    * convert xml documents in various outcomes.
-   * 
+   *
    * @param xsl   The xslt stylesheet.
-   * 
+   *
    * @return The transformer if the stylesheet could be loaded properly.
-   * 
+   *
    * @throws KclException if loading the stylesheet failed for some reason.
    */
   public static @NotNull Transformer newTransformer(@NotNull Path xsl) {
@@ -362,11 +362,11 @@ public final class XmlFunctions {
   /**
    * Sets up a new transformer from the supplied stylesheet file. This transformer can be used to
    * convert xml documents in various outcomes.
-   * 
+   *
    * @param xsl   The xslt stylesheet.
-   * 
+   *
    * @return The transformer if the stylesheet could be loaded properly.
-   * 
+   *
    * @throws KclException if loading the stylesheet failed for some reason.
    */
   public static @NotNull Transformer newTransformer(@NotNull URI xsl) {
@@ -377,11 +377,11 @@ public final class XmlFunctions {
   /**
    * Sets up a new transformer from the supplied stylesheet file. This transformer can be used to
    * convert xml documents in various outcomes.
-   * 
+   *
    * @param xsl   The xslt stylesheet.
-   * 
+   *
    * @return The transformer if the stylesheet could be loaded properly.
-   * 
+   *
    * @throws KclException if loading the stylesheet failed for some reason.
    */
   public static @NotNull Transformer newTransformer(@NotNull File xsl) {
@@ -389,13 +389,13 @@ public final class XmlFunctions {
   }
 
   /**
-   * Sets up a new transformer from the supplied stylesheet resource. This transformer can be used to convert xml 
+   * Sets up a new transformer from the supplied stylesheet resource. This transformer can be used to convert xml
    * documents in various outcomes.
-   * 
+   *
    * @param resource   The xslt stylesheet resource.
-   * 
+   *
    * @return The transformer if the stylesheet could be loaded properly.
-   * 
+   *
    * @throws KclException if loading the stylesheet failed for some reason.
    */
   public static @NotNull Transformer newTransformer(@NotNull URL resource) {
@@ -407,13 +407,13 @@ public final class XmlFunctions {
   }
 
   /**
-   * Sets up a new transformer from the supplied stylesheet InputStream. This transformer can be used to convert xml 
+   * Sets up a new transformer from the supplied stylesheet InputStream. This transformer can be used to convert xml
    * documents in various outcomes.
-   * 
+   *
    * @param xslinstream   The xslt stylesheet provided by an InputStream.
-   * 
+   *
    * @return The transformer if the stylesheet could be loaded properly.
-   * 
+   *
    * @throws KclException   If loading the stylesheet failed for some reason.
    */
   public static @NotNull Transformer newTransformer(@NotNull InputStream xslinstream) {
@@ -426,7 +426,7 @@ public final class XmlFunctions {
 
   /**
    * Makes sure that a child gets inserted at the first position of a parent.
-   * 
+   *
    * @param parent   The parent which will be extended.
    * @param child    The child which has to be inserted to the first position.
    */
@@ -437,15 +437,15 @@ public final class XmlFunctions {
       parent.appendChild(child);
     }
   }
-  
+
   /**
    * Simple helper function which allows to easily create an element.
-   * 
+   *
    * @param doc       The document which will own the returned element.
    * @param tag       The tag for the element.
    * @param content   The textual content.
    * @param attrs     A list of pairs representing the attributes.
-   * 
+   *
    * @return   An Element which contains all supplied informations.
    */
   public static @NotNull Element createElement(@NotNull Document doc, @NotBlank String tag, @NotNull String content, String ... attrs) {
@@ -463,7 +463,7 @@ public final class XmlFunctions {
 
   /**
    * Removes the supplied list of nodes.
-   * 
+   *
    * @param nodes   A list of nodes which have to be removed from the DOM tree.
    */
   public static void removeNodes(NodeList nodes) {
@@ -475,13 +475,13 @@ public final class XmlFunctions {
       }
     }
   }
-  
+
   /**
    * Collects the child nodes from a parent using a specific name.
-   * 
+   *
    * @param parent     The parent node which children have to be returned.
    * @param relevant   A list of interesting element names. If null all elements will be returned.
-   * 
+   *
    * @return   A list with all matching elements.
    */
   public static @NotNull List<Element> getChildElements(@NotNull Node parent, String ... relevant) {
@@ -503,7 +503,7 @@ public final class XmlFunctions {
     }
     return Collections.emptyList();
   }
-  
+
   public static <T extends Node> @NotNull List<T> getChildNodes(NodeList nodeList) {
     var result = Collections.<T>emptyList();
     if ((nodeList != null) && (nodeList.getLength() > 0)) {
@@ -514,7 +514,7 @@ public final class XmlFunctions {
     }
     return result;
   }
-  
+
   public static <T extends Node> void forNodeDo(@NotNull Consumer<T> handler, @NotNull Predicate<Node> test, @NotNull Node parent, boolean recursive) {
     var childnodes = parent.getChildNodes();
     if ((childnodes != null) && (childnodes.getLength() > 0)) {
@@ -529,10 +529,10 @@ public final class XmlFunctions {
       }
     }
   }
-  
+
   public static Element findElement(@NotNull Element parent, @NotNull String tag) {
     var children = getChildElements(parent, tag);
-    return (!children.isEmpty()) ? children.get(0) : null; 
+    return (!children.isEmpty()) ? children.get(0) : null;
   }
 
   public static @NotNull Function<@NotNull Element, String> getElementText(@NotBlank String tag) {
@@ -546,10 +546,10 @@ public final class XmlFunctions {
 
   /**
    * Returns a map with all attributes.
-   * 
+   *
    * @param node        The node used to retrieve all attributes.
    * @param namespace   <code>true</code> <=> Include the namespace in the attribute name.
-   * 
+   *
    * @return   A list with all matching elements.
    */
   public static @NotNull Map<String, Attr> getAttributes(@NotNull Node node, boolean namespace) {
@@ -570,7 +570,7 @@ public final class XmlFunctions {
   private static String attrName(@NotNull Attr attribute) {
     return attribute.getName();
   }
-  
+
   private static String attrFqName(Attr attribute) {
     var uri = attribute.getNamespaceURI();
     if (uri != null) {
@@ -582,9 +582,9 @@ public final class XmlFunctions {
 
   /**
    * Decodes a String in place while replacing XML entities with their textual representation.
-   * 
+   *
    * @param source   A String that may be modified.
-   * 
+   *
    * @return   An encoded String.
    */
   public static @NotNull String unescapeXml(@NotNull String source) {
@@ -593,10 +593,10 @@ public final class XmlFunctions {
 
   /**
    * Decodes a String in place while replacing XML entities with their textual representation.
-   * 
+   *
    * @param source        A String that may be modified.
    * @param lineEndings   <code>true</code> <=> Escape line endings as well.
-   * 
+   *
    * @return   An encoded String.
    */
   public static @NotNull String unescapeXml(@NotNull String source, boolean lineEndings) {
@@ -606,12 +606,12 @@ public final class XmlFunctions {
       return $.toString();
     });
   }
-  
+
   /**
    * Encodes a String in place while replacing literals into corresponding XML entities.
-   * 
+   *
    * @param source   A String that may be modified.
-   * 
+   *
    * @return   An encoded String.
    */
   public static @NotNull String escapeXml(@NotNull String source) {
@@ -620,10 +620,10 @@ public final class XmlFunctions {
 
   /**
    * Encodes a String in place while replacing literals into corresponding XML entities.
-   * 
+   *
    * @param source        A String that may be modified.
    * @param lineEndings   <code>true</code> <=> Escape line endings as well.
-   * 
+   *
    * @return   An encoded String.
    */
   public static @NotNull String escapeXml(@NotNull String source, boolean lineEndings) {
@@ -637,15 +637,15 @@ public final class XmlFunctions {
   private static class SatisfyingEntityResolver implements EntityResolver {
 
     private EntityResolver    resolver;
-    
+
     public SatisfyingEntityResolver() {
       this(null);
     }
-    
+
     public SatisfyingEntityResolver(EntityResolver entityResolver) {
       resolver = entityResolver;
     }
-    
+
     @Override
     public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
       InputSource result = null;
@@ -661,7 +661,7 @@ public final class XmlFunctions {
       }
       return result;
     }
-    
+
   } /* ENDCLASS */
-  
+
 } /* ENDCLASS */

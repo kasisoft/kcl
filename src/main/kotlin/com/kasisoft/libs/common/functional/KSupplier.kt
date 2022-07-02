@@ -2,26 +2,25 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
-
 import java.util.function.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * This implementation allows to throw Exceptions (useful on the Java side)
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@FunctionalInterface
-public interface KSupplier<T> {
+fun interface KSupplier<R: Any?> {
 
-  T get() throws Exception;
-  
-  default @NotNull Supplier<T> protect() {
-    return () -> {
-      try {
-        return get();
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
-  
+    @Throws(Exception::class)
+    fun get(): R
+
+    fun protect(): Supplier<R> =
+        Supplier<R> {
+            try {
+                get()
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
 } /* ENDINTERFACE */

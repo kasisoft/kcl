@@ -18,11 +18,11 @@ import java.io.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface IoSupport<T> {
-  
+
   @NotNull InputStream newInputStreamImpl(@NotNull T source) throws Exception;
-  
+
   @NotNull OutputStream newOutputStreamImpl(@NotNull T destination) throws Exception;
-  
+
   default @NotNull InputStream newInputStream(@NotNull T source) {
     try {
       return new BufferedInputStream(newInputStreamImpl(source));
@@ -42,15 +42,15 @@ public interface IoSupport<T> {
   default @NotNull Reader newReader(@NotNull T source) {
     return newReader(source, null);
   }
-  
+
   default @NotNull Reader newReader(@NotNull T source, Encoding encoding) {
     return new BufferedReader(new InputStreamReader(newInputStream(source), Encoding.getEncoding(encoding).getCharset()));
   }
-  
+
   default @NotNull Writer newWriter(@NotNull T destination) {
     return newWriter(destination, null);
   }
-  
+
   default @NotNull Writer newWriter(@NotNull T destination, Encoding encoding) {
     return new BufferedWriter(new OutputStreamWriter(newOutputStream(destination), Encoding.getEncoding(encoding).getCharset()));
   }
@@ -62,15 +62,15 @@ public interface IoSupport<T> {
       throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
-  
-  default <R> R forInputStream(@NotNull T source, @NotNull KFunction<@NotNull InputStream, R> function) {
+
+  default <R> R forInputStream(@NotNull T source, @NotNull KFunction<InputStream, R> function) {
     try (var instream = newInputStream(source)) {
       return function.apply(instream);
     } catch (Exception ex) {
       throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
-  
+
   default void forOutputStreamDo(@NotNull T destination, @NotNull KConsumer<@NotNull OutputStream> action) {
     try (var outstream = newOutputStream(destination)) {
       action.accept(outstream);
@@ -78,7 +78,7 @@ public interface IoSupport<T> {
       throw new KclException(ex, error_failed_to_write_to, destination);
     }
   }
-  
+
   default <R> R forOutputStream(@NotNull T destination, @NotNull KFunction<@NotNull OutputStream, R> function) {
     try (var outstream = newOutputStream(destination)) {
       return function.apply(outstream);
@@ -86,7 +86,7 @@ public interface IoSupport<T> {
       throw new KclException(ex, error_failed_to_write_to, destination);
     }
   }
-  
+
   default void forReaderDo(@NotNull T source, @NotNull KConsumer<@NotNull Reader> action) {
     forReaderDo(source, null, action);
   }
@@ -138,7 +138,7 @@ public interface IoSupport<T> {
   default @NotNull byte[] loadBytes(@NotNull T source, @Min(1) int size) {
     return loadBytes(source, 0, size);
   }
-  
+
   default @NotNull byte[] loadBytes(@NotNull T source, @Min(0) int offset, @Min(1) int size) {
     return forInputStream(source, $ -> {
       try {
@@ -155,7 +155,7 @@ public interface IoSupport<T> {
   default @NotNull char[] loadChars(@NotNull T source, @Min(1) int size) {
     return loadChars(source, null, 0, size);
   }
-  
+
   default @NotNull char[] loadChars(@NotNull T source, @Min(0) int offset, @Min(1) int size) {
     return loadChars(source, null, offset, size);
   }
@@ -163,7 +163,7 @@ public interface IoSupport<T> {
   default @NotNull char[] loadChars(@NotNull T source, Encoding encoding, @Min(1) int size) {
     return loadChars(source, encoding, 0, size);
   }
-  
+
   default @NotNull char[] loadChars(@NotNull T source, Encoding encoding, @Min(0) int offset, @Min(1) int size) {
     return forReader(source, encoding, $reader -> {
       try {
@@ -188,7 +188,7 @@ public interface IoSupport<T> {
   default @NotNull byte[] loadAllBytes(@NotNull T source) {
     return loadAllBytes(source, 0);
   }
-  
+
   default @NotNull byte[] loadAllBytes(@NotNull T source, @Min(0) int offset) {
     return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
       forInputStreamDo(source, $instream -> {
@@ -206,7 +206,7 @@ public interface IoSupport<T> {
   default @NotNull char[] loadAllChars(@NotNull T source) {
     return loadAllChars(source, null, 0);
   }
-  
+
   default @NotNull char[] loadAllChars(@NotNull T source, @Min(0) int offset) {
     return loadAllChars(source, null, offset);
   }
@@ -214,7 +214,7 @@ public interface IoSupport<T> {
   default @NotNull char[] loadAllChars(@NotNull T source, Encoding encoding) {
     return loadAllChars(source, encoding, 0);
   }
-  
+
   default @NotNull char[] loadAllChars(@NotNull T source, Encoding encoding, @Min(0) int offset) {
     return Buckets.bucketCharArrayWriter().forInstance($charout -> {
       forReaderDo(source, encoding, $reader -> {
@@ -232,7 +232,7 @@ public interface IoSupport<T> {
   default void saveBytes(@NotNull T destination, @NotNull byte[] data) {
     saveBytes(destination, data, 0, data.length);
   }
-  
+
   default void saveBytes(@NotNull T destination, @NotNull byte[] data, @Min(0) int offset, @Min(0) int length) {
     forOutputStreamDo(destination, $ -> {
       try {
@@ -260,7 +260,7 @@ public interface IoSupport<T> {
       }
     });
   }
-  
+
   default @NotNull String readText(@NotNull T source) {
     return readText(source, null);
   }
@@ -268,7 +268,7 @@ public interface IoSupport<T> {
   default @NotNull String readText(@NotNull T source, Encoding encoding) {
     return forReader(source, encoding, IoFunctions::readText);
   }
-  
+
   default void writeText(@NotNull T destination, @NotNull String text) {
     writeText(destination, null, text);
   }
@@ -282,5 +282,5 @@ public interface IoSupport<T> {
       }
     });
   }
-  
+
 } /* ENDINTERFACE */

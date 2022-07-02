@@ -2,49 +2,70 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
-
 import java.util.function.*;
 
-import java.util.*;
-
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * This implementation allows to throw Exceptions (useful on the Java side)
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@FunctionalInterface
-public interface KPredicate<T> {
+fun interface KPredicate<T: Any?> {
 
-  boolean test(T arg) throws Exception;
-  
-  default KPredicate<T> and(@NotNull KPredicate<? super T> other) {
-    return (t) -> test(t) && other.test(t);
-  }
+    @Throws(Exception::class)
+    fun test(t: T): Boolean
 
-  default @NotNull KPredicate<T> negate() {
-    return (t) -> !test(t);
-  }
+    fun protect(): Predicate<T> =
+        Predicate<T> { t: T ->
+            try {
+                test(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
 
-  default @NotNull KPredicate<T> or(@NotNull KPredicate<? super T> other) {
-    return (t) -> test(t) || other.test(t);
-  }
-  
-  default @NotNull Predicate<T> protect() {
-    return (T t) -> {
-      try {
-        return test(t);
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
-  
-  static <T> @NotNull KPredicate<T> isEqual(Object targetRef) {
-    return (null == targetRef) ? Objects::isNull : object -> targetRef.equals(object);
-  }
+    fun negate(): Predicate<T> =
+        Predicate { t: T ->
+            try {
+                !test(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
 
-  @SuppressWarnings("unchecked")
-  static <T> @NotNull KPredicate<T> not(KPredicate<? super T> target) {
-    return (KPredicate<T>) target.negate();
-  }
+    fun and(after: Predicate<T>) =
+        Predicate { t: T ->
+            try {
+                test(t) && after.test(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
+    fun and(after: KPredicate<T>) =
+        Predicate { t: T ->
+            try {
+                test(t) && after.test(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
+    fun or(after: Predicate<T>) =
+        Predicate { t: T ->
+            try {
+                test(t) || after.test(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
+    fun or(after: KPredicate<T>) =
+        Predicate { t: T ->
+            try {
+                test(t) || after.test(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
 
 } /* ENDINTERFACE */

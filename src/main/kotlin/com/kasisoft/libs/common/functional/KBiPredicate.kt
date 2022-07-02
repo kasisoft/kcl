@@ -2,38 +2,70 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
-
 import java.util.function.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * This implementation allows to throw Exceptions (useful on the Java side)
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@FunctionalInterface
-public interface KBiPredicate<T, U> {
+fun interface KBiPredicate<T: Any?, U: Any?> {
 
-  boolean test(T arg1, U arg2) throws Exception;
-  
-  default @NotNull KBiPredicate<T, U> and(@NotNull KBiPredicate<? super T, ? super U> other) {
-    return (T t, U u) -> test(t, u) && other.test(t, u);
-  }
+    @Throws(Exception::class)
+    fun test(t: T, u: U): Boolean
 
-  default @NotNull KBiPredicate<T, U> negate() {
-    return (T t, U u) -> !test(t, u);
-  }
+    fun protect(): BiPredicate<T, U> =
+        BiPredicate<T, U> { t: T, u: U ->
+            try {
+                test(t, u)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
 
-  default @NotNull KBiPredicate<T, U> or(@NotNull KBiPredicate<? super T, ? super U> other) {
-    return (T t, U u) -> test(t, u) || other.test(t, u);
-  }
+    fun negate(): BiPredicate<T, U> =
+        BiPredicate { t: T, u: U ->
+            try {
+                !test(t, u)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
 
-  default @NotNull BiPredicate<T, U> protect() {
-    return (T t, U u) -> {
-      try {
-        return test(t, u);
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
-  
+    fun and(after: BiPredicate<T, U>) =
+        BiPredicate { t: T, u: U ->
+            try {
+                test(t, u) && after.test(t, u)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
+    fun and(after: KBiPredicate<T, U>) =
+        BiPredicate { t: T, u: U ->
+            try {
+                test(t, u) && after.test(t, u)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
+    fun or(after: BiPredicate<T, U>) =
+        BiPredicate { t: T, u: U ->
+            try {
+                test(t, u) || after.test(t, u)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
+    fun or(after: KBiPredicate<T, U>) =
+        BiPredicate { t: T, u: U ->
+            try {
+                test(t, u) || after.test(t, u)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
 } /* ENDINTERFACE */

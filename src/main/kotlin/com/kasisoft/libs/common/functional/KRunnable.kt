@@ -2,24 +2,23 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
-
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * This implementation allows to throw Exceptions (useful on the Java side)
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@FunctionalInterface
-public interface KRunnable {
+fun interface KRunnable {
 
-  void run() throws Exception;
-  
-  default @NotNull Runnable protect() {
-    return () -> {
-      try {
-        run();
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
- 
+    @Throws(Exception::class)
+    fun run()
+
+    fun protect(): Runnable =
+        Runnable {
+            try {
+                run()
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
 } /* ENDINTERFACE */

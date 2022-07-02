@@ -1,31 +1,26 @@
-package com.kasisoft.libs.common.functional;
+package com.kasisoft.libs.common.functional
 
-import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.*
 
-import javax.validation.constraints.*;
-
-import java.util.function.*;
+import java.util.function.*
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * This implementation allows to throw Exceptions (useful on the Java side)
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@FunctionalInterface
-public interface KConsumer<T> {
+fun interface KConsumer<T: Any?> {
 
-  void accept(T input) throws Exception;
-  
-  default @NotNull KConsumer<T> andThen(@NotNull KConsumer<? super T> after) {
-    return (T t) -> { accept(t); after.accept(t); };
-  }
-  
-  default @NotNull Consumer<T> protect() {
-    return (T t) -> {
-      try {
-        accept(t);
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
+    @Throws(Exception::class)
+    fun accept(t: T)
+
+    fun protect(): Consumer<T> =
+        Consumer<T> { t: T ->
+            try {
+                accept(t)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
 
 } /* ENDINTERFACE */

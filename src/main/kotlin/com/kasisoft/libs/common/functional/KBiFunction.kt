@@ -1,31 +1,26 @@
-package com.kasisoft.libs.common.functional;
+package com.kasisoft.libs.common.functional
 
-import com.kasisoft.libs.common.*;
-
-import javax.validation.constraints.*;
-
-import java.util.function.*;
+import com.kasisoft.libs.common.*
+import java.util.function.Function
+import java.util.function.*
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * This implementation allows to throw Exceptions (useful on the Java side)
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@FunctionalInterface
-public interface KBiFunction<T, U, R> {
+fun interface KBiFunction<T: Any?, U: Any?, R: Any?> {
 
-  R apply(T input1, U input2) throws Exception;
-  
-  default <V> @NotNull KBiFunction<T, U, V> andThen(@NotNull KFunction<? super R, ? extends V> after) {
-    return (T t, U u) -> after.apply(apply(t, u));
-  }
-  
-  default @NotNull BiFunction<T, U, R> protect() {
-    return (T t, U u) -> {
-      try {
-        return apply(t, u);
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
-  
+    @Throws(Exception::class)
+    fun apply(t: T, u: U): R
+
+    fun protect(): BiFunction<T, U, R> =
+        BiFunction<T, U, R> { t: T, u: U ->
+            try {
+                apply(t, u)
+            } catch (ex: Exception) {
+                throw KclException.wrap(ex)
+            }
+        }
+
 } /* ENDINTERFACE */
