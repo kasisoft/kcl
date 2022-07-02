@@ -86,7 +86,7 @@ public class Functions {
     return $ -> consumer.protect().accept($, null, null);
   }
 
-  public static <A> @NotNull SimpleFunction<A> adaptConsumerToSimpleFunction(@NotNull Consumer<A> consumer) {
+  public static <A> @NotNull FunctionST<A> adaptConsumerToSimpleFunction(@NotNull Consumer<A> consumer) {
     return $ -> {
       consumer.accept($);
       return $;
