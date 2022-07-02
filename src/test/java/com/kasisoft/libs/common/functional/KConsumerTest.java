@@ -9,21 +9,25 @@ import org.junit.jupiter.api.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.com
  */
-public class KRunnableTest {
+public class KConsumerTest {
 
-    private KRunnable runnable = () -> { throw new DummyException("error"); };
+    private KConsumer<String> consumer          = $ -> {};
+
+    private KConsumer<String> consumerWithError = $ -> { throw new DummyException("error"); };
 
     @Test
-    public void run() throws Exception {
+    public void accept() throws Exception {
+        consumer.accept(null);
         assertThrows(DummyException.class, () -> {
-            runnable.run();
+            consumerWithError.accept(null);
         });
     }
 
     @Test
     public void protect() {
+        consumer.protect().accept(null);
         assertThrows(KclException.class, () -> {
-            runnable.protect().run();
+            consumerWithError.protect().accept(null);
         });
     }
 

@@ -29,8 +29,8 @@ fun interface KTriPredicate<T: Any?, U: Any?, Z: Any?> {
             }
         }
 
-    fun negate(): KTriPredicate<T, U, Z> =
-        KTriPredicate { t: T, u: U, z: Z ->
+    fun negate(): TriPredicate<T, U, Z> =
+        TriPredicate { t: T, u: U, z: Z ->
             try {
                 !test(t, u, z)
             } catch (ex: Exception) {
@@ -39,7 +39,7 @@ fun interface KTriPredicate<T: Any?, U: Any?, Z: Any?> {
         }
 
     fun and(after: KTriPredicate<T, U, Z>) =
-        KTriPredicate { t: T, u: U, z: Z ->
+        TriPredicate { t: T, u: U, z: Z ->
             try {
                 test(t, u,  z) && after.test(t, u, z)
             } catch (ex: Exception) {
@@ -48,7 +48,7 @@ fun interface KTriPredicate<T: Any?, U: Any?, Z: Any?> {
         }
 
     fun and(after: TriPredicate<T, U, Z>) =
-        KTriPredicate { t: T, u: U, z: Z ->
+        TriPredicate { t: T, u: U, z: Z ->
             try {
                 test(t, u,  z) && after.test(t, u, z)
             } catch (ex: Exception) {
@@ -57,7 +57,7 @@ fun interface KTriPredicate<T: Any?, U: Any?, Z: Any?> {
         }
 
     fun or(after: KTriPredicate<T, U, Z>) =
-        KTriPredicate { t: T, u: U, z: Z ->
+        TriPredicate { t: T, u: U, z: Z ->
             try {
                 test(t, u,  z) || after.test(t, u, z)
             } catch (ex: Exception) {
@@ -66,7 +66,7 @@ fun interface KTriPredicate<T: Any?, U: Any?, Z: Any?> {
         }
 
     fun or(after: TriPredicate<T, U, Z>) =
-        KTriPredicate { t: T, u: U, z: Z ->
+        TriPredicate { t: T, u: U, z: Z ->
             try {
                 test(t, u,  z) || after.test(t, u, z)
             } catch (ex: Exception) {
