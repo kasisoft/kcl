@@ -170,6 +170,11 @@ fun interface KRunnable {
 } /* ENDINTERFACE */
 
 
+/*
+ * The following types are shortcuts in case parameterized types are all the same. I would have preferred
+ * to use <code>typealias</code> instead which isn't possible as type boundaries aren't supported.
+ */
+
 fun interface FunctionST<T: Any?>: Function<T, T>
 fun interface KFunctionST<T: Any?>: KFunction<T, T>
 
