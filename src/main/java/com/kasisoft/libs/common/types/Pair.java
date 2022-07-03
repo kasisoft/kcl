@@ -6,26 +6,26 @@ import java.util.*;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Pair<T1, T2> implements Map.Entry<T1, T2>, HasFirstAndLast<T1, T2> {
 
   private T1   value1;
   private T2   value2;
-  
+
   public Pair() {
   }
-  
+
   public Pair(T1 value1, T2 value2) {
     this.value1 = value1;
     this.value2 = value2;
   }
-  
+
   public T1 getValue1() {
     return value1;
   }
-  
+
   public void setValue1(T1 value1) {
     this.value1 = value1;
   }
@@ -33,14 +33,14 @@ public class Pair<T1, T2> implements Map.Entry<T1, T2>, HasFirstAndLast<T1, T2> 
   public T2 getValue2() {
     return value2;
   }
-  
+
   public void setValue2(T2 value2) {
     this.value2 = value2;
   }
 
   /**
    * Changes the current values.
-   * 
+   *
    * @param val1   The first value.
    * @param val2   The second value.
    */
@@ -67,13 +67,13 @@ public class Pair<T1, T2> implements Map.Entry<T1, T2>, HasFirstAndLast<T1, T2> 
   }
 
   @Override
-  public @NotNull Optional<T1> findFirst() {
-    return Optional.ofNullable(getValue1());
+  public T1 findFirst() {
+    return getValue1();
   }
 
   @Override
-  public @NotNull Optional<T2> findLast() {
-    return Optional.ofNullable(getValue2());
+  public T2 findLast() {
+    return getValue2();
   }
 
   @Override
@@ -111,5 +111,5 @@ public class Pair<T1, T2> implements Map.Entry<T1, T2>, HasFirstAndLast<T1, T2> 
   public String toString() {
     return "Pair [value1=" + value1 + ", value2=" + value2 + "]";
   }
-  
+
 } /* ENDCLASS */

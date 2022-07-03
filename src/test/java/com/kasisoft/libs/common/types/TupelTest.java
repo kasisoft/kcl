@@ -24,12 +24,12 @@ public class TupelTest {
       Arguments.of(new Tupel<String>("A", "B", "C"), "A", "C")
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_processTupels")
   public void processTupels(Tupel<String> tupel, String first, String last) {
-    assertThat(tupel.getFirst(), is(first));
-    assertThat(tupel.getLast(), is(last ));
+    assertThat(tupel.findFirst(), is(first));
+    assertThat(tupel.findLast(), is(last ));
   }
-  
+
 } /* ENDCLASS */

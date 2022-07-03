@@ -1,24 +1,23 @@
-package com.kasisoft.libs.common.types;
+package com.kasisoft.libs.common.types
 
-import javax.validation.constraints.*;
+import com.kasisoft.libs.common.*
 
-import java.util.*;
+import java.util.*
 
-/**
- * @author daniel.kasmeroglu@kasisoft.net
- */
-public interface HasFirstAndLast<F, L> {
+interface HasFirst<T> {
 
-  @NotNull Optional<F> findFirst();
-  
-  @NotNull Optional<L> findLast();
+    fun findFirst(): T?
 
-  default F getFirst() {
-    return findFirst().orElse(null);
-  }
-  
-  default L getLast() {
-    return findLast().orElse(null);
-  }
-  
+    fun getFirst(): T = findFirst() ?: throw KclException("no first element")
+
 } /* ENDINTERFACE */
+
+interface HasLast<T> {
+
+    fun findLast(): T?
+
+    fun getLast(): T = findLast() ?: throw KclException("no last element")
+
+} /* ENDINTERFACE */
+
+interface HasFirstAndLast<F, L>: HasFirst<F>, HasLast<L>

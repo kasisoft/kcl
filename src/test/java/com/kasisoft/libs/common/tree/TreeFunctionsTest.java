@@ -15,7 +15,7 @@ import java.util.*;
 
 /**
  * Test for various functions of the class 'TreeFunctions'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class TreeFunctionsTest {
@@ -62,9 +62,6 @@ public class TreeFunctionsTest {
       $ -> $,
       ($s, $p, $c) -> children.add(new Tupel<>($s, $p, $c))
     );
-    for (Tupel<String> t : children) {
-      System.err.println("[" + t.getFirst() + "] -> '" + t.getLast() + "'");
-    }
     assertThat(children.size(), is(34));
     for (var child : children) {
       if (child.getValues()[1] != null) {
@@ -74,7 +71,7 @@ public class TreeFunctionsTest {
       }
     }
   }
-  
+
   private static final String EXPECTED_FOR_TREE_NODE = ""
                                                        + "[1,root1]\n"
                                                        + "[2,child1]\n"
@@ -110,8 +107,8 @@ public class TreeFunctionsTest {
                                                        + "[2,child1]\n"
                                                        + "[3,child2]\n"
                                                        + "[4,child3]\n"
-                                                       ; 
-  
+                                                       ;
+
   @Test
   public void forTreeNodeDo() {
     StringFBuilder builder = new StringFBuilder();
@@ -162,8 +159,8 @@ public class TreeFunctionsTest {
                                                                  + "[2,child1]\n"
                                                                  + "[3,child2]\n"
                                                                  + "[4,child3]\n"
-                                                                 ; 
-  
+                                                                 ;
+
   @Test
   public void forTreeNodeDo__WithRoot() {
     StringFBuilder builder = new StringFBuilder();
@@ -213,7 +210,7 @@ public class TreeFunctionsTest {
                                                         + "[1,child1]\n"
                                                         + "[2,child2]\n"
                                                         + "[3,child3]\n"
-                                                        ; 
+                                                        ;
 
 
   @Test
@@ -263,19 +260,19 @@ public class TreeFunctionsTest {
                                                                   + "[2,child1]\n"
                                                                   + "[3,child2]\n"
                                                                   + "[4,child3]\n"
-                                                                  ; 
+                                                                  ;
 
 
   @Test
   public void forTreeValueDo__WithRoot() {
     StringFBuilder builder = new StringFBuilder();
     TreeFunctions.forTreeValueDo(
-      PARENTHESIZE_DATA, 
+      PARENTHESIZE_DATA,
       $ -> $,
       false,
       ($value, $level) -> builder.appendF("[%d,%s]\n", $level, $value)
     );
     assertThat(builder.toString(), is(EXPECTED_FOR_TREE_VALUE_WITH_ROOT));
   }
-  
+
 } /* ENDCLASS */
