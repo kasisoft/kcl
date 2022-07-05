@@ -1,75 +1,31 @@
-package com.kasisoft.libs.common.types;
-
-import javax.validation.constraints.*;
-
-import java.util.*;
+package com.kasisoft.libs.common.types
 
 /**
- * Simple class used to work as a container (f.e. out-parameters).
+ * Simple class used to work as a container.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public class Tupel<T> implements HasFirstAndLast<T, T> {
+data class Tupel<T: Any?>(var values: Array<T>): HasFirstAndLast<T, T> {
 
-  private T[]   values;
-  private int   length;
+    val length: Int
+        get() = values.size
 
-  /**
-   * Changes the current values.
-   *
-   * @param newvalues   The new values.
-   */
-  public Tupel(T ... newvalues) {
-    setValues(newvalues);
-  }
+    val empty: Boolean
+        get() = length == 0
 
-  public T[] getValues() {
-    return values;
-  }
+    override fun findLast(): T? = if (length > 0) values[length - 1] else null
 
-  @Override
-  public T findLast() {
-    if (length > 0) {
-      return values[length - 1];
+    override fun findFirst(): T? = if (length > 0) values[0] else null
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Tupel<*>
+        return values.contentEquals(other.values)
     }
-    return null;
-  }
 
-  /**
-   * Returns the first value if at least one has been provided.
-   *
-   * @return   The first value.
-   */
-  @Override
-  public T findFirst() {
-    if (length > 0) {
-      return values[0];
+    override fun hashCode(): Int {
+        return values.contentHashCode()
     }
-    return null;
-  }
-
-  /**
-   * Changes the current values.
-   *
-   * @param newvalues   The new values.
-   */
-  public void setValues(T ... newvalues) {
-    values = newvalues;
-    length = newvalues != null ? newvalues.length : 0;
-  }
-
-  /**
-   * Returns <code>true</code> if this Tupel doesn't contain anything.
-   *
-   * @return   <code>true</code> <=> This Tupel doesn't contain anything.
-   */
-  public boolean isEmpty() {
-    return length == 0;
-  }
-
-  @Override
-  public String toString() {
-    return "Tupel [values=" + Arrays.toString(values) + ", length=" + length + "]";
-  }
 
 } /* ENDCLASS */

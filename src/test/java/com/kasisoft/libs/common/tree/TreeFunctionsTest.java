@@ -60,7 +60,7 @@ public class TreeFunctionsTest {
     TreeFunctions.parenthesize(
       PARENTHESIZE_DATA,
       $ -> $,
-      ($s, $p, $c) -> children.add(new Tupel<>($s, $p, $c))
+      ($s, $p, $c) -> children.add(new Tupel<String>(new String[] {$s, $p, $c}))
     );
     assertThat(children.size(), is(34));
     for (var child : children) {
