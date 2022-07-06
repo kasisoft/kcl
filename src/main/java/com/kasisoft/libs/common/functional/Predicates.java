@@ -181,7 +181,7 @@ public class Predicates {
     Pattern   pattern;
 
     public SuffixPredicate(@NotNull String ... suffices ) {
-      pattern = Buckets.bucketStringFBuilder().forInstance($ -> {
+      pattern = Buckets.stringFBuilder().forInstance($ -> {
         $.append("^(.+)(");
         $.append(suffices[0]);
         for (var i = 1; i < suffices.length; i++) {

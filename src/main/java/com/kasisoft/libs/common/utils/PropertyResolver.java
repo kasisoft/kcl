@@ -126,7 +126,7 @@ public class PropertyResolver implements FunctionST<String> {
 
   @Override
   public String apply(String input) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       $.append(input);
       $.replaceAll(replacementMap);
       return $.toString();

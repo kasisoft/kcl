@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  * Adapter for int array values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class IntArrayAdapter extends AbstractConverter<String, int[]> {
@@ -32,7 +32,7 @@ public class IntArrayAdapter extends AbstractConverter<String, int[]> {
 
   @Override
   public String encodeImpl(@NotNull int[] decoded) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       if (decoded.length > 0) {
         $.append(decoded[0]);
         for (int i = 1; i < decoded.length; i++) {
@@ -46,7 +46,7 @@ public class IntArrayAdapter extends AbstractConverter<String, int[]> {
 
   @Override
   public int[] decodeImpl(@NotNull String encoded) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       $.append(encoded);
       var values = $.splitRegex(pattern);
       var result = new int[values.length];

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  * Adapter for boolean array values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
@@ -16,7 +16,7 @@ public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
   private char              delimiter = ',';
   private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
   private BooleanAdapter    converter = new BooleanAdapter();
-  
+
   public @NotNull BooleanArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (this.delimiter != delimiter) {
       this.delimiter = delimiter;
@@ -32,7 +32,7 @@ public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
 
   @Override
   public String encodeImpl(@NotNull boolean[] decoded) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       if (decoded.length > 0) {
         $.append(decoded[0]);
         for (int i = 1; i < decoded.length; i++) {
@@ -46,7 +46,7 @@ public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
 
   @Override
   public boolean[] decodeImpl(@NotNull String encoded) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       $.append(encoded);
       var values = $.splitRegex(pattern);
       var result = new boolean[values.length];
@@ -56,5 +56,5 @@ public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
       return result;
     });
   }
-  
+
 } /* ENDCLASS */

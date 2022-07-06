@@ -30,7 +30,7 @@ import java.io.*;
 
 /**
  * Collection of functions used for IO operations.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class IoFunctions {
@@ -39,17 +39,17 @@ public class IoFunctions {
   private static final String WC2 = "(.+)";       // **
 
   public static IoSupport<Path> IO_PATH = new PathIoSupport();
-  
+
   public static IoSupport<File> IO_FILE = new FileIoSupport();
-  
+
   public static IoSupport<URI> IO_URI = new URIIoSupport();
-  
+
   public static IoSupport<URL> IO_URL = new URLIoSupport();
 
   public static @NotNull Reader newReader(@NotNull InputStream source) {
     return newReader(source, null);
   }
-  
+
   public static @NotNull Reader newReader(@NotNull InputStream source, Encoding encoding) {
     return new BufferedReader(new InputStreamReader(source, Encoding.getEncoding(encoding).getCharset()));
   }
@@ -87,7 +87,7 @@ public class IoFunctions {
   }
 
   public static @NotNull String readText(@NotNull Reader reader) {
-    return Buckets.bucketStringWriter().forInstance($sw -> {
+    return Buckets.stringWriter().forInstance($sw -> {
       IoFunctions.copy(reader, $sw);
       return $sw.toString();
     });
@@ -96,7 +96,7 @@ public class IoFunctions {
   public static @NotNull Writer newWriter(@NotNull OutputStream destination) {
     return newWriter(destination, null);
   }
-  
+
   public static @NotNull Writer newWriter(@NotNull OutputStream destination, Encoding encoding) {
     return new BufferedWriter(new OutputStreamWriter(destination, Encoding.getEncoding(encoding).getCharset()));
   }
@@ -112,7 +112,7 @@ public class IoFunctions {
       throw KclException.wrap(ex);
     }
   }
-  
+
   public static void writeText(@NotNull OutputStream destination, @NotNull String text) {
     writeText(destination, null, text);
   }
@@ -132,7 +132,7 @@ public class IoFunctions {
   public static void copy(@NotNull InputStream instream, @NotNull OutputStream outstream) {
     copy(instream, outstream, 8192);
   }
-  
+
   public static void copy(@NotNull InputStream instream, @NotNull OutputStream outstream, @Min(1) int blockSize) {
     Buffers.BYTES.forInstanceDo(blockSize, $ -> {
       try {
@@ -152,7 +152,7 @@ public class IoFunctions {
   public static void copy(@NotNull Reader reader, @NotNull Writer writer) {
     copy(reader, writer, 8192);
   }
-  
+
   public static void copy(@NotNull Reader reader, @NotNull Writer writer, @Min(1) int blockSize) {
     Buffers.CHARS.forInstanceDo(blockSize, $ -> {
       try {
@@ -171,21 +171,21 @@ public class IoFunctions {
 
   /**
    * Creates a regex pattern used to match a filesystem path.
-   * 
+   *
    * @param pattern   The filesystem pattern which is supposed to be compiled.
-   * 
+   *
    * @return   A {@link Pattern} instance used to test filesystem pathes.
    */
   public static @NotNull Pattern compileFilesystemPattern(@NotNull String pattern) {
     return compileFilesystemPattern(pattern, 0);
   }
-  
+
   /**
    * Creates a regex pattern used to match a filesystem path.
-   * 
+   *
    * @param pattern   The filesystem pattern which is supposed to be compiled.
    * @param flags     The Pattern flags.
-   * 
+   *
    * @return   A {@link Pattern} instance used to test filesystem pathes.
    */
   public static @NotNull Pattern compileFilesystemPattern(@NotNull String pattern, int flags) {
@@ -214,7 +214,7 @@ public class IoFunctions {
     }
     return Pattern.compile(buffer.toString(), flags);
   }
-  
+
   public static @NotNull Path newTempFile(String prefix, String suffix) {
     try {
       return Files.createTempFile(prefix, suffix);
@@ -230,10 +230,10 @@ public class IoFunctions {
       return Optional.empty();
     }
   }
-  
+
   /**
    * Skip some bytes within an InputStream.
-   * 
+   *
    * @param input    The InputStream providing the content.
    * @param size     The amount of bytes to be skipped.
    */
@@ -246,10 +246,10 @@ public class IoFunctions {
       }
     }
   }
-  
+
   /**
    * Skips some byte within a Reader.
-   * 
+   *
    * @param input    The Reader providing the content.
    * @param size     The amount of bytes to be skipped.
    */
@@ -267,21 +267,21 @@ public class IoFunctions {
 
   /**
   * GZIPs the supplied file.
-  * 
+  *
   * @param file   The file which has to be gzipped.
-  * 
+  *
   * @return   The gzipped file.
   */
   public static @NotNull Path gzip(@NotNull Path source) {
     return gzip(source, null);
   }
-  
+
   /**
   * GZIPs the supplied file. Preexisting files will be overwritten.
-  * 
+  *
   * @param source        The file which has to be gzipped.
   * @param destination   The gziped file. If null it's the input file plus a suffix '.gz'
-  * 
+  *
   * @return   The gzipped file.
   */
   public static @NotNull Path gzip(@NotNull Path source, Path destination) {
@@ -303,19 +303,19 @@ public class IoFunctions {
       } catch (Exception ex) {
         throw KclException.wrap(ex, error_failed_to_gzip, source, result);
       }
-      
+
     }
     return result;
   }
-  
+
   private static @NotNull Path buildDefaultGzippedPath(@NotNull Path source) {
     var parentDir = source.toAbsolutePath().getParent();
     var fileName  = source.getFileName().toString() + ".gz";
     return parentDir.resolve(fileName).normalize();
   }
-  
+
   public static @NotNull byte[] loadGzipped(@NotNull Path source) {
-    return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
+    return Buckets.byteArrayOutputStream().forInstance($byteout -> {
       try (
         var instream = IO_PATH.newInputStream(source);
         var gzipOut  = new GZIPOutputStream($byteout);
@@ -330,34 +330,34 @@ public class IoFunctions {
 
   /**
   * UNGZIPs the supplied file.
-  * 
+  *
   * @param file   The file which has to be ungzipped.
-  * 
+  *
   * @return   The ungzipped file.
   */
   public static @NotNull Path ungzip(@NotNull Path source) {
     return ungzip(source, null);
   }
-  
+
   /**
   * UNGZIPs the supplied file. Preexisting files will be overwritten.
-  * 
+  *
   * @param source        The file which has to be ungzipped.
   * @param destination   The ungziped file. If null it's the input file plus a suffix '.gz'
-  * 
+  *
   * @return   The ungzipped file.
   */
   public static @NotNull Path ungzip(@NotNull Path source, Path destination) {
-    
+
     source     = source.normalize();
     var result = destination;
-    
+
     if (result == null) {
       result = buildDefaultUngzippedPath(source);
     }
-    
+
     result = result.normalize();
-    
+
     if (source.compareTo(result) == 0) {
       // we need to do an inline compression
       IO_PATH.saveBytes(result, loadUngzipped(source));
@@ -370,11 +370,11 @@ public class IoFunctions {
       } catch (Exception ex) {
         throw KclException.wrap(ex, error_failed_to_gzip, source, result);
       }
-      
+
     }
     return result;
   }
-  
+
   private static @NotNull Path buildDefaultUngzippedPath(@NotNull Path source) {
     var parentDir = source.toAbsolutePath().getParent();
     var fileName  = source.getFileName().toString();
@@ -385,9 +385,9 @@ public class IoFunctions {
     }
     return parentDir.resolve(fileName).normalize();
   }
-  
+
   public static @NotNull byte[] loadUngzipped(@NotNull Path source) {
-    return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
+    return Buckets.byteArrayOutputStream().forInstance($byteout -> {
       try (
         var instream = new GZIPInputStream(IO_PATH.newInputStream(source));
       ) {
@@ -398,12 +398,12 @@ public class IoFunctions {
       return $byteout.toByteArray();
     });
   }
-  
+
   /**
    * Returns the nearest existing path.
-   * 
+   *
    * @param path   The current path.
-   * 
+   *
    * @return   An existing parent path or null if there's none.
    */
   public static @NotNull Optional<Path> findExistingPath(Path path) {
@@ -413,7 +413,7 @@ public class IoFunctions {
     }
     return Optional.ofNullable(result);
   }
-  
+
   public static void copyFile(@NotNull Path source, @NotNull Path destination) {
     try {
       if (!Files.isRegularFile(source)) {
@@ -438,7 +438,7 @@ public class IoFunctions {
 
   /**
    * Creates the supplied directory including it's parent.
-   * 
+   *
    * @param dir   The directory that needs to be created.
    */
   public static void mkDirs(@NotNull Path dir) {
@@ -448,17 +448,17 @@ public class IoFunctions {
       throw KclException.wrap(ex, error_failed_to_create_directory, dir);
     }
   }
-  
+
   public static void copyDir(@NotNull Path source, @NotNull Path destination) {
-    
+
     if (!Files.isDirectory(source)) {
       throw new KclException(error_directory_does_not_exist, source);
     }
-    
+
     new CopyingFileWalker(source, destination).run();
-      
+
   }
-  
+
   public static void copy(@NotNull Path source, @NotNull Path destination) {
     if (Files.isRegularFile(source)) {
       copyFile(source, destination);
@@ -473,11 +473,11 @@ public class IoFunctions {
     }
     return findRoot(path.getParent()).normalize();
   }
-  
+
   public static void moveDir(@NotNull Path source, @NotNull Path destination) {
-    
+
     try {
-      
+
       if (!Files.isDirectory(source)) {
         throw new KclException(error_directory_does_not_exist, source);
       }
@@ -485,20 +485,20 @@ public class IoFunctions {
       var sourceRoot = findRoot(source);
       var destRoot   = findRoot(destination);
       if (sourceRoot.compareTo(destRoot) == 0) {
-        
+
         // same root, so we can simply move
         Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
-        
+
       } else {
         new MovingFileWalker(source, destination).run();
       }
-      
+
     } catch (Exception ex) {
       throw KclException.wrap(ex);
     }
-    
+
   }
-  
+
   public static void move(@NotNull Path source, @NotNull Path destination) {
     if (Files.isRegularFile(source)) {
       moveFile(source, destination);
@@ -506,7 +506,7 @@ public class IoFunctions {
       moveDir(source, destination);
     }
   }
-  
+
   public static void deleteFile(@NotNull File file) {
     deleteFile(file.toPath());
   }
@@ -530,7 +530,7 @@ public class IoFunctions {
       new DeletingFileWalker(dir).run();
     }
   }
-  
+
   public static void delete(@NotNull Path resource) {
     if (Files.isRegularFile(resource)) {
       deleteFile(resource);
@@ -541,9 +541,9 @@ public class IoFunctions {
 
   /**
    * Collects relative pathes.
-   * 
+   *
    * @param start   The base path.
-   * 
+   *
    * @return   A list of relative pathes (directories will end with a slash).
    */
   public static @NotNull List<@NotNull String> listPathes(@NotNull Path start) {
@@ -552,48 +552,48 @@ public class IoFunctions {
 
   /**
    * Collects relative pathes.
-   * 
+   *
    * @param start           The base path.
    * @param filter          A filter used to accept the relative path.
-   * 
+   *
    * @return   A list of relative pathes (directories will end with a slash).
    */
   public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, KPredicate<String> filter) {
     return listPathes(start, filter, true);
   }
-  
+
   /**
    * Collects relative pathes.
-   * 
+   *
    * @param start           The base path.
    * @param filter          A filter used to accept the relative path.
-   * @param includeDirs     <code>true</code> <=> Include directories in the result list. 
-   * 
+   * @param includeDirs     <code>true</code> <=> Include directories in the result list.
+   *
    * @return   A list of relative pathes (directories will end with a slash).
    */
   public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, KPredicate<String> filter, boolean includeDirs) {
-    
+
     try {
-      
+
       KPredicate<String> predicate = filter != null ? filter : $ -> true;
       return new ListingFileWalker(start, includeDirs).get().stream()
         .filter(predicate.protect())
         .sorted()
         .collect(Collectors.toList())
         ;
-      
+
     } catch (Exception ex) {
       throw KclException.wrap(ex, error_failed_to_scan_dir, start);
     }
-    
+
   }
-    
+
   /**
-   * Executes some function per entry (unless rejected). 
-   * 
+   * Executes some function per entry (unless rejected).
+   *
    * @param zipFile    The zip file.
    * @param encoding   The encoding to use.
-   * @param filter     A filter used to accept the relative path. 
+   * @param filter     A filter used to accept the relative path.
    * @param consumer   A function that will be executed.
    */
   public static void forZipFileDo(@NotNull Path zipFile, Encoding encoding, KPredicate<@NotNull ZipEntry> filter, @NotNull KBiConsumer<@NotNull ZipFile, @NotNull ZipEntry> consumer) {
@@ -614,12 +614,12 @@ public class IoFunctions {
       throw KclException.wrap(ex, error_failed_to_process_zip, zipFile);
     }
   }
-  
+
   /**
    * Collects relative pathes within the supplied archive.
-   * 
+   *
    * @param zipFile    The zip file.
-   * 
+   *
    * @return   A list of relative pathes.
    */
   public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile) {
@@ -628,23 +628,23 @@ public class IoFunctions {
 
   /**
    * Collects relative pathes within the supplied archive.
-   * 
+   *
    * @param zipFile    The zip file.
    * @param encoding   The encoding to use.
-   * 
+   *
    * @return   A list of relative pathes.
    */
   public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, Encoding encoding) {
    return listZipFile(zipFile, encoding, null);
   }
-  
+
   /**
    * Collects relative pathes within the supplied archive.
-   * 
+   *
    * @param zipFile    The zip file.
    * @param encoding   The encoding to use.
-   * @param filter     A filter used to accept the relative path. 
-   * 
+   * @param filter     A filter used to accept the relative path.
+   *
    * @return   A list of relative pathes.
    */
   public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, Encoding encoding, KPredicate<@NotNull ZipEntry> filter) {
@@ -660,20 +660,20 @@ public class IoFunctions {
   public static void unzip(@NotNull Path zipFile, @NotNull Path destination, Encoding encoding) {
     unzip(zipFile, destination, encoding, null);
   }
-  
+
   public static void unzip(@NotNull Path zipFile, @NotNull Path destination, Encoding encoding, KPredicate<@NotNull ZipEntry> filter) {
     forZipFileDo(zipFile, encoding, filter, ($z, $e) -> {
-      
+
       var  dest = destination.resolve($e.getName());
-      
+
       if ($e.isDirectory()) {
-        
+
         mkDirs(dest);
-        
+
       } else {
-        
+
         mkDirs(dest.getParent());
-        
+
         try (
           var instream  = $z.getInputStream($e);
           var outstream = IO_PATH.newOutputStream(dest);
@@ -682,9 +682,9 @@ public class IoFunctions {
         } catch (Exception ex) {
           throw KclException.wrap(ex, error_failed_to_unzip, dest, zipFile, $e.getName());
         }
-        
+
       }
-      
+
     });
   }
 
@@ -710,18 +710,18 @@ public class IoFunctions {
   private static final String[] ARCHIVE_PREFIXES = new String[] {
     "jar:", "ear:", "zip:", "war:"
   };
-  
+
   /**
    * Calculates the class directory/jarfile used for the supplied class instance.
-   * 
+   *
    * @param classobj   The class which is used to locate the application directory.
    * @param skippable  If supplied immediate parental directories named as provided will be skipped. This is an easy
    *                   way to skip directories in a build environment (f.e. target/classes).
-   * 
+   *
    * @return   The location of the class directory/jarfile.
    */
   public static @NotNull Path locateDirectory(@NotNull Class<?> classobj, String ... skippable) {
-    
+
     var classname    = String.format("%s.class", classobj.getName().replace('.','/'));
     var location     = classobj.getClassLoader().getResource(classname);
     var externalform = location.toExternalForm();
@@ -730,24 +730,24 @@ public class IoFunctions {
     if (baselocation.endsWith("!")) {
       baselocation = baselocation.substring(0, baselocation.length() - 1);
     }
-    
+
     for (var prefix : ARCHIVE_PREFIXES) {
       if (baselocation.startsWith(prefix)) {
         baselocation = baselocation.substring(prefix.length());
         break;
       }
     }
-    
+
     if (baselocation.startsWith("file:")) {
       baselocation = baselocation.substring("file:".length());
     }
-    
+
     var result = Paths.get(baselocation).normalize();
     if (Files.isRegularFile(result)) {
       // might be the case if the class was located in an archive
       result = result.getParent();
     }
-    
+
     if ((skippable != null) && (skippable.length > 0)) {
       // get rid of directories such as 'classes', 'target' etc.
       var toSkip = Arrays.asList(skippable);
@@ -756,9 +756,9 @@ public class IoFunctions {
       }
     }
     return result;
-      
+
   }
-  
+
   public static @NotNull Properties loadProperties(@NotNull Reader reader) {
     Properties result = new Properties();
     try {
@@ -800,7 +800,7 @@ public class IoFunctions {
     }
     return null;
   }
-  
+
   public static @NotNull BufferedReader newBufferedReader(@NotNull Reader reader) {
     if (reader instanceof BufferedReader) {
       return (BufferedReader) reader;
@@ -810,7 +810,7 @@ public class IoFunctions {
   }
 
   /* BEGIN */
-  
+
   /**
    * @see IoSupport#forInputStream(Object, Function<InputStream,  R>)
    */

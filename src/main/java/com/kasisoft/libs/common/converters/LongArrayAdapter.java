@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Adapter for long array values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class LongArrayAdapter extends AbstractConverter<String, long[]> {
@@ -37,7 +37,7 @@ public class LongArrayAdapter extends AbstractConverter<String, long[]> {
     if (decoded.length == 0) {
       return Empty.NO_STRING;
     }
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       if (decoded.length > 0) {
         $.append(decoded[0]);
         for (int i = 1; i < decoded.length; i++) {
@@ -54,7 +54,7 @@ public class LongArrayAdapter extends AbstractConverter<String, long[]> {
     if (encoded.length() == 0) {
       return Empty.NO_LONGS;
     }
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       $.append(encoded);
       var values = $.splitRegex(pattern);
       var result = new long[values.length];

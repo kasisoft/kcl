@@ -16,21 +16,21 @@ import java.security.*;
 
 /**
  * Collection of supported MessageDigest implementations.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://docs.oracle.com/javase/10/docs/api/java/security/MessageDigest.html", date = "04-JUN-2020")
 public final class Digest {
-  
+
   public static final Digest   MD2;
   public static final Digest   MD5;
   public static final Digest   SHA1;
   public static final Digest   SHA256;
   public static final Digest   SHA384;
   public static final Digest   SHA512;
-  
+
   private static final Map<String, Digest>   DIGESTS;
-  
+
   static {
     DIGESTS   = new HashMap<>();
     MD2       = new Digest("MD2");
@@ -40,18 +40,18 @@ public final class Digest {
     SHA384    = new Digest("SHA-384");
     SHA512    = new Digest("SHA-512");
   }
-  
+
   @NotBlank
   private String                    algorithm;
-  
+
   private Bucket<MessageDigest>     bucket;
 
-  
+
   /**
    * Initializes this digest for the supplied algorithm.
-   *  
+   *
    * @param algorithm   The name of the hash algorithm.
-   * 
+   *
    * @throws KclException   The supplied alorithm isn't known.
    */
   public Digest(@NotBlank String algorithm) {
@@ -66,16 +66,16 @@ public final class Digest {
       DIGESTS.put(algorithm, this);
     }
   }
-  
+
   public String getAlgorithm() {
     return algorithm;
   }
-  
+
   /**
    * Processes the supplied data blocks in order to calculate a hash.
-   * 
+   *
    * @param data   The data used to be digested.
-   * 
+   *
    * @return   The hash value.
    */
   public @NotNull String digestToString(@NotNull byte[] ... data) {
@@ -87,11 +87,11 @@ public final class Digest {
    *
    * @param count   The number of times used to run the digestion.
    * @param data    The data used to be digested.
-   * 
+   *
    * @return   The hash value.
    */
   public @NotNull String digestToString(int count, @NotNull byte[] ... data) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.stringFBuilder().forInstance($ -> {
       var checksum = digest(count, data);
       for (var b : checksum) {
         var asbyte = Integer.toString((b & 0xff), 16);
@@ -106,9 +106,9 @@ public final class Digest {
 
   /**
    * Processes the supplied data blocks in order to calculate a hash.
-   * 
+   *
    * @param data   The data used to be digested.
-   * 
+   *
    * @return   The hash value.
    */
   public @NotNull byte[] digest(@NotNull byte[] ... data) {
@@ -120,7 +120,7 @@ public final class Digest {
    *
    * @param count   The number of times used to run the digestion.
    * @param data    The data used to be digested.
-   * 
+   *
    * @return   The hash value.
    */
   public @NotNull byte[] digest(@Min(1) int count, @NotNull byte[] ... data) {
@@ -139,19 +139,19 @@ public final class Digest {
   public String toString() {
     return algorithm;
   }
-  
+
   public static @NotNull Digest[] values() {
     synchronized (DIGESTS) {
       return DIGESTS.values().toArray(new Digest[DIGESTS.size()]);
     }
   }
-  
+
   /**
    * This helper function identifies the MessageDigest algorithm value which corresponds to the supplied name. Be
    * aware that this enumeration only supports the <b>required</b> digests.
-   * 
+   *
    * @param name   The name of the digest which has to be identified. Case sensitivity doesn't matter here.
-   *               
+   *
    * @return   The digest value or empty if it cannot be identified.
    */
   public static Optional<Digest> findByName(String name) {
@@ -176,5 +176,5 @@ public final class Digest {
     digest.reset();
     return digest;
   }
-  
+
 } /* ENDCLASS */

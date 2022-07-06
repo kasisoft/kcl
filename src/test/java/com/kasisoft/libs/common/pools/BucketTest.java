@@ -10,19 +10,19 @@ import org.junit.jupiter.api.*;
 
 /**
  * Test for the class 'Bucket'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BucketTest {
-  
+
   @Test
   public void arrayList() {
-    
-    var bucket = Buckets.bucketArrayList();
+
+    var bucket = Buckets.arrayList();
     bucket.reset();
-    
+
     assertThat(0, is(bucket.getSize()));
-    
+
     var obj1  = bucket.allocate();
     obj1.add("Data-1");
 
@@ -34,20 +34,20 @@ public class BucketTest {
 
     bucket.free(obj1);
     assertThat(1, is(bucket.getSize()));
-    
+
     var obj4  = bucket.allocate();
     assertTrue(obj4.isEmpty());
-    
+
   }
 
   @Test
   public void stringFBuilder() {
-    
-    var bucket = Buckets.bucketStringFBuilder();
+
+    var bucket = Buckets.stringFBuilder();
     bucket.reset();
-    
+
     assertThat(0, is(bucket.getSize()));
-    
+
     var obj1 = bucket.allocate();
     obj1.append("Data-1");
 
@@ -59,10 +59,10 @@ public class BucketTest {
 
     bucket.free(obj1);
     assertThat(1, is(bucket.getSize()));
-    
+
     var obj4  = bucket.allocate();
     assertThat(obj4.length(), is(0));
-    
+
   }
 
 } /* ENDCLASS */
