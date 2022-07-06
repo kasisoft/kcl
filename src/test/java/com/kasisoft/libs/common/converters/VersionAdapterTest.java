@@ -14,18 +14,18 @@ import java.util.stream.*;
 
 /**
  * Tests for the type 'VersionAdapter'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class VersionAdapterTest {
 
   private VersionAdapter adapter = new VersionAdapter().withMicro(true).withQualifier(true);
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null             , null                                       ),
-      Arguments.of("1.1.1.qualifier", new Version( "1.1.1.qualifier", true, true))
+      Arguments.of("1.1.1.qualifier", Version.parse( "1.1.1.qualifier", true, true))
     );
   }
 
@@ -34,7 +34,7 @@ public class VersionAdapterTest {
   public void decode( String value, Version expected ) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
@@ -48,5 +48,5 @@ public class VersionAdapterTest {
   public void encode(Version value, String expected) throws Exception {
     assertThat(adapter.encode(value), is(expected));
   }
-  
+
 } /* ENDCLASS */

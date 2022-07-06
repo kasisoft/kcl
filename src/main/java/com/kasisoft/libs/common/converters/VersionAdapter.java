@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 
 /**
  * Adapter for Version values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class VersionAdapter extends AbstractConverter<String, Version> {
@@ -14,7 +14,7 @@ public class VersionAdapter extends AbstractConverter<String, Version> {
   private boolean   micro       = false;
   private boolean   qualifier   = false;
   private boolean   all         = false;
-  
+
   public VersionAdapter withMicro(boolean micro) {
     this.micro = micro;
     return this;
@@ -38,9 +38,9 @@ public class VersionAdapter extends AbstractConverter<String, Version> {
   @Override
   public Version decodeImpl(@NotNull String v) {
     if (all) {
-      return new Version(v);
+      return Version.parse(v, null, null);
     } else {
-      return new Version(v, micro, qualifier);
+      return Version.parse(v, micro, qualifier);
     }
   }
 
