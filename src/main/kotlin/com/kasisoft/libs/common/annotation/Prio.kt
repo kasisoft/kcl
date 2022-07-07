@@ -1,19 +1,10 @@
-package com.kasisoft.libs.common.annotation;
-
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.*;
-
-import java.lang.annotation.*;
+package com.kasisoft.libs.common.annotation
 
 /**
  * This annotation allows to provide some ordering to class types.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@Retention(RUNTIME)
-@Target({TYPE})
-public @interface Prio {
-
-  int value() default 0;
-  
-} /* ENDINTERFACE */
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.CLASS)
+annotation class Prio(val value: Int = 0)
