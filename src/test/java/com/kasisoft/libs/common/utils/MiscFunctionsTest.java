@@ -31,8 +31,6 @@ public class MiscFunctionsTest {
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_getGravatarLink() {
     return Stream.of(
-      Arguments.of(null                                                                    , null                                  , null),
-      Arguments.of(null                                                                    , null                                  , 12),
       Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"      , " Daniel.KASMEROGLU@kasisoft.net \n"  , null),
       Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d"      , "daniel.kasmeroglu@kasisoft.net"      , null),
       Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d?s=100", "daniel.kasmeroglu@kasisoft.net"      , 100)
@@ -57,10 +55,6 @@ public class MiscFunctionsTest {
   @MethodSource("data_toUniqueList")
   public void toUniqueList(List<String> list, List<String> expected) {
 
-    var altered1 = MiscFunctions.toUniqueList(null);
-    assertNotNull(altered1);
-    assertTrue(altered1.isEmpty());
-
     var altered2 = MiscFunctions.toUniqueList(list);
     assertNotNull(altered2);
     assertThat(altered2.size(), is(expected.size()));
@@ -74,7 +68,7 @@ public class MiscFunctionsTest {
   @MethodSource("data_toUniqueList")
   public void toSet(List<String> list, List<String> expected) {
 
-    var altered1 = MiscFunctions.toSet((String[]) null);
+    var altered1 = MiscFunctions.toSet();
     assertNotNull(altered1);
     assertTrue(altered1.isEmpty());
 
@@ -199,10 +193,6 @@ public class MiscFunctionsTest {
     assertNotNull(noentries1);
     assertThat(noentries1.size(), is(0));
 
-    var noentries2 = MiscFunctions.toPairs((String[]) null);
-    assertNotNull(noentries2);
-    assertThat(noentries2.size(), is(0));
-
     var incompletePair = MiscFunctions.toPairs("key");
     assertNotNull(incompletePair);
     assertThat(incompletePair.size(), is(0));
@@ -293,10 +283,6 @@ public class MiscFunctionsTest {
     var map2 = MiscFunctions.toMap();
     assertNotNull(map2);
     assertTrue(map2.isEmpty());
-
-    var map3 = MiscFunctions.toMap((Object[]) null);
-    assertNotNull(map3);
-    assertTrue(map3.isEmpty());
 
   }
 
