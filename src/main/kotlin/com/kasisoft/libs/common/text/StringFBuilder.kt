@@ -14,7 +14,7 @@ import java.io.*
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */
-open class StringFBuilder : Serializable, StringLike<StringFBuilder> {
+open class StringFBuilder: Serializable, StringLike<StringFBuilder> {
 
     companion object {
 

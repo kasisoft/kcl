@@ -1,575 +1,481 @@
-package com.kasisoft.libs.common.text;
+package com.kasisoft.libs.common.text
 
-import com.kasisoft.libs.common.utils.*;
+import com.kasisoft.libs.common.utils.*
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.*
 
-import java.util.function.*;
+import java.util.function.*
 
-import java.util.stream.*;
+import java.util.stream.*
 
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.regex.Pattern
+import java.util.regex.*
+import java.util.function.Function
+import java.util.*
 
-import java.io.*;
+import java.io.*
 
 /**
- * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which 
+ * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which
  * means that the original index is calculated beginning from the end of the buffer.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
-  
-  private static final long serialVersionUID = 6094891463351971217L;
-  
-  // the original implementation
-  private StringBuffer   origin;
-  
-  /**
-   * @see StringBuffer#StringBuffer()
-   */
-  public StringFBuffer() {
-    origin = new StringBuffer();
-  }
+open class StringFBuffer: Serializable, StringLike<StringFBuffer> {
 
-  /**
-   * @see StringBuffer#StringBuffer(int)
-   */
-  public StringFBuffer(@Min(1) int capacity) {
-    origin = new StringBuffer(capacity);
-  }
+    companion object {
 
-  /**
-   * @see StringBuffer#StringBuffer(CharSequence)
-   */
-  public StringFBuffer(@NotNull CharSequence seq) {
-    origin = new StringBuffer(seq);
-  }
+        private const val serialVersionUID = 6094891463351971217L
 
-  @Override
-  public synchronized @Min(0) int length() {
-    return origin.length();
-  }
-
-  @Override
-  public synchronized @Min(1) int capacity() {
-    return origin.capacity();
-  }
-
-  @Override
-  public synchronized StringFBuffer ensureCapacity(@Min(1) int minimum) {
-    origin.ensureCapacity(minimum);
-    return this;
-  }
-
-  @Override
-  public synchronized StringFBuffer trimToSize() {
-    origin.trimToSize();
-    return this;
-  }
-
-  @Override
-  public synchronized StringFBuffer setLength(@Min(0) int newlength) {
-    origin.setLength(newlength);
-    return this;
-  }
-
-  @Override
-  public synchronized char charAt(int index) {
-    return origin.charAt(adjustIndex(index, false));
-  }
-
-  @Override
-  public synchronized int codePointAt(int index) {
-    return origin.codePointAt(adjustIndex(index, false));
-  }
-
-  @Override
-  public synchronized int codePointBefore(int index) {
-    return origin.codePointBefore(adjustIndex(index, false));
-  }
-
-  @Override
-  public synchronized int codePointCount(int begin, int end) {
-    return origin.codePointCount(adjustIndex(begin, false), adjustIndex(end, true));
-  }
-
-  @Override
-  public synchronized int offsetByCodePoints(int index, int codepointoffset) {
-    return origin.offsetByCodePoints(adjustIndex(index, false), codepointoffset);
-  }
-
-  @Override
-  public synchronized StringFBuffer getChars(int start, int end, @NotNull char[] destination, int destbegin) {
-    origin.getChars(adjustIndex(start, false), adjustIndex(end, true), destination, MiscFunctions.adjustIndex(destination.length, destbegin, false));
-    return this;
-  }
-
-  @Override
-  public synchronized StringFBuffer setCharAt(int index, char ch) {
-    origin.setCharAt(adjustIndex(index, false), ch);
-    return this;
-  }
-
-  @Override
-  public StringFBuffer setCodepointAt(int index, int codepoint) {
-    index     = adjustIndex(index, false);
-    var count = Character.charCount(codepoint);
-    delete(index, index + count);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(@NotNull Object obj) {
-    origin.append(obj);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(@NotNull CharSequence sequence) {
-    origin.append(sequence);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(@NotNull CharSequence sequence, int start, int end) {
-    origin.append(sequence, MiscFunctions.adjustIndex(sequence.length(), start, false), MiscFunctions.adjustIndex(sequence.length(), end, true));
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(@NotNull char[] charray) {
-    origin.append(charray);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(@NotNull char[] charray, int offset, int length) {
-    origin.append(charray, MiscFunctions.adjustIndex(charray.length, offset, false), length);
-    return this;
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer append(boolean value) {
-    origin.append(value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(char value) {
-    origin.append(value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(int value) {
-    origin.append(value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer appendCodePoint(int codepoint) {
-    origin.appendCodePoint(codepoint);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(long value) {
-    origin.append(value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(float value) {
-    origin.append(value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer append(double value) {
-    origin.append(value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer delete(int start, int end) {
-    origin.delete(adjustIndex(start, false), adjustIndex(end, true));
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer deleteCharAt(int index) {
-    origin.deleteCharAt(adjustIndex(index, false));
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer replace(int start, int end, @NotNull String str) {
-    origin.replace(adjustIndex(start, false), adjustIndex(end, true), str);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull String substring(int start) {
-    return origin.substring(adjustIndex(start, false));
-  }
-
-  @Override
-  public synchronized @NotNull CharSequence subSequence(int start, int end) {
-    return origin.subSequence(adjustIndex(start, false), adjustIndex(end, true));
-  }
-
-  @Override
-  public synchronized @NotNull String substring( int start, int end) {
-    return origin.substring(adjustIndex(start, false), adjustIndex(end, true));
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int index, @NotNull char[] charray, int offset, int length) {
-    origin.insert(adjustIndex(index, false), charray, MiscFunctions.adjustIndex(charray.length, offset, false), length);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, @NotNull Object obj) {
-    origin.insert(adjustIndex(offset, false), obj);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, @NotNull char[] value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, @NotNull CharSequence value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, @NotNull CharSequence value, int start, int end) {
-    origin.insert(adjustIndex(offset, false), value, MiscFunctions.adjustIndex(value.length(), start, false), MiscFunctions.adjustIndex(value.length(), end, true));
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, boolean value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, char value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, int value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, long value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, float value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer insert(int offset, double value) {
-    origin.insert(adjustIndex(offset, false), value);
-    return this;
-  }
-
-  @Override
-  public synchronized int indexOf(@NotNull String str) {
-    return origin.indexOf(str);
-  }
-
-  @Override
-  public synchronized int indexOf(@NotNull String str, int index) {
-    return origin.indexOf(str, adjustIndex(index, false));
-  }
-
-  @Override
-  public synchronized int indexOf(char ... characters) {
-    return StringLike.super.indexOf(characters);
-  }
-
-  @Override
-  public synchronized int indexOf(int index, char ... characters) {
-    return StringLike.super.indexOf(index, characters);
-  }
-
-  @Override
-  public synchronized int lastIndexOf(@NotNull String str) {
-    return origin.lastIndexOf(str);
-  }
-
-  @Override
-  public synchronized int lastIndexOf(@NotNull String str, int index) {
-    return origin.lastIndexOf(str, adjustIndex(index, false));
-  }
-  
-  @Override
-  public synchronized int lastIndexOf(char ... characters) {
-    return StringLike.super.lastIndexOf(characters);
-  }
-
-  @Override
-  public synchronized int lastIndexOf(int index, char ... characters) {
-    return StringLike.super.lastIndexOf(index, characters);
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer reverse() {
-    origin.reverse();
-    return this;
-  }
-
-  @Override
-  public synchronized @NotNull String toString() {
-    return origin.toString();
-  }
-  
-  @Override
-  public synchronized StringFBuffer trimLeading() {
-    return StringLike.super.trimLeading();
-  }
-
-  @Override
-  public synchronized StringFBuffer trimTrailing() {
-    return StringLike.super.trimTrailing();
-  }
-
-  @Override
-  public synchronized StringFBuffer trim() {
-    return StringLike.super.trim();
-  }
-
-  private int adjustIndex(int index, boolean isEnd) {
-    return MiscFunctions.adjustIndex(origin.length(), index, isEnd);
-  }
-
-  @Override
-  public synchronized boolean startsWith(@NotNull CharSequence totest) {
-    return StringLike.super.startsWith(totest);
-  }
-
-  @Override
-  public synchronized boolean startsWith(boolean casesensitive, @NotNull CharSequence totest) {
-    return StringLike.super.startsWith(casesensitive, totest);
-  }
-
-  @Override
-  public synchronized <R extends CharSequence> R startsWithMany(R ... candidates) {
-    return StringLike.super.startsWithMany(candidates);
-  }
-
-  @Override
-  public synchronized <R extends CharSequence> R startsWithMany(boolean casesensitive, R ... candidates) {
-    return StringLike.super.startsWithMany(casesensitive, candidates);
-  }
-
-  @Override
-  public synchronized boolean endsWith(@NotNull String totest) {
-    return StringLike.super.endsWith(totest);
-  }
-  
-  @Override
-  public synchronized <R extends CharSequence> R endsWithMany(R ... candidates) {
-    return StringLike.super.endsWithMany(candidates);
-  }
-
-  @Override
-  public synchronized <R extends CharSequence> R endsWithMany(boolean casesensitive, R ... candidates) {
-    return StringLike.super.endsWithMany(casesensitive, candidates);
-  }
-
-  @Override
-  public synchronized boolean endsWith(boolean casesensitive, @NotNull CharSequence totest) {
-    return StringLike.super.endsWith(casesensitive, totest);
-  }
-  
-  @Override
-  public synchronized boolean equals(@NotNull String totest) {
-    return StringLike.super.equals(totest);
-  }
-  
-  @Override
-  public synchronized boolean equals(boolean casesensitive, @NotNull String totest) {
-    return StringLike.super.equals(casesensitive, totest);
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer remove(@NotNull String toremove) {
-    return StringLike.super.remove(toremove);
-  }
-
-  @Override
-  public synchronized @NotNull String[] split(@NotNull String delimiters) {
-    return StringLike.super.split(delimiters);
-  }
-  
-  @Override
-  public synchronized @NotNull String[] splitRegex(@NotNull String regex) {
-    return StringLike.super.splitRegex(regex);
-  }
-  
-  @Override
-  public synchronized @NotNull String[] splitRegex(@NotNull Pattern pattern) {
-    return StringLike.super.splitRegex(pattern);
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer replace(char from, char to) {
-    return StringLike.super.replace(from, to);
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer replaceAll(@NotNull String regex, @NotNull String replacement) {
-    return StringLike.super.replaceAll(regex, replacement);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer replaceAll(@NotNull Pattern pattern, @NotNull String replacement) {
-    return StringLike.super.replaceAll(pattern, replacement);
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer replaceFirst(@NotNull String regex, @NotNull String replacement) {
-    return StringLike.super.replaceFirst(regex, replacement);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer replaceFirst(@NotNull Pattern pattern, @NotNull String replacement) {
-    return StringLike.super.replaceFirst(pattern, replacement);
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer replaceLast(@NotNull String regex, @NotNull String replacement) {
-    return StringLike.super.replaceLast(regex, replacement);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer replaceLast(@NotNull Pattern pattern, @NotNull String replacement) {
-    return StringLike.super.replaceLast(pattern, replacement);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer appendIfMissing(@NotNull CharSequence seq) {
-    return StringLike.super.appendIfMissing(seq);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer appendIfMissing(boolean ignoreCase, @NotNull CharSequence seq) {
-    return StringLike.super.appendIfMissing(ignoreCase, seq);
-  }
-
-  @Override
-  public synchronized @NotNull StringFBuffer prependIfMissing(@NotNull CharSequence seq) {
-    return StringLike.super.prependIfMissing(seq);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer prependIfMissing(boolean ignoreCase, @NotNull CharSequence seq) {
-    return StringLike.super.prependIfMissing(ignoreCase, seq);
-  }
-
-  @Override
-  public synchronized @NotNull IntStream chars() {
-    return origin.chars();
-  }
-  
-  @Override
-  public synchronized @NotNull IntStream codePoints() {
-    return origin.codePoints();
-  }
-  
-  @Override
-  public synchronized int compareTo(@NotNull StringFBuffer another) {
-    if (this == another) {
-      return 0;
     }
-    return origin.compareTo(another.origin);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer firstUp() {
-    return StringLike.super.firstUp();
-  }
 
-  @Override
-  public synchronized @NotNull StringFBuffer firstDown() {
-    return StringLike.super.firstDown();
-  }
+    // the original implementation
+    private var origin: StringBuffer
 
-  @Override
-  public synchronized @NotNull StringFBuffer camelCase() {
-    return StringLike.super.camelCase();
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer toLowerCase() {
-    return StringLike.super.toLowerCase();
-  }
+    override val length: Int
+        get() = origin.length
 
-  @Override
-  public synchronized @NotNull StringFBuffer toUpperCase() {
-    return StringLike.super.toUpperCase();
-  }
+    /**
+     * @see StringBuffer.StringBuffer
+     */
+    constructor() {
+        origin = StringBuffer()
+    }
 
-  @Override
-  public synchronized @NotNull StringFBuffer replaceAll(@NotNull Map<String, String> replacements) {
-    return StringLike.super.replaceAll(replacements);
-  }
+    /**
+     * @see StringBuffer.StringBuffer
+     */
+    constructor(capacity: @Min(1) Int) {
+        origin = StringBuffer(capacity)
+    }
 
-  @Override
-  public synchronized @NotNull StringFBuffer replaceAll(@NotNull Map<String, String> replacements, String fmt) {
-    return StringLike.super.replaceAll(replacements, fmt);
-  }
+    /**
+     * @see StringBuffer.StringBuffer
+     */
+    constructor(seq: CharSequence) {
+        origin = StringBuffer(seq)
+    }
 
-  @Override
-  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @NotNull String replacement) {
-    return StringLike.super.replaceRegions(open, replacement);
-  }
+    @Synchronized
+    override fun get(index: Int): Char = origin[adjustIndex(index)]
 
-  @Override
-  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, String close, @NotNull String replacement) {
-    return StringLike.super.replaceRegions(open, close, replacement);
-  }
+    @Synchronized
+    override fun capacity(): Int = origin.capacity()
 
-  @Override
-  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @NotNull Function<String, CharSequence> replacement) {
-    return StringLike.super.replaceRegions(open, replacement);
-  }
-  
-  @Override
-  public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
-    return StringLike.super.replaceRegions(open, close, replacement);
-  }
+    @Synchronized
+    override fun ensureCapacity(minimum: Int): StringFBuffer {
+        origin.ensureCapacity(minimum)
+        return this
+    }
 
-  @Override
-  public synchronized @NotNull StringFBuffer appendFilling(@Min(1) int count, char ch) {
-    return StringLike.super.appendFilling(count, ch);
-  }
-  
-  private synchronized void writeObject(ObjectOutputStream s) throws IOException {
-    s.writeObject(origin);
-  }
+    @Synchronized
+    override fun trimToSize(): StringFBuffer {
+        origin.trimToSize()
+        return this
+    }
 
-  private synchronized void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
-    origin = (StringBuffer) s.readObject();
-  }
+    @Synchronized
+    override fun setLength(newlength: Int): StringFBuffer {
+        origin.setLength(newlength)
+        return this
+    }
+
+    @Synchronized
+    override fun codePointAt(index: Int): Int = origin.codePointAt(adjustIndex(index))
+
+    @Synchronized
+    override fun codePointBefore(index: Int): Int = origin.codePointBefore(adjustIndex(index))
+
+    @Synchronized
+    override fun codePointCount(begin: Int, end: Int): Int = origin.codePointCount(adjustIndex(begin), adjustIndex(end, true))
+
+    @Synchronized
+    override fun offsetByCodePoints(index: Int, codepointoffset: Int): Int = origin.offsetByCodePoints(adjustIndex(index), codepointoffset)
+
+    @Synchronized
+    override fun getChars(start: Int, end: Int, destination: CharArray, destbegin: Int): StringFBuffer {
+        origin.getChars(
+            adjustIndex(start),
+            adjustIndex(end, true),
+            destination,
+            adjustIndex(destbegin, false, destination.size)
+        )
+        return this
+    }
+
+    @Synchronized
+    override fun setCharAt(index: Int, ch: Char): StringFBuffer {
+        origin.setCharAt(adjustIndex(index), ch)
+        return this
+    }
+
+    override fun setCodepointAt(index: Int, codepoint: Int): StringFBuffer {
+        val idx   = adjustIndex(index)
+        val count = Character.charCount(codepoint)
+        delete(idx, idx + count)
+        return this
+    }
+
+    @Synchronized
+    override fun append(obj: Any): StringFBuffer {
+        origin.append(obj)
+        return this
+    }
+
+    @Synchronized
+    override fun append(sequence: CharSequence): StringFBuffer {
+        origin.append(sequence)
+        return this
+    }
+
+    @Synchronized
+    override fun append(sequence: CharSequence, start: Int, end: Int): StringFBuffer {
+        origin.append(
+            sequence,
+            adjustIndex(start, false, sequence.length),
+            adjustIndex(end, true, sequence.length)
+        )
+        return this
+    }
+
+    @Synchronized
+    override fun append(charray: CharArray): StringFBuffer {
+        origin.append(charray)
+        return this
+    }
+
+    @Synchronized
+    override fun append(charray: CharArray, offset: Int, length: Int): StringFBuffer {
+        origin.append(charray, adjustIndex(offset, false, charray.size), length)
+        return this
+    }
+
+    @Synchronized
+    override fun append(value: Boolean): StringFBuffer {
+        origin.append(value)
+        return this
+    }
+
+    @Synchronized
+    override fun append(value: Char): StringFBuffer {
+        origin.append(value)
+        return this
+    }
+
+    @Synchronized
+    override fun append(value: Int): StringFBuffer {
+        origin.append(value)
+        return this
+    }
+
+    @Synchronized
+    override fun appendCodePoint(codepoint: Int): StringFBuffer {
+        origin.appendCodePoint(codepoint)
+        return this
+    }
+
+    @Synchronized
+    override fun append(value: Long): StringFBuffer {
+        origin.append(value)
+        return this
+    }
+
+    @Synchronized
+    override fun append(value: Float): StringFBuffer {
+        origin.append(value)
+        return this
+    }
+
+    @Synchronized
+    override fun append(value: Double): StringFBuffer {
+        origin.append(value)
+        return this
+    }
+
+    @Synchronized
+    override fun delete(start: Int, end: Int): StringFBuffer {
+        origin.delete(adjustIndex(start), adjustIndex(end, true))
+        return this
+    }
+
+    @Synchronized
+    override fun deleteCharAt(index: Int): StringFBuffer {
+        origin.deleteCharAt(adjustIndex(index))
+        return this
+    }
+
+    @Synchronized
+    override fun replace(start: Int, end: Int, str: String): StringFBuffer {
+        origin.replace(adjustIndex(start), adjustIndex(end, true), str)
+        return this
+    }
+
+    @Synchronized
+    override fun substring(start: Int): String = origin.substring(adjustIndex(start))
+
+    @Synchronized
+    override fun subSequence(startIndex: Int, endIndex: Int): CharSequence = origin.subSequence(adjustIndex(startIndex), adjustIndex(endIndex, true))
+
+    @Synchronized
+    override fun substring(start: Int, end: Int): String = origin.substring(adjustIndex(start), adjustIndex(end, true))
+
+    @Synchronized
+    override fun insert(index: Int, charray: CharArray, offset: Int, length: Int): StringFBuffer {
+        origin.insert(adjustIndex(index), charray, adjustIndex(offset, false, charray.size), length)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, obj: Any): StringFBuffer {
+        origin.insert(adjustIndex(offset), obj)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: CharArray): StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: CharSequence):StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: CharSequence, start: Int, end: Int): StringFBuffer {
+        origin.insert(
+            adjustIndex(offset),
+            value,
+            adjustIndex(start, false, value.length),
+            adjustIndex(end, true, value.length)
+        )
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: Boolean): StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: Char): StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: Int): StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: Long): StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: Float): StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun insert(offset: Int, value: Double): StringFBuffer {
+        origin.insert(adjustIndex(offset), value)
+        return this
+    }
+
+    @Synchronized
+    override fun indexOf(str: String): Int = origin.indexOf(str)
+
+    @Synchronized
+    override fun indexOf(str: String, index: Int): Int = origin.indexOf(str, adjustIndex(index))
+
+    @Synchronized
+    override fun indexOf(vararg characters: Char): Int = super.indexOf(*characters)
+
+    @Synchronized
+    override fun indexOf(index: Int, vararg characters: Char): Int = super.indexOf(index, *characters)
+
+    @Synchronized
+    override fun lastIndexOf(str: String): Int = origin.lastIndexOf(str)
+
+    @Synchronized
+    override fun lastIndexOf(str: String, index: Int): Int = origin.lastIndexOf(str, adjustIndex(index))
+
+    @Synchronized
+    override fun lastIndexOf(vararg characters: Char): Int = super.lastIndexOf(*characters)
+
+    @Synchronized
+    override fun lastIndexOf(index: Int, vararg characters: Char): Int = super.lastIndexOf(index, *characters)
+
+    @Synchronized
+    override fun reverse(): StringFBuffer {
+        origin.reverse()
+        return this
+    }
+
+    @Synchronized
+    override fun toString(): String = origin.toString()
+
+    @Synchronized
+    override fun trimLeading(): StringFBuffer = super.trimLeading()
+
+    @Synchronized
+    override fun trimTrailing(): StringFBuffer = super.trimTrailing()
+
+    @Synchronized
+    override fun trim(): StringFBuffer = super.trim()
+
+    @Synchronized
+    override fun startsWith(totest: CharSequence): Boolean = super.startsWith(totest)
+
+    @Synchronized
+    override fun startsWith(casesensitive: Boolean, totest: CharSequence): Boolean = super.startsWith(casesensitive, totest)
+
+    @Synchronized
+    override fun <R : CharSequence?> startsWithMany(vararg candidates: R): R = super.startsWithMany<R>(*candidates)
+
+    @Synchronized
+    override fun <R : CharSequence?> startsWithMany(casesensitive: Boolean, vararg candidates: R): R = super.startsWithMany<R>(casesensitive, *candidates)
+
+    @Synchronized
+    override fun endsWith(totest: String): Boolean = super.endsWith(totest)
+
+    @Synchronized
+    override fun <R : CharSequence?> endsWithMany(vararg candidates: R): R = super.endsWithMany<R>(*candidates)
+
+    @Synchronized
+    override fun <R : CharSequence?> endsWithMany(casesensitive: Boolean, vararg candidates: R): R = super.endsWithMany<R>(casesensitive, *candidates)
+
+    @Synchronized
+    override fun endsWith(casesensitive: Boolean, totest: CharSequence): Boolean = super.endsWith(casesensitive, totest)
+
+    @Synchronized
+    override fun equals(totest: String): Boolean = super.equals(totest)
+
+    @Synchronized
+    override fun equals(casesensitive: Boolean, totest: String): Boolean = super.equals(casesensitive, totest)
+
+    @Synchronized
+    override fun remove(toremove: String): StringFBuffer = super.remove(toremove)
+
+    @Synchronized
+    override fun split(delimiters: String): Array<String> = super.split(delimiters)
+
+    @Synchronized
+    override fun splitRegex(regex: String): Array<String> = super.splitRegex(regex)
+
+    @Synchronized
+    override fun splitRegex(pattern: Pattern): Array<String> = super.splitRegex(pattern)
+
+    @Synchronized
+    override fun replace(from: Char, to: Char): StringFBuffer = super.replace(from, to)
+
+    @Synchronized
+    override fun replaceAll(regex: String, replacement: String): StringFBuffer = super.replaceAll(regex, replacement)
+
+    @Synchronized
+    override fun replaceAll(pattern: Pattern, replacement: String): StringFBuffer = super.replaceAll(pattern, replacement)
+
+    @Synchronized
+    override fun replaceFirst(regex: String, replacement: String): StringFBuffer = super.replaceFirst(regex, replacement)
+
+    @Synchronized
+    override fun replaceFirst(pattern: Pattern, replacement: String): StringFBuffer = super.replaceFirst(pattern, replacement)
+
+    @Synchronized
+    override fun replaceLast(regex: String, replacement: String): StringFBuffer = super.replaceLast(regex, replacement)
+
+    @Synchronized
+    override fun replaceLast(pattern: Pattern, replacement: String): StringFBuffer = super.replaceLast(pattern, replacement)
+
+    @Synchronized
+    override fun appendIfMissing(seq: CharSequence): StringFBuffer = super.appendIfMissing(seq)
+
+    @Synchronized
+    override fun appendIfMissing(ignoreCase: Boolean, seq: CharSequence): StringFBuffer = super.appendIfMissing(ignoreCase, seq)
+
+    @Synchronized
+    override fun prependIfMissing(seq: CharSequence): StringFBuffer = super.prependIfMissing(seq)
+
+    @Synchronized
+    override fun prependIfMissing(ignoreCase: Boolean, seq: CharSequence): StringFBuffer = super.prependIfMissing(ignoreCase, seq)
+
+    @Synchronized
+    override fun chars(): IntStream = origin.chars()
+
+    @Synchronized
+    override fun codePoints(): IntStream = origin.codePoints()
+
+    @Synchronized
+    override fun compareTo(other: StringFBuffer): Int =
+        if (this === other) {
+            0
+        } else {
+            origin.compareTo(other.origin)
+        }
+
+    @Synchronized
+    override fun firstUp(): StringFBuffer = super.firstUp()
+
+    @Synchronized
+    override fun firstDown(): StringFBuffer = super.firstDown()
+
+    @Synchronized
+    override fun camelCase(): StringFBuffer = super.camelCase()
+
+    @Synchronized
+    override fun toLowerCase(): StringFBuffer = super.toLowerCase()
+
+    @Synchronized
+    override fun toUpperCase(): StringFBuffer = super.toUpperCase()
+
+    @Synchronized
+    override fun replaceAll(replacements: Map<String, String>): StringFBuffer = super.replaceAll(replacements)
+
+    @Synchronized
+    override fun replaceAll(replacements: Map<String, String>, fmt: String?): StringFBuffer = super.replaceAll(replacements, fmt)
+
+    @Synchronized
+    override fun replaceRegions(open: String, replacement: String): StringFBuffer = super.replaceRegions(open, replacement)
+
+    @Synchronized
+    override fun replaceRegions(open: String, close: String, replacement: String): StringFBuffer = super.replaceRegions(open, close, replacement)
+
+    @Synchronized
+    override fun replaceRegions(open: String, replacement: Function<String, CharSequence>): StringFBuffer = super.replaceRegions(open, replacement)
+
+    @Synchronized
+    override fun replaceRegions(open: String, close: String, replacement: Function<String, CharSequence>): StringFBuffer = super.replaceRegions(open, close, replacement)
+
+    @Synchronized
+    override fun appendFilling(count: @Min(1) Int, ch: Char): StringFBuffer = super.appendFilling(count, ch)
+
+    @Synchronized
+    @Throws(IOException::class)
+    private fun writeObject(s: ObjectOutputStream) {
+        s.writeObject(origin)
+    }
+
+    @Synchronized
+    @Throws(IOException::class, ClassNotFoundException::class)
+    private fun readObject(s: ObjectInputStream) {
+        origin = s.readObject() as StringBuffer
+    }
+
+    private fun adjustIndex(index: Int, isEnd: Boolean = false, length: Int = origin.length): Int =
+        if (index < 0) {
+            length + index
+        } else if ((index == 0) && isEnd) {
+            length
+        } else {
+            index
+        }
 
 } /* ENDCLASS */
