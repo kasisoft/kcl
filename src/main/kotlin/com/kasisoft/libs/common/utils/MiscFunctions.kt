@@ -64,7 +64,7 @@ object MiscFunctions {
     /** @spec [22-JUN-2020:KASI] https://en.gravatar.com/site/implement/hash/ */
     @JvmStatic
     fun getGravatarLink(email: String, size: Int? = null): String {
-        val lowercase = StringFunctions.cleanup(email.lowercase())
+        val lowercase = email.lowercase()
         val hash      = Digest.MD5.digestToString(lowercase.toByteArray())
         if (size != null) {
             return "https://www.gravatar.com/avatar/$hash?s=$size"
@@ -317,8 +317,8 @@ object MiscFunctions {
     }
 
     @JvmStatic
-    fun propertiesToMap(properties: Properties?): MutableMap<String, String> {
-        val result = HashMap<String, String>(100)
+    fun propertiesToMap(properties: Properties?): MutableMap<String, String?> {
+        val result = HashMap<String, String?>(100)
         properties?.stringPropertyNames()?.forEach {
             result[it] = StringFunctions.cleanup(properties.getProperty(it))
         }

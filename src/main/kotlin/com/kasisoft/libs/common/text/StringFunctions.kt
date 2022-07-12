@@ -1,488 +1,471 @@
-package com.kasisoft.libs.common.text;
+package com.kasisoft.libs.common.text
 
-import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.constants.*
 
-import com.kasisoft.libs.common.pools.*;
+import com.kasisoft.libs.common.pools.*
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.*
 
-import java.util.function.*;
+import java.util.function.Function
+import java.util.function.*
 
-import java.util.*;
+import java.util.*
 
-import java.io.*;
+import java.io.*
 
 /**
  * Collection of functions used for String processing.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public class StringFunctions {
+object StringFunctions {
 
-  private StringFunctions() {
-  }
-
-  /**
-   * Returns the supplied string without it's prefix if there was any.
-   *
-   * @param name   The name which might contain a suffix.
-   *
-   * @return   The string without the suffix (the dot will removed as well).
-   */
-  public static @NotNull String removeSuffix(@NotNull String name) {
-   var lidx = name.lastIndexOf('.');
-   if (lidx == -1) {
-     return name;
-   } else {
-     return name.substring(0, lidx);
-   }
-  }
-
-  /**
-   * Changes the suffix for the supplied name. If the name doesn't provide a suffix it will be appended.
-   *
-   * @param name     The name which might be altered.
-   * @param suffix   The suffix which has to be added (without '.').
-   *
-   * @return   The name with the updated suffix.
-   */
-  public static @NotNull String changeSuffix(@NotNull String name, @NotNull String suffix) {
-    return String.format("%s.%s", removeSuffix(name), suffix);
-  }
-
-  /**
-   * Makes sure that the supplied String is either null or not empty. The text will be trimmed so there
-   * won't be any whitespace at the beginning or the end.
-   *
-   * @param input   The String that has to be altered.
-   *
-   * @return   null or a non-empty String.
-   */
-  public static String cleanup(String input) {
-    if (input != null) {
-      input = input.trim();
-      if (input.length() == 0) {
-        input = null;
-      }
-    }
-    return input;
-  }
-
-  /**
-   * Makes the first character upper case if there's one.
-   *
-   * @param input   The String where the first character has to be altered.
-   *
-   * @return   A possibly in-place altered input.
-   */
-  public static @NotNull String firstUp(@NotNull String input) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).firstUp().toString());
-  }
-
-  /**
-   * Makes the first character lower case if there's one.
-   *
-   * @param input   The CharSequence where the first character has to be altered.
-   *
-   * @return   A possibly in-place altered input.
-   */
-  public static @NotNull String firstDown(@NotNull String input) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).firstDown().toString());
-  }
-
-  /**
-   * Replaces all occurrences of a regular expression with a specified replacement.
-   *
-   * @param input         The text that needs to be replaced.
-   * @param search        The term that should be replaced.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  public static @NotNull String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).replaceLiterallyAll(search, replacement).toString());
-  }
-
-  /**
-   * Performs a search & replace operation on the supplied input.
-   *
-   * @param input          The input which has to be modified.
-   * @param replacements   A Map of String's used to run the search replace operation.
-   *
-   * @return   The modified String.
-   */
-  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements).toString());
-  }
-
-  /**
-   * Performs a search & replace operation on the supplied input.
-   *
-   * @param input          The input which has to be modified.
-   * @param replacements   A Map of String's used to run the search replace operation.
-   * @param fmt            A key formatter. Default: '%s' (alternativ: '${%s}' which means that keys will be ${fredo}, ${dodo}, ...)
-   *
-   * @return   The modified String.
-   */
-  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements, String fmt) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements, fmt).toString());
-  }
-
-  /**
-   * Transforms the supplied value into a camelcase representation.
-   *
-   * @param input   The object which has to be changed.
-   *
-   * @return   The supplied sequence if possible. The content is altered to a camelcase variety.
-   */
-  public static @NotNull String camelCase(@NotNull String input) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).camelCase().toString());
-  }
-
-  /**
-   * Replaces regions within some text.
-   *
-   * @param input         The text which might be altered.
-   * @param sep           The opening/closing of a region (f.e. "(*").
-   * @param replacement   The replacement value.
-   *
-   * @return   The altered text.
-   */
-  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String sep, @NotNull CharSequence replacement) {
-    return replaceRegions(input, sep, sep, replacement);
-  }
-
-  /**
-   * Replaces regions within some text.
-   *
-   * @param input         The text which might be altered.
-   * @param open          The opening of a region (f.e. "(*").
-   * @param close         The closing of a region (f.e. "*)").
-   * @param replacement   The replacement value.
-   *
-   * @return   The altered text.
-   */
-  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull CharSequence replacement) {
-    return replaceRegions(input, open, close, $ -> replacement);
-  }
-
-  /**
-   * Replaces regions within some text.
-   *
-   * @param input         The text which might be altered.
-   * @param open          The opening of a region (f.e. "(*").
-   * @param close         The closing of a region (f.e. "*)").
-   * @param replacement   The replacement value.
-   *
-   * @return   The altered text.
-   */
-  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, @NotNull Function<String, CharSequence> replacement) {
-    return replaceRegions(input, open, open, replacement);
-  }
-
-  /**
-   * Replaces regions within some text.
-   *
-   * @param input         The text which might be altered.
-   * @param open          The opening of a region (f.e. "(*").
-   * @param close         The closing of a region (f.e. "*)").
-   * @param replacement   The replacement value.
-   *
-   * @return   The altered text.
-   */
-  public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).replaceRegions(open, close, replacement).toString());
-  }
-
-  public static <T extends CharSequence> T startsWithMany(@NotNull String input, @NotNull T ... candidates) {
-    return startsWithMany(input, true, candidates);
-  }
-
-  public static <T extends CharSequence> T startsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).startsWithMany(casesensitive, candidates));
-  }
-
-  public static <T extends CharSequence> T endsWithMany(@NotNull String input, @NotNull T ... candidates) {
-    return endsWithMany(input, true, candidates);
-  }
-
-  public static <T extends CharSequence> T endsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).endsWithMany(casesensitive, candidates));
-  }
-
-  public static @NotNull String trim(@NotNull String input, @NotNull String chars, Boolean left) {
-    return Buckets.stringFBuilder().forInstance($ -> $.append(input).trim(chars, left).toString());
-  }
-
-  /**
-   * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
-   * that they're just be ignored.
-   *
-   * @param delimiter   A delimiter which might be used.
-   * @param args        The list of Strings that has to be concatenated.
-   *
-   * @return   The concatenated String
-   */
-  public static @NotNull String concatenate(String delimiter, CharSequence ... args) {
-    return concatenate(delimiter, Arrays.asList(args));
-  }
-
-  /**
-   * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
-   * that they're just be ignored.
-   *
-   * @param delimiter   A delimiter which might be used.
-   * @param args        The collection of Strings that has to be concatenated.
-   *
-   * @return   The concatenated String.
-   */
-  public static <C extends CharSequence, L extends Collection<C>> @NotNull String concatenate(String delimiter, L args) {
-    if ((args == null) || args.isEmpty()) {
-      return Empty.NO_STRING;
-    }
-    var del = delimiter == null ? Empty.NO_STRING : delimiter;
-    return Buckets.stringFBuilder().forInstance($ -> {
-      var iterator = args.iterator();
-      while (iterator.hasNext()) {
-        var object = iterator.next();
-        if ((object != null) && (object.length() > 0)) {
-          $.append(del);
-          $.append(object);
+    /**
+     * Returns the supplied string without it's prefix if there was any.
+     *
+     * @param name   The name which might contain a suffix.
+     *
+     * @return   The string without the suffix (the dot will removed as well).
+     */
+    @JvmStatic
+    fun removeSuffix(name: String): String {
+        val lidx = name.lastIndexOf('.')
+        return if (lidx == -1) {
+            name
+        } else {
+            name.substring(0, lidx)
         }
-      }
-      if (($.length() > 0) && (del.length() > 0)) {
-        $.delete(0, del.length());
-      }
-      return $.toString();
-    });
-  }
+    }
 
-  /**
-   * Repeats the supplied text <param>n</param> times.
-   *
-   * @param n      The number of concatenations that have to be performed.
-   * @param text   The text that has to be repeated.
-   *
-   * @return   The concatenated reproduction string.
-   */
-  public static @NotNull String repeat(@Min(0) int n, CharSequence text ) {
-    if ((n > 0) && (text != null) && (text.length() > 0)) {
-      return Buckets.stringFBuilder().forInstance($ -> {
-        var c = n;
-        while (c > 0) {
-          $.append(text);
-          c--;
+    /**
+     * Changes the suffix for the supplied name. If the name doesn't provide a suffix it will be appended.
+     *
+     * @param name     The name which might be altered.
+     * @param suffix   The suffix which has to be added (without '.').
+     *
+     * @return   The name with the updated suffix.
+     */
+    @JvmStatic
+    fun changeSuffix(name: String, suffix: String): String = String.format("%s.%s", removeSuffix(name), suffix)
+
+    /**
+     * Makes sure that the supplied String is either null or not empty. The text will be trimmed so there
+     * won't be any whitespace at the beginning or the end.
+     *
+     * @param input   The String that has to be altered.
+     *
+     * @return   null or a non-empty String.
+     */
+    @JvmStatic
+    fun cleanup(input: String?): String? {
+        var result = input
+        if (result != null) {
+            result = result.trim { it <= ' ' }
+            if (result.isEmpty()) {
+                result = null
+            }
         }
-        return $.toString();
-      });
+        return result
     }
-    return Empty.NO_STRING;
-  }
 
-  /**
-   * Creates a textual presentation with a padding using the space character.
-   *
-   * @param text      The text that is supposed to be filled with padding.
-   * @param limit     The maximum number of characters allowed.
-   * @param left      <code>true</code> <=> Use left padding.
-   *
-   * @return   The text that is padded.
-   */
-  public static @NotNull String padding(String text, @Min(1) int limit, boolean left) {
-    return padding(text, limit, ' ', left);
-  }
+    /**
+     * Makes the first character upper case if there's one.
+     *
+     * @param input   The String where the first character has to be altered.
+     *
+     * @return   A possibly in-place altered input.
+     */
+    @JvmStatic
+    fun firstUp(input: String): String = Buckets.stringFBuilder().forInstance { it.append(input).firstUp().toString() }
 
-  public static @NotNull String fillString(int count, char ch) {
-    return Buckets.stringFBuilder().forInstance($ -> $.appendFilling(count, ch).toString());
-  }
+    /**
+     * Makes the first character lower case if there's one.
+     *
+     * @param input   The CharSequence where the first character has to be altered.
+     *
+     * @return   A possibly in-place altered input.
+     */
+    @JvmStatic
+    fun firstDown(input: String): String = Buckets.stringFBuilder().forInstance { it.append(input).firstDown().toString() }
 
-  /**
-   * Creates a textual presentation with a padding.
-   *
-   * @param text      The text that is supposed to be filled with padding.
-   * @param limit     The maximum number of characters allowed.
-   * @param padding   The padding character.
-   * @param left      <code>true</code> <=> Use left padding.
-   *
-   * @return   The text that is padded.
-   */
-  public static @NotNull String padding(String text, @Min(1) int limit, char padding, boolean left) {
-    if (text == null) {
-      return fillString(limit, padding);
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param input         The text that needs to be replaced.
+     * @param search        The term that should be replaced.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    @JvmStatic
+    fun replaceLiterallyAll(input: String, search: String, replacement: String): String = Buckets.stringFBuilder().forInstance { it.append(input).replaceLiterallyAll(search, replacement).toString() }
+
+    /**
+     * Performs a search & replace operation on the supplied input.
+     *
+     * @param input          The input which has to be modified.
+     * @param replacements   A Map of String's used to run the search replace operation.
+     *
+     * @return   The modified String.
+     */
+    @JvmStatic
+    fun replaceAll(input: String, replacements: Map<String, String?>): String = Buckets.stringFBuilder().forInstance { it.append(input).replaceAll(replacements).toString() }
+
+    /**
+     * Performs a search & replace operation on the supplied input.
+     *
+     * @param input          The input which has to be modified.
+     * @param replacements   A Map of String's used to run the search replace operation.
+     * @param fmt            A key formatter. Default: '%s' (alternativ: '${%s}' which means that keys will be ${fredo}, ${dodo}, ...)
+     *
+     * @return   The modified String.
+     */
+    @JvmStatic
+    fun replaceAll(input: String, replacements: Map<String, String?>, fmt: String?): String = Buckets.stringFBuilder().forInstance { it.append(input).replaceAll(replacements, fmt).toString() }
+
+    /**
+     * Transforms the supplied value into a camelcase representation.
+     *
+     * @param input   The object which has to be changed.
+     *
+     * @return   The supplied sequence if possible. The content is altered to a camelcase variety.
+     */
+    @JvmStatic
+    fun camelCase(input: String): String = Buckets.stringFBuilder().forInstance { it.append(input).camelCase().toString() }
+
+    /**
+     * Replaces regions within some text.
+     *
+     * @param input         The text which might be altered.
+     * @param sep           The opening/closing of a region (f.e. "(*").
+     * @param replacement   The replacement value.
+     *
+     * @return   The altered text.
+     */
+    @JvmStatic
+    fun replaceRegions(input: String, sep: String, replacement: CharSequence): String = replaceRegions(input, sep, sep, replacement)
+
+    /**
+     * Replaces regions within some text.
+     *
+     * @param input         The text which might be altered.
+     * @param open          The opening of a region (f.e. "(*").
+     * @param close         The closing of a region (f.e. "*)").
+     * @param replacement   The replacement value.
+     *
+     * @return   The altered text.
+     */
+    @JvmStatic
+    fun replaceRegions(input: String, open: String, close: String?, replacement: CharSequence): String = replaceRegions(input, open, close) { replacement }
+
+    /**
+     * Replaces regions within some text.
+     *
+     * @param input         The text which might be altered.
+     * @param open          The opening of a region (f.e. "(*").
+     * @param close         The closing of a region (f.e. "*)").
+     * @param replacement   The replacement value.
+     *
+     * @return   The altered text.
+     */
+    @JvmStatic
+    fun replaceRegions(input: String, open: String, replacement: Function<String, CharSequence?>): String = replaceRegions(input, open, open, replacement)
+
+    /**
+     * Replaces regions within some text.
+     *
+     * @param input         The text which might be altered.
+     * @param open          The opening of a region (f.e. "(*").
+     * @param close         The closing of a region (f.e. "*)").
+     * @param replacement   The replacement value.
+     *
+     * @return   The altered text.
+     */
+    @JvmStatic
+    fun replaceRegions(input: String, open: String, close: String?, replacement: Function<String, CharSequence?>): String = Buckets.stringFBuilder().forInstance { it.append(input).replaceRegions(open, close, replacement).toString() }
+
+    @JvmStatic
+    fun <T : CharSequence> startsWithMany(input: String, vararg candidates: T): T? = startsWithMany(input, true, *candidates)
+
+    @JvmStatic
+    fun <T : CharSequence> startsWithMany(input: String, casesensitive: Boolean, vararg candidates: T): T? = Buckets.stringFBuilder().forInstance { it.append(input).startsWithMany<T>(casesensitive, *candidates) }
+
+    @JvmStatic
+    fun <T : CharSequence> endsWithMany(input: String, vararg candidates: T): T? = endsWithMany(input, true, *candidates)
+
+    @JvmStatic
+    fun <T : CharSequence> endsWithMany(input: String, casesensitive: Boolean, vararg candidates: T): T? = Buckets.stringFBuilder().forInstance { it.append(input).endsWithMany<T>(casesensitive, *candidates) }
+
+    @JvmStatic
+    fun trim(input: String, chars: String, left: Boolean?): String = Buckets.stringFBuilder().forInstance { it.append(input).trim(chars, left).toString() }
+
+    /**
+     * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
+     * that they're just be ignored.
+     *
+     * @param delimiter   A delimiter which might be used.
+     * @param args        The list of Strings that has to be concatenated.
+     *
+     * @return   The concatenated String
+     */
+    @JvmStatic
+    fun concatenate(delimiter: String?, vararg args: CharSequence?): String = concatenate(delimiter, Arrays.asList(*args))
+
+    /**
+     * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
+     * that they're just be ignored.
+     *
+     * @param delimiter   A delimiter which might be used.
+     * @param args        The collection of Strings that has to be concatenated.
+     *
+     * @return   The concatenated String.
+     */
+    @JvmStatic
+    fun <C : CharSequence?, L : Collection<C>?> concatenate(delimiter: String?, args: L): String {
+        if (args == null || args.isEmpty()) {
+            return Empty.NO_STRING
+        }
+        val del = delimiter ?: Empty.NO_STRING
+        return Buckets.stringFBuilder().forInstance {
+            val iterator = args.iterator()
+            while (iterator.hasNext()) {
+                val obj: C? = iterator.next()
+                if (obj != null && obj.length > 0) {
+                    it.append(del)
+                    it.append(obj)
+                }
+            }
+            if (it.length > 0 && del.length > 0) {
+                it.delete(0, del.length)
+            }
+            it.toString()
+        }
     }
-    if (text.length() >= limit) {
-      return text;
+
+    /**
+     * Repeats the supplied text <param></param>n times.
+     *
+     * @param n      The number of concatenations that have to be performed.
+     * @param text   The text that has to be repeated.
+     *
+     * @return   The concatenated reproduction string.
+     */
+    @JvmStatic
+    fun repeat(n: @Min(0) Int, text: CharSequence?): String =
+        if (n > 0 && text != null && text.length > 0) {
+            Buckets.stringFBuilder().forInstance {
+                var c = n
+                while (c > 0) {
+                    it.append(text)
+                    c--
+                }
+                it.toString()
+            }
+        } else {
+            Empty.NO_STRING
+        }
+
+    /**
+     * Creates a textual presentation with a padding using the space character.
+     *
+     * @param text      The text that is supposed to be filled with padding.
+     * @param limit     The maximum number of characters allowed.
+     * @param left      `true` <=> Use left padding.
+     *
+     * @return   The text that is padded.
+     */
+    @JvmStatic
+    fun padding(text: String?, limit: @Min(1) Int, left: Boolean): String = padding(text, limit, ' ', left)
+
+    @JvmStatic
+    fun fillString(count: Int, ch: Char): String = Buckets.stringFBuilder().forInstance { it.appendFilling(count, ch).toString() }
+
+    /**
+     * Creates a textual presentation with a padding.
+     *
+     * @param text      The text that is supposed to be filled with padding.
+     * @param limit     The maximum number of characters allowed.
+     * @param padding   The padding character.
+     * @param left      `true` <=> Use left padding.
+     *
+     * @return   The text that is padded.
+     */
+    @JvmStatic
+    fun padding(text: String?, limit: @Min(1) Int, padding: Char, left: Boolean): String {
+        if (text == null) {
+            return fillString(limit, padding)
+        }
+        return if (text.length >= limit) {
+            text
+        } else Buckets.stringFBuilder().forInstance {
+            val diff = limit - text.length
+            val padStr = fillString(diff, padding)
+            if (left) {
+                it.append(padStr)
+            }
+            it.append(text)
+            if (!left) {
+                it.append(padStr)
+            }
+            it.toString()
+        }
     }
-    return Buckets.stringFBuilder().forInstance($ -> {
-      var diff   = limit - text.length();
-      var padStr = fillString(diff, padding);
-      if (left) {
-        $.append(padStr);
-      }
-      $.append(text);
-      if (!left) {
-        $.append(padStr);
-      }
-      return $.toString();
-    });
-  }
 
-  /**
-   * Returns a textual representation of the supplied object.
-   *
-   * @param obj    The object which textual representation is desired.
-   *
-   * @return   The textual representation of the supplied object.
-   */
-  public static @NotNull String objectToString(Object obj) {
-    return Buckets.stringFBuilder().forInstance($ -> {
-      appendToString($, obj);
-      return $.toString();
-    });
-  }
+    /**
+     * Returns a textual representation of the supplied object.
+     *
+     * @param obj    The object which textual representation is desired.
+     *
+     * @return   The textual representation of the supplied object.
+     */
+    @JvmStatic
+    fun objectToString(obj: Any?): String =
+        Buckets.stringFBuilder().forInstance {
+            appendToString(it, obj)
+            it.toString()
+        }
 
-  /**
-   * Returns a textual representation of the supplied object.
-   *
-   * @param obj    The object which textual representation is desired.
-   *
-   * @return   The textual representation of the supplied object.
-   */
-  private static <S extends StringLike> void appendToString(@NotNull S receiver, Object obj) {
-    if (obj == null) {
-      receiver.append("null");
-    } else if (obj instanceof boolean[]) {
-      appendToStringBooleanArray(receiver, (boolean[]) obj);
-    } else if (obj instanceof char[]) {
-      appendToStringCharArray(receiver, (char[]) obj);
-    } else if (obj instanceof byte[]) {
-      appendToStringByteArray(receiver, (byte[]) obj);
-    } else if (obj instanceof short[]) {
-      appendToStringShortArray(receiver, (short[]) obj);
-    } else if (obj instanceof int[]) {
-      appendToStringIntArray(receiver, (int[]) obj);
-    } else if (obj instanceof long[]) {
-      appendToStringLongArray(receiver, (long[]) obj);
-    } else if (obj instanceof float[]) {
-      appendToStringFloatArray(receiver, (float[]) obj);
-    } else if (obj instanceof double[]) {
-      appendToStringDoubleArray(receiver, (double[]) obj);
-    } else if (obj.getClass().isArray()) {
-      appendToStringObjectArray(receiver, (Object[]) obj);
-    } else if (obj instanceof Throwable) {
-      appendToStringThrowable(receiver, (Throwable) obj);
-    } else {
-      receiver.append(String.valueOf(obj));
+
+    /**
+     * Returns a textual representation of the supplied object.
+     *
+     * @param obj    The object which textual representation is desired.
+     *
+     * @return   The textual representation of the supplied object.
+     */
+    private fun <S : StringLike<*>> appendToString(receiver: S, obj: Any?) {
+        if (obj == null) {
+            receiver.append("null")
+        } else if (obj is BooleanArray) {
+            appendToStringBooleanArray<S>(receiver, obj)
+        } else if (obj is CharArray) {
+            appendToStringCharArray<S>(receiver, obj)
+        } else if (obj is ByteArray) {
+            appendToStringByteArray<S>(receiver, obj)
+        } else if (obj is ShortArray) {
+            appendToStringShortArray<S>(receiver, obj)
+        } else if (obj is IntArray) {
+            appendToStringIntArray<S>(receiver, obj)
+        } else if (obj is LongArray) {
+            appendToStringLongArray<S>(receiver, obj)
+        } else if (obj is FloatArray) {
+            appendToStringFloatArray<S>(receiver, obj)
+        } else if (obj is DoubleArray) {
+            appendToStringDoubleArray<S>(receiver, obj)
+        } else if (obj.javaClass.isArray) {
+            appendToStringObjectArray<S>(receiver, obj as Array<Any>)
+        } else if (obj is Throwable) {
+            appendToStringThrowable<S>(receiver, obj)
+        } else {
+            receiver.append(obj.toString())
+        }
     }
-  }
 
-  private static <S extends StringLike> void appendToStringThrowable(@NotNull S receiver, @NotNull Throwable throwable) {
-    Buckets.stringWriter().forInstanceDo($ -> {
-      try (var writer = new PrintWriter($)) {
-        throwable.printStackTrace(writer);
-      }
-      receiver.append($.toString());
-    });
-  }
-
-  private static <S extends StringLike> void appendToStringObjectArray(@NotNull S receiver, @NotNull Object[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      appendToString(receiver, array[0]);
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',');
-        appendToString(receiver, array[i]);
-      }
+    private fun <S : StringLike<*>> appendToStringThrowable(receiver: S, throwable: Throwable) {
+        Buckets.stringWriter().forInstanceDo {
+            PrintWriter(it).use { writer -> writer.println(throwable.toString()) }
+            receiver.append(it.toString())
+        }
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringBooleanArray(@NotNull S receiver, @NotNull boolean[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append(array[0]);
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append(array[i]);
-      }
+    private fun <S : StringLike<*>> appendToStringObjectArray(receiver: S, array: Array<Any>) {
+        receiver.append('[')
+        if (array.size > 0) {
+            appendToString<S>(receiver, array[0])
+            for (i in 1 until array.size) {
+                receiver.append(',')
+                appendToString<S>(receiver, array[i])
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringCharArray(@NotNull S receiver, @NotNull char[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append('\'').append(array[0]).append('\'');
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append('\'').append(array[i]).append('\'');
-      }
+    private fun <S : StringLike<*>> appendToStringBooleanArray(receiver: S, array: BooleanArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append(array[0])
+            for (i in 1 until array.size) {
+                receiver.append(',').append(array[i])
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringByteArray(@NotNull S receiver, @NotNull byte[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append("(byte)").append(array[0]);
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append("(byte)").append(array[i]);
-      }
+    private fun <S : StringLike<*>> appendToStringCharArray(receiver: S, array: CharArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append('\'').append(array[0]).append('\'')
+            for (i in 1 until array.size) {
+                receiver.append(',').append('\'').append(array[i]).append('\'')
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringShortArray(@NotNull S receiver, @NotNull short[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append("(short)").append(array[0]);
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append("(short)").append(array[i]);
-      }
+    private fun <S : StringLike<*>> appendToStringByteArray(receiver: S, array: ByteArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append("(byte)").append(array[0].toInt())
+            for (i in 1 until array.size) {
+                receiver.append(',').append("(byte)").append(array[i].toInt())
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringIntArray(@NotNull S receiver, @NotNull int[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append(array[0]);
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append(array[i]);
-      }
+    private fun <S : StringLike<*>> appendToStringShortArray(receiver: S, array: ShortArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append("(short)").append(array[0].toInt())
+            for (i in 1 until array.size) {
+                receiver.append(',').append("(short)").append(array[i].toInt())
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringLongArray(@NotNull S receiver, @NotNull long[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append(array[0]).append('l');
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append(array[i]).append('l');
-      }
+    private fun <S : StringLike<*>> appendToStringIntArray(receiver: S, array: IntArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append(array[0])
+            for (i in 1 until array.size) {
+                receiver.append(',').append(array[i])
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringFloatArray(@NotNull S receiver, @NotNull float[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append(array[0]).append('f');
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append(array[i]).append('f');
-      }
+    private fun <S : StringLike<*>> appendToStringLongArray(receiver: S, array: LongArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append(array[0]).append('l')
+            for (i in 1 until array.size) {
+                receiver.append(',').append(array[i]).append('l')
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
 
-  private static <S extends StringLike> void appendToStringDoubleArray(@NotNull S receiver, @NotNull double[] array) {
-    receiver.append('[');
-    if (array.length > 0) {
-      receiver.append(array[0]);
-      for (var i = 1; i < array.length; i++) {
-        receiver.append(',').append(array[i]);
-      }
+    private fun <S : StringLike<*>> appendToStringFloatArray(receiver: S, array: FloatArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append(array[0]).append('f')
+            for (i in 1 until array.size) {
+                receiver.append(',').append(array[i]).append('f')
+            }
+        }
+        receiver.append(']')
     }
-    receiver.append(']');
-  }
+
+    private fun <S : StringLike<*>> appendToStringDoubleArray(receiver: S, array: DoubleArray) {
+        receiver.append('[')
+        if (array.size > 0) {
+            receiver.append(array[0])
+            for (i in 1 until array.size) {
+                receiver.append(',').append(array[i])
+            }
+        }
+        receiver.append(']')
+    }
 
 } /* ENDCLASS */
