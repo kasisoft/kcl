@@ -1,176 +1,169 @@
-package com.kasisoft.libs.common.functional;
+package com.kasisoft.libs.common.functional
 
-/**
- * @author daniel.kasmeroglu@kasisoft.net
- */
-public interface PrimitiveInterfaces {
+fun interface KSupplierBoolean {
 
-  @FunctionalInterface
-  public interface KSupplierBoolean {
-    
-    boolean get() throws Exception;
+    @Throws(Exception::class)
+    fun get(): Boolean
 
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KSupplierChar {
-    
-    char get() throws Exception;
+fun interface KSupplierChar {
 
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun get(): Char
 
-  @FunctionalInterface
-  public interface KSupplierByte {
-    
-    byte get() throws Exception;
-    
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KSupplierShort {
-    
-    short get() throws Exception;
-    
-  } /* ENDINTERFACE */
+fun interface KSupplierByte {
 
-  @FunctionalInterface
-  public interface KSupplierInt {
-    
-    int get() throws Exception;
-    
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun get(): Byte
 
-  @FunctionalInterface
-  public interface KSupplierLong {
-    
-    long get() throws Exception;
-    
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KSupplierFloat {
-    
-    float get() throws Exception;
-    
-  } /* ENDINTERFACE */
+fun interface KSupplierShort {
 
-  @FunctionalInterface
-  public interface KSupplierDouble {
-    
-    double get() throws Exception;
-    
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun get(): Short
 
-  @FunctionalInterface
-  public interface KConsumerBoolean {
-    
-    void accept(boolean value) throws Exception;
+} /* ENDINTERFACE */
 
-  } /* ENDINTERFACE */
+fun interface KSupplierInt {
 
-  @FunctionalInterface
-  public interface KConsumerChar {
-    
-    void accept(char value) throws Exception;
+    @Throws(Exception::class)
+    fun get(): Int
 
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KConsumerByte {
-    
-    void accept(byte value) throws Exception;
-    
-  } /* ENDINTERFACE */
+fun interface KSupplierLong {
 
-  @FunctionalInterface
-  public interface KConsumerShort {
-    
-    void accept(short value) throws Exception;
-    
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun get(): Long
 
-  @FunctionalInterface
-  public interface KConsumerInt {
-    
-    void accept(int value) throws Exception;
-    
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KConsumerLong {
-    
-    void accept(long value) throws Exception;
-    
-  } /* ENDINTERFACE */
+fun interface KSupplierFloat {
 
-  @FunctionalInterface
-  public interface KConsumerFloat {
-    
-    void accept(float value) throws Exception;
-    
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun get(): Float
 
-  @FunctionalInterface
-  public interface KConsumerDouble {
-    
-    void accept(double value) throws Exception;
-    
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KFunctionBoolean<I> {
-    
-    boolean apply(I input) throws Exception;
+fun interface KSupplierDouble {
 
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun get(): Double
 
-  @FunctionalInterface
-  public interface KFunctionChar<I> {
-    
-    char apply(I input) throws Exception;
+} /* ENDINTERFACE */
 
-  } /* ENDINTERFACE */
+fun interface KConsumerBoolean {
 
-  @FunctionalInterface
-  public interface KFunctionByte<I> {
-    
-    byte apply(I input) throws Exception;
-    
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun accept(value: Boolean)
 
-  @FunctionalInterface
-  public interface KFunctionShort<I> {
-    
-    short apply(I input) throws Exception;
-    
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KFunctionInt<I> {
-    
-    int apply(I input) throws Exception;
-    
-  } /* ENDINTERFACE */
+fun interface KConsumerChar {
 
-  @FunctionalInterface
-  public interface KFunctionLong<I> {
-    
-    long apply(I input) throws Exception;
-    
-  } /* ENDINTERFACE */
+    @Throws(Exception::class)
+    fun accept(value: Char)
 
-  @FunctionalInterface
-  public interface KFunctionFloat<I> {
-    
-    float apply(I input) throws Exception;
-    
-  } /* ENDINTERFACE */
+} /* ENDINTERFACE */
 
-  @FunctionalInterface
-  public interface KFunctionDouble<I> {
-    
-    double apply(I input) throws Exception;
-    
-  } /* ENDINTERFACE */
-  
+fun interface KConsumerByte {
+
+    @Throws(Exception::class)
+    fun accept(value: Byte)
+
+} /* ENDINTERFACE */
+
+fun interface KConsumerShort {
+
+    @Throws(Exception::class)
+    fun accept(value: Short)
+
+} /* ENDINTERFACE */
+
+fun interface KConsumerInt {
+
+    @Throws(Exception::class)
+    fun accept(value: Int)
+
+} /* ENDINTERFACE */
+
+fun interface KConsumerLong {
+
+    @Throws(Exception::class)
+    fun accept(value: Long)
+
+} /* ENDINTERFACE */
+
+fun interface KConsumerFloat {
+
+    @Throws(Exception::class)
+    fun accept(value: Float)
+
+} /* ENDINTERFACE */
+
+fun interface KConsumerDouble {
+
+    @Throws(Exception::class)
+    fun  accept(value: Double)
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionBoolean<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Boolean
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionChar<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Char
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionByte<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Byte
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionShort<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Short
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionInt<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Int
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionLong<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Long
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionFloat<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Float
+
+} /* ENDINTERFACE */
+
+fun interface KFunctionDouble<I: Any?> {
+
+    @Throws(Exception::class)
+    fun apply(input: I): Double
+
 } /* ENDINTERFACE */
