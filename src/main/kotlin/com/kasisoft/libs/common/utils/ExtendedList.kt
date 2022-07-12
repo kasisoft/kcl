@@ -1,133 +1,55 @@
-package com.kasisoft.libs.common.utils;
-
-import javax.validation.constraints.*;
-
-import java.util.*;
+package com.kasisoft.libs.common.utils
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public class ExtendedList<T> implements List<T> {
+open class ExtendedList<T: Any?>(val origin : MutableList<T>) : MutableList<T> {
 
-  private List<T>   origin;
-  
-  public ExtendedList(List<T> origin) {
-    this.origin = origin;
-  }
+    override val size : Int
+        get() {
+            return origin.size
+        }
 
-  @Override
-  public boolean add(T element) {
-    return origin.add(element);
-  }
-  
-  @Override
-  public void add(int index, T element) {
-    origin.add(MiscFunctions.adjustIndex(size(), index, false), element);
-  }
+    override fun isEmpty() : Boolean = origin.isEmpty()
 
-  @Override
-  public boolean addAll(@NotNull Collection<? extends T> collection) {
-    return addAll(size(), collection);
-  }
-  
-  @Override
-  public boolean addAll(int index, @NotNull Collection<? extends T> collection) {
-    return origin.addAll(MiscFunctions.adjustIndex(size(), index, false), collection);
-  }
+    override fun add(element : T): Boolean = origin.add(element)
 
-  @Override
-  public T get(int index) {
-    return origin.get(MiscFunctions.adjustIndex(size(), index, false));
-  }
+    override fun add(index : Int, element: T) = origin.add(MiscFunctions.adjustIndex(size, index, false), element)
 
-  @Override
-  public T remove(int index) {
-    return origin.remove(MiscFunctions.adjustIndex(size(), index, false));
-  }
+    override fun addAll(elements : Collection<T>): Boolean = addAll(size, elements)
 
-  @Override
-  public T set(int index, T element) {
-    return origin.set(MiscFunctions.adjustIndex(size(), index, false), element);
-  }
+    override fun addAll(index : Int, elements : Collection<T>): Boolean = origin.addAll(MiscFunctions.adjustIndex(size, index, false), elements)
 
-  @Override
-  public ListIterator<T> listIterator(int index) {
-    return origin.listIterator(MiscFunctions.adjustIndex(size(), index, false));
-  }
+    override fun get(index : Int): T = origin.get(MiscFunctions.adjustIndex(size, index, false))
 
-  @Override
-  public List<T> subList(int from, int to) {
-    return origin.subList(MiscFunctions.adjustIndex(size(), from, false), MiscFunctions.adjustIndex(size(), to, true));
-  }
+    override fun removeAt(index : Int): T = origin.removeAt(MiscFunctions.adjustIndex(size, index, false))
 
-  @Override
-  public int size() {
-    return origin.size();
-  }
+    override fun set(index : Int, element : T): T = origin.set(MiscFunctions.adjustIndex(size, index, false), element)
 
-  @Override
-  public boolean isEmpty() {
-    return origin.isEmpty();
-  }
+    override fun listIterator(index : Int): MutableListIterator<T> = origin.listIterator(MiscFunctions.adjustIndex(size, index, false))
 
-  @Override
-  public boolean contains(Object o) {
-    return origin.contains(o);
-  }
+    override fun subList(fromIndex : Int, toIndex : Int): MutableList<T> = origin.subList(MiscFunctions.adjustIndex(size, fromIndex, false), MiscFunctions.adjustIndex(size, toIndex, true))
 
-  @Override
-  public Iterator<T> iterator() {
-    return origin.iterator();
-  }
+    override fun contains(element : @UnsafeVariance T) : Boolean = origin.contains(element)
 
-  @Override
-  public Object[] toArray() {
-    return origin.toArray();
-  }
+    override fun iterator() : MutableIterator<T> =  origin.iterator()
 
-  @Override
-  public <R> R[] toArray(R[] a) {
-    return origin.toArray(a);
-  }
+    override fun remove(element : T): Boolean = origin.remove(element)
 
-  @Override
-  public boolean remove(Object o) {
-    return origin.remove(o);
-  }
+    override fun containsAll(elements : Collection<@UnsafeVariance T>) : Boolean = origin.containsAll(elements)
 
-  @Override
-  public boolean containsAll(Collection<?> c) {
-    return origin.containsAll(c);
-  }
+    override fun removeAll(elements : Collection<T>) : Boolean = origin.removeAll(elements)
 
-  @Override
-  public boolean removeAll(Collection<?> c) {
-    return origin.removeAll(c);
-  }
+    override fun retainAll(elements : Collection<T>) : Boolean = origin.retainAll(elements)
 
-  @Override
-  public boolean retainAll(Collection<?> c) {
-    return origin.retainAll(c);
-  }
+    override fun clear() {
+        origin.clear()
+    }
 
-  @Override
-  public void clear() {
-    origin.clear();
-  }
+    override fun indexOf(element : @UnsafeVariance T): Int = origin.indexOf(element)
 
-  @Override
-  public int indexOf(Object o) {
-    return origin.indexOf(o);
-  }
+    override fun lastIndexOf(element : @UnsafeVariance T): Int = origin.lastIndexOf(element)
 
-  @Override
-  public int lastIndexOf(Object o) {
-    return origin.lastIndexOf(o);
-  }
-
-  @Override
-  public ListIterator<T> listIterator() {
-    return origin.listIterator();
-  }
+    override fun listIterator(): MutableListIterator<T> = origin.listIterator()
 
 } /* ENDCLASS */

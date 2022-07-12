@@ -326,7 +326,7 @@ object MiscFunctions {
     }
 
     @JvmStatic
-    fun <R: Any?> wrapToExtendedList(source: List<R>?): ExtendedList<R> =
+    fun <R: Any?> wrapToExtendedList(source: MutableList<R>?): ExtendedList<R> =
         if (source == null) {
             ExtendedList<R>(ArrayList())
         } else {
