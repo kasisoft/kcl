@@ -336,25 +336,25 @@ open class StringFBuffer: Serializable, StringLike<StringFBuffer> {
     override fun startsWith(totest: CharSequence): Boolean = super.startsWith(totest)
 
     @Synchronized
-    override fun startsWith(casesensitive: Boolean, totest: CharSequence): Boolean = super.startsWith(casesensitive, totest)
+    override fun startsWith(casesensitive: Boolean, seq: CharSequence): Boolean = super.startsWith(casesensitive, seq)
 
     @Synchronized
-    override fun <R : CharSequence?> startsWithMany(vararg candidates: R): R = super.startsWithMany<R>(*candidates)
+    override fun <R : CharSequence> startsWithMany(vararg candidates: R): R? = super.startsWithMany<R>(*candidates)
 
     @Synchronized
-    override fun <R : CharSequence?> startsWithMany(casesensitive: Boolean, vararg candidates: R): R = super.startsWithMany<R>(casesensitive, *candidates)
+    override fun <R : CharSequence> startsWithMany(casesensitive: Boolean, vararg candidates: R): R? = super.startsWithMany<R>(casesensitive, *candidates)
 
     @Synchronized
     override fun endsWith(totest: String): Boolean = super.endsWith(totest)
 
     @Synchronized
-    override fun <R : CharSequence?> endsWithMany(vararg candidates: R): R = super.endsWithMany<R>(*candidates)
+    override fun <R : CharSequence> endsWithMany(vararg candidates: R): R? = super.endsWithMany<R>(*candidates)
 
     @Synchronized
-    override fun <R : CharSequence?> endsWithMany(casesensitive: Boolean, vararg candidates: R): R = super.endsWithMany<R>(casesensitive, *candidates)
+    override fun <R : CharSequence> endsWithMany(casesensitive: Boolean, vararg candidates: R): R? = super.endsWithMany<R>(casesensitive, *candidates)
 
     @Synchronized
-    override fun endsWith(casesensitive: Boolean, totest: CharSequence): Boolean = super.endsWith(casesensitive, totest)
+    override fun endsWith(casesensitive: Boolean, seq: CharSequence): Boolean = super.endsWith(casesensitive, seq)
 
     @Synchronized
     override fun equals(totest: String): Boolean = super.equals(totest)
@@ -399,13 +399,13 @@ open class StringFBuffer: Serializable, StringLike<StringFBuffer> {
     override fun appendIfMissing(seq: CharSequence): StringFBuffer = super.appendIfMissing(seq)
 
     @Synchronized
-    override fun appendIfMissing(ignoreCase: Boolean, seq: CharSequence): StringFBuffer = super.appendIfMissing(ignoreCase, seq)
+    override fun appendIfMissing(casesensitive: Boolean, seq: CharSequence): StringFBuffer = super.appendIfMissing(casesensitive, seq)
 
     @Synchronized
     override fun prependIfMissing(seq: CharSequence): StringFBuffer = super.prependIfMissing(seq)
 
     @Synchronized
-    override fun prependIfMissing(ignoreCase: Boolean, seq: CharSequence): StringFBuffer = super.prependIfMissing(ignoreCase, seq)
+    override fun prependIfMissing(casesensitive: Boolean, seq: CharSequence): StringFBuffer = super.prependIfMissing(casesensitive, seq)
 
     @Synchronized
     override fun chars(): IntStream = origin.chars()
@@ -437,10 +437,10 @@ open class StringFBuffer: Serializable, StringLike<StringFBuffer> {
     override fun toUpperCase(): StringFBuffer = super.toUpperCase()
 
     @Synchronized
-    override fun replaceAll(replacements: Map<String, String>): StringFBuffer = super.replaceAll(replacements)
+    override fun replaceAll(replacements: Map<String, String?>): StringFBuffer = super.replaceAll(replacements)
 
     @Synchronized
-    override fun replaceAll(replacements: Map<String, String>, fmt: String?): StringFBuffer = super.replaceAll(replacements, fmt)
+    override fun replaceAll(replacements: Map<String, String?>, fmt: String?): StringFBuffer = super.replaceAll(replacements, fmt)
 
     @Synchronized
     override fun replaceRegions(open: String, replacement: String): StringFBuffer = super.replaceRegions(open, replacement)
@@ -449,10 +449,10 @@ open class StringFBuffer: Serializable, StringLike<StringFBuffer> {
     override fun replaceRegions(open: String, close: String, replacement: String): StringFBuffer = super.replaceRegions(open, close, replacement)
 
     @Synchronized
-    override fun replaceRegions(open: String, replacement: Function<String, CharSequence>): StringFBuffer = super.replaceRegions(open, replacement)
+    override fun replaceRegions(open: String, replacement: Function<String, CharSequence?>): StringFBuffer = super.replaceRegions(open, replacement)
 
     @Synchronized
-    override fun replaceRegions(open: String, close: String, replacement: Function<String, CharSequence>): StringFBuffer = super.replaceRegions(open, close, replacement)
+    override fun replaceRegions(open: String, close: String?, replacement: Function<String, CharSequence?>): StringFBuffer = super.replaceRegions(open, close, replacement)
 
     @Synchronized
     override fun appendFilling(count: @Min(1) Int, ch: Char): StringFBuffer = super.appendFilling(count, ch)

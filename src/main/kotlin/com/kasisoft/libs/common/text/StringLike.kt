@@ -1,1127 +1,1080 @@
-package com.kasisoft.libs.common.text;
+package com.kasisoft.libs.common.text
 
 import com.kasisoft.libs.common.pools.*;
 
 import javax.validation.constraints.*;
 
+import java.util.function.Function;
 import java.util.function.*;
-
 import java.util.*;
-import java.util.regex.*;
+
 import java.util.regex.Pattern;
+import java.util.regex.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public interface StringLike<T extends StringLike> extends CharSequence, Comparable<T> {
+interface StringLike<T: StringLike<T>> : CharSequence, Comparable<T> {
 
-  /**
-   * @see StringBuilder#capacity()
-   */
-  @Min(1) int capacity();
+    /**
+     * @see StringBuilder.capacity
+     */
+    fun capacity(): @Min(1) Int
 
-  /**
-   * @see StringBuilder#ensureCapacity(int)
-   */
-  T ensureCapacity(@Min(1) int minimum);
+    /**
+     * @see StringBuilder.ensureCapacity
+     */
+    fun ensureCapacity(minimum: @Min(1) Int): T
 
-  /**
-   * @see StringBuilder#trimToSize()
-   */
-  T trimToSize();
+    /**
+     * @see StringBuilder.trimToSize
+     */
+    fun trimToSize(): T
 
-  /**
-   * @see StringBuilder#setLength(int)
-   */
-  T setLength(@Min(0) int newlength);
+    /**
+     * @see StringBuilder.setLength
+     */
+    fun setLength(newlength: @Min(0) Int): T
 
-  /**
-   * @see StringBuilder#codePointAt(int)
-   */
-  int codePointAt(int index);
+    /**
+     * @see StringBuilder.codePointAt
+     */
+    fun codePointAt(index: Int): Int
 
-  /**
-   * @see StringBuilder#codePointBefore(int)
-   */
-  int codePointBefore(int index);
+    /**
+     * @see StringBuilder.codePointBefore
+     */
+    fun codePointBefore(index: Int): Int
 
-  /**
-   * @see StringBuilder#codePointCount(int, int)
-   */
-  int codePointCount(int begin, int end);
+    /**
+     * @see StringBuilder.codePointCount
+     */
+    fun codePointCount(begin: Int, end: Int): Int
 
-  /**
-   * @see StringBuilder#offsetByCodePoints(int, int)
-   */
-  int offsetByCodePoints(int index, int codepointoffset);
+    /**
+     * @see StringBuilder.offsetByCodePoints
+     */
+    fun offsetByCodePoints(index: Int, codepointoffset: Int): Int
 
-  /**
-   * @see StringBuilder#getChars(int, int, char[], int)
-   */
-  T getChars(int start, int end, @NotNull char[] destination, int destbegin);
+    /**
+     * @see StringBuilder.getChars
+     */
+    fun getChars(start: Int, end: Int, destination: CharArray, destbegin: Int): T
 
-  /**
-   * @see StringBuilder#setCharAt(int, char)
-   */
-  T setCharAt(int index, char ch);
+    /**
+     * @see StringBuilder.setCharAt
+     */
+    fun setCharAt(index: Int, ch: Char): T
+    fun setCodepointAt(index: Int, codepoint: Int): T
 
-  T setCodepointAt(int index, int codepoint);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(obj: Any): T
 
-  /**
-   * @see StringBuilder#append(Object)
-   */
-  @NotNull T append(@NotNull Object obj);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(sequence: CharSequence): T
 
-  /**
-   * @see StringBuilder#append(CharSequence)
-   */
-  @NotNull T append(@NotNull CharSequence sequence);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(sequence: CharSequence, start: Int, end: Int): T
 
-  /**
-   * @see StringBuilder#append(CharSequence, int, int)
-   */
-  @NotNull T append(@NotNull CharSequence sequence, int start, int end);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(charray: CharArray): T
 
-  /**
-   * @see StringBuilder#append(char[])
-   */
-  @NotNull T append(@NotNull char[] charray);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(charray: CharArray, offset: Int, length: Int): T
 
-  /**
-   * @see StringBuilder#append(char[], int, int)
-   */
-  @NotNull T append(@NotNull char[] charray, int offset, int length);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(value: Boolean): T
 
-  /**
-   * @see StringBuilder#append(boolean)
-   */
-  @NotNull T append(boolean value);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(value: Char): T
 
-  /**
-   * @see StringBuilder#append(char)
-   */
-  @NotNull T append(char value);
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(value: Int): T
 
-  /**
-   * @see StringBuilder#append(int)
-   */
-  @NotNull T append(int value);
-
-  /**
-   * Appends some values using a specific format pattern.
-   *
-   * @param format   The pattern to use.
-   * @param args     The arguments for this pattern.
-   *
-   * @return   The current buffer.
-   */
-  default @NotNull T appendF(@NotNull String fmt, Object ... args) {
-    var toAdd = fmt;
-    if ((args != null) && (args.length > 0)) {
-      toAdd = String.format(fmt, args);
-    }
-    return append(toAdd);
-  }
-
-  /**
-   * @see StringBuilder#appendCodePoint(int)
-   */
-  @NotNull T appendCodePoint(int codepoint);
-
-  /**
-   * @see StringBuilder#append(long)
-   */
-  @NotNull T append(long value);
-
-  /**
-   * @see StringBuilder#append(float)
-   */
-  @NotNull T append(float value);
-
-  /**
-   * @see StringBuilder#append(double)
-   */
-  @NotNull T append(double value);
-
-  /**
-   * @see StringBuilder#delete(int, int)
-   */
-  @NotNull T delete(int start, int end);
-
-  /**
-   * @see StringBuilder#deleteCharAt(int)
-   */
-  @NotNull T deleteCharAt(int index);
-
-  /**
-   * @see StringBuilder#replace(int, int, String)
-   */
-  @NotNull T replace(int start, int end, @NotNull String str);
-
-  /**
-   * @see StringBuilder#substring(int)
-   */
-  @NotNull String substring(int start);
-
-  /**
-   * @see StringBuilder#substring(int, int)
-   */
-  @NotNull String substring(int start, int end);
-
-  /**
-   * @see StringBuilder#insert(int, char[], int, int)
-   */
-  @NotNull T insert(int index, @NotNull char[] charray, int offset, int length);
-
-  /**
-   * @see StringBuilder#insert(int, Object)
-   */
-  @NotNull T insert(int offset, @NotNull Object obj);
-
-  /**
-   * Inserts some values using a specific format pattern.
-   *
-   * @param offset   The location where to insert the formatted content.
-   * @param fmt      The pattern to use.
-   * @param args     The arguments for this pattern.
-   *
-   * @return   The current buffer.
-   */
-  default @NotNull T insertF(int offset, @NotNull String fmt, Object ... args) {
-    var toAdd = fmt;
-    if ((args != null) && (args.length > 0)) {
-      toAdd = String.format(fmt, args);
-    }
-    return insert(offset, toAdd);
-
-  }
-
-  /**
-   * @see StringBuilder#insert(int, char[])
-   */
-  @NotNull T insert(int offset, @NotNull char[] value);
-
-  /**
-   * @see StringBuilder#insert(int, CharSequence)
-   */
-  @NotNull T insert(int offset, @NotNull CharSequence value);
-
-  /**
-   * @see StringBuilder#insert(int, CharSequence, int, int)
-   */
-  @NotNull T insert(int offset, @NotNull CharSequence value, int start, int end);
-
-  /**
-   * @see StringBuilder#insert(int, boolean)
-   */
-  @NotNull T insert(int offset, boolean value);
-
-  /**
-   * @see StringBuilder#insert(int, char)
-   */
-  @NotNull T insert(int offset, char value);
-
-  /**
-   * @see StringBuilder#insert(int, int)
-   */
-  @NotNull T insert(int offset, int value);
-
-  /**
-   * @see StringBuilder#insert(int, long)
-   */
-  @NotNull T insert(int offset, long value);
-
-  /**
-   * @see StringBuilder#insert(int, float)
-   */
-  @NotNull T insert(int offset, float value);
-
-  /**
-   * @see StringBuilder#insert(int, double)
-   */
-  @NotNull T insert(int offset, double value);
-
-  /**
-   * @see StringBuilder#indexOf(String)
-   */
-  int indexOf(@NotNull String str);
-
-  /**
-   * @see StringBuilder#indexOf(String, int)
-   */
-  int indexOf(@NotNull String str, int index);
-
-  default int indexOf(char ... characters) {
-    return indexOf(0, characters);
-  }
-
-  default int indexOf(int index, char ... characters) {
-    var result = -1;
-    if ((characters != null) && (characters.length > 0)) {
-      var str = toString();
-      for (char ch : characters) {
-        var idx = str.indexOf(ch, index);
-        if (idx != -1) {
-          if (result == -1) {
-            result = idx;
-          } else {
-            result = Math.min(idx, result);
-          }
+    /**
+     * Appends some values using a specific format pattern.
+     *
+     * @param format   The pattern to use.
+     * @param args     The arguments for this pattern.
+     *
+     * @return   The current buffer.
+     */
+    fun appendF(fmt: String, vararg args: Any?): T {
+        var toAdd = fmt
+        if (args.isNotEmpty()) {
+            toAdd = String.format(fmt, *args)
         }
-        if (result == 0) {
-          break;
+        return append(toAdd)
+    }
+
+    /**
+     * @see StringBuilder.appendCodePoint
+     */
+    fun appendCodePoint(codepoint: Int): T
+
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(value: Long): T
+
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(value: Float): T
+
+    /**
+     * @see StringBuilder.append
+     */
+    fun append(value: Double): T
+
+    /**
+     * @see StringBuilder.delete
+     */
+    fun delete(start: Int, end: Int): T
+
+    /**
+     * @see StringBuilder.deleteCharAt
+     */
+    fun deleteCharAt(index: Int): T
+
+    /**
+     * @see StringBuilder.replace
+     */
+    fun replace(start: Int, end: Int, str: String): T
+
+    /**
+     * @see StringBuilder.substring
+     */
+    fun substring(start: Int): String
+
+    /**
+     * @see StringBuilder.substring
+     */
+    fun substring(start: Int, end: Int): String
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(index: Int, charray: CharArray, offset: Int, length: Int): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, obj: Any): T
+
+    /**
+     * Inserts some values using a specific format pattern.
+     *
+     * @param offset   The location where to insert the formatted content.
+     * @param fmt      The pattern to use.
+     * @param args     The arguments for this pattern.
+     *
+     * @return   The current buffer.
+     */
+    fun insertF(offset: Int, fmt: String, vararg args: Any): T {
+        var toAdd = fmt
+        if (args.isNotEmpty()) {
+            toAdd = String.format(fmt, *args)
         }
-      }
+        return insert(offset, toAdd)
     }
-    return result;
-  }
 
-  /**
-   * Like {@link StringBuilder#indexOf(String)} with the difference that this function provides the position of the
-   * leftmost literal which could be found.
-   *
-   * @param literals   A list of literals that will be checked.
-   *
-   * @return   The index of the leftmost found literal or -1 if none matched.
-   */
-  default int indexOf(String ... literals) {
-    return indexOf(0, literals);
-  }
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: CharArray): T
 
-  /**
-   * Like {@link StringBuilder#indexOf(String)} with the difference that this function provides the position of the
-   * leftmost literal which could be found.
-   *
-   * @param index      The index used as the starting point for the lookup.
-   * @param literals   A list of literals that will be checked.
-   *
-   * @return   The index of the leftmost found literal or -1 if none matched.
-   */
-  default int indexOf(int index, @NotNull String ... literals) {
-    var result = -1;
-    if (literals != null) {
-      for (var literal : literals) {
-        var pos = indexOf(literal, index);
-        if (pos != -1) {
-          if (result == -1) {
-            result = pos;
-          } else {
-            result = Math.min(result, pos);
-          }
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: CharSequence): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: CharSequence, start: Int, end: Int): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: Boolean): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: Char): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: Int): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: Long): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: Float): T
+
+    /**
+     * @see StringBuilder.insert
+     */
+    fun insert(offset: Int, value: Double): T
+
+    /**
+     * @see StringBuilder.indexOf
+     */
+    fun indexOf(str: String): Int
+
+    /**
+     * @see StringBuilder.indexOf
+     */
+    fun indexOf(str: String, index: Int): Int
+
+    fun indexOf(vararg characters: Char): Int = indexOf(0, *characters)
+
+    fun indexOf(index: Int, vararg characters: Char): Int {
+        var result = -1
+        if (characters.isNotEmpty()) {
+            val str = toString()
+            for (ch in characters) {
+                val idx = str.indexOf(ch, index)
+                if (idx != -1) {
+                    result = if (result == -1) {
+                        idx
+                    } else {
+                        Math.min(idx, result)
+                    }
+                }
+                if (result == 0) {
+                    break
+                }
+            }
         }
-      }
+        return result
     }
-    return result;
-  }
 
-  /**
-   * @see StringBuilder#lastIndexOf(String)
-   */
-  int lastIndexOf(@NotNull String str);
+    /**
+     * Like [StringBuilder.indexOf] with the difference that this function provides the position of the
+     * leftmost literal which could be found.
+     *
+     * @param literals   A list of literals that will be checked.
+     *
+     * @return   The index of the leftmost found literal or -1 if none matched.
+     */
+    fun indexOf(vararg literals: String): Int = indexOf(0, *literals)
 
-  /**
-   * @see StringBuilder#lastIndexOf(String, int)
-   */
-  int lastIndexOf(@NotNull String str, int index);
-
-  default int lastIndexOf(char ... characters) {
-    return lastIndexOf(length(), characters);
-  }
-
-  default int lastIndexOf(int index, char ... characters) {
-    int result = -1;
-    if ((characters != null) && (characters.length > 0)) {
-      var str = toString();
-      for (var ch : characters) {
-        var idx = str.lastIndexOf(ch, index);
-        if (idx != -1) {
-          if (result == -1) {
-            result = idx;
-          } else {
-            result = Math.max(idx, result);
-          }
+    /**
+     * Like [StringBuilder.indexOf] with the difference that this function provides the position of the
+     * leftmost literal which could be found.
+     *
+     * @param index      The index used as the starting point for the lookup.
+     * @param literals   A list of literals that will be checked.
+     *
+     * @return   The index of the leftmost found literal or -1 if none matched.
+     */
+    fun indexOf(index: Int, vararg literals: String): Int {
+        var result = -1
+        for (literal in literals) {
+            val pos = indexOf(literal, index)
+            if (pos != -1) {
+                result = if (result == -1) {
+                    pos
+                } else {
+                    Math.min(result, pos)
+                }
+            }
         }
-      }
+        return result
     }
-    return result;
-  }
 
-  /**
-   * Like {@link StringBuilder#lastIndexOf(String,int)} with the difference that this function provides the position of
-   * the rightmost literal which could be found.
-   *
-   * @param literals   A list of literals that will be checked.
-   *
-   * @return   The index of the rightmost found literal or -1 if none matched.
-   */
-  default int lastIndexOf(String ... literals) {
-    return lastIndexOf(-1, literals);
-  }
+    /**
+     * @see StringBuilder.lastIndexOf
+     */
+    fun lastIndexOf(str: String): Int
 
-  /**
-   * Like {@link StringBuilder#lastIndexOf(String,int)} with the difference that this function provides the position of
-   * the rightmost literal which could be found.
-   *
-   * @param index      The index used as the starting point for the lookup.
-   * @param literals   A list of literals that will be checked.
-   *
-   * @return   The index of the rightmost found literal or -1 if none matched.
-   */
-  default int lastIndexOf(int index, String ... literals) {
-    var result = -1;
-    if (literals != null) {
-      for (var literal : literals) {
-        var pos = lastIndexOf(literal, index);
-        if (pos != -1) {
-          if (result == -1) {
-            result = pos;
-          } else {
-            result = Math.max(result, pos);
-          }
+    /**
+     * @see StringBuilder.lastIndexOf
+     */
+    fun lastIndexOf(str: String, index: Int): Int
+
+    fun lastIndexOf(vararg characters: Char): Int = lastIndexOf(length, *characters)
+
+    fun lastIndexOf(index: Int, vararg characters: Char): Int {
+        var result = -1
+        if (characters.isNotEmpty()) {
+            val str = toString()
+            for (ch in characters) {
+                val idx = str.lastIndexOf(ch, index)
+                if (idx != -1) {
+                    result = if (result == -1) {
+                        idx
+                    } else {
+                        Math.max(idx, result)
+                    }
+                }
+            }
         }
-      }
+        return result
     }
-    return result;
-  }
 
-  /**
-   * @see StringBuilder#reverse()
-   */
-  @NotNull T reverse();
+    /**
+     * Like [StringBuilder.lastIndexOf] with the difference that this function provides the position of
+     * the rightmost literal which could be found.
+     *
+     * @param literals   A list of literals that will be checked.
+     *
+     * @return   The index of the rightmost found literal or -1 if none matched.
+     */
+    fun lastIndexOf(vararg literals: String): Int = lastIndexOf(-1, *literals)
 
-  /**
-   * This function removes leading whitespace from this buffer.
-   */
-  default @NotNull T trimLeading() {
-    while (length() > 0) {
-      var codePoint = codePointAt(0);
-      if (!Character.isWhitespace(codePoint)) {
-        break;
-      }
-      var charCount = Character.charCount(codePoint);
-      delete(0, charCount);
-    }
-    return (T) this;
-  }
-
-  /**
-   * This function removes trailing whitespace from this buffer.
-   */
-  default @NotNull T trimTrailing() {
-    while (length() > 0) {
-      var length    = length();
-      var codePoint = codePointAt(length - 1);
-      if (!Character.isWhitespace(codePoint)) {
-        break;
-      }
-      var charCount = Character.charCount(codePoint);
-      delete(length - charCount, length);
-    }
-    return (T) this;
-  }
-
-  /**
-   * This function removes leading and trailing whitespace from this buffer.
-   */
-  default @NotNull T trim() {
-    return (T) trimLeading().trimTrailing();
-  }
-
-  /**
-   * This function removes leading whitespace from this buffer.
-   *
-   * @param chars   The whitespace characters.
-   */
-  default @NotNull T trimLeading(@NotBlank String chars) {
-    while (length() > 0) {
-      var ch = charAt(0);
-      if (chars.indexOf(ch) == -1) {
-        break;
-      }
-      deleteCharAt(0);
-    }
-    return (T) this;
-  }
-
-  /**
-   * This function removes trailing whitespace from this buffer.
-   *
-   * @param chars   The whitespace characters.
-   */
-  default @NotNull T trimTrailing(@NotBlank String chars) {
-    while (length() > 0) {
-      var length = length();
-      var ch     = charAt(length - 1);
-      if (chars.indexOf(ch) == -1) {
-        break;
-      }
-      deleteCharAt(length - 1);
-    }
-    return (T) this;
-  }
-
-  /**
-   * Trims this instance depending on the provided settings.
-   *
-   * @param chars   The whitespace characters.
-   * @param left    <code>null</code> <=> Trim left and right,
-   *                <code>true</code> <=> Trim left,
-   *                <code>false</code> <=> Trim right.
-   */
-  default @NotNull T trim(@NotNull String chars, Boolean left) {
-    if ((left == null) || left.booleanValue()) {
-      trimLeading(chars);
-    }
-    if ((left == null) || (!left.booleanValue())) {
-      trimTrailing(chars);
-    }
-    return (T) this;
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer starts with the supplied literal.
-   *
-   * @param totest   The text used for the comparison.
-   *
-   * @return   <code>true</code> <=> The literal starts with the supplied literal.
-   */
-  default boolean startsWith(@NotNull CharSequence totest) {
-    return startsWith(true, totest);
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer starts with the supplied literal.
-   *
-   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param totest          The text used for the comparison.
-   *
-   * @return   <code>true</code> <=> The literal starts with the supplied literal.
-   */
-  default boolean startsWith(boolean casesensitive, @NotNull CharSequence seq) {
-    if (seq.length() > length()) {
-      return false;
-    }
-    var totest = seq.toString();
-    var part   = substring(0, totest.length());
-    if (casesensitive) {
-      return part.equals(totest);
-    } else {
-      return part.equalsIgnoreCase(totest);
-    }
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
-   *
-   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param candidates      The candidates to be tested at the end.
-   *
-   * @return   The sequence that's at the start or null.
-   */
-  default <R extends CharSequence> R startsWithMany(R ... candidates) {
-    return startsWithMany(true, candidates);
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
-   *
-   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param candidates      The candidates to be tested at the end.
-   *
-   * @return   The sequence that's at start or null.
-   */
-  default <R extends CharSequence> R startsWithMany(boolean casesensitive, R ... candidates) {
-    if ((candidates == null) || (candidates.length == 0)) {
-      return null;
-    }
-    for (R seq : candidates) {
-      if (startsWith(casesensitive, seq)) {
-        return seq;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
-   *
-   * @param totest   The text used for the comparison.
-   *
-   * @return   <code>true</code> <=> The literal ends with the supplied literal.
-   */
-  default boolean endsWith(@NotNull String totest) {
-    return endsWith(true, totest);
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
-   *
-   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param seq             The text used for the comparison.
-   *
-   * @return   <code>true</code> <=> The literal ends with the supplied literal.
-   */
-  default boolean endsWith(boolean casesensitive, @NotNull CharSequence seq) {
-    if (seq.length() > length()) {
-      return false;
-    }
-    var totest = seq.toString();
-    var part   = substring(length() - seq.length());
-    if (casesensitive) {
-      return part.equals(totest);
-    } else {
-      return part.equalsIgnoreCase(totest);
-    }
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
-   *
-   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param candidates      The candidates to be tested at the end.
-   *
-   * @return   The sequence that's at the end or null.
-   */
-  default <R extends CharSequence> R endsWithMany(R ... candidates) {
-    return endsWithMany(true, candidates);
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer ends with the supplied literal.
-   *
-   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param candidates      The candidates to be tested at the end.
-   *
-   * @return   The sequence that's at the end or null.
-   */
-  default <R extends CharSequence> R endsWithMany(boolean casesensitive, R ... candidates) {
-    if ((candidates == null) || (candidates.length == 0)) {
-      return null;
-    }
-    for (R seq : candidates) {
-      if (endsWith(casesensitive, seq)) {
-        return seq;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer equals the supplied literal.
-   *
-   * @param totest   The text used for the comparison.
-   *
-   * @return   <code>true</code> <=> The literal is equal.
-   */
-  default boolean equals(@NotNull String totest) {
-    return equals(true, totest);
-  }
-
-  /**
-   * Returns <code>true</code> if the content of this buffer equals the supplied literal.
-   *
-   * @param casesensitive   <code>true</code> <=> Performs a case sensitive comparison.
-   * @param totest          The text used for the comparison.
-   *
-   * @return   <code>true</code> <=> The literal is equal.
-   */
-  default boolean equals(boolean casesensitive, @NotNull String totest) {
-    if (casesensitive) {
-      return toString().equals(totest);
-    } else {
-      return toString().equalsIgnoreCase(totest);
-    }
-  }
-
-  /**
-   * Removes a collection of characters from this buffer.
-   *
-   * @param toremove   A list of characters which have to be removed.
-   *
-   * @return   The altered input.
-   */
-  default @NotNull T remove(@NotNull String toremove) {
-    for (var i = length() - 1; i >= 0; i--) {
-      if (toremove.indexOf(charAt(i)) != -1) {
-        deleteCharAt(i);
-      }
-    }
-    return (T) this;
-  }
-
-  /**
-   * Returns a splitted representation of this buffer except the delimiting characters. In difference to the function
-   * {@link String#split(String)} this one doesn't use a regular expression.
-   *
-   * @param delimiters   A list of characters providing the delimiters for the splitting.
-   *
-   * @return   A splitted list without the delimiting character.
-   */
-  default @NotNull String[] split(@NotNull String delimiters) {
-    return Buckets.arrayList().forInstance($ -> {
-      var tokenizer = new StringTokenizer(toString(), delimiters, false);
-      while (tokenizer.hasMoreTokens()) {
-        $.add(tokenizer.nextToken());
-      }
-      return $.toArray(new String[$.size()]);
-    });
-  }
-
-  /**
-   * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
-   *
-   * @param regex   A regular expression used for the splitting.
-   *
-   * @return   A splitted list without fragments matching the supplied regular expression.
-   */
-  default @NotNull String[] splitRegex(@NotNull String regex) {
-    return splitRegex(Pattern.compile(regex));
-  }
-
-  /**
-   * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
-   *
-   * @param pattern   A pattern providing the regular expression used for the splitting.
-   *
-   * @return   A splitted list without fragments matching the supplied regular expression.
-   */
-  default @NotNull String[] splitRegex(@NotNull Pattern pattern) {
-     return Buckets.<String>arrayList().forInstance($ -> {
-      var matcher = pattern.matcher(this);
-      var last    = 0;
-      var match   = false;
-      while (matcher.find()) {
-        match = true;
-        if (matcher.start() > last) {
-          $.add(substring(last, matcher.start()));
+    /**
+     * Like [StringBuilder.lastIndexOf] with the difference that this function provides the position of
+     * the rightmost literal which could be found.
+     *
+     * @param index      The index used as the starting point for the lookup.
+     * @param literals   A list of literals that will be checked.
+     *
+     * @return   The index of the rightmost found literal or -1 if none matched.
+     */
+    fun lastIndexOf(index: Int, vararg literals: String): Int {
+        var result = -1
+        for (literal in literals) {
+            val pos = lastIndexOf(literal, index)
+            if (pos != -1) {
+                result = if (result == -1) {
+                    pos
+                } else {
+                    Math.max(result, pos)
+                }
+            }
         }
-        last = matcher.end();
-      }
-      if (match && (last < length())) {
-        $.add(substring(last));
-      }
-      if (!match) {
-        // there was not at least one match
-        $.add(toString());
-      }
-      return $.toArray(new String[$.size()]);
-    });
-  }
-
-  /**
-   * @see String#replace(char, char)
-   *
-   * @param from   The character which has to be replaced.
-   * @param to     The character which has to be used instead.
-   *
-   * @return   This buffer without <code>from</code> characters.
-   */
-  default @NotNull T replace(char from, char to) {
-    for (var i = 0; i < length(); i++) {
-      if (charAt(i) == from) {
-        setCharAt(i, to);
-      }
-    }
-    return (T) this;
-  }
-
-  /**
-   * @see String#replace(int, int)
-   *
-   * @param fromCodepoint   The codepoint which has to be replaced.
-   * @param toCodepoint     The codepoint which has to be used instead.
-   *
-   * @return   This buffer without <code>from</code> characters.
-   */
-  default @NotNull T replace(int fromCodepoint, int toCodepoint) {
-    for (var i = 0; i < length(); i++) {
-      if (codePointAt(i) == fromCodepoint) {
-        setCodepointAt(i, toCodepoint);
-      }
-    }
-    return (T) this;
-  }
-
-  /**
-   * Replaces all occurrences of a regular expression with a specified replacement.
-   *
-   * @param regex         The regular expression used to select the fragments that will be replaced.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceLiterallyAll(@NotNull String search, @NotNull String replacement) {
-    Buckets.<Integer>arrayList().forInstanceDo($ -> {
-      var pos = indexOf(search);
-      while (pos != -1) {
-        $.add(pos);
-        $.add(pos + search.length());
-        pos = indexOf(pos + search.length(), search);
-      }
-      for (var i = $.size() - 2; i >= 0; i -= 2) {
-        var start = $.get(i);
-        var end   = $.get(i + 1);
-        delete(start, end);
-        insert(start, replacement);
-      }
-    });
-    return (T) this;
-  }
-
-  /**
-   * Replaces all occurrences of a regular expression with a specified replacement.
-   *
-   * @param regex         The regular expression used to select the fragments that will be replaced.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceAll(@NotNull String regex, @NotNull String replacement) {
-    return replaceAll(Pattern.compile(regex), replacement);
-  }
-
-  /**
-   * Replaces all occurrences of a regular expression with a specified replacement.
-   *
-   * @param pattern       The Pattern providing the regular expression for the substitution.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceAll(@NotNull Pattern pattern, @NotNull String replacement) {
-    Buckets.<Integer>arrayList().forInstanceDo($ -> {
-      var matcher = pattern.matcher(this);
-      while (matcher.find()) {
-        $.add(matcher.start());
-        $.add(matcher.end());
-      }
-      for (var i = $.size() - 2; i >= 0; i -= 2) {
-        var start = $.get(i);
-        var end   = $.get(i + 1);
-        delete(start, end);
-        insert(start, replacement);
-      }
-    });
-    return (T) this;
-  }
-
-  /**
-   * Replaces all occurrences of a regular expression with a specified replacement.
-   *
-   * @param regex                 The regular expression used to select the fragments that will be replaced.
-   * @param replacementSupplier   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceAll(@NotNull String regex, @NotNull Function<String, String> replacementSupplier) {
-    return replaceAll(Pattern.compile(regex), replacementSupplier);
-  }
-
-  /**
-   * Replaces all occurrences of a regular expression with a specified replacement.
-   *
-   * @param pattern               The Pattern providing the regular expression for the substitution.
-   * @param replacementSupplier   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceAll(@NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
-
-    var ranges        = Buckets.<Integer>arrayList().allocate();
-    var substitutions = Buckets.<String>arrayList().allocate();
-    var matcher       = pattern.matcher(this);
-
-    // we're collecting the substitutions from left to right, so the supplying function can assume this and use an
-    // internal state if desired
-    while (matcher.find()) {
-      ranges.add(matcher.start());
-      ranges.add(matcher.end());
-      var text         = substring(matcher.start(), matcher.end());
-      substitutions.add(replacementSupplier.apply(text));
+        return result
     }
 
-    // perform the substitutions
-    for (int i = ranges.size() - 2, j = substitutions.size() - 1; i >= 0; i -= 2, j--) {
-      var start = ranges.get(i);
-      var end   = ranges.get(i + 1);
-      delete(start, end);
-      insert(start, substitutions.get(j));
+    /**
+     * @see StringBuilder.reverse
+     */
+    fun reverse(): T
+
+    /**
+     * This function removes leading whitespace from this buffer.
+     */
+    fun trimLeading(): T {
+        while (length > 0) {
+            val codePoint = codePointAt(0)
+            if (!Character.isWhitespace(codePoint)) {
+                break
+            }
+            val charCount = Character.charCount(codePoint)
+            delete(0, charCount)
+        }
+        return this as T
     }
 
-    Buckets.<String>arrayList().free(substitutions);
-    Buckets.<Integer>arrayList().free(ranges);
-
-    return (T) this;
-
-  }
-
-  /**
-   * Replaces all occurrences of the supplied keys with the corresponding values.
-   *
-   * @param replacements   The substitution map.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceAll(@NotNull Map<String, String> replacements) {
-    return replaceAll(replacements, null);
-  }
-
-  /**
-   * Replaces all occurrences of a regular expression with a specified replacement.
-   *
-   * @param replacements   The substitution map.
-   * @param fmt            A formatting string to tweak the key literal. Default is '%s' (an alternative example: '${%s}')
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceAll(@NotNull Map<String, String> replacements, String fmt) {
-
-    var substitutions = Buckets.<String, String>hashMap().allocate();
-    var builder       = Buckets.stringFBuilder().allocate();
-    var regions       = Buckets.<Integer>arrayList().allocate();
-
-    // setup the substitution map
-    if ((fmt != null) && (!"%s".equals(fmt))) {
-      replacements.forEach(($k, $v) -> substitutions.put(String.format(fmt, $k), $v));
-    } else {
-      substitutions.putAll(replacements);
+    /**
+     * This function removes trailing whitespace from this buffer.
+     */
+    fun trimTrailing(): T {
+        while (length > 0) {
+            val len = length
+            val codePoint = codePointAt(len - 1)
+            if (!Character.isWhitespace(codePoint)) {
+                break
+            }
+            val charCount = Character.charCount(codePoint)
+            delete(len - charCount, len)
+        }
+        return this as T
     }
 
-    // build a big OR of all keys
-    substitutions.keySet().forEach($ -> builder.append('|').append(Pattern.quote($)));
-    builder.setCharAt(0, '(');
-    builder.append(')');
+    /**
+     * This function removes leading and trailing whitespace from this buffer.
+     */
+    fun trim(): T = trimLeading().trimTrailing()
 
-    // collect regions of matches
-    Pattern pattern = Pattern.compile(builder.toString());
-    Matcher matcher = pattern.matcher(this);
-    while (matcher.find()) {
-      regions.add(matcher.start());
-      regions.add(matcher.end());
+    /**
+     * This function removes leading whitespace from this buffer.
+     *
+     * @param chars   The whitespace characters.
+     */
+    fun trimLeading(chars: String): T {
+        while (length > 0) {
+            val ch = get(0)
+            if (chars.indexOf(ch) == -1) {
+                break
+            }
+            deleteCharAt(0)
+        }
+        return this as T
     }
 
-    // substitute matches
-    for (var i = regions.size() - 2; i >= 0; i -= 2) {
-      var start = regions.get(i);
-      var end   = regions.get(i + 1);
-      var key   = substring(start, end);
-      delete(start, end);
-      insert(start, substitutions.get(key));
+    /**
+     * This function removes trailing whitespace from this buffer.
+     *
+     * @param chars   The whitespace characters.
+     */
+    fun trimTrailing(chars: String): T {
+        while (length > 0) {
+            val length = length
+            val ch = get(length - 1)
+            if (chars.indexOf(ch) == -1) {
+                break
+            }
+            deleteCharAt(length - 1)
+        }
+        return this as T
     }
 
-    Buckets.<String, String>hashMap().free(substitutions);
-    Buckets.stringFBuilder().free(builder);
-    Buckets.<Integer>arrayList().free(regions);
-
-    return (T) this;
-  }
-
-  /**
-   * Like {@link #replaceAll(String, String)} but only the first occurrence of the regular expression will be replaced.
-   *
-   * @param regex         The regular expression used to select the fragments that will be replaced.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceFirst(@NotNull String regex, @NotNull String replacement) {
-    return replaceFirst(Pattern.compile(regex), replacement);
-  }
-
-  /**
-   * Like {@link #replaceAll(String, String)} but only the first occurrence of the regular expression will be replaced.
-   *
-   * @param pattern       The Pattern providing the regular expression for the substitution.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceFirst(@NotNull Pattern pattern, @NotNull String replacement) {
-    var matcher = pattern.matcher(this);
-    if (matcher.find()) {
-      delete(matcher.start(), matcher.end());
-      insert(matcher.start(), replacement);
+    /**
+     * Trims this instance depending on the provided settings.
+     *
+     * @param chars   The whitespace characters.
+     * @param left    `null` <=> Trim left and right,
+     * `true` <=> Trim left,
+     * `false` <=> Trim right.
+     */
+    fun trim(chars: String, left: Boolean?): T {
+        if (left == null || left) {
+            trimLeading(chars)
+        }
+        if (left == null || !left) {
+            trimTrailing(chars)
+        }
+        return this as T
     }
-    return (T) this;
-  }
 
-  /**
-   * Like {@link #replaceAll(String, String)} but only the last occurrence of the regular expression will be replaced.
-   *
-   * @param regex         The regular expression used to select the fragments that will be replaced.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceLast(@NotNull String regex, @NotNull String replacement) {
-    return replaceLast(Pattern.compile(regex), replacement);
-  }
+    /**
+     * Returns `true` if the content of this buffer starts with the supplied literal.
+     *
+     * @param totest   The text used for the comparison.
+     *
+     * @return   `true` <=> The literal starts with the supplied literal.
+     */
+    fun startsWith(totest: CharSequence): Boolean = startsWith(true, totest)
 
-  /**
-   * Like {@link #replaceAll(String, String)} but only the last occurrence of the regular expression will be replaced.
-   *
-   * @param pattern       The Pattern providing the regular expression for the substitution.
-   * @param replacement   The replacement which has to be used instead.
-   *
-   * @return   This buffer.
-   */
-  default @NotNull T replaceLast(@NotNull Pattern pattern, @NotNull String replacement) {
-    var matcher = pattern.matcher(this);
-    var start   = -1;
-    var end     = -1;
-    while (matcher.find()) {
-      start = matcher.start();
-      end   = matcher.end();
+    /**
+     * Returns `true` if the content of this buffer starts with the supplied literal.
+     *
+     * @param casesensitive   `true` <=> Performs a case sensitive comparison.
+     * @param totest          The text used for the comparison.
+     *
+     * @return   `true` <=> The literal starts with the supplied literal.
+     */
+    fun startsWith(casesensitive: Boolean, seq: CharSequence): Boolean {
+        if (seq.length > length) {
+            return false
+        }
+        val totest = seq.toString()
+        val part   = substring(0, totest.length)
+        return if (casesensitive) {
+            part == totest
+        } else {
+            part.equals(totest, ignoreCase = true)
+        }
     }
-    if (start != -1) {
-      delete(start, end);
-      insert(start, replacement);
+
+    /**
+     * Returns `true` if the content of this buffer ends with the supplied literal.
+     *
+     * @param casesensitive   `true` <=> Performs a case sensitive comparison.
+     * @param candidates      The candidates to be tested at the end.
+     *
+     * @return   The sequence that's at the start or null.
+     */
+    fun <R: CharSequence> startsWithMany(vararg candidates: R): R? = startsWithMany(true, *candidates)
+
+    /**
+     * Returns `true` if the content of this buffer ends with the supplied literal.
+     *
+     * @param casesensitive   `true` <=> Performs a case sensitive comparison.
+     * @param candidates      The candidates to be tested at the end.
+     *
+     * @return   The sequence that's at start or null.
+     */
+    fun <R: CharSequence> startsWithMany(casesensitive: Boolean, vararg candidates: R): R? {
+        for (seq in candidates) {
+            if (startsWith(casesensitive, seq)) {
+                return seq
+            }
+        }
+        return null
     }
-    return (T) this;
-  }
 
-  default @NotNull T firstUp() {
-    int len = length();
-    if (len > 0) {
-      char first = charAt(0);
-      char upper = Character.toUpperCase(first);
-      if (first != upper) {
-        setCharAt(0, upper);
-      }
+    /**
+     * Returns `true` if the content of this buffer ends with the supplied literal.
+     *
+     * @param totest   The text used for the comparison.
+     *
+     * @return   `true` <=> The literal ends with the supplied literal.
+     */
+    fun endsWith(totest: String): Boolean = endsWith(true, totest)
+
+    /**
+     * Returns `true` if the content of this buffer ends with the supplied literal.
+     *
+     * @param casesensitive   `true` <=> Performs a case sensitive comparison.
+     * @param seq             The text used for the comparison.
+     *
+     * @return   `true` <=> The literal ends with the supplied literal.
+     */
+    fun endsWith(casesensitive: Boolean, seq: CharSequence): Boolean {
+        if (seq.length > length) {
+            return false
+        }
+        val totest = seq.toString()
+        val part = substring(length - seq.length)
+        return if (casesensitive) {
+            part == totest
+        } else {
+            part.equals(totest, ignoreCase = true)
+        }
     }
-    return (T) this;
-  }
 
-  default @NotNull T firstDown() {
-    int len = length();
-    if (len > 0) {
-      char first = charAt(0);
-      char lower = Character.toLowerCase(first);
-      if (first != lower) {
-        setCharAt(0, lower);
-      }
+    /**
+     * Returns `true` if the content of this buffer ends with the supplied literal.
+     *
+     * @param casesensitive   `true` <=> Performs a case sensitive comparison.
+     * @param candidates      The candidates to be tested at the end.
+     *
+     * @return   The sequence that's at the end or null.
+     */
+    fun <R: CharSequence> endsWithMany(vararg candidates: R): R? = endsWithMany(true, *candidates)
+
+    /**
+     * Returns `true` if the content of this buffer ends with the supplied literal.
+     *
+     * @param casesensitive   `true` <=> Performs a case sensitive comparison.
+     * @param candidates      The candidates to be tested at the end.
+     *
+     * @return   The sequence that's at the end or null.
+     */
+    fun <R: CharSequence> endsWithMany(casesensitive: Boolean, vararg candidates: R): R? {
+        for (seq in candidates) {
+            if (endsWith(casesensitive, seq)) {
+                return seq
+            }
+        }
+        return null
     }
-    return (T) this;
-  }
 
-  /**
-   * Creates a camelcase representation of the supplied sequence.
-   *
-   * @return   The camelcase representation.
-   */
-  default @NotNull T camelCase() {
-    int len = length();
-    for (int i = len - 2, j = len - 1; i >= 0; i--,j--) {
-      char current = charAt(i);
-      char next    = charAt(j);
-      if (!Character.isLetter(current)) {
-        setCharAt(j, Character.toUpperCase(next));
-        deleteCharAt(i);
-      }
+    /**
+     * Returns `true` if the content of this buffer equals the supplied literal.
+     *
+     * @param totest   The text used for the comparison.
+     *
+     * @return   `true` <=> The literal is equal.
+     */
+    fun equals(totest: String): Boolean = equals(true, totest)
+
+    /**
+     * Returns `true` if the content of this buffer equals the supplied literal.
+     *
+     * @param casesensitive   `true` <=> Performs a case sensitive comparison.
+     * @param totest          The text used for the comparison.
+     *
+     * @return   `true` <=> The literal is equal.
+     */
+    fun equals(casesensitive: Boolean, totest: String): Boolean =
+        if (casesensitive) {
+            toString() == totest
+        } else {
+            toString().equals(totest, ignoreCase = true)
+        }
+
+    /**
+     * Removes a collection of characters from this buffer.
+     *
+     * @param toremove   A list of characters which have to be removed.
+     *
+     * @return   The altered input.
+     */
+    fun remove(toremove: String): T {
+        for (i in length - 1 downTo 0) {
+            if (toremove.indexOf(get(i)) != -1) {
+                deleteCharAt(i)
+            }
+        }
+        return this as T
     }
-    if (length() > 0) {
-      firstDown();
+
+    /**
+     * Returns a splitted representation of this buffer except the delimiting characters. In difference to the function
+     * [String.split] this one doesn't use a regular expression.
+     *
+     * @param delimiters   A list of characters providing the delimiters for the splitting.
+     *
+     * @return   A splitted list without the delimiting character.
+     */
+    fun split(delimiters: String): Array<String> {
+        return Buckets.arrayList<String>().forInstance(Function<ArrayList<String>, Array<String>> {
+            val tokenizer = StringTokenizer(toString(), delimiters, false)
+            while (tokenizer.hasMoreTokens()) {
+                it.add(tokenizer.nextToken())
+            }
+            it.toTypedArray()
+        })
     }
-    return (T) this;
-  }
 
-  default @NotNull T toLowerCase() {
-    String lower = toString().toLowerCase();
-    setLength(0);
-    append(lower);
-    return (T) this;
-  }
+    /**
+     * Like [.split] with the difference that this function accepts a regular expression for the splitting.
+     *
+     * @param regex   A regular expression used for the splitting.
+     *
+     * @return   A splitted list without fragments matching the supplied regular expression.
+     */
+    fun splitRegex(regex: String): Array<String> = splitRegex(Pattern.compile(regex))
 
-  default @NotNull T toUpperCase() {
-    String upper = toString().toUpperCase();
-    setLength(0);
-    append(upper);
-    return (T) this;
-  }
-
-  default @NotNull T appendIfMissing(@NotNull CharSequence seq) {
-    return appendIfMissing(true, seq);
-  }
-
-  default @NotNull T appendIfMissing(boolean casesensitive, @NotNull CharSequence seq) {
-    if (!endsWith(casesensitive, seq)) {
-      append(seq);
+    /**
+     * Like [.split] with the difference that this function accepts a regular expression for the splitting.
+     *
+     * @param pattern   A pattern providing the regular expression used for the splitting.
+     *
+     * @return   A splitted list without fragments matching the supplied regular expression.
+     */
+    fun splitRegex(pattern: Pattern): Array<String> {
+        return Buckets.arrayList<String>().forInstance {
+            val matcher = pattern.matcher(this)
+            var last = 0
+            var match = false
+            while (matcher.find()) {
+                match = true
+                if (matcher.start() > last) {
+                    it.add(substring(last, matcher.start()))
+                }
+                last = matcher.end()
+            }
+            if (match && last < length) {
+                it.add(substring(last))
+            }
+            if (!match) {
+                // there was not at least one match
+                it.add(toString())
+            }
+            it.toTypedArray()
+        }
     }
-    return (T) this;
-  }
 
-  default @NotNull T prependIfMissing(@NotNull CharSequence seq) {
-    return prependIfMissing(true, seq);
-  }
-
-  default @NotNull T prependIfMissing(boolean casesensitive, @NotNull CharSequence seq) {
-    if (!startsWith(casesensitive, seq)) {
-      insert(0, seq);
+    /**
+     * @see String.replace
+     * @param from   The character which has to be replaced.
+     * @param to     The character which has to be used instead.
+     *
+     * @return   This buffer without `from` characters.
+     */
+    fun replace(from: Char, to: Char): T {
+        for (i in 0 until length) {
+            if (get(i) == from) {
+                setCharAt(i, to)
+            }
+        }
+        return this as T
     }
-    return (T) this;
-  }
 
-  default @NotNull T removeEnd(@NotNull CharSequence seq) {
-    return removeEnd(true, seq);
-  }
-
-  default @NotNull T removeEnd(boolean casesensitive, @NotNull CharSequence seq) {
-    if (endsWith(casesensitive, seq)) {
-      delete(-seq.length(), 0);
+    /**
+     * @see String.replace
+     * @param fromCodepoint   The codepoint which has to be replaced.
+     * @param toCodepoint     The codepoint which has to be used instead.
+     *
+     * @return   This buffer without `from` characters.
+     */
+    fun replace(fromCodepoint: Int, toCodepoint: Int): T {
+        for (i in 0 until length) {
+            if (codePointAt(i) == fromCodepoint) {
+                setCodepointAt(i, toCodepoint)
+            }
+        }
+        return this as T
     }
-    return (T) this;
-  }
 
-  default @NotNull T removeStart(@NotNull CharSequence seq) {
-    return removeStart(true, seq);
-  }
-
-  default @NotNull T removeStart(boolean casesensitive, @NotNull CharSequence seq) {
-    if (startsWith(casesensitive, seq)) {
-      delete(0, seq.length());
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param regex         The regular expression used to select the fragments that will be replaced.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceLiterallyAll(search: String, replacement: String): T {
+        Buckets.arrayList<Int>().forInstanceDo {
+            var pos = indexOf(search)
+            while (pos != -1) {
+                it.add(pos)
+                it.add(pos + search.length)
+                pos = indexOf(pos + search.length, search)
+            }
+            var i = it.size - 2
+            while (i >= 0) {
+                val start = it[i]
+                val end = it[i + 1]
+                delete(start, end)
+                insert(start, replacement)
+                i -= 2
+            }
+        }
+        return this as T
     }
-    return (T) this;
-  }
 
-  default @NotNull T replaceRegions(@NotNull String open, @NotNull String replacement) {
-    return replaceRegions(open, open, $ -> replacement);
-  }
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param regex         The regular expression used to select the fragments that will be replaced.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceAll(regex: String, replacement: String): T = replaceAll(Pattern.compile(regex), replacement)
 
-  default @NotNull T replaceRegions(@NotNull String open, String close, @NotNull String replacement) {
-    return replaceRegions(open, close, $ -> replacement);
-  }
-
-  default @NotNull T replaceRegions(@NotNull String open, @NotNull Function<String, CharSequence> replacement) {
-    return replaceRegions(open, open, replacement);
-  }
-
-  default @NotNull T replaceRegions(@NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
-    if (close == null) {
-      close = open;
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param pattern       The Pattern providing the regular expression for the substitution.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceAll(pattern: Pattern, replacement: String): T {
+        Buckets.arrayList<Int>().forInstanceDo {
+            val matcher = pattern.matcher(this)
+            while (matcher.find()) {
+                it.add(matcher.start())
+                it.add(matcher.end())
+            }
+            var i = it.size - 2
+            while (i >= 0) {
+                val start = it[i]
+                val end = it[i + 1]
+                delete(start, end)
+                insert(start, replacement)
+                i -= 2
+            }
+        }
+        return this as T
     }
-    var start    = 0;
-    var idxOpen  = indexOf(open, start);
-    var idxClose = indexOf(close, idxOpen + 1);
-    while ((idxOpen != -1) && (idxClose != -1)) {
-      var inner = substring(idxOpen + open.length(), idxClose);
-      var value = replacement.apply(inner);
-      delete(idxOpen, idxClose + close.length());
-      if (value != null) {
-        insert(idxOpen, value);
-        start = idxOpen + value.length();
-      } else {
-        start = idxOpen;
-      }
-      idxOpen  = indexOf(open, start);
-      idxClose = indexOf(close, idxOpen + 1);
-    }
-    return (T) this;
-  }
 
-  default @NotNull T appendFilling(@Min(1) int count, char ch) {
-    char[] charray = new char[count];
-    Arrays.fill(charray, ch);
-    return append(charray);
-  }
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param regex                 The regular expression used to select the fragments that will be replaced.
+     * @param replacementSupplier   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceAll(regex: String, replacementSupplier: Function<String, String?>): T = replaceAll(Pattern.compile(regex), replacementSupplier)
+
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param pattern               The Pattern providing the regular expression for the substitution.
+     * @param replacementSupplier   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceAll(pattern: Pattern, replacementSupplier: Function<String, String?>): T {
+        val ranges = Buckets.arrayList<Int>().allocate()
+        val substitutions = Buckets.arrayList<String?>().allocate()
+        val matcher = pattern.matcher(this)
+
+        // we're collecting the substitutions from left to right, so the supplying function can assume this and use an
+        // internal state if desired
+        while (matcher.find()) {
+            ranges.add(matcher.start())
+            ranges.add(matcher.end())
+            val text = substring(matcher.start(), matcher.end())
+            substitutions.add(replacementSupplier.apply(text))
+        }
+
+        // perform the substitutions
+        var i = ranges.size - 2
+        var j = substitutions.size - 1
+        while (i >= 0) {
+            val start = ranges[i]
+            val end = ranges[i + 1]
+            delete(start, end)
+            if (substitutions[j] != null) {
+                insert(start, substitutions[j] as String)
+            }
+            i -= 2
+            j--
+        }
+        Buckets.arrayList<String?>().free(substitutions)
+        Buckets.arrayList<Int>().free(ranges)
+        return this as T
+    }
+
+    /**
+     * Replaces all occurrences of the supplied keys with the corresponding values.
+     *
+     * @param replacements   The substitution map.
+     *
+     * @return   This buffer.
+     */
+    fun replaceAll(replacements: Map<String, String?>): T = replaceAll(replacements, null)
+
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param replacements   The substitution map.
+     * @param fmt            A formatting string to tweak the key literal. Default is '%s' (an alternative example: '${%s}')
+     *
+     * @return   This buffer.
+     */
+    fun replaceAll(replacements: Map<String, String?>, fmt: String?): T {
+
+        val substitutions = Buckets.hashMap<String, String?>().allocate()
+        val builder = Buckets.stringFBuilder().allocate()
+        val regions = Buckets.arrayList<Int>().allocate()
+
+        // setup the substitution map
+        if (fmt != null && "%s" != fmt) {
+            replacements.forEach { (k: String, v: String?) -> substitutions[String.format(fmt, k)] = v }
+        } else {
+            substitutions.putAll(replacements)
+        }
+
+        // build a big OR of all keys
+        substitutions.keys.forEach(Consumer { builder.append('|').append(Pattern.quote(it)) })
+        builder.setCharAt(0, '(')
+        builder.append(')')
+
+        // collect regions of matches
+        val pattern = Pattern.compile(builder.toString())
+        val matcher = pattern.matcher(this)
+        while (matcher.find()) {
+            regions.add(matcher.start())
+            regions.add(matcher.end())
+        }
+
+        // substitute matches
+        var i = regions.size - 2
+        while (i >= 0) {
+            val start = regions[i]
+            val end = regions[i + 1]
+            val key = substring(start, end)
+            delete(start, end)
+            if (substitutions[key] != null) {
+                insert(start, substitutions[key] as String)
+            }
+            i -= 2
+        }
+        Buckets.hashMap<String, String?>().free(substitutions)
+        Buckets.stringFBuilder().free(builder)
+        Buckets.arrayList<Int>().free(regions)
+        return this as T
+    }
+
+    /**
+     * Like [.replaceAll] but only the first occurrence of the regular expression will be replaced.
+     *
+     * @param regex         The regular expression used to select the fragments that will be replaced.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceFirst(regex: String, replacement: String): T = replaceFirst(Pattern.compile(regex), replacement)
+
+    /**
+     * Like [.replaceAll] but only the first occurrence of the regular expression will be replaced.
+     *
+     * @param pattern       The Pattern providing the regular expression for the substitution.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceFirst(pattern: Pattern, replacement: String): T {
+        val matcher = pattern.matcher(this)
+        if (matcher.find()) {
+            delete(matcher.start(), matcher.end())
+            insert(matcher.start(), replacement)
+        }
+        return this as T
+    }
+
+    /**
+     * Like [.replaceAll] but only the last occurrence of the regular expression will be replaced.
+     *
+     * @param regex         The regular expression used to select the fragments that will be replaced.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceLast(regex: String, replacement: String): T = replaceLast(Pattern.compile(regex), replacement)
+
+    /**
+     * Like [.replaceAll] but only the last occurrence of the regular expression will be replaced.
+     *
+     * @param pattern       The Pattern providing the regular expression for the substitution.
+     * @param replacement   The replacement which has to be used instead.
+     *
+     * @return   This buffer.
+     */
+    fun replaceLast(pattern: Pattern, replacement: String): T {
+        val matcher = pattern.matcher(this)
+        var start = -1
+        var end = -1
+        while (matcher.find()) {
+            start = matcher.start()
+            end = matcher.end()
+        }
+        if (start != -1) {
+            delete(start, end)
+            insert(start, replacement)
+        }
+        return this as T
+    }
+
+    fun firstUp(): T {
+        val len = length
+        if (len > 0) {
+            val first = get(0)
+            val upper = first.uppercaseChar()
+            if (first != upper) {
+                setCharAt(0, upper)
+            }
+        }
+        return this as T
+    }
+
+    fun firstDown(): T {
+        val len = length
+        if (len > 0) {
+            val first = get(0)
+            val lower = first.lowercaseChar()
+            if (first != lower) {
+                setCharAt(0, lower)
+            }
+        }
+        return this as T
+    }
+
+    /**
+     * Creates a camelcase representation of the supplied sequence.
+     *
+     * @return   The camelcase representation.
+     */
+    fun camelCase(): T {
+        val len = length
+        var i = len - 2
+        var j = len - 1
+        while (i >= 0) {
+            val current = get(i)
+            val next = get(j)
+            if (!Character.isLetter(current)) {
+                setCharAt(j, next.uppercaseChar())
+                deleteCharAt(i)
+            }
+            i--
+            j--
+        }
+        if (length > 0) {
+            firstDown()
+        }
+        return this as T
+    }
+
+    fun toLowerCase(): T {
+        val lower = toString().lowercase(Locale.getDefault())
+        setLength(0)
+        append(lower)
+        return this as T
+    }
+
+    fun toUpperCase(): T {
+        val upper = toString().uppercase(Locale.getDefault())
+        setLength(0)
+        append(upper)
+        return this as T
+    }
+
+    fun appendIfMissing(seq: CharSequence): T = appendIfMissing(true, seq)
+
+    fun appendIfMissing(casesensitive: Boolean, seq: CharSequence): T {
+        if (!endsWith(casesensitive, seq)) {
+            append(seq)
+        }
+        return this as T
+    }
+
+    fun prependIfMissing(seq: CharSequence): T = prependIfMissing(true, seq)
+
+    fun prependIfMissing(casesensitive: Boolean, seq: CharSequence): T {
+        if (!startsWith(casesensitive, seq)) {
+            insert(0, seq)
+        }
+        return this as T
+    }
+
+    fun removeEnd(seq: CharSequence): T = removeEnd(true, seq)
+
+    fun removeEnd(casesensitive: Boolean, seq: CharSequence): T {
+        if (endsWith(casesensitive, seq)) {
+            delete(-seq.length, 0)
+        }
+        return this as T
+    }
+
+    fun removeStart(seq: CharSequence): T = removeStart(true, seq)
+
+    fun removeStart(casesensitive: Boolean, seq: CharSequence): T {
+        if (startsWith(casesensitive, seq)) {
+            delete(0, seq.length)
+        }
+        return this as T
+    }
+
+    fun replaceRegions(open: String, replacement: String): T = replaceRegions(open, open) { replacement }
+
+    fun replaceRegions(open: String, close: String, replacement: String): T = replaceRegions(open, close) { replacement }
+
+    fun replaceRegions(open: String, replacement: Function<String, CharSequence?>): T = replaceRegions(open, open, replacement)
+
+    fun replaceRegions(open: String, close: String?, replacement: Function<String, CharSequence?>): T {
+        var close = close
+        if (close == null) {
+            close = open
+        }
+        var start = 0
+        var idxOpen = indexOf(open, start)
+        var idxClose = indexOf(close, idxOpen + 1)
+        while (idxOpen != -1 && idxClose != -1) {
+            val inner = substring(idxOpen + open.length, idxClose)
+            val value = replacement.apply(inner)
+            delete(idxOpen, idxClose + close.length)
+            start = if (value != null) {
+                insert(idxOpen, value)
+                idxOpen + value.length
+            } else {
+                idxOpen
+            }
+            idxOpen = indexOf(open, start)
+            idxClose = indexOf(close, idxOpen + 1)
+        }
+        return this as T
+    }
+
+    fun appendFilling(count: @Min(1) Int, ch: Char): T {
+        val charray = CharArray(count)
+        Arrays.fill(charray, ch)
+        return append(charray)
+    }
 
 } /* ENDINTERFACE */
