@@ -24,7 +24,6 @@ public class VersionTest {
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_failingVersions() {
     return Stream.of(
-      Arguments.of(null              , Boolean.TRUE ),
       Arguments.of("1"               , Boolean.TRUE ),
       Arguments.of("1.1"             , Boolean.TRUE ),
       Arguments.of("1.1.1"           , Boolean.TRUE ),

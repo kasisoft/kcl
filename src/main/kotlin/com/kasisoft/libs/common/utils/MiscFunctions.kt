@@ -1,12 +1,10 @@
 package com.kasisoft.libs.common.utils
 
 import com.kasisoft.libs.common.functional.*
-
 import com.kasisoft.libs.common.constants.*
-
 import com.kasisoft.libs.common.types.*
-
 import com.kasisoft.libs.common.text.*
+import com.kasisoft.libs.common.*
 
 import javax.validation.constraints.*
 
@@ -64,7 +62,7 @@ object MiscFunctions {
     /** @spec [22-JUN-2020:KASI] https://en.gravatar.com/site/implement/hash/ */
     @JvmStatic
     fun getGravatarLink(email: String, size: Int? = null): String {
-        val lowercase = email.lowercase()
+        val lowercase = StringFunctions.cleanup(email.lowercase()) ?: throw KclException("Cannot calculate Gravatar link for email '$email'")
         val hash      = Digest.MD5.digestToString(lowercase.toByteArray())
         if (size != null) {
             return "https://www.gravatar.com/avatar/$hash?s=$size"
