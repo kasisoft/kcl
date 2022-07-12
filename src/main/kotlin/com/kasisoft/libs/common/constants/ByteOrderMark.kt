@@ -1,84 +1,56 @@
-package com.kasisoft.libs.common.constants;
+package com.kasisoft.libs.common.constants
 
-import com.kasisoft.libs.common.utils.*;
-
-import javax.validation.constraints.*;
-
-import java.util.*;
+import com.kasisoft.libs.common.utils.*
+import javax.validation.constraints.*
+import java.util.*
 
 /**
  * Constants the different byte order marks.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public enum ByteOrderMark {
+enum class ByteOrderMark(val bom: ByteArray) {
 
-  UTF8    (new byte[] {(byte) 0xef, (byte) 0xbb, (byte) 0xbf}) ,
-  UTF16BE (new byte[] {(byte) 0xfe, (byte) 0xff}),
-  UTF16LE (new byte[] {(byte) 0xff, (byte) 0xfe}),
-  UTF32BE (new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff}),
-  UTF32LE (new byte[] {(byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00});
+    UTF8(byteArrayOf(0xef.toByte(), 0xbb.toByte(), 0xbf.toByte())),
 
-  private byte[]   BOM;
+    UTF16BE(byteArrayOf(0xfe.toByte(), 0xff.toByte())),
 
-  ByteOrderMark(byte[] bom) {
-    BOM = bom;
-  }
+    UTF16LE(byteArrayOf(0xff.toByte(), 0xfe.toByte())),
 
-  public byte[] getBOM() {
-    return BOM;
-  }
+    UTF32BE(byteArrayOf(0x00.toByte(), 0x00.toByte(), 0xfe.toByte(), 0xff.toByte())),
 
-  /**
-   * Returns <code>true</code> if the supplied data starts with this BOM.
-   *
-   * @param data   The data to be tested.
-   *
-   * @return   <code>true</code> <=> The supplied data starts with this BOM.
-   */
-  public boolean startsWith(@NotNull byte[] data) {
-    return startsWith(data, 0);
-  }
+    UTF32LE(byteArrayOf(0xff.toByte(), 0xfe.toByte(), 0x00.toByte(), 0x00.toByte()));
 
-  /**
-   * Returns <code>true</code> if the supplied data starts with this BOM.
-   *
-   * @param data     The data to be tested.
-   * @param offset   An offset where the start has to begin. Must be a positive number.
-   *
-   * @return   <code>true</code> <=> The supplied data starts with this BOM.
-   */
-  public boolean startsWith(@NotNull byte[] data, int offset) {
-    return PrimitiveFunctions.compare(data, BOM, 0);
-  }
+    /**
+     * Returns <code>true</code> if the supplied data starts with this BOM.
+     *
+     * @param data The data to be tested.
+     * @param offset An offset where the start has to begin. Must be a positive number.
+     *
+     * @return <code>true</code> <=> The supplied data starts with this BOM.
+     */
+    fun startsWith(data: ByteArray): Boolean = PrimitiveFunctions.compare(data, bom)
 
-  /**
-   * Returns the ByteOrderMark located at the beginning of the supplied data.
-   *
-   * @param data   The data to be tested.
-   *
-   * @return   The ByteOrderMark if it could be identified.
-   */
-  public static @NotNull Optional<ByteOrderMark> identify(@NotNull byte[] data) {
-    return identify(data, 0);
-  }
+    companion object {
 
-  /**
-   * Returns the ByteOrderMark located at a specific location of the supplied data.
-   *
-   * @param data     The data to be tested.
-   * @param offset   The location where to start the test. Must be positive.
-   *
-   * @return   The ByteOrderMark if it could be identified.
-   */
-  public static @NotNull Optional<ByteOrderMark> identify(@NotNull byte[] data, int offset) {
-    var marks = ByteOrderMark.values();
-    for (var mark : marks) {
-      if (mark.startsWith( data, offset)) {
-        return Optional.of(mark);
-      }
-    }
-    return Optional.empty();
-  }
+        /**
+         * Returns the ByteOrderMark located at a specific location of the supplied data.
+         *
+         * @param data The data to be tested.
+         * @param offset The location where to start the test. Must be positive.
+         *
+         * @return The ByteOrderMark if it could be identified.
+         */
+        @JvmStatic
+        fun identify(data: ByteArray): ByteOrderMark? {
+            for (it in ByteOrderMark.values()) {
+                if (it.startsWith(data)) {
+                    return it;
+                }
+            }
+            return null;
+        }
+
+    } /* ENDOBJECT */
 
 } /* ENDENUM */

@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * Tests for the constants 'HttpStatusCode'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class HttpStatusCodeTest {
@@ -29,23 +29,21 @@ public class HttpStatusCodeTest {
       .map($ -> Arguments.of($.getTextualCode(), $))
       ;
   };
-  
+
   @ParameterizedTest
   @MethodSource("data_findByStatusCode")
   public void findByStatusCode(String textualcode, HttpStatusCode code) {
     var statusCode = HttpStatusCode.findByStatusCode(textualcode);
-    assertNotNull(statusCode);
-    assertTrue(statusCode.isPresent());
-    assertThat(statusCode.get(), is(code));
+    assertThat(statusCode, is(code));
   }
-  
+
   @Test
   public void findByStatusCode__UNKNOWN() {
-    assertFalse(HttpStatusCode.findByStatusCode(-1).isPresent());
-    assertFalse(HttpStatusCode.findByStatusCode("bibo").isPresent());
-    assertFalse(HttpStatusCode.findByStatusCode(null).isPresent());
+    assertNull(HttpStatusCode.findByStatusCode(-1));
+    assertNull(HttpStatusCode.findByStatusCode("bibo"));
+    assertNull(HttpStatusCode.findByStatusCode(null));
   }
-  
+
   @Test
   public void predicate() {
     for (var sc : HttpStatusCode.values()) {
@@ -54,5 +52,5 @@ public class HttpStatusCodeTest {
       assertFalse(sc.test(sc.getCode() + 1));
     }
   }
-  
+
 } /* ENDCLASS */

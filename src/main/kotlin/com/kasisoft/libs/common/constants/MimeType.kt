@@ -1,159 +1,140 @@
-package com.kasisoft.libs.common.constants;
+package com.kasisoft.libs.common.constants
 
-import com.kasisoft.libs.common.annotation.*;
-
-import javax.validation.constraints.*;
+import com.kasisoft.libs.common.annotation.*
 
 import java.util.function.*;
 
-import java.util.*;
-
 /**
  * Collection of supported mime types.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@Specifications({
-  @Specification(value = "https://wiki.selfhtml.org/wiki/MIME-Type/%C3%9Cbersicht", date = "04-JUN-2020"), 
-  @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "04-JUN-2020"), 
-  @Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "04-JUN-2020"),
-  @Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "04-JUN-2020")
-})
-public enum MimeType implements Predicate<String> {
+@Specifications(arrayOf(
+    Specification(value = "https://wiki.selfhtml.org/wiki/MIME-Type/%C3%9Cbersicht", date = "04-JUN-2020"),
+    Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "04-JUN-2020"),
+    Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "04-JUN-2020"),
+    Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "04-JUN-2020")
+))
+enum class MimeType(val mimeType : String, val suffices : List<String>) : Predicate<String?> {
 
-  AdobePdf                    ("application/pdf"               , "pdf"                              ),  // Adobe PDF
-  Bitmap                      ("image/bmp"                     , "bmp"                              ),  // BMP-Files
-  Bzip2                       ("application/x-bzip"            , "bz2"                              ),  // BZIP 2
-  CascadingStylesheet         ("text/css"                      , "css"                              ),  // cascading stylesheets
-  CommaSeparatedValues        ("text/comma-separated-values"   , "csv"                              ),  // comma separated values
-  Dvi                         ("application/x-dvi"             , "dvi"                              ),  // DVI
-  EncapsulatedPostscript      ("application/eps"               , "eps"                              ),  // Encapsulated Postscript
-  Gif                         ("image/gif"                     , "gif"                              ),  // GIF-Files
-  GnuTar                      ("application/x-gtar"            , "gtar"                             ),  // GNU Tar
-  GZip                        ("application/gzip"              , "gz"                               ),  // GNU Zip
-  Html                        ("text/html"                     , "htm", "html", "shtml"             ),  // HTML files
-  Icon                        ("image/x-icon"                  , "ico"                              ),  // Icon-Files
-  JavaBytecode                ("application/java-vm"           , "class"                            ),  // Java Bytecode
-  Javascript                  ("text/javascript"               , "js"                               ),  // JavaScript-Files
-  Jpeg                        ("image/jpeg"                    , "jpeg", "jpg", "jpe"               ),  // JPEG-Files
-  Json                        ("application/json"              , "json"                             ),  // JSON-files
-  LaTeX                       ("application/x-latex"           , "latex", "tex"                     ),  // LaTeX
-  MicrosoftExcel              ("application/msexcel"           , "xls", "xla"                       ),  // Microsoft Excel
-  MicrosoftHelp               ("application/mshelp"            , "hlp", "chm"                       ),  // Microsoft help files
-  MicrosoftPowerpoint         ("application/mspowerpoint"      , "ppt", "ppz", "pps", "pot"         ),  // Microsoft Powerpoint
-  MicrosoftRTF                ("text/rtf"                      , "rtf"                              ),  // Microsoft RTF
-  MicrosoftWord               ("application/msword"            , "doc", "dot"                       ),  // Microsoft Word
-  OctetStream                 ("application/octet-stream"      , "bin", "exe", "com", "dll", "class"),  // Executable
-  Php                         ("application/x-httpd-php"       , "php", "phtml"                     ),  // PHP
-  Plaintext                   ("text/plain"                    , "txt", "text"                      ),  // plain text files
-  Png                         ("image/png"                     , "png"                              ),  // PNG-Files
-  Postscript                  ("application/postscript"        , "ai", "eps", "ps"                  ),  // Adobe Postscript
-  SevenZip                    ("application/x-7z-compressed"   , "7z"                               ),  // 7z
-  Sgml                        ("text/x-sgml"                   , "sgm", "sgml"                      ),  // SGML-files
-  Svg                         ("image/svg+xml"                 , "svg"                              ),  // Scalable vector graphics
-  TabSeparatedValues          ("text/tab-separated-values"     , "tsv"                              ),  // tabulator-separated files
-  Tar                         ("application/x-tar"             , "tar"                              ),  // Tape-Archive
-  TeX                         ("application/x-tex"             , "tex"                              ),  // TeX
-  Tiff                        ("image/tiff"                    , "tiff", "tif"                      ),  // TIFF-Files
-  Wave                        ("audio/x-wav"                   , "wav"                              ),  // WAV-Files
-  XhtmlXml                    ("application/xhtml+xml"         , "htm", "html", "shtml", "xhtml"    ),  // XHTML
-  Xml                         ("text/xml"                      , "xml"                              ),  // xml files
-  Zip                         ("application/zip"               , "zip"                              ),  // ZIP archives
-  ZLib                        ("application/x-compress"        , "z"                                );  // ZLib compressed files 
+    AdobePdf                    ("application/pdf"               , listOf("pdf"                              )),  // Adobe PDF
+    Bitmap                      ("image/bmp"                     , listOf("bmp"                              )),  // BMP-Files
+    Bzip2                       ("application/x-bzip"            , listOf("bz2"                              )),  // BZIP 2
+    CascadingStylesheet         ("text/css"                      , listOf("css"                              )),  // cascading stylesheets
+    CommaSeparatedValues        ("text/comma-separated-values"   , listOf("csv"                              )),  // comma separated values
+    Dvi                         ("application/x-dvi"             , listOf("dvi"                              )),  // DVI
+    EncapsulatedPostscript      ("application/eps"               , listOf("eps"                              )),  // Encapsulated Postscript
+    Gif                         ("image/gif"                     , listOf("gif"                              )),  // GIF-Files
+    GnuTar                      ("application/x-gtar"            , listOf("gtar"                             )),  // GNU Tar
+    GZip                        ("application/gzip"              , listOf("gz"                               )),  // GNU Zip
+    Html                        ("text/html"                     , listOf("htm", "html", "shtml"             )),  // HTML files
+    Icon                        ("image/x-icon"                  , listOf("ico"                              )),  // Icon-Files
+    JavaBytecode                ("application/java-vm"           , listOf("class"                            )),  // Java Bytecode
+    Javascript                  ("text/javascript"               , listOf("js"                               )),  // JavaScript-Files
+    Jpeg                        ("image/jpeg"                    , listOf("jpeg", "jpg", "jpe"               )),  // JPEG-Files
+    Json                        ("application/json"              , listOf("json"                             )),  // JSON-files
+    LaTeX                       ("application/x-latex"           , listOf("latex", "tex"                     )),  // LaTeX
+    MicrosoftExcel              ("application/msexcel"           , listOf("xls", "xla"                       )),  // Microsoft Excel
+    MicrosoftHelp               ("application/mshelp"            , listOf("hlp", "chm"                       )),  // Microsoft help files
+    MicrosoftPowerpoint         ("application/mspowerpoint"      , listOf("ppt", "ppz", "pps", "pot"         )),  // Microsoft Powerpoint
+    MicrosoftRTF                ("text/rtf"                      , listOf("rtf"                              )),  // Microsoft RTF
+    MicrosoftWord               ("application/msword"            , listOf("doc", "dot"                       )),  // Microsoft Word
+    OctetStream                 ("application/octet-stream"      , listOf("bin", "exe", "com", "dll", "class")),  // Executable
+    Php                         ("application/x-httpd-php"       , listOf("php", "phtml"                     )),  // PHP
+    Plaintext                   ("text/plain"                    , listOf("txt", "text"                      )),  // plain text files
+    Png                         ("image/png"                     , listOf("png"                              )),  // PNG-Files
+    Postscript                  ("application/postscript"        , listOf("ai", "eps", "ps"                  )),  // Adobe Postscript
+    SevenZip                    ("application/x-7z-compressed"   , listOf("7z"                               )),  // 7z
+    Sgml                        ("text/x-sgml"                   , listOf("sgm", "sgml"                      )),  // SGML-files
+    Svg                         ("image/svg+xml"                 , listOf("svg"                              )),  // Scalable vector graphics
+    TabSeparatedValues          ("text/tab-separated-values"     , listOf("tsv"                              )),  // tabulator-separated files
+    Tar                         ("application/x-tar"             , listOf("tar"                              )),  // Tape-Archive
+    TeX                         ("application/x-tex"             , listOf("tex"                              )),  // TeX
+    Tiff                        ("image/tiff"                    , listOf("tiff", "tif"                      )),  // TIFF-Files
+    Wave                        ("audio/x-wav"                   , listOf("wav"                              )),  // WAV-Files
+    XhtmlXml                    ("application/xhtml+xml"         , listOf("htm", "html", "shtml", "xhtml"    )),  // XHTML
+    Xml                         ("text/xml"                      , listOf("xml"                              )),  // xml files
+    Zip                         ("application/zip"               , listOf("zip"                              )),  // ZIP archives
+    ZLib                        ("application/x-compress"        , listOf("z"                                ));  // ZLib compressed files
 
-  static {
-    for (var entry : LocalData.valuebysuffix.entrySet()) {
-      LocalData.valuebysuffix.put(entry.getKey(), Collections.unmodifiableSet(entry.getValue()));
-    }
-  }
-  
-  private String         mimeType;
-  private List<String>   suffices;
-  private String         primarySuffix;
-  private String         primarySuffixWithDot;
-  
-  MimeType(@NotBlank String type, @NotNull String ... suffixlist) {
-    mimeType  = type;
-    suffices  = Collections.unmodifiableList(Arrays.asList(suffixlist));
-    LocalData.valuebymimetype.put(mimeType, this);
-    for (var suffix : suffices) {
-      LocalData.valuebysuffix.computeIfAbsent(suffix, $ -> new HashSet<>()).add(this);
-    }
-    primarySuffix        = suffices.get(0);
-    primarySuffixWithDot = String.format(".%s", primarySuffix);
-  }
+    val primarySuffix : String
+    val primarySuffixWithDot : String
 
-  public String getMimeType() {
-    return mimeType;
-  }
-  
-  public List<String> getSuffices() {
-    return suffices;
-  }
-  
-  public String getPrimarySuffix() {
-    return primarySuffix;
-  }
-  
-  public String getPrimarySuffixWithDot() {
-    return primarySuffixWithDot;
-  }
-  
-  @Override
-  public boolean test(String mime) {
-    boolean result = false;
-    if (mime != null) {
-      result = mimeType.equalsIgnoreCase(mime);
+    init {
+
+        primarySuffix = suffices[0];
+        primarySuffixWithDot = "." + primarySuffix
+
+        synchronized(MimeTypeCache) {
+            MimeTypeCache.valuebymimetype[mimeType] = this
+            for (suffix in suffices) {
+                if (MimeTypeCache.valuebysuffix[suffix] == null) {
+                    MimeTypeCache.valuebysuffix[suffix] = mutableSetOf<MimeType>()
+                }
+                MimeTypeCache.valuebysuffix[suffix]?.add(this)
+            }
+        }
+
     }
-    return result;
-  }
-  
-  /**
-   * Returns <code>true</Code> if the supplied suffix is support by this mime type.
-   * 
-   * @param suffix   The suffix that has to be tested.
-   * 
-   * @return   <code>true</code> <=> The supplied suffix is supported by this mime type.
-   */
-  public boolean supportsSuffix(@NotNull String suffix) {
-    return suffices.contains(suffix.toLowerCase());
-  }
-  
-  /**
-   * Returns the MimeType constant that is associated with the supplied type.
-   * 
-   * @param type   The current mime type which has to be identified.
-   * 
-   * @return   The MimeType if it could be found or empty.
-   */
-  public static @NotNull Optional<MimeType> findByMimeType(@NotNull String type) {
-    var idx = type.indexOf(';');
-    if (idx != -1) {
-      type = idx > 0 ? type.substring(0, idx) : "";
+
+    companion object {
+
+        /**
+         * Returns the MimeType constant that is associated with the supplied type.
+         *
+         * @param type   The current mime type which has to be identified.
+         *
+         * @return   The MimeType if it could be found or empty.
+         */
+        @JvmStatic
+        fun findByMimeType(type : String) : MimeType?{
+            var cleanedType = type;
+            val idx = cleanedType.indexOf(';');
+            if (idx != -1) {
+                cleanedType = if(idx > 0) cleanedType.substring(0, idx) else ""
+            }
+            return MimeTypeCache.valuebymimetype.get(cleanedType)
+        }
+
+        /**
+         * Returns a set of known mime types supporting the supplied suffix.
+         *
+         * @param suffix   The suffix used to identify a filetype.
+         *
+         * @return   A set of supporting mime types.
+         */
+        @JvmStatic
+        fun findBySuffix(suffix : String) : Set<MimeType> {
+            var result = MimeTypeCache.valuebysuffix.get(suffix.lowercase())
+            if (result != null) {
+                return result.toSet()
+            }
+            return emptySet<MimeType>()
+        }
+
+    } /* ENDOBJECT */
+
+    override fun test(mime : String?) : Boolean {
+        if (mime != null) {
+          return mimeType.equals(mime, true)
+        }
+        return false;
     }
-    return Optional.ofNullable(LocalData.valuebymimetype.get(type));
-  }
-  
-  /**
-   * Returns a set of known mime types supporting the supplied suffix.
-   * 
-   * @param suffix   The suffix used to identify a filetype.
-   * 
-   * @return   A set of supporting mime types.
-   */
-  public static @NotNull Set<MimeType> findBySuffix(@NotNull String suffix) {
-    var result = LocalData.valuebysuffix.get(suffix.toLowerCase());
-    if (result == null) {
-      result = Collections.emptySet();
-    }
-    return result;
-  }
-  
-  private static class LocalData {
-    
-    static Map<String, MimeType>       valuebymimetype = new HashMap<>();
-    static Map<String, Set<MimeType>>  valuebysuffix   = new HashMap<>();
-    
-  } /* ENDCLASS */
-  
+
+    /**
+     * Returns <code>true</Code> if the supplied suffix is support by this mime type.
+     *
+     * @param suffix   The suffix that has to be tested.
+     *
+     * @return   <code>true</code> <=> The supplied suffix is supported by this mime type.
+     */
+    fun supportsSuffix(suffix : String) = suffices.contains(suffix.lowercase())
+
 } /* ENDENUM */
+
+private object MimeTypeCache {
+
+    val valuebymimetype = mutableMapOf<String, MimeType>()
+    val valuebysuffix   = mutableMapOf<String, MutableSet<MimeType>>()
+
+} /* ENDOBJECT */

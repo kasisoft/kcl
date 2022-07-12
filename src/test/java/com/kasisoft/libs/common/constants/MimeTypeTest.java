@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * Tests for the enumeration 'MimeType'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MimeTypeTest {
@@ -41,30 +41,25 @@ public class MimeTypeTest {
 
   @Test
   public void findByMimeType() {
-    
+
     var result1 = MimeType.findByMimeType("text/html;charset=UTF-8");
-    assertNotNull(result1);
-    assertTrue(result1.isPresent());
-    assertThat(result1.get(), is(MimeType.Html));
+    assertThat(result1, is(MimeType.Html));
 
     var result2 = MimeType.findByMimeType("text/html");
-    assertNotNull(result2);
-    assertTrue(result2.isPresent());
-    assertThat(result2.get(), is(MimeType.Html));
+    assertThat(result2, is(MimeType.Html));
 
     var result3 = MimeType.findByMimeType(";text/html");
-    assertNotNull(result3);
-    assertFalse(result3.isPresent());
+    assertNull(result3);
 
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_test() {
     return Arrays.asList(MimeType.values()).stream()
-      .map($ -> Arguments.of($.getMimeType(), $)) 
+      .map($ -> Arguments.of($.getMimeType(), $))
       ;
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_test")
   public void test(String type, MimeType mt) {
@@ -81,10 +76,10 @@ public class MimeTypeTest {
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_supportsSuffix() {
     return Arrays.asList(MimeType.values()).stream()
-      .map($ -> Arguments.of($.getPrimarySuffix(), $)) 
+      .map($ -> Arguments.of($.getPrimarySuffix(), $))
       ;
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_supportsSuffix")
   public void supportsSuffix(String suffix, MimeType mt) {

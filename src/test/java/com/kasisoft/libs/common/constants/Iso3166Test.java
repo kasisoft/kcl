@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * Test for the constants 'Iso3166'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Iso3166Test {
@@ -50,16 +50,13 @@ public class Iso3166Test {
   @MethodSource("data_findByAlpha2")
   public void findByAlpha2(Iso3166 expected, String alpha2) {
     var identified = Iso3166.findByAlpha2(alpha2);
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is(expected));
+    assertThat(identified, is(expected));
   }
 
   @Test
   public void findByAlpha2__NULL_VALUE() {
     var opt = Iso3166.findByAlpha2(null);
-    assertNotNull(opt);
-    assertFalse(opt.isPresent());
+    assertNull(opt);
   }
 
   @SuppressWarnings("exports")
@@ -73,16 +70,13 @@ public class Iso3166Test {
   @MethodSource("data_findByAlpha3")
   public void findByAlpha3(Iso3166 expected, String alpha3) {
     var identified = Iso3166.findByAlpha3(alpha3);
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is(expected));
+    assertThat(identified, is(expected));
   }
 
   @Test
   public void findByAlpha3__NULL_VALUE() {
     var opt = Iso3166.findByAlpha3(null);
-    assertNotNull(opt);
-    assertFalse(opt.isPresent());
+    assertNull(opt);
   }
 
   @SuppressWarnings("exports")
@@ -96,9 +90,7 @@ public class Iso3166Test {
   @MethodSource("data_findByNumerical")
   public void findByNumerical(Iso3166 expected, Integer numerical) {
     var identified = Iso3166.findByNumerical(numerical.intValue());
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is(expected));
+    assertThat(identified, is(expected));
   }
 
   @SuppressWarnings("exports")
@@ -107,7 +99,7 @@ public class Iso3166Test {
       .map($ -> Arguments.of($.getAlpha2(), $.getAlpha3(), $))
       ;
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_test")
   public void test(String alpha2, String alpha3, Iso3166 iso3166) {

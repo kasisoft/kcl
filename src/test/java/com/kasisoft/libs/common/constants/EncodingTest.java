@@ -30,14 +30,14 @@ public class EncodingTest {
       Arguments.of("Flöz", Encoding.UTF16LE, new byte[] { (byte) 0x46, (byte) 0x00, (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00, (byte) 0x7A, (byte) 0x00})
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_performEncoding")
   public void performEncoding(String literal, Encoding encoding, byte[] bytes) {
     byte[] encoded = encoding.encode(literal);
     assertThat(encoded, is(bytes));
   }
-  
+
   @Test
   public void values() {
     assertThat(Encoding.values(), is(notNullValue()));
@@ -45,7 +45,7 @@ public class EncodingTest {
 
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_valueByName() {
-    return Arrays.asList(Encoding.values()).stream()
+    return Encoding.values().stream()
       .map($ -> Arguments.of($.getEncoding(), $))
       ;
   }
@@ -54,16 +54,13 @@ public class EncodingTest {
   @MethodSource("data_valueByName")
   public void valueByName(String name, Encoding expected) {
     var encoding = Encoding.findByName(name);
-    assertNotNull(encoding);
-    assertTrue(encoding.isPresent());
-    assertThat(encoding.get(), is(expected));
+    assertThat(encoding, is(expected));
   }
 
   @Test
   public void valueByName__UNKNOWN() {
     var encoding = Encoding.findByName("Bibo");
-    assertNotNull(encoding);
-    assertFalse(encoding.isPresent());
+    assertNull(encoding);
   }
 
 } /* ENDCLASS */

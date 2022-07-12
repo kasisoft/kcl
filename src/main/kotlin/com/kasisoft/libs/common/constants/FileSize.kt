@@ -1,80 +1,44 @@
-package com.kasisoft.libs.common.constants;
+package com.kasisoft.libs.common.constants
 
 /**
  * A collection of file sizes. Calculation won't work on {@link #TerraByte} due to value limits.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
-public enum FileSize {
-  
-  Byte      (                 1 ,                  1 , "B"  ,   "B"),
-  KiloByte  (              1000 ,               1024 , "KB" , "KiB"),
-  MegaByte  (       1000 * 1000 ,        1024 * 1024 , "MB" , "MiB"),
-  GigaByte  (1000 * 1000 * 1000 , 1024 * 1024 * 1024 , "GB" , "GiB"),
-  TerraByte (                0L ,                 0L , "TB" , "TiB");
-  
-  private long     humanSize;
-  private long     computerSize;
-  private String   humanUnit;
-  private String   computerUnit;
-  
-  FileSize(long human, long computer, String humanU, String computerU) {
-    humanSize    = human;
-    computerSize = computer;
-    humanUnit    = humanU;
-    computerUnit = computerU;
-  }
-  
-  public String getHumanUnit() {
-    return humanUnit;
-  }
-  
-  public String getComputerUnit() {
-    return computerUnit;
-  }
-  
-  public long getHumanSize() {
-    return humanSize;
-  }
-  
-  public long getComputerSize() {
-    return computerSize;
-  }
+enum class FileSize (val humanSize: Long, val computerSize: Long, val humanUnit: String, val computerUnit: String) {
+    
+  Byte(1, 1, "B", "B"),
+  KiloByte(1000, 1024, "KB", "KiB"),
+  MegaByte(1000 * 1000, 1024 * 1024, "MB", "MiB"),
+  GigaByte(1000 * 1000 * 1000, 1024 * 1024 * 1024, "GB", "GiB"),
+  TerraByte(0L, 0L, "TB", "TiB");
 
-  public long humanSize(int count) {
-    return count * humanSize;
-  }
+  fun humanSize(count: Int) = count * humanSize
+ 
+  fun computerSize(count: Int) = count * computerSize
   
-  public long computerSize(int count) {
-    return count * computerSize;
-  }
+  fun humanFormat(count: Int) = String.format("%d %s", humanSize(count), humanUnit)
 
-  public String humanFormat(int count) {
-    return String.format("%d %s", humanSize(count), humanUnit);
-  }
+  fun computerFormat(count: Int) = String.format("%d %s", computerSize(count), computerUnit)
 
-  public String computerFormat(int count) {
-    return String.format("%d %s", computerSize(count), computerUnit);
-  }
-
-  public FileSize next() {
-    switch (this) {
-    case Byte     : return KiloByte;
-    case KiloByte : return MegaByte;
-    case MegaByte : return GigaByte;
-    case GigaByte : return TerraByte;
-    default       : return null;
+  fun next(): FileSize? {
+    when (this) {
+      Byte -> return KiloByte
+      KiloByte -> return MegaByte
+      MegaByte -> return GigaByte
+      GigaByte -> return TerraByte
+      else -> return null
     }
   }
 
-  public FileSize previous() {
-    switch (this) {
-    case KiloByte  : return Byte;
-    case MegaByte  : return KiloByte;
-    case GigaByte  : return MegaByte;
-    case TerraByte : return GigaByte;
-    default        : return null;
+  fun previous(): FileSize? {
+    when (this) {
+      KiloByte -> return Byte
+      MegaByte -> return KiloByte
+      GigaByte -> return MegaByte
+      TerraByte -> return GigaByte
+      else -> return null
     }
   }
-
+    
 } /* ENDENUM */

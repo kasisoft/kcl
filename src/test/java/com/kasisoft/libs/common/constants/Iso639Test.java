@@ -39,7 +39,7 @@ public class Iso639Test {
       assertThat(value.getAlpha2().length(), is(2));
     }
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByAlpha2() {
     return Arrays.asList(Iso639.values()).stream()
@@ -52,9 +52,7 @@ public class Iso639Test {
   @MethodSource("data_findByAlpha2")
   public void findByAlpha2(Iso639 expected, String alpha2) {
     var identified = Iso639.findByAlpha2(alpha2);
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is(expected));
+    assertThat(identified, is(expected));
   }
 
   @SuppressWarnings("exports")
@@ -63,30 +61,26 @@ public class Iso639Test {
       .map($ -> Arguments.of($, $.getBibliography()))
       ;
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_findByBibliography")
   public void findByBibliography(Iso639 expected, String bibliography) {
     var identified = Iso639.findByBibliography(bibliography);
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is(expected));
+    assertThat(identified, is(expected));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByTerminology() {
     return Arrays.asList(Iso639.values()).stream()
       .map($ -> Arguments.of($, $.getTerminology()))
       ;
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_findByTerminology")
   public void findByTerminology(Iso639 expected, String terminology) {
     var identified = Iso639.findByTerminology(terminology);
-    assertNotNull(identified);
-    assertTrue(identified.isPresent());
-    assertThat(identified.get(), is( expected));
+    assertThat(identified, is( expected));
   }
 
   @SuppressWarnings("exports")
@@ -101,7 +95,7 @@ public class Iso639Test {
     }
     return list.stream();
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_test")
   public void test(String code, Iso639 iso639) {
@@ -117,15 +111,13 @@ public class Iso639Test {
 
   @Test
   public void findBy__NULL_VALUE() {
-    
+
     var opt1 = Iso639.findByAlpha2(null);
-    assertNotNull(opt1);
-    assertFalse(opt1.isPresent());
-    
+    assertNull(opt1);
+
     var opt2 = Iso639.findByAlpha3(null);
-    assertNotNull(opt2);
-    assertFalse(opt2.isPresent());
-    
+    assertNull(opt2);
+
   }
 
 } /* ENDCLASS */
