@@ -17,13 +17,13 @@ import javax.swing.*;
 import java.util.stream.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class AlignmentTest {
 
   @Test
   public void values() {
-    
+
     assertThat(Alignment.Left.getAlignment(), is(SwingConstants.LEFT));
     assertThat(Alignment.Left.getTitledBorderX(), is(TitledBorder.LEFT));
 
@@ -43,7 +43,7 @@ public class AlignmentTest {
     assertThat(Alignment.Bottom.getTitledBorderX(), is(TitledBorder.LEFT));
 
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_set__JLabelHorizontal() {
     return Stream.of(
@@ -52,7 +52,7 @@ public class AlignmentTest {
       Arguments.of(new JLabel("label"), Alignment.Right, SwingConstants.RIGHT)
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_set__JLabelHorizontal")
   public void set__JLabelHorizontal(JLabel component, Alignment alignment, int value) {
@@ -68,7 +68,7 @@ public class AlignmentTest {
       Arguments.of(new JTextField(), Alignment.Right, SwingConstants.RIGHT)
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_set__JTextFieldHorizontal")
   public void set__JTextFieldHorizontal(JTextField component, Alignment alignment, int value) {
@@ -84,7 +84,7 @@ public class AlignmentTest {
       Arguments.of(new JLabel("label"), Alignment.Bottom, SwingConstants.BOTTOM)
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_set__JLabelVertical")
   public void set__JLabelVertical(JLabel component, Alignment alignment, int value) {
@@ -100,7 +100,7 @@ public class AlignmentTest {
       Arguments.of(new JTextField(), Alignment.Bottom, 1.0f)
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_set__JTextFieldVertical")
   public void set__JTextFieldVertical(JTextField component, Alignment alignment, float value) {
@@ -119,7 +119,7 @@ public class AlignmentTest {
       Arguments.of(new JPanel(), Alignment.Bottom)
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_set__JPanel")
   public void set__JPanel(JPanel component, Alignment alignment) {

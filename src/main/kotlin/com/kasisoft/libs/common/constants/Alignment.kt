@@ -1,61 +1,43 @@
-package com.kasisoft.libs.common.constants;
+package com.kasisoft.libs.common.constants
 
-import javax.swing.border.*;
-
-import javax.swing.*;
-
-import javax.validation.constraints.*;
+import javax.swing.border.*
+import javax.swing.*
 
 /**
  * Values to specify an alignment.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public enum Alignment {
+enum class Alignment(val alignment: Int, val titledBorderX: Int, val horizontal: Boolean) {
 
-  Left   (SwingConstants.LEFT  , TitledBorder.LEFT  , true),
-  Center (SwingConstants.CENTER, TitledBorder.CENTER, true),
-  Right  (SwingConstants.RIGHT , TitledBorder.RIGHT , true),
-  Top    (SwingConstants.TOP   , TitledBorder.LEFT  , false),
-  Middle (SwingConstants.CENTER, TitledBorder.LEFT  , false),
-  Bottom (SwingConstants.BOTTOM, TitledBorder.LEFT  , false);
-  
-  private int       alignment;
-  private int       titledBorderX;
-  private boolean   horizontal;
-  
-  Alignment(int alignment, int titledBorderX, boolean horizontal) {
-    this.alignment      = alignment;
-    this.titledBorderX  = titledBorderX;
-    this.horizontal     = horizontal;
-  }
-  
-  public int getAlignment() {
-    return alignment;
-  }
-  
-  public int getTitledBorderX() {
-    return titledBorderX;
-  }
-  
-  public boolean isHorizontal() {
-    return horizontal;
-  }
-  
-  public void set(@NotNull JComponent component) {
-    if (horizontal) {
-      if (component instanceof JLabel) {
-        ((JLabel) component).setHorizontalAlignment(alignment);
-      } else if (component instanceof JTextField) {
-        ((JTextField) component).setHorizontalAlignment(alignment);
-      }
-    } else {
-      if (component instanceof JLabel) {
-        ((JLabel) component).setVerticalAlignment(alignment);
-      } else if (component instanceof JTextField) {
-        ((JTextField) component).setAlignmentY(this == Top ? 0.0f : (this == Middle ? 0.5f : 1.0f));
-      }
+    Left(SwingConstants.LEFT, TitledBorder.LEFT, true),
+
+    Center(SwingConstants.CENTER, TitledBorder.CENTER, true),
+
+    Right(SwingConstants.RIGHT, TitledBorder.RIGHT, true),
+
+    Top(SwingConstants.TOP, TitledBorder.LEFT, false),
+
+    Middle(SwingConstants.CENTER, TitledBorder.LEFT, false),
+
+    Bottom(SwingConstants.BOTTOM, TitledBorder.LEFT, false);
+
+    fun set(component: JComponent) {
+
+        if (horizontal) {
+            if (component is JLabel) {
+                component.setHorizontalAlignment(alignment)
+            } else if (component is JTextField) {
+                component.setHorizontalAlignment(alignment)
+            }
+        } else {
+            if (component is JLabel) {
+                component.setVerticalAlignment(alignment)
+            } else if (component is JTextField) {
+                component.setAlignmentY(if (this == Top) 0.0f else (if (this == Middle) 0.5f else 1.0f))
+            }
+        }
+
     }
-  }
 
 } /* ENDENUM */
