@@ -103,3 +103,6 @@ SOFTWARE.
 ----
 
 Generics: suffix ST = SameTypes
+Move 'companion object' to the bottom
+Cleanup Import List
+Verify enumerations
