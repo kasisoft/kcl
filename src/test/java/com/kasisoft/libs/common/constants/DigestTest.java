@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * Tests for the constants 'Digest'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DigestTest {
@@ -39,11 +39,11 @@ public class DigestTest {
   @MethodSource("data_digest")
   public void digest(String text, Digest digest) {
     var data        = text.getBytes();
-    var hash_first  = digest.digest(data); 
+    var hash_first  = digest.digest(data);
     var hash_second = digest.digest(data);
     assertThat(hash_first, is(hash_second));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_digestToString() {
     return Stream.of(
@@ -55,34 +55,32 @@ public class DigestTest {
       Arguments.of("This is my test phrase", Digest.SHA512, "f5aa01867cd292624701b1bd56746569049314d2e940a12b1f43d98b73c97f28972856eb8832f2ac6f18f694bf252056271ad625c187d628185525a2744de4eb")
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_digestToString")
   public void digestToString(String text, Digest digest, String expectedVal) {
     assertThat(digest.digestToString(text.getBytes()), is(expectedVal));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByName() {
-    return Arrays.asList(Digest.values()).stream()
+    return Digest.values().stream()
       .map($ -> Arguments.of($.getAlgorithm(), $))
       ;
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_findByName")
   public void findByName(String name, Digest expected) {
     var digest = Digest.findByName(name);
     assertNotNull(digest);
-    assertTrue(digest.isPresent());
-    assertThat(digest.get(), is(expected));
+    assertThat(digest, is(expected));
   }
 
   @Test
   public void findByName__UNKNOWN() {
     var digest = Digest.findByName("Oopsi");
-    assertNotNull(digest);
-    assertFalse(digest.isPresent());
+    assertNull(digest);
   }
 
 } /* ENDCLASS */
