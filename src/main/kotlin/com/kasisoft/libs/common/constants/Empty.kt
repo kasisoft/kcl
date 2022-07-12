@@ -1,36 +1,45 @@
-package com.kasisoft.libs.common.constants;
+package com.kasisoft.libs.common.constants
 
-import java.io.*;
+import java.io.*
 
 /**
  * Collection of constants used to indicate empty elements.
  * 
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public class Empty {
+object Empty {
 
-  public static final boolean[] NO_BOOLEANS   = new boolean[0];
+    @JvmField
+    val NO_BOOLEANS = BooleanArray(0)
 
-  public static final char[]    NO_CHARS      = new char[0];
+    @JvmField
+    val NO_CHARS = CharArray(0)
 
-  public static final float[]   NO_FLOATS     = new float[0];
+    @JvmField
+    val NO_FLOATS = FloatArray(0)
 
-  public static final double[]  NO_DOUBLES    = new double[0];
+    @JvmField
+    val NO_DOUBLES = DoubleArray(0)
 
-  public static final byte[]    NO_BYTES      = new byte[0];
+    @JvmField
+    val NO_BYTES = ByteArray(0)
 
-  public static final short[]   NO_SHORTS     = new short[0];
+    @JvmField
+    val NO_SHORTS = ShortArray(0)
 
-  public static final int[]     NO_INTS       = new int[0];
- 
-  public static final long[]    NO_LONGS      = new long[0];
+    @JvmField
+    val NO_INTS = IntArray(0)
 
-  public static final Object[]  NO_OBJECTS    = new Object[0];
+    @JvmField
+    val NO_LONGS = LongArray(0)
 
-  public static final File[]    NO_FILES      = new File[0];
+    @JvmField
+    val NO_OBJECTS = arrayOfNulls<Any>(0)
 
-  public static final String[]  NO_STRINGS    = new String[0];
-  
-  public static final String    NO_STRING     = "";
-  
+    val NO_FILES = arrayOfNulls<File>(0)
+
+    val NO_STRINGS = arrayOfNulls<String>(0)
+
+    const val NO_STRING = ""
+
 } /* ENDCLASS */
