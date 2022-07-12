@@ -1,1577 +1,1582 @@
-package com.kasisoft.libs.common.utils;
+package com.kasisoft.libs.common.utils
 
-import static com.kasisoft.libs.common.internal.Messages.*;
+import com.kasisoft.libs.common.functional.PrimitiveInterfaces.*
 
-import com.kasisoft.libs.common.functional.PrimitiveInterfaces.*;
+import com.kasisoft.libs.common.constants.*
 
-import com.kasisoft.libs.common.constants.*;
+import com.kasisoft.libs.common.*
 
-import com.kasisoft.libs.common.*;
+import javax.validation.constraints.*
 
-import javax.validation.constraints.*;
-
-import java.util.*;
+import java.util.*
 
 /**
  * Declarations used to identify primitive types.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-public class PrimitiveFunctions {
+object PrimitiveFunctions {
 
-  private static final Set<String> BOOLEAN_TRUES  = new HashSet<>(Arrays.asList("true", "yes", "ja", "Y", "j", "ein", "on", "enabled"));
+    private val BOOLEAN_TRUES: Set<String>  = HashSet(Arrays.asList("true", "yes", "ja", "Y", "j", "ein", "on", "enabled"))
 
-  private static final Set<String> BOOLEAN_FALSES = new HashSet<>(Arrays.asList("false", "no", "nein", "n", "aus", "off", "disabled"));
+    private val BOOLEAN_FALSES: Set<String> = HashSet(Arrays.asList("false", "no", "nein", "n", "aus", "off", "disabled"))
 
-  /* BYTE */
-  
-  public static byte min(@NotNull byte[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = (byte) Math.min(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-
-  public static byte max(@NotNull byte[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = (byte) Math.max(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-  
-  public static boolean compare(@NotNull byte[] buffer, @NotNull byte[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
-
-  public static boolean compare(@NotNull byte[] buffer, @NotNull byte[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+    /* BYTE */
+    @JvmStatic
+    fun min(buffer: ByteArray): Byte =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.min(result.toInt(), buffer[i].toInt()).toByte()
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
         }
-      }
-      return true;
-    }
-    return false;
-  }
 
-  public static int find(@NotNull byte[] buffer, byte value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull byte[] buffer, byte value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun max(buffer: ByteArray): Byte =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.max(result.toInt(), buffer[i].toInt()).toByte()
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
         }
-      }
-    }
-    return -1;
-  }
 
-  public static @Min(-1) int lastIndexOf(@NotNull byte[] buffer, @NotNull byte[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+
+    @JvmStatic
+    fun compare(buffer: ByteArray, sequence: ByteArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
         }
-        return lidx;
-      }
-    }
-    return -1;
-  }
-
-  public static @NotNull List<Byte> toList(@NotNull byte[] buffer) {
-    var result = new ArrayList<Byte>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
-    }
-    return result;
-  }
-
-  public static @NotNull Byte[] toObjectArray(@NotNull byte[] buffer) {
-    var result = new Byte[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;  
-  }
-
-  public static @NotNull byte[] toPrimitiveArray(@NotNull Byte[] buffer) {
-    var result = new byte[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;
-  }
-
-  public static @NotNull byte[] toPrimitiveArrayByte(@NotNull List<Byte> buffer) {
-    var result = new byte[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
-
-  public static @NotNull byte[] concat(@NotNull byte[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_BYTES;
-    }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new byte[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull byte[] insert(@NotNull byte[] buffer, @NotNull byte[] sequence) {
-    return concat(sequence, buffer);
-  }
-
-  public static @NotNull byte[] insert(@NotNull byte[] buffer, @NotNull byte[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new byte[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-
-  /* SHORT */
-  
-  public static short min(@NotNull short[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = (short) Math.min(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-
-  public static short max(@NotNull short[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = (short) Math.max(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-  
-  public static boolean compare(@NotNull short[] buffer, @NotNull short[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
-
-  public static boolean compare(@NotNull short[] buffer, @NotNull short[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
         }
-      }
-      return true;
+        return false
     }
-    return false;
-  }
 
-  public static int find(@NotNull short[] buffer, short value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull short[] buffer, short value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull short[] buffer, @NotNull short[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull short[] buffer, @NotNull short[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun find(buffer: ByteArray, value: Byte, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
         }
-      }
+        return -1
     }
-    return -1;
-  }
 
-  public static @Min(-1) int lastIndexOf(@NotNull short[] buffer, @NotNull short[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun indexOf(buffer: ByteArray, sequence: ByteArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
         }
-        return lidx;
-      }
+        return -1
     }
-    return -1;
-  }
 
-  public static @NotNull List<Short> toList(@NotNull short[] buffer) {
-    var result = new ArrayList<Short>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
-    }
-    return result;
-  }
-
-  public static @NotNull Short[] toObjectArray(@NotNull short[] buffer) {
-    var result = new Short[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;  
-  }
-
-  public static @NotNull short[] toPrimitiveArray(@NotNull Short[] buffer) {
-    var result = new short[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;
-  }
-
-  public static @NotNull short[] toPrimitiveArrayShort(@NotNull List<Short> buffer) {
-    var result = new short[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
-
-  public static @NotNull short[] concat(@NotNull short[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_SHORTS;
-    }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new short[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull short[] insert(@NotNull short[] buffer, @NotNull short[] sequence) {
-    return concat(sequence, buffer);
-  }
-
-  public static @NotNull short[] insert(@NotNull short[] buffer, @NotNull short[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new short[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-
-  /* INTEGER */
-  
-  public static int min(@NotNull int[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.min(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-
-  public static int max(@NotNull int[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.max(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-  
-  public static boolean compare(@NotNull int[] buffer, @NotNull int[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
-
-  public static boolean compare(@NotNull int[] buffer, @NotNull int[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+    @JvmStatic
+    fun lastIndexOf(buffer: ByteArray, sequence: ByteArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
         }
-      }
-      return true;
+        return -1
     }
-    return false;
-  }
 
-  public static int find(@NotNull int[] buffer, int value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull int[] buffer, int value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull int[] buffer, @NotNull int[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull int[] buffer, @NotNull int[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun toList(buffer: ByteArray): MutableList<Byte> {
+        val result = ArrayList<Byte>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
         }
-      }
+        return result
     }
-    return -1;
-  }
 
-  public static @Min(-1) int lastIndexOf(@NotNull int[] buffer, @NotNull int[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun toObjectArray(buffer: ByteArray): Array<Byte?> {
+        val result = arrayOfNulls<Byte>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
         }
-        return lidx;
-      }
+        return result
     }
-    return -1;
-  }
 
-  public static @NotNull List<Integer> toList(@NotNull int[] buffer) {
-    var result = new ArrayList<Integer>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
-    }
-    return result;
-  }
-
-  public static @NotNull Integer[] toObjectArray(@NotNull int[] buffer) {
-    var result = new Integer[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;  
-  }
-
-  public static @NotNull int[] toPrimitiveArray(@NotNull Integer[] buffer) {
-    var result = new int[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;
-  }
-
-  public static @NotNull int[] toPrimitiveArrayInteger(@NotNull List<Integer> buffer) {
-    var result = new int[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
-
-  public static @NotNull int[] concat(@NotNull int[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_INTS;
-    }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new int[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull int[] insert(@NotNull int[] buffer, @NotNull int[] sequence) {
-    return concat(sequence, buffer);
-  }
-
-  public static @NotNull int[] insert(@NotNull int[] buffer, @NotNull int[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new int[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-
-  /* LONG */
-  
-  public static long min(@NotNull long[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.min(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-
-  public static long max(@NotNull long[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.max(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-  
-  public static boolean compare(@NotNull long[] buffer, @NotNull long[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
-
-  public static boolean compare(@NotNull long[] buffer, @NotNull long[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Byte>): ByteArray {
+        val result = ByteArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
         }
-      }
-      return true;
+        return result
     }
-    return false;
-  }
 
-  public static int find(@NotNull long[] buffer, long value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull long[] buffer, long value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull long[] buffer, @NotNull long[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull long[] buffer, @NotNull long[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun toPrimitiveArrayByte(buffer: List<Byte>): ByteArray {
+        val result = ByteArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
         }
-      }
+        return result
     }
-    return -1;
-  }
 
-  public static @Min(-1) int lastIndexOf(@NotNull long[] buffer, @NotNull long[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun concat(vararg buffers: ByteArray): ByteArray {
+        if (buffers.size == 0) {
+            return Empty.NO_BYTES
         }
-        return lidx;
-      }
-    }
-    return -1;
-  }
-
-  public static @NotNull List<Long> toList(@NotNull long[] buffer) {
-    var result = new ArrayList<Long>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
-    }
-    return result;
-  }
-
-  public static @NotNull Long[] toObjectArray(@NotNull long[] buffer) {
-    var result = new Long[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;  
-  }
-
-  public static @NotNull long[] toPrimitiveArray(@NotNull Long[] buffer) {
-    var result = new long[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;
-  }
-
-  public static @NotNull long[] toPrimitiveArrayLong(@NotNull List<Long> buffer) {
-    var result = new long[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
-
-  public static @NotNull long[] concat(@NotNull long[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_LONGS;
-    }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new long[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull long[] insert(@NotNull long[] buffer, @NotNull long[] sequence) {
-    return concat(sequence, buffer);
-  }
-
-  public static @NotNull long[] insert(@NotNull long[] buffer, @NotNull long[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new long[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-
-  /* FLOAT */
-  
-  public static float min(@NotNull float[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.min(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-
-  public static float max(@NotNull float[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.max(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-  
-  public static boolean compare(@NotNull float[] buffer, @NotNull float[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
-
-  public static boolean compare(@NotNull float[] buffer, @NotNull float[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
         }
-      }
-      return true;
-    }
-    return false;
-  }
-
-  public static int find(@NotNull float[] buffer, float value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull float[] buffer, float value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull float[] buffer, @NotNull float[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull float[] buffer, @NotNull float[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
         }
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int lastIndexOf(@NotNull float[] buffer, @NotNull float[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+        val result = ByteArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
         }
-        return lidx;
-      }
+        return result
     }
-    return -1;
-  }
 
-  public static @NotNull List<Float> toList(@NotNull float[] buffer) {
-    var result = new ArrayList<Float>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
-    }
-    return result;
-  }
+    @JvmStatic
+    fun insert(buffer: ByteArray, sequence: ByteArray): ByteArray = concat(sequence, buffer)
 
-  public static @NotNull Float[] toObjectArray(@NotNull float[] buffer) {
-    var result = new Float[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;  
-  }
-
-  public static @NotNull float[] toPrimitiveArray(@NotNull Float[] buffer) {
-    var result = new float[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;
-  }
-
-  public static @NotNull float[] toPrimitiveArrayFloat(@NotNull List<Float> buffer) {
-    var result = new float[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
-
-  public static @NotNull float[] concat(@NotNull float[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_FLOATS;
-    }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new float[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull float[] insert(@NotNull float[] buffer, @NotNull float[] sequence) {
-    return concat(sequence, buffer);
-  }
-
-  public static @NotNull float[] insert(@NotNull float[] buffer, @NotNull float[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new float[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-
-  /* DOUBLE */
-  
-  public static double min(@NotNull double[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.min(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-
-  public static double max(@NotNull double[] buffer) {
-    if (buffer.length > 0) {
-      var result = buffer[0];
-      for (var i = 1; i < buffer.length; i++) {
-        result = Math.max(result, buffer[i]);
-      }
-      return result;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
-    }
-  }
-  
-  public static boolean compare(@NotNull double[] buffer, @NotNull double[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
-
-  public static boolean compare(@NotNull double[] buffer, @NotNull double[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+    @JvmStatic
+    fun insert(buffer: ByteArray, sequence: ByteArray, offset: Int): ByteArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
         }
-      }
-      return true;
-    }
-    return false;
-  }
-
-  public static int find(@NotNull double[] buffer, double value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull double[] buffer, double value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull double[] buffer, @NotNull double[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull double[] buffer, @NotNull double[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
         }
-      }
+        val total = buffer.size + sequence.size
+        val result = ByteArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
     }
-    return -1;
-  }
 
-  public static @Min(-1) int lastIndexOf(@NotNull double[] buffer, @NotNull double[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    /* SHORT */
+    @JvmStatic
+    fun min(buffer: ShortArray): Short =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.min(result.toInt(), buffer[i].toInt()).toShort()
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
         }
-        return lidx;
-      }
-    }
-    return -1;
-  }
 
-  public static @NotNull List<Double> toList(@NotNull double[] buffer) {
-    var result = new ArrayList<Double>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
-    }
-    return result;
-  }
-
-  public static @NotNull Double[] toObjectArray(@NotNull double[] buffer) {
-    var result = new Double[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;  
-  }
-
-  public static @NotNull double[] toPrimitiveArray(@NotNull Double[] buffer) {
-    var result = new double[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;
-  }
-
-  public static @NotNull double[] toPrimitiveArrayDouble(@NotNull List<Double> buffer) {
-    var result = new double[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
-
-  public static @NotNull double[] concat(@NotNull double[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_DOUBLES;
-    }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new double[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull double[] insert(@NotNull double[] buffer, @NotNull double[] sequence) {
-    return concat(sequence, buffer);
-  }
-
-  public static @NotNull double[] insert(@NotNull double[] buffer, @NotNull double[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new double[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-  
-  /* CHAR */
-  
-  public static boolean compare(@NotNull char[] buffer, @NotNull char[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
-
-  public static boolean compare(@NotNull char[] buffer, @NotNull char[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+    @JvmStatic
+    fun max(buffer: ShortArray): Short {
+        return if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.max(result.toInt(), buffer[i].toInt()).toShort()
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
         }
-      }
-      return true;
     }
-    return false;
-  }
 
-  public static int find(@NotNull char[] buffer, char value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull char[] buffer, char value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull char[] buffer, @NotNull char[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull char[] buffer, @NotNull char[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun compare(buffer: ShortArray, sequence: ShortArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
         }
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int lastIndexOf(@NotNull char[] buffer, @NotNull char[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
         }
-        return lidx;
-      }
+        return false
     }
-    return -1;
-  }
 
-  public static @NotNull List<Character> toList(@NotNull char[] buffer) {
-    var result = new ArrayList<Character>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
-    }
-    return result;
-  }
-
-  public static @NotNull Character[] toObjectArray(@NotNull char[] buffer) {
-    var result = new Character[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;  
-  }
-
-  public static @NotNull char[] toPrimitiveArray(@NotNull Character[] buffer) {
-    var result = new char[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
-    }
-    return result;
-  }
-
-  public static @NotNull char[] toPrimitiveArrayCharacter(@NotNull List<Character> buffer) {
-    var result = new char[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
-
-  public static @NotNull char[] concat(@NotNull char[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_CHARS;
-    }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new char[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull char[] insert(@NotNull char[] buffer, @NotNull char[] sequence) {
-    return concat(sequence, buffer);
-  }
-
-  public static @NotNull char[] insert(@NotNull char[] buffer, @NotNull char[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new char[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-
-  /* BOOLEAN */
-  
-  public static boolean or(@NotNull boolean[] buffer) {
-    if (buffer.length > 0) {
-      for (boolean b : buffer) {
-        if (b) {
-          return true;
+    @JvmStatic
+    fun find(buffer: ShortArray, value: Short, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
         }
-      }
-      return false;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
+        return -1
     }
-  }
 
-  public static boolean and(@NotNull boolean[] buffer) {
-    if (buffer.length > 0) {
-      for (boolean b : buffer) {
-        if (!b) {
-          return false;
+    @JvmStatic
+    fun indexOf(buffer: ShortArray, sequence: ShortArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
         }
-      }
-      return true;
-    } else {
-      throw new KclException(error_api_misuse_empty_buffer);
+        return -1
     }
-  }
-  
-  public static boolean compare(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
-    return compare(buffer, sequence, 0);
-  }
 
-  public static boolean compare(@NotNull boolean[] buffer, @NotNull boolean[] sequence, int pos) {
-    if (sequence.length == 0) {
-      return true;
-    }
-    var maxPos = buffer.length - sequence.length;
-    if ((maxPos >= 0) && (pos <= maxPos)) {
-      for (int i = 0, j = pos; i < sequence.length; i++, j++) {
-        if (buffer[j] != sequence[i]) {
-          return false;
+    @JvmStatic
+    fun lastIndexOf(buffer: ShortArray, sequence: ShortArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
         }
-      }
-      return true;
+        return -1
     }
-    return false;
-  }
 
-  public static int find(@NotNull boolean[] buffer, boolean value) {
-    return find(buffer, value, 0);
-  }
-
-  public static int find(@NotNull boolean[] buffer, boolean value, int pos) {
-    for (var i = pos; i < buffer.length; i++) {
-      if (buffer[i] == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  public static @Min(-1) int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
-    return indexOf(buffer, sequence, 0);
-  }
-  
-  public static @Min(-1) int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence, @Min(0) int pos) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= pos) {
-        var idx = find(buffer, sequence[0], pos);
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            return idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun toList(buffer: ShortArray): MutableList<Short> {
+        val result = ArrayList<Short>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
         }
-      }
+        return result
     }
-    return -1;
-  }
 
-  public static @Min(-1) int lastIndexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
-    if (buffer.length >= sequence.length) {
-      var maxPos = buffer.length - sequence.length;
-      if (maxPos >= 0) {
-        // @todo [06-JUN-2020:KASI]   scan from the end
-        var idx  = find(buffer, sequence[0]);
-        var lidx = -1;
-        while (idx != -1) {
-          if (compare(buffer, sequence, idx)) {
-            lidx = idx;
-          }
-          idx = find(buffer, sequence[0], idx + 1);
+    @JvmStatic
+    fun toObjectArray(buffer: ShortArray): Array<Short?> {
+        val result = arrayOfNulls<Short>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
         }
-        return lidx;
-      }
+        return result
     }
-    return -1;
-  }
 
-  public static @NotNull List<Boolean> toList(@NotNull boolean[] buffer) {
-    var result = new ArrayList<Boolean>(buffer.length);
-    for (var element : buffer) {
-      result.add(element);
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Short>): ShortArray {
+        val result = ShortArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-    return result;
-  }
 
-  public static @NotNull Boolean[] toObjectArray(@NotNull boolean[] buffer) {
-    var result = new Boolean[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
+    @JvmStatic
+    fun toPrimitiveArrayShort(buffer: List<Short>): ShortArray {
+        val result = ShortArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-    return result;  
-  }
 
-  public static @NotNull boolean[] toPrimitiveArray(@NotNull Boolean[] buffer) {
-    var result = new boolean[buffer.length];
-    for (var i = 0; i < buffer.length; i++) {
-      result[i] = buffer[i];
+    @JvmStatic
+    fun concat(vararg buffers: ShortArray): ShortArray {
+        if (buffers.size == 0) {
+            return Empty.NO_SHORTS
+        }
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
+        }
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
+        }
+        val result = ShortArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
+        }
+        return result
     }
-    return result;
-  }
 
-  public static @NotNull boolean[] toPrimitiveArrayBoolean(@NotNull List<Boolean> buffer) {
-    var result = new boolean[buffer.size()];
-    for (var i = 0; i < buffer.size(); i++) {
-      result[i] = buffer.get(i);
-    }
-    return result;
-  }
+    @JvmStatic
+    fun insert(buffer: ShortArray, sequence: ShortArray): ShortArray = concat(sequence, buffer)
 
-  public static @NotNull boolean[] concat(@NotNull boolean[] ... buffers) {
-    if (buffers.length == 0) {
-      return Empty.NO_BOOLEANS;
+    @JvmStatic
+    fun insert(buffer: ShortArray, sequence: ShortArray, offset: Int): ShortArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
+        }
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
+        }
+        val total = buffer.size + sequence.size
+        val result = ShortArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
     }
-    if (buffers.length == 1) {
-      return Arrays.copyOf(buffers[0], buffers[0].length);
-    }
-    var total = 0;
-    for (var buffer : buffers) {
-      total += buffer.length;
-    }
-    var result = new boolean[total];
-    var pos    = 0;
-    for (var buffer : buffers) {
-      System.arraycopy(buffer, 0, result, pos, buffer.length);
-      pos += buffer.length;
-    }
-    return result;
-  }
-  
-  public static @NotNull boolean[] insert(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
-    return concat(sequence, buffer);
-  }
 
-  public static @NotNull boolean[] insert(@NotNull boolean[] buffer, @NotNull boolean[] sequence, int offset) {
-    if (offset == 0) {
-      return concat(sequence, buffer);
-    }
-    if (offset >= buffer.length) {
-      throw new KclException(error_buffer_insertion, offset, buffer.length);
-    }
-    var total  = buffer.length + sequence.length;
-    var result = new boolean[total];
-    System.arraycopy(buffer, 0, result, 0, offset);
-    System.arraycopy(sequence, 0, result, offset, sequence.length);
-    System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
-    return result;
-  }
-  
-  /* PARSING PRIMITIVE TYPES */
-  
-  /**
-   * Interpretes a value as a boolean.
-   * 
-   * @param value   The value which has to be parsed.
-   * 
-   * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
-   *           <code>false</code> <=> All other cases.
-   */
-  public static boolean parseBoolean(String value) {
-    if (value != null) {
-      var lower = value.toLowerCase();
-      if (BOOLEAN_TRUES.contains(lower)) {
-        return true;
-      }
-      if (BOOLEAN_FALSES.contains(lower)) {
-        return false;
-      }
-    }
-    throw new KclException(error_invalid_boolean_value, value);
-  }
+    /* INTEGER */
+    @JvmStatic
+    fun min(buffer: IntArray): Int =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.min(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
 
-  /* SUPPLIERS */
-  
-  public static boolean getBoolean(@NotNull KSupplierBoolean inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
-    }
-  }
+    @JvmStatic
+    fun max(buffer: IntArray): Int =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.max(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
 
-  public static char getChar(@NotNull KSupplierChar inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun compare(buffer: IntArray, sequence: IntArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
+        }
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
+        }
+        return false
     }
-  }
 
-  public static byte getByte(@NotNull KSupplierByte inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun find(buffer: IntArray, value: Int, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
+        }
+        return -1
     }
-  }
 
-  public static short getShort(@NotNull KSupplierShort inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun indexOf(buffer: IntArray, sequence: IntArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
+        }
+        return -1
     }
-  }
 
-  public static int getInt(@NotNull KSupplierInt inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun lastIndexOf(buffer: IntArray, sequence: IntArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
+        }
+        return -1
     }
-  }
 
-  public static long getLong(@NotNull KSupplierLong inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toList(buffer: IntArray): MutableList<Int> {
+        val result = ArrayList<Int>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
+        }
+        return result
     }
-  }
 
-  public static float getFloat(@NotNull KSupplierFloat inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toObjectArray(buffer: IntArray): Array<Int?> {
+        val result = arrayOfNulls<Int>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-  }
 
-  public static double getDouble(@NotNull KSupplierDouble inv) {
-    try {
-      return inv.get();
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Int>): IntArray {
+        val result = IntArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-  }
 
-  /* CONSUMERS */
-  
-  public static void acceptBoolean(@NotNull KConsumerBoolean inv, boolean value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toPrimitiveArrayInteger(buffer: List<Int>): IntArray {
+        val result = IntArray(buffer!!.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-  }
 
-  public static void acceptChar(@NotNull KConsumerChar inv, char value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun concat(vararg buffers: IntArray): IntArray {
+        if (buffers.size == 0) {
+            return Empty.NO_INTS
+        }
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
+        }
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
+        }
+        val result = IntArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
+        }
+        return result
     }
-  }
 
-  public static void acceptByte(@NotNull KConsumerByte inv, byte value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun insert(buffer: IntArray, sequence: IntArray): IntArray = concat(sequence, buffer)
+
+    @JvmStatic
+    fun insert(buffer: IntArray, sequence: IntArray, offset: Int): IntArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
+        }
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
+        }
+        val total = buffer.size + sequence.size
+        val result = IntArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
     }
-  }
 
-  public static void acceptShort(@NotNull KConsumerShort inv, short value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    /* LONG */
+    @JvmStatic
+    fun min(buffer: LongArray): Long =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.min(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+
+    @JvmStatic
+    fun max(buffer: LongArray): Long =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.max(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+
+    @JvmStatic
+    fun compare(buffer: LongArray, sequence: LongArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
+        }
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
+        }
+        return false
     }
-  }
 
-  public static void acceptInt(@NotNull KConsumerInt inv, int value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun find(buffer: LongArray, value: Long, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
+        }
+        return -1
     }
-  }
 
-  public static void acceptLong(@NotNull KConsumerLong inv, long value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun indexOf(buffer: LongArray, sequence: LongArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
+        }
+        return -1
     }
-  }
 
-  public static void acceptFloat(@NotNull KConsumerFloat inv, float value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun lastIndexOf(buffer: LongArray, sequence: LongArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
+        }
+        return -1
     }
-  }
 
-  public static void acceptDouble(@NotNull KConsumerDouble inv, double value) {
-    try {
-      inv.accept(value);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toList(buffer: LongArray): MutableList<Long> {
+        val result = ArrayList<Long>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
+        }
+        return result
     }
-  }
 
-  /* FUNCTIONS */
-  
-  public static <I> boolean applyBoolean(@NotNull KFunctionBoolean<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toObjectArray(buffer: LongArray): Array<Long?> {
+        val result = arrayOfNulls<Long>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-  }
 
-  public static <I> char applyChar(@NotNull KFunctionChar<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Long>): LongArray {
+        val result = LongArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-  }
 
-  public static <I> byte applyByte(@NotNull KFunctionByte<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun toPrimitiveArrayLong(buffer: List<Long>): LongArray {
+        val result = LongArray(buffer!!.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
     }
-  }
 
-  public static <I> short applyShort(@NotNull KFunctionShort<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun concat(vararg buffers: LongArray): LongArray {
+        if (buffers.size == 0) {
+            return Empty.NO_LONGS
+        }
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
+        }
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
+        }
+        val result = LongArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
+        }
+        return result
     }
-  }
 
-  public static <I> int applyInt(@NotNull KFunctionInt<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun insert(buffer: LongArray, sequence: LongArray): LongArray = concat(sequence, buffer)
+
+    @JvmStatic
+    fun insert(buffer: LongArray, sequence: LongArray, offset: Int): LongArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
+        }
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
+        }
+        val total = buffer.size + sequence.size
+        val result = LongArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
     }
-  }
 
-  public static <I> long applyLong(@NotNull KFunctionLong<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    /* FLOAT */
+    @JvmStatic
+    fun min(buffer: FloatArray): Float =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.min(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+
+    @JvmStatic
+    fun max(buffer: FloatArray): Float =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.max(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+
+    @JvmStatic
+    fun compare(buffer: FloatArray, sequence: FloatArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
+        }
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
+        }
+        return false
     }
-  }
 
-  public static <I> float applyFloat(@NotNull KFunctionFloat<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun find(buffer: FloatArray, value: Float, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
+        }
+        return -1
     }
-  }
 
-  public static <I> double applyDouble(@NotNull KFunctionDouble<I> inv, I input) {
-    try {
-      return inv.apply(input);
-    } catch (Exception ex) {
-      throw KclException.wrap(ex);
+    @JvmStatic
+    fun indexOf(buffer: FloatArray, sequence: FloatArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
+        }
+        return -1
     }
-  }
 
-} /* ENDCLASS */
+    @JvmStatic
+    fun lastIndexOf(buffer: FloatArray, sequence: FloatArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun toList(buffer: FloatArray): MutableList<Float> {
+        val result = ArrayList<Float>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toObjectArray(buffer: FloatArray): Array<Float?> {
+        val result = arrayOfNulls<Float>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Float>): FloatArray {
+        val result = FloatArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArrayFloat(buffer: List<Float>): FloatArray {
+        val result = FloatArray(buffer!!.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun concat(vararg buffers: FloatArray): FloatArray {
+        if (buffers.size == 0) {
+            return Empty.NO_FLOATS
+        }
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
+        }
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
+        }
+        val result = FloatArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun insert(buffer: FloatArray, sequence: FloatArray): FloatArray = concat(sequence, buffer)
+
+    @JvmStatic
+    fun insert(buffer: FloatArray, sequence: FloatArray, offset: Int): FloatArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
+        }
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
+        }
+        val total = buffer.size + sequence.size
+        val result = FloatArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
+    }
+
+    /* DOUBLE */
+    @JvmStatic
+    fun min(buffer: DoubleArray): Double =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.min(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+
+    @JvmStatic
+    fun max(buffer: DoubleArray): Double =
+        if (buffer.size > 0) {
+            var result = buffer[0]
+            for (i in 1 until buffer.size) {
+                result = Math.max(result, buffer[i])
+            }
+            result
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+
+    @JvmStatic
+    fun compare(buffer: DoubleArray, sequence: DoubleArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
+        }
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
+        }
+        return false
+    }
+
+    @JvmStatic
+    fun find(buffer: DoubleArray, value: Double, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun indexOf(buffer: DoubleArray, sequence: DoubleArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun lastIndexOf(buffer: DoubleArray, sequence: DoubleArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun toList(buffer: DoubleArray): MutableList<Double> {
+        val result = ArrayList<Double>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toObjectArray(buffer: DoubleArray): Array<Double?> {
+        val result = arrayOfNulls<Double>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Double>): DoubleArray {
+        val result = DoubleArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArrayDouble(buffer: List<Double>): DoubleArray {
+        val result = DoubleArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun concat(vararg buffers: DoubleArray): DoubleArray {
+        if (buffers.size == 0) {
+            return Empty.NO_DOUBLES
+        }
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
+        }
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
+        }
+        val result = DoubleArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun insert(buffer: DoubleArray, sequence: DoubleArray): DoubleArray = concat(sequence, buffer)
+
+    @JvmStatic
+    fun insert(buffer: DoubleArray, sequence: DoubleArray, offset: Int): DoubleArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
+        }
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
+        }
+        val total = buffer.size + sequence.size
+        val result = DoubleArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
+    }
+
+    /* CHAR */
+    @JvmStatic
+    fun compare(buffer: CharArray, sequence: CharArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
+        }
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
+        }
+        return false
+    }
+
+    @JvmStatic
+    fun find(buffer: CharArray, value: Char, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun indexOf(buffer: CharArray, sequence: CharArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun lastIndexOf(buffer: CharArray, sequence: CharArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun toList(buffer: CharArray): MutableList<Char> {
+        val result = ArrayList<Char>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toObjectArray(buffer: CharArray): Array<Char?> {
+        val result = arrayOfNulls<Char>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Char>): CharArray {
+        val result = CharArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArrayCharacter(buffer: List<Char>): CharArray {
+        val result = CharArray(buffer!!.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun concat(vararg buffers: CharArray): CharArray {
+        if (buffers.size == 0) {
+            return Empty.NO_CHARS
+        }
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
+        }
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
+        }
+        val result = CharArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun insert(buffer: CharArray, sequence: CharArray): CharArray = concat(sequence, buffer)
+
+    @JvmStatic
+    fun insert(buffer: CharArray, sequence: CharArray, offset: Int): CharArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
+        }
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
+        }
+        val total = buffer.size + sequence.size
+        val result = CharArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
+    }
+
+    /* BOOLEAN */
+    @JvmStatic
+    fun or(buffer: BooleanArray): Boolean {
+        if (buffer.size > 0) {
+            for (b in buffer) {
+                if (b) {
+                    return true
+                }
+            }
+            return false
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+    }
+
+    @JvmStatic
+    fun and(buffer: BooleanArray): Boolean {
+        if (buffer.size > 0) {
+            for (b in buffer) {
+                if (!b) {
+                    return false
+                }
+            }
+            return true
+        } else {
+            throw KclException("API misuse. Buffer must have at least one element.")
+        }
+    }
+
+    @JvmStatic
+    fun compare(buffer: BooleanArray, sequence: BooleanArray, pos: Int = 0): Boolean {
+        if (sequence.size == 0) {
+            return true
+        }
+        val maxPos = buffer.size - sequence.size
+        if (maxPos >= 0 && pos <= maxPos) {
+            var i = 0
+            var j = pos
+            while (i < sequence.size) {
+                if (buffer[j] != sequence[i]) {
+                    return false
+                }
+                i++
+                j++
+            }
+            return true
+        }
+        return false
+    }
+
+    @JvmStatic
+    fun find(buffer: BooleanArray, value: Boolean, pos: Int = 0): Int {
+        for (i in pos until buffer.size) {
+            if (buffer[i] == value) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun indexOf(buffer: BooleanArray, sequence: BooleanArray, pos: @Min(0) Int = 0): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= pos) {
+                var idx = find(buffer, sequence[0], pos)
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        return idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun lastIndexOf(buffer: BooleanArray, sequence: BooleanArray): @Min(-1) Int {
+        if (buffer.size >= sequence.size) {
+            val maxPos = buffer.size - sequence.size
+            if (maxPos >= 0) {
+                // @todo [06-JUN-2020:KASI]   scan from the end
+                var idx = find(buffer, sequence[0])
+                var lidx = -1
+                while (idx != -1) {
+                    if (compare(buffer, sequence, idx)) {
+                        lidx = idx
+                    }
+                    idx = find(buffer, sequence[0], idx + 1)
+                }
+                return lidx
+            }
+        }
+        return -1
+    }
+
+    @JvmStatic
+    fun toList(buffer: BooleanArray): MutableList<Boolean> {
+        val result = ArrayList<Boolean>(buffer.size)
+        for (element in buffer) {
+            result.add(element)
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toObjectArray(buffer: BooleanArray): Array<Boolean?> {
+        val result = arrayOfNulls<Boolean>(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArray(buffer: Array<Boolean>): BooleanArray {
+        val result = BooleanArray(buffer.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun toPrimitiveArrayBoolean(buffer: List<Boolean>): BooleanArray {
+        val result = BooleanArray(buffer!!.size)
+        for (i in buffer.indices) {
+            result[i] = buffer[i]
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun concat(vararg buffers: BooleanArray): BooleanArray {
+        if (buffers.size == 0) {
+            return Empty.NO_BOOLEANS
+        }
+        if (buffers.size == 1) {
+            return Arrays.copyOf(buffers[0], buffers[0].size)
+        }
+        var total = 0
+        for (buffer in buffers) {
+            total += buffer.size
+        }
+        val result = BooleanArray(total)
+        var pos = 0
+        for (buffer in buffers) {
+            System.arraycopy(buffer, 0, result, pos, buffer.size)
+            pos += buffer.size
+        }
+        return result
+    }
+
+    @JvmStatic
+    fun insert(buffer: BooleanArray, sequence: BooleanArray): BooleanArray = concat(sequence, buffer)
+
+    @JvmStatic
+    fun insert(buffer: BooleanArray, sequence: BooleanArray, offset: Int): BooleanArray {
+        if (offset == 0) {
+            return concat(sequence, buffer)
+        }
+        if (offset >= buffer.size) {
+            throw KclException("Cannot insert at position %d into buffer of length %d", offset, buffer.size)
+        }
+        val total = buffer.size + sequence.size
+        val result = BooleanArray(total)
+        System.arraycopy(buffer, 0, result, 0, offset)
+        System.arraycopy(sequence, 0, result, offset, sequence.size)
+        System.arraycopy(buffer, offset, result, offset + sequence.size, buffer.size - offset)
+        return result
+    }
+
+    /* PARSING PRIMITIVE TYPES */
+    /**
+     * Interpretes a value as a boolean.
+     *
+     * @param value   The value which has to be parsed.
+     *
+     * @return   `true`  <=> If the supplied literal has one of the values [.TRUEVALUES] (case insensitive).
+     * `false` <=> All other cases.
+     */
+    @JvmStatic
+    fun parseBoolean(value: String): Boolean {
+        val lower = value.lowercase(Locale.getDefault())
+        if (BOOLEAN_TRUES.contains(lower)) {
+            return true
+        }
+        if (BOOLEAN_FALSES.contains(lower)) {
+            return false
+        }
+        throw KclException("Invalid boolean value: '%s'", value!!)
+    }
+
+    /* SUPPLIERS */
+    @JvmStatic
+    fun getBoolean(inv: KSupplierBoolean): Boolean =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun getChar(inv: KSupplierChar): Char =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun getByte(inv: KSupplierByte): Byte =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun getShort(inv: KSupplierShort): Short =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun getInt(inv: KSupplierInt): Int =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun getLong(inv: KSupplierLong): Long =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun getFloat(inv: KSupplierFloat): Float =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun getDouble(inv: KSupplierDouble): Double =
+        try {
+            inv.get()
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    /* CONSUMERS */
+    @JvmStatic
+    fun acceptBoolean(inv: KConsumerBoolean, value: Boolean) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    @JvmStatic
+    fun acceptChar(inv: KConsumerChar, value: Char) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    @JvmStatic
+    fun acceptByte(inv: KConsumerByte, value: Byte) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    @JvmStatic
+    fun acceptShort(inv: KConsumerShort, value: Short) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    @JvmStatic
+    fun acceptInt(inv: KConsumerInt, value: Int) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    @JvmStatic
+    fun acceptLong(inv: KConsumerLong, value: Long) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    @JvmStatic
+    fun acceptFloat(inv: KConsumerFloat, value: Float) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    @JvmStatic
+    fun acceptDouble(inv: KConsumerDouble, value: Double) {
+        try {
+            inv.accept(value)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+    }
+
+    /* FUNCTIONS */
+    @JvmStatic
+    fun <I> applyBoolean(inv: KFunctionBoolean<I>, input: I): Boolean =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun <I> applyChar(inv: KFunctionChar<I>, input: I): Char =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun <I> applyByte(inv: KFunctionByte<I>, input: I): Byte =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun <I> applyShort(inv: KFunctionShort<I>, input: I): Short =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun <I> applyInt(inv: KFunctionInt<I>, input: I): Int =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun <I> applyLong(inv: KFunctionLong<I>, input: I): Long =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun <I> applyFloat(inv: KFunctionFloat<I>, input: I): Float =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+    @JvmStatic
+    fun <I> applyDouble(inv: KFunctionDouble<I>, input: I): Double =
+        try {
+            inv.apply(input)
+        } catch (ex: Exception) {
+            throw KclException.wrap(ex)
+        }
+
+} /* ENDOBJECT */
