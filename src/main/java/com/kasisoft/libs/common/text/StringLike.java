@@ -118,7 +118,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   default @NotNull T appendF(@NotNull String fmt, Object ... args) {
     var toAdd = fmt;
     if ((args != null) && (args.length > 0)) {
-      toAdd = String.format(fmt, args);
+      toAdd = fmt.formatted(args);
     }
     return append(toAdd);
   }
@@ -190,7 +190,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   default @NotNull T insertF(int offset, @NotNull String fmt, Object ... args) {
     var toAdd = fmt;
     if ((args != null) && (args.length > 0)) {
-      toAdd = String.format(fmt, args);
+      toAdd = fmt.formatted(args);
     }
     return insert(offset, toAdd);
 
@@ -882,7 +882,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
 
     // setup the substitution map
     if ((fmt != null) && (!"%s".equals(fmt))) {
-      replacements.forEach(($k, $v) -> substitutions.put(String.format(fmt, $k), $v));
+      replacements.forEach(($k, $v) -> substitutions.put(fmt.formatted($k), $v));
     } else {
       substitutions.putAll(replacements);
     }

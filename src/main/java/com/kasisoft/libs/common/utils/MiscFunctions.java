@@ -64,9 +64,9 @@ public class MiscFunctions {
     if (email != null) {
       result = StringFunctions.cleanup(email.toLowerCase());
       result = Digest.MD5.digestToString(result.getBytes());
-      result = String.format("https://www.gravatar.com/avatar/%s", result);
+      result = "https://www.gravatar.com/avatar/%s".formatted(result);
       if (size != null) {
-        result += String.format("?s=%d", size);
+        result += "?s=%d".formatted(size);
       }
     }
     return result;

@@ -2,41 +2,41 @@ package com.kasisoft.libs.common.constants;
 
 /**
  * A collection of file sizes. Calculation won't work on {@link #TerraByte} due to value limits.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum FileSize {
-  
+
   Byte      (                 1 ,                  1 , "B"  ,   "B"),
   KiloByte  (              1000 ,               1024 , "KB" , "KiB"),
   MegaByte  (       1000 * 1000 ,        1024 * 1024 , "MB" , "MiB"),
   GigaByte  (1000 * 1000 * 1000 , 1024 * 1024 * 1024 , "GB" , "GiB"),
   TerraByte (                0L ,                 0L , "TB" , "TiB");
-  
+
   private long     humanSize;
   private long     computerSize;
   private String   humanUnit;
   private String   computerUnit;
-  
+
   FileSize(long human, long computer, String humanU, String computerU) {
     humanSize    = human;
     computerSize = computer;
     humanUnit    = humanU;
     computerUnit = computerU;
   }
-  
+
   public String getHumanUnit() {
     return humanUnit;
   }
-  
+
   public String getComputerUnit() {
     return computerUnit;
   }
-  
+
   public long getHumanSize() {
     return humanSize;
   }
-  
+
   public long getComputerSize() {
     return computerSize;
   }
@@ -44,17 +44,17 @@ public enum FileSize {
   public long humanSize(int count) {
     return count * humanSize;
   }
-  
+
   public long computerSize(int count) {
     return count * computerSize;
   }
 
   public String humanFormat(int count) {
-    return String.format("%d %s", humanSize(count), humanUnit);
+    return "%d %s".formatted(humanSize(count), humanUnit);
   }
 
   public String computerFormat(int count) {
-    return String.format("%d %s", computerSize(count), computerUnit);
+    return "%d %s".formatted(computerSize(count), computerUnit);
   }
 
   public FileSize next() {

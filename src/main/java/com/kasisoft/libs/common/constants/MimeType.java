@@ -80,7 +80,7 @@ public enum MimeType implements Predicate<String> {
       LocalData.valuebysuffix.computeIfAbsent(suffix, $ -> new HashSet<>()).add(this);
     }
     primarySuffix        = suffices.get(0);
-    primarySuffixWithDot = String.format(".%s", primarySuffix);
+    primarySuffixWithDot = ".%s".formatted(primarySuffix);
   }
 
   public String getMimeType() {

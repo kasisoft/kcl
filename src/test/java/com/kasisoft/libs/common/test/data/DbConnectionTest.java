@@ -61,7 +61,7 @@ public class DbConnectionTest {
 
   private DbConfig newDbConfig( String dbname, String initscript ) throws Exception {
     var location = TEST_RESOURCES.getResource(initscript);
-    var url      = String.format("jdbc:h2:tcp://localhost/%s/%s;MODE=MySQL;DATABASE_TO_UPPER=false;INIT=runscript from '%s'", dbLocation.toString(), dbname, location.toString());
+    var url      = "jdbc:h2:tcp://localhost/%s/%s;MODE=MySQL;DATABASE_TO_UPPER=false;INIT=runscript from '%s'".formatted(dbLocation.toString(), dbname, location.toString());
     var result   = new DbConfig();
     // we're using mysql mode on h2: because we can ;-)
     result.setDb(Database.mysql);

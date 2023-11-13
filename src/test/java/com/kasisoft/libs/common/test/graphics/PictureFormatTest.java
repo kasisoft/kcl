@@ -21,7 +21,7 @@ public class PictureFormatTest {
   @Test
   public void testForFilename() {
     for (PictureFormat fmt : PictureFormat.values()) {
-      var filename = String.format("example.%s", fmt.getSuffix());
+      var filename = "example.%s".formatted(fmt.getSuffix());
       assertTrue(fmt.test(filename));
     }
   }
@@ -29,7 +29,7 @@ public class PictureFormatTest {
   @Test
   public void fileNamesWithoutSuffix() {
     for (PictureFormat fmt : PictureFormat.values()) {
-      var filename = String.format("example_%s", fmt.getSuffix());
+      var filename = "example_%s".formatted(fmt.getSuffix());
       assertFalse(fmt.test(filename));
     }
   }

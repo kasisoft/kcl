@@ -35,7 +35,7 @@ public class ExtendedAsserts {
       assertThat(value.getHeight(), is(expected.getHeight()));
       for (var x = 0; x < value.getWidth(); x++) {
         for (var y = 0; y < value.getHeight(); y++) {
-          assertThat(String.format("x: %d, y: %d", x, y), value.getRGB(x, y), is(expected.getRGB(x, y)));
+          assertThat("x: %d, y: %d".formatted(x, y), value.getRGB(x, y), is(expected.getRGB(x, y)));
         }
       }
     }

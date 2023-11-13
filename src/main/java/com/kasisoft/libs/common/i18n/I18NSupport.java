@@ -151,7 +151,7 @@ public class I18NSupport {
 
       // use the default key mechanism
       if (property == null) {
-        property = String.format("%s%s", prefix, entry.getKey());
+        property = "%s%s".formatted(prefix, entry.getKey());
       }
 
       applyFieldValue(field, extractValue(translations, i18n, property));
@@ -241,10 +241,10 @@ public class I18NSupport {
     var result = new String[3];
     var country    = StringFunctions.cleanup(locale.getCountry());
     if (country != null) {
-      result[0] = String.format("%s_%s_%s.properties", base, locale.getLanguage(), country); // f.e. de_DE
+      result[0] = "%s_%s_%s.properties".formatted(base, locale.getLanguage(), country); // f.e. de_DE
     }
-    result[1] = String.format("%s_%s.properties", base, locale.getLanguage()); // f.e. de
-    result[2] = String.format("%s.properties", base);
+    result[1] = "%s_%s.properties".formatted(base, locale.getLanguage()); // f.e. de
+    result[2] = "%s.properties".formatted(base);
     return result;
   }
 
@@ -281,7 +281,7 @@ public class I18NSupport {
 
       // use the default key mechanism
       if (property == null) {
-        property = String.format("%s%s", prefix, entry.getKey());
+        property = "%s%s".formatted(prefix, entry.getKey());
       }
 
       result.put(property, i18n.value());
@@ -303,7 +303,7 @@ public class I18NSupport {
 
     for (var key : keys) {
       try {
-        writer.write(String.format("%s=%s\n", key, translations.get(key)));
+        writer.write("%s=%s\n".formatted(key, translations.get(key)));
       } catch (Exception ex) {
         throw KclException.wrap(ex);
       }

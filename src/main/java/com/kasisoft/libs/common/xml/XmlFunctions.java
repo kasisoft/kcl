@@ -333,7 +333,7 @@ public final class XmlFunctions {
       encoding          = Encoding.getEncoding(encoding);
       var method        = toDocumentMethod(node);
       var transformer   = toTransformer(method, encoding);
-      var xmldecl       = String.format( "<?xml version=\"1.0\" encoding=\"%s\"?>\n", encoding.getEncoding());
+      var xmldecl       = "<?xml version=\"1.0\" encoding=\"%s\"?>\n".formatted(encoding.getEncoding());
 
       handleXmlDecl.accept(xmldecl, encoding);
 
@@ -574,7 +574,7 @@ public final class XmlFunctions {
   private static String attrFqName(Attr attribute) {
     var uri = attribute.getNamespaceURI();
     if (uri != null) {
-      return String.format("{%s}%s", uri, attribute.getLocalName());
+      return "{%s}%s".formatted(uri, attribute.getLocalName());
     } else {
       return attribute.getName();
     }

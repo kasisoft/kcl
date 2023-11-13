@@ -70,7 +70,7 @@ public class TestResources {
   }
 
   public @NotNull Path getRootFolder() {
-    return findRootFolder().orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", rootFolder)));
+    return findRootFolder().orElseThrow(() -> new AssertionError("Missing resource: %s".formatted(rootFolder)));
   }
 
   public @NotNull Optional<Path> findResource(@NotNull String resource) {
@@ -78,7 +78,7 @@ public class TestResources {
   }
 
   public @NotNull Path getResource(@NotNull String resource) {
-    return findResource(resource).orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", resource)));
+    return findResource(resource).orElseThrow(() -> new AssertionError("Missing resource: %s".formatted(resource)));
   }
 
   public @NotNull Path getDir(@NotNull String resource) {
@@ -98,7 +98,7 @@ public class TestResources {
   }
 
   public @NotNull File getResourceAsFile(@NotNull String resource) {
-    return findResourceAsFile(resource).orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", resource)));
+    return findResourceAsFile(resource).orElseThrow(() -> new AssertionError("Missing resource: %s".formatted(resource)));
   }
 
 } /* ENDCLASS */

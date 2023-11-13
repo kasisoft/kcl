@@ -52,7 +52,7 @@ public class XmlFault {
    * @return   A full text representation of this fault used for presentations.
    */
   public @NotBlank  String getFaultMessage() {
-    return String.format("[%s] ( %d, %d ) : %s", type, line, column, message);
+    return "[%s] ( %d, %d ) : %s".formatted(type, line, column, message);
   }
 
   /**

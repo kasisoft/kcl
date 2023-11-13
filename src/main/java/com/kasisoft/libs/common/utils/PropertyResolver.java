@@ -68,7 +68,7 @@ public class PropertyResolver implements SimpleFunction<String> {
       for (var key : keys) {
         var textvalue   = getValue.apply(settings, key);
         var prefixedKey = prefixer.apply(key);
-        addReplacement(String.format(varFormat, prefixedKey), textvalue);
+        addReplacement(varFormat.formatted(prefixedKey), textvalue);
       }
     }
     return this;

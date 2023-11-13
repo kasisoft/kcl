@@ -29,10 +29,10 @@ public class FileAdapterTest {
     var path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(
       Arguments.of(null                               , null),
-      Arguments.of(String.format("%s\\http.xsd", path), TEST_RESOURCES.getResourceAsFile("http.xsd")),
-      Arguments.of(String.format("%s/http.xsd" , path), TEST_RESOURCES.getResourceAsFile("http.xsd")),
-      Arguments.of(String.format("%s\\bibo.txt", path), TEST_RESOURCES.findResourceAsFile("bibo.txt").orElse(null)),
-      Arguments.of(String.format("%s/bibo.txt" , path), TEST_RESOURCES.findResourceAsFile("bibo.txt").orElse(null))
+      Arguments.of("%s\\http.xsd" .formatted(path), TEST_RESOURCES.getResourceAsFile("http.xsd")),
+      Arguments.of("%s/http.xsd"  .formatted(path), TEST_RESOURCES.getResourceAsFile("http.xsd")),
+      Arguments.of("%s\\bibo.txt" .formatted(path), TEST_RESOURCES.findResourceAsFile("bibo.txt").orElse(null)),
+      Arguments.of("%s/bibo.txt"  .formatted(path), TEST_RESOURCES.findResourceAsFile("bibo.txt").orElse(null))
     );
   }
 
@@ -47,8 +47,8 @@ public class FileAdapterTest {
     var path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(
       Arguments.of(null                                        , null),
-      Arguments.of(TEST_RESOURCES.getResourceAsFile("http.xsd"), String.format("%s/http.xsd", path)),
-      Arguments.of(TEST_RESOURCES.getResourceAsFile("bibo.txt"), String.format("%s/bibo.txt", path))
+      Arguments.of(TEST_RESOURCES.getResourceAsFile("http.xsd"), "%s/http.xsd".formatted(path)),
+      Arguments.of(TEST_RESOURCES.getResourceAsFile("bibo.txt"), "%s/bibo.txt".formatted(path))
     );
   }
 

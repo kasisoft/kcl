@@ -893,7 +893,7 @@ public class CsvTableModel implements TableModel {
       names[i] = change.apply(getColumnName(i));
     }
     for (var i = 0; i < names.length; i++) {
-      writer.append(String.format( "\"%s\"", names[i]));
+      writer.append("\"%s\"".formatted(names[i]));
       if (i < last) {
         writer.append(options.getDelimiter());
       }
@@ -904,7 +904,7 @@ public class CsvTableModel implements TableModel {
   private void writeRow(@NotNull PrintWriter writer, int row) {
     var last = getColumnCount() - 1;
     for (var i = 0; i < getColumnCount(); i++) {
-      writer.append(String.format( "\"%s\"", getValueAt(row, i)));
+      writer.append("\"%s\"".formatted(getValueAt(row, i)));
       if (i < last) {
         writer.append(options.getDelimiter());
       }
@@ -973,7 +973,7 @@ public class CsvTableModel implements TableModel {
       current = StringFunctions.cleanup(current);
       if (current == null) {
         // still no title, so we need to generate one
-        current = String.format("Column %d", i);
+        current = "Column %d".formatted(i);
       }
       if (i < result.size()) {
         result.set(i, current);

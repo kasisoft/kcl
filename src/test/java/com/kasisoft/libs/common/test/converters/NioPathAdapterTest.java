@@ -31,10 +31,10 @@ public class NioPathAdapterTest {
     String path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(
       Arguments.of(null                                , null                                  ),
-      Arguments.of(String.format( "%s\\http.xsd", path), TEST_RESOURCES.getResource("http.xsd")),
-      Arguments.of(String.format( "%s/http.xsd" , path), TEST_RESOURCES.getResource("http.xsd")),
-      Arguments.of(String.format( "%s\\bibo.txt", path), TEST_RESOURCES.getResource("bibo.txt")),
-      Arguments.of(String.format( "%s/bibo.txt" , path), TEST_RESOURCES.getResource("bibo.txt"))
+      Arguments.of("%s\\http.xsd" .formatted(path), TEST_RESOURCES.getResource("http.xsd")),
+      Arguments.of("%s/http.xsd"  .formatted(path), TEST_RESOURCES.getResource("http.xsd")),
+      Arguments.of("%s\\bibo.txt" .formatted(path), TEST_RESOURCES.getResource("bibo.txt")),
+      Arguments.of("%s/bibo.txt"  .formatted(path), TEST_RESOURCES.getResource("bibo.txt"))
     );
   }
 
@@ -48,9 +48,9 @@ public class NioPathAdapterTest {
   public static Stream<Arguments> data_encode() {
     String path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(
-      Arguments.of(null                                  , null                              ),
-      Arguments.of(TEST_RESOURCES.getResource("http.xsd"), String.format("%s/http.xsd", path)),
-      Arguments.of(TEST_RESOURCES.getResource("bibo.txt"), String.format("%s/bibo.txt", path))
+      Arguments.of(null                                  , null                         ),
+      Arguments.of(TEST_RESOURCES.getResource("http.xsd"), "%s/http.xsd".formatted(path)),
+      Arguments.of(TEST_RESOURCES.getResource("bibo.txt"), "%s/bibo.txt".formatted(path))
     );
   }
 

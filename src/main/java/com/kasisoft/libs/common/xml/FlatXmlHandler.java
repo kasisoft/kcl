@@ -107,7 +107,7 @@ public class FlatXmlHandler extends DefaultHandler {
       value = value.trim();
     }
     try {
-      var text = String.format("%s=%s%s", path.toString(), escape(value), newline);
+      var text = "%s=%s%s".formatted(path, escape(value), newline);
       target.write(encoding.encode(text));
     } catch (Exception ex) {
       throw new SAXException(ex);

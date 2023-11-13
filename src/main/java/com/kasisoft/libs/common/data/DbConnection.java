@@ -172,7 +172,7 @@ public class DbConnection implements AutoCloseable {
    * @throws SQLException   Setting up the query failed for some reason.
    */
   private @NotNull PreparedStatement getQuery(@NotBlank String query, @NotNull String table) throws SQLException {
-    var key    = table != null ? String.format(query, table) : query;
+    var key    = table != null ? query.formatted(table) : query;
     var result = queries.get(key);
     if (result == null) {
       result = connection.prepareStatement( key );
@@ -433,7 +433,7 @@ public class DbConnection implements AutoCloseable {
    */
   public <C> void selectAllDo(@NotBlank String table, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
     var name = canonicalTableName(table);
-    selectDo(String.format(database.getSelectAllQuery(), name), context, consumer);
+    selectDo(database.getSelectAllQuery().formatted(name), context, consumer);
   }
 
   /**
@@ -444,7 +444,7 @@ public class DbConnection implements AutoCloseable {
    */
   public void selectAllDo(@NotBlank String table, @NotNull Consumer<ResultSet> consumer) {
     var name = canonicalTableName(table);
-    selectDo(String.format(database.getSelectAllQuery(), name), consumer);
+    selectDo(database.getSelectAllQuery().formatted(name), consumer);
   }
 
   /**
@@ -504,7 +504,7 @@ public class DbConnection implements AutoCloseable {
    */
   public <T, C> @NotNull List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
     var name = canonicalTableName(table);
-    return select(String.format(database.getSelectAllQuery(), name), context, producer);
+    return select(database.getSelectAllQuery().formatted(name), context, producer);
   }
 
   /**
@@ -517,7 +517,7 @@ public class DbConnection implements AutoCloseable {
    */
   public <T> @NotNull List<T> selectAll(@NotBlank String table, @NotNull Function<ResultSet, T> producer) {
     var name = canonicalTableName(table);
-    return select(String.format(database.getSelectAllQuery(), name), producer);
+    return select(database.getSelectAllQuery().formatted(name), producer);
   }
 
   /**

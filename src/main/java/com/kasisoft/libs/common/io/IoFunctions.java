@@ -722,7 +722,7 @@ public class IoFunctions {
    */
   public static @NotNull Path locateDirectory(@NotNull Class<?> classobj, String ... skippable) {
 
-    var classname    = String.format("%s.class", classobj.getName().replace('.','/'));
+    var classname    = "%s.class".formatted(classobj.getName().replace('.','/'));
     var location     = classobj.getClassLoader().getResource(classname);
     var externalform = location.toExternalForm();
     var baselocation = externalform.substring(0, externalform.length() - classname.length());

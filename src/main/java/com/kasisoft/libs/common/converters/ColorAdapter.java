@@ -49,8 +49,7 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   @Override
   protected String encodeImpl(@NotNull Color v) {
     return
-      String.format(
-        "#%02x%02x%02x%02x",
+      "#%02x%02x%02x%02x".formatted(
         Integer.valueOf(v.getAlpha()),
         Integer.valueOf(v.getRed()),
         Integer.valueOf(v.getGreen()),

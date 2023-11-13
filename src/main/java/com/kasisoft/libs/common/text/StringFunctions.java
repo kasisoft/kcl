@@ -47,7 +47,7 @@ public class StringFunctions {
    * @return   The name with the updated suffix.
    */
   public static @NotNull String changeSuffix(@NotNull String name, @NotNull String suffix) {
-    return String.format("%s.%s", removeSuffix(name), suffix);
+    return "%s.%s".formatted(removeSuffix(name), suffix);
   }
 
   /**

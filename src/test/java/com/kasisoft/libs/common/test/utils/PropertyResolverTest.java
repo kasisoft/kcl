@@ -32,7 +32,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded);
-    assertThat(substituted, is(String.format("My username is: %s", System.getenv().get("USER"))));
+    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
   }
 
@@ -47,7 +47,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is(String.format("My encoding is: %s", System.getProperty("file.encoding"))));
+    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
   }
 
@@ -62,7 +62,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded);
-    assertThat(substituted, is(String.format("My username is: %s", System.getenv().get("USER"))));
+    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
   }
 
@@ -77,7 +77,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is(String.format("My encoding is: %s", System.getProperty("file.encoding"))));
+    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
   }
 
@@ -111,7 +111,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded);
-    assertThat(substituted, is(String.format("My username is: %s", System.getenv().get("USER"))));
+    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
   }
 
@@ -127,7 +127,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is(String.format("My encoding is: %s", System.getProperty("file.encoding"))));
+    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
   }
 
@@ -143,7 +143,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded);
-    assertThat(substituted, is(String.format("My username is: %s", System.getenv().get("USER"))));
+    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
   }
 
@@ -159,7 +159,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is(String.format("My encoding is: %s", System.getProperty("file.encoding"))));
+    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
   }
 
@@ -198,7 +198,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is(String.format("My username is: %s, encoding=%s, value=%s, unreplaced=${dodo}", System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
+    assertThat(substituted, is("My username is: %s, encoding=%s, value=%s, unreplaced=${dodo}".formatted(System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
 
   }
 
@@ -219,7 +219,7 @@ public class PropertyResolverTest {
       ;
 
     var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is(String.format("My username is: %s, encoding=%s, value=%s, unreplaced=#{dodo}", System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
+    assertThat(substituted, is("My username is: %s, encoding=%s, value=%s, unreplaced=#{dodo}".formatted(System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
 
   }
 

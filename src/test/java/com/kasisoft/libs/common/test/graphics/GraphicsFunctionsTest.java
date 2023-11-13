@@ -47,7 +47,7 @@ public class GraphicsFunctionsTest {
   private int idx = 0;
 
   private Path getTempPath(PictureFormat fmt) {
-    return TEST_RESOURCES.getTempPath(String.format("image_%d.%s", idx++, fmt.getSuffix()));
+    return TEST_RESOURCES.getTempPath("image_%d.%s".formatted(idx++, fmt.getSuffix()));
   }
 
   private static List<Path> getInputFiles() {
@@ -171,7 +171,7 @@ public class GraphicsFunctionsTest {
   @Test
   public void writeImage__JComponent__OutputStream__UnsupportedFormat() {
     assertThrows(KclException.class, () -> {
-      var tempPath = TEST_RESOURCES.getTempPath(String.format("image_%d.%s", idx++, PictureFormat.Svg.getSuffix()));
+      var tempPath = TEST_RESOURCES.getTempPath("image_%d.%s".formatted(idx++, PictureFormat.Svg.getSuffix()));
       IoFunctions.forOutputStreamDo(tempPath, $ -> GraphicsFunctions.writeImage($, createJComponent(), PictureFormat.Svg));
       assertTrue(Files.isRegularFile(tempPath));
     });

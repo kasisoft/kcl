@@ -32,7 +32,7 @@ public class KclException extends RuntimeException {
   private static String formatString(String fmt, Object ... args) {
     var result = fmt;
     if ((args != null) && (args.length > 0)) {
-      result = String.format(fmt, args);
+      result = fmt.formatted(args);
     }
     return result;
   }
