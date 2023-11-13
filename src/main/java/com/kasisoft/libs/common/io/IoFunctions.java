@@ -773,12 +773,11 @@ public class IoFunctions {
     IoSupport ioSupport = ioSupport(source.getClass());
     if (ioSupport != null) {
       return Optional.of(ioSupport.loadBytes(source, size));
-    } else if (source instanceof CharSequence) {
-      return genericLoadBytes(Paths.get(((CharSequence) source).toString()), size);
-    } else if (source instanceof InputStream) {
+    } else if (source instanceof CharSequence cs) {
+      return genericLoadBytes(Paths.get(cs.toString()), size);
+    } else if (source instanceof InputStream instream) {
       try {
-        InputStream instream = (InputStream) source;
-        var         result   = new byte[size];
+        var result = new byte[size];
         instream.readNBytes(result, 0, size);
         return Optional.of(result);
       } catch (Exception ex) {
@@ -802,8 +801,8 @@ public class IoFunctions {
   }
 
   public static @NotNull BufferedReader newBufferedReader(@NotNull Reader reader) {
-    if (reader instanceof BufferedReader) {
-      return (BufferedReader) reader;
+    if (reader instanceof BufferedReader bufferedReader) {
+      return bufferedReader;
     } else {
       return new BufferedReader(reader);
     }

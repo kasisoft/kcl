@@ -159,8 +159,8 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof ScreenInfo) {
-      return id.equals(((ScreenInfo) other).id);
+    if (other instanceof ScreenInfo si) {
+      return id.equals(si.id);
     }
     return false;
   }

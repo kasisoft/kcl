@@ -351,26 +351,26 @@ public class StringFunctions {
   private static <S extends StringLike> void appendToString(@NotNull S receiver, Object obj) {
     if (obj == null) {
       receiver.append("null");
-    } else if (obj instanceof boolean[]) {
-      appendToStringBooleanArray(receiver, (boolean[]) obj);
-    } else if (obj instanceof char[]) {
-      appendToStringCharArray(receiver, (char[]) obj);
-    } else if (obj instanceof byte[]) {
-      appendToStringByteArray(receiver, (byte[]) obj);
-    } else if (obj instanceof short[]) {
-      appendToStringShortArray(receiver, (short[]) obj);
-    } else if (obj instanceof int[]) {
-      appendToStringIntArray(receiver, (int[]) obj);
-    } else if (obj instanceof long[]) {
-      appendToStringLongArray(receiver, (long[]) obj);
-    } else if (obj instanceof float[]) {
-      appendToStringFloatArray(receiver, (float[]) obj);
-    } else if (obj instanceof double[]) {
-      appendToStringDoubleArray(receiver, (double[]) obj);
+    } else if (obj instanceof boolean[] value) {
+      appendToStringBooleanArray(receiver, value);
+    } else if (obj instanceof char[] value) {
+      appendToStringCharArray(receiver, value);
+    } else if (obj instanceof byte[] value) {
+      appendToStringByteArray(receiver, value);
+    } else if (obj instanceof short[] value) {
+      appendToStringShortArray(receiver, value);
+    } else if (obj instanceof int[] value) {
+      appendToStringIntArray(receiver, value);
+    } else if (obj instanceof long[] value) {
+      appendToStringLongArray(receiver, value);
+    } else if (obj instanceof float[] value) {
+      appendToStringFloatArray(receiver, value);
+    } else if (obj instanceof double[] value) {
+      appendToStringDoubleArray(receiver, value);
     } else if (obj.getClass().isArray()) {
       appendToStringObjectArray(receiver, (Object[]) obj);
-    } else if (obj instanceof Throwable) {
-      appendToStringThrowable(receiver, (Throwable) obj);
+    } else if (obj instanceof Throwable value) {
+      appendToStringThrowable(receiver, value);
     } else {
       receiver.append(String.valueOf(obj));
     }

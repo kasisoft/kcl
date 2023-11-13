@@ -44,16 +44,16 @@ public enum Alignment {
 
   public void set(@NotNull JComponent component) {
     if (horizontal) {
-      if (component instanceof JLabel) {
-        ((JLabel) component).setHorizontalAlignment(alignment);
-      } else if (component instanceof JTextField) {
-        ((JTextField) component).setHorizontalAlignment(alignment);
+      if (component instanceof JLabel label) {
+        label.setHorizontalAlignment(alignment);
+      } else if (component instanceof JTextField textfield) {
+        textfield.setHorizontalAlignment(alignment);
       }
     } else {
-      if (component instanceof JLabel) {
-        ((JLabel) component).setVerticalAlignment(alignment);
-      } else if (component instanceof JTextField) {
-        ((JTextField) component).setAlignmentY(this == Top ? 0.0f : (this == Middle ? 0.5f : 1.0f));
+      if (component instanceof JLabel label) {
+        label.setVerticalAlignment(alignment);
+      } else if (component instanceof JTextField textfield) {
+        textfield.setAlignmentY(this == Top ? 0.0f : (this == Middle ? 0.5f : 1.0f));
       }
     }
   }

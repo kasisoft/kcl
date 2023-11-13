@@ -252,8 +252,8 @@ public class GraphicsFunctions {
    */
   public static @NotNull BufferedImage scaleImage(@NotNull Image image, @Min(1) int newWidth, @Min(1) int newHeight) {
     BufferedImage bufferedImage = null;
-    if (image instanceof BufferedImage) {
-      bufferedImage = (BufferedImage) image;
+    if (image instanceof BufferedImage bimage) {
+      bufferedImage = bimage;
     } else {
       bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
       bufferedImage.createGraphics().drawImage(image, 0, 0, null);

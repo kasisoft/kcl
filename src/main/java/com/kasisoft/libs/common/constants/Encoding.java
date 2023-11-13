@@ -205,8 +205,8 @@ public final class Encoding {
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof Encoding) {
-      return encoding.equals(((Encoding) other).encoding);
+    if (other instanceof Encoding enc) {
+      return encoding.equals(enc.encoding);
     }
     return false;
   }

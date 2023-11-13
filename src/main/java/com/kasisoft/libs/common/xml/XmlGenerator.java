@@ -160,7 +160,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
       for (var i = 0; i < attributes.length; i += 2) {
         var key  = attributes[i];
         var val  = attributes[i + 1];
-        var name = key instanceof String ? StringFunctions.cleanup((String) key) : null;
+        var name = key instanceof String str ? StringFunctions.cleanup(str) : null;
         if (name != null) {
           result.put(name, val);
         } else {

@@ -56,8 +56,8 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
 
         var factory    = DocumentBuilderFactory.newInstance();
         var docbuilder = factory.newDocumentBuilder();
-        if (docbuilder.getDOMImplementation() instanceof DOMImplementationLS) {
-          domimpl = (DOMImplementationLS) docbuilder.getDOMImplementation();
+        if (docbuilder.getDOMImplementation() instanceof DOMImplementationLS value) {
+          domimpl = value;
         } else {
           throw new KclException(error_dom_impl_without_ls);
         }
@@ -273,8 +273,8 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
 
     @Override
     public boolean equals(Object other) {
-      if (other instanceof PublicId) {
-        return lowerid.equals(((PublicId) other).lowerid);
+      if (other instanceof PublicId publicId) {
+        return lowerid.equals(publicId.lowerid);
       }
       return false;
     }

@@ -46,16 +46,16 @@ public class KclException extends RuntimeException {
   }
 
   public static @NotNull KclException wrap(@NotNull Exception ex) {
-    if (ex instanceof KclException) {
-      return (KclException) ex;
+    if (ex instanceof KclException kex) {
+      return kex;
     } else {
       return new KclException(ex);
     }
   }
 
   public static @NotNull KclException wrap(@NotNull Exception ex, String fmt, Object ... args) {
-    if (ex instanceof KclException) {
-      return (KclException) ex;
+    if (ex instanceof KclException kex) {
+      return kex;
     } else {
       return new KclException(ex, fmt, args);
     }
@@ -63,10 +63,10 @@ public class KclException extends RuntimeException {
 
   public static KclException unwrap(Exception ex) {
     if (ex != null) {
-      if (ex instanceof KclException) {
-        return (KclException) ex;
-      } else if (ex.getCause() instanceof Exception) {
-        return unwrap((Exception) ex.getCause());
+      if (ex instanceof KclException kex) {
+        return kex;
+      } else if (ex.getCause() instanceof Exception cex) {
+        return unwrap(cex);
       }
     }
     return null;
