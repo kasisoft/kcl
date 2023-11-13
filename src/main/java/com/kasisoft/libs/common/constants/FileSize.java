@@ -58,23 +58,23 @@ public enum FileSize {
   }
 
   public FileSize next() {
-    switch (this) {
-    case Byte     : return KiloByte;
-    case KiloByte : return MegaByte;
-    case MegaByte : return GigaByte;
-    case GigaByte : return TerraByte;
-    default       : return null;
-    }
+    return switch (this) {
+      case Byte     -> KiloByte;
+      case KiloByte -> MegaByte;
+      case MegaByte -> GigaByte;
+      case GigaByte -> TerraByte;
+      default       -> null;
+    };
   }
 
   public FileSize previous() {
-    switch (this) {
-    case KiloByte  : return Byte;
-    case MegaByte  : return KiloByte;
-    case GigaByte  : return MegaByte;
-    case TerraByte : return GigaByte;
-    default        : return null;
-    }
+    return switch (this) {
+      case KiloByte  -> Byte;
+      case MegaByte  -> KiloByte;
+      case GigaByte  -> MegaByte;
+      case TerraByte -> GigaByte;
+      default        -> null;
+    };
   }
 
 } /* ENDENUM */
