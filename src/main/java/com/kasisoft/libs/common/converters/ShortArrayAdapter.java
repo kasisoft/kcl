@@ -2,13 +2,13 @@ package com.kasisoft.libs.common.converters;
 
 import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
 /**
  * Adapter for short array values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ShortArrayAdapter extends AbstractConverter<String, short[]> {

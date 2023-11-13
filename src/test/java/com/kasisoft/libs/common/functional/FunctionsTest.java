@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -27,7 +27,7 @@ public class FunctionsTest {
     listener.actionPerformed(event);
     assertThat(builder.toString(), is("ADAPT_TO_ACTION_LISTENER"));
   }
-  
+
   @Test
   public static void nullSafeToFunction() {
     Function<String, Integer> toLength = $ -> $.length();
@@ -35,7 +35,7 @@ public class FunctionsTest {
     assertThat(nullSafeToLength.apply("Hallo"), is(5));
     assertNull(nullSafeToLength.apply(null));
   }
-  
+
   @Test
   public void adaptFunctionToTriFunction() {
     var triFunction = Functions.adaptFunctionToTriFunction($ -> $);
@@ -52,32 +52,32 @@ public class FunctionsTest {
 
   @Test
   public void adaptConsumerToTriConsumer() {
-    
+
     var builder     = new StringBuilder();
     var triConsumer = Functions.adaptConsumerToTriConsumer($ -> builder.append($));
-    
+
     triConsumer.accept("Hello", "Bibo", "Suppe");
     assertThat(builder.toString(), is("Hello"));
-    
+
     builder.setLength(0);
     triConsumer.accept(null, "Bibo", "Suppe");
     assertThat(builder.toString(), is("null"));
-    
+
   }
 
   @Test
   public void adaptBiConsumerToTriConsumer() {
-    
+
     var builder     = new StringBuilder();
     var triConsumer = Functions.<String, String, String>adaptBiConsumerToTriConsumer(($a, $b) -> builder.append($a).append($b));
-    
+
     triConsumer.accept("Hello", "Bibo", "Suppe");
     assertThat(builder.toString(), is("HelloBibo"));
 
     builder.setLength(0);
     triConsumer.accept(null, "Bibo", "Suppe");
     assertThat(builder.toString(), is("nullBibo"));
-    
+
   }
 
   @Test
@@ -89,18 +89,18 @@ public class FunctionsTest {
 
   @Test
   public void adaptConsumerToBiConsumer() {
-    
+
     var builder    = new StringBuilder();
     var biConsumer = Functions.adaptConsumerToBiConsumer($ -> builder.append($));
-    
+
     biConsumer.accept("Hello", "Bibo");
-    
+
     assertThat(builder.toString(), is("Hello"));
-    
+
     builder.setLength(0);
     biConsumer.accept(null, "Bibo");
     assertThat(builder.toString(), is("null"));
-    
+
   }
 
   @Test
@@ -116,7 +116,7 @@ public class FunctionsTest {
     triConsumer.accept("Hello", "Bibo");
     assertThat(builder.toString(), is("HelloBibo"));
   }
-  
+
   @Test
   public void adaptBiFunctionToFunction() {
     var function = Functions.adaptBiFunctionToFunction(($a, $_) -> $a);
@@ -144,5 +144,5 @@ public class FunctionsTest {
     consumer.accept("Hello");
     assertThat(builder.toString(), is("Hello"));
   }
-  
+
 } /* ENDCLASS */

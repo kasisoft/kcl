@@ -2,14 +2,14 @@ package com.kasisoft.libs.common.xml;
 
 import org.w3c.dom.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Collection of parameters for the {@link DOMConfiguration} .
- * 
+ *
  * {@link "http://xerces.apache.org/xerces2-j/javadocs/api/org/w3c/dom/ls/LSSerializer.html"} [07-Jul-2016:KASI]
  * {@link "http://download.oracle.com/javase/1.5.0/docs/api/org/w3c/dom/DOMConfiguration.html"} [07-Jul-2016:KASI]
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum DomConfigParameter {
@@ -39,23 +39,23 @@ public enum DomConfigParameter {
 
   private String    key;
   private boolean   xerces;
-  
+
   DomConfigParameter(String key, boolean xerces) {
     this.key    = key;
     this.xerces = xerces;
   }
-  
+
   public String getKey() {
     return key;
   }
-  
+
   public boolean isXerces() {
     return xerces;
   }
-  
+
   /**
    * Sets this parameter for the supplied configuration.
-   * 
+   *
    * @param config   The configuration which parameter has to be set.
    * @param value    The value which will be set.
    */
@@ -64,16 +64,16 @@ public enum DomConfigParameter {
       config.setParameter(key, value);
     }
   }
-  
+
   /**
    * Returns the parameter of the supplied configuration.
-   * 
+   *
    * @param config   The configuration used to get the parameter.
-   * 
+   *
    * @return   The previously stored parameter.
    */
   public Object get(@NotNull DOMConfiguration config) {
     return config.getParameter(key);
   }
-  
+
 } /* ENDENUM */

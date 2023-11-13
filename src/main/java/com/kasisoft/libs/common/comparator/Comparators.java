@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.comparator;
 
 import com.kasisoft.libs.common.annotation.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -20,15 +20,15 @@ public class Comparators {
   public static Comparator<Class>       CLASS_BY_SIMPLE_NAME_CI   = new SimpleComparator<Class>($ -> $.getSimpleName().toLowerCase(), $ -> $.getName().toLowerCase());
 
   public static Comparator<Class>       CLASS_BY_PRIORITY         = new SimpleComparator<Class>(Comparators::getPrio);
-  
+
   public static Comparator<Integer>     INTEGER_NULLSAFE          = new SimpleComparator<Integer>(Function.identity());
-  
+
   public static Comparator<String>      LENGTH                    = new SimpleComparator<String>($ -> Integer.valueOf($.length()), Function.identity());
 
   public static Comparator<String>      LENGTH_LONGEST_FIRST      = new SimpleComparator<String>($ -> -Integer.valueOf($.length()), Function.identity());
 
   private static Map<String, Integer>   PRIOS = new HashMap<>();
-  
+
   public static Integer getPrio(@NotNull Class clazz) {
     synchronized (PRIOS) {
       var key = clazz.getName();

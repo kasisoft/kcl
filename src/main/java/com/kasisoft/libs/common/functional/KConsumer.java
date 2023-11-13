@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -13,11 +13,11 @@ import java.util.function.*;
 public interface KConsumer<T> {
 
   void accept(T input) throws Exception;
-  
+
   default @NotNull KConsumer<T> andThen(@NotNull KConsumer<? super T> after) {
     return (T t) -> { accept(t); after.accept(t); };
   }
-  
+
   default @NotNull Consumer<T> protect() {
     return (T t) -> {
       try {

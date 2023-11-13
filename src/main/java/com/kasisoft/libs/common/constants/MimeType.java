@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.annotation.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -10,12 +10,12 @@ import java.util.*;
 
 /**
  * Collection of supported mime types.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specifications({
-  @Specification(value = "https://wiki.selfhtml.org/wiki/MIME-Type/%C3%9Cbersicht", date = "04-JUN-2020"), 
-  @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "04-JUN-2020"), 
+  @Specification(value = "https://wiki.selfhtml.org/wiki/MIME-Type/%C3%9Cbersicht", date = "04-JUN-2020"),
+  @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "04-JUN-2020"),
   @Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "04-JUN-2020"),
   @Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "04-JUN-2020")
 })
@@ -59,19 +59,19 @@ public enum MimeType implements Predicate<String> {
   XhtmlXml                    ("application/xhtml+xml"         , "htm", "html", "shtml", "xhtml"    ),  // XHTML
   Xml                         ("text/xml"                      , "xml"                              ),  // xml files
   Zip                         ("application/zip"               , "zip"                              ),  // ZIP archives
-  ZLib                        ("application/x-compress"        , "z"                                );  // ZLib compressed files 
+  ZLib                        ("application/x-compress"        , "z"                                );  // ZLib compressed files
 
   static {
     for (var entry : LocalData.valuebysuffix.entrySet()) {
       LocalData.valuebysuffix.put(entry.getKey(), Collections.unmodifiableSet(entry.getValue()));
     }
   }
-  
+
   private String         mimeType;
   private List<String>   suffices;
   private String         primarySuffix;
   private String         primarySuffixWithDot;
-  
+
   MimeType(@NotBlank String type, @NotNull String ... suffixlist) {
     mimeType  = type;
     suffices  = Collections.unmodifiableList(Arrays.asList(suffixlist));
@@ -86,19 +86,19 @@ public enum MimeType implements Predicate<String> {
   public String getMimeType() {
     return mimeType;
   }
-  
+
   public List<String> getSuffices() {
     return suffices;
   }
-  
+
   public String getPrimarySuffix() {
     return primarySuffix;
   }
-  
+
   public String getPrimarySuffixWithDot() {
     return primarySuffixWithDot;
   }
-  
+
   @Override
   public boolean test(String mime) {
     boolean result = false;
@@ -107,23 +107,23 @@ public enum MimeType implements Predicate<String> {
     }
     return result;
   }
-  
+
   /**
    * Returns <code>true</Code> if the supplied suffix is support by this mime type.
-   * 
+   *
    * @param suffix   The suffix that has to be tested.
-   * 
+   *
    * @return   <code>true</code> <=> The supplied suffix is supported by this mime type.
    */
   public boolean supportsSuffix(@NotNull String suffix) {
     return suffices.contains(suffix.toLowerCase());
   }
-  
+
   /**
    * Returns the MimeType constant that is associated with the supplied type.
-   * 
+   *
    * @param type   The current mime type which has to be identified.
-   * 
+   *
    * @return   The MimeType if it could be found or empty.
    */
   public static @NotNull Optional<MimeType> findByMimeType(@NotNull String type) {
@@ -133,12 +133,12 @@ public enum MimeType implements Predicate<String> {
     }
     return Optional.ofNullable(LocalData.valuebymimetype.get(type));
   }
-  
+
   /**
    * Returns a set of known mime types supporting the supplied suffix.
-   * 
+   *
    * @param suffix   The suffix used to identify a filetype.
-   * 
+   *
    * @return   A set of supporting mime types.
    */
   public static @NotNull Set<MimeType> findBySuffix(@NotNull String suffix) {
@@ -148,12 +148,12 @@ public enum MimeType implements Predicate<String> {
     }
     return result;
   }
-  
+
   private static class LocalData {
-    
+
     static Map<String, MimeType>       valuebymimetype = new HashMap<>();
     static Map<String, Set<MimeType>>  valuebysuffix   = new HashMap<>();
-    
+
   } /* ENDCLASS */
-  
+
 } /* ENDENUM */

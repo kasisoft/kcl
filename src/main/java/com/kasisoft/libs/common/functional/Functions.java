@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -10,14 +10,14 @@ import java.awt.event.*;
 
 /**
  * Collection of useful adaptation functions.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Functions {
 
   private Functions() {
   }
-  
+
   public static @NotNull ActionListener adaptConsumerToActionListener(@NotNull Consumer<ActionEvent> handler) {
     return new ActionListener() {
       @Override
@@ -26,18 +26,18 @@ public class Functions {
       }
     };
   }
-  
+
   /**
    * Protects the supplied function while testing for a null input.
-   *  
+   *
    * @param delegate   The original function.
-   * 
+   *
    * @return   A null aware function. null values will be passed through.
    */
   public static <I, O> @NotNull Function<I, O> nullSafeToFunction(@NotNull Function<I, O> delegate) {
     return $ -> $ != null ? delegate.apply($) : null;
   }
-  
+
   public static <A, B, C, R> TriFunction<A, B, C, R> adaptFunctionToTriFunction(@NotNull Function<A, R> function) {
     return ($a, $b, $c) -> function.apply($a);
   }
@@ -69,7 +69,7 @@ public class Functions {
   public static <A, B> @NotNull BiConsumer<A, B> adaptTriConsumerToBiConsumer(@NotNull TriConsumer<A, B, ?> consumer) {
     return ($a, $b) -> consumer.accept($a, $b, null);
   }
-  
+
   public static <A, R> @NotNull Function<A, R> adaptBiFunctionToFunction(@NotNull BiFunction<A, ?, R> function) {
     return $ -> function.apply($, null);
   }
@@ -85,7 +85,7 @@ public class Functions {
   public static <A> @NotNull Consumer<A> adaptTriConsumerToConsumer(@NotNull TriConsumer<A, ?, ?> consumer) {
     return $ -> consumer.accept($, null, null);
   }
-  
+
   public static <A> @NotNull SimpleFunction<A> adaptConsumerToSimpleFunction(@NotNull Consumer<A> consumer) {
     return $ -> {
       consumer.accept($);
@@ -124,5 +124,5 @@ public class Functions {
       throw KclException.wrap(ex);
     }
   }
-  
+
 } /* ENDCLASS */

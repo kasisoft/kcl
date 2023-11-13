@@ -2,49 +2,49 @@ package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
 import java.net.*;
 
 /**
- * Simple POJO used to configure an xml parser. 
- * 
+ * Simple POJO used to configure an xml parser.
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlParserConfiguration {
 
   // The ErrorHandler to be used. Maybe null.
   private ErrorHandler                      handler;
-  
+
   // A base URL used for the resolving process. Maybe null.
   private URL                               baseurl;
-  
+
   // Resolver for entities. Maybe null.
   private EntityResolver                    resolver;
-  
+
   // <code>true</code> <=> Validates the document if possible.
   private boolean                           validate;
-  
+
   // <code>true</code> <=> Recognize XML namespaces.
   private boolean                           xmlnamespaces;
-  
+
   // <code>true</code> <=> Recognize XML includes (only supported with JRE 1.7+ and may depend on the parser).
   private boolean                           xincludes;
-  
+
   // run a normalization after a document has been loaded
   private boolean                           normalize;
-  
+
   // <code>true</code> <=> Requested schemas that cannot be found will be delivered as empty files (effectively no rules).
   private boolean                           satisfyUnknownSchemas;
-  
+
   private Map<DomConfigParameter, Object>   parameters;
-  
+
   XmlParserConfiguration() {
     parameters = new HashMap<>();
   }
-  
+
   public static @NotNull XmlParserConfigurationBuilder builder() {
     return new XmlParserConfigurationBuilder();
   }
@@ -53,22 +53,22 @@ public class XmlParserConfiguration {
    * Builder for the XmlParserConfiguration.
    */
   public static class XmlParserConfigurationBuilder {
-    
+
     XmlParserConfiguration   result;
-    
+
     XmlParserConfigurationBuilder() {
       result = new XmlParserConfiguration();
     }
-    
+
     public @NotNull XmlParserConfigurationBuilder satisfyUnknownSchemas() {
       return satisfyUnknownSchemas(true);
     }
-    
+
     public @NotNull XmlParserConfigurationBuilder satisfyUnknownSchemas(boolean satisfy) {
       result.setSatisfyUnknownSchemas(satisfy);
       return this;
     }
-    
+
     public @NotNull XmlParserConfigurationBuilder baseurl(URL baseurl) {
       result.setBaseurl(baseurl);
       return this;
@@ -87,7 +87,7 @@ public class XmlParserConfiguration {
     public @NotNull XmlParserConfigurationBuilder validate() {
       return validate(true);
     }
-    
+
     public @NotNull XmlParserConfigurationBuilder validate(boolean validate) {
       result.setValidate(validate);
       return this;
@@ -96,7 +96,7 @@ public class XmlParserConfiguration {
     public @NotNull XmlParserConfigurationBuilder xincludes() {
       return xincludes(true);
     }
-    
+
     public @NotNull XmlParserConfigurationBuilder xincludes(boolean xincludes) {
       result.setXincludes(xincludes);
       return this;
@@ -105,7 +105,7 @@ public class XmlParserConfiguration {
     public @NotNull XmlParserConfigurationBuilder xmlnamespaces() {
       return xmlnamespaces(true);
     }
-    
+
     public @NotNull XmlParserConfigurationBuilder xmlnamespaces(boolean xmlnamespaces) {
       result.setXmlnamespaces(xmlnamespaces);
       return this;
@@ -119,7 +119,7 @@ public class XmlParserConfiguration {
     public @NotNull XmlParserConfigurationBuilder normalize() {
       return normalize(true);
     }
-    
+
     public @NotNull XmlParserConfigurationBuilder normalize(boolean normalize) {
       result.setNormalize(normalize);
       return this;
@@ -128,7 +128,7 @@ public class XmlParserConfiguration {
     public @NotNull XmlParserConfiguration build() {
       return result;
     }
-    
+
   } /* ENDCLASS */
 
   public ErrorHandler getHandler() {
@@ -263,5 +263,5 @@ public class XmlParserConfiguration {
         + ", validate=" + validate + ", xmlnamespaces=" + xmlnamespaces + ", xincludes=" + xincludes + ", normalize="
         + normalize + ", satisfyUnknownSchemas=" + satisfyUnknownSchemas + ", parameters=" + parameters + "]";
   }
-  
+
 } /* ENDCLASS */

@@ -4,7 +4,7 @@ import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -14,7 +14,7 @@ import java.sql.*;
 
 /**
  * Simple wrapper for various database types.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Database implements Predicate<String> {
@@ -36,7 +36,7 @@ public enum Database implements Predicate<String> {
   private List<String>  secondaryDrivers;
   private boolean       active;
   private String        aliveQuery;
-  
+
   Database(boolean spi, String alive, String listColumns, String ... driverclasses) {
     driver           = driverclasses[0];
     active           = spi;
@@ -51,28 +51,28 @@ public enum Database implements Predicate<String> {
       secondaryDrivers = Collections.emptyList();
     }
   }
-  
+
   public String getDriver() {
     return driver;
   }
-  
+
   public String getListColumnsQuery() {
     return listColumnsQuery;
   }
-  
+
   public String getSelectAllQuery() {
     return selectAllQuery;
   }
-  
+
   public String getCountQuery() {
     return countQuery;
   }
 
   /**
    * Returns the alive query which allows to test a connection.
-   * 
+   *
    * @return   The alive query associated with this db type.
-   * 
+   *
    * @throws UnsupportedOperationException for {@link #odbc}.
    */
   public @NotBlank String getAliveQuery() {
@@ -82,10 +82,10 @@ public enum Database implements Predicate<String> {
     }
     return aliveQuery;
   }
-  
+
   /**
    * Verifies that a required driver is available.
-   * 
+   *
    * @throws SQLException   The driver could not be loaded.
    */
   private synchronized void activate() {
@@ -108,11 +108,11 @@ public enum Database implements Predicate<String> {
       }
     }
   }
-  
+
   private boolean activate(String classname) {
     try {
       Class.forName(classname);
-      return true; 
+      return true;
     } catch (ClassNotFoundException ex) {
       return false;
     }
@@ -120,9 +120,9 @@ public enum Database implements Predicate<String> {
 
   /**
    * Accesses a Connection.
-   * 
+   *
    * @param url   The URL used to access the database.
-   * 
+   *
    * @return   The Connection used for the database.
    */
   public @NotNull Connection getConnection(@NotBlank String url) {
@@ -133,14 +133,14 @@ public enum Database implements Predicate<String> {
       throw new KclException(ex, error_cannot_connect_to_database, url);
     }
   }
-  
+
   /**
    * Accesses a Connection.
-   * 
+   *
    * @param url        The URL used to access the database.
    * @param username   The username to access the database.
    * @param password   The password to be used.
-   * 
+   *
    * @return   The Connection used for the database.
    */
   public @NotNull Connection getConnection(@NotBlank String url, @NotNull String username, String password) {
@@ -151,14 +151,14 @@ public enum Database implements Predicate<String> {
       throw new KclException(ex, error_cannot_connect_to_database, url);
     }
   }
-  
+
   /**
    * Makes an attempt to connect an reports whether connecting succeeded or not.
-   * 
+   *
    * @param url        The URL used to access the database.
    * @param username   The username to access the database.
    * @param password   The password to be used.
-   * 
+   *
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */
   public boolean test(@NotBlank String url, @NotNull String username, String password) {
@@ -174,9 +174,9 @@ public enum Database implements Predicate<String> {
 
   /**
    * Makes an attempt to connect an reports whether connecting succeeded or not.
-   * 
+   *
    * @param url   The URL used to access the database.
-   * 
+   *
    * @return   <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
    */
   @Override

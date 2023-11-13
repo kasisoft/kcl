@@ -4,20 +4,20 @@ import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
 /**
- * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise 
+ * An enumeration adapter allows to bind literals against an enumeration type. Each descendent is supposed to realise
  * the following constraints:
- * 
+ *
  * <ul>
  *   <li>The parameter type must be an enumeration.</li>
  *   <li>The (un)marshalling is based upon the textual representation of an enumeration which
  *   means that the result of the toString() implementation is relevant here.</li>
  * </ul>
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class EnumerationAdapter<T extends Enum<T>> extends AbstractConverter<String, T> {
@@ -25,14 +25,14 @@ public class EnumerationAdapter<T extends Enum<T>> extends AbstractConverter<Str
   private Class<T>        enumtype;
   private Map<String,T>   values;
   private boolean         ignorecase;
-  
+
   public EnumerationAdapter(@NotNull Class<T> type) {
     enumtype    = type;
     ignorecase  = true;
     values      = new HashMap<>();
     withIgnoreCase(true);
   }
-  
+
   public EnumerationAdapter<T> withIgnoreCase(boolean ignorecase) {
     this.ignorecase = ignorecase;
     T[] enums = enumtype.getEnumConstants();
@@ -41,11 +41,11 @@ public class EnumerationAdapter<T extends Enum<T>> extends AbstractConverter<Str
       if (ignorecase) {
         text = text.toLowerCase();
       }
-      values.put(text, enums[i]); 
+      values.put(text, enums[i]);
     }
     return this;
   }
-  
+
   @Override
   public String encodeImpl(@NotNull T v) {
     return v.toString();
@@ -61,5 +61,5 @@ public class EnumerationAdapter<T extends Enum<T>> extends AbstractConverter<Str
     }
     return values.get(v);
   }
-  
+
 } /* ENDCLASS */

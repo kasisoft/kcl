@@ -4,13 +4,13 @@ import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.net.*;
 
 /**
  * Adapter for URI values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class URIAdapter extends AbstractConverter<String, URI> {

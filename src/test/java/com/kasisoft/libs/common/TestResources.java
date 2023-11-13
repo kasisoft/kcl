@@ -2,7 +2,7 @@ package com.kasisoft.libs.common;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.concurrent.*;
 
@@ -18,9 +18,9 @@ import java.io.*;
 public class TestResources {
 
   private static Path tempDir;
-  
+
   private static Map<Class<?>, TestResources> testResources = new ConcurrentHashMap<>();
-  
+
   static {
     try {
       tempDir = Files.createTempDirectory("test");
@@ -28,14 +28,14 @@ public class TestResources {
       throw new IllegalStateException(ex);
     }
   }
-  
+
   public static TestResources createTestResources(Class<?> cls) {
     return testResources.computeIfAbsent(cls, TestResources::new);
   }
-  
+
   private String rootFolder;
   private Path   tempFolder;
-  
+
   private TestResources(Class<?> cls) {
     rootFolder = cls.getSimpleName();
     if (!rootFolder.endsWith("/")) {
@@ -51,11 +51,11 @@ public class TestResources {
       throw new IllegalStateException(ex);
     }
   }
-  
+
   public Path getTempPath(String name) {
     return tempFolder.resolve(name);
   }
-  
+
   public @NotNull Optional<Path> findRootFolder() {
     var url = getClass().getClassLoader().getResource(rootFolder);
     if (url == null) {
@@ -68,7 +68,7 @@ public class TestResources {
       return null;
     }
   }
-  
+
   public @NotNull Path getRootFolder() {
     return findRootFolder().orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", rootFolder)));
   }
@@ -76,7 +76,7 @@ public class TestResources {
   public @NotNull Optional<Path> findResource(@NotNull String resource) {
     return findRootFolder().map($ -> $.resolve(resource));
   }
-  
+
   public @NotNull Path getResource(@NotNull String resource) {
     return findResource(resource).orElseThrow(() -> new AssertionError(String.format("Missing resource: %s", resource)));
   }

@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.types;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 public interface HasGeoLocation {
 
   @NotNull GeoLocation getGeoLocation();
-  
+
   void setGeoLocation(@NotNull GeoLocation geoLocation);
-  
+
 } /* ENDINTERFACE */

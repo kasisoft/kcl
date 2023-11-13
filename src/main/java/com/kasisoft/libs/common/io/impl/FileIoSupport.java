@@ -8,7 +8,7 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.nio.file.*;
 
@@ -22,12 +22,12 @@ import java.io.*;
 public class FileIoSupport implements IoSupport<File> {
 
   private static final long MB_16 = 16 * 1024 * 1024;
-  
+
   @Override
   public InputStream newInputStreamImpl(File source) throws Exception {
     return Files.newInputStream(source.toPath());
   }
-  
+
   @Override
   public OutputStream newOutputStreamImpl(File destination) throws Exception {
     return Files.newOutputStream(destination.toPath());
@@ -60,5 +60,5 @@ public class FileIoSupport implements IoSupport<File> {
       throw new KclException(ex, error_failed_to_read_from, source);
     }
   }
-  
+
 } /* ENDCLASS */

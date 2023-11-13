@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.converters;
 
 import com.kasisoft.libs.common.types.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Adapter for Version values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class VersionAdapter extends AbstractConverter<String, Version> {
@@ -14,7 +14,7 @@ public class VersionAdapter extends AbstractConverter<String, Version> {
   private boolean   micro       = false;
   private boolean   qualifier   = false;
   private boolean   all         = false;
-  
+
   public VersionAdapter withMicro(boolean micro) {
     this.micro = micro;
     return this;

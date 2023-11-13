@@ -6,7 +6,7 @@ import com.kasisoft.libs.common.utils.*;
 
 import org.w3c.dom.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -16,11 +16,11 @@ import java.nio.file.*;
 
 /**
  * Collection of predicates.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Predicates {
-  
+
   public static final KPredicate<String>  IS_JAVA_CLASS_FILE = new SuffixPredicate(".class");
 
   public static final KPredicate<Path>    IS_JAVA_CLASS_PATH = adaptPathToString(IS_JAVA_CLASS_FILE);
@@ -44,21 +44,21 @@ public class Predicates {
   public static final KPredicate<String>  IS_RESOURCE_DIR = IS_RESOURCE.and($ -> $.endsWith("/"));
 
   public static final KPredicate<String>  IS_INNER_JAVA_CLASS_FILE = new IsInnerJavaClassFile();
-  
+
   public static final KPredicate<String>  IS_ENCLOSING_JAVA_CLASS_FILE = IS_JAVA_CLASS_FILE.and(IS_INNER_JAVA_CLASS_FILE.negate());
-  
+
   public static final KPredicate<String>  IS_SPI_FILE = new IsSPIFile();
-  
+
   public static final KPredicate<String>  IS_MAGNOLIA_FILE = new IsMagnoliaFile();
-  
+
   public static final KPredicate<String>  IS_MAVEN_FILE = new IsMavenFile();
-  
+
   public static final KPredicate<String>  IS_JAVA_FQDN = new IsJavaFqdn();
-  
+
   public static final KPredicate<String>  IS_BOOLEAN = $ -> isValid($, PrimitiveFunctions::parseBoolean);
-  
+
   public static final KPredicate<String>  IS_LONG = $ -> isValid($, Long::parseLong);
-  
+
   public static final KPredicate<String>  IS_INTEGER = $ -> isValid($, Integer::parseInt);
 
   public static final KPredicate<String>  IS_SHORT = $ -> isValid($, Short::parseShort);
@@ -84,15 +84,15 @@ public class Predicates {
   public static @NotNull KPredicate<Node> isXmlElement(@NotNull String tag) {
     return new IsXmlElement(tag);
   }
-  
+
   public static @NotNull KPredicate<Path> adaptPathToString(@NotNull KPredicate<String> impl) {
     return $ -> impl.test($.toString());
   }
-  
+
   public static <T> Predicate<T> notNull() {
     return $ -> $ != null;
   }
-  
+
   public static <T> Predicate<T> acceptAll() {
     return $ -> true;
   }
@@ -122,11 +122,11 @@ public class Predicates {
   private static class IsXmlElement implements KPredicate<Node> {
 
     String   tag;
-    
+
     public IsXmlElement(String tag) {
       this.tag = tag;
     }
-    
+
     @Override
     public boolean test(@NotNull Node node) {
       boolean result = false;
@@ -135,36 +135,36 @@ public class Predicates {
       }
       return result;
     }
-    
+
   } /* ENDCLASS */
-  
+
   private static class IsMavenFile implements KPredicate<String> {
-    
+
     @Override
     public boolean test(@NotNull String resource) {
       return resource.endsWith("/pom.xml") || resource.endsWith("/pom.properties") ||
              resource.equals("pom.xml")    || resource.equals("pom.properties")
              ;
     }
-      
+
   } /* ENDCLASS */
 
   private static class IsMagnoliaFile implements KPredicate<String> {
-    
+
     private static final String PREFIX = "META-INF/magnolia/";
-    
+
     @Override
     public boolean test(@NotNull String resource) {
       boolean equals = PREFIX.equals(resource);
       return resource.startsWith(PREFIX) && (!equals);
     }
-      
+
   } /* ENDCLASS */
 
   private static class IsSPIFile implements KPredicate<String> {
-      
+
     private static final String PREFIX = "META-INF/services/";
-    
+
     @Override
     public boolean test(@NotNull String resource) throws Exception {
       boolean equals = PREFIX.equals(resource);
@@ -173,13 +173,13 @@ public class Predicates {
       }
       return false;
     }
-      
+
   } /* ENDCLASS */
 
   private static class SuffixPredicate implements KPredicate<String> {
-    
+
     Pattern   pattern;
-    
+
     public SuffixPredicate(@NotNull String ... suffices ) {
       pattern = Buckets.bucketStringFBuilder().forInstance($ -> {
         $.append("^(.+)(");
@@ -190,29 +190,29 @@ public class Predicates {
         }
         $.append(")$");
         return Pattern.compile($.toString());
-      }); 
+      });
     }
-    
+
     @Override
     public boolean test(@NotNull String resource) {
       return pattern.matcher(resource).matches();
     }
-    
+
   } /* ENDCLASS */
 
   private static class IsInnerJavaClassFile implements KPredicate<String> {
 
     Pattern pattern = Pattern.compile("^([^$]+)\\$(.*)(.class)$");
-    
+
     @Override
     public boolean test(@NotNull String resource) {
       return pattern.matcher(resource).matches();
     }
-    
+
   } /* ENDCLASS */
-  
+
   private static class IsJavaFqdn implements KPredicate<String> {
-     
+
     private static final Pattern PATTERN = Pattern.compile(
       "^(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)*(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)$"
     );
@@ -225,7 +225,7 @@ public class Predicates {
       }
       return false;
     }
-    
+
   } /* ENDCLASS */
-  
+
 } /* ENDCLASS */

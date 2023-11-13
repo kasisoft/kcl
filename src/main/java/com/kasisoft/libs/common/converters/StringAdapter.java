@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.converters;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Adapter for String values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringAdapter extends AbstractConverter<String, String> {

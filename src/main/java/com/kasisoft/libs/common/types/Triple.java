@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.types;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
 /**
  * Simple class used to work as a container (f.e. out-parameters).
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Triple<T1, T2, T3> implements HasFirstAndLast<T1, T3>{
@@ -14,19 +14,19 @@ public class Triple<T1, T2, T3> implements HasFirstAndLast<T1, T3>{
   private T1   value1;
   private T2   value2;
   private T3   value3;
-  
+
   public Triple() {
   }
-  
+
   public Triple(T1 value1, T2 value2, T3 value3) {
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
   }
-  
+
   /**
    * Changes the current values.
-   * 
+   *
    * @param val1   The first value.
    * @param val2   The second value.
    * @param val3   The third value.
@@ -112,5 +112,5 @@ public class Triple<T1, T2, T3> implements HasFirstAndLast<T1, T3>{
   public String toString() {
     return "Triple [value1=" + value1 + ", value2=" + value2 + ", value3=" + value3 + "]";
   }
-  
+
 } /* ENDCLASS */

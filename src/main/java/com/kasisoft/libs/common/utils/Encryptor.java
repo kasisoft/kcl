@@ -8,7 +8,7 @@ import com.kasisoft.libs.common.*;
 
 import javax.crypto.*;
 import javax.crypto.spec.*;
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ import java.security.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Encryptor {
-  
+
   private String                cipher;
   private String                algorithm;
   private String                secret;
@@ -33,7 +33,7 @@ public class Encryptor {
   public Encryptor(@NotNull String cipher, @NotNull String algorithm, String secret) {
     this(cipher, algorithm, secret, null);
   }
-  
+
   public Encryptor(@NotNull String cipher, @NotNull String algorithm, String secret, byte[] salt) {
     verify(cipher, algorithm);
     this.random       = new Random();
@@ -43,15 +43,15 @@ public class Encryptor {
     this.key          = new SecretKeySpec(Base64.getDecoder().decode(this.secret), algorithm);
     this.ivParameter  = new IvParameterSpec(setupSalt(salt));
   }
-  
+
   public String getCipher() {
     return cipher;
   }
-  
+
   public String getAlgorithm() {
     return algorithm;
   }
-  
+
   public String getSecret() {
     return secret;
   }
@@ -108,7 +108,7 @@ public class Encryptor {
     }
     return result;
   }
-  
+
   private @NotNull String setupSecret(String secret) {
     String result = StringFunctions.cleanup(secret);
     if (result == null) {
@@ -117,7 +117,7 @@ public class Encryptor {
     }
     return result;
   }
-  
+
   private KeyGenerator keyGenerator() {
     try {
       return KeyGenerator.getInstance(algorithm);
@@ -126,7 +126,7 @@ public class Encryptor {
       return null;
     }
   }
-  
+
   private Cipher cipher() {
     try {
       return Cipher.getInstance(cipher);
@@ -135,7 +135,7 @@ public class Encryptor {
       return null;
     }
   }
-  
+
   private void verify(@NotNull String cipher, @NotNull String algorithm) {
     try {
       Cipher.getInstance(cipher);
@@ -144,5 +144,5 @@ public class Encryptor {
       throw KclException.wrap(ex);
     }
   }
-  
+
 } /* ENDCLASS */

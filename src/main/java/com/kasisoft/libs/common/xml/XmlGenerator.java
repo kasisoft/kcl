@@ -4,7 +4,7 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.text.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * Helper class which allows to generate xml files.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlGenerator<T extends XmlGenerator<T>> {
@@ -22,10 +22,10 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   private Stack<String>                       tags;
   private StringBuilder                       indentation;
   private String                              indent;
-  
+
   private BiConsumer<Object, Object>          handleInvalidAttribute;
   private BiFunction<String, Object, String>  attributeValueConverter;
-  
+
   /**
    * Creates this generator using a certain encoding and a specific indentation size.
    */
@@ -35,7 +35,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
 
   /**
    * Creates this generator using a certain encoding and the default indentation size.
-   * 
+   *
    * @param encoding   The encoding to be used.
    */
   public XmlGenerator(Encoding encoding) {
@@ -44,7 +44,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
 
   /**
    * Creates this generator using the default encoding and a specific indentation size.
-   * 
+   *
    * @param indent   The indentation size.
    */
   public XmlGenerator(@Min(0) int indent) {
@@ -53,8 +53,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
 
   /**
    * Creates this generator using a certain encoding and a specific indentation size.
-   * 
-   * @param csEncoding   The encoding to be used. 
+   *
+   * @param csEncoding   The encoding to be used.
    * @param indentsize   The indentation size.
    */
   public XmlGenerator(Encoding csEncoding, Integer indentsize) {
@@ -66,12 +66,12 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     handleInvalidAttribute  = this::handleInvalidAttribute;
     attributeValueConverter = this::attributeValueConverter;
   }
-  
+
   /**
    * Changes the handler which is used when an invalid attribute key has been detected.
-   * 
+   *
    * @param handler   The handler to be used.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -83,12 +83,12 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     }
     return (T) this;
   }
-  
+
   /**
    * Changes the converter used for attribute values.
-   * 
+   *
    * @param converter   The converter which is used for attribute values.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -100,28 +100,28 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     }
     return (T) this;
   }
-  
+
   /**
    * The default implementation allowing to deal with unsupported attribute keys.
-   * 
+   *
    * @param key   The invalid attribute key.
    * @param val   The corresponding attribute value.
    */
   private void handleInvalidAttribute(Object key, Object val) {
   }
-  
+
   /**
    * This converter simply provides the textual presentation of the value.
-   * 
+   *
    * @param key   The attribute name that is currently being handled.
    * @param val   The attribute value.
-   * 
+   *
    * @return   The converted attribute value.
    */
   private @NotNull String attributeValueConverter(@NotBlank String key, Object val) {
     return String.valueOf(val);
   }
-  
+
   /**
    * Resets the inner state of this generator allowing it to be reused.
    */
@@ -130,14 +130,14 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     tags.clear();
     indentation.setLength(0);
   }
-  
+
   /**
    * Performs an indent for the upcoming generation.
    */
   private void indent() {
     indentation.append(indent);
   }
-  
+
   /**
    * Performs a dedent for the upcoming generation.
    */
@@ -145,12 +145,12 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     var newlength = Math.max(indentation.length() - indent.length(), 0);
     indentation.setLength(newlength);
   }
-  
+
   /**
    * Generates a map of attributes from the supplied list of pairs.
-   * 
+   *
    * @param attributes   A list of pairs establishing the attribute map.
-   * 
+   *
    * @return   A map of attributes.
    */
   private @NotNull Map<String, Object> asMap(Object ... attributes) {
@@ -162,7 +162,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
         var val  = attributes[i + 1];
         var name = key instanceof String ? StringFunctions.cleanup((String) key) : null;
         if (name != null) {
-          result.put(name, val); 
+          result.put(name, val);
         } else {
           handleInvalidAttribute.accept(key, val);
         }
@@ -170,12 +170,12 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     }
     return asMap(result);
   }
-  
+
   /**
    * Ensures that a non-null map is returned.
-   * 
+   *
    * @param map   The map that's supposed to be returned if possible.
-   * 
+   *
    * @return   The supplied map or a substitute.
    */
   private @NotNull Map<String, Object> asMap(@NotNull Map<String, Object> map) {
@@ -187,11 +187,11 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   }
 
   /**
-   * Writes a complete tag. 
-   * 
+   * Writes a complete tag.
+   *
    * @param tag          The tag name.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -201,12 +201,12 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   }
 
   /**
-   * Writes a complete tag. 
-   * 
+   * Writes a complete tag.
+   *
    * @param tag          The tag name.
    * @param text         The text contained with this tag.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -216,11 +216,11 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   }
 
   /**
-   * Writes a complete tag. 
-   * 
+   * Writes a complete tag.
+   *
    * @param tag          The tag name.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -230,11 +230,11 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   }
 
   /**
-   * Writes a complete tag. 
-   * 
+   * Writes a complete tag.
+   *
    * @param tag    The tag name.
    * @param text   The text contained with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -242,14 +242,14 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     tag(tag, text, (Map<String, Object>) null);
     return (T) this;
   }
-  
+
   /**
-   * Writes a complete tag. 
-   * 
+   * Writes a complete tag.
+   *
    * @param tag          The tag name.
    * @param text         The text contained with this tag.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -257,13 +257,13 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     tag(tag, text, asMap(attributes));
     return (T) this;
   }
-  
+
   /**
-   * Writes a complete tag. 
-   * 
+   * Writes a complete tag.
+   *
    * @param tag          The tag name.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -271,14 +271,14 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     tag(tag, null, attributes);
     return (T) this;
   }
-  
+
   /**
-   * Writes a complete tag. 
-   * 
+   * Writes a complete tag.
+   *
    * @param tag          The tag name.
    * @param text         The text contained with this tag.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -309,11 +309,11 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   }
 
   /**
-   * Opens a tag which potentially contains other tags. 
-   * 
+   * Opens a tag which potentially contains other tags.
+   *
    * @param tag          The tag name.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -323,22 +323,22 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   }
 
   /**
-   * Opens a tag which potentially contains other tags. 
-   * 
+   * Opens a tag which potentially contains other tags.
+   *
    * @param tag   The tag name.
-   * 
+   *
    * @return   this
    */
   public synchronized @NotNull T openTag(@NotBlank String tag) {
     return openTag(tag, (Map<String, Object>) null);
   }
-    
+
   /**
-   * Opens a tag which potentially contains other tags. 
-   * 
+   * Opens a tag which potentially contains other tags.
+   *
    * @param tag          The tag name.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -346,13 +346,13 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     openTag(tag, asMap(attributes));
     return (T) this;
   }
-  
+
   /**
-   * Opens a tag which potentially contains other tags. 
-   * 
+   * Opens a tag which potentially contains other tags.
+   *
    * @param tag          The tag name.
    * @param attributes   The attributes associated with this tag.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -371,8 +371,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   }
 
   /**
-   * Closes the last tag that had been opened. 
-   * 
+   * Closes the last tag that had been opened.
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -387,9 +387,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
 
   /**
    * Writes the supplied text in a CDATA block.
-   * 
+   *
    * @param text   The text that has to be written in a CDATA block.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -399,10 +399,10 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     }
     return (T) this;
   }
-  
+
   /**
    * Writes a processing instruction.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -413,9 +413,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
 
   /**
    * Writes a single line comment.
-   * 
+   *
    * @param comment   The comment that shall be rendered.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -428,9 +428,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
 
   /**
    * Writes a multi line comment.
-   * 
+   *
    * @param comment   The comment that shall be rendered.
-   * 
+   *
    * @return   this
    */
   @SuppressWarnings("unchecked")
@@ -450,10 +450,10 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     }
     return (T) this;
   }
-  
+
   /**
    * Writes all attributes sorted by their key names.
-   * 
+   *
    * @param attributes   The attributes that shall be written.
    */
   private void writeAttributes(@NotNull Map<String, Object> attributes) {
@@ -466,16 +466,16 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
       }
     }
   }
-  
+
   private void stop() {
     while (!tags.isEmpty()) {
       closeTag();
     }
   }
-  
+
   /**
    * Returns the current xml content.
-   * 
+   *
    * @return   The current xml content.
    */
   public synchronized @NotNull String toXml() {
@@ -485,9 +485,9 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
 
   /**
    * Escapes the special characters for XML.
-   * 
+   *
    * @param text  The text that will require escaping.
-   * 
+   *
    * @return   The escaped character.
    */
   private @NotNull String escapeXml(@NotNull String text) {
@@ -527,5 +527,5 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   public String toString() {
     return "XmlGenerator [builder=" + builder + "]";
   }
-  
+
 } /* ENDCLASS */

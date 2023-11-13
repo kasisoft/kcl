@@ -8,13 +8,13 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
 /**
  * Declarations used to identify primitive types.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PrimitiveFunctions {
@@ -24,7 +24,7 @@ public class PrimitiveFunctions {
   private static final Set<String> BOOLEAN_FALSES = new HashSet<>(Arrays.asList("false", "no", "nein", "n", "aus", "off", "disabled"));
 
   /* BYTE */
-  
+
   public static byte min(@NotNull byte[] buffer) {
     if (buffer.length > 0) {
       var result = buffer[0];
@@ -48,7 +48,7 @@ public class PrimitiveFunctions {
       throw new KclException(error_api_misuse_empty_buffer);
     }
   }
-  
+
   public static boolean compare(@NotNull byte[] buffer, @NotNull byte[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -85,7 +85,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -134,7 +134,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull byte[] toPrimitiveArray(@NotNull Byte[] buffer) {
@@ -172,7 +172,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull byte[] insert(@NotNull byte[] buffer, @NotNull byte[] sequence) {
     return concat(sequence, buffer);
   }
@@ -193,7 +193,7 @@ public class PrimitiveFunctions {
   }
 
   /* SHORT */
-  
+
   public static short min(@NotNull short[] buffer) {
     if (buffer.length > 0) {
       var result = buffer[0];
@@ -217,7 +217,7 @@ public class PrimitiveFunctions {
       throw new KclException(error_api_misuse_empty_buffer);
     }
   }
-  
+
   public static boolean compare(@NotNull short[] buffer, @NotNull short[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -254,7 +254,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull short[] buffer, @NotNull short[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull short[] buffer, @NotNull short[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -303,7 +303,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull short[] toPrimitiveArray(@NotNull Short[] buffer) {
@@ -341,7 +341,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull short[] insert(@NotNull short[] buffer, @NotNull short[] sequence) {
     return concat(sequence, buffer);
   }
@@ -362,7 +362,7 @@ public class PrimitiveFunctions {
   }
 
   /* INTEGER */
-  
+
   public static int min(@NotNull int[] buffer) {
     if (buffer.length > 0) {
       var result = buffer[0];
@@ -386,7 +386,7 @@ public class PrimitiveFunctions {
       throw new KclException(error_api_misuse_empty_buffer);
     }
   }
-  
+
   public static boolean compare(@NotNull int[] buffer, @NotNull int[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -423,7 +423,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull int[] buffer, @NotNull int[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull int[] buffer, @NotNull int[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -472,7 +472,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull int[] toPrimitiveArray(@NotNull Integer[] buffer) {
@@ -510,7 +510,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull int[] insert(@NotNull int[] buffer, @NotNull int[] sequence) {
     return concat(sequence, buffer);
   }
@@ -531,7 +531,7 @@ public class PrimitiveFunctions {
   }
 
   /* LONG */
-  
+
   public static long min(@NotNull long[] buffer) {
     if (buffer.length > 0) {
       var result = buffer[0];
@@ -555,7 +555,7 @@ public class PrimitiveFunctions {
       throw new KclException(error_api_misuse_empty_buffer);
     }
   }
-  
+
   public static boolean compare(@NotNull long[] buffer, @NotNull long[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -592,7 +592,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull long[] buffer, @NotNull long[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull long[] buffer, @NotNull long[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -641,7 +641,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull long[] toPrimitiveArray(@NotNull Long[] buffer) {
@@ -679,7 +679,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull long[] insert(@NotNull long[] buffer, @NotNull long[] sequence) {
     return concat(sequence, buffer);
   }
@@ -700,7 +700,7 @@ public class PrimitiveFunctions {
   }
 
   /* FLOAT */
-  
+
   public static float min(@NotNull float[] buffer) {
     if (buffer.length > 0) {
       var result = buffer[0];
@@ -724,7 +724,7 @@ public class PrimitiveFunctions {
       throw new KclException(error_api_misuse_empty_buffer);
     }
   }
-  
+
   public static boolean compare(@NotNull float[] buffer, @NotNull float[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -761,7 +761,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull float[] buffer, @NotNull float[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull float[] buffer, @NotNull float[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -810,7 +810,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull float[] toPrimitiveArray(@NotNull Float[] buffer) {
@@ -848,7 +848,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull float[] insert(@NotNull float[] buffer, @NotNull float[] sequence) {
     return concat(sequence, buffer);
   }
@@ -869,7 +869,7 @@ public class PrimitiveFunctions {
   }
 
   /* DOUBLE */
-  
+
   public static double min(@NotNull double[] buffer) {
     if (buffer.length > 0) {
       var result = buffer[0];
@@ -893,7 +893,7 @@ public class PrimitiveFunctions {
       throw new KclException(error_api_misuse_empty_buffer);
     }
   }
-  
+
   public static boolean compare(@NotNull double[] buffer, @NotNull double[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -930,7 +930,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull double[] buffer, @NotNull double[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull double[] buffer, @NotNull double[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -979,7 +979,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull double[] toPrimitiveArray(@NotNull Double[] buffer) {
@@ -1017,7 +1017,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull double[] insert(@NotNull double[] buffer, @NotNull double[] sequence) {
     return concat(sequence, buffer);
   }
@@ -1036,9 +1036,9 @@ public class PrimitiveFunctions {
     System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
     return result;
   }
-  
+
   /* CHAR */
-  
+
   public static boolean compare(@NotNull char[] buffer, @NotNull char[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -1075,7 +1075,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull char[] buffer, @NotNull char[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull char[] buffer, @NotNull char[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -1124,7 +1124,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull char[] toPrimitiveArray(@NotNull Character[] buffer) {
@@ -1162,7 +1162,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull char[] insert(@NotNull char[] buffer, @NotNull char[] sequence) {
     return concat(sequence, buffer);
   }
@@ -1183,7 +1183,7 @@ public class PrimitiveFunctions {
   }
 
   /* BOOLEAN */
-  
+
   public static boolean or(@NotNull boolean[] buffer) {
     if (buffer.length > 0) {
       for (boolean b : buffer) {
@@ -1209,7 +1209,7 @@ public class PrimitiveFunctions {
       throw new KclException(error_api_misuse_empty_buffer);
     }
   }
-  
+
   public static boolean compare(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
     return compare(buffer, sequence, 0);
   }
@@ -1246,7 +1246,7 @@ public class PrimitiveFunctions {
   public static @Min(-1) int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
     return indexOf(buffer, sequence, 0);
   }
-  
+
   public static @Min(-1) int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence, @Min(0) int pos) {
     if (buffer.length >= sequence.length) {
       var maxPos = buffer.length - sequence.length;
@@ -1295,7 +1295,7 @@ public class PrimitiveFunctions {
     for (var i = 0; i < buffer.length; i++) {
       result[i] = buffer[i];
     }
-    return result;  
+    return result;
   }
 
   public static @NotNull boolean[] toPrimitiveArray(@NotNull Boolean[] buffer) {
@@ -1333,7 +1333,7 @@ public class PrimitiveFunctions {
     }
     return result;
   }
-  
+
   public static @NotNull boolean[] insert(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
     return concat(sequence, buffer);
   }
@@ -1352,14 +1352,14 @@ public class PrimitiveFunctions {
     System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
     return result;
   }
-  
+
   /* PARSING PRIMITIVE TYPES */
-  
+
   /**
    * Interpretes a value as a boolean.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
+   *
    * @return   <code>true</code>  <=> If the supplied literal has one of the values {@link #TRUEVALUES} (case insensitive).
    *           <code>false</code> <=> All other cases.
    */
@@ -1377,7 +1377,7 @@ public class PrimitiveFunctions {
   }
 
   /* SUPPLIERS */
-  
+
   public static boolean getBoolean(@NotNull KSupplierBoolean inv) {
     try {
       return inv.get();
@@ -1443,7 +1443,7 @@ public class PrimitiveFunctions {
   }
 
   /* CONSUMERS */
-  
+
   public static void acceptBoolean(@NotNull KConsumerBoolean inv, boolean value) {
     try {
       inv.accept(value);
@@ -1509,7 +1509,7 @@ public class PrimitiveFunctions {
   }
 
   /* FUNCTIONS */
-  
+
   public static <I> boolean applyBoolean(@NotNull KFunctionBoolean<I> inv, I input) {
     try {
       return inv.apply(input);

@@ -8,7 +8,7 @@ import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
@@ -98,7 +98,7 @@ public class I18NSupport {
 
       try (
         var instream = url.openStream();
-        var reader   = Encoding.UTF8.openReader(instream) 
+        var reader   = Encoding.UTF8.openReader(instream)
        ) {
         var props = new Properties();
         props.load(reader);
@@ -134,7 +134,7 @@ public class I18NSupport {
    * @param fields         The map with all {@link Field} instances that have to be changed.
    */
   private static void applyTranslations(@NotNull String prefix, @NotNull Properties translations, @NotNull Map<String, Field> fields) {
-    
+
     for(var entry : fields.entrySet() ) {
 
       var    field    = entry.getValue();
@@ -219,7 +219,7 @@ public class I18NSupport {
   /**
    * Applies all translations to the supplied class.
    *
-   * @param locale      The {@link Locale} instance which has to be used. 
+   * @param locale      The {@link Locale} instance which has to be used.
    * @param clazz       The class that is supposed to be translated.
    */
   public static void initialize(Locale locale, @NotNull Class<?> clazz) {

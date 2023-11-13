@@ -8,7 +8,7 @@ import com.kasisoft.libs.common.types.*;
 
 import com.kasisoft.libs.common.text.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -21,7 +21,7 @@ import java.time.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class MiscFunctions {
-  
+
   public static <R> @NotNull List<R> trimLeading(@NotNull List<R> input) {
     while ((!input.isEmpty()) && (input.get(0) == null)) {
       input.remove(0);
@@ -41,13 +41,13 @@ public class MiscFunctions {
     trimTrailing(input);
     return input;
   }
-  
+
   /**
    * Returns an adjusted index since this extension supports negative indices as well.
    *
    * @param length  The length to be used for the calculation.
    * @param index   The index supplied by the user.
-   * 
+   *
    * @return  The index to use for the original implementation.
    */
   public static int adjustIndex(int length, int index, boolean isEnd) {
@@ -60,7 +60,7 @@ public class MiscFunctions {
   }
 
   public static String getGravatarLink(String email, Integer size) {
-    /** @spec [22-JUN-2020:KASI] https://en.gravatar.com/site/implement/hash/ */ 
+    /** @spec [22-JUN-2020:KASI] https://en.gravatar.com/site/implement/hash/ */
     String result = null;
     if (email != null) {
       result = StringFunctions.cleanup(email.toLowerCase());
@@ -72,12 +72,12 @@ public class MiscFunctions {
     }
     return result;
   }
-  
+
   /**
-   * Creates a set from the supplied elements. 
-   * 
+   * Creates a set from the supplied elements.
+   *
    * @param elements   The elements that shall be collected within a set.
-   * 
+   *
    * @return   The set created from the supplied elements.
    */
   public static <T> @NotNull Set<@NotNull T> toSet(T ... elements) {
@@ -92,9 +92,9 @@ public class MiscFunctions {
 
   /**
    * Returns <code>true</code> if the supplied year is a leap year.
-   * 
+   *
    * @param year   The year which has to be tested.
-   * 
+   *
    * @return   <code>true</code> <=> The supplied year is a leap year.
    */
   public static boolean isLeapYear(int year) {
@@ -109,9 +109,9 @@ public class MiscFunctions {
 
   /**
    * Returns <code>true</code> if the supplied date is a leap year.
-   * 
+   *
    * @param date   The date which has to be tested.
-   * 
+   *
    * @return   <code>true</code> <=> The supplied date is a leap year.
    */
   @SuppressWarnings("deprecation")
@@ -122,17 +122,17 @@ public class MiscFunctions {
   public static boolean isLeapYear(@NotNull OffsetDateTime date) {
     return isLeapYear(date.getYear());
   }
-  
+
   public static boolean isLeapYear(@NotNull LocalDateTime date) {
     return isLeapYear(date.getYear());
   }
 
   /**
    * Calculates the biggest common divisor.
-   * 
+   *
    * @param a   One number.
    * @param b   Another number.
-   * 
+   *
    * @return   The biggest common divisor.
    */
   public static int gcd(int a, int b) {
@@ -142,7 +142,7 @@ public class MiscFunctions {
       return gcd(b, a % b);
     }
   }
-  
+
   public static <R> @NotNull List<R> toUniqueList(List<R> list) {
     var result = Collections.<R>emptyList();
     if (list != null) {
@@ -153,9 +153,9 @@ public class MiscFunctions {
 
   /**
    * Creates a list of pairs from the supplied entries.
-   * 
+   *
    * @param entries   The entries that will be returned as list of pairs.
-   * 
+   *
    * @return   A list of pairs.
    */
   public static <R> @NotNull List<Pair<R, R>> toPairs(R ... entries) {
@@ -173,9 +173,9 @@ public class MiscFunctions {
 
   /**
    * Creates a map from the supplied entries.
-   * 
+   *
    * @param entries   The entries that will be returned as a map.
-   * 
+   *
    * @return   A map providing all entries (unless the list length is odd).
    */
   public static <R1, R2> @NotNull Map<R1, R2> toMap(@NotNull Object ... entries) {
@@ -191,10 +191,10 @@ public class MiscFunctions {
     return result;
   }
 
-  
+
   /**
    * Convenience function which waits until the supplied Thread finishes his task or will be interrupted.
-   * 
+   *
    * @param thread   The Thread that will be executed.
    */
   public static void joinThread(Thread thread) {
@@ -205,7 +205,7 @@ public class MiscFunctions {
       }
     }
   }
-  
+
   public static void sleep(long millis) {
     while (millis > 0) {
       var before = System.currentTimeMillis();
@@ -218,13 +218,13 @@ public class MiscFunctions {
       millis   -= done;
     }
   }
-  
+
   /**
    * Interpretes a value as a boolean. Causes an exception if the value isn't recognized.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
-   * @return   A boolean value if recognized or null if the argument is null as well. 
+   *
+   * @return   A boolean value if recognized or null if the argument is null as well.
    */
   public static Boolean parseBoolean(String value) {
     return parse(value, PrimitiveFunctions::parseBoolean);
@@ -232,10 +232,10 @@ public class MiscFunctions {
 
   /**
    * Interpretes a value as a byte. Causes an exception if the value isn't recognized.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
-   * @return   A byte value if recognized or null if the argument is null as well. 
+   *
+   * @return   A byte value if recognized or null if the argument is null as well.
    */
   public static Byte parseByte(String value) {
     return parse(value, Byte::parseByte);
@@ -243,10 +243,10 @@ public class MiscFunctions {
 
   /**
    * Interpretes a value as a short. Causes an exception if the value isn't recognized.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
-   * @return   A short value if recognized or null if the argument is null as well. 
+   *
+   * @return   A short value if recognized or null if the argument is null as well.
    */
   public static Short parseShort(String value) {
     return parse(value, Short::parseShort);
@@ -254,10 +254,10 @@ public class MiscFunctions {
 
   /**
    * Interpretes a value as a integer. Causes an exception if the value isn't recognized.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
-   * @return   An int value if recognized or null if the argument is null as well. 
+   *
+   * @return   An int value if recognized or null if the argument is null as well.
    */
   public static Integer parseInt(String value) {
     return parse(value, Integer::parseInt);
@@ -265,10 +265,10 @@ public class MiscFunctions {
 
   /**
    * Interpretes a value as a long. Causes an exception if the value isn't recognized.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
-   * @return   A long value if recognized or null if the argument is null as well. 
+   *
+   * @return   A long value if recognized or null if the argument is null as well.
    */
   public static Long parseLong(String value) {
     return parse(value, Long::parseLong);
@@ -276,10 +276,10 @@ public class MiscFunctions {
 
   /**
    * Interpretes a value as a float. Causes an exception if the value isn't recognized.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
-   * @return   A float value if recognized or null if the argument is null as well. 
+   *
+   * @return   A float value if recognized or null if the argument is null as well.
    */
   public static Float parseFloat(String value) {
     return parse(value, Float::parseFloat);
@@ -287,10 +287,10 @@ public class MiscFunctions {
 
   /**
    * Interpretes a value as a double. Causes an exception if the value isn't recognized.
-   * 
+   *
    * @param value   The value which has to be parsed.
-   * 
-   * @return   A double value if recognized or null if the argument is null as well. 
+   *
+   * @return   A double value if recognized or null if the argument is null as well.
    */
   public static Double parseDouble(String value) {
     return parse( value, Double::parseDouble );
@@ -298,10 +298,10 @@ public class MiscFunctions {
 
   /**
    * Parses a number and returns null if the value is invalid.
-   * 
+   *
    * @param value   The value shall be parsed.
    * @param parse   The function used to parse the value.
-   * 
+   *
    * @return   The parsed value or null.
    */
   private static <T> T parse(String value, @NotNull Function<String, T> parse) {
@@ -317,10 +317,10 @@ public class MiscFunctions {
 
   /**
    * Creates a list of <param>count</param> elements while repeating the supplied one.
-   * 
+   *
    * @param count     The number of elements that shall be created.
    * @param element   The element that shall be repeated.
-   * 
+   *
    * @return   A list with the supplied amount of elements.
    */
   public static <T> @NotNull List<T> repeat(int count, T element) {
@@ -334,7 +334,7 @@ public class MiscFunctions {
   public static @NotNull Map<@NotNull String, String> propertiesToMap(Properties properties) {
     var result = new HashMap<String, String>(100);
     if (properties != null) {
-      var names = (Enumeration<String>) properties.propertyNames(); 
+      var names = (Enumeration<String>) properties.propertyNames();
       while (names.hasMoreElements()) {
         var name = names.nextElement();
         result.put(name, StringFunctions.cleanup(properties.getProperty(name)));
@@ -342,7 +342,7 @@ public class MiscFunctions {
     }
     return result;
   }
-  
+
   public static <R> @NotNull ExtendedList<R> wrapToExtendedList(List<R> source) {
     if (source == null) {
       return new ExtendedList<>(new ArrayList<>());
@@ -353,9 +353,9 @@ public class MiscFunctions {
 
   /**
    * Executes the supplied {@link KRunnable} instance while making sure that System.exit calls won't stop the VM.
-   * 
+   *
    * @param runnable   The {@link KRunnable} instance which has to be executed.
-   * 
+   *
    * @return   The exitcode which had been raised.
    */
   public static int executeWithoutExit(@NotNull KRunnable runnable) {
@@ -381,14 +381,14 @@ public class MiscFunctions {
     private static final long serialVersionUID = -3937579776034175019L;
 
   } /* ENDCLASS */
-  
+
   /**
-   * SecurityManager implementation which disables System.exit calls. 
+   * SecurityManager implementation which disables System.exit calls.
    */
   private static class CustomSecurityManager extends SecurityManager implements Thread.UncaughtExceptionHandler {
 
     private int   exitcode;
-    
+
     @Override
     public void checkExit(int exitcode) {
       this.exitcode = exitcode;

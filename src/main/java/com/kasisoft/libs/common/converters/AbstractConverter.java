@@ -4,7 +4,7 @@ import com.kasisoft.libs.common.internal.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -18,7 +18,7 @@ public abstract class AbstractConverter<F, T> implements KConverter<F, T> {
     }
     return null;
   }
-  
+
   @Override
   public F encode(T decoded) {
     if (decoded != null) {
@@ -28,7 +28,7 @@ public abstract class AbstractConverter<F, T> implements KConverter<F, T> {
   }
 
   protected abstract T decodeImpl(@NotNull F encoded);
-  
+
   protected abstract F encodeImpl(@NotNull T decoded);
 
 } /* ENDCLASS */

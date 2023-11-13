@@ -1,13 +1,13 @@
 package com.kasisoft.libs.common.text;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
 /**
- * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal 
+ * This tokenizer operates similar to the well known StringTokenizer class with the distinction that a complete literal
  * can be used for the tokenization process.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class LiteralTokenizer implements Enumeration<String> {
@@ -17,10 +17,10 @@ public class LiteralTokenizer implements Enumeration<String> {
   private StringLike     input;
   private boolean        doreturn;
   private String         next;
-  
+
   /**
    * Prepares this tokenizer to operate using delimiting literals.
-   * 
+   *
    * @param data             The String content that has to be tokenized.
    * @param delimiters       A list of delimiting literals.
    */
@@ -30,7 +30,7 @@ public class LiteralTokenizer implements Enumeration<String> {
 
   /**
    * Prepares this tokenizer to operate using delimiting literals.
-   * 
+   *
    * @param data             The String content that has to be tokenized.
    * @param delimiters       A list of delimiting literals.
    */
@@ -40,7 +40,7 @@ public class LiteralTokenizer implements Enumeration<String> {
 
   /**
    * Prepares this tokenizer to operate using delimiting literals.
-   * 
+   *
    * @param data             The String content that has to be tokenized.
    * @param returnliterals   <code>true</code> <=> Return delimiting literals as well.
    * @param delimiters       A list of delimiting literals.
@@ -51,7 +51,7 @@ public class LiteralTokenizer implements Enumeration<String> {
 
   /**
    * Prepares this tokenizer to operate using delimiting literals.
-   * 
+   *
    * @param data             The String content that has to be tokenized.
    * @param returnLiterals   <code>true</code> <=> Return delimiting literals as well.
    * @param delimiters       A list of delimiting literals.
@@ -78,10 +78,10 @@ public class LiteralTokenizer implements Enumeration<String> {
     next       = getNext();
     return result;
   }
-  
+
   /**
    * Returns the next literal that has to be returned by this tokenizer.
-   * 
+   *
    * @return   The next literal that has to be returned by this tokenizer.
    */
   private String getNext() {
@@ -89,16 +89,16 @@ public class LiteralTokenizer implements Enumeration<String> {
       // there's no more content
       return null;
     }
-    
+
     var firstdelimiter = firstDelimiter();
     var oldpos         = pos;
-    
+
     if (firstdelimiter == null) {
       // there are no longer delimiting literals, so the rest becomes the next value
       pos = -1;
       return input.substring(oldpos);
     }
-    
+
     var newpos = input.indexOf(firstdelimiter, pos);
     if (newpos == pos) {
       // we're directly pointing to a delimiter
@@ -123,11 +123,11 @@ public class LiteralTokenizer implements Enumeration<String> {
       return input.substring(oldpos, newpos);
     }
   }
-  
+
   /**
    * Returns the delimiting literal that will be detected first.
-   * 
-   * @return   The delimiting literal that will be detected first. 
+   *
+   * @return   The delimiting literal that will be detected first.
    */
   private String firstDelimiter() {
     String result = null;

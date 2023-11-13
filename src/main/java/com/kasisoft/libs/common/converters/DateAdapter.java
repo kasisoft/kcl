@@ -4,7 +4,7 @@ import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
@@ -12,13 +12,13 @@ import java.text.*;
 
 /**
  * Adapter for Date values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DateAdapter extends AbstractConverter<String, Date> {
 
   private SimpleDateFormat   formatter = new SimpleDateFormat("yyyy-MM-dd");
-  
+
   public @NotNull DateAdapter withPattern(@NotNull String pattern) {
     formatter = new SimpleDateFormat(pattern);
     return this;
@@ -41,5 +41,5 @@ public class DateAdapter extends AbstractConverter<String, Date> {
       }
     }
   }
-  
+
 } /* ENDCLASS */

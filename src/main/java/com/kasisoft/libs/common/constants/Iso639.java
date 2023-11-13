@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.annotation.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * Collection of iso-639 codes.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://www.loc.gov/standards/iso639-2/php/code_list.php", date = "04-JUN-2020")
@@ -497,11 +497,11 @@ public enum Iso639 implements Predicate<String> {
   Zulu                      ("ZUL", "ZUL", "ZU"),
   Zuni                      ("ZUN", "ZUN", null),
   Zaza                      ("ZZA", "ZZA", null);
-  
-  private String   bibliography; 
-  private String   terminology; 
+
+  private String   bibliography;
+  private String   terminology;
   private String   alpha2;
-  
+
   Iso639(String bib, String term, String al2) {
     bibliography    = bib;
     terminology     = term;
@@ -512,19 +512,19 @@ public enum Iso639 implements Predicate<String> {
     LocalData.alpha3      .put(bib  , this);
     LocalData.alpha3      .put(term , this);
   }
-  
+
   public String getBibliography() {
     return bibliography;
   }
-  
+
   public String getTerminology() {
     return terminology;
   }
-  
+
   public String getAlpha2() {
     return alpha2;
   }
-  
+
   @Override
   public boolean test(String code) {
     var result = false;
@@ -539,9 +539,9 @@ public enum Iso639 implements Predicate<String> {
 
   /**
    * Returns the iso value for a bibliography alpha-3 code.
-   * 
+   *
    * @param bibliography   The bibliography alpha-3 code which value shall be searched for (bibliography).
-   * 
+   *
    * @return   The iso value.
    */
   public static @NotNull Optional<Iso639> findByBibliography(String bibliography) {
@@ -550,9 +550,9 @@ public enum Iso639 implements Predicate<String> {
 
   /**
    * Returns the iso value for a terminology alpha-3 code.
-   * 
+   *
    * @param terminology   The terminology alpha-3 code which value shall be searched for (terminology).
-   * 
+   *
    * @return   The iso value.
    */
   public static @NotNull Optional<Iso639> findByTerminology(String terminology) {
@@ -561,20 +561,20 @@ public enum Iso639 implements Predicate<String> {
 
   /**
    * Returns the iso value for a specific alpha-3 code.
-   * 
+   *
    * @param alpha3   The alpha-3 code which value shall be searched for (either bibliography of terminology).
-   * 
+   *
    * @return   The iso value.
    */
   public static @NotNull Optional<Iso639> findByAlpha3(String alpha3) {
     return findBy(LocalData.alpha3, alpha3);
   }
-  
+
   /**
    * Returns the iso value for a specific alpha-2 code.
-   * 
+   *
    * @param alpha2   The alpha-2 code which value shall be searched for.
-   * 
+   *
    * @return   The iso value.
    */
   public static @NotNull Optional<Iso639> findByAlpha2(String alpha2) {
@@ -587,14 +587,14 @@ public enum Iso639 implements Predicate<String> {
     }
     return Optional.empty();
   }
-  
+
   private static class LocalData {
-    
+
     private static Map<String, Iso639>  alpha2          = new HashMap<>();
     private static Map<String, Iso639>  alpha3          = new HashMap<>();
     private static Map<String, Iso639>  terminology     = new HashMap<>();
     private static Map<String, Iso639>  bibliography    = new HashMap<>();
-    
+
   } /* ENDCLASS */
 
 } /* ENDENUM */

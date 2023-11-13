@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.annotation.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * Collection of HTTP stastus codes.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "http://tools.ietf.org/html/rfc2616#section-6.1", date = "04-JUN-2020")
@@ -101,25 +101,25 @@ public enum HttpStatusCode implements Predicate<Integer> {
   private int      code;
   private String   textualCode;
   private String   name;
-  
+
   HttpStatusCode(int statuscode, @NotBlank String text) {
     name        = text;
     code        = statuscode;
     textualCode = String.valueOf(code);
   }
-  
+
   public int getCode() {
     return code;
   }
-  
+
   public String getTextualCode() {
     return textualCode;
   }
-  
+
   public String getName() {
     return name;
   }
-  
+
   @Override
   public boolean test(Integer statuscode) {
     return statuscode != null ? statuscode.intValue() == code : false;
@@ -129,12 +129,12 @@ public enum HttpStatusCode implements Predicate<Integer> {
   public String toString() {
     return name;
   }
-  
+
   /**
    * Returns the code associated with the supplied numerical value.
-   * 
+   *
    * @param statuscode   The number used to identify the code.
-   * 
+   *
    * @return   The code if it could be found.
    */
   public static Optional<HttpStatusCode> findByStatusCode(int statuscode) {
@@ -148,9 +148,9 @@ public enum HttpStatusCode implements Predicate<Integer> {
 
   /**
    * Returns the code associated with the supplied textual value.
-   * 
+   *
    * @param statuscode   The textual value containing the status code.
-   * 
+   *
    * @return   The code if it could be found or empty.
    */
   public static Optional<HttpStatusCode> findByStatusCode(String statuscode) {
@@ -165,4 +165,3 @@ public enum HttpStatusCode implements Predicate<Integer> {
   }
 
 } /* ENDENUM */
- 

@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.converters;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Adapter for float values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FloatAdapter extends AbstractConverter<String, Float> {
@@ -15,7 +15,7 @@ public class FloatAdapter extends AbstractConverter<String, Float> {
   private static final String POS_INF2  = "INF";
   private static final String MAX       = "MAX";
   private static final String MIN       = "MIN";
-  
+
   @Override
   public String encodeImpl(@NotNull Float v) {
     if (Float.isNaN(v)) {
@@ -56,5 +56,5 @@ public class FloatAdapter extends AbstractConverter<String, Float> {
     }
     return Float.parseFloat(v);
   }
-  
+
 } /* ENDCLASS */

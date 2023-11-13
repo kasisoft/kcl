@@ -6,7 +6,7 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ import java.io.*;
 
 /**
  * Collection of supported encodings.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @Specification(value = "https://docs.oracle.com/javase/10/docs/api/java/nio/charset/Charset.html", date = "04-JUN-2020")
@@ -34,9 +34,9 @@ public final class Encoding {
   public static final Encoding UTF16LE;
   public static final Encoding ISO88591;
   public static final Encoding IBM437;
-  
+
   private static final Map<String, Encoding>   ENCODINGS;
-  
+
   static {
     ENCODINGS   = new HashMap<>();
     ASCII       = new Encoding("US-ASCII"  , false, null);
@@ -47,17 +47,17 @@ public final class Encoding {
     ISO88591    = new Encoding("ISO-8859-1", false, null);
     IBM437      = new Encoding("IBM437"    , false, null);
   }
-  
+
   private String          encoding;
   private boolean         bomRequired;
   private ByteOrderMark   byteOrderMark;
   private Charset         charset;
-  
+
   /**
    * Initializes this Encoding instance for a specific character set.
-   *  
+   *
    * @param key           The name of the character set.
-   * @param requiresbom   <code>true</code> <=> Identifying this encoding requires a {@link ByteOrderMark}. 
+   * @param requiresbom   <code>true</code> <=> Identifying this encoding requires a {@link ByteOrderMark}.
    * @param mark          A {@link ByteOrderMark} which allows to identify the encoding.
    */
   public Encoding(@NotBlank String key, boolean requiresbom, ByteOrderMark mark) {
@@ -73,24 +73,24 @@ public final class Encoding {
   public String getEncoding() {
     return encoding;
   }
-  
+
   public boolean isBomRequired() {
     return bomRequired;
   }
-  
+
   public ByteOrderMark getByteOrderMark() {
     return byteOrderMark;
   }
-  
+
   public Charset getCharset() {
     return charset;
   }
 
   /**
    * Opens a Reader for a specific file using this encoding.
-   * 
+   *
    * @param file   The file that has to be opened using this encoding. Must be a valid file.
-   *  
+   *
    * @return   The reader if the file could be opened.
    */
   public @NotNull Reader openReader(@NotNull File file) {
@@ -99,9 +99,9 @@ public final class Encoding {
 
   /**
    * Opens a Reader for a specific resource using this encoding.
-   * 
+   *
    * @param url   The url of the resource that has to be opened using this encoding. Must be a valid resource.
-   *  
+   *
    * @return   The reader if the url could be opened.
    */
   @SuppressWarnings("resource")
@@ -111,9 +111,9 @@ public final class Encoding {
 
   /**
    * Opens a Reader for a specific resource using this encoding.
-   * 
+   *
    * @param uri   The URI of the resource that has to be opened using this encoding. Must be a valid resource.
-   *  
+   *
    * @return   The reader if the url could be opened.
    */
   @SuppressWarnings("resource")
@@ -123,9 +123,9 @@ public final class Encoding {
 
   /**
    * Opens a Reader for a specific resource using this encoding.
-   * 
+   *
    * @param path   The path of the resource that has to be opened using this encoding. Must be a valid resource.
-   *  
+   *
    * @return   The reader if the url could be opened.
    */
   @SuppressWarnings("resource")
@@ -135,9 +135,9 @@ public final class Encoding {
 
   /**
    * Opens a Reader for a specific InputStream using this encoding.
-   * 
+   *
    * @param instream   The InputStream that has to be accessed using this encoding.
-   *  
+   *
    * @return   The Reader if it can be accessed.
    */
   public @NotNull Reader openReader(@NotNull InputStream instream) {
@@ -146,9 +146,9 @@ public final class Encoding {
 
   /**
    * Opens a Writer for a specific file using this encoding.
-   * 
+   *
    * @param file   The file that has to be opened using this encoding. Must be a valid file.
-   *  
+   *
    * @return   The writer if the file could be opened.
    */
   public @NotNull Writer openWriter(@NotNull File file) {
@@ -157,9 +157,9 @@ public final class Encoding {
 
   /**
    * Opens a Writer for a specific file using this encoding.
-   * 
+   *
    * @param path   The path that has to be opened using this encoding. Must be a valid file.
-   *  
+   *
    * @return   The writer if the file could be opened.
    */
   @SuppressWarnings("resource")
@@ -169,9 +169,9 @@ public final class Encoding {
 
   /**
    * Opens a Writer for a specific OutputStream using this encoding.
-   * 
+   *
    * @param outstream   The OutputStream that has to be opened using this encoding. Must be a valid file.
-   *  
+   *
    * @return   The writer if the file could be opened.
    */
   public @NotNull Writer openWriter(@NotNull OutputStream outstream) {
@@ -180,9 +180,9 @@ public final class Encoding {
 
   /**
    * Encodes the supplied text.
-   * 
+   *
    * @param text   The text that has to be encoded.
-   * 
+   *
    * @return   The data which has to be encoded.
    */
   public @NotNull byte[] encode(@NotNull String text) {
@@ -194,9 +194,9 @@ public final class Encoding {
 
   /**
    * Decodes the supplied data using this encoding.
-   * 
+   *
    * @param data   The data providing the content.
-   * 
+   *
    * @return   The decoded String.
    */
   public @NotNull String decode(@NotNull byte[] data) {
@@ -210,12 +210,12 @@ public final class Encoding {
     }
     return false;
   }
-  
+
   @Override
   public int hashCode() {
     return encoding.hashCode();
   }
-  
+
   @Override
   public String toString() {
     return encoding;
@@ -226,13 +226,13 @@ public final class Encoding {
       return ENCODINGS.values().toArray(new Encoding[ENCODINGS.size()]);
     }
   }
-  
+
   /**
    * This helper function identifies the encoding value which corresponds to the supplied name. Be
    * aware that this enumeration only supports the <b>required</b> encodings.
-   * 
+   *
    * @param name   The name of the encoding which has to be identified. Case sensitivity doesn't matter here.
-   *               
+   *
    * @return   The encoding value if available.
    */
   public static @NotNull Optional<Encoding> findByName(@NotNull String name) {
@@ -240,7 +240,7 @@ public final class Encoding {
       return Optional.ofNullable(ENCODINGS.get(name));
     }
   }
-  
+
   public static @NotNull Encoding getEncoding(Encoding encoding) {
     if (encoding == null) {
       return KclConfig.DEFAULT_ENCODING;

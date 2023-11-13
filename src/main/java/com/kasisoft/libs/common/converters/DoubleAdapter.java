@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.converters;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Adapter for double values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class DoubleAdapter extends AbstractConverter<String, Double> {
@@ -15,7 +15,7 @@ public class DoubleAdapter extends AbstractConverter<String, Double> {
   private static final String POS_INF2  = "INF";
   private static final String MAX       = "MAX";
   private static final String MIN       = "MIN";
-  
+
   @Override
   public String encodeImpl(@NotNull Double v) {
     if (Double.isNaN(v)) {
@@ -56,5 +56,5 @@ public class DoubleAdapter extends AbstractConverter<String, Double> {
     }
     return Double.parseDouble(v);
   }
-  
+
 } /* ENDCLASS */

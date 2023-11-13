@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.types;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.awt.*;
 
@@ -19,7 +19,7 @@ public class KSize {
     this.width  = width;
     this.height = height;
   }
-  
+
   public KSize(@NotNull Dimension dim) {
     width   = dim.width;
     height  = dim.height;
@@ -70,5 +70,5 @@ public class KSize {
   public String toString() {
     return "KSize [width=" + width + ", height=" + height + "]";
   }
-  
+
 } /* ENDCLASS */

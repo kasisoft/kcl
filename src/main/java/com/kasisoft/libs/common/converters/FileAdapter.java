@@ -4,24 +4,24 @@ import com.kasisoft.libs.common.internal.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.io.*;
 
 /**
  * Adapter for File values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FileAdapter extends AbstractConverter<String, File> {
 
   private boolean   canonical = false;
-  
+
   public FileAdapter withCanonical(boolean canonical) {
     this.canonical = canonical;
     return this;
   }
-  
+
   @Override
   public String encodeImpl(@NotNull File v) {
     if (canonical) {

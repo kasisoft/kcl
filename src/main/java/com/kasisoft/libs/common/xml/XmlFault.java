@@ -2,15 +2,15 @@ package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Simple datastructure representing a fault within a xml document.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlFault {
-  
+
   public enum FaultType {
     warning, error, fatal;
   } /* ENDENUM */
@@ -19,10 +19,10 @@ public class XmlFault {
   private int         line;
   private int         column;
   private String      message;
-  
+
   /**
    * Initialises this datastructure from the supplied exception.
-   * 
+   *
    * @param faulttype   The kind of issue represented by this record.
    * @param ex          The original exception.
    */
@@ -35,7 +35,7 @@ public class XmlFault {
 
   /**
    * Initialises this datastructure from the supplied message.
-   * 
+   *
    * @param faulttype   The kind of issue represented by this record.
    * @param msg         The original message.
    */
@@ -48,16 +48,16 @@ public class XmlFault {
 
   /**
    * Returns a full text representation of this fault used for presentations.
-   * 
+   *
    * @return   A full text representation of this fault used for presentations.
    */
   public @NotBlank  String getFaultMessage() {
     return String.format("[%s] ( %d, %d ) : %s", type, line, column, message);
   }
-  
+
   /**
    * Returns <code>true</code> if this datastructure is related to a warning.
-   * 
+   *
    * @return   This datastructure is related to a warning.
    */
   public boolean isWarning() {
@@ -66,7 +66,7 @@ public class XmlFault {
 
   /**
    * Returns <code>true</code> if this datastructure is related to an error.
-   * 
+   *
    * @return   This datastructure is related to an error.
    */
   public boolean isError() {
@@ -75,7 +75,7 @@ public class XmlFault {
 
   /**
    * Returns <code>true</code> if this datastructure is related to a fatal error.
-   * 
+   *
    * @return   This datastructure is related to a fatal error.
    */
   public boolean isFatal() {

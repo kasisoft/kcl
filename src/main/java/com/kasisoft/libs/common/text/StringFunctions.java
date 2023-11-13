@@ -4,7 +4,7 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -14,19 +14,19 @@ import java.io.*;
 
 /**
  * Collection of functions used for String processing.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFunctions {
 
   private StringFunctions() {
   }
-  
+
   /**
    * Returns the supplied string without it's prefix if there was any.
-   * 
+   *
    * @param name   The name which might contain a suffix.
-   * 
+   *
    * @return   The string without the suffix (the dot will removed as well).
    */
   public static @NotNull String removeSuffix(@NotNull String name) {
@@ -37,25 +37,25 @@ public class StringFunctions {
      return name.substring(0, lidx);
    }
   }
-  
+
   /**
    * Changes the suffix for the supplied name. If the name doesn't provide a suffix it will be appended.
-   * 
+   *
    * @param name     The name which might be altered.
    * @param suffix   The suffix which has to be added (without '.').
-   * 
+   *
    * @return   The name with the updated suffix.
    */
   public static @NotNull String changeSuffix(@NotNull String name, @NotNull String suffix) {
     return String.format("%s.%s", removeSuffix(name), suffix);
   }
-  
+
   /**
-   * Makes sure that the supplied String is either null or not empty. The text will be trimmed so there 
+   * Makes sure that the supplied String is either null or not empty. The text will be trimmed so there
    * won't be any whitespace at the beginning or the end.
-   * 
+   *
    * @param input   The String that has to be altered.
-   * 
+   *
    * @return   null or a non-empty String.
    */
   public static String cleanup(String input) {
@@ -67,61 +67,61 @@ public class StringFunctions {
     }
     return input;
   }
-  
+
   /**
    * Makes the first character upper case if there's one.
-   * 
+   *
    * @param input   The String where the first character has to be altered.
-   * 
+   *
    * @return   A possibly in-place altered input.
    */
   public static @NotNull String firstUp(@NotNull String input) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).firstUp().toString());
   }
-  
+
   /**
    * Makes the first character lower case if there's one.
-   * 
+   *
    * @param input   The CharSequence where the first character has to be altered.
-   * 
+   *
    * @return   A possibly in-place altered input.
    */
   public static @NotNull String firstDown(@NotNull String input) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).firstDown().toString());
   }
-  
+
   /**
    * Replaces all occurrences of a regular expression with a specified replacement.
-   * 
+   *
    * @param input         The text that needs to be replaced.
    * @param search        The term that should be replaced.
    * @param replacement   The replacement which has to be used instead.
-   * 
+   *
    * @return   This buffer.
    */
   public static @NotNull String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceLiterallyAll(search, replacement).toString());
   }
-  
+
   /**
    * Performs a search & replace operation on the supplied input.
-   * 
+   *
    * @param input          The input which has to be modified.
    * @param replacements   A Map of String's used to run the search replace operation.
-   * 
+   *
    * @return   The modified String.
    */
   public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements).toString());
   }
-  
+
   /**
    * Performs a search & replace operation on the supplied input.
-   * 
+   *
    * @param input          The input which has to be modified.
    * @param replacements   A Map of String's used to run the search replace operation.
    * @param fmt            A key formatter. Default: '%s' (alternativ: '${%s}' which means that keys will be ${fredo}, ${dodo}, ...)
-   * 
+   *
    * @return   The modified String.
    */
   public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements, String fmt) {
@@ -130,18 +130,18 @@ public class StringFunctions {
 
   /**
    * Transforms the supplied value into a camelcase representation.
-   * 
+   *
    * @param input   The object which has to be changed.
-   *                      
-   * @return   The supplied sequence if possible. The content is altered to a camelcase variety. 
+   *
+   * @return   The supplied sequence if possible. The content is altered to a camelcase variety.
    */
   public static @NotNull String camelCase(@NotNull String input) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).camelCase().toString());
   }
-  
+
   /**
    * Replaces regions within some text.
-   * 
+   *
    * @param input         The text which might be altered.
    * @param sep           The opening/closing of a region (f.e. "(*").
    * @param replacement   The replacement value.
@@ -154,7 +154,7 @@ public class StringFunctions {
 
   /**
    * Replaces regions within some text.
-   * 
+   *
    * @param input         The text which might be altered.
    * @param open          The opening of a region (f.e. "(*").
    * @param close         The closing of a region (f.e. "*)").
@@ -168,7 +168,7 @@ public class StringFunctions {
 
   /**
    * Replaces regions within some text.
-   * 
+   *
    * @param input         The text which might be altered.
    * @param open          The opening of a region (f.e. "(*").
    * @param close         The closing of a region (f.e. "*)").
@@ -182,7 +182,7 @@ public class StringFunctions {
 
   /**
    * Replaces regions within some text.
-   * 
+   *
    * @param input         The text which might be altered.
    * @param open          The opening of a region (f.e. "(*").
    * @param close         The closing of a region (f.e. "*)").
@@ -197,7 +197,7 @@ public class StringFunctions {
   public static <T extends CharSequence> T startsWithMany(@NotNull String input, @NotNull T ... candidates) {
     return startsWithMany(input, true, candidates);
   }
-  
+
   public static <T extends CharSequence> T startsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).startsWithMany(casesensitive, candidates));
   }
@@ -209,7 +209,7 @@ public class StringFunctions {
   public static <T extends CharSequence> T endsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).endsWithMany(casesensitive, candidates));
   }
-  
+
   public static @NotNull String trim(@NotNull String input, @NotNull String chars, Boolean left) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).trim(chars, left).toString());
   }
@@ -217,10 +217,10 @@ public class StringFunctions {
   /**
    * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
    * that they're just be ignored.
-   * 
+   *
    * @param delimiter   A delimiter which might be used.
    * @param args        The list of Strings that has to be concatenated.
-   * 
+   *
    * @return   The concatenated String
    */
   public static @NotNull String concatenate(String delimiter, CharSequence ... args) {
@@ -230,10 +230,10 @@ public class StringFunctions {
   /**
    * Creates a concatenation of the supplied Strings. This function allows elements to be null which means
    * that they're just be ignored.
-   * 
+   *
    * @param delimiter   A delimiter which might be used.
    * @param args        The collection of Strings that has to be concatenated.
-   * 
+   *
    * @return   The concatenated String.
    */
   public static <C extends CharSequence, L extends Collection<C>> @NotNull String concatenate(String delimiter, L args) {
@@ -259,10 +259,10 @@ public class StringFunctions {
 
   /**
    * Repeats the supplied text <param>n</param> times.
-   * 
+   *
    * @param n      The number of concatenations that have to be performed.
    * @param text   The text that has to be repeated.
-   * 
+   *
    * @return   The concatenated reproduction string.
    */
   public static @NotNull String repeat(@Min(0) int n, CharSequence text ) {
@@ -281,29 +281,29 @@ public class StringFunctions {
 
   /**
    * Creates a textual presentation with a padding using the space character.
-   * 
+   *
    * @param text      The text that is supposed to be filled with padding.
    * @param limit     The maximum number of characters allowed.
    * @param left      <code>true</code> <=> Use left padding.
-   * 
+   *
    * @return   The text that is padded.
    */
   public static @NotNull String padding(String text, @Min(1) int limit, boolean left) {
     return padding(text, limit, ' ', left);
   }
-  
+
   public static @NotNull String fillString(int count, char ch) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.appendFilling(count, ch).toString());
   }
 
   /**
    * Creates a textual presentation with a padding.
-   * 
+   *
    * @param text      The text that is supposed to be filled with padding.
    * @param limit     The maximum number of characters allowed.
    * @param padding   The padding character.
    * @param left      <code>true</code> <=> Use left padding.
-   * 
+   *
    * @return   The text that is padded.
    */
   public static @NotNull String padding(String text, @Min(1) int limit, char padding, boolean left) {
@@ -329,9 +329,9 @@ public class StringFunctions {
 
   /**
    * Returns a textual representation of the supplied object.
-   * 
+   *
    * @param obj    The object which textual representation is desired.
-   * 
+   *
    * @return   The textual representation of the supplied object.
    */
   public static @NotNull String objectToString(Object obj) {
@@ -340,12 +340,12 @@ public class StringFunctions {
       return $.toString();
     });
   }
-  
+
   /**
    * Returns a textual representation of the supplied object.
-   * 
+   *
    * @param obj    The object which textual representation is desired.
-   * 
+   *
    * @return   The textual representation of the supplied object.
    */
   private static <S extends StringLike> void appendToString(@NotNull S receiver, Object obj) {
@@ -384,7 +384,7 @@ public class StringFunctions {
       receiver.append($.toString());
     });
   }
-  
+
   private static <S extends StringLike> void appendToStringObjectArray(@NotNull S receiver, @NotNull Object[] array) {
     receiver.append('[');
     if (array.length > 0) {
@@ -396,7 +396,7 @@ public class StringFunctions {
     }
     receiver.append(']');
   }
-  
+
   private static <S extends StringLike> void appendToStringBooleanArray(@NotNull S receiver, @NotNull boolean[] array) {
     receiver.append('[');
     if (array.length > 0) {
@@ -407,7 +407,7 @@ public class StringFunctions {
     }
     receiver.append(']');
   }
-  
+
   private static <S extends StringLike> void appendToStringCharArray(@NotNull S receiver, @NotNull char[] array) {
     receiver.append('[');
     if (array.length > 0) {

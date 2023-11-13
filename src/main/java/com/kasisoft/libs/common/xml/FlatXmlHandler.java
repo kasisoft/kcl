@@ -9,18 +9,18 @@ import com.kasisoft.libs.common.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
 import java.io.*;
 
 /**
- * Simple converter which allows to create flat representations of a XML document. This converter simply implements a 
- * DefaultHandler used in conjunction with the SAX Parser. An OutputStream must be supplied in order to generate the 
- * output. The OutputStream must be set each time this handler is used since it will be discarded from the handler after 
+ * Simple converter which allows to create flat representations of a XML document. This converter simply implements a
+ * DefaultHandler used in conjunction with the SAX Parser. An OutputStream must be supplied in order to generate the
+ * output. The OutputStream must be set each time this handler is used since it will be discarded from the handler after
  * a conversion has taken place.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class FlatXmlHandler extends DefaultHandler {
@@ -50,18 +50,18 @@ public class FlatXmlHandler extends DefaultHandler {
     newline    = KclConfig.LINE_ENDING;
     encoding   = Encoding.UTF8;
   }
-  
+
   public void setTarget(OutputStream target) {
     this.target = target;
   }
-  
+
   public String getNewline() {
     return newline;
   }
-  
+
   /**
    * Changes the current line separator sequence.
-   * 
+   *
    * @param linesep   The new line separator sequence.
    */
   public void setNewline(String linesep) {
@@ -70,36 +70,36 @@ public class FlatXmlHandler extends DefaultHandler {
       newline = KclConfig.LINE_ENDING;
     }
   }
-  
+
   public boolean isTrimValues() {
     return trimValues;
   }
-  
+
   public void setTrimValues(boolean trimValues) {
     this.trimValues = trimValues;
   }
-  
+
   public boolean isEscaping() {
     return escaping;
   }
-  
+
   public void setEscaping(boolean escaping) {
     this.escaping = escaping;
   }
-  
+
   public boolean isAttributes() {
     return attributes;
   }
-  
+
   public void setAttributes(boolean attributes) {
     this.attributes = attributes;
   }
-  
+
   /**
    * Writes the supplied content to the OutputStream.
-   * 
+   *
    * @param value    The value stored by the key.
-   * 
+   *
    * @throws SAXException   Writing to the target failed for some reason.
    */
   private void write(@NotNull String value) throws SAXException {
@@ -113,12 +113,12 @@ public class FlatXmlHandler extends DefaultHandler {
       throw new SAXException(ex);
     }
   }
-  
+
   /**
    * Creates a simple one line representation of the supplied input.
-   * 
+   *
    * @param input   The input which has to be broken on one line.
-   * 
+   *
    * @return   The input which can be placed on one line.
    */
   private String escape(@NotNull String input) {
@@ -128,7 +128,7 @@ public class FlatXmlHandler extends DefaultHandler {
     }
     return input;
   }
-  
+
   @Override
   public void startDocument() throws SAXException {
     elements.clear();
@@ -145,7 +145,7 @@ public class FlatXmlHandler extends DefaultHandler {
       target = null;
     }
   }
-  
+
   @Override
   public void startElement(String uri, String localname, String qname, Attributes attributes) throws SAXException {
     var name = qname != null ? qname : localname;

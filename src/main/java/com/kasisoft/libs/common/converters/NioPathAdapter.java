@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common.converters;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.nio.file.*;
 
 /**
  * Adapter for Path values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class NioPathAdapter extends AbstractConverter<String, Path> {

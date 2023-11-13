@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.utils;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
@@ -10,7 +10,7 @@ import java.util.*;
 public class ExtendedList<T> implements List<T> {
 
   private List<T>   origin;
-  
+
   public ExtendedList(List<T> origin) {
     this.origin = origin;
   }
@@ -19,7 +19,7 @@ public class ExtendedList<T> implements List<T> {
   public boolean add(T element) {
     return origin.add(element);
   }
-  
+
   @Override
   public void add(int index, T element) {
     origin.add(MiscFunctions.adjustIndex(size(), index, false), element);
@@ -29,7 +29,7 @@ public class ExtendedList<T> implements List<T> {
   public boolean addAll(@NotNull Collection<? extends T> collection) {
     return addAll(size(), collection);
   }
-  
+
   @Override
   public boolean addAll(int index, @NotNull Collection<? extends T> collection) {
     return origin.addAll(MiscFunctions.adjustIndex(size(), index, false), collection);

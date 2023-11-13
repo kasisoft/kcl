@@ -6,7 +6,7 @@ import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
@@ -14,15 +14,15 @@ import java.awt.*;
 
 /**
  * Adapter for Color values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ColorAdapter extends AbstractConverter<String, Color> {
 
   private static final String RGB = "rgb";
-  
+
   private Map<String, Color>   colors;
-  
+
   public ColorAdapter() {
     colors      = new HashMap<>();
     var fields  = Color.class.getFields();
@@ -30,17 +30,17 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
       try {
         var color = (Color) field.get(null);
         colors.put(field.getName().toLowerCase(), color);
-      } catch (Exception ex) { 
+      } catch (Exception ex) {
         // uninteresting Field
       }
     }
   }
-  
+
   public ColorAdapter clear() {
     colors.clear();
     return this;
   }
-  
+
   public ColorAdapter withColor(@NotNull String name, @NotNull Color color) {
     colors.put(name, color);
     return this;
@@ -48,12 +48,12 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
 
   @Override
   protected String encodeImpl(@NotNull Color v) {
-    return 
-      String.format( 
-        "#%02x%02x%02x%02x", 
+    return
+      String.format(
+        "#%02x%02x%02x%02x",
         Integer.valueOf(v.getAlpha()),
-        Integer.valueOf(v.getRed()), 
-        Integer.valueOf(v.getGreen()), 
+        Integer.valueOf(v.getRed()),
+        Integer.valueOf(v.getGreen()),
         Integer.valueOf(v.getBlue())
       );
   }
@@ -70,10 +70,10 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
   }
 
   /**
-   * Returns the Color associated with a specific name. 
-   * 
+   * Returns the Color associated with a specific name.
+   *
    * @param v   The name of the Color.
-   * 
+   *
    * @return   The Color associated with the name.
    */
   private @NotNull Color symbolicNamed(@NotNull String v) {
@@ -83,12 +83,12 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
     }
     throw new KclException(error_invalid_color, v);
   }
-  
+
   /**
    * Transforms an RGB(r,g,b[,a]) expression into a Color instance.
-   * 
+   *
    * @param v   The RGB(r,g,b[,a]) expression.
-   * 
+   *
    * @return   The Color if it could be converted.
    */
   private @NotNull Color unmarshalArguments(@NotNull String v) {
@@ -111,9 +111,9 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
 
   /**
    * Converts a numerical Color representatino into a Color instance.
-   * 
+   *
    * @param v   A numerical Color representation.
-   * 
+   *
    * @return   The corresponding Color instance.
    */
   private @NotNull Color unmarshalNumerical(@NotNull String v) {
@@ -133,5 +133,5 @@ public class ColorAdapter extends AbstractConverter<String, Color> {
     }
     throw new KclException(error_invalid_color, v);
   }
-  
+
 } /* ENDCLASS */

@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -13,7 +13,7 @@ import java.util.function.*;
 public interface KSupplier<T> {
 
   T get() throws Exception;
-  
+
   default @NotNull Supplier<T> protect() {
     return () -> {
       try {
@@ -23,5 +23,5 @@ public interface KSupplier<T> {
       }
     };
   }
-  
+
 } /* ENDINTERFACE */

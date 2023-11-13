@@ -4,13 +4,13 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
 /**
  * Adapter for long array values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class LongArrayAdapter extends AbstractConverter<String, long[]> {

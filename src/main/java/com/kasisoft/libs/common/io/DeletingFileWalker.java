@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.io;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -16,40 +16,40 @@ public class DeletingFileWalker implements Runnable {
   private Path                                  source;
   private CustomFileVisitor                     fsWalker;
   private Function<Exception, FileVisitResult>  errorHandler;
-  
+
   private long                                  fileCount;
   private long                                  dirCount;
   private long                                  totalSize;
-  
+
   public DeletingFileWalker(@NotNull Path source) {
     this(source, null);
   }
-  
+
   public DeletingFileWalker(@NotNull Path source, Function<Exception, FileVisitResult> errorHandler) {
-    
+
     this.source         = source;
     this.fsWalker       = new CustomFileVisitor();
     this.errorHandler   = errorHandler != null ? errorHandler : this::defaultErrorHandler;
-    
+
     fsWalker.setOnFile($ -> {
       totalSize += $.toFile().length();
       fileCount++;
-      IoFunctions.deleteFile($); 
+      IoFunctions.deleteFile($);
     });
-    
+
     fsWalker.setOnPostDirectory($ -> {
       IoFunctions.deleteDir($);
       dirCount++;
     });
-    
+
     fsWalker.setErrorHandler(errorHandler);
-    
+
   }
-  
+
   private FileVisitResult defaultErrorHandler(Exception ex) {
     throw KclException.wrap(ex);
   }
-  
+
   @Override
   public synchronized void run() {
     try {
@@ -61,7 +61,7 @@ public class DeletingFileWalker implements Runnable {
       errorHandler.apply(ex);
     }
   }
-  
+
   public long getFileCount() {
     return fileCount;
   }
@@ -73,5 +73,5 @@ public class DeletingFileWalker implements Runnable {
   public long getTotalSize() {
     return totalSize;
   }
-  
+
 } /* ENDCLASS */

@@ -1,6 +1,6 @@
 package com.kasisoft.libs.common.constants;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Collection of iso-3166 codes.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Iso3166 implements Predicate<String> {
@@ -258,14 +258,14 @@ public enum Iso3166 implements Predicate<String> {
   Yemen                                ("YEM", "YE", 887),
   Zambia                               ("ZMB", "ZM", 894),
   Zimbabwe                             ("ZWE", "ZW", 716);
-  
-  private String   alpha3; 
+
+  private String   alpha3;
   private String   alpha2;
   private int      numerical;
-  
+
   /**
    * Initialises this constant.
-   * 
+   *
    * @param al3       The alpha-3 code.
    * @param al2       The alpha-2 code.
    * @param value     The numeric calue for this constant.
@@ -278,19 +278,19 @@ public enum Iso3166 implements Predicate<String> {
     LocalData.valuebyalpha2.put(al2, this);
     LocalData.valuebynum   .put(Integer.valueOf(value), this);
   }
-  
+
   public String getAlpha3() {
     return alpha3;
   }
-  
+
   public String getAlpha2() {
     return alpha2;
   }
-  
+
   public int getNumerical() {
     return numerical;
   }
-  
+
   @Override
   public boolean test(String langcode) {
     boolean result = false;
@@ -302,20 +302,20 @@ public enum Iso3166 implements Predicate<String> {
 
   /**
    * Returns the iso value for a specific alpha-3 code.
-   * 
+   *
    * @param alpha3   The alpha-3 code which value shall be searched for.
-   * 
+   *
    * @return   The iso value.
    */
   public static @NotNull Optional<Iso3166> findByAlpha3(String alpha3) {
     return findBy(LocalData.valuebyalpha3, alpha3);
   }
-  
+
   /**
    * Returns the iso value for a specific alpha-2 code.
-   * 
+   *
    * @param alpha2   The alpha-2 code which value shall be searched for.
-   * 
+   *
    * @return   The iso value.
    */
   public static @NotNull Optional<Iso3166> findByAlpha2(String alpha2) {
@@ -324,15 +324,15 @@ public enum Iso3166 implements Predicate<String> {
 
   /**
    * Returns the iso value for a specific numerical code.
-   * 
+   *
    * @param numerical   The numerical code which value shall be searched for.
-   * 
+   *
    * @return   The iso value.
    */
   public static @NotNull Optional<Iso3166> findByNumerical(int numerical) {
     return findBy(LocalData.valuebynum, numerical);
   }
-  
+
   private static <K> @NotNull Optional<Iso3166> findBy(@NotNull Map<K, Iso3166> map, K key) {
     if (key != null) {
       return Optional.ofNullable(map.get(key));
@@ -341,11 +341,11 @@ public enum Iso3166 implements Predicate<String> {
   }
 
   private static class LocalData {
-    
+
     private static Map<String, Iso3166>    valuebyalpha2 = new HashMap<>();
     private static Map<String, Iso3166>    valuebyalpha3 = new HashMap<>();
     private static Map<Integer, Iso3166>   valuebynum    = new HashMap<>();
-    
+
   } /* ENDCLASS */
 
 } /* ENDENUM */

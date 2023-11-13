@@ -8,13 +8,13 @@ import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * A simple descriptional datastructure for a version.
- * 
+ *
  * @todo [03-JUN-2020:KASI]   Replace the code using Regex
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Version implements Comparable<Version> {
@@ -27,7 +27,7 @@ public class Version implements Comparable<Version> {
 
   /**
    * Sets up this version with the supplied settings.
-   * 
+   *
    * @param majorver   The major version number.
    * @param minorver   The minor version number.
    */
@@ -36,10 +36,10 @@ public class Version implements Comparable<Version> {
     micro = null;
     text  = toText();
   }
-  
+
   /**
    * Sets up this version with the supplied settings.
-   * 
+   *
    * @param majorver       The major version number.
    * @param minorver       The minor version number.
    * @param qualifierstr   A qualifier String.
@@ -52,7 +52,7 @@ public class Version implements Comparable<Version> {
 
   /**
    * Sets up this version with the supplied settings.
-   * 
+   *
    * @param majorver       The major version number.
    * @param minorver       The minor version number.
    * @param microver       The micro version number.
@@ -60,10 +60,10 @@ public class Version implements Comparable<Version> {
   public Version(int majorver, int minorver, int microver) {
     this(majorver, minorver, microver, null);
   }
-  
+
   /**
    * Sets up this version with the supplied settings.
-   * 
+   *
    * @param majorver       The major version number.
    * @param minorver       The minor version number.
    * @param microver       The micro version number.
@@ -79,7 +79,7 @@ public class Version implements Comparable<Version> {
 
   /**
    * Creates a new instance based upon the supplied textual description.
-   * 
+   *
    * @param version        A textual description of a version.
    * @param hasmicro       <code>true</code> <=> Process a micro number.
    * @param hasqualifier   <code>true</code> <=> Process a optional qualifier.
@@ -90,7 +90,7 @@ public class Version implements Comparable<Version> {
 
   /**
    * Creates a new instance based upon the supplied textual description.
-   * 
+   *
    * @param version  A textual description of a version.
    */
   public Version(@NotBlank String version) {
@@ -99,7 +99,7 @@ public class Version implements Comparable<Version> {
 
   /**
    * Creates a new instance based upon the supplied textual description.
-   * 
+   *
    * @param version        A textual description of a version.
    * @param hasmicro       <code>true</code> <=> Process a micro number.
    * @param hasqualifier   <code>true</code> <=> Process a optional qualifier.
@@ -108,87 +108,87 @@ public class Version implements Comparable<Version> {
 
     int idx = 0;
     try {
-      
+
       var input = Buckets.bucketStringFBuilder().allocate().append(version);
       var part   = nextPart(input, '.');
       major      = Integer.parseInt( part );
       idx++;
-      
+
       part       = nextPart(input, '.');
       minor      = Integer.parseInt( part );
       idx++;
-      
+
       if (hasmicro != null) {
-        
+
         if (hasmicro.booleanValue()) {
           part   = nextPart(input, '.', '_');
           micro  = Integer.valueOf(part);
           idx++;
         }
-        
+
         if (hasqualifier.booleanValue()) {
           qualifier = StringFunctions.cleanup(input.toString());
           if (qualifier == null) {
             throw new KclException(error_version_missing_qualifier, idx);
           }
         }
-        
+
       } else {
-        
+
         // this is our flexible approach where we're trying to match as much as possible
         try {
-          
+
           part   = nextPart(input, '.', '_');
           micro  = Integer.valueOf(part);
           idx++;
-          
+
           qualifier = StringFunctions.cleanup(input.toString());
-          
+
         } catch (NumberFormatException ex) {
           // not a valid number so it's obviously the qualifier
           qualifier = part;
         }
-        
+
       }
 
       text = toText();
-      
+
     } catch (Exception ex) {
       throw new KclException(ex, error_version_cannot_parse_version, version);
     }
-    
+
   }
 
   public int getMajor() {
     return major;
   }
-  
+
   public int getMinor() {
     return minor;
   }
-  
+
   public Integer getMicro() {
     return micro;
   }
-  
+
   public String getQualifier() {
     return qualifier;
   }
 
   /**
    * Creates a textual presentation of this version.
-   * 
+   *
    * @return   A textual presentation of this version.
    */
   public @NotBlank String toText() {
     return toText('.');
   }
-  
+
   /**
    * Creates a textual presentation of this version.
-   * 
+   *
    * @param qualifierdelim   The delimiter which has to be used for the qualifier (sometimes you might wann use '_').
-   * 
+   *
    * @return   A textual presentation of this version.
    */
   public @NotBlank String toText(char qualifierdelim) {
@@ -220,12 +220,12 @@ public class Version implements Comparable<Version> {
     }
     return StringFunctions.cleanup(result);
   }
-  
+
   @Override
   public String toString() {
     return text;
   }
-  
+
   @Override
   public int compareTo(Version other) {
     if (other == null) {

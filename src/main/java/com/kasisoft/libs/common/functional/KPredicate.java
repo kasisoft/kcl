@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public interface KPredicate<T> {
 
   boolean test(T arg) throws Exception;
-  
+
   default KPredicate<T> and(@NotNull KPredicate<? super T> other) {
     return (t) -> test(t) && other.test(t);
   }
@@ -27,7 +27,7 @@ public interface KPredicate<T> {
   default @NotNull KPredicate<T> or(@NotNull KPredicate<? super T> other) {
     return (t) -> test(t) || other.test(t);
   }
-  
+
   default @NotNull Predicate<T> protect() {
     return (T t) -> {
       try {
@@ -37,7 +37,7 @@ public interface KPredicate<T> {
       }
     };
   }
-  
+
   static <T> @NotNull KPredicate<T> isEqual(Object targetRef) {
     return (null == targetRef) ? Objects::isNull : object -> targetRef.equals(object);
   }

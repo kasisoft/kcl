@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.text;
 
 import com.kasisoft.libs.common.utils.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -14,18 +14,18 @@ import java.util.regex.Pattern;
 import java.io.*;
 
 /**
- * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which 
+ * StringF(ormatting)Buffer equivalent which supports formatting. This buffer also supports negative indices which
  * means that the original index is calculated beginning from the end of the buffer.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
-  
+
   private static final long serialVersionUID = 6094891463351971217L;
-  
+
   // the original implementation
   private StringBuffer   origin;
-  
+
   /**
    * @see StringBuffer#StringBuffer()
    */
@@ -149,7 +149,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     origin.append(charray, MiscFunctions.adjustIndex(charray.length, offset, false), length);
     return this;
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer append(boolean value) {
     origin.append(value);
@@ -320,7 +320,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized int lastIndexOf(@NotNull String str, int index) {
     return origin.lastIndexOf(str, adjustIndex(index, false));
   }
-  
+
   @Override
   public synchronized int lastIndexOf(char ... characters) {
     return StringLike.super.lastIndexOf(characters);
@@ -341,7 +341,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull String toString() {
     return origin.toString();
   }
-  
+
   @Override
   public synchronized StringFBuffer trimLeading() {
     return StringLike.super.trimLeading();
@@ -385,7 +385,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized boolean endsWith(@NotNull String totest) {
     return StringLike.super.endsWith(totest);
   }
-  
+
   @Override
   public synchronized <R extends CharSequence> R endsWithMany(R ... candidates) {
     return StringLike.super.endsWithMany(candidates);
@@ -400,12 +400,12 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized boolean endsWith(boolean casesensitive, @NotNull CharSequence totest) {
     return StringLike.super.endsWith(casesensitive, totest);
   }
-  
+
   @Override
   public synchronized boolean equals(@NotNull String totest) {
     return StringLike.super.equals(totest);
   }
-  
+
   @Override
   public synchronized boolean equals(boolean casesensitive, @NotNull String totest) {
     return StringLike.super.equals(casesensitive, totest);
@@ -420,12 +420,12 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull String[] split(@NotNull String delimiters) {
     return StringLike.super.split(delimiters);
   }
-  
+
   @Override
   public synchronized @NotNull String[] splitRegex(@NotNull String regex) {
     return StringLike.super.splitRegex(regex);
   }
-  
+
   @Override
   public synchronized @NotNull String[] splitRegex(@NotNull Pattern pattern) {
     return StringLike.super.splitRegex(pattern);
@@ -440,7 +440,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull StringFBuffer replaceAll(@NotNull String regex, @NotNull String replacement) {
     return StringLike.super.replaceAll(regex, replacement);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer replaceAll(@NotNull Pattern pattern, @NotNull String replacement) {
     return StringLike.super.replaceAll(pattern, replacement);
@@ -450,7 +450,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull StringFBuffer replaceFirst(@NotNull String regex, @NotNull String replacement) {
     return StringLike.super.replaceFirst(regex, replacement);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer replaceFirst(@NotNull Pattern pattern, @NotNull String replacement) {
     return StringLike.super.replaceFirst(pattern, replacement);
@@ -460,17 +460,17 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull StringFBuffer replaceLast(@NotNull String regex, @NotNull String replacement) {
     return StringLike.super.replaceLast(regex, replacement);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer replaceLast(@NotNull Pattern pattern, @NotNull String replacement) {
     return StringLike.super.replaceLast(pattern, replacement);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer appendIfMissing(@NotNull CharSequence seq) {
     return StringLike.super.appendIfMissing(seq);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer appendIfMissing(boolean ignoreCase, @NotNull CharSequence seq) {
     return StringLike.super.appendIfMissing(ignoreCase, seq);
@@ -480,7 +480,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull StringFBuffer prependIfMissing(@NotNull CharSequence seq) {
     return StringLike.super.prependIfMissing(seq);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer prependIfMissing(boolean ignoreCase, @NotNull CharSequence seq) {
     return StringLike.super.prependIfMissing(ignoreCase, seq);
@@ -490,12 +490,12 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull IntStream chars() {
     return origin.chars();
   }
-  
+
   @Override
   public synchronized @NotNull IntStream codePoints() {
     return origin.codePoints();
   }
-  
+
   @Override
   public synchronized int compareTo(@NotNull StringFBuffer another) {
     if (this == another) {
@@ -503,7 +503,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
     }
     return origin.compareTo(another.origin);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer firstUp() {
     return StringLike.super.firstUp();
@@ -518,7 +518,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull StringFBuffer camelCase() {
     return StringLike.super.camelCase();
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer toLowerCase() {
     return StringLike.super.toLowerCase();
@@ -553,7 +553,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, @NotNull Function<String, CharSequence> replacement) {
     return StringLike.super.replaceRegions(open, replacement);
   }
-  
+
   @Override
   public synchronized @NotNull StringFBuffer replaceRegions(@NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
     return StringLike.super.replaceRegions(open, close, replacement);
@@ -563,7 +563,7 @@ public class StringFBuffer implements Serializable, StringLike<StringFBuffer> {
   public synchronized @NotNull StringFBuffer appendFilling(@Min(1) int count, char ch) {
     return StringLike.super.appendFilling(count, ch);
   }
-  
+
   private synchronized void writeObject(ObjectOutputStream s) throws IOException {
     s.writeObject(origin);
   }

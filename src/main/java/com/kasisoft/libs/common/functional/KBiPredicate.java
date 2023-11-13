@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -13,7 +13,7 @@ import java.util.function.*;
 public interface KBiPredicate<T, U> {
 
   boolean test(T arg1, U arg2) throws Exception;
-  
+
   default @NotNull KBiPredicate<T, U> and(@NotNull KBiPredicate<? super T, ? super U> other) {
     return (T t, U u) -> test(t, u) && other.test(t, u);
   }
@@ -35,5 +35,5 @@ public interface KBiPredicate<T, U> {
       }
     };
   }
-  
+
 } /* ENDINTERFACE */

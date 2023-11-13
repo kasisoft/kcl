@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.converters;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Adapter for byte values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ByteAdapter extends AbstractConverter<String, Byte> {

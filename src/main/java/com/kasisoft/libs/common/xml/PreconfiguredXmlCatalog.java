@@ -4,12 +4,12 @@ import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
- * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on 
+ * Specialisation of the XmlCatalog which provides preconfigured resources depending on the w3c.jar which should be on
  * the classpath. This catalog doesn't care about missing resources as they're supposed to be made available afterwards.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PreconfiguredXmlCatalog extends XmlCatalog {
@@ -51,7 +51,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
 
   /**
    * Initialises this catalog.
-   * 
+   *
    * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too.
    */
   public PreconfiguredXmlCatalog(boolean lsaware) {
@@ -60,10 +60,10 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
       registerResource(PRECONFIGURED[i + 0], PRECONFIGURED[i + 1]);
     }
   }
-  
+
   /**
    * Registers a single resource with this catalog.
-   *  
+   *
    * @param publicid   A public id.
    * @param resource   The resource associated with the id or a system id itself.
    */

@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -13,11 +13,11 @@ import java.util.function.*;
 public interface KBiFunction<T, U, R> {
 
   R apply(T input1, U input2) throws Exception;
-  
+
   default <V> @NotNull KBiFunction<T, U, V> andThen(@NotNull KFunction<? super R, ? extends V> after) {
     return (T t, U u) -> after.apply(apply(t, u));
   }
-  
+
   default @NotNull BiFunction<T, U, R> protect() {
     return (T t, U u) -> {
       try {
@@ -27,5 +27,5 @@ public interface KBiFunction<T, U, R> {
       }
     };
   }
-  
+
 } /* ENDINTERFACE */

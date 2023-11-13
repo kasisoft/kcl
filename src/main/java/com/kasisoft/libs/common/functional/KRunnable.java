@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.functional;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 public interface KRunnable {
 
   void run() throws Exception;
-  
+
   default @NotNull Runnable protect() {
     return () -> {
       try {
@@ -21,5 +21,5 @@ public interface KRunnable {
       }
     };
   }
- 
+
 } /* ENDINTERFACE */

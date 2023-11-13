@@ -2,13 +2,13 @@ package com.kasisoft.libs.common.csv;
 
 import com.kasisoft.libs.common.constants.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.*;
 
 /**
  * A collection of options used for the csv processing.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public final class CsvOptions {
@@ -19,72 +19,72 @@ public final class CsvOptions {
   private boolean           fillMissingColumns  = false;
   private boolean           consumeSingleQuotes = true;
   private boolean           consumeDoubleQuotes = true;
-  
+
   // Processing a simple formatted CSV is much faster as it's less robust but should be capable to read most CSV files.
   // A CSV file must fulfill the following constraints:
-  // 
+  //
   //   * One record per row (no records spanning multiple lines)
   //   * If cell content is quoted it's not allowed to have whitespace outside of the quoted region
   //   * All records must have the same amount of cells
-  // 
+  //
   private boolean           simpleFormat        = false;
-  
+
   // enable/disable whether the simple loading is allowed to mixup the record order
   private boolean           orderedSimpleFormat = true;
   private int               maxLines            = -1;
   private Encoding          encoding            = Encoding.UTF8;
   private List<CsvColumn>   columns             = new ArrayList<>();
-  
+
   public CsvOptions() {
   }
-  
+
   public boolean isTitleRow() {
     return titleRow;
   }
-  
+
   public char getDelimiter() {
     return delimiter;
   }
-  
+
   public boolean isDisableCr() {
     return disableCr;
   }
-  
+
   public boolean isFillMissingColumns() {
     return fillMissingColumns;
   }
-  
+
   public boolean isConsumeSingleQuotes() {
     return consumeSingleQuotes;
   }
-  
+
   public boolean isConsumeDoubleQuotes() {
     return consumeDoubleQuotes;
   }
-  
+
   public boolean isSimpleFormat() {
     return simpleFormat;
   }
-  
+
   public boolean isOrderedSimpleFormat() {
     return orderedSimpleFormat;
   }
-  
+
   public int getMaxLines() {
     return maxLines;
   }
-  
+
   public Encoding getEncoding() {
     return encoding;
   }
-  
+
   public List<CsvColumn> getColumns() {
     return columns;
   }
-  
+
   /**
    * Creates a deep copy of this instance.
-   * 
+   *
    * @return   A deep copy of this instance.
    */
   public @NotNull CsvOptions deepCopy() {
@@ -108,7 +108,7 @@ public final class CsvOptions {
     }
     return result;
   }
-  
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -174,15 +174,15 @@ public final class CsvOptions {
         + ", consumeDoubleQuotes=" + consumeDoubleQuotes + ", simpleFormat=" + simpleFormat + ", orderedSimpleFormat="
         + orderedSimpleFormat + ", maxLines=" + maxLines + ", encoding=" + encoding + ", columns=" + columns + "]";
   }
-  
+
   public static @NotNull CsvOptionsBuilder builder() {
     return new CsvOptionsBuilder();
   }
-  
+
   public static class CsvOptionsBuilder {
-    
+
     private CsvOptions   instance = new CsvOptions();
-    
+
     private CsvOptionsBuilder() {
     }
 
@@ -190,7 +190,7 @@ public final class CsvOptions {
       instance.simpleFormat = true;
       return this;
     }
-    
+
     public CsvOptionsBuilder maxLines(int maxLines) {
       instance.maxLines = maxLines;
       return this;
@@ -215,29 +215,29 @@ public final class CsvOptions {
       instance.delimiter = delimiter;
       return this;
     }
-    
+
     public CsvOptionsBuilder fillMissingColumns() {
       return fillMissingColumns(true);
     }
-    
+
     public CsvOptionsBuilder fillMissingColumns(boolean enable) {
       instance.fillMissingColumns = enable;
       return this;
     }
-    
+
     public CsvOptionsBuilder disableCr() {
       return disableCr(true);
     }
-    
+
     public CsvOptionsBuilder disableCr(boolean enable) {
       instance.disableCr = enable;
       return this;
     }
-    
+
     public CsvOptionsBuilder titleRow() {
       return titleRow(true);
     }
-    
+
     public CsvOptionsBuilder titleRow(boolean enable) {
       instance.titleRow = enable;
       return this;
@@ -247,7 +247,7 @@ public final class CsvOptions {
       instance.columns.add(column);
       return this;
     }
-    
+
     public CsvOptionsBuilder columns(@NotNull List<CsvColumn> columns) {
       instance.columns.clear();
       instance.columns.addAll(columns);
@@ -257,7 +257,7 @@ public final class CsvOptions {
     public CsvOptions build() {
       return instance;
     }
-    
+
   } /* ENDCLASS */
 
 } /* ENDCLASS */

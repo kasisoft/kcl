@@ -8,7 +8,7 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.nio.file.*;
 
@@ -22,17 +22,17 @@ import java.io.*;
 public class PathIoSupport implements IoSupport<Path> {
 
   private static final long MB_16 = 16 * 1024 * 1024;
-  
+
   @Override
   public InputStream newInputStreamImpl(Path source) throws Exception {
     return Files.newInputStream(source);
   }
-  
+
   @Override
   public OutputStream newOutputStreamImpl(Path destination) throws Exception {
     return Files.newOutputStream(destination);
   }
-  
+
   @Override
   public @NotNull byte[] loadAllBytes(@NotNull Path source) {
     try {
@@ -46,7 +46,7 @@ public class PathIoSupport implements IoSupport<Path> {
       throw new KclException(ex, Messages.error_failed_to_read_from, source);
     }
   }
-  
+
   @Override
   public @NotNull String readText(@NotNull Path source, Encoding encoding) {
     try {
@@ -60,5 +60,5 @@ public class PathIoSupport implements IoSupport<Path> {
       throw new KclException(ex, Messages.error_failed_to_read_from, source);
     }
   }
-  
+
 } /* ENDCLASS */

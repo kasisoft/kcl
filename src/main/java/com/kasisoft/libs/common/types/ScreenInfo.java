@@ -2,7 +2,7 @@ package com.kasisoft.libs.common.types;
 
 import com.kasisoft.libs.common.utils.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -14,17 +14,17 @@ import java.awt.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ScreenInfo implements Comparable<ScreenInfo> {
-  
+
   public enum ComparisonMode implements Comparator<ScreenInfo> {
-    
+
     Ratio      (ScreenInfo::compareByRatio     , ScreenInfo::getRatioPixels),
     PixelCount (ScreenInfo::compareByPixelCount, ScreenInfo::getPixels),
     Width      (ScreenInfo::compareByWidth     , ScreenInfo::getWidth),
     Height     (ScreenInfo::compareByHeight    , ScreenInfo::getHeight);
-    
+
     private Comparator<ScreenInfo>          comparator;
     private Function<ScreenInfo, Integer>   getter;
-    
+
     ComparisonMode(Comparator<ScreenInfo> comp, Function<ScreenInfo, Integer> get) {
       comparator = comp;
       getter     = get;
@@ -33,14 +33,14 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     public int difference( ScreenInfo s1, ScreenInfo s2 ) {
       return ScreenInfo.difference( s1, s2, getter );
     }
-    
+
     @Override
     public int compare( ScreenInfo s1, ScreenInfo s2 ) {
       return comparator.compare( s1, s2 );
     }
-    
+
   } /* ENDENUM */
-  
+
   private String                  id;
   private GraphicsConfiguration   graphicsConfiguration;
   private GraphicsDevice          screen;
@@ -51,7 +51,7 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
   private int                     ratioY;
   private int                     pixels;
   private int                     ratioPixels;
-  
+
   public ScreenInfo(String idString, GraphicsConfiguration gc, GraphicsDevice scr, int sWidth, int sHeight) {
     id                    = idString;
     graphicsConfiguration = gc;
@@ -65,7 +65,7 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     ratioPixels           = ratioX * ratioY;
     size                  = new KSize(width, height);
   }
-  
+
   public boolean isFullScreenSupported() {
     return screen.isFullScreenSupported();
   }
@@ -81,11 +81,11 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     }
     return result;
   }
-  
+
   private static int compareByRatio(@NotNull ScreenInfo s1, @NotNull ScreenInfo s2) {
     return Integer.compare(s2.ratioPixels, s1.ratioPixels);
   }
-  
+
   private static int compareByPixelCount(@NotNull ScreenInfo s1, @NotNull ScreenInfo s2) {
     return Integer.compare(s2.pixels, s1.pixels);
   }
@@ -151,12 +151,12 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
   public String toString() {
     return id;
   }
-  
+
   @Override
   public int hashCode() {
     return id.hashCode();
   }
-  
+
   @Override
   public boolean equals(Object other) {
     if (other instanceof ScreenInfo) {

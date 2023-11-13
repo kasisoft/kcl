@@ -2,13 +2,13 @@ package com.kasisoft.libs.common.converters;
 
 import com.kasisoft.libs.common.pools.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.regex.Pattern;
 
 /**
  * Adapter for boolean array values.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
@@ -16,7 +16,7 @@ public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
   private char              delimiter = ',';
   private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
   private BooleanAdapter    converter = new BooleanAdapter();
-  
+
   public @NotNull BooleanArrayAdapter withDelimiter(@NotNull char delimiter) {
     if (this.delimiter != delimiter) {
       this.delimiter = delimiter;
@@ -56,5 +56,5 @@ public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
       return result;
     });
   }
-  
+
 } /* ENDCLASS */

@@ -9,7 +9,7 @@ import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.common.*;
 
 import javax.sql.*;
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -19,12 +19,12 @@ import java.sql.*;
 
 /**
  * Simple wrapper around a jdbc {@link Connection} instance which provides some helpful utility features.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @SuppressWarnings("resource")
 public class DbConnection implements AutoCloseable {
-  
+
   private Connection                                connection;
   private Database                                  database;
   private Consumer<Exception>                       errorHandler;
@@ -37,16 +37,16 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Sets up the connection which will be opened right away.
-   * 
+   *
    * @param configuration   The configuration for the connection.
    */
   public DbConnection(@NotNull DbConfig configuration) {
     this(configuration, true);
   }
-  
+
   /**
    * Sets up the connection which will be opened right away.
-   * 
+   *
    * @param config   The configuration for the connection.
    * @param cache    <code>true</code> <=> Use a primitive internal cache (no eviction policies here).
    */
@@ -65,7 +65,7 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Sets up the connection which will be opened right away.
-   * 
+   *
    * @param dataSource   The DataSource used to provide access to the database.
    * @param cache        <code>true</code> <=> Use a primitive internal cache (no eviction policies here).
    */
@@ -77,7 +77,7 @@ public class DbConnection implements AutoCloseable {
       throw KclException.wrap(ex);
     }
   }
-  
+
   public DbConnection withErrorHandler(@NotNull Consumer<Exception> errorHandler) {
     this.errorHandler   = errorHandler;
     this.closer         = closer.withErrorHandler(errorHandler);
@@ -94,20 +94,20 @@ public class DbConnection implements AutoCloseable {
     errorHandler    = this::errorHandler;
     closer          = new Closer().withErrorHandler(errorHandler);
   }
-  
+
   public Connection getConnection() {
     return connection;
   }
-  
+
   /**
    * Default error handler.
-   * 
+   *
    * @param ex   An Exception that occured while accessing the data.
    */
   private void errorHandler(@NotNull Exception ex) {
     throw KclException.wrap(ex);
   }
-  
+
   /**
    * Clears all object caches.
    */
@@ -117,12 +117,12 @@ public class DbConnection implements AutoCloseable {
     columnTypes . clear();
     columnSpecs . clear();
   }
-  
+
   /**
    * Returns a canonical table name which means that the table is named as delivered by the jdbc driver.
-   * 
+   *
    * @param tablename   The name that shall be canonical.
-   * 
+   *
    * @return   The canonical name unless there's no correspondingly named table.
    */
   public String canonicalTableName(@NotNull String tablename) {
@@ -136,10 +136,10 @@ public class DbConnection implements AutoCloseable {
     }
     return result;
   }
-  
+
   /**
    * Returns a list of table names.
-   * 
+   *
    * @return   A list of table names (unmodifiable).
    */
   public @NotNull List<String> listTables() {
@@ -160,15 +160,15 @@ public class DbConnection implements AutoCloseable {
     }
     return result;
   }
-  
+
   /**
    * Returns a {@link PreparedStatement} instance using the supplied table.
-   * 
+   *
    * @param query   The string providing the query.
    * @param table   The name of the table.
-   * 
+   *
    * @return   The {@link PreparedStatement} instance.
-   * 
+   *
    * @throws SQLException   Setting up the query failed for some reason.
    */
   private @NotNull PreparedStatement getQuery(@NotBlank String query, @NotNull String table) throws SQLException {
@@ -180,24 +180,24 @@ public class DbConnection implements AutoCloseable {
     }
     return result;
   }
-  
+
   /**
    * Returns a list of all column names for the supplied table.
-   * 
+   *
    * @param table   The table which column names shall be returned.
-   * 
+   *
    * @return   A list of all column names.
    */
   public @NotNull List<String> listColumnNames(@NotBlank String table) {
     return listColumnInfos(columnNames, table, this::getColumnName);
   }
-  
+
   /**
    * Fetches the column name from the supplied jdbc result.
-   * 
+   *
    * @param metadata   The jdbc record providing some meta information.
    * @param index      The 1-based index of the column.
-   * 
+   *
    * @return   The name of the column or null in case of an error.
    */
   private String getColumnName(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
@@ -208,13 +208,13 @@ public class DbConnection implements AutoCloseable {
       return null;
     }
   }
-  
+
   /**
    * Returns a list of pairs for all columns and their associated jdbc type.
-   * 
+   *
    * @param table   The table which column names shall be returned.
-   * 
-   * @return   A list of pairs providing the column name associated with the corresponding jdbc type. 
+   *
+   * @return   A list of pairs providing the column name associated with the corresponding jdbc type.
    */
   public @NotNull List<Pair<String, Integer>> listColumnTypes(@NotBlank String table) {
     return listColumnInfos(columnTypes, table, this::getColumnType);
@@ -222,10 +222,10 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Fetches the column name with it's jdbc type from the supplied jdbc result.
-   * 
+   *
    * @param metadata   The jdbc record providing some meta information.
    * @param index      The 1-based index of the column.
-   * 
+   *
    * @return   The pair with the column name and jdbc type or null in case of an error.
    */
   private Pair<String, Integer> getColumnType(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
@@ -236,14 +236,14 @@ public class DbConnection implements AutoCloseable {
       return null;
     }
   }
-  
+
   /**
    * A generic function which fetches some metadata results.
-   * 
+   *
    * @param cache      A cache which is used to keep the metadata information in memory.
-   * @param table      The table which column names shall be returned. 
+   * @param table      The table which column names shall be returned.
    * @param producer   The function which turns the raw metadata result into our desired return type.
-   * 
+   *
    * @return   A list of metadata results.
    */
   private <T> List<T> listColumnInfos(@NotNull Map<String, List<T>> cache, @NotBlank String table, @NotNull BiFunction<ResultSetMetaData, Integer, T> producer) {
@@ -283,12 +283,12 @@ public class DbConnection implements AutoCloseable {
 //    result.setAdapter(adapter);
 //    return result;
 //  }
-//  
+//
 //  /**
 //   * Creates a CsvTableModel instance providing the metadata description of the supplied table.
-//   * 
+//   *
 //   * @param table   The table which column names shall be returned.
-//   * 
+//   *
 //   * @return  The CsvTableModel instance.
 //   */
 //  public @NotNull CsvTableModel createCsvMetaData(@@NotBlank String table) {
@@ -341,9 +341,9 @@ public class DbConnection implements AutoCloseable {
 //
 //  /**
 //   * Creates a CsvTableModel instance providing the data of the supplied table.
-//   * 
+//   *
 //   * @param table      The table which column names shall be returned.
-//   * 
+//   *
 //   * @return  The CsvTableModel instance.
 //   */
 //  public @NotNull CsvTableModel createCsvModel(@NotBlank String table) {
@@ -352,13 +352,13 @@ public class DbConnection implements AutoCloseable {
 //    importAllRows(table, $ -> rowLoader($, result));
 //    return result;
 //  }
-//  
+//
 //  /**
 //   * Creates a {@link CsvColumn} specification from the jdbc metadata.
-//   * 
+//   *
 //   * @param metadata   The jdbc record providing some meta information.
 //   * @param index      The 1-based index of the column.
-//   * 
+//   *
 //   * @return   The {@link CsvColumn} specification.
 //   */
 //  private CsvColumn getCsvColumn(ResultSetMetaData metadata, int index) {
@@ -377,10 +377,10 @@ public class DbConnection implements AutoCloseable {
 //      return null;
 //    }
 //  }
-//  
+//
 //  /**
 //   * List all records within a table.
-//   * 
+//   *
 //   * @param table      The name of the table.
 //   * @param consumer   The {@link Consumer} which will be invoked for each record.
 //   */
@@ -405,7 +405,7 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Processes some records.
-   * 
+   *
    * @param jdbcQuery   The jdbc query used to select the records.
    * @param context     Some contextual object that shall be passed to the producer.
    * @param consumer    The {@link BiConsumer} which processes the jdbc outcome.
@@ -416,7 +416,7 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Processes some records.
-   * 
+   *
    * @param jdbcQuery   The jdbc query used to select the records.
    * @param consumer    The {@link Consumer} which processes the jdbc outcome.
    */
@@ -426,7 +426,7 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Processes all records.
-   * 
+   *
    * @param table      The name of the table.
    * @param context    Some contextual object that shall be passed to the producer.
    * @param consumer   The {@link BiConsumer} which processes the jdbc outcome.
@@ -438,7 +438,7 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Processes all records.
-   * 
+   *
    * @param table      The name of the table.
    * @param consumer   The {@link Consumer} which processes the jdbc outcome.
    */
@@ -449,11 +449,11 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * List some records.
-   * 
+   *
    * @param jdbcQuery   The jdbc query used to select the records.
    * @param context     Some contextual object that shall be passed to the producer.
    * @param producer    The {@link BiFunction} which creates a usable record from the jdbc outcome.
-   * 
+   *
    * @return   A list with all records.
    */
   public <T, C> @NotNull List<T> select(@NotBlank String jdbcQuery, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
@@ -483,23 +483,23 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * List some records.
-   * 
+   *
    * @param jdbcQuery   The jdbc query used to select the records.
    * @param producer    The {@link Function} which creates a usable record from the jdbc outcome.
-   * 
+   *
    * @return   A list with all records.
    */
   public <T> @NotNull List<T> select(@NotBlank String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
     return select(jdbcQuery, null, ($1, $2) -> producer.apply($1));
   }
-  
+
   /**
    * List all records from a certain table.
-   * 
+   *
    * @param table      The name of the table.
    * @param context     Some contextual object that shall be passed to the producer.
    * @param producer   The {@link Function} which creates a usable record from the jdbc outcome.
-   * 
+   *
    * @return   A list with all records.
    */
   public <T, C> @NotNull List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
@@ -509,10 +509,10 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * List all records from a certain table.
-   * 
+   *
    * @param table      The name of the table.
    * @param producer   The {@link Function} which creates a usable record from the jdbc outcome.
-   * 
+   *
    * @return   A list with all records.
    */
   public <T> @NotNull List<T> selectAll(@NotBlank String table, @NotNull Function<ResultSet, T> producer) {
@@ -522,9 +522,9 @@ public class DbConnection implements AutoCloseable {
 
   /**
    * Counts all records within a table.
-   * 
+   *
    * @param table   The name of the table.
-   * 
+   *
    * @return   The number of available records. A negative number indicates an error.
    */
   public int count(@NotBlank String table) {
@@ -547,11 +547,11 @@ public class DbConnection implements AutoCloseable {
     }
     return result;
   }
-  
-  
+
+
 //  /**
 //   * Derives the current row data from the jdbc source and applies it to the {@link CsvTableModel} instance.
-//   * 
+//   *
 //   * @param source   The jdbc source.
 //   * @param dest     The {@link CsvTableModel} instance to be filled.
 //   */
@@ -566,7 +566,7 @@ public class DbConnection implements AutoCloseable {
 //      errorHandler.accept(ex);
 //    }
 //  }
-  
+
   @Override
   public void close() throws Exception {
     queries.values().forEach(closer::close);
@@ -576,7 +576,7 @@ public class DbConnection implements AutoCloseable {
       connection = null;
     }
   }
-  
+
   private static class Uncacheable<K, V> extends HashMap<K, V> {
 
     private static final long serialVersionUID = 5072129897120869853L;
@@ -590,7 +590,7 @@ public class DbConnection implements AutoCloseable {
     public V put( K key, V value) {
       return super.get(key);
     }
-    
+
   } /* ENDCLASS */
 
 } /* ENDCLASS */

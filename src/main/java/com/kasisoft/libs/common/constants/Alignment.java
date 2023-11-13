@@ -4,11 +4,11 @@ import javax.swing.border.*;
 
 import javax.swing.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Values to specify an alignment.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum Alignment {
@@ -19,29 +19,29 @@ public enum Alignment {
   Top    (SwingConstants.TOP   , TitledBorder.LEFT  , false),
   Middle (SwingConstants.CENTER, TitledBorder.LEFT  , false),
   Bottom (SwingConstants.BOTTOM, TitledBorder.LEFT  , false);
-  
+
   private int       alignment;
   private int       titledBorderX;
   private boolean   horizontal;
-  
+
   Alignment(int alignment, int titledBorderX, boolean horizontal) {
     this.alignment      = alignment;
     this.titledBorderX  = titledBorderX;
     this.horizontal     = horizontal;
   }
-  
+
   public int getAlignment() {
     return alignment;
   }
-  
+
   public int getTitledBorderX() {
     return titledBorderX;
   }
-  
+
   public boolean isHorizontal() {
     return horizontal;
   }
-  
+
   public void set(@NotNull JComponent component) {
     if (horizontal) {
       if (component instanceof JLabel) {

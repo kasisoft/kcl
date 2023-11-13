@@ -6,7 +6,7 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.net.*;
 
@@ -21,7 +21,7 @@ public class URLIoSupport implements IoSupport<URL> {
   public InputStream newInputStreamImpl(@NotNull URL source) throws Exception {
     return source.openStream();
   }
-  
+
   @Override
   public OutputStream newOutputStreamImpl(@NotNull URL destination) throws Exception {
     throw new KclException(error_no_write_support_for_urls, destination);

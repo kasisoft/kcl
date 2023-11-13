@@ -11,7 +11,7 @@ import org.xml.sax.*;
 
 import javax.xml.transform.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import javax.xml.parsers.*;
 
 import java.util.function.*;
@@ -24,7 +24,7 @@ import java.io.*;
 
 /**
  * Basic data structure used to store entity ids together with the urls.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver, Predicate<String> {
@@ -33,27 +33,27 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   private Map<PublicId, String>   systemIds;
   private Set<URL>                failures;
   private DOMImplementationLS     domimpl;
-  
+
   public XmlCatalog() {
     this(false);
   }
-  
+
   /**
    * Initialises this catalog.
-   * 
+   *
    * @param lsaware   <code>true</code> <=> Support the LSResourceResolver interface, too.
    */
   public XmlCatalog(boolean lsaware) {
-    
+
     catalogdata = new Hashtable<>();
     systemIds   = new Hashtable<>();
     failures    = new HashSet<>();
     domimpl     = null;
-    
+
     if (lsaware) {
-      
+
       try {
-        
+
         var factory    = DocumentBuilderFactory.newInstance();
         var docbuilder = factory.newDocumentBuilder();
         if (docbuilder.getDOMImplementation() instanceof DOMImplementationLS) {
@@ -61,18 +61,18 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         } else {
           throw new KclException(error_dom_impl_without_ls);
         }
-        
+
       } catch (Exception ex) {
         throw KclException.wrap(ex);
       }
-      
+
     }
-    
+
   }
-  
+
   /**
    * Registers the supplied resource with a specified id.
-   * 
+   *
    * @param id    The ID used for the resource.
    * @param url   The resource that will be identified through the id.
    */
@@ -91,10 +91,10 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
       }
     }
   }
-  
+
   /**
    * Registers a system resource with this catalog.
-   * 
+   *
    * @param systemid   The resource which has to be registered.
    */
   public synchronized void registerSystemID(@NotNull URL systemid) {
@@ -119,12 +119,12 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
       }
     }
   }
-  
+
   /**
    * Delivers the resource content associated with the supplied id.
-   *  
+   *
    * @param publicid   The public id of the resource.
-   * 
+   *
    * @return   The content if it could be loaded.
    */
   public synchronized byte[] loadResource(@NotNull String publicid) {
@@ -133,9 +133,9 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
 
   /**
    * Delivers the resource content associated with the supplied url.
-   * 
+   *
    * @param resource   The location of the system resource.
-   * 
+   *
    * @return   The content if it could be loaded.
    */
   public synchronized byte[] loadResource(@NotNull URL resource) {
@@ -152,13 +152,13 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
       }
     }
   }
-  
+
   /**
    * Loads the data associated with either the supplied public id or the system id if it could be found.
-   * 
+   *
    * @param publicid   The public id used for the resolving.
    * @param systemid   The system id used for the resolving.
-   * 
+   *
    * @return   The loaded data or null.
    */
   private byte[] loadData(String publicid, String systemid) {
@@ -183,7 +183,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     }
     return result;
   }
-  
+
   @Override
   public InputSource resolveEntity(String publicid, String systemid) throws SAXException, IOException {
     var result = loadData(publicid, systemid);
@@ -196,7 +196,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     }
     return null;
   }
-  
+
   @Override
   public LSInput resolveResource(String type, String namespaceuri, String publicid, String systemid, String baseuri) {
     if (domimpl != null) {
@@ -215,12 +215,12 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     }
     return null;
   }
-  
+
   /**
    * Returns the url represented through the supplied system id.
-   * 
+   *
    * @param systemid   The system id used to represent the resource.
-   * 
+   *
    * @return   The url or null in case the system id could not be translated.
    */
   private URL toURL(String systemid) {
@@ -245,32 +245,32 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   public Source resolve(String href, String base) throws TransformerException {
     return null;
   }
-  
+
   @Override
   public boolean test(String candidate) {
     var result = false;
     if (candidate != null) {
       var publicid = new PublicId(candidate);
       // public/system id/url is known
-      result = catalogdata.keySet().contains(publicid); 
+      result = catalogdata.keySet().contains(publicid);
     }
     return result;
   }
-  
+
   private static class PublicId implements Comparable<PublicId> {
-    
+
     private String   id;
     private String   lowerid;
-    
+
     public PublicId(String publicid) {
       id      = publicid;
       lowerid = publicid.toLowerCase();
     }
-    
+
     public String getId() {
       return id;
     }
-    
+
     @Override
     public boolean equals(Object other) {
       if (other instanceof PublicId) {
@@ -278,12 +278,12 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
       }
       return false;
     }
-    
+
     @Override
     public int hashCode() {
       return lowerid.hashCode();
     }
-    
+
     @Override
     public String toString() {
       return id;
@@ -293,7 +293,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
     public int compareTo(PublicId o) {
       return lowerid.compareTo(o.lowerid);
     }
-    
+
   } /* ENDCLASS */
 
 } /* ENDCLASS */

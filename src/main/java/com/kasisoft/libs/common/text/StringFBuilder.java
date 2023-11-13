@@ -2,25 +2,25 @@ package com.kasisoft.libs.common.text;
 
 import com.kasisoft.libs.common.utils.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.stream.*;
 
 import java.io.*;
 
 /**
- * StringF(ormatting)Builder  equivalent which supports formatting. This builder also supports negative indices which 
+ * StringF(ormatting)Builder  equivalent which supports formatting. This builder also supports negative indices which
  * means that the original index is calculated beginning from the end of the buffer.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class StringFBuilder implements Serializable, StringLike<StringFBuilder> {
 
   private static final long serialVersionUID = 1050795857819832439L;
-  
+
   // the original implementation
   private StringBuilder  origin;
-  
+
   /**
    * @see StringBuilder#StringBuilder()
    */
@@ -144,7 +144,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
     origin.append(charray, MiscFunctions.adjustIndex(charray.length, offset, false), length);
     return this;
   }
-  
+
   @Override
   public @NotNull StringFBuilder append(boolean value) {
     origin.append(value);
@@ -305,7 +305,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   public int lastIndexOf(@NotNull String str, int index) {
     return origin.lastIndexOf(str, adjustIndex(index, false));
   }
-  
+
   @Override
   public @NotNull StringFBuilder reverse() {
     origin.reverse();
@@ -316,7 +316,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   public @NotNull String toString() {
     return origin.toString();
   }
-  
+
   private int adjustIndex(int index, boolean isEnd) {
     return MiscFunctions.adjustIndex(origin.length(), index, isEnd);
   }
@@ -325,12 +325,12 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
   public @NotNull IntStream chars() {
     return origin.chars();
   }
-  
+
   @Override
   public @NotNull IntStream codePoints() {
     return origin.codePoints();
   }
-  
+
   @Override
   public int compareTo(@NotNull StringFBuilder another) {
     if (this == another) {
@@ -338,7 +338,7 @@ public class StringFBuilder implements Serializable, StringLike<StringFBuilder> 
     }
     return origin.compareTo(another.origin);
   }
-  
+
   private void writeObject(ObjectOutputStream s) throws IOException {
     s.writeObject(origin);
   }

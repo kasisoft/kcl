@@ -1,12 +1,12 @@
 package com.kasisoft.libs.common;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
 /**
  * Specialisation of the RuntimeException which is commonly used within this library.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class KclException extends RuntimeException {
@@ -16,19 +16,19 @@ public class KclException extends RuntimeException {
   public KclException() {
     super();
   }
-  
+
   public KclException(@NotNull Exception ex) {
     super(ex);
   }
-  
+
   public KclException(String fmt, Object ... args) {
     super(formatString(fmt, args));
   }
-  
+
   public KclException(@NotNull Exception ex, String fmt, Object ... args) {
     super(formatString(fmt, args), ex);
   }
-  
+
   private static String formatString(String fmt, Object ... args) {
     var result = fmt;
     if ((args != null) && (args.length > 0)) {
@@ -36,7 +36,7 @@ public class KclException extends RuntimeException {
     }
     return result;
   }
-  
+
   public static <R> R execute(@NotNull Supplier<R> supplier, String fmt, Object ... args) {
     try {
       return supplier.get();
@@ -44,7 +44,7 @@ public class KclException extends RuntimeException {
       throw KclException.wrap(ex, fmt, args);
     }
   }
-  
+
   public static @NotNull KclException wrap(@NotNull Exception ex) {
     if (ex instanceof KclException) {
       return (KclException) ex;
@@ -71,5 +71,5 @@ public class KclException extends RuntimeException {
     }
     return null;
   }
-  
+
 } /* ENDCLASS */

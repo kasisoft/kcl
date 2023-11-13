@@ -18,7 +18,7 @@ import org.junit.jupiter.api.MethodOrderer.*;
 
 import org.junit.jupiter.api.*;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import java.util.stream.*;
 
@@ -30,12 +30,12 @@ import java.io.*;
 
 /**
  * Tests for the class 'IoFunctions'.
- * 
+ *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @TestMethodOrder(OrderAnnotation.class)
 public class IoFunctionsTest {
-  
+
   private static final TestResources TEST_RESOURCES = TestResources.createTestResources(IoFunctionsTest.class);
 
   private static final String CONTENT_FOR_STREAMS = ""
@@ -68,7 +68,7 @@ public class IoFunctionsTest {
                                                  + "   </complexType>\n"
                                                  + "</schema>\n"
                                                  ;
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_compileFileSystemPattern() {
     return Stream.of(
@@ -79,7 +79,7 @@ public class IoFunctionsTest {
       Arguments.of("dir/*/subdir", "\\Qdir/\\E([^/]+)\\Q/subdir\\E")
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_compileFileSystemPattern")
   @Order(1)
@@ -87,7 +87,7 @@ public class IoFunctionsTest {
     var p = IoFunctions.compileFilesystemPattern(pattern);
     assertThat(p.pattern(), is(regex));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_newOutputStream() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text1.txt");
@@ -99,7 +99,7 @@ public class IoFunctionsTest {
       Arguments.of(IoFunctions.IO_URI,  file3.toUri())
     );
   }
-    
+
   @ParameterizedTest
   @MethodSource("data_newOutputStream")
   @Order(2)
@@ -109,7 +109,7 @@ public class IoFunctionsTest {
       outstream.write(asBytes);
     }
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_newOutputStream")
   @Order(3)
@@ -159,7 +159,7 @@ public class IoFunctionsTest {
     }
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_newWriter__WithEncoding() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text10.txt");
@@ -209,7 +209,7 @@ public class IoFunctionsTest {
       Arguments.of(IoFunctions.IO_URI,  file3.toUri())
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_forOutputStreamDo")
   @Order(8)
@@ -235,7 +235,7 @@ public class IoFunctionsTest {
     var asText = Encoding.UTF8.decode(byteout.toByteArray());
     assertThat(asText, is(CONTENT_FOR_STREAMS));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_forOutputStream() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text22.txt");
@@ -374,7 +374,7 @@ public class IoFunctionsTest {
       Arguments.of(IoFunctions.IO_URI,  file3.toUri())
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_forWriter")
   @Order(18)
@@ -439,7 +439,7 @@ public class IoFunctionsTest {
       Arguments.of(IoFunctions.IO_URI,  file6.toUri(), Encoding.ISO88591)
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_forWriterDo__WithEncoding")
   @Order(22)
@@ -463,7 +463,7 @@ public class IoFunctionsTest {
     });
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_forWriter__WithEncoding() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text52.txt");
@@ -481,7 +481,7 @@ public class IoFunctionsTest {
       Arguments.of(IoFunctions.IO_URI,  file6.toUri(), Encoding.ISO88591)
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_forWriter__WithEncoding")
   @Order(24)
@@ -510,7 +510,7 @@ public class IoFunctionsTest {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
     assertThat(result, is("DUMMY"));
   }
-  
+
   @Order(26)
   @Test
   public void copy__Streams() throws Exception {
@@ -520,7 +520,7 @@ public class IoFunctionsTest {
     IoFunctions.copy(bytein, byteout);
     assertThat(byteout.toByteArray(), is(asBytes));
   }
-  
+
   @Order(27)
   @Test
   public void copy__Streams__WithBlockSizeSmall() throws Exception {
@@ -530,7 +530,7 @@ public class IoFunctionsTest {
     IoFunctions.copy(bytein, byteout, 8);
     assertThat(byteout.toByteArray(), is(asBytes));
   }
-  
+
   @Order(28)
   @Test
   public void copy__Streams__WithBlockSizeLarge() throws Exception {
@@ -540,7 +540,7 @@ public class IoFunctionsTest {
     IoFunctions.copy(bytein, byteout, 16384);
     assertThat(byteout.toByteArray(), is(asBytes));
   }
-  
+
   @Order(29)
   @Test
   public void copy__CharStreams() throws Exception {
@@ -549,7 +549,7 @@ public class IoFunctionsTest {
     IoFunctions.copy(reader, writer);
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
-  
+
   @Order(30)
   @Test
   public void copy__CharStreams__WithBlockSizeSmall() throws Exception {
@@ -558,7 +558,7 @@ public class IoFunctionsTest {
     IoFunctions.copy(reader, writer, 8);
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
-  
+
   @Order(31)
   @Test
   public void copy__CharStreams__WithBlockSizeLarge() throws Exception {
@@ -587,7 +587,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadBytes(source, 39);
     assertThat(loaded, is(expected));
   }
-    
+
   @ParameterizedTest
   @MethodSource("data_loadBytes")
   @Order(33)
@@ -597,7 +597,7 @@ public class IoFunctionsTest {
     assertThat(loaded, is(expected));
   }
 
-  
+
   @SuppressWarnings({ "deprecation", "exports" })
   public static Stream<Arguments> data_loadChars() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
@@ -608,7 +608,7 @@ public class IoFunctionsTest {
       Arguments.of(IoFunctions.IO_URL,  httpXsd.toFile().toURL())
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadChars")
   @Order(34)
@@ -617,7 +617,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadChars(source, 39);
     assertThat(loaded, is(expected));
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadChars")
   @Order(35)
@@ -626,7 +626,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadChars(source, 6, 13);
     assertThat(loaded, is(expected));
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadChars")
   @Order(36)
@@ -635,7 +635,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadChars(source, Encoding.ISO88591, 39);
     assertThat(loaded, is(expected));
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadChars")
   @Order(37)
@@ -644,7 +644,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadChars(source, Encoding.ISO88591, 6, 13);
     assertThat(loaded, is(expected));
   }
-  
+
   @SuppressWarnings({ "deprecation", "exports" })
   public static Stream<Arguments> data_loadAllBytes() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
@@ -664,7 +664,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadAllBytes(source);
     assertThat(loaded, is(expected));
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadAllBytes")
   @Order(39)
@@ -673,7 +673,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadAllBytes(source, 40);
     assertThat(loaded, is(expected));
   }
-  
+
   @SuppressWarnings({ "deprecation", "exports" })
   public static Stream<Arguments> data_loadAllChars() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
@@ -693,7 +693,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadAllChars(source);
     assertThat(loaded, is(expected));
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadAllChars")
   @Order(41)
@@ -702,7 +702,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadAllChars(source, 40);
     assertThat(loaded, is(expected));
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadAllChars")
   @Order(42)
@@ -711,7 +711,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadAllChars(source, Encoding.ISO88591);
     assertThat(loaded, is(expected));
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_loadAllChars")
   @Order(43)
@@ -720,7 +720,7 @@ public class IoFunctionsTest {
     var loaded   = ioSupport.loadAllChars(source, Encoding.ISO88591, 40);
     assertThat(loaded, is(expected));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_saveBytes() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text64.txt");
@@ -743,7 +743,7 @@ public class IoFunctionsTest {
     assertNotNull(loaded);
     assertThat(loaded, is(toSave));
   }
-  
+
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_saveBytes__WithOffset__WithSize() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text91.txt");
@@ -812,7 +812,7 @@ public class IoFunctionsTest {
       Arguments.of(IoFunctions.IO_URI,  file3.toUri())
     );
   }
-  
+
   @ParameterizedTest
   @MethodSource("data_saveChars__WithEncoding__WithOffset__WithSize")
   @Order(48)
@@ -824,7 +824,7 @@ public class IoFunctionsTest {
     assertThat(loaded, is(Arrays.copyOfRange(toSave, 20, 20 + 100)));
   }
 
-  
+
   @SuppressWarnings({ "deprecation", "exports" })
   public static Stream<Arguments> data_readText() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
@@ -881,7 +881,7 @@ public class IoFunctionsTest {
     var read = ioSupport.readText(destination, Encoding.ISO88591);
     assertThat(read, is(CONTENT_HTTP_XSD));
   }
-  
+
   @Test
   @Order(53)
   public void gzip() throws Exception {
@@ -892,7 +892,7 @@ public class IoFunctionsTest {
     assertNotNull(gzipped);
     assertTrue(Files.isRegularFile(gzipped));
   }
-  
+
   @Test
   @Order(54)
   public void ungzip() throws Exception {
@@ -903,7 +903,7 @@ public class IoFunctionsTest {
     assertNotNull(ungzipped);
     assertThat(IoFunctions.IO_PATH.loadAllBytes(file1), is(IoFunctions.IO_PATH.loadAllBytes(ungzipped)));
   }
-  
+
   @Test
   @Order(55)
   public void gzip__WithDestination() throws Exception {
@@ -929,7 +929,7 @@ public class IoFunctionsTest {
     assertTrue(Files.isRegularFile(ungzipped));
     assertThat(IoFunctions.IO_PATH.loadAllBytes(httpXsd), is(IoFunctions.IO_PATH.loadAllBytes(file2)));
   }
-  
+
   @Test
   @Order(57)
   public void gzip__Inline() throws Exception {
@@ -957,7 +957,7 @@ public class IoFunctionsTest {
   @Test
   @Order(59)
   public void findExistingPath() {
-    
+
     var file1       = TEST_RESOURCES.getResource("folder1/folder2/folder3/myfile.txt");
     var result1     = IoFunctions.findExistingPath(file1);
     assertTrue(result1.isPresent());
@@ -973,7 +973,7 @@ public class IoFunctionsTest {
     assertFalse(result3.isPresent());
 
   }
-  
+
   @Test
   @Order(60)
   public void copyFile() {
@@ -997,17 +997,17 @@ public class IoFunctionsTest {
   @Test
   @Order(62)
   public void moveFile() {
-    
+
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
     var file1   = TEST_RESOURCES.getTempPath("text83.txt");
     var file2   = TEST_RESOURCES.getTempPath("text84.txt");
     IoFunctions.copyFile(httpXsd, file1);
-    
+
     IoFunctions.moveFile(file1, file2);
-    
+
     assertFalse(Files.isRegularFile(file1));
     assertTrue(Files.isRegularFile(file2));
-    
+
     assertThat(IoFunctions.IO_PATH.loadAllBytes(file2), is(IoFunctions.IO_PATH.loadAllBytes(httpXsd)));
   }
 
@@ -1024,19 +1024,19 @@ public class IoFunctionsTest {
   @Test
   @Order(64)
   public void mkDirs() {
-    
+
     var dir1 = TEST_RESOURCES.getTempPath("text87");
     assertFalse(Files.isDirectory(dir1));
     IoFunctions.mkDirs(dir1);
     assertTrue(Files.isDirectory(dir1));
-    
+
     var dir2 = TEST_RESOURCES.getTempPath("text88/folder1/folder2/folder3");
     assertFalse(Files.isDirectory(dir2));
     IoFunctions.mkDirs(dir2);
     assertTrue(Files.isDirectory(dir2));
-    
+
   }
-  
+
   @Order(65)
   @Test
   public void listPathes() {
@@ -1069,7 +1069,7 @@ public class IoFunctionsTest {
     );
     assertThat(files, is(expected));
   }
-  
+
   @Test
   @Order(66)
   public void listZipFile() {
@@ -1140,7 +1140,7 @@ public class IoFunctionsTest {
     IoFunctions.zip(zipFile, dir, null);
     assertTrue(Files.isRegularFile(zipFile));
   }
-  
+
   @Test
   @Order(69)
   public void unzip() {
@@ -1149,23 +1149,23 @@ public class IoFunctionsTest {
     var zipFile  = TEST_RESOURCES.getTempPath("zipped89.zip");
     var unpacked = TEST_RESOURCES.getTempPath("dir90");
     IoFunctions.unzip(zipFile, unpacked);
-    
+
     var filesFromOrigin    = IoFunctions.listPathes(dir);
     var filesFromUnpacked  = IoFunctions.listPathes(unpacked);
     assertThat(filesFromUnpacked, is(filesFromOrigin));
-    
+
   }
-  
+
   @Test
   @Order(70)
   public void locateDirectory() throws Exception {
-    
+
     Path dir1 = IoFunctions.locateDirectory(Iso3166Test.class);
     assertNotNull(dir1);
-    
+
     Path classFile = dir1.resolve("com/kasisoft/libs/common/constants/Iso3166Test.class");
     assertTrue(Files.isRegularFile(classFile));
-    
+
   }
-  
+
 } /* ENDCLASS */
