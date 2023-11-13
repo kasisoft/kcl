@@ -14,7 +14,6 @@ import java.util.function.*;
 
 import java.util.*;
 
-import java.security.*;
 import java.time.*;
 
 /**
@@ -200,7 +199,7 @@ public class MiscFunctions {
   public static void joinThread(Thread thread) {
     if (thread != null) {
       try {
-        thread.join();
+        thread.join(30_000);
       } catch (InterruptedException ex) {
       }
     }
@@ -350,62 +349,5 @@ public class MiscFunctions {
       return new ExtendedList<>(source);
     }
   }
-
-  /**
-   * Executes the supplied {@link KRunnable} instance while making sure that System.exit calls won't stop the VM.
-   *
-   * @param runnable   The {@link KRunnable} instance which has to be executed.
-   *
-   * @return   The exitcode which had been raised.
-   */
-  public static int executeWithoutExit(@NotNull KRunnable runnable) {
-    var oldsecuritymanager = System.getSecurityManager();
-    try {
-      var sm = new CustomSecurityManager();
-      System.setSecurityManager(sm);
-      Thread thread = new Thread(() -> Functions.run(runnable));
-      thread.setUncaughtExceptionHandler(sm);
-      thread.start();
-      joinThread(thread);
-      return sm.exitcode;
-    } finally {
-      System.setSecurityManager(oldsecuritymanager);
-    }
-  }
-
-  /**
-   * This exception indicates that a System.exit call has been intercepted.
-   */
-  private static class ExitTrappedException extends SecurityException {
-
-    private static final long serialVersionUID = -3937579776034175019L;
-
-  } /* ENDCLASS */
-
-  /**
-   * SecurityManager implementation which disables System.exit calls.
-   */
-  private static class CustomSecurityManager extends SecurityManager implements Thread.UncaughtExceptionHandler {
-
-    private int   exitcode;
-
-    @Override
-    public void checkExit(int exitcode) {
-      this.exitcode = exitcode;
-      throw new ExitTrappedException();
-    }
-
-    @Override
-    public void checkPermission(Permission permission) {
-    }
-
-    @Override
-    public void uncaughtException(Thread t, Throwable e) {
-      if (e instanceof RuntimeException) {
-        throw (RuntimeException) e;
-      }
-    }
-
-  } /* ENDCLASS */
 
 } /* ENDCLASS */
