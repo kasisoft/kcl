@@ -7,7 +7,7 @@ import java.util.function.*;
 /**
  * Specialisation of the RuntimeException which is commonly used within this library.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class KclException extends RuntimeException {
 
@@ -21,23 +21,15 @@ public class KclException extends RuntimeException {
         super(ex);
     }
 
-    public KclException(String fmt, Object ... args) {
-        super(formatString(fmt, args));
+    public KclException(@NotBlank String fmt, Object ... args) {
+        super(fmt.formatted(args));
     }
 
-    public KclException(@NotNull Exception ex, String fmt, Object ... args) {
-        super(formatString(fmt, args), ex);
+    public KclException(@NotNull Exception ex, @NotBlank String fmt, Object ... args) {
+        super(fmt.formatted(args), ex);
     }
 
-    private static String formatString(String fmt, Object ... args) {
-        var result = fmt;
-        if ((args != null) && (args.length > 0)) {
-            result = fmt.formatted(args);
-        }
-        return result;
-    }
-
-    public static <R> R execute(@NotNull Supplier<R> supplier, String fmt, Object ... args) {
+    public static <R> R execute(@NotNull Supplier<R> supplier, @NotBlank String fmt, Object ... args) {
         try {
             return supplier.get();
         } catch (Exception ex) {
@@ -48,17 +40,15 @@ public class KclException extends RuntimeException {
     public static @NotNull KclException wrap(@NotNull Exception ex) {
         if (ex instanceof KclException kex) {
             return kex;
-        } else {
-            return new KclException(ex);
         }
+        return new KclException(ex);
     }
 
-    public static @NotNull KclException wrap(@NotNull Exception ex, String fmt, Object ... args) {
+    public static @NotNull KclException wrap(@NotNull Exception ex, @NotBlank String fmt, Object ... args) {
         if (ex instanceof KclException kex) {
             return kex;
-        } else {
-            return new KclException(ex, fmt, args);
         }
+        return new KclException(ex, fmt, args);
     }
 
     public static KclException unwrap(Exception ex) {

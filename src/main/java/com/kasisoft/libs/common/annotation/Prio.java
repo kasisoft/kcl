@@ -7,8 +7,8 @@ import java.lang.annotation.*;
 
 /**
  * This annotation allows to provide some ordering to class types.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @Retention(RUNTIME)
 @Target({TYPE})

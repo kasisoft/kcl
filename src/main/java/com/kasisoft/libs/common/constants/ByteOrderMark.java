@@ -9,22 +9,24 @@ import java.util.*;
 /**
  * Constants the different byte order marks.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public enum ByteOrderMark {
 
-    UTF8(new byte[] {(byte) 0xef, (byte) 0xbb, (byte) 0xbf}), UTF16BE(new byte[] {(byte) 0xfe,
-        (byte) 0xff}), UTF16LE(new byte[] {(byte) 0xff, (byte) 0xfe}), UTF32BE(new byte[] {(byte) 0x00, (byte) 0x00,
-            (byte) 0xfe, (byte) 0xff}), UTF32LE(new byte[] {(byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00});
+    UTF8(new byte[] {(byte) 0xef, (byte) 0xbb, (byte) 0xbf}),
+    UTF16BE(new byte[] {(byte) 0xfe, (byte) 0xff}),
+    UTF16LE(new byte[] {(byte) 0xff, (byte) 0xfe}),
+    UTF32BE(new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0xfe, (byte) 0xff}),
+    UTF32LE(new byte[] {(byte) 0xff, (byte) 0xfe, (byte) 0x00, (byte) 0x00});
 
-    private byte[] BOM;
+    private byte[] bom;
 
     ByteOrderMark(byte[] bom) {
-        BOM = bom;
+        this.bom = bom;
     }
 
     public byte[] getBOM() {
-        return BOM;
+        return bom;
     }
 
     /**
@@ -48,7 +50,7 @@ public enum ByteOrderMark {
      * @return <code>true</code> <=> The supplied data starts with this BOM.
      */
     public boolean startsWith(@NotNull byte[] data, int offset) {
-        return PrimitiveFunctions.compare(data, BOM);
+        return PrimitiveFunctions.compare(data, bom);
     }
 
     /**

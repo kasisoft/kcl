@@ -4,8 +4,8 @@ import java.io.*;
 
 /**
  * Collection of constants used to indicate empty elements.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Empty {
 

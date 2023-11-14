@@ -22,7 +22,7 @@ The build uses Maven
 
 ## Requirements
 
-* Java 11
+* Java 21
 
 
 ## Maven

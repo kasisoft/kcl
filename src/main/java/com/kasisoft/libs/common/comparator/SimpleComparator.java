@@ -7,9 +7,10 @@ import java.util.function.*;
 import java.util.*;
 
 /**
- * Abstract comparator.
+ * Provides a Comparator that compares several fields of the compared instance
+ * in a certain order.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class SimpleComparator<T> implements Comparator<T> {
@@ -26,8 +27,10 @@ public class SimpleComparator<T> implements Comparator<T> {
         var idx    = 0;
         while ((result == 0) && (idx < getters.length)) {
             var getter = getters[idx++];
-            result = Comparators.<Comparable> nullSafeCompareTo(o1 != null ? getter.apply(o1)
-                : null, o2 != null ? getter.apply(o2) : null);
+            result = Comparators.<Comparable> nullSafeCompareTo(
+                o1 != null ? getter.apply(o1) : null,
+                o2 != null ? getter.apply(o2) : null
+            );
         }
         return result;
     }

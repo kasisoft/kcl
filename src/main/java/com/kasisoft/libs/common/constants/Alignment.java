@@ -9,16 +9,19 @@ import jakarta.validation.constraints.*;
 /**
  * Values to specify an alignment.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public enum Alignment {
 
-    Left(SwingConstants.LEFT, TitledBorder.LEFT, true), Center(SwingConstants.CENTER, TitledBorder.CENTER, true), Right(SwingConstants.RIGHT, TitledBorder.RIGHT, true), Top(SwingConstants.TOP, TitledBorder.LEFT, false), Middle(SwingConstants.CENTER, TitledBorder.LEFT, false), Bottom(SwingConstants.BOTTOM, TitledBorder.LEFT, false);
+    Left(SwingConstants.LEFT, TitledBorder.LEFT, true),
+    Center(SwingConstants.CENTER, TitledBorder.CENTER, true),
+    Right(SwingConstants.RIGHT, TitledBorder.RIGHT, true),
+    Top(SwingConstants.TOP, TitledBorder.LEFT, false),
+    Middle(SwingConstants.CENTER, TitledBorder.LEFT, false),
+    Bottom(SwingConstants.BOTTOM, TitledBorder.LEFT, false);
 
     private int     alignment;
-
     private int     titledBorderX;
-
     private boolean horizontal;
 
     Alignment(int alignment, int titledBorderX, boolean horizontal) {
