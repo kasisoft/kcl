@@ -7,8 +7,9 @@ import jakarta.validation.constraints.*;
  */
 public interface HasGeoLocation {
 
-  @NotNull GeoLocation getGeoLocation();
+    @NotNull
+    GeoLocation getGeoLocation();
 
-  void setGeoLocation(@NotNull GeoLocation geoLocation);
+    void setGeoLocation(@NotNull GeoLocation geoLocation);
 
 } /* ENDINTERFACE */

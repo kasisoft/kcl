@@ -17,53 +17,53 @@ import java.net.*;
  */
 public class XmlCatalogTest {
 
-  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(XmlCatalogTest.class);
+    private static final TestResources TEST_RESOURCES = TestResources.createTestResources(XmlCatalogTest.class);
 
-  @Test
-  public void loadResources() throws MalformedURLException {
+    @Test
+    public void loadResources() throws MalformedURLException {
 
-    var httpxsd      = TEST_RESOURCES.getResource("http.xsd");
-    var xmlxsd       = TEST_RESOURCES.getResource("xml.xsd");
+        var httpxsd      = TEST_RESOURCES.getResource("http.xsd");
+        var xmlxsd       = TEST_RESOURCES.getResource("xml.xsd");
 
-    var catalog1     = new XmlCatalog();
-    var xmlschemadtd = getClass().getClassLoader().getResource("dtds/XMLSchema.dtd");
-    assertNotNull(xmlschemadtd);
-    catalog1.registerPublicID("-//W3C//DTD XMLSCHEMA 200102//EN", xmlschemadtd);
+        var catalog1     = new XmlCatalog();
+        var xmlschemadtd = getClass().getClassLoader().getResource("dtds/XMLSchema.dtd");
+        assertNotNull(xmlschemadtd);
+        catalog1.registerPublicID("-//W3C//DTD XMLSCHEMA 200102//EN", xmlschemadtd);
 
-    var content1     = catalog1.loadResource("-//W3C//DTD XMLSCHEMA 200102//EN");
-    assertNotNull(content1);
+        var content1 = catalog1.loadResource("-//W3C//DTD XMLSCHEMA 200102//EN");
+        assertNotNull(content1);
 
-    var catalog2     = new XmlCatalog();
-    catalog2.registerSystemID(xmlschemadtd);
+        var catalog2 = new XmlCatalog();
+        catalog2.registerSystemID(xmlschemadtd);
 
-    var content2     = catalog2.loadResource(xmlschemadtd);
-    assertNotNull(content2);
+        var content2 = catalog2.loadResource(xmlschemadtd);
+        assertNotNull(content2);
 
-    var catalog3     = new XmlCatalog();
-    catalog3.registerSystemID(httpxsd.toUri().toURL());
-    catalog3.registerSystemID(xmlxsd.toUri().toURL());
+        var catalog3 = new XmlCatalog();
+        catalog3.registerSystemID(httpxsd.toUri().toURL());
+        catalog3.registerSystemID(xmlxsd.toUri().toURL());
 
-    var content3     = catalog3.loadResource(httpxsd.toUri().toURL());
-    assertNotNull(content3);
+        var content3 = catalog3.loadResource(httpxsd.toUri().toURL());
+        assertNotNull(content3);
 
-    var content4     = catalog3.loadResource(xmlxsd.toUri().toURL());
-    assertNotNull(content4);
+        var content4 = catalog3.loadResource(xmlxsd.toUri().toURL());
+        assertNotNull(content4);
 
-  }
+    }
 
-  @Test
-  public void test() throws MalformedURLException {
+    @Test
+    public void test() throws MalformedURLException {
 
-    var httpxsd      = TEST_RESOURCES.getResource("http.xsd");
+        var httpxsd      = TEST_RESOURCES.getResource("http.xsd");
 
-    var catalog1     = new XmlCatalog();
-    var xmlschemadtd = getClass().getClassLoader().getResource("dtds/XMLSchema.dtd");
-    assertNotNull(xmlschemadtd);
-    catalog1.registerSystemID(xmlschemadtd);
+        var catalog1     = new XmlCatalog();
+        var xmlschemadtd = getClass().getClassLoader().getResource("dtds/XMLSchema.dtd");
+        assertNotNull(xmlschemadtd);
+        catalog1.registerSystemID(xmlschemadtd);
 
-    assertTrue  (catalog1.test(xmlschemadtd.toExternalForm()));
-    assertFalse (catalog1.test(httpxsd.toUri().toURL().toExternalForm()));
+        assertTrue(catalog1.test(xmlschemadtd.toExternalForm()));
+        assertFalse(catalog1.test(httpxsd.toUri().toURL().toExternalForm()));
 
-  }
+    }
 
 } /* ENDCLASS */

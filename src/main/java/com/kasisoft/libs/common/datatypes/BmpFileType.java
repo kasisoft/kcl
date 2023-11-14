@@ -11,10 +11,10 @@ import java.util.*;
  */
 public class BmpFileType extends AbstractFileType {
 
-  private static final byte[] MAGIC = "BM".getBytes(); 
-  
-  public BmpFileType() {
-    super(4, MimeType.Bitmap, 0, Arrays.asList(MAGIC));
-  }
-  
+    private static final byte[] MAGIC = "BM".getBytes();
+
+    public BmpFileType() {
+        super(4, MimeType.Bitmap, 0, Arrays.asList(MAGIC));
+    }
+
 } /* ENDCLASS */

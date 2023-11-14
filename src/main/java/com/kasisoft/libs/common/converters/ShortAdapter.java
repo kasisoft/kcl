@@ -9,14 +9,14 @@ import jakarta.validation.constraints.*;
  */
 public class ShortAdapter extends AbstractConverter<String, Short> {
 
-  @Override
-  public String encodeImpl(@NotNull Short v) {
-    return Short.toString(v);
-  }
+    @Override
+    public String encodeImpl(@NotNull Short v) {
+        return Short.toString(v);
+    }
 
-  @Override
-  public Short decodeImpl(@NotNull String v) {
-    return Short.valueOf(v);
-  }
+    @Override
+    public Short decodeImpl(@NotNull String v) {
+        return Short.valueOf(v);
+    }
 
 } /* ENDCLASS */

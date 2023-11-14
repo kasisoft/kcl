@@ -15,22 +15,22 @@ import java.net.*;
  */
 public class URIAdapter extends AbstractConverter<String, URI> {
 
-  @Override
-  public String encodeImpl(@NotNull URI v) {
-    try {
-      return v.toURL().toExternalForm();
-    } catch (MalformedURLException ex) {
-      throw new KclException(error_invalid_uri, v);
+    @Override
+    public String encodeImpl(@NotNull URI v) {
+        try {
+            return v.toURL().toExternalForm();
+        } catch (MalformedURLException ex) {
+            throw new KclException(error_invalid_uri, v);
+        }
     }
-  }
 
-  @Override
-  public URI decodeImpl(@NotNull String v) {
-    try {
-      return new URI(v);
-    } catch (URISyntaxException ex) {
-      throw new KclException(error_invalid_uri, v);
+    @Override
+    public URI decodeImpl(@NotNull String v) {
+        try {
+            return new URI(v);
+        } catch (URISyntaxException ex) {
+            throw new KclException(error_invalid_uri, v);
+        }
     }
-  }
 
 } /* ENDCLASS */

@@ -9,16 +9,18 @@ import java.util.*;
  */
 public interface HasFirstAndLast<F, L> {
 
-  @NotNull Optional<F> findFirst();
+    @NotNull
+    Optional<F> findFirst();
 
-  @NotNull Optional<L> findLast();
+    @NotNull
+    Optional<L> findLast();
 
-  default F getFirst() {
-    return findFirst().orElse(null);
-  }
+    default F getFirst() {
+        return findFirst().orElse(null);
+    }
 
-  default L getLast() {
-    return findLast().orElse(null);
-  }
+    default L getLast() {
+        return findLast().orElse(null);
+    }
 
 } /* ENDINTERFACE */

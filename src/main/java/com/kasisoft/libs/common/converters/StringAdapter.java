@@ -9,14 +9,14 @@ import jakarta.validation.constraints.*;
  */
 public class StringAdapter extends AbstractConverter<String, String> {
 
-  @Override
-  public String encodeImpl(@NotNull String v) {
-    return v;
-  }
+    @Override
+    public String encodeImpl(@NotNull String v) {
+        return v;
+    }
 
-  @Override
-  public String decodeImpl(@NotNull String v) {
-    return v;
-  }
+    @Override
+    public String decodeImpl(@NotNull String v) {
+        return v;
+    }
 
 } /* ENDCLASS */

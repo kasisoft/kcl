@@ -11,27 +11,27 @@ import com.kasisoft.libs.common.graphics.*;
  */
 public class PictureFormatTest {
 
-  @Test
-  public void nullTestsAsFalse() {
-    for (PictureFormat fmt : PictureFormat.values()) {
-      assertFalse(fmt.test(null));
+    @Test
+    public void nullTestsAsFalse() {
+        for (PictureFormat fmt : PictureFormat.values()) {
+            assertFalse(fmt.test(null));
+        }
     }
-  }
 
-  @Test
-  public void testForFilename() {
-    for (PictureFormat fmt : PictureFormat.values()) {
-      var filename = "example.%s".formatted(fmt.getSuffix());
-      assertTrue(fmt.test(filename));
+    @Test
+    public void testForFilename() {
+        for (PictureFormat fmt : PictureFormat.values()) {
+            var filename = "example.%s".formatted(fmt.getSuffix());
+            assertTrue(fmt.test(filename));
+        }
     }
-  }
 
-  @Test
-  public void fileNamesWithoutSuffix() {
-    for (PictureFormat fmt : PictureFormat.values()) {
-      var filename = "example_%s".formatted(fmt.getSuffix());
-      assertFalse(fmt.test(filename));
+    @Test
+    public void fileNamesWithoutSuffix() {
+        for (PictureFormat fmt : PictureFormat.values()) {
+            var filename = "example_%s".formatted(fmt.getSuffix());
+            assertFalse(fmt.test(filename));
+        }
     }
-  }
 
 } /* ENDCLASS */

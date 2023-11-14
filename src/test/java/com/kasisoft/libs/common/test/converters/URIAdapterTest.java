@@ -19,32 +19,26 @@ import java.net.*;
  */
 public class URIAdapterTest {
 
-  private URIAdapter adapter = new URIAdapter();
+    private URIAdapter adapter = new URIAdapter();
 
-  public static Stream<Arguments> data_decode() throws Exception {
-    return Stream.of(
-      Arguments.of(null                      , null                               ),
-      Arguments.of("http://www.amiga-news.de", new URI("http://www.amiga-news.de"))
-    );
-  }
+    public static Stream<Arguments> data_decode() throws Exception {
+        return Stream.of(Arguments.of(null, null), Arguments.of("http://www.amiga-news.de", new URI("http://www.amiga-news.de")));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_decode")
-  public void decode(String value, URI expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_decode")
+    public void decode(String value, URI expected) throws Exception {
+        assertThat(adapter.decode(value), is(expected));
+    }
 
-  public static Stream<Arguments> data_encode() throws Exception {
-    return Stream.of(
-      Arguments.of(null                               , null                      ),
-      Arguments.of(new URI("http://www.amiga-news.de"), "http://www.amiga-news.de")
-    );
-  }
+    public static Stream<Arguments> data_encode() throws Exception {
+        return Stream.of(Arguments.of(null, null), Arguments.of(new URI("http://www.amiga-news.de"), "http://www.amiga-news.de"));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_encode")
-  public void encode(URI value, String expected) throws Exception {
-    assertThat(adapter.encode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_encode")
+    public void encode(URI value, String expected) throws Exception {
+        assertThat(adapter.encode(value), is(expected));
+    }
 
 } /* ENDCLASS */

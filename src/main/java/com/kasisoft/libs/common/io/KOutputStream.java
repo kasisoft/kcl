@@ -11,35 +11,35 @@ import java.io.*;
  */
 public class KOutputStream extends OutputStream {
 
-  private OutputStream   impl;
-  
-  public KOutputStream(OutputStream impl) {
-    this.impl = impl;
-  }
-  
-  @Override
-  public void write(int b) {
-    PrimitiveFunctions.acceptInt(impl::write, b);
-  }
+    private OutputStream impl;
 
-  @Override
-  public void write(byte b[]) {
-    Functions.accept(impl::write, b);
-  }
+    public KOutputStream(OutputStream impl) {
+        this.impl = impl;
+    }
 
-  @Override
-  public void write(byte b[], int off, int len) {
-    Functions.run(() -> impl.write(b, off, len));
-  }
+    @Override
+    public void write(int b) {
+        PrimitiveFunctions.acceptInt(impl::write, b);
+    }
 
-  @Override
-  public void flush() {
-    Functions.run(impl::flush);
-  }
+    @Override
+    public void write(byte b[]) {
+        Functions.accept(impl::write, b);
+    }
 
-  @Override
-  public void close() {
-    Functions.run(impl::close);
-  }
+    @Override
+    public void write(byte b[], int off, int len) {
+        Functions.run(() -> impl.write(b, off, len));
+    }
+
+    @Override
+    public void flush() {
+        Functions.run(impl::flush);
+    }
+
+    @Override
+    public void close() {
+        Functions.run(impl::close);
+    }
 
 } /* ENDCLASS */

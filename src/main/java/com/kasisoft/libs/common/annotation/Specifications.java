@@ -9,11 +9,11 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
 public @interface Specifications {
 
-  /**
-   * Returns a list of {@link Specification} elements.
-   * 
-   * @return   A list of {@link Specification} elements.
-   */
-  Specification[] value();
-  
+    /**
+     * Returns a list of {@link Specification} elements.
+     * 
+     * @return A list of {@link Specification} elements.
+     */
+    Specification[] value();
+
 } /* ENDANNOTATION */

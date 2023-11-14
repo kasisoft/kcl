@@ -12,20 +12,22 @@ import org.junit.jupiter.api.*;
  */
 public class KRunnableTest {
 
-  private KRunnable runnable = () -> { throw new RuntimeException("error"); };
+    private KRunnable runnable = () -> {
+        throw new RuntimeException("error");
+    };
 
-  @Test
-  public void run() throws Exception {
-    assertThrows(RuntimeException.class, () -> {
-      runnable.run();
-    });
-  }
+    @Test
+    public void run() throws Exception {
+        assertThrows(RuntimeException.class, () -> {
+            runnable.run();
+        });
+    }
 
-  @Test
-  public void protect() {
-    assertThrows(KclException.class, () -> {
-      runnable.protect().run();
-    });
-  }
+    @Test
+    public void protect() {
+        assertThrows(KclException.class, () -> {
+            runnable.protect().run();
+        });
+    }
 
 } /* ENDCLASS */

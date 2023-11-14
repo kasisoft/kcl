@@ -17,14 +17,14 @@ import java.io.*;
  */
 public class URLIoSupport implements IoSupport<URL> {
 
-  @Override
-  public InputStream newInputStreamImpl(@NotNull URL source) throws Exception {
-    return source.openStream();
-  }
+    @Override
+    public InputStream newInputStreamImpl(@NotNull URL source) throws Exception {
+        return source.openStream();
+    }
 
-  @Override
-  public OutputStream newOutputStreamImpl(@NotNull URL destination) throws Exception {
-    throw new KclException(error_no_write_support_for_urls, destination);
-  }
+    @Override
+    public OutputStream newOutputStreamImpl(@NotNull URL destination) throws Exception {
+        throw new KclException(error_no_write_support_for_urls, destination);
+    }
 
 } /* ENDCLASS */

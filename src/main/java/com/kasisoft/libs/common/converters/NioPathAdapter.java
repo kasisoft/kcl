@@ -11,14 +11,14 @@ import java.nio.file.*;
  */
 public class NioPathAdapter extends AbstractConverter<String, Path> {
 
-  @Override
-  public String encodeImpl(@NotNull Path v) {
-    return v.normalize().toString().replace('\\', '/');
-  }
+    @Override
+    public String encodeImpl(@NotNull Path v) {
+        return v.normalize().toString().replace('\\', '/');
+    }
 
-  @Override
-  public Path decodeImpl(@NotNull String v) {
-    return Paths.get(v.replace('\\', '/')).normalize();
-  }
+    @Override
+    public Path decodeImpl(@NotNull String v) {
+        return Paths.get(v.replace('\\', '/')).normalize();
+    }
 
 } /* ENDCLASS */

@@ -11,10 +11,10 @@ import java.util.*;
  */
 public class PngFileType extends AbstractFileType {
 
-  private static final byte[] MAGIC = "PNG".getBytes(); 
-  
-  public PngFileType() {
-    super(4, MimeType.Png, 1, Arrays.asList(MAGIC));
-  }
-  
+    private static final byte[] MAGIC = "PNG".getBytes();
+
+    public PngFileType() {
+        super(4, MimeType.Png, 1, Arrays.asList(MAGIC));
+    }
+
 } /* ENDCLASS */

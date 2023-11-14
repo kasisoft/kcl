@@ -13,14 +13,14 @@ import java.io.*;
  */
 public class URIIoSupport implements IoSupport<URI> {
 
-  @Override
-  public InputStream newInputStreamImpl(URI source) throws Exception {
-    return Files.newInputStream(Paths.get(source));
-  }
-  
-  @Override
-  public OutputStream newOutputStreamImpl(URI destination) throws Exception {
-    return Files.newOutputStream(Paths.get(destination));
-  }
+    @Override
+    public InputStream newInputStreamImpl(URI source) throws Exception {
+        return Files.newInputStream(Paths.get(source));
+    }
+
+    @Override
+    public OutputStream newOutputStreamImpl(URI destination) throws Exception {
+        return Files.newOutputStream(Paths.get(destination));
+    }
 
 } /* ENDCLASS */

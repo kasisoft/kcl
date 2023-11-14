@@ -11,10 +11,10 @@ import java.util.*;
  */
 public class ZipFileType extends AbstractFileType {
 
-  private static final byte[] MAGIC = new byte[] {'P', 'K', 3, 4}; 
-  
-  public ZipFileType() {
-    super(4, MimeType.Zip, 0, Arrays.asList(MAGIC));
-  }
-  
+    private static final byte[] MAGIC = new byte[] {'P', 'K', 3, 4};
+
+    public ZipFileType() {
+        super(4, MimeType.Zip, 0, Arrays.asList(MAGIC));
+    }
+
 } /* ENDCLASS */

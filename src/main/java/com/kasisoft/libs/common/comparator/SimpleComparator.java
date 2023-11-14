@@ -11,27 +11,25 @@ import java.util.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class SimpleComparator<T> implements Comparator<T> {
 
-  private Function<T, ? extends Comparable<?>>[]    getters;
+    private Function<T, ? extends Comparable<?>>[] getters;
 
-  public SimpleComparator(@NotNull Function<T, ? extends Comparable<?>> ... getters) {
-    this.getters = getters;
-  }
-
-  @Override
-  public int compare(T o1, T o2) {
-    var result = 0;
-    var idx    = 0;
-    while ((result == 0) && (idx < getters.length)) {
-      var getter = getters[idx++];
-      result = Comparators.<Comparable>nullSafeCompareTo(
-        o1 != null ? getter.apply(o1) : null,
-        o2 != null ? getter.apply(o2) : null
-      );
+    public SimpleComparator(@NotNull Function<T, ? extends Comparable<?>> ... getters) {
+        this.getters = getters;
     }
-    return result;
-  }
+
+    @Override
+    public int compare(T o1, T o2) {
+        var result = 0;
+        var idx    = 0;
+        while ((result == 0) && (idx < getters.length)) {
+            var getter = getters[idx++];
+            result = Comparators.<Comparable> nullSafeCompareTo(o1 != null ? getter.apply(o1)
+                : null, o2 != null ? getter.apply(o2) : null);
+        }
+        return result;
+    }
 
 } /* ENDCLASS */

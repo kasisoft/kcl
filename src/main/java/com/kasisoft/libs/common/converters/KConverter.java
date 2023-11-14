@@ -5,8 +5,8 @@ package com.kasisoft.libs.common.converters;
  */
 public interface KConverter<F, T> {
 
-  T decode(F encoded);
-  
-  F encode(T decoded);
-  
+    T decode(F encoded);
+
+    F encode(T decoded);
+
 } /* ENDINTERFACE */

@@ -14,45 +14,47 @@ import java.util.regex.Pattern;
  */
 public class BooleanArrayAdapter extends AbstractConverter<String, boolean[]> {
 
-  private char              delimiter = ',';
-  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  private BooleanAdapter    converter = new BooleanAdapter();
+    private char           delimiter = ',';
 
-  public @NotNull BooleanArrayAdapter withDelimiter(@NotNull char delimiter) {
-    if (this.delimiter != delimiter) {
-      this.delimiter = delimiter;
-      this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-    }
-    return this;
-  }
+    private Pattern        pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
 
-  public @NotNull BooleanArrayAdapter withConverter(@NotNull BooleanAdapter converter) {
-    this.converter = converter;
-    return this;
-  }
+    private BooleanAdapter converter = new BooleanAdapter();
 
-  @Override
-  public String encodeImpl(@NotNull boolean[] decoded) {
-    return Buckets.bucketStringBuilder().forInstance($ -> {
-      if (decoded.length > 0) {
-        $.append(decoded[0]);
-        for (int i = 1; i < decoded.length; i++) {
-          $.append(delimiter);
-          $.append(converter.encode(decoded[i]));
+    public @NotNull BooleanArrayAdapter withDelimiter(@NotNull char delimiter) {
+        if (this.delimiter != delimiter) {
+            this.delimiter = delimiter;
+            this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
         }
-      }
-      return $.toString();
-    });
-  }
-
-  @Override
-  public boolean[] decodeImpl(@NotNull String encoded) {
-    var values = StringFunctions.splitRegex(encoded, pattern);
-    var result = new boolean[values.length];
-    for (var i = 0; i < values.length; i++) {
-      result[i] = converter.decode(values[i]);
+        return this;
     }
-    return result;
-  }
+
+    public @NotNull BooleanArrayAdapter withConverter(@NotNull BooleanAdapter converter) {
+        this.converter = converter;
+        return this;
+    }
+
+    @Override
+    public String encodeImpl(@NotNull boolean[] decoded) {
+        return Buckets.bucketStringBuilder().forInstance($ -> {
+            if (decoded.length > 0) {
+                $.append(decoded[0]);
+                for (int i = 1; i < decoded.length; i++) {
+                    $.append(delimiter);
+                    $.append(converter.encode(decoded[i]));
+                }
+            }
+            return $.toString();
+        });
+    }
+
+    @Override
+    public boolean[] decodeImpl(@NotNull String encoded) {
+        var values = StringFunctions.splitRegex(encoded, pattern);
+        var result = new boolean[values.length];
+        for (var i = 0; i < values.length; i++) {
+            result[i] = converter.decode(values[i]);
+        }
+        return result;
+    }
 
 } /* ENDCLASS */

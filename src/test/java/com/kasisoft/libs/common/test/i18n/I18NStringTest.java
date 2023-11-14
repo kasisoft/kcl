@@ -11,29 +11,28 @@ import com.kasisoft.libs.common.i18n.*;
 import org.junit.jupiter.api.*;
 
 /**
- * Tests for the i18n class 'I18NSupport'.
- *
- * Requires the default locale to be Locale#GERMANY.
+ * Tests for the i18n class 'I18NSupport'. Requires the default locale to be Locale#GERMANY.
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public class I18NStringTest {
 
-  I18NString   formatterWithArgs    = new I18NString("Hello '%s' %s");
-  I18NString   formatterWithoutArgs = new I18NString("Constant string");
+    I18NString formatterWithArgs    = new I18NString("Hello '%s' %s");
 
-  @Test
-  public void format() {
+    I18NString formatterWithoutArgs = new I18NString("Constant string");
 
-    Object[] args = null;
-    assertThat(formatterWithArgs    . format(args            ), is("Hello '%s' %s"  ) );
-    assertThat(formatterWithArgs    . format(Empty.NO_OBJECTS), is("Hello '%s' %s"  ) );
-    assertThat(formatterWithoutArgs . format(args            ), is("Constant string") );
-    assertThat(formatterWithoutArgs . format(Empty.NO_OBJECTS), is("Constant string") );
+    @Test
+    public void format() {
 
-    assertThat(formatterWithArgs    . format("World"         ), is("Hello '%s' %s"  ) );
-    assertThat(formatterWithoutArgs . format("World"         ), is("Constant string") );
+        Object[] args = null;
+        assertThat(formatterWithArgs.format(args), is("Hello '%s' %s"));
+        assertThat(formatterWithArgs.format(Empty.NO_OBJECTS), is("Hello '%s' %s"));
+        assertThat(formatterWithoutArgs.format(args), is("Constant string"));
+        assertThat(formatterWithoutArgs.format(Empty.NO_OBJECTS), is("Constant string"));
 
-  }
+        assertThat(formatterWithArgs.format("World"), is("Hello '%s' %s"));
+        assertThat(formatterWithoutArgs.format("World"), is("Constant string"));
+
+    }
 
 } /* ENDCLASS */

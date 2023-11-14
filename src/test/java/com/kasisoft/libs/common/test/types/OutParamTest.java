@@ -15,19 +15,19 @@ import com.kasisoft.libs.common.types.*;
  */
 public class OutParamTest {
 
-  private void callingWithOutParam(OutParam<String> out) {
-    out.setValue("Bibo");
-  }
+    private void callingWithOutParam(OutParam<String> out) {
+        out.setValue("Bibo");
+    }
 
-  @Test
-  public void processOutParam() {
+    @Test
+    public void processOutParam() {
 
-    var outParam = new OutParam<String>();
-    assertNull(outParam.getValue());
+        var outParam = new OutParam<String>();
+        assertNull(outParam.getValue());
 
-    callingWithOutParam(outParam);
-    assertThat(outParam.getValue(), is("Bibo"));
+        callingWithOutParam(outParam);
+        assertThat(outParam.getValue(), is("Bibo"));
 
-  }
+    }
 
 } /* ENDCLASS */

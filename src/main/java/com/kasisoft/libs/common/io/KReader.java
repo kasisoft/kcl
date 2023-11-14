@@ -13,65 +13,65 @@ import java.io.*;
  */
 public class KReader extends Reader {
 
-  private Reader    impl;
+    private Reader impl;
 
-  public KReader(Reader impl) {
-    this.impl = impl;
-  }
-  
-  @Override
-  public int read(CharBuffer target) {
-    return PrimitiveFunctions.applyInt(impl::read, target);
-  }
+    public KReader(Reader impl) {
+        this.impl = impl;
+    }
 
-  @Override
-  public int read() {
-    return PrimitiveFunctions.getInt(impl::read);
-  }
+    @Override
+    public int read(CharBuffer target) {
+        return PrimitiveFunctions.applyInt(impl::read, target);
+    }
 
-  @Override
-  public int read(char cbuf[]) {
-    return PrimitiveFunctions.applyInt(impl::read, cbuf);
-  }
+    @Override
+    public int read() {
+        return PrimitiveFunctions.getInt(impl::read);
+    }
 
-  @Override
-  public int read(char cbuf[], int off, int len) {
-    return PrimitiveFunctions.getInt(() -> impl.read(cbuf, off, len));
-  }
+    @Override
+    public int read(char cbuf[]) {
+        return PrimitiveFunctions.applyInt(impl::read, cbuf);
+    }
 
-  @Override
-  public long skip(long n)  {
-    return PrimitiveFunctions.applyLong(impl::skip, n);
-  }
+    @Override
+    public int read(char cbuf[], int off, int len) {
+        return PrimitiveFunctions.getInt(() -> impl.read(cbuf, off, len));
+    }
 
-  @Override
-  public boolean ready() {
-    return PrimitiveFunctions.getBoolean(impl::ready);
-  }
+    @Override
+    public long skip(long n) {
+        return PrimitiveFunctions.applyLong(impl::skip, n);
+    }
 
-  @Override
-  public boolean markSupported() {
-    return PrimitiveFunctions.getBoolean(impl::markSupported);
-  }
+    @Override
+    public boolean ready() {
+        return PrimitiveFunctions.getBoolean(impl::ready);
+    }
 
-  @Override
-  public void mark(int readAheadLimit) {
-    PrimitiveFunctions.acceptInt(impl::mark, readAheadLimit);
-  }
+    @Override
+    public boolean markSupported() {
+        return PrimitiveFunctions.getBoolean(impl::markSupported);
+    }
 
-  @Override
-  public void reset() {
-    Functions.run(impl::reset);
-  }
+    @Override
+    public void mark(int readAheadLimit) {
+        PrimitiveFunctions.acceptInt(impl::mark, readAheadLimit);
+    }
 
-  @Override
-  public void close() {
-    Functions.run(impl::close);
-  }
+    @Override
+    public void reset() {
+        Functions.run(impl::reset);
+    }
 
-  @Override
-  public long transferTo(Writer out) {
-    return PrimitiveFunctions.applyLong(impl::transferTo, out);
-  }
+    @Override
+    public void close() {
+        Functions.run(impl::close);
+    }
+
+    @Override
+    public long transferTo(Writer out) {
+        return PrimitiveFunctions.applyLong(impl::transferTo, out);
+    }
 
 } /* ENDCLASS */

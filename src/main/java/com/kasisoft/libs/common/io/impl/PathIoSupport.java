@@ -21,44 +21,44 @@ import java.io.*;
  */
 public class PathIoSupport implements IoSupport<Path> {
 
-  private static final long MB_16 = 16 * 1024 * 1024;
+    private static final long MB_16 = 16 * 1024 * 1024;
 
-  @Override
-  public InputStream newInputStreamImpl(Path source) throws Exception {
-    return Files.newInputStream(source);
-  }
-
-  @Override
-  public OutputStream newOutputStreamImpl(Path destination) throws Exception {
-    return Files.newOutputStream(destination);
-  }
-
-  @Override
-  public @NotNull byte[] loadAllBytes(@NotNull Path source) {
-    try {
-      var fileSize = Files.size(source);
-      if (fileSize <= MB_16) {
-        return Files.readAllBytes(source);
-      } else {
-        return IoSupport.super.loadAllBytes(source);
-      }
-    } catch (Exception ex) {
-      throw new KclException(ex, Messages.error_failed_to_read_from, source);
+    @Override
+    public InputStream newInputStreamImpl(Path source) throws Exception {
+        return Files.newInputStream(source);
     }
-  }
 
-  @Override
-  public @NotNull String readText(@NotNull Path source, Encoding encoding) {
-    try {
-      var fileSize = Files.size(source);
-      if (fileSize <= MB_16) {
-        return Files.readString(source, encoding != null ? encoding.getCharset() : StandardCharsets.UTF_8);
-      } else {
-        return IoSupport.super.readText(source, encoding);
-      }
-    } catch (Exception ex) {
-      throw new KclException(ex, Messages.error_failed_to_read_from, source);
+    @Override
+    public OutputStream newOutputStreamImpl(Path destination) throws Exception {
+        return Files.newOutputStream(destination);
     }
-  }
+
+    @Override
+    public @NotNull byte[] loadAllBytes(@NotNull Path source) {
+        try {
+            var fileSize = Files.size(source);
+            if (fileSize <= MB_16) {
+                return Files.readAllBytes(source);
+            } else {
+                return IoSupport.super.loadAllBytes(source);
+            }
+        } catch (Exception ex) {
+            throw new KclException(ex, Messages.error_failed_to_read_from, source);
+        }
+    }
+
+    @Override
+    public @NotNull String readText(@NotNull Path source, Encoding encoding) {
+        try {
+            var fileSize = Files.size(source);
+            if (fileSize <= MB_16) {
+                return Files.readString(source, encoding != null ? encoding.getCharset() : StandardCharsets.UTF_8);
+            } else {
+                return IoSupport.super.readText(source, encoding);
+            }
+        } catch (Exception ex) {
+            throw new KclException(ex, Messages.error_failed_to_read_from, source);
+        }
+    }
 
 } /* ENDCLASS */

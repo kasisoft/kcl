@@ -20,52 +20,38 @@ import java.util.stream.*;
  */
 public class IntAdapterTest {
 
-  private IntAdapter adapter = new IntAdapter();
+    private IntAdapter adapter = new IntAdapter();
 
-  public static Stream<Arguments> data_decode() {
-    return Stream.of(
-      Arguments.of(null  , null),
-      Arguments.of("0"   ,    0),
-      Arguments.of("13"  ,   13),
-      Arguments.of("-23" ,  -23)
-    );
-  }
+    public static Stream<Arguments> data_decode() {
+        return Stream.of(Arguments.of(null, null), Arguments.of("0", 0), Arguments.of("13", 13), Arguments.of("-23", -23));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_decode")
-  public void decode(String value, Integer expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_decode")
+    public void decode(String value, Integer expected) throws Exception {
+        assertThat(adapter.decode(value), is(expected));
+    }
 
-  public static Stream<Arguments> data_encode() {
-    return Stream.of(
-      Arguments.of(null              , null         ),
-      Arguments.of(0                 , "0"          ),
-      Arguments.of(13                , "13"         ),
-      Arguments.of(-23               , "-23"        ),
-      Arguments.of(Integer.MAX_VALUE , "2147483647" ),
-      Arguments.of(Integer.MIN_VALUE , "-2147483648")
-    );
-  }
+    public static Stream<Arguments> data_encode() {
+        return Stream.of(Arguments.of(null, null), Arguments.of(0, "0"), Arguments.of(13, "13"), Arguments.of(-23, "-23"), Arguments.of(Integer.MAX_VALUE, "2147483647"), Arguments.of(Integer.MIN_VALUE, "-2147483648"));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_encode")
-  public void encode(Integer value, String expected) throws Exception {
-    assertThat(adapter.encode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_encode")
+    public void encode(Integer value, String expected) throws Exception {
+        assertThat(adapter.encode(value), is(expected));
+    }
 
-  public static Stream<Arguments> data_invalidDecode() {
-    return Stream.of(
-      Arguments.of("3.7")
-    );
-  }
+    public static Stream<Arguments> data_invalidDecode() {
+        return Stream.of(Arguments.of("3.7"));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_invalidDecode")
-  public void invalidDecode(String value) throws Exception {
-    assertThrows(KclException.class, () -> {
-      adapter.decode(value);
-    });
-  }
+    @ParameterizedTest
+    @MethodSource("data_invalidDecode")
+    public void invalidDecode(String value) throws Exception {
+        assertThrows(KclException.class, () -> {
+            adapter.decode(value);
+        });
+    }
 
 } /* ENDCLASS */

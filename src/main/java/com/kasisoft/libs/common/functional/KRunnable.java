@@ -10,16 +10,16 @@ import jakarta.validation.constraints.*;
 @FunctionalInterface
 public interface KRunnable {
 
-  void run() throws Exception;
+    void run() throws Exception;
 
-  default @NotNull Runnable protect() {
-    return () -> {
-      try {
-        run();
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
+    default @NotNull Runnable protect() {
+        return () -> {
+            try {
+                run();
+            } catch (Exception ex) {
+                throw KclException.wrap(ex);
+            }
+        };
+    }
 
 } /* ENDINTERFACE */

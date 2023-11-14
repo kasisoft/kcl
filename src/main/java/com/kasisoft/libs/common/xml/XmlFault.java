@@ -11,146 +11,153 @@ import jakarta.validation.constraints.*;
  */
 public class XmlFault {
 
-  public enum FaultType {
-    warning, error, fatal;
-  } /* ENDENUM */
+    public enum FaultType {
+        warning, error, fatal;
+    } /* ENDENUM */
 
-  private FaultType   type;
-  private int         line;
-  private int         column;
-  private String      message;
+    private FaultType type;
 
-  /**
-   * Initialises this datastructure from the supplied exception.
-   *
-   * @param faulttype   The kind of issue represented by this record.
-   * @param ex          The original exception.
-   */
-  public XmlFault(@NotNull FaultType faulttype, @NotNull SAXParseException ex) {
-    type    = faulttype;
-    message = ex.getMessage();
-    column  = ex.getColumnNumber();
-    line    = ex.getLineNumber();
-  }
+    private int       line;
 
-  /**
-   * Initialises this datastructure from the supplied message.
-   *
-   * @param faulttype   The kind of issue represented by this record.
-   * @param msg         The original message.
-   */
-  public XmlFault(@NotNull FaultType faulttype, @NotNull String msg) {
-    type    = faulttype;
-    message = msg;
-    column  = -1;
-    line    = -1;
-  }
+    private int       column;
 
-  /**
-   * Returns a full text representation of this fault used for presentations.
-   *
-   * @return   A full text representation of this fault used for presentations.
-   */
-  public @NotBlank  String getFaultMessage() {
-    return "[%s] ( %d, %d ) : %s".formatted(type, line, column, message);
-  }
+    private String    message;
 
-  /**
-   * Returns <code>true</code> if this datastructure is related to a warning.
-   *
-   * @return   This datastructure is related to a warning.
-   */
-  public boolean isWarning() {
-    return type == FaultType.warning;
-  }
+    /**
+     * Initialises this datastructure from the supplied exception.
+     *
+     * @param faulttype
+     *            The kind of issue represented by this record.
+     * @param ex
+     *            The original exception.
+     */
+    public XmlFault(@NotNull FaultType faulttype, @NotNull SAXParseException ex) {
+        type    = faulttype;
+        message = ex.getMessage();
+        column  = ex.getColumnNumber();
+        line    = ex.getLineNumber();
+    }
 
-  /**
-   * Returns <code>true</code> if this datastructure is related to an error.
-   *
-   * @return   This datastructure is related to an error.
-   */
-  public boolean isError() {
-    return type == FaultType.error;
-  }
+    /**
+     * Initialises this datastructure from the supplied message.
+     *
+     * @param faulttype
+     *            The kind of issue represented by this record.
+     * @param msg
+     *            The original message.
+     */
+    public XmlFault(@NotNull FaultType faulttype, @NotNull String msg) {
+        type    = faulttype;
+        message = msg;
+        column  = -1;
+        line    = -1;
+    }
 
-  /**
-   * Returns <code>true</code> if this datastructure is related to a fatal error.
-   *
-   * @return   This datastructure is related to a fatal error.
-   */
-  public boolean isFatal() {
-    return type == FaultType.fatal;
-  }
+    /**
+     * Returns a full text representation of this fault used for presentations.
+     *
+     * @return A full text representation of this fault used for presentations.
+     */
+    public @NotBlank String getFaultMessage() {
+        return "[%s] ( %d, %d ) : %s".formatted(type, line, column, message);
+    }
 
-  public FaultType getType() {
-    return type;
-  }
+    /**
+     * Returns <code>true</code> if this datastructure is related to a warning.
+     *
+     * @return This datastructure is related to a warning.
+     */
+    public boolean isWarning() {
+        return type == FaultType.warning;
+    }
 
-  public void setType(FaultType type) {
-    this.type = type;
-  }
+    /**
+     * Returns <code>true</code> if this datastructure is related to an error.
+     *
+     * @return This datastructure is related to an error.
+     */
+    public boolean isError() {
+        return type == FaultType.error;
+    }
 
-  public int getLine() {
-    return line;
-  }
+    /**
+     * Returns <code>true</code> if this datastructure is related to a fatal error.
+     *
+     * @return This datastructure is related to a fatal error.
+     */
+    public boolean isFatal() {
+        return type == FaultType.fatal;
+    }
 
-  public void setLine(int line) {
-    this.line = line;
-  }
+    public FaultType getType() {
+        return type;
+    }
 
-  public int getColumn() {
-    return column;
-  }
+    public void setType(FaultType type) {
+        this.type = type;
+    }
 
-  public void setColumn(int column) {
-    this.column = column;
-  }
+    public int getLine() {
+        return line;
+    }
 
-  public String getMessage() {
-    return message;
-  }
+    public void setLine(int line) {
+        this.line = line;
+    }
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+    public int getColumn() {
+        return column;
+    }
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + column;
-    result = prime * result + line;
-    result = prime * result + ((message == null) ? 0 : message.hashCode());
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
-    return result;
-  }
+    public void setColumn(int column) {
+        this.column = column;
+    }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    XmlFault other = (XmlFault) obj;
-    if (column != other.column)
-      return false;
-    if (line != other.line)
-      return false;
-    if (message == null) {
-      if (other.message != null)
-        return false;
-    } else if (!message.equals(other.message))
-      return false;
-    if (type != other.type)
-      return false;
-    return true;
-  }
+    public String getMessage() {
+        return message;
+    }
 
-  @Override
-  public String toString() {
-    return "XmlFault [type=" + type + ", line=" + line + ", column=" + column + ", message=" + message + "]";
-  }
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime  = 31;
+        int       result = 1;
+        result = prime * result + column;
+        result = prime * result + line;
+        result = prime * result + ((message == null) ? 0 : message.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        XmlFault other = (XmlFault) obj;
+        if (column != other.column)
+            return false;
+        if (line != other.line)
+            return false;
+        if (message == null) {
+            if (other.message != null)
+                return false;
+        } else if (!message.equals(other.message))
+            return false;
+        if (type != other.type)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "XmlFault [type=" + type + ", line=" + line + ", column=" + column + ", message=" + message + "]";
+    }
 
 } /* ENDCLASS */

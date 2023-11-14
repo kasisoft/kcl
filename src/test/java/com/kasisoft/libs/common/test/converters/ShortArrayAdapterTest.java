@@ -19,34 +19,28 @@ import java.util.stream.*;
  */
 public class ShortArrayAdapterTest {
 
-  private ShortArrayAdapter adapter = new ShortArrayAdapter();
+    private ShortArrayAdapter adapter = new ShortArrayAdapter();
 
-  public static Stream<Arguments> data_decode() {
-    return Stream.of(
-      Arguments.of(null    , null),
-      Arguments.of("31"    , new short[] {31}),
-      Arguments.of("-47,12", new short[] {-47, 12})
-    );
-  }
+    public static Stream<Arguments> data_decode() {
+        return Stream.of(Arguments.of(null, null), Arguments.of("31", new short[] {
+            31}), Arguments.of("-47,12", new short[] {-47, 12}));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_decode")
-  public void decode(String value, short[] expected) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_decode")
+    public void decode(String value, short[] expected) throws Exception {
+        assertThat(adapter.decode(value), is(expected));
+    }
 
-  public static Stream<Arguments> data_encode() {
-    return Stream.of(
-      Arguments.of(null                   , null),
-      Arguments.of(new short[] {79 , 1201}, "79,1201"),
-      Arguments.of(new short[] {-31, -128}, "-31,-128")
-    );
-  }
+    public static Stream<Arguments> data_encode() {
+        return Stream.of(Arguments.of(null, null), Arguments.of(new short[] {79,
+            1201}, "79,1201"), Arguments.of(new short[] {-31, -128}, "-31,-128"));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_encode")
-  public void encode(short[] value, String expected) throws Exception {
-    assertThat(adapter.encode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_encode")
+    public void encode(short[] value, String expected) throws Exception {
+        assertThat(adapter.encode(value), is(expected));
+    }
 
 } /* ENDCLASS */

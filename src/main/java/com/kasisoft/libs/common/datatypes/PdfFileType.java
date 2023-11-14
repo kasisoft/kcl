@@ -11,10 +11,10 @@ import java.util.*;
  */
 public class PdfFileType extends AbstractFileType {
 
-  private static final byte[] MAGIC = "%PDF".getBytes(); 
-  
-  public PdfFileType() {
-    super(4, MimeType.AdobePdf, 0, Arrays.asList(MAGIC));
-  }
-  
+    private static final byte[] MAGIC = "%PDF".getBytes();
+
+    public PdfFileType() {
+        super(4, MimeType.AdobePdf, 0, Arrays.asList(MAGIC));
+    }
+
 } /* ENDCLASS */

@@ -11,10 +11,10 @@ import java.util.*;
  */
 public class Bzip2FileType extends AbstractFileType {
 
-  private static final byte[] MAGIC = "BZh".getBytes(); 
-  
-  public Bzip2FileType() {
-    super(3, MimeType.Bzip2, 0, Arrays.asList(MAGIC));
-  }
-  
+    private static final byte[] MAGIC = "BZh".getBytes();
+
+    public Bzip2FileType() {
+        super(3, MimeType.Bzip2, 0, Arrays.asList(MAGIC));
+    }
+
 } /* ENDCLASS */

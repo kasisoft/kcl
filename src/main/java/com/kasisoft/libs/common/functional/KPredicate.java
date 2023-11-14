@@ -14,37 +14,37 @@ import java.util.*;
 @FunctionalInterface
 public interface KPredicate<T> {
 
-  boolean test(T arg) throws Exception;
+    boolean test(T arg) throws Exception;
 
-  default KPredicate<T> and(@NotNull KPredicate<? super T> other) {
-    return (t) -> test(t) && other.test(t);
-  }
+    default KPredicate<T> and(@NotNull KPredicate<? super T> other) {
+        return (t) -> test(t) && other.test(t);
+    }
 
-  default @NotNull KPredicate<T> negate() {
-    return (t) -> !test(t);
-  }
+    default @NotNull KPredicate<T> negate() {
+        return (t) -> !test(t);
+    }
 
-  default @NotNull KPredicate<T> or(@NotNull KPredicate<? super T> other) {
-    return (t) -> test(t) || other.test(t);
-  }
+    default @NotNull KPredicate<T> or(@NotNull KPredicate<? super T> other) {
+        return (t) -> test(t) || other.test(t);
+    }
 
-  default @NotNull Predicate<T> protect() {
-    return (T t) -> {
-      try {
-        return test(t);
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
+    default @NotNull Predicate<T> protect() {
+        return (T t) -> {
+            try {
+                return test(t);
+            } catch (Exception ex) {
+                throw KclException.wrap(ex);
+            }
+        };
+    }
 
-  static <T> @NotNull KPredicate<T> isEqual(Object targetRef) {
-    return (null == targetRef) ? Objects::isNull : object -> targetRef.equals(object);
-  }
+    static <T> @NotNull KPredicate<T> isEqual(Object targetRef) {
+        return (null == targetRef) ? Objects::isNull : object -> targetRef.equals(object);
+    }
 
-  @SuppressWarnings("unchecked")
-  static <T> @NotNull KPredicate<T> not(KPredicate<? super T> target) {
-    return (KPredicate<T>) target.negate();
-  }
+    @SuppressWarnings("unchecked")
+    static <T> @NotNull KPredicate<T> not(KPredicate<? super T> target) {
+        return (KPredicate<T>) target.negate();
+    }
 
 } /* ENDINTERFACE */

@@ -13,67 +13,71 @@ import java.nio.file.*;
  */
 public class CopyingFileWalker implements Runnable {
 
-  private Path                                  source;
-  private CustomFileVisitor                     fsWalker;
-  private Function<Exception, FileVisitResult>  errorHandler;
+    private Path                                 source;
 
-  private long                                  fileCount;
-  private long                                  dirCount;
-  private long                                  totalSize;
+    private CustomFileVisitor                    fsWalker;
 
-  public CopyingFileWalker(@NotNull Path source, @NotNull Path destination) {
-    this(source, destination, null);
-  }
+    private Function<Exception, FileVisitResult> errorHandler;
 
-  public CopyingFileWalker(@NotNull Path source, @NotNull Path destination, Function<Exception, FileVisitResult> errorHandler) {
+    private long                                 fileCount;
 
-    this.source         = source;
-    this.fsWalker       = new CustomFileVisitor();
-    this.errorHandler   = errorHandler != null ? errorHandler : this::defaultErrorHandler;
+    private long                                 dirCount;
 
-    fsWalker.setOnPreDirectory($ -> {
-      var destDir = destination.resolve(source.relativize($));
-      IoFunctions.mkDirs(destDir);
-      dirCount++;
-    });
+    private long                                 totalSize;
 
-    fsWalker.setOnFile($ -> {
-      var destFile = destination.resolve(source.relativize($));
-      IoFunctions.copyFile($, destFile);
-      fileCount++;
-      totalSize += $.toFile().length();
-    });
-
-    fsWalker.setErrorHandler(errorHandler);
-
-  }
-
-  private FileVisitResult defaultErrorHandler(Exception ex) {
-    throw KclException.wrap(ex);
-  }
-
-  @Override
-  public synchronized void run() {
-    try {
-      fileCount = 0L;
-      dirCount  = 0L;
-      totalSize = 0L;
-      Files.walkFileTree(source, fsWalker);
-    } catch (Exception ex) {
-      errorHandler.apply(ex);
+    public CopyingFileWalker(@NotNull Path source, @NotNull Path destination) {
+        this(source, destination, null);
     }
-  }
 
-  public long getFileCount() {
-    return fileCount;
-  }
+    public CopyingFileWalker(@NotNull Path source, @NotNull Path destination, Function<Exception, FileVisitResult> errorHandler) {
 
-  public long getDirCount() {
-    return dirCount;
-  }
+        this.source       = source;
+        this.fsWalker     = new CustomFileVisitor();
+        this.errorHandler = errorHandler != null ? errorHandler : this::defaultErrorHandler;
 
-  public long getTotalSize() {
-    return totalSize;
-  }
+        fsWalker.setOnPreDirectory($ -> {
+            var destDir = destination.resolve(source.relativize($));
+            IoFunctions.mkDirs(destDir);
+            dirCount++;
+        });
+
+        fsWalker.setOnFile($ -> {
+            var destFile = destination.resolve(source.relativize($));
+            IoFunctions.copyFile($, destFile);
+            fileCount++;
+            totalSize += $.toFile().length();
+        });
+
+        fsWalker.setErrorHandler(errorHandler);
+
+    }
+
+    private FileVisitResult defaultErrorHandler(Exception ex) {
+        throw KclException.wrap(ex);
+    }
+
+    @Override
+    public synchronized void run() {
+        try {
+            fileCount = 0L;
+            dirCount  = 0L;
+            totalSize = 0L;
+            Files.walkFileTree(source, fsWalker);
+        } catch (Exception ex) {
+            errorHandler.apply(ex);
+        }
+    }
+
+    public long getFileCount() {
+        return fileCount;
+    }
+
+    public long getDirCount() {
+        return dirCount;
+    }
+
+    public long getTotalSize() {
+        return totalSize;
+    }
 
 } /* ENDCLASS */

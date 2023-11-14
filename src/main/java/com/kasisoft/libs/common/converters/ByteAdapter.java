@@ -9,14 +9,14 @@ import jakarta.validation.constraints.*;
  */
 public class ByteAdapter extends AbstractConverter<String, Byte> {
 
-  @Override
-  public Byte decodeImpl(@NotNull String encoded) {
-    return Byte.parseByte(encoded);
-  }
+    @Override
+    public Byte decodeImpl(@NotNull String encoded) {
+        return Byte.parseByte(encoded);
+    }
 
-  @Override
-  public String encodeImpl(@NotNull Byte decoded) {
-    return Byte.toString(decoded);
-  }
+    @Override
+    public String encodeImpl(@NotNull Byte decoded) {
+        return Byte.toString(decoded);
+    }
 
 } /* ENDCLASS */

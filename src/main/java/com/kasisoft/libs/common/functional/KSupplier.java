@@ -12,16 +12,16 @@ import java.util.function.*;
 @FunctionalInterface
 public interface KSupplier<T> {
 
-  T get() throws Exception;
+    T get() throws Exception;
 
-  default @NotNull Supplier<T> protect() {
-    return () -> {
-      try {
-        return get();
-      } catch (Exception ex) {
-        throw KclException.wrap(ex);
-      }
-    };
-  }
+    default @NotNull Supplier<T> protect() {
+        return () -> {
+            try {
+                return get();
+            } catch (Exception ex) {
+                throw KclException.wrap(ex);
+            }
+        };
+    }
 
 } /* ENDINTERFACE */

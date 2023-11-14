@@ -9,14 +9,14 @@ import jakarta.validation.constraints.*;
  */
 public class IntAdapter extends AbstractConverter<String, Integer> {
 
-  @Override
-  public String encodeImpl(@NotNull Integer v) {
-    return Integer.toString(v);
-  }
+    @Override
+    public String encodeImpl(@NotNull Integer v) {
+        return Integer.toString(v);
+    }
 
-  @Override
-  public Integer decodeImpl(@NotNull String v) {
-    return Integer.valueOf(v);
-  }
+    @Override
+    public Integer decodeImpl(@NotNull String v) {
+        return Integer.valueOf(v);
+    }
 
 } /* ENDCLASS */

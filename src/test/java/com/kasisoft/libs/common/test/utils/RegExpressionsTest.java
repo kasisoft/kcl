@@ -17,36 +17,24 @@ import java.util.stream.*;
  */
 public class RegExpressionsTest {
 
-  public static Stream<Arguments> extractYoutubeIdData() {
-    return Stream.of(
-      Arguments.of("https://www.youtube.com/watch?v=LoT1DHwA7ds", "LoT1DHwA7ds"),
-      Arguments.of("https://www.youtube.com/watch?v=ZedhlLvph0g", "ZedhlLvph0g"),
-      Arguments.of("https://www.amiga-news.de"                  , null         ),
-      Arguments.of(""                                           , null         ),
-      Arguments.of(null                                         , null         )
-    );
-  }
+    public static Stream<Arguments> extractYoutubeIdData() {
+        return Stream.of(Arguments.of("https://www.youtube.com/watch?v=LoT1DHwA7ds", "LoT1DHwA7ds"), Arguments.of("https://www.youtube.com/watch?v=ZedhlLvph0g", "ZedhlLvph0g"), Arguments.of("https://www.amiga-news.de", null), Arguments.of("", null), Arguments.of(null, null));
+    }
 
-  @ParameterizedTest
-  @MethodSource("extractYoutubeIdData")
-  public void extractYoutubeId(String url, String expected) {
-    assertThat(RegExpressions.extractYoutubeId(url), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("extractYoutubeIdData")
+    public void extractYoutubeId(String url, String expected) {
+        assertThat(RegExpressions.extractYoutubeId(url), is(expected));
+    }
 
-  public static Stream<Arguments> isEmailData() {
-    return Stream.of(
-      Arguments.of("daniel.kasmeroglu@kasisoft.net", "daniel.kasmeroglu@kasisoft.net"),
-      Arguments.of("daniel.kasmeroglu@.net"        , null                            ),
-      Arguments.of("daniel.kasmeroglu"             , null                            ),
-      Arguments.of(""                              , null                            ),
-      Arguments.of(null                            , null                            )
-    );
-  }
+    public static Stream<Arguments> isEmailData() {
+        return Stream.of(Arguments.of("daniel.kasmeroglu@kasisoft.net", "daniel.kasmeroglu@kasisoft.net"), Arguments.of("daniel.kasmeroglu@.net", null), Arguments.of("daniel.kasmeroglu", null), Arguments.of("", null), Arguments.of(null, null));
+    }
 
-  @ParameterizedTest
-  @MethodSource("isEmailData")
-  public void isEmail(String value, String expected) {
-    assertThat(RegExpressions.isEmail(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("isEmailData")
+    public void isEmail(String value, String expected) {
+        assertThat(RegExpressions.isEmail(value), is(expected));
+    }
 
 } /* ENDCLASS */

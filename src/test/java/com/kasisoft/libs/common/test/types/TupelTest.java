@@ -17,20 +17,17 @@ import java.util.stream.*;
  */
 public class TupelTest {
 
-  public static Stream<Arguments> data_processTupels() {
-    return Stream.of(
-      Arguments.of(new Tupel<String>(), null, null),
-      Arguments.of(new Tupel<String>(new String[] {"A"}), "A", "A"),
-      Arguments.of(new Tupel<String>(new String[] {"A", "B"}), "A", "B"),
-      Arguments.of(new Tupel<String>(new String[] {"A", "B", "C"}), "A", "C")
-    );
-  }
+    public static Stream<Arguments> data_processTupels() {
+        return Stream.of(Arguments.of(new Tupel<String>(), null, null), Arguments.of(new Tupel<String>(new String[] {
+            "A"}), "A", "A"), Arguments.of(new Tupel<String>(new String[] {"A",
+                "B"}), "A", "B"), Arguments.of(new Tupel<String>(new String[] {"A", "B", "C"}), "A", "C"));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_processTupels")
-  public void processTupels(Tupel<String> tupel, String first, String last) {
-    assertThat(tupel.getFirst(), is(first));
-    assertThat(tupel.getLast(), is(last ));
-  }
+    @ParameterizedTest
+    @MethodSource("data_processTupels")
+    public void processTupels(Tupel<String> tupel, String first, String last) {
+        assertThat(tupel.getFirst(), is(first));
+        assertThat(tupel.getLast(), is(last));
+    }
 
 } /* ENDCLASS */

@@ -18,208 +18,174 @@ import java.util.*;
  */
 public class PropertyResolverTest {
 
-  private static final TestResources TEST_RESOURCES = TestResources.createTestResources(PropertyResolverTest.class);
+    private static final TestResources TEST_RESOURCES = TestResources.createTestResources(PropertyResolverTest.class);
 
-  @Test
-  public void apply__env() {
+    @Test
+    public void apply__env() {
 
-    var text    = TEST_RESOURCES.getResource("text_01.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_01.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withEnvironment()
-      ;
+        var resolver    = new PropertyResolver().withEnvironment();
 
-    var substituted = resolver.apply(loaded);
-    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
+        var substituted = resolver.apply(loaded);
+        assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
-  }
+    }
 
-  @Test
-  public void apply__sys() {
+    @Test
+    public void apply__sys() {
 
-    var text    = TEST_RESOURCES.getResource("text_02.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_02.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withSysProperties()
-      ;
+        var resolver    = new PropertyResolver().withSysProperties();
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
-  }
+    }
 
-  @Test
-  public void apply__envAndPrefix() {
+    @Test
+    public void apply__envAndPrefix() {
 
-    var text    = TEST_RESOURCES.getResource("text_03.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_03.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withEnvironment("bibo")
-      ;
+        var resolver    = new PropertyResolver().withEnvironment("bibo");
 
-    var substituted = resolver.apply(loaded);
-    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
+        var substituted = resolver.apply(loaded);
+        assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
-  }
+    }
 
-  @Test
-  public void apply__sysAndPrefix() {
+    @Test
+    public void apply__sysAndPrefix() {
 
-    var text    = TEST_RESOURCES.getResource("text_04.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_04.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withSysProperties("frog")
-      ;
+        var resolver    = new PropertyResolver().withSysProperties("frog");
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
-  }
+    }
 
-  @Test
-  public void apply__custom() {
+    @Test
+    public void apply__custom() {
 
-    var text    = TEST_RESOURCES.getResource("text_05.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text   = TEST_RESOURCES.getResource("text_05.txt");
+        var loaded = IoFunctions.readText(text);
 
-    var map = new HashMap<String, String>();
-    map.put("val", "dodo");
+        var map    = new HashMap<String, String>();
+        map.put("val", "dodo");
 
-    var resolver = new PropertyResolver()
-      .withMap(map)
-      ;
+        var resolver    = new PropertyResolver().withMap(map);
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("Here is my value dodo. What ${fluffy}?"));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("Here is my value dodo. What ${fluffy}?"));
 
-  }
+    }
 
-  @Test
-  public void apply__envAndCustomVarFormat() {
+    @Test
+    public void apply__envAndCustomVarFormat() {
 
-    var text    = TEST_RESOURCES.getResource("text_06.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_06.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withVarFormat("#{%s}")
-      .withEnvironment()
-      ;
+        var resolver    = new PropertyResolver().withVarFormat("#{%s}").withEnvironment();
 
-    var substituted = resolver.apply(loaded);
-    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
+        var substituted = resolver.apply(loaded);
+        assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
-  }
+    }
 
-  @Test
-  public void apply__sysAndCustomVarFormat() {
+    @Test
+    public void apply__sysAndCustomVarFormat() {
 
-    var text    = TEST_RESOURCES.getResource("text_07.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_07.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withVarFormat("#{%s}")
-      .withSysProperties()
-      ;
+        var resolver    = new PropertyResolver().withVarFormat("#{%s}").withSysProperties();
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
-  }
+    }
 
-  @Test
-  public void apply__envAndPrefixAndCustomVarFormat() {
+    @Test
+    public void apply__envAndPrefixAndCustomVarFormat() {
 
-    var text    = TEST_RESOURCES.getResource("text_08.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_08.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withVarFormat("#{%s}")
-      .withEnvironment("bibo")
-      ;
+        var resolver    = new PropertyResolver().withVarFormat("#{%s}").withEnvironment("bibo");
 
-    var substituted = resolver.apply(loaded);
-    assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
+        var substituted = resolver.apply(loaded);
+        assertThat(substituted, is("My username is: %s".formatted(System.getenv().get("USER"))));
 
-  }
+    }
 
-  @Test
-  public void apply__sysAndPrefixAndCustomVarFormat() {
+    @Test
+    public void apply__sysAndPrefixAndCustomVarFormat() {
 
-    var text    = TEST_RESOURCES.getResource("text_09.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text        = TEST_RESOURCES.getResource("text_09.txt");
+        var loaded      = IoFunctions.readText(text);
 
-    var resolver = new PropertyResolver()
-      .withVarFormat("#{%s}")
-      .withSysProperties("frog")
-      ;
+        var resolver    = new PropertyResolver().withVarFormat("#{%s}").withSysProperties("frog");
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("My encoding is: %s".formatted(System.getProperty("file.encoding"))));
 
-  }
+    }
 
-  @Test
-  public void apply__customAndCustomVarFormat() {
+    @Test
+    public void apply__customAndCustomVarFormat() {
 
-    var text    = TEST_RESOURCES.getResource("text_10.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text   = TEST_RESOURCES.getResource("text_10.txt");
+        var loaded = IoFunctions.readText(text);
 
-    var map = new HashMap<String, String>();
-    map.put("val", "dodo");
+        var map    = new HashMap<String, String>();
+        map.put("val", "dodo");
 
-    var resolver = new PropertyResolver()
-      .withVarFormat("#{%s}")
-      .withMap(map)
-      ;
+        var resolver    = new PropertyResolver().withVarFormat("#{%s}").withMap(map);
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("Here is my value dodo. What #{fluffy}?"));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("Here is my value dodo. What #{fluffy}?"));
 
-  }
+    }
 
-  @Test
-  public void apply__all() {
+    @Test
+    public void apply__all() {
 
-    var text    = TEST_RESOURCES.getResource("text_11.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text   = TEST_RESOURCES.getResource("text_11.txt");
+        var loaded = IoFunctions.readText(text);
 
-    var map = new HashMap<String, String>();
-    map.put("val", "dodo");
+        var map    = new HashMap<String, String>();
+        map.put("val", "dodo");
 
-    var resolver = new PropertyResolver()
-      .withEnvironment()
-      .withSysProperties()
-      .withMap(map)
-      ;
+        var resolver    = new PropertyResolver().withEnvironment().withSysProperties().withMap(map);
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("My username is: %s, encoding=%s, value=%s, unreplaced=${dodo}".formatted(System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("My username is: %s, encoding=%s, value=%s, unreplaced=${dodo}".formatted(System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
 
-  }
+    }
 
-  @Test
-  public void apply__allAndCustomVarFormat() {
+    @Test
+    public void apply__allAndCustomVarFormat() {
 
-    var text    = TEST_RESOURCES.getResource("text_12.txt");
-    var loaded  = IoFunctions.readText(text);
+        var text   = TEST_RESOURCES.getResource("text_12.txt");
+        var loaded = IoFunctions.readText(text);
 
-    var map = new HashMap<String, String>();
-    map.put("val", "dodo");
+        var map    = new HashMap<String, String>();
+        map.put("val", "dodo");
 
-    var resolver = new PropertyResolver()
-      .withVarFormat("#{%s}")
-      .withEnvironment()
-      .withSysProperties()
-      .withMap(map)
-      ;
+        var resolver    = new PropertyResolver().withVarFormat("#{%s}").withEnvironment().withSysProperties().withMap(map);
 
-    var substituted = resolver.apply(loaded).trim();
-    assertThat(substituted, is("My username is: %s, encoding=%s, value=%s, unreplaced=#{dodo}".formatted(System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
+        var substituted = resolver.apply(loaded).trim();
+        assertThat(substituted, is("My username is: %s, encoding=%s, value=%s, unreplaced=#{dodo}".formatted(System.getenv().get("USER"), System.getProperty("file.encoding"), map.get("val"))));
 
-  }
+    }
 
 } /* ENDCLASS */

@@ -17,74 +17,73 @@ import java.nio.file.*;
  */
 public class ListingFileWalker implements Supplier<List<String>> {
 
-  private Path                                  source;
-  private CustomFileVisitor                     fsWalker;
-  private Function<Exception, FileVisitResult>  errorHandler;
+    private Path                                 source;
 
-  private List<String>                          pathes;
+    private CustomFileVisitor                    fsWalker;
 
-  public ListingFileWalker(@NotNull Path source, boolean includeDirs) {
-    this(source, includeDirs, null);
-  }
+    private Function<Exception, FileVisitResult> errorHandler;
 
-  public ListingFileWalker(@NotNull Path source, boolean includeDirs, Function<Exception, FileVisitResult> errorHandler) {
+    private List<String>                         pathes;
 
-    this.source         = source;
-    this.fsWalker       = new CustomFileVisitor();
-    this.errorHandler   = errorHandler != null ? errorHandler : this::defaultErrorHandler;
-    pathes              = new ArrayList<String>(50);
-
-    fsWalker.setOnPreDirectory($ -> {
-      if (includeDirs) {
-        addRelativePath($, true);
-      }
-    });
-
-    fsWalker.setOnFile($ -> {
-      addRelativePath($, false);
-    });
-
-    fsWalker.setErrorHandler(errorHandler);
-
-  }
-
-  private FileVisitResult defaultErrorHandler(Exception ex) {
-    throw KclException.wrap(ex);
-  }
-
-  private void addRelativePath(Path current, boolean dir){
-    String str = source.relativize(current).toString().replace('\\', '/');
-    if (str.isBlank()) {
-      return;
+    public ListingFileWalker(@NotNull Path source, boolean includeDirs) {
+        this(source, includeDirs, null);
     }
-    if (dir && (!str.endsWith("/"))) {
-      str = str + '/';
+
+    public ListingFileWalker(@NotNull Path source, boolean includeDirs, Function<Exception, FileVisitResult> errorHandler) {
+
+        this.source       = source;
+        this.fsWalker     = new CustomFileVisitor();
+        this.errorHandler = errorHandler != null ? errorHandler : this::defaultErrorHandler;
+        pathes            = new ArrayList<String>(50);
+
+        fsWalker.setOnPreDirectory($ -> {
+            if (includeDirs) {
+                addRelativePath($, true);
+            }
+        });
+
+        fsWalker.setOnFile($ -> {
+            addRelativePath($, false);
+        });
+
+        fsWalker.setErrorHandler(errorHandler);
+
     }
-    pathes.add(str);
-  }
 
-  @Override
-  public synchronized List<String> get() {
-    try {
-      pathes.clear();
-      Files.walkFileTree(source, fsWalker);
-      Collections.sort(pathes);
-      return Collections.unmodifiableList(pathes);
-    } catch (Exception ex) {
-      errorHandler.apply(ex);
-      throw KclException.wrap(ex);
+    private FileVisitResult defaultErrorHandler(Exception ex) {
+        throw KclException.wrap(ex);
     }
-  }
 
-  public synchronized List<Path> getResolved() {
-    return getResolved(source);
-  }
+    private void addRelativePath(Path current, boolean dir) {
+        String str = source.relativize(current).toString().replace('\\', '/');
+        if (str.isBlank()) {
+            return;
+        }
+        if (dir && (!str.endsWith("/"))) {
+            str = str + '/';
+        }
+        pathes.add(str);
+    }
 
-  public synchronized List<Path> getResolved(@NotNull Path dir) {
-    return get().stream()
-      .map(dir::resolve)
-      .collect(Collectors.toList())
-      ;
-  }
+    @Override
+    public synchronized List<String> get() {
+        try {
+            pathes.clear();
+            Files.walkFileTree(source, fsWalker);
+            Collections.sort(pathes);
+            return Collections.unmodifiableList(pathes);
+        } catch (Exception ex) {
+            errorHandler.apply(ex);
+            throw KclException.wrap(ex);
+        }
+    }
+
+    public synchronized List<Path> getResolved() {
+        return getResolved(source);
+    }
+
+    public synchronized List<Path> getResolved(@NotNull Path dir) {
+        return get().stream().map(dir::resolve).collect(Collectors.toList());
+    }
 
 } /* ENDCLASS */

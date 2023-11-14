@@ -22,50 +22,38 @@ import java.util.stream.*;
  */
 public class ByteAdapterTest {
 
-  private ByteAdapter adapter = new ByteAdapter();
+    private ByteAdapter adapter = new ByteAdapter();
 
-  public static Stream<Arguments> data_decode() {
-    return Stream.of(
-      Arguments.of(null, null),
-      Arguments.of("0"  , Byte.valueOf((byte) 0)),
-      Arguments.of("13" , Byte.valueOf((byte) 13)),
-      Arguments.of("-23", Byte.valueOf((byte) -23))
-    );
-  }
+    public static Stream<Arguments> data_decode() {
+        return Stream.of(Arguments.of(null, null), Arguments.of("0", Byte.valueOf((byte) 0)), Arguments.of("13", Byte.valueOf((byte) 13)), Arguments.of("-23", Byte.valueOf((byte) -23)));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_decode")
-  public void decode(String value, Byte expected ) throws Exception {
-    assertThat(adapter.decode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_decode")
+    public void decode(String value, Byte expected) throws Exception {
+        assertThat(adapter.decode(value), is(expected));
+    }
 
-  public static Stream<Arguments> data_encode() {
-    return Stream.of(
-      Arguments.of(null                    , null),
-      Arguments.of(Byte.valueOf((byte) 0)  , "0"),
-      Arguments.of(Byte.valueOf((byte) 13) , "13"),
-      Arguments.of(Byte.valueOf((byte) -23), "-23")
-    );
-  }
+    public static Stream<Arguments> data_encode() {
+        return Stream.of(Arguments.of(null, null), Arguments.of(Byte.valueOf((byte) 0), "0"), Arguments.of(Byte.valueOf((byte) 13), "13"), Arguments.of(Byte.valueOf((byte) -23), "-23"));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_encode")
-  public void encode(Byte value, String expected) throws Exception {
-    assertThat(adapter.encode(value), is(expected));
-  }
+    @ParameterizedTest
+    @MethodSource("data_encode")
+    public void encode(Byte value, String expected) throws Exception {
+        assertThat(adapter.encode(value), is(expected));
+    }
 
-  public static Stream<Arguments> data_invalidDecode() {
-    return Stream.of(
-      Arguments.of("3.7")
-    );
-  }
+    public static Stream<Arguments> data_invalidDecode() {
+        return Stream.of(Arguments.of("3.7"));
+    }
 
-  @ParameterizedTest
-  @MethodSource("data_invalidDecode")
-  public void invalidDecode(String value) throws Exception {
-    assertThrows(KclException.class, () -> {
-      assertNull(adapter.decode(value));
-    });
-  }
+    @ParameterizedTest
+    @MethodSource("data_invalidDecode")
+    public void invalidDecode(String value) throws Exception {
+        assertThrows(KclException.class, () -> {
+            assertNull(adapter.decode(value));
+        });
+    }
 
 } /* ENDCLASS */

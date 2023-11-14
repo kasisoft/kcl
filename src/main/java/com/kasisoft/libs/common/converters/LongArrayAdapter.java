@@ -16,51 +16,53 @@ import java.util.regex.Pattern;
  */
 public class LongArrayAdapter extends AbstractConverter<String, long[]> {
 
-  private char              delimiter = ',';
-  private Pattern           pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-  private LongAdapter       converter = new LongAdapter();
+    private char        delimiter = ',';
 
-  public @NotNull LongArrayAdapter withDelimiter(@NotNull char delimiter) {
-    if (this.delimiter != delimiter) {
-      this.delimiter = delimiter;
-      this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
-    }
-    return this;
-  }
+    private Pattern     pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
 
-  public @NotNull LongArrayAdapter withConverter(@NotNull LongAdapter converter) {
-    this.converter = converter;
-    return this;
-  }
+    private LongAdapter converter = new LongAdapter();
 
-  @Override
-  public String encodeImpl(@NotNull long[] decoded) {
-    if (decoded.length == 0) {
-      return Empty.NO_STRING;
-    }
-    return Buckets.bucketStringBuilder().forInstance($ -> {
-      if (decoded.length > 0) {
-        $.append(decoded[0]);
-        for (int i = 1; i < decoded.length; i++) {
-          $.append(delimiter);
-          $.append(converter.encode(decoded[i]));
+    public @NotNull LongArrayAdapter withDelimiter(@NotNull char delimiter) {
+        if (this.delimiter != delimiter) {
+            this.delimiter = delimiter;
+            this.pattern   = Pattern.compile(Pattern.quote(String.valueOf(delimiter)));
         }
-      }
-      return $.toString();
-    });
-  }
+        return this;
+    }
 
-  @Override
-  public long[] decodeImpl(@NotNull String encoded) {
-    if (encoded.length() == 0) {
-      return Empty.NO_LONGS;
+    public @NotNull LongArrayAdapter withConverter(@NotNull LongAdapter converter) {
+        this.converter = converter;
+        return this;
     }
-    var values = StringFunctions.splitRegex(encoded, pattern);
-    var result = new long[values.length];
-    for (var i = 0; i < values.length; i++) {
-      result[i] = converter.decode(values[i]);
+
+    @Override
+    public String encodeImpl(@NotNull long[] decoded) {
+        if (decoded.length == 0) {
+            return Empty.NO_STRING;
+        }
+        return Buckets.bucketStringBuilder().forInstance($ -> {
+            if (decoded.length > 0) {
+                $.append(decoded[0]);
+                for (int i = 1; i < decoded.length; i++) {
+                    $.append(delimiter);
+                    $.append(converter.encode(decoded[i]));
+                }
+            }
+            return $.toString();
+        });
     }
-    return result;
-  }
+
+    @Override
+    public long[] decodeImpl(@NotNull String encoded) {
+        if (encoded.length() == 0) {
+            return Empty.NO_LONGS;
+        }
+        var values = StringFunctions.splitRegex(encoded, pattern);
+        var result = new long[values.length];
+        for (var i = 0; i < values.length; i++) {
+            result[i] = converter.decode(values[i]);
+        }
+        return result;
+    }
 
 } /* ENDCLASS */

@@ -11,75 +11,75 @@ import java.io.*;
  */
 public class KInputStream extends InputStream {
 
-  private InputStream   impl;
+    private InputStream impl;
 
-  public KInputStream(InputStream impl) {
-    this.impl = impl;
-  }
-  
-  @Override
-  public int read() {
-    return PrimitiveFunctions.getInt(impl::read);
-  }
+    public KInputStream(InputStream impl) {
+        this.impl = impl;
+    }
 
-  @Override
-  public int read(byte b[]) {
-    return PrimitiveFunctions.applyInt(impl::read, b);
-  }
+    @Override
+    public int read() {
+        return PrimitiveFunctions.getInt(impl::read);
+    }
 
-  @Override
-  public int read(byte b[], int off, int len) {
-    return PrimitiveFunctions.getInt(() -> impl.read(b, off, len));
-  }
+    @Override
+    public int read(byte b[]) {
+        return PrimitiveFunctions.applyInt(impl::read, b);
+    }
 
-  @Override
-  public byte[] readAllBytes() {
-    return Functions.get(impl::readAllBytes);
-  }
+    @Override
+    public int read(byte b[], int off, int len) {
+        return PrimitiveFunctions.getInt(() -> impl.read(b, off, len));
+    }
 
-  @Override
-  public byte[] readNBytes(int len) {
-    return Functions.apply(impl::readNBytes, len);
-  }
+    @Override
+    public byte[] readAllBytes() {
+        return Functions.get(impl::readAllBytes);
+    }
 
-  @Override
-  public int readNBytes(byte[] b, int off, int len) {
-    return PrimitiveFunctions.getInt(() -> impl.readNBytes(b, off, len));
-  }
+    @Override
+    public byte[] readNBytes(int len) {
+        return Functions.apply(impl::readNBytes, len);
+    }
 
-  @Override
-  public long skip(long n) {
-    return PrimitiveFunctions.applyLong($ -> impl.skip($), n);
-  }
+    @Override
+    public int readNBytes(byte[] b, int off, int len) {
+        return PrimitiveFunctions.getInt(() -> impl.readNBytes(b, off, len));
+    }
 
-  @Override
-  public int available() {
-    return PrimitiveFunctions.getInt(impl::available);
-  }
+    @Override
+    public long skip(long n) {
+        return PrimitiveFunctions.applyLong($ -> impl.skip($), n);
+    }
 
-  @Override
-  public void close() {
-    Functions.run(impl::close);
-  }
+    @Override
+    public int available() {
+        return PrimitiveFunctions.getInt(impl::available);
+    }
 
-  @Override
-  public synchronized void mark(int readlimit) {
-    PrimitiveFunctions.acceptInt(impl::mark, readlimit);
-  }
+    @Override
+    public void close() {
+        Functions.run(impl::close);
+    }
 
-  @Override
-  public synchronized void reset() {
-    Functions.run(impl::reset);
-  }
+    @Override
+    public synchronized void mark(int readlimit) {
+        PrimitiveFunctions.acceptInt(impl::mark, readlimit);
+    }
 
-  @Override
-  public boolean markSupported() {
-    return PrimitiveFunctions.getBoolean(impl::markSupported);
-  }
+    @Override
+    public synchronized void reset() {
+        Functions.run(impl::reset);
+    }
 
-  @Override
-  public long transferTo(OutputStream out) {
-    return PrimitiveFunctions.applyLong(impl::transferTo, out);
-  }
+    @Override
+    public boolean markSupported() {
+        return PrimitiveFunctions.getBoolean(impl::markSupported);
+    }
+
+    @Override
+    public long transferTo(OutputStream out) {
+        return PrimitiveFunctions.applyLong(impl::transferTo, out);
+    }
 
 } /* ENDCLASS */

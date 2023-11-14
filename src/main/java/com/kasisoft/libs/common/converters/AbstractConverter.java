@@ -11,24 +11,24 @@ import jakarta.validation.constraints.*;
  */
 public abstract class AbstractConverter<F, T> implements KConverter<F, T> {
 
-  @Override
-  public T decode(F encoded) {
-    if (encoded != null) {
-      return KclException.execute(() -> decodeImpl(encoded), Messages.error_invalid_encoded_value, encoded);
+    @Override
+    public T decode(F encoded) {
+        if (encoded != null) {
+            return KclException.execute(() -> decodeImpl(encoded), Messages.error_invalid_encoded_value, encoded);
+        }
+        return null;
     }
-    return null;
-  }
 
-  @Override
-  public F encode(T decoded) {
-    if (decoded != null) {
-      return KclException.execute(() -> encodeImpl(decoded), Messages.error_invalid_decoded_value, decoded);
+    @Override
+    public F encode(T decoded) {
+        if (decoded != null) {
+            return KclException.execute(() -> encodeImpl(decoded), Messages.error_invalid_decoded_value, decoded);
+        }
+        return null;
     }
-    return null;
-  }
 
-  protected abstract T decodeImpl(@NotNull F encoded);
+    protected abstract T decodeImpl(@NotNull F encoded);
 
-  protected abstract F encodeImpl(@NotNull T decoded);
+    protected abstract F encodeImpl(@NotNull T decoded);
 
 } /* ENDCLASS */

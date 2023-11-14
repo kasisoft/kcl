@@ -14,6 +14,6 @@ import java.lang.annotation.*;
 @Target({TYPE})
 public @interface Prio {
 
-  int value() default 0;
-  
+    int value() default 0;
+
 } /* ENDINTERFACE */

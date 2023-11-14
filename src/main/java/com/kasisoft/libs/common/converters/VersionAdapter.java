@@ -11,37 +11,39 @@ import jakarta.validation.constraints.*;
  */
 public class VersionAdapter extends AbstractConverter<String, Version> {
 
-  private boolean   micro       = false;
-  private boolean   qualifier   = false;
-  private boolean   all         = false;
+    private boolean micro     = false;
 
-  public VersionAdapter withMicro(boolean micro) {
-    this.micro = micro;
-    return this;
-  }
+    private boolean qualifier = false;
 
-  public VersionAdapter withQualifier(boolean qualifier) {
-    this.qualifier = qualifier;
-    return this;
-  }
+    private boolean all       = false;
 
-  public VersionAdapter withAll(boolean all) {
-    this.all = all;
-    return this;
-  }
-
-  @Override
-  public String encodeImpl(@NotNull Version v) {
-    return String.valueOf(v);
-  }
-
-  @Override
-  public Version decodeImpl(@NotNull String v) {
-    if (all) {
-      return new Version(v);
-    } else {
-      return new Version(v, micro, qualifier);
+    public VersionAdapter withMicro(boolean micro) {
+        this.micro = micro;
+        return this;
     }
-  }
+
+    public VersionAdapter withQualifier(boolean qualifier) {
+        this.qualifier = qualifier;
+        return this;
+    }
+
+    public VersionAdapter withAll(boolean all) {
+        this.all = all;
+        return this;
+    }
+
+    @Override
+    public String encodeImpl(@NotNull Version v) {
+        return String.valueOf(v);
+    }
+
+    @Override
+    public Version decodeImpl(@NotNull String v) {
+        if (all) {
+            return new Version(v);
+        } else {
+            return new Version(v, micro, qualifier);
+        }
+    }
 
 } /* ENDCLASS */
