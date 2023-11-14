@@ -79,7 +79,10 @@ public class StringFunctions {
    * @return   A possibly in-place altered input.
    */
   public static @NotNull String firstUp(@NotNull String input) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).firstUp().toString());
+    if (input.length() == 1) {
+      return input.toLowerCase();
+    }
+    return Character.toUpperCase(input.charAt(0)) + input.substring(1);
   }
 
   /**
@@ -90,7 +93,10 @@ public class StringFunctions {
    * @return   A possibly in-place altered input.
    */
   public static @NotNull String firstDown(@NotNull String input) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).firstDown().toString());
+    if (input.length() == 1) {
+      return input.toLowerCase();
+    }
+    return Character.toLowerCase(input.charAt(0)) + input.substring(1);
   }
 
   /**
@@ -103,7 +109,22 @@ public class StringFunctions {
    * @return   This buffer.
    */
   public static @NotNull String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceLiterallyAll(search, replacement).toString());
+    return Buckets.<Integer>bucketArrayList().forInstance($ -> {
+      var pos = input.indexOf(search);
+      while (pos != -1) {
+        $.add(pos);
+        $.add(pos + search.length());
+        pos = input.indexOf(search, pos + search.length());
+      }
+      var builder = new StringBuilder(input);
+      for (var i = $.size() - 2; i >= 0; i -= 2) {
+        var start = $.get(i);
+        var end   = $.get(i + 1);
+        builder.delete(start, end);
+        builder.insert(start, replacement);
+      }
+      return builder.toString();
+    });
   }
 
   /**
@@ -114,7 +135,22 @@ public class StringFunctions {
    * @return   The supplied sequence if possible. The content is altered to a camelcase variety.
    */
   public static @NotNull String camelCase(@NotNull String input) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).camelCase().toString());
+    return Buckets.bucketStringBuilder().forInstance($ -> {
+      $.append(input);
+      int len = $.length();
+      for (int i = len - 2, j = len - 1; i >= 0; i--,j--) {
+        char current = $.charAt(i);
+        char next    = $.charAt(j);
+        if (!Character.isLetter(current)) {
+          $.setCharAt(j, Character.toUpperCase(next));
+          $.deleteCharAt(i);
+        }
+      }
+      if ($.length() > 0) {
+        $.setCharAt(0, Character.toLowerCase($.charAt(0)));
+      }
+      return $.toString();
+    });
   }
 
   /**
@@ -169,27 +205,154 @@ public class StringFunctions {
    * @return   The altered text.
    */
   public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceRegions(open, close, replacement).toString());
+    if (close == null) {
+      close = open;
+    }
+    var sb       = new StringBuilder(input);
+    var start    = 0;
+    var idxOpen  = sb.indexOf(open, start);
+    var idxClose = sb.indexOf(close, idxOpen + 1);
+    while ((idxOpen != -1) && (idxClose != -1)) {
+      var inner = sb.substring(idxOpen + open.length(), idxClose);
+      var value = replacement.apply(inner);
+      sb.delete(idxOpen, idxClose + close.length());
+      if (value != null) {
+        sb.insert(idxOpen, value);
+        start = idxOpen + value.length();
+      } else {
+        start = idxOpen;
+      }
+      idxOpen  = sb.indexOf(open, start);
+      idxClose = sb.indexOf(close, idxOpen + 1);
+    }
+    return sb.toString();
   }
 
-  public static <T extends CharSequence> T startsWithMany(@NotNull String input, @NotNull T ... candidates) {
+  public static String startsWithMany(@NotNull String input, @NotNull String ... candidates) {
     return startsWithMany(input, true, candidates);
   }
 
-  public static <T extends CharSequence> T startsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).startsWithMany(casesensitive, candidates));
+  public static String startsWithMany(@NotNull String input, boolean casesensitive, @NotNull String ... candidates) {
+    if ((candidates == null) || (candidates.length == 0)) {
+      return null;
+    }
+    BiPredicate<String, String> predicate = casesensitive ? String::startsWith : ($a, $b) -> $a.toLowerCase().startsWith($b.toLowerCase());
+    for (String seq : candidates) {
+      if (predicate.test(input, seq)) {
+        return seq;
+      }
+    }
+    return null;
   }
 
-  public static <T extends CharSequence> T endsWithMany(@NotNull String input, @NotNull T ... candidates) {
+  public static String endsWithMany(@NotNull String input, @NotNull String ... candidates) {
     return endsWithMany(input, true, candidates);
   }
 
-  public static <T extends CharSequence> T endsWithMany(@NotNull String input, boolean casesensitive, @NotNull T ... candidates) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).endsWithMany(casesensitive, candidates));
+  public static String endsWithMany(@NotNull String input, boolean casesensitive, @NotNull String ... candidates) {
+    if ((candidates == null) || (candidates.length == 0)) {
+      return null;
+    }
+    BiPredicate<String, String> predicate = casesensitive ? String::endsWith : ($a, $b) -> $a.toLowerCase().endsWith($b.toLowerCase());
+    for (String seq : candidates) {
+      if (predicate.test(input, seq)) {
+        return seq;
+      }
+    }
+    return null;
   }
 
+  /**
+   * This function removes leading whitespace from this buffer.
+   */
+  public static @NotNull String trimLeading(@NotNull String input) {
+    var sb = new StringBuilder(input);
+    while (sb.length() > 0) {
+      var codePoint = sb.codePointAt(0);
+      if (!Character.isWhitespace(codePoint)) {
+        break;
+      }
+      var charCount = Character.charCount(codePoint);
+      sb.delete(0, charCount);
+    }
+    return sb.toString();
+  }
+
+  /**
+   * This function removes trailing whitespace from this buffer.
+   */
+  public static @NotNull String trimTrailing(@NotNull String input) {
+    var sb = new StringBuilder(input);
+    while (sb.length() > 0) {
+      var length    = sb.length();
+      var codePoint = sb.codePointAt(length - 1);
+      if (!Character.isWhitespace(codePoint)) {
+        break;
+      }
+      var charCount = Character.charCount(codePoint);
+      sb.delete(length - charCount, length);
+    }
+    return sb.toString();
+  }
+
+  /**
+   * This function removes leading and trailing whitespace from this buffer.
+   */
+  public static @NotNull String trim(@NotNull String input) {
+    return trimTrailing(trimLeading(input));
+  }
+
+  /**
+   * This function removes leading whitespace from this buffer.
+   *
+   * @param chars   The whitespace characters.
+   */
+  public static @NotNull String trimLeading(@NotNull String input, @NotBlank String chars) {
+    var sb = new StringBuilder(input);
+    while (sb.length() > 0) {
+      var ch = sb.charAt(0);
+      if (chars.indexOf(ch) == -1) {
+        break;
+      }
+      sb.deleteCharAt(0);
+    }
+    return sb.toString();
+  }
+
+  /**
+   * This function removes trailing whitespace from this buffer.
+   *
+   * @param chars   The whitespace characters.
+   */
+  public static @NotNull String trimTrailing(@NotNull String input, @NotBlank String chars) {
+    var sb = new StringBuilder(input);
+    while (sb.length() > 0) {
+      var length = sb.length();
+      var ch     = sb.charAt(length - 1);
+      if (chars.indexOf(ch) == -1) {
+        break;
+      }
+      sb.deleteCharAt(length - 1);
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Trims this instance depending on the provided settings.
+   *
+   * @param chars   The whitespace characters.
+   * @param left    <code>null</code> <=> Trim left and right,
+   *                <code>true</code> <=> Trim left,
+   *                <code>false</code> <=> Trim right.
+   */
   public static @NotNull String trim(@NotNull String input, @NotNull String chars, Boolean left) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).trim(chars, left).toString());
+    if ((left == null) || left.booleanValue()) {
+      input = trimLeading(input, chars);
+    }
+    if ((left == null) || (!left.booleanValue())) {
+      input = trimTrailing(input, chars);
+    }
+    return input;
   }
 
   /**
@@ -219,7 +382,7 @@ public class StringFunctions {
       return Empty.NO_STRING;
     }
     var del = delimiter == null ? Empty.NO_STRING : delimiter;
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.bucketStringBuilder().forInstance($ -> {
       var iterator = args.iterator();
       while (iterator.hasNext()) {
         var object = iterator.next();
@@ -245,7 +408,7 @@ public class StringFunctions {
    */
   public static @NotNull String repeat(@Min(0) int n, CharSequence text ) {
     if ((n > 0) && (text != null) && (text.length() > 0)) {
-      return Buckets.bucketStringFBuilder().forInstance($ -> {
+      return Buckets.bucketStringBuilder().forInstance($ -> {
         var c = n;
         while (c > 0) {
           $.append(text);
@@ -255,54 +418,6 @@ public class StringFunctions {
       });
     }
     return Empty.NO_STRING;
-  }
-
-  /**
-   * Creates a textual presentation with a padding using the space character.
-   *
-   * @param text      The text that is supposed to be filled with padding.
-   * @param limit     The maximum number of characters allowed.
-   * @param left      <code>true</code> <=> Use left padding.
-   *
-   * @return   The text that is padded.
-   */
-  public static @NotNull String padding(String text, @Min(1) int limit, boolean left) {
-    return padding(text, limit, ' ', left);
-  }
-
-  public static @NotNull String fillString(int count, char ch) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.appendFilling(count, ch).toString());
-  }
-
-  /**
-   * Creates a textual presentation with a padding.
-   *
-   * @param text      The text that is supposed to be filled with padding.
-   * @param limit     The maximum number of characters allowed.
-   * @param padding   The padding character.
-   * @param left      <code>true</code> <=> Use left padding.
-   *
-   * @return   The text that is padded.
-   */
-  public static @NotNull String padding(String text, @Min(1) int limit, char padding, boolean left) {
-    if (text == null) {
-      return fillString(limit, padding);
-    }
-    if (text.length() >= limit) {
-      return text;
-    }
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
-      var diff   = limit - text.length();
-      var padStr = fillString(diff, padding);
-      if (left) {
-        $.append(padStr);
-      }
-      $.append(text);
-      if (!left) {
-        $.append(padStr);
-      }
-      return $.toString();
-    });
   }
 
   /**
@@ -466,6 +581,17 @@ public class StringFunctions {
   /**
    * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
    *
+   * @param regex   A regular expression used for the splitting.
+   *
+   * @return   A splitted list without fragments matching the supplied regular expression.
+   */
+  public static @NotNull String[] splitRegex(@NotNull String input, @NotNull String regex) {
+    return splitRegex(input, Pattern.compile(regex));
+  }
+
+  /**
+   * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
+   *
    * @param pattern   A pattern providing the regular expression used for the splitting.
    *
    * @return   A splitted list without fragments matching the supplied regular expression.
@@ -542,7 +668,7 @@ public class StringFunctions {
   public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements, String fmt) {
 
     var substitutions = Buckets.<String, String>bucketHashMap().allocate();
-    var builder       = Buckets.bucketStringFBuilder().allocate();
+    var builder       = Buckets.bucketStringBuilder().allocate();
     var regions       = Buckets.<Integer>bucketArrayList().allocate();
 
     // setup the substitution map
@@ -566,7 +692,7 @@ public class StringFunctions {
     }
 
     // substitute matches
-    var instr = Buckets.bucketStringFBuilder().allocate();
+    var instr = Buckets.bucketStringBuilder().allocate();
     instr.append(input);
     for (var i = regions.size() - 2; i >= 0; i -= 2) {
       var start = regions.get(i);
@@ -577,7 +703,7 @@ public class StringFunctions {
     }
 
     Buckets.<String, String>bucketHashMap().free(substitutions);
-    Buckets.bucketStringFBuilder().free(builder);
+    Buckets.bucketStringBuilder().free(builder);
     Buckets.<Integer>bucketArrayList().free(regions);
 
     return instr.toString();

@@ -62,7 +62,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     encoding                = Encoding.getEncoding(csEncoding);
     tags                    = new Stack<>();
     indentation             = new StringBuilder();
-    indent                  = StringFunctions.fillString(indentsize != null ? indentsize.intValue() : 2, ' ');
+    indent                  = " ".repeat(indentsize != null ? indentsize.intValue() : 2);
     handleInvalidAttribute  = this::handleInvalidAttribute;
     attributeValueConverter = this::attributeValueConverter;
   }

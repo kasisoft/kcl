@@ -115,12 +115,12 @@ public class TreeFunctionsTest {
 
   @Test
   public void forTreeNodeDo() {
-    StringFBuilder builder = new StringFBuilder();
+    StringBuilder builder = new StringBuilder();
     TreeFunctions.forTreeNodeDo(
       PARENTHESIZE_DATA,
       $ -> $,
       $ -> {
-        builder.appendF("[%d,%s]\n", $.getLevel(), $.getName());
+        builder.append("[%d,%s]\n".formatted($.getLevel(), $.getName()));
       }
     );
     assertThat(builder.toString(), is(EXPECTED_FOR_TREE_NODE));
@@ -167,13 +167,13 @@ public class TreeFunctionsTest {
 
   @Test
   public void forTreeNodeDo__WithRoot() {
-    StringFBuilder builder = new StringFBuilder();
+    StringBuilder builder = new StringBuilder();
     TreeFunctions.forTreeNodeDo(
       PARENTHESIZE_DATA,
       $ -> $,
       false,
       $ -> {
-        builder.appendF("[%d,%s]\n", $.getLevel(), $.getName());
+        builder.append("[%d,%s]\n".formatted($.getLevel(), $.getName()));
       }
     );
     assertThat(builder.toString(), is(EXPECTED_FOR_TREE_NODE_WITH_ROOT));
@@ -219,11 +219,11 @@ public class TreeFunctionsTest {
 
   @Test
   public void forTreeValueDo() {
-    StringFBuilder builder = new StringFBuilder();
+    StringBuilder builder = new StringBuilder();
     TreeFunctions.forTreeValueDo(
       PARENTHESIZE_DATA,
       $ -> $,
-      ($value, $level) -> builder.appendF("[%d,%s]\n", $level, $value)
+      ($value, $level) -> builder.append("[%d,%s]\n".formatted($level, $value))
     );
     assertThat(builder.toString(), is(EXPECTED_FOR_TREE_VALUE));
   }
@@ -269,12 +269,12 @@ public class TreeFunctionsTest {
 
   @Test
   public void forTreeValueDo__WithRoot() {
-    StringFBuilder builder = new StringFBuilder();
+    StringBuilder builder = new StringBuilder();
     TreeFunctions.forTreeValueDo(
       PARENTHESIZE_DATA,
       $ -> $,
       false,
-      ($value, $level) -> builder.appendF("[%d,%s]\n", $level, $value)
+      ($value, $level) -> builder.append("[%d,%s]\n".formatted($level, $value))
     );
     assertThat(builder.toString(), is(EXPECTED_FOR_TREE_VALUE_WITH_ROOT));
   }

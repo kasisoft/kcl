@@ -259,22 +259,6 @@ public class StringFunctionsTest {
     assertThat(StringFunctions.repeat(n, text), is(expected));
   }
 
-  @Test
-  public void padding__WithChar() {
-    assertThat(StringFunctions.padding(null, 20, ' ', true), is("                    "));
-    assertThat(StringFunctions.padding("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 20, ' ', true), is("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
-    assertThat(StringFunctions.padding("Hello", 20, ' ', true), is("               Hello"));
-    assertThat(StringFunctions.padding("Hello", 20, ' ', false), is("Hello               "));
-  }
-
-  @Test
-  public void padding() {
-    assertThat(StringFunctions.padding(null, 20, true), is("                    "));
-    assertThat(StringFunctions.padding("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 20, true), is("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
-    assertThat(StringFunctions.padding("Hello", 20, true), is("               Hello"));
-    assertThat(StringFunctions.padding("Hello", 20, false), is("Hello               "));
-  }
-
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_objectToString() {
     return Stream.of(

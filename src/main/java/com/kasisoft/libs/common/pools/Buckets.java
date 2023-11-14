@@ -32,10 +32,6 @@ public class Buckets {
     return BUCKETS.computeIfAbsent(CharArrayWriter.class, $ -> new Bucket<>(CharArrayWriter::new, CharArrayWriter::reset));
   }
 
-  public static Bucket<StringFBuilder> bucketStringFBuilder() {
-    return BUCKETS.computeIfAbsent(StringFBuilder.class, $ ->new Bucket<>(StringFBuilder::new, $sb -> $sb.setLength(0)));
-  }
-
   public static Bucket<StringBuilder> bucketStringBuilder() {
     return BUCKETS.computeIfAbsent(StringBuilder.class, $ -> new Bucket<>(StringBuilder::new, $sb -> $sb.setLength(0)));
   }

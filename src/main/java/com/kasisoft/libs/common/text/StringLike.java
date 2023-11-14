@@ -877,7 +877,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
   default @NotNull T replaceAll(@NotNull Map<String, String> replacements, String fmt) {
 
     var substitutions = Buckets.<String, String>bucketHashMap().allocate();
-    var builder       = Buckets.bucketStringFBuilder().allocate();
+    var builder       = Buckets.bucketStringBuilder().allocate();
     var regions       = Buckets.<Integer>bucketArrayList().allocate();
 
     // setup the substitution map
@@ -910,7 +910,7 @@ public interface StringLike<T extends StringLike> extends CharSequence, Comparab
     }
 
     Buckets.<String, String>bucketHashMap().free(substitutions);
-    Buckets.bucketStringFBuilder().free(builder);
+    Buckets.bucketStringBuilder().free(builder);
     Buckets.<Integer>bucketArrayList().free(regions);
 
     return (T) this;
