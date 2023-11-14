@@ -2,41 +2,28 @@ package com.kasisoft.libs.common.constants;
 
 import com.kasisoft.libs.common.annotation.*;
 
-import com.kasisoft.libs.common.io.*;
-
 import jakarta.validation.constraints.*;
 
 import java.util.*;
 
-import java.nio.file.*;
-
-import java.nio.*;
 import java.nio.charset.*;
 
-import java.net.*;
-
-import java.io.*;
+import java.nio.*;
 
 /**
  * Collection of supported encodings.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@Specification(value = "https://docs.oracle.com/javase/10/docs/api/java/nio/charset/Charset.html", date = "04-JUN-2020")
+@Specification(value = "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html", date = "14-NOV-2023")
 public final class Encoding {
 
     public static final Encoding               ASCII;
-
     public static final Encoding               UTF8;
-
     public static final Encoding               UTF16;
-
     public static final Encoding               UTF16BE;
-
     public static final Encoding               UTF16LE;
-
     public static final Encoding               ISO88591;
-
     public static final Encoding               IBM437;
 
     private static final Map<String, Encoding> ENCODINGS;
@@ -53,11 +40,8 @@ public final class Encoding {
     }
 
     private String        encoding;
-
     private boolean       bomRequired;
-
     private ByteOrderMark byteOrderMark;
-
     private Charset       charset;
 
     /**
@@ -97,108 +81,14 @@ public final class Encoding {
     }
 
     /**
-     * Opens a Reader for a specific file using this encoding.
-     *
-     * @param file
-     *            The file that has to be opened using this encoding. Must be a valid file.
-     * @return The reader if the file could be opened.
-     */
-    public @NotNull Reader openReader(@NotNull File file) {
-        return IoFunctions.newReader(file, this);
-    }
-
-    /**
-     * Opens a Reader for a specific resource using this encoding.
-     *
-     * @param url
-     *            The url of the resource that has to be opened using this encoding. Must be a valid
-     *            resource.
-     * @return The reader if the url could be opened.
-     */
-    @SuppressWarnings("resource")
-    public @NotNull Reader openReader(@NotNull URL url) {
-        return IoFunctions.newReader(url, this);
-    }
-
-    /**
-     * Opens a Reader for a specific resource using this encoding.
-     *
-     * @param uri
-     *            The URI of the resource that has to be opened using this encoding. Must be a valid
-     *            resource.
-     * @return The reader if the url could be opened.
-     */
-    @SuppressWarnings("resource")
-    public @NotNull Reader openReader(@NotNull URI uri) {
-        return IoFunctions.newReader(uri, this);
-    }
-
-    /**
-     * Opens a Reader for a specific resource using this encoding.
-     *
-     * @param path
-     *            The path of the resource that has to be opened using this encoding. Must be a valid
-     *            resource.
-     * @return The reader if the url could be opened.
-     */
-    @SuppressWarnings("resource")
-    public @NotNull Reader openReader(@NotNull Path path) {
-        return IoFunctions.newReader(path, this);
-    }
-
-    /**
-     * Opens a Reader for a specific InputStream using this encoding.
-     *
-     * @param instream
-     *            The InputStream that has to be accessed using this encoding.
-     * @return The Reader if it can be accessed.
-     */
-    public @NotNull Reader openReader(@NotNull InputStream instream) {
-        return IoFunctions.newReader(instream, this);
-    }
-
-    /**
-     * Opens a Writer for a specific file using this encoding.
-     *
-     * @param file
-     *            The file that has to be opened using this encoding. Must be a valid file.
-     * @return The writer if the file could be opened.
-     */
-    public @NotNull Writer openWriter(@NotNull File file) {
-        return IoFunctions.newWriter(file, this);
-    }
-
-    /**
-     * Opens a Writer for a specific file using this encoding.
-     *
-     * @param path
-     *            The path that has to be opened using this encoding. Must be a valid file.
-     * @return The writer if the file could be opened.
-     */
-    @SuppressWarnings("resource")
-    public @NotNull Writer openWriter(@NotNull Path path) {
-        return IoFunctions.newWriter(path, this);
-    }
-
-    /**
-     * Opens a Writer for a specific OutputStream using this encoding.
-     *
-     * @param outstream
-     *            The OutputStream that has to be opened using this encoding. Must be a valid file.
-     * @return The writer if the file could be opened.
-     */
-    public @NotNull Writer openWriter(@NotNull OutputStream outstream) {
-        return IoFunctions.newWriter(outstream, this);
-    }
-
-    /**
      * Encodes the supplied text.
      *
      * @param text
      *            The text that has to be encoded.
      * @return The data which has to be encoded.
      */
-    public @NotNull byte[] encode(@NotNull String text) {
+    @NotNull
+    public byte[] encode(@NotNull String text) {
         var buffer = charset.encode(CharBuffer.wrap(text));
         var result = new byte[buffer.limit()];
         buffer.get(result);
@@ -212,7 +102,8 @@ public final class Encoding {
      *            The data providing the content.
      * @return The decoded String.
      */
-    public @NotNull String decode(@NotNull byte[] data) {
+    @NotNull
+    public String decode(@NotNull byte[] data) {
         return charset.decode(ByteBuffer.wrap(data)).toString();
     }
 
@@ -249,13 +140,15 @@ public final class Encoding {
      *            here.
      * @return The encoding value if available.
      */
-    public static @NotNull Optional<Encoding> findByName(@NotNull String name) {
+    @NotNull
+    public static Optional<Encoding> findByName(@NotNull String name) {
         synchronized (ENCODINGS) {
             return Optional.ofNullable(ENCODINGS.get(name));
         }
     }
 
-    public static @NotNull Encoding getEncoding(Encoding encoding) {
+    @NotNull
+    public static Encoding getEncoding(Encoding encoding) {
         if (encoding == null) {
             return Encoding.UTF8;
         }

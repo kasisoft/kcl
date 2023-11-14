@@ -4,6 +4,8 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.types.*;
 
+import com.kasisoft.libs.common.io.*;
+
 import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.*;
@@ -96,7 +98,7 @@ public class I18NSupport {
                 continue;
             }
 
-            try (var instream = url.openStream(); var reader = Encoding.UTF8.openReader(instream)) {
+            try (var instream = url.openStream(); var reader = IoFunctions.newReader(instream, Encoding.UTF8)) {
                 var props = new Properties();
                 props.load(reader);
                 apply(result, props);
