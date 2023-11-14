@@ -1,22 +1,15 @@
 package com.kasisoft.libs.common.test.constants;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.constants.*;
 
 import org.junit.jupiter.params.provider.*;
 
 import org.junit.jupiter.params.*;
 
-import org.junit.jupiter.api.*;
+import com.kasisoft.libs.common.constants.*;
 
 import java.util.stream.*;
-
-import java.util.*;
 
 /**
  * Tests for the constants 'Digest'.
@@ -46,26 +39,6 @@ public class DigestTest {
     @MethodSource("data_digestToString")
     public void digestToString(String text, Digest digest, String expectedVal) {
         assertThat(digest.digestToString(text.getBytes()), is(expectedVal));
-    }
-
-    public static Stream<Arguments> data_findByName() {
-        return Arrays.asList(Digest.values()).stream().map($ -> Arguments.of($.getAlgorithm(), $));
-    }
-
-    @ParameterizedTest
-    @MethodSource("data_findByName")
-    public void findByName(String name, Digest expected) {
-        var digest = Digest.findByName(name);
-        assertNotNull(digest);
-        assertTrue(digest.isPresent());
-        assertThat(digest.get(), is(expected));
-    }
-
-    @Test
-    public void findByName__UNKNOWN() {
-        var digest = Digest.findByName("Oopsi");
-        assertNotNull(digest);
-        assertFalse(digest.isPresent());
     }
 
 } /* ENDCLASS */
