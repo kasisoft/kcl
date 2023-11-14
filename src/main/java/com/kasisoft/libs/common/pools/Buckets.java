@@ -15,7 +15,7 @@ import java.io.*;
 public class Buckets {
 
   public static Map<Class, Bucket> BUCKETS = new ConcurrentHashMap<>(8);
-  
+
   public static <R> Bucket<List<R>> bucketArrayList() {
     return BUCKETS.computeIfAbsent(ArrayList.class, $ -> new Bucket<ArrayList>(ArrayList::new, ArrayList::clear));
   }
@@ -30,10 +30,6 @@ public class Buckets {
 
   public static Bucket<CharArrayWriter> bucketCharArrayWriter() {
     return BUCKETS.computeIfAbsent(CharArrayWriter.class, $ -> new Bucket<>(CharArrayWriter::new, CharArrayWriter::reset));
-  }
-
-  public static Bucket<StringFBuffer> bucketStringFBuffer() {
-    return BUCKETS.computeIfAbsent(StringFBuffer.class, $ -> new Bucket<>(StringFBuffer::new, $sb -> $sb.setLength(0)));
   }
 
   public static Bucket<StringFBuilder> bucketStringFBuilder() {

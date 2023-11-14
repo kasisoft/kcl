@@ -669,19 +669,19 @@ public class StringFBuilderTest {
   @Test
   public void lastIndexOf() {
     var input = "hello world is here";
-    assertThat(new StringFBuffer(input).lastIndexOf('y', 'z'), is(-1));
-    assertThat(new StringFBuffer(input).lastIndexOf('w', 'o'), is(7));
-    assertThat(new StringFBuffer(input).lastIndexOf(5, 'y', 'z'), is(-1));
-    assertThat(new StringFBuffer(input).lastIndexOf(5, 'w', 'o'), is(4));
+    assertThat(new StringFBuilder(input).lastIndexOf('y', 'z'), is(-1));
+    assertThat(new StringFBuilder(input).lastIndexOf('w', 'o'), is(7));
+    assertThat(new StringFBuilder(input).lastIndexOf(5, 'y', 'z'), is(-1));
+    assertThat(new StringFBuilder(input).lastIndexOf(5, 'w', 'o'), is(4));
   }
 
   @Test
   public void indexOf() {
     var input = "hello world is here";
-    assertThat(new StringFBuffer(input).indexOf('y', 'z'), is(-1));
-    assertThat(new StringFBuffer(input).indexOf('w', 'o'), is(4));
-    assertThat(new StringFBuffer(input).indexOf(5, 'y', 'z'), is(-1));
-    assertThat(new StringFBuffer(input).indexOf(5, 'w', 'o'), is(6));
+    assertThat(new StringFBuilder(input).indexOf('y', 'z'), is(-1));
+    assertThat(new StringFBuilder(input).indexOf('w', 'o'), is(4));
+    assertThat(new StringFBuilder(input).indexOf(5, 'y', 'z'), is(-1));
+    assertThat(new StringFBuilder(input).indexOf(5, 'w', 'o'), is(6));
   }
 
   private static StringFBuilder create(String input) {
