@@ -226,7 +226,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
   private URL toURL(String systemid) {
     if (systemid != null) {
       try {
-        return new URL(systemid);
+        return URI.create(systemid).toURL();
       } catch (MalformedURLException ex) {
         // we don't care since we suspect the id to refer to a file
       }

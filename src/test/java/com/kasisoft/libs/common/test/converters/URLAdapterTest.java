@@ -26,7 +26,7 @@ public class URLAdapterTest {
   public static Stream<Arguments> data_decode() throws Exception {
     return Stream.of(
       Arguments.of(null                       , null                                 ),
-      Arguments.of("http://www.amiga-news.de" , new URL( "http://www.amiga-news.de" ))
+      Arguments.of("http://www.amiga-news.de" , URI.create( "http://www.amiga-news.de" ).toURL())
     );
   }
 
@@ -39,7 +39,7 @@ public class URLAdapterTest {
   public static Stream<Arguments> data_encode() throws Exception {
     return Stream.of(
       Arguments.of(null                                  , null                       ),
-      Arguments.of(new URL( "http://www.amiga-news.de" ) , "http://www.amiga-news.de" )
+      Arguments.of(URI.create( "http://www.amiga-news.de" ).toURL() , "http://www.amiga-news.de" )
     );
   }
 

@@ -23,7 +23,7 @@ public class URLAdapter extends AbstractConverter<String, URL> {
   @Override
   public URL decodeImpl(@NotNull String v) {
     try {
-      return new URL(v);
+      return URI.create(v).toURL();
     } catch (MalformedURLException ex) {
       throw new KclException(error_invalid_url, v);
     }
