@@ -59,7 +59,7 @@ public class TreeFunctionsTest {
     TreeFunctions.parenthesize(
       PARENTHESIZE_DATA,
       $ -> $,
-      ($s, $p, $c) -> children.add(new Tupel<>($s, $p, $c))
+      ($s, $p, $c) -> children.add(new Tupel<>(new String[] {$s, $p, $c}))
     );
     for (Tupel<String> t : children) {
       System.err.println("[" + t.getFirst() + "] -> '" + t.getLast() + "'");

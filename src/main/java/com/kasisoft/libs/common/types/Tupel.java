@@ -19,8 +19,13 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
    *
    * @param newvalues   The new values.
    */
-  public Tupel(T ... newvalues) {
+  public Tupel(T[] newvalues) {
     setValues(newvalues);
+  }
+
+  public Tupel() {
+    values = null;
+    length = 0;
   }
 
   public T[] getValues() {
@@ -53,7 +58,7 @@ public class Tupel<T> implements HasFirstAndLast<T, T> {
    *
    * @param newvalues   The new values.
    */
-  public void setValues(T ... newvalues) {
+  public void setValues(T[] newvalues) {
     values = newvalues;
     length = newvalues != null ? newvalues.length : 0;
   }

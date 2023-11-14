@@ -20,9 +20,9 @@ public class TupelTest {
   public static Stream<Arguments> data_processTupels() {
     return Stream.of(
       Arguments.of(new Tupel<String>(), null, null),
-      Arguments.of(new Tupel<String>("A"), "A", "A"),
-      Arguments.of(new Tupel<String>("A", "B"), "A", "B"),
-      Arguments.of(new Tupel<String>("A", "B", "C"), "A", "C")
+      Arguments.of(new Tupel<String>(new String[] {"A"}), "A", "A"),
+      Arguments.of(new Tupel<String>(new String[] {"A", "B"}), "A", "B"),
+      Arguments.of(new Tupel<String>(new String[] {"A", "B", "C"}), "A", "C")
     );
   }
 
