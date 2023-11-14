@@ -11,13 +11,13 @@ import java.util.*;
 /**
  * Collection of supported mime types.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @Specifications({
-    @Specification(value = "https://wiki.selfhtml.org/wiki/MIME-Type/%C3%9Cbersicht", date = "04-JUN-2020"),
-    @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "04-JUN-2020"),
-    @Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "04-JUN-2020"),
-    @Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "04-JUN-2020")})
+    @Specification(value = "https://wiki.selfhtml.org/wiki/MIME-Type/%C3%9Cbersicht", date = "14-NOV-2023"),
+    @Specification(value = "http://www.ietf.org/rfc/rfc4627.txt", date = "14-NOV-2023"),
+    @Specification(value = "https://www.iana.org/assignments/media-types/media-types.xhtml", date = "14-NOV-2023"),
+    @Specification(value = "https://www.freeformatter.com/mime-types-list.html", date = "14-NOV-2023")})
 public enum MimeType implements Predicate<String> {
 
     AdobePdf("application/pdf", "pdf"), // Adobe PDF
@@ -67,11 +67,8 @@ public enum MimeType implements Predicate<String> {
     }
 
     private String       mimeType;
-
     private List<String> suffices;
-
     private String       primarySuffix;
-
     private String       primarySuffixWithDot;
 
     MimeType(@NotBlank String type, @NotNull String ... suffixlist) {
@@ -85,29 +82,29 @@ public enum MimeType implements Predicate<String> {
         primarySuffixWithDot = ".%s".formatted(primarySuffix);
     }
 
+    @NotBlank
     public String getMimeType() {
         return mimeType;
     }
 
+    @NotNull
     public List<String> getSuffices() {
         return suffices;
     }
 
+    @NotBlank
     public String getPrimarySuffix() {
         return primarySuffix;
     }
 
+    @NotBlank
     public String getPrimarySuffixWithDot() {
         return primarySuffixWithDot;
     }
 
     @Override
     public boolean test(String mime) {
-        boolean result = false;
-        if (mime != null) {
-            result = mimeType.equalsIgnoreCase(mime);
-        }
-        return result;
+        return (mime != null) && mimeType.equalsIgnoreCase(mime);
     }
 
     /**
@@ -128,7 +125,8 @@ public enum MimeType implements Predicate<String> {
      *            The current mime type which has to be identified.
      * @return The MimeType if it could be found or empty.
      */
-    public static @NotNull Optional<MimeType> findByMimeType(@NotNull String type) {
+    @NotNull
+    public static Optional<MimeType> findByMimeType(@NotNull String type) {
         var idx = type.indexOf(';');
         if (idx != -1) {
             type = idx > 0 ? type.substring(0, idx) : "";
@@ -143,7 +141,8 @@ public enum MimeType implements Predicate<String> {
      *            The suffix used to identify a filetype.
      * @return A set of supporting mime types.
      */
-    public static @NotNull Set<MimeType> findBySuffix(@NotNull String suffix) {
+    @NotNull
+    public static Set<MimeType> findBySuffix(@NotNull String suffix) {
         var result = LocalData.valuebysuffix.get(suffix.toLowerCase());
         if (result == null) {
             result = Collections.emptySet();

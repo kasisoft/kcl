@@ -3,20 +3,19 @@ package com.kasisoft.libs.common.constants;
 /**
  * A collection of file sizes. Calculation won't work on {@link #TerraByte} due to value limits.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public enum FileSize {
 
-    Byte(1, 1, "B", "B"), KiloByte(1000, 1024, "KB", "KiB"), MegaByte(1000 * 1000, 1024
-        * 1024, "MB", "MiB"), GigaByte(1000 * 1000
-            * 1000, 1024 * 1024 * 1024, "GB", "GiB"), TerraByte(0L, 0L, "TB", "TiB");
+    Byte(1, 1, "B", "B"),
+    KiloByte(1000, 1024, "KB", "KiB"),
+    MegaByte(1000 * 1000, 1024 * 1024, "MB", "MiB"),
+    GigaByte(1000 * 1000 * 1000, 1024 * 1024 * 1024, "GB", "GiB"),
+    TerraByte(0L, 0L, "TB", "TiB");
 
     private long   humanSize;
-
     private long   computerSize;
-
     private String humanUnit;
-
     private String computerUnit;
 
     FileSize(long human, long computer, String humanU, String computerU) {
@@ -60,21 +59,21 @@ public enum FileSize {
 
     public FileSize next() {
         return switch (this) {
-        case Byte -> KiloByte;
-        case KiloByte -> MegaByte;
-        case MegaByte -> GigaByte;
-        case GigaByte -> TerraByte;
-        default -> null;
+            case Byte -> KiloByte;
+            case KiloByte -> MegaByte;
+            case MegaByte -> GigaByte;
+            case GigaByte -> TerraByte;
+            default -> null;
         };
     }
 
     public FileSize previous() {
         return switch (this) {
-        case KiloByte -> Byte;
-        case MegaByte -> KiloByte;
-        case GigaByte -> MegaByte;
-        case TerraByte -> GigaByte;
-        default -> null;
+            case KiloByte -> Byte;
+            case MegaByte -> KiloByte;
+            case GigaByte -> MegaByte;
+            case TerraByte -> GigaByte;
+            default -> null;
         };
     }
 
