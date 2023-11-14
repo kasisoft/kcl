@@ -25,7 +25,6 @@ import java.util.*;
  */
 public class StringFunctionsTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_removeSuffix() {
     return Stream.of(
       Arguments.of("a/b/c/test"    , "a/b/c/test"),
@@ -40,7 +39,6 @@ public class StringFunctionsTest {
     assertThat(StringFunctions.removeSuffix(name), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_changeSuffix() {
     return Stream.of(
       Arguments.of("a/b/c/test"    , "jpg" , "a/b/c/test.jpg"),
@@ -57,7 +55,6 @@ public class StringFunctionsTest {
   }
 
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_cleanup() {
     return Stream.of(
       Arguments.of(null    , null),
@@ -122,7 +119,6 @@ public class StringFunctionsTest {
     assertThat(StringFunctions.camelCase("Simple-ton"), is("simpleTon"));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_regionReplaceSimple() {
     return Stream.of(
       Arguments.of("this is // my text // without a section // dodo //", "", "this is  without a section "),
@@ -141,7 +137,6 @@ public class StringFunctionsTest {
     assertThat(StringFunctions.replaceRegions(text, "//", null, replacement), is( expected ) );
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_regionReplaceFunction() {
     var mapping = new HashMap<String, String>();
     mapping.put("my text", "changed text");
@@ -160,7 +155,6 @@ public class StringFunctionsTest {
     assertThat(StringFunctions.replaceRegions(text, "//", replacement), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_endsWithMany() {
     return Stream.of(
       Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20", "Ozean"}, true),
@@ -182,7 +176,6 @@ public class StringFunctionsTest {
 
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_startsWithMany() {
     return Stream.of(
       Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20", "fliegen"}, true),
@@ -247,7 +240,6 @@ public class StringFunctionsTest {
 
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_repeat() {
     return Stream.of(
       Arguments.of(0, null, ""),
@@ -268,7 +260,6 @@ public class StringFunctionsTest {
     assertThat(StringFunctions.repeat(n, text), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_objectToString() {
     return Stream.of(
 

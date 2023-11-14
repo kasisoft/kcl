@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.*;
 
 import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.*;
 import com.kasisoft.libs.common.test.*;
 import com.kasisoft.libs.common.utils.*;
 

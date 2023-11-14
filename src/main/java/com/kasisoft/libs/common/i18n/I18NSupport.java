@@ -49,7 +49,6 @@ public class I18NSupport {
    *
    * @return   <code>true</code> <=> The supplied field is a translation field.
    */
-  @SuppressWarnings("deprecation")
   private static boolean isTranslationField(@NotNull Field field) {
     var modifier = field.getModifiers();
     if (modifier != MODIFIERS) {
@@ -187,7 +186,6 @@ public class I18NSupport {
    * @param field   The field which is supposed to be edited.
    * @param value   The value which has to be set.
    */
-  @SuppressWarnings("deprecation")
   private static void applyFieldValue(@NotNull Field field, String value) {
     if (value != null) {
       try {

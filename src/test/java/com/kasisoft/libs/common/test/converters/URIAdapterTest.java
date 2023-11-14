@@ -21,7 +21,6 @@ public class URIAdapterTest {
 
   private URIAdapter adapter = new URIAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() throws Exception {
     return Stream.of(
       Arguments.of(null                      , null                               ),
@@ -35,7 +34,6 @@ public class URIAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() throws Exception {
     return Stream.of(
       Arguments.of(null                               , null                      ),

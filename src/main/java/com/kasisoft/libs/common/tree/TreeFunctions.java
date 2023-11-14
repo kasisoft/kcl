@@ -18,6 +18,7 @@ import java.util.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class TreeFunctions {
 
   private static List<String> split(@NotBlank String str) {

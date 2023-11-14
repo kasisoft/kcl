@@ -33,6 +33,7 @@ import java.io.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class CsvTableModel implements TableModel {
 
   private static final char CR = '\r';

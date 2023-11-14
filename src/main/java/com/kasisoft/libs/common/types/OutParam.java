@@ -3,13 +3,14 @@ package com.kasisoft.libs.common.types;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("rawtypes")
 public class OutParam<T> {
 
   private T value;
 
   public OutParam() {
   }
-  
+
   public OutParam(T value) {
     this.value = value;
   }
@@ -51,5 +52,5 @@ public class OutParam<T> {
   public String toString() {
     return "OutParam [value=" + value + "]";
   }
-  
+
 } /* ENDCLASS */

@@ -21,7 +21,6 @@ import java.util.*;
  */
 public class LiteralTokenizerTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_tokenize() {
 
     String input1 = "@PART@ ist @FLUPPE@ heute hier";
@@ -56,7 +55,6 @@ public class LiteralTokenizerTest {
     assertThat(tokens.toArray(), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_tokenizeStringLike() {
     var input1 = new StringBuilder("@PART@ ist @FLUPPE@ heute hier");
     var input2 = new StringBuilder("Fred ist @FLUPPE@ heute @PART@");
@@ -77,7 +75,6 @@ public class LiteralTokenizerTest {
     );
   }
 
-  @SuppressWarnings("rawtypes")
   @ParameterizedTest
   @MethodSource("data_tokenizeStringLike")
   public void tokenizeStringLike(StringBuilder input, boolean returndelimiters, Object[] expected) {

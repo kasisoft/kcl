@@ -25,7 +25,6 @@ import java.util.*;
  */
 public class HttpStatusCodeTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByStatusCode() {
     return Arrays.asList(HttpStatusCode.values()).stream()
       .map($ -> Arguments.of($.getTextualCode(), $))

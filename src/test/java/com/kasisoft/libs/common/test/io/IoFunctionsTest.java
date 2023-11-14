@@ -72,7 +72,6 @@ public class IoFunctionsTest {
                                                  + "</schema>\n"
                                                  ;
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_compileFileSystemPattern() {
     return Stream.of(
       Arguments.of("*", "([^/]+)"),
@@ -91,7 +90,6 @@ public class IoFunctionsTest {
     assertThat(p.pattern(), is(regex));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_newOutputStream() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text1.txt");
     var file2 = TEST_RESOURCES.getTempPath("text2.txt");
@@ -125,7 +123,6 @@ public class IoFunctionsTest {
     assertThat(asText, is(CONTENT_FOR_STREAMS));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_newWriter() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text4.txt");
     var file2 = TEST_RESOURCES.getTempPath("text5.txt");
@@ -163,7 +160,6 @@ public class IoFunctionsTest {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_newWriter__WithEncoding() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text10.txt");
     var file2 = TEST_RESOURCES.getTempPath("text11.txt");
@@ -201,7 +197,6 @@ public class IoFunctionsTest {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_forOutputStreamDo() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text16.txt");
     var file2 = TEST_RESOURCES.getTempPath("text17.txt");
@@ -239,7 +234,6 @@ public class IoFunctionsTest {
     assertThat(asText, is(CONTENT_FOR_STREAMS));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_forOutputStream() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text22.txt");
     var file2 = TEST_RESOURCES.getTempPath("text23.txt");
@@ -300,7 +294,6 @@ public class IoFunctionsTest {
     });
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_forWriterDo() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text28.txt");
     var file2 = TEST_RESOURCES.getTempPath("text29.txt");
@@ -312,7 +305,6 @@ public class IoFunctionsTest {
     );
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_forReaderDo() throws Exception {
     var file1 = TEST_RESOURCES.getFile("text34.txt");
     var file2 = TEST_RESOURCES.getFile("text35.txt");
@@ -366,7 +358,6 @@ public class IoFunctionsTest {
     });
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_forWriter() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text34.txt");
     var file2 = TEST_RESOURCES.getTempPath("text35.txt");
@@ -425,7 +416,6 @@ public class IoFunctionsTest {
     });
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_forWriterDo__WithEncoding() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text40.txt");
     var file2 = TEST_RESOURCES.getTempPath("text41.txt");
@@ -467,7 +457,6 @@ public class IoFunctionsTest {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_forWriter__WithEncoding() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text52.txt");
     var file2 = TEST_RESOURCES.getTempPath("text53.txt");
@@ -571,7 +560,7 @@ public class IoFunctionsTest {
     assertThat(writer.toString(), is(CONTENT_FOR_READERS));
   }
 
-  @SuppressWarnings({ "deprecation", "exports" })
+  @SuppressWarnings("deprecation")
   public static Stream<Arguments> data_loadBytes() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
     return Stream.of(
@@ -601,7 +590,7 @@ public class IoFunctionsTest {
   }
 
 
-  @SuppressWarnings({ "deprecation", "exports" })
+  @SuppressWarnings("deprecation")
   public static Stream<Arguments> data_loadChars() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
     return Stream.of(
@@ -648,7 +637,7 @@ public class IoFunctionsTest {
     assertThat(loaded, is(expected));
   }
 
-  @SuppressWarnings({ "deprecation", "exports" })
+  @SuppressWarnings("deprecation")
   public static Stream<Arguments> data_loadAllBytes() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
     return Stream.of(
@@ -677,7 +666,7 @@ public class IoFunctionsTest {
     assertThat(loaded, is(expected));
   }
 
-  @SuppressWarnings({ "deprecation", "exports" })
+  @SuppressWarnings("deprecation")
   public static Stream<Arguments> data_loadAllChars() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
     return Stream.of(
@@ -724,7 +713,6 @@ public class IoFunctionsTest {
     assertThat(loaded, is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_saveBytes() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text64.txt");
     var file2 = TEST_RESOURCES.getTempPath("text65.txt");
@@ -747,7 +735,6 @@ public class IoFunctionsTest {
     assertThat(loaded, is(toSave));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_saveBytes__WithOffset__WithSize() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text91.txt");
     var file2 = TEST_RESOURCES.getTempPath("text92.txt");
@@ -770,7 +757,6 @@ public class IoFunctionsTest {
     assertThat(loaded, is(Arrays.copyOfRange(toSave, 20, 20 + 100)));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_saveChars() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text67.txt");
     var file2 = TEST_RESOURCES.getTempPath("text68.txt");
@@ -804,7 +790,6 @@ public class IoFunctionsTest {
     assertThat(loaded, is(toSave));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_saveChars__WithEncoding__WithOffset__WithSize() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text94.txt");
     var file2 = TEST_RESOURCES.getTempPath("text95.txt");
@@ -828,7 +813,7 @@ public class IoFunctionsTest {
   }
 
 
-  @SuppressWarnings({ "deprecation", "exports" })
+  @SuppressWarnings("deprecation")
   public static Stream<Arguments> data_readText() throws Exception {
     var httpXsd = TEST_RESOURCES.getResource("http.xsd");
     return Stream.of(
@@ -855,7 +840,6 @@ public class IoFunctionsTest {
     assertThat(read, is(CONTENT_HTTP_XSD));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_writeText() throws Exception {
     var file1 = TEST_RESOURCES.getTempPath("text70.txt");
     var file2 = TEST_RESOURCES.getTempPath("text71.txt");

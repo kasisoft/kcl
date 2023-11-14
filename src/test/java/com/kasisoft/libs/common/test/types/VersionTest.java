@@ -22,7 +22,6 @@ import java.util.*;
  */
 public class VersionTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_failingVersions() {
     return Stream.of(
       Arguments.of(null              , Boolean.TRUE ),
@@ -45,7 +44,6 @@ public class VersionTest {
     });
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_versions() {
     return Stream.of(
       Arguments.of("1.1"            , Boolean.FALSE , Boolean.FALSE , new Version(1, 1)),
@@ -62,7 +60,6 @@ public class VersionTest {
     assertThat(new Version(version, hasmicro, hasqualifier), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_versionsAll() {
     return Stream.of(
       Arguments.of("1.1"            , new Version(1, 1)),
@@ -79,7 +76,6 @@ public class VersionTest {
     assertThat(new Version(version), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_sort() throws Exception {
 
     Version[] versions  = {new Version("2.1", false, false), new Version("1.1", false, false)};

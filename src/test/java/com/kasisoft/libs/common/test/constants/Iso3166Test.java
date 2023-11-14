@@ -25,7 +25,6 @@ import java.util.*;
  */
 public class Iso3166Test {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_validCode() {
     return Arrays.asList(Iso3166.values()).stream()
       .map(Arguments::of)
@@ -41,7 +40,6 @@ public class Iso3166Test {
     assertThat(value.getAlpha3().length(), is(3));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByAlpha2() {
     return Arrays.asList(Iso3166.values()).stream()
       .map($ -> Arguments.of($, $.getAlpha2()))
@@ -64,7 +62,6 @@ public class Iso3166Test {
     assertFalse(opt.isPresent());
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByAlpha3() {
     return Arrays.asList(Iso3166.values()).stream()
       .map($ -> Arguments.of($, $.getAlpha3()))
@@ -87,7 +84,6 @@ public class Iso3166Test {
     assertFalse(opt.isPresent());
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByNumerical() {
     return Arrays.asList(Iso3166.values()).stream()
       .map($ -> Arguments.of($, $.getNumerical()))
@@ -103,7 +99,6 @@ public class Iso3166Test {
     assertThat(identified.get(), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_test() {
     return Arrays.asList(Iso3166.values()).stream()
       .map($ -> Arguments.of($.getAlpha2(), $.getAlpha3(), $))

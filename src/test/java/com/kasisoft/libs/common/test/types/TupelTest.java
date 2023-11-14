@@ -17,7 +17,6 @@ import java.util.stream.*;
  */
 public class TupelTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_processTupels() {
     return Stream.of(
       Arguments.of(new Tupel<String>(), null, null),

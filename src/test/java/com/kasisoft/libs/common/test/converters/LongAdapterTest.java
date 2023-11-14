@@ -22,7 +22,6 @@ public class LongAdapterTest {
 
   private LongAdapter adapter = new LongAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null , null),
@@ -38,7 +37,6 @@ public class LongAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null , null),
@@ -54,7 +52,6 @@ public class LongAdapterTest {
     assertThat(adapter.encode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_invalidDecode() {
     return Stream.of(
       Arguments.of("3.7")

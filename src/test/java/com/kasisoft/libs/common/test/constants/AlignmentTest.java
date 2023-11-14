@@ -46,7 +46,6 @@ public class AlignmentTest {
 
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_set__JLabelHorizontal() {
     return Stream.of(
       Arguments.of(new JLabel("label"), Alignment.Left, SwingConstants.LEFT),
@@ -62,7 +61,6 @@ public class AlignmentTest {
     assertThat(component.getHorizontalAlignment(), is(value));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_set__JTextFieldHorizontal() {
     return Stream.of(
       Arguments.of(new JTextField(), Alignment.Left, SwingConstants.LEFT),
@@ -78,7 +76,6 @@ public class AlignmentTest {
     assertThat(component.getHorizontalAlignment(), is(value));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_set__JLabelVertical() {
     return Stream.of(
       Arguments.of(new JLabel("label"), Alignment.Top, SwingConstants.TOP),
@@ -94,7 +91,6 @@ public class AlignmentTest {
     assertThat(component.getVerticalAlignment(), is(value));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_set__JTextFieldVertical() {
     return Stream.of(
       Arguments.of(new JTextField(), Alignment.Top, 0.0f),
@@ -110,7 +106,6 @@ public class AlignmentTest {
     assertThat(component.getAlignmentY(), is(value));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_set__JPanel() {
     return Stream.of(
       Arguments.of(new JPanel(), Alignment.Left),

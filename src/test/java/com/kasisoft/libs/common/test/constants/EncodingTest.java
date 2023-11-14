@@ -23,7 +23,6 @@ import java.util.*;
  */
 public class EncodingTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_performEncoding() {
     return Stream.of(
       Arguments.of("Flöz", Encoding.UTF8, new byte[] { (byte) 0x46, (byte) 0x6C, (byte) 0xC3, (byte) 0xB6, (byte) 0x7A}),
@@ -45,7 +44,6 @@ public class EncodingTest {
     assertThat(Encoding.values(), is(notNullValue()));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_valueByName() {
     return Arrays.asList(Encoding.values()).stream()
       .map($ -> Arguments.of($.getEncoding(), $))

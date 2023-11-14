@@ -19,7 +19,6 @@ import java.util.stream.*;
  */
 public class PredicatesTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isMaven() {
     return Stream.of(
       Arguments.of("com/sample/Bibo.class"       , false),
@@ -42,7 +41,6 @@ public class PredicatesTest {
     assertThat(Predicates.IS_MAVEN_FILE.test(classname), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isSPIFile() {
     return Stream.of(
       Arguments.of("META-INF/services/-klddd"           , false),
@@ -61,7 +59,6 @@ public class PredicatesTest {
     assertThat(Predicates.IS_SPI_FILE.test(classname), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isMagnoliaFile() {
     return Stream.of(
       Arguments.of("META-INF/magnolia/"               , false),
@@ -77,7 +74,6 @@ public class PredicatesTest {
     assertThat(Predicates.IS_MAGNOLIA_FILE.test(classname), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isJavaFqdn() {
     return Stream.of(
       Arguments.of("com.sample.Bibo.class"           , false),
@@ -97,7 +93,6 @@ public class PredicatesTest {
     assertThat(Predicates.IS_JAVA_FQDN.test(classname), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isJavaClassFile() {
     return Stream.of(
       Arguments.of("com/sample/Bibo.class"           , true ),
@@ -118,7 +113,6 @@ public class PredicatesTest {
     assertThat(Predicates.IS_JAVA_CLASS_FILE.test(classname), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isInnerJavaClassFile() {
     return Stream.of(
       Arguments.of("com/sample/Bibo.class"           , false),
@@ -139,7 +133,6 @@ public class PredicatesTest {
     assertThat(Predicates.IS_INNER_JAVA_CLASS_FILE.test(classname), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isEnclosingJavaClassFile() {
     return Stream.of(
       Arguments.of("com/sample/Bibo.class"           , true ),

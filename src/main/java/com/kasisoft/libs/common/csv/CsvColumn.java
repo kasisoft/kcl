@@ -15,6 +15,7 @@ import java.math.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("unchecked")
 public final class CsvColumn<T> {
 
   private static Map<Class<?>, Function<String, ?>> DEFAULT_ADAPTERS = new HashMap<>();
@@ -141,6 +142,7 @@ public final class CsvColumn<T> {
     return result;
   }
 
+  @SuppressWarnings("rawtypes")
   @Override
   public boolean equals(Object obj) {
     if (this == obj)

@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.i18n;
 
-import com.kasisoft.libs.common.*;
-
 import jakarta.validation.constraints.*;
 
 import java.util.*;

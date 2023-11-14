@@ -24,7 +24,6 @@ public class DoubleAdapterTest {
 
   private DoubleAdapter adapter = new DoubleAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null   , null),
@@ -52,7 +51,6 @@ public class DoubleAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null, null),
@@ -73,7 +71,6 @@ public class DoubleAdapterTest {
     assertThat(adapter.encode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_invalidDecode() {
     return Stream.of(
       Arguments.of("3,7")

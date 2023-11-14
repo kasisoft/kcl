@@ -28,7 +28,6 @@ public class ColorAdapterTest {
 
   private ColorAdapter adapter = new ColorAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null            , null        ),
@@ -49,7 +48,6 @@ public class ColorAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_invalidDecode() {
     return Arrays.asList("12:-13:42", "0:", "a:b", "#", "#zzzzzz", "rgb", "rgb(", "rgb)", "rgb()", "rgb(a,b,c)").stream()
       .map(Arguments::of)
@@ -64,7 +62,6 @@ public class ColorAdapterTest {
     });
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null        , null),

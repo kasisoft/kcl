@@ -33,6 +33,7 @@ import java.io.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class IoFunctions {
 
   private static final String WC1 = "([^/]+)";    // *
@@ -787,7 +788,7 @@ public class IoFunctions {
     return Optional.empty();
   }
 
-  private static IoSupport ioSupport(@NotNull Class clazz) {
+  private static IoSupport ioSupport(@NotNull Class<?> clazz) {
     if (File.class.isAssignableFrom(clazz)) {
       return IO_FILE;
     } else if (Path.class.isAssignableFrom(clazz)) {

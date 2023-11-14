@@ -1,20 +1,20 @@
 package com.kasisoft.libs.common.pools;
 
-import com.kasisoft.libs.common.text.*;
-
 import java.util.concurrent.*;
 
-import java.util.*;
 import java.util.zip.*;
+
+import java.util.*;
 
 import java.io.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class Buckets {
 
-  public static Map<Class, Bucket> BUCKETS = new ConcurrentHashMap<>(8);
+  public static Map<Class, Bucket> BUCKETS = new ConcurrentHashMap<>(10);
 
   public static <R> Bucket<List<R>> bucketArrayList() {
     return BUCKETS.computeIfAbsent(ArrayList.class, $ -> new Bucket<ArrayList>(ArrayList::new, ArrayList::clear));

@@ -4,8 +4,6 @@ import com.kasisoft.libs.common.functional.*;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.pools.*;
-
 import com.kasisoft.libs.common.utils.*;
 
 import com.kasisoft.libs.common.text.*;
@@ -43,6 +41,7 @@ import java.io.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("unchecked")
 public final class XmlFunctions {
 
   static final Map<String, String> XML2NORMAL       = new HashMap<>();

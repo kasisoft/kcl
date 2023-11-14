@@ -26,7 +26,6 @@ public class NioPathAdapterTest {
 
   private NioPathAdapter adapter = new NioPathAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     String path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(
@@ -44,7 +43,6 @@ public class NioPathAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     String path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(

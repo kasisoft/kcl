@@ -30,7 +30,6 @@ import java.time.*;
  */
 public class MiscFunctionsTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_getGravatarLink() {
     return Stream.of(
       Arguments.of(null                                                                    , null                                  , null),
@@ -47,7 +46,6 @@ public class MiscFunctionsTest {
     assertThat(MiscFunctions.getGravatarLink(email, size), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_toUniqueList() {
     return Stream.of(
       Arguments.of(Arrays.asList("Otto", "Fred", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")),
@@ -115,7 +113,6 @@ public class MiscFunctionsTest {
     ).stream();
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isLeapYear() {
     return createLeapYearTests(Function.identity());
   }
@@ -140,7 +137,6 @@ public class MiscFunctionsTest {
     return LocalDateTime.ofInstant(createDate(year).toInstant(), ZoneId.of("UTC"));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isLeapYear__Date() {
     return createLeapYearTests(MiscFunctionsTest::createDate);
   }
@@ -151,7 +147,6 @@ public class MiscFunctionsTest {
     assertThat(MiscFunctions.isLeapYear(year), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isLeapYear__OffsetDateTime() {
     return createLeapYearTests(MiscFunctionsTest::createOffsetDateTime);
   }
@@ -162,7 +157,6 @@ public class MiscFunctionsTest {
     assertThat(MiscFunctions.isLeapYear(year), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_isLeapYear__LocalDateTime() {
     return createLeapYearTests(MiscFunctionsTest::createLocalDateTime);
   }
@@ -173,7 +167,6 @@ public class MiscFunctionsTest {
     assertThat(MiscFunctions.isLeapYear(year), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_repeat() {
     return Stream.of(
       Arguments.of(0, null, Arrays.asList()),

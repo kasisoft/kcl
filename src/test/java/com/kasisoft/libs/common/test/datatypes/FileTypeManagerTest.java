@@ -28,7 +28,6 @@ public class FileTypeManagerTest {
 
   private static FileTypeManager MANAGER = new FileTypeManager();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> identifyData() {
     return Stream.of(
       Arguments.of("file0", "application/gzip"           ),

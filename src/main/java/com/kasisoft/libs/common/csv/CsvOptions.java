@@ -11,6 +11,7 @@ import java.util.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("rawtypes")
 public final class CsvOptions {
 
   private boolean           titleRow            = false;

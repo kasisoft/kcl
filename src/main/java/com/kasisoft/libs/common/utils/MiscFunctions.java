@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.utils;
 
-import com.kasisoft.libs.common.functional.*;
-
 import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.types.*;
@@ -19,6 +17,7 @@ import java.time.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("unchecked")
 public class MiscFunctions {
 
   public static <R> @NotNull List<R> trimLeading(@NotNull List<R> input) {

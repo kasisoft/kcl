@@ -11,6 +11,7 @@ import java.util.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class Comparators {
 
   public static Comparator<Class>       CLASS_BY_NAME             = new SimpleComparator<Class>(Class::getName);

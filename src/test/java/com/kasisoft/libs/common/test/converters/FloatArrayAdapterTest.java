@@ -19,7 +19,6 @@ public class FloatArrayAdapterTest {
 
   private FloatArrayAdapter adapter = new FloatArrayAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null      , null),
@@ -37,7 +36,6 @@ public class FloatArrayAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null              , null),

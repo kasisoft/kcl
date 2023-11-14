@@ -9,6 +9,7 @@ import java.util.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("unchecked")
 public class NamedTreeNode<T> extends DefaultMutableTreeNode {
 
   private static final long serialVersionUID = 674825043503770345L;

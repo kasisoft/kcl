@@ -22,7 +22,7 @@ import java.sql.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@SuppressWarnings("resource")
+@SuppressWarnings({ "resource", "rawtypes" })
 public class DbConnection implements AutoCloseable {
 
   private Connection                                connection;

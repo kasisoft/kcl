@@ -17,7 +17,6 @@ import java.util.stream.*;
  */
 public class PairTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_processPairs() {
     return Stream.of(
       Arguments.of(new Pair<String, Boolean>("A", true), "A", true),

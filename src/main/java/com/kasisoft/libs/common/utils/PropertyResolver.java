@@ -2,8 +2,6 @@ package com.kasisoft.libs.common.utils;
 
 import com.kasisoft.libs.common.functional.*;
 
-import com.kasisoft.libs.common.pools.*;
-
 import com.kasisoft.libs.common.text.*;
 
 import jakarta.validation.constraints.*;
@@ -15,6 +13,7 @@ import java.util.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("unchecked")
 public class PropertyResolver implements SimpleFunction<String> {
 
   public static final String DEFAULT_VARFORMAT          = "${%s}";

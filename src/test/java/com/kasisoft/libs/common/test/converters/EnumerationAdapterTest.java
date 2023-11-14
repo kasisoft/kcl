@@ -31,7 +31,6 @@ public class EnumerationAdapterTest {
   private EnumerationAdapter<LordOfTheRings> adapter_ci = new EnumerationAdapter<>(LordOfTheRings.class);
   private EnumerationAdapter<LordOfTheRings> adapter    = new EnumerationAdapter<>(LordOfTheRings.class).withIgnoreCase(false);
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode_ci() {
     return Stream.of(
       Arguments.of(null     , null),
@@ -41,14 +40,12 @@ public class EnumerationAdapterTest {
     );
   }
 
-  @SuppressWarnings("exports")
   @ParameterizedTest
   @MethodSource("data_decode_ci")
   public void decode_ci(String value, LordOfTheRings expected) throws Exception {
     assertThat(adapter_ci.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_invalidDecode_ci() {
     return Stream.of(
       Arguments.of("gollum")
@@ -63,7 +60,6 @@ public class EnumerationAdapterTest {
     });
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode_ci() {
     return Stream.of(
       Arguments.of(null                  , null),
@@ -73,14 +69,12 @@ public class EnumerationAdapterTest {
     );
   }
 
-  @SuppressWarnings("exports")
   @ParameterizedTest
   @MethodSource("data_encode_ci")
   public void encode_ci(LordOfTheRings value, String expected) throws Exception {
     assertThat(adapter_ci.encode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null     , null),
@@ -90,14 +84,12 @@ public class EnumerationAdapterTest {
     );
   }
 
-  @SuppressWarnings("exports")
   @ParameterizedTest
   @MethodSource("data_decode")
   public void decode(String value, LordOfTheRings expected) throws Exception {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_invalidDecode() {
     return Stream.of(
       Arguments.of("Gollum")
@@ -112,7 +104,6 @@ public class EnumerationAdapterTest {
     });
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null                  , null),
@@ -122,7 +113,6 @@ public class EnumerationAdapterTest {
     );
   }
 
-  @SuppressWarnings("exports")
   @ParameterizedTest
   @MethodSource("data_encode")
   public void encode(LordOfTheRings value, String expected) throws Exception {

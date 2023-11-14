@@ -1,22 +1,20 @@
 package com.kasisoft.libs.common.test.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.constants.*;
-
-import com.kasisoft.libs.common.io.*;
-
-import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.test.*;
-import com.kasisoft.libs.common.utils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.params.provider.*;
 
 import org.junit.jupiter.params.*;
+
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.utils.*;
+
+import com.kasisoft.libs.common.test.*;
+
+import com.kasisoft.libs.common.io.*;
 
 import java.util.stream.*;
 
@@ -29,7 +27,7 @@ public class BlacklistTest {
 
   private static final TestResources TEST_RESOURCES = TestResources.createTestResources(BlacklistTest.class);
 
-  @SuppressWarnings({ "exports", "deprecation" })
+  @SuppressWarnings("deprecation")
   public static Stream<Arguments> data_csblacklist() throws Exception {
     var csblacklistPath = new Blacklist(TEST_RESOURCES.getResource("blacklist_01.txt"), Encoding.UTF8);
     var csblacklistURL  = new Blacklist(TEST_RESOURCES.getResource("blacklist_01.txt").toFile().toURL(), Encoding.UTF8);
@@ -43,7 +41,7 @@ public class BlacklistTest {
     );
   }
 
-  @SuppressWarnings({ "exports", "deprecation" })
+  @SuppressWarnings("deprecation")
   public static Stream<Arguments> data_ciblacklist() throws Exception {
     var ciblacklistPath = new Blacklist(TEST_RESOURCES.getResource("blacklist_02.txt"), Encoding.UTF8);
     var ciblacklistURL  = new Blacklist(TEST_RESOURCES.getResource("blacklist_02.txt").toFile().toURL(), Encoding.UTF8);

@@ -9,6 +9,7 @@ import java.util.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings("rawtypes")
 public class Pair<T1, T2> implements Map.Entry<T1, T2>, HasFirstAndLast<T1, T2> {
 
   private T1   value1;

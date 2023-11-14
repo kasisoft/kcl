@@ -22,7 +22,6 @@ public class ShortAdapterTest {
 
   private ShortAdapter adapter = new ShortAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null , null),
@@ -38,7 +37,6 @@ public class ShortAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null                       , null ),
@@ -54,7 +52,6 @@ public class ShortAdapterTest {
     assertThat(adapter.encode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_invalidDecode() {
     return Stream.of(
       Arguments.of("3.7")

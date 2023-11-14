@@ -25,7 +25,6 @@ import java.util.*;
  */
 public class DigestTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_digest() {
     return Stream.of(
       Arguments.of("This is my test phrase", Digest.MD2   ),
@@ -46,7 +45,6 @@ public class DigestTest {
     assertThat(hash_first, is(hash_second));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_digestToString() {
     return Stream.of(
       Arguments.of("This is my test phrase", Digest.MD2   , "5a6ce9fb168eb92bb912be6c90102572"),
@@ -64,7 +62,6 @@ public class DigestTest {
     assertThat(digest.digestToString(text.getBytes()), is(expectedVal));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByName() {
     return Arrays.asList(Digest.values()).stream()
       .map($ -> Arguments.of($.getAlgorithm(), $))

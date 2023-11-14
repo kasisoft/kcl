@@ -22,7 +22,6 @@ public class VersionAdapterTest {
 
   private VersionAdapter adapter = new VersionAdapter().withMicro(true).withQualifier(true);
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null             , null                                       ),
@@ -36,7 +35,6 @@ public class VersionAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null                                              , null             ),

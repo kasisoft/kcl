@@ -23,7 +23,6 @@ import java.util.*;
  */
 public class Iso639Test {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_validCode() {
     return Arrays.asList(Iso639.values()).stream()
       .map(Arguments::of)
@@ -42,7 +41,6 @@ public class Iso639Test {
     }
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByAlpha2() {
     return Arrays.asList(Iso639.values()).stream()
       .filter($ -> $.getAlpha2() != null)
@@ -59,7 +57,6 @@ public class Iso639Test {
     assertThat(identified.get(), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByBibliography() {
     return Arrays.asList(Iso639.values()).stream()
       .map($ -> Arguments.of($, $.getBibliography()))
@@ -75,7 +72,6 @@ public class Iso639Test {
     assertThat(identified.get(), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_findByTerminology() {
     return Arrays.asList(Iso639.values()).stream()
       .map($ -> Arguments.of($, $.getTerminology()))
@@ -91,7 +87,6 @@ public class Iso639Test {
     assertThat(identified.get(), is( expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_test() {
     var list = new ArrayList<Arguments>();
     for (var iso : Iso639.values()) {

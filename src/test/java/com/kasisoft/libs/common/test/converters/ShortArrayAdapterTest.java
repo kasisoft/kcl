@@ -21,7 +21,6 @@ public class ShortArrayAdapterTest {
 
   private ShortArrayAdapter adapter = new ShortArrayAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     return Stream.of(
       Arguments.of(null    , null),
@@ -36,7 +35,6 @@ public class ShortArrayAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     return Stream.of(
       Arguments.of(null                   , null),

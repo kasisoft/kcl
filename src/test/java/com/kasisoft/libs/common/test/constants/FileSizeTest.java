@@ -19,7 +19,6 @@ import java.util.stream.*;
  */
 public class FileSizeTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_checkFileSizes() {
     return Stream.of(
       Arguments.of(FileSize.Byte     , 4,             4L,             4L,           "4 B",            "4 B"),

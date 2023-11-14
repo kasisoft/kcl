@@ -11,6 +11,7 @@ import java.util.*;
  *
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class SimpleComparator<T> implements Comparator<T> {
 
   private Function<T, ? extends Comparable<?>>[]    getters;

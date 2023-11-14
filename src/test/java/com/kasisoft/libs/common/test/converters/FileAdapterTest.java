@@ -24,7 +24,6 @@ public class FileAdapterTest {
 
   private FileAdapter adapter = new FileAdapter();
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_decode() {
     var path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(
@@ -42,7 +41,6 @@ public class FileAdapterTest {
     assertThat(adapter.decode(value), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_encode() {
     var path = TEST_RESOURCES.getRootFolder().toString();
     return Stream.of(

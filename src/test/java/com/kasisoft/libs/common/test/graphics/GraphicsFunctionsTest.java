@@ -80,7 +80,6 @@ public class GraphicsFunctionsTest {
     assertTrue(Files.isRegularFile(tempPath));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_readImage__writeImage__Path() {
     return data_readImage__writeImages(Function.identity());
   }
@@ -91,7 +90,6 @@ public class GraphicsFunctionsTest {
     readImage_writeImage(imageFile, outformat, GraphicsFunctions::readImage, Function.identity(), GraphicsFunctions::writeImage);
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_readImage__writeImage__File() {
     return data_readImage__writeImages($ -> $.toFile());
   }
@@ -102,7 +100,6 @@ public class GraphicsFunctionsTest {
     readImage_writeImage(imageFile, outformat, GraphicsFunctions::readImage, $ -> $.toFile(), GraphicsFunctions::writeImage);
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_readImage__writeImage__URI() {
     return data_readImage__writeImages($ -> $.toFile().toURI());
   }

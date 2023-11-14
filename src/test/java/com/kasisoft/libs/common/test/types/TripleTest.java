@@ -19,7 +19,6 @@ import java.util.stream.*;
  */
 public class TripleTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_processTriples() {
     return Stream.of(
       Arguments.of(new Triple<String, String, Boolean>("A", "mid0", true), "A", "mid0", true),

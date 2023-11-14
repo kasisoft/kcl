@@ -60,7 +60,6 @@ public class MimeTypeTest {
 
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_test() {
     return Arrays.asList(MimeType.values()).stream()
       .map($ -> Arguments.of($.getMimeType(), $))
@@ -80,7 +79,6 @@ public class MimeTypeTest {
     }
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> data_supportsSuffix() {
     return Arrays.asList(MimeType.values()).stream()
       .map($ -> Arguments.of($.getPrimarySuffix(), $))

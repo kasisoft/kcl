@@ -17,7 +17,6 @@ import java.util.stream.*;
  */
 public class RegExpressionsTest {
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> extractYoutubeIdData() {
     return Stream.of(
       Arguments.of("https://www.youtube.com/watch?v=LoT1DHwA7ds", "LoT1DHwA7ds"),
@@ -34,7 +33,6 @@ public class RegExpressionsTest {
     assertThat(RegExpressions.extractYoutubeId(url), is(expected));
   }
 
-  @SuppressWarnings("exports")
   public static Stream<Arguments> isEmailData() {
     return Stream.of(
       Arguments.of("daniel.kasmeroglu@kasisoft.net", "daniel.kasmeroglu@kasisoft.net"),
