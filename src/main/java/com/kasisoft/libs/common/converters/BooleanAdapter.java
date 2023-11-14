@@ -1,7 +1,5 @@
 package com.kasisoft.libs.common.converters;
 
-import com.kasisoft.libs.common.*;
-
 import jakarta.validation.constraints.*;
 
 import java.util.*;
@@ -13,7 +11,9 @@ import java.util.*;
  */
 public class BooleanAdapter extends AbstractConverter<String, Boolean> {
 
-  private List<String>   trueValues = new ArrayList<>(KclConfig.TRUE_VALUES);
+  private static String[] TRUE_VALUES  = new String[] {"yes", "ja", "j", "y", "on", "ein", "1", "-1", "an", "true"};
+
+  private List<String>   trueValues = Arrays.asList(TRUE_VALUES);
 
   public BooleanAdapter clear() {
     trueValues.clear();

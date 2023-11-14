@@ -47,7 +47,7 @@ public class FlatXmlHandler extends DefaultHandler {
     trimValues = true;
     attributes = true;
     escaping   = true;
-    newline    = KclConfig.LINE_ENDING;
+    newline    = "\n";
     encoding   = Encoding.UTF8;
   }
 
@@ -67,7 +67,7 @@ public class FlatXmlHandler extends DefaultHandler {
   public void setNewline(String linesep) {
     newline = linesep;
     if (newline == null) {
-      newline = KclConfig.LINE_ENDING;
+      newline = "\n";
     }
   }
 

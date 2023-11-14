@@ -22,7 +22,7 @@ public class I18NFunctions {
    */
   public static @NotNull Locale getLocale(Locale locale) {
     if (locale == null) {
-      return KclConfig.DEFAULT_LOCALE;
+      return Locale.getDefault();
     } else {
       return locale;
     }

@@ -243,7 +243,7 @@ public final class Encoding {
 
   public static @NotNull Encoding getEncoding(Encoding encoding) {
     if (encoding == null) {
-      return KclConfig.DEFAULT_ENCODING;
+      return Encoding.UTF8;
     }
     return encoding;
   }
