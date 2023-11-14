@@ -80,7 +80,7 @@ public class StringFunctions {
    */
   public static @NotNull String firstUp(@NotNull String input) {
     if (input.length() == 1) {
-      return input.toLowerCase();
+      return input.toUpperCase();
     }
     return Character.toUpperCase(input.charAt(0)) + input.substring(1);
   }

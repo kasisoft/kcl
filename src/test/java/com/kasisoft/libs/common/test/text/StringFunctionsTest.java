@@ -82,12 +82,16 @@ public class StringFunctionsTest {
 
   @Test
   public void firstUp() {
+    assertThat(StringFunctions.firstUp("D"), is("D"));
+    assertThat(StringFunctions.firstUp("d"), is("D"));
     assertThat(StringFunctions.firstUp("Dummy"), is("Dummy"));
     assertThat(StringFunctions.firstUp("dummy"), is("Dummy"));
   }
 
   @Test
   public void firstDown() {
+    assertThat(StringFunctions.firstDown("D"), is("d"));
+    assertThat(StringFunctions.firstDown("d"), is("d"));
     assertThat(StringFunctions.firstDown("Dummy"), is("dummy"));
     assertThat(StringFunctions.firstDown("dummy"), is("dummy"));
   }
@@ -134,6 +138,7 @@ public class StringFunctionsTest {
   @MethodSource("data_regionReplaceSimple")
   public void regionReplaceSimple(String text, String replacement, String expected) {
     assertThat(StringFunctions.replaceRegions(text, "//", replacement), is( expected ) );
+    assertThat(StringFunctions.replaceRegions(text, "//", null, replacement), is( expected ) );
   }
 
   @SuppressWarnings("exports")
@@ -159,7 +164,9 @@ public class StringFunctionsTest {
   public static Stream<Arguments> data_endsWithMany() {
     return Stream.of(
       Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20", "Ozean"}, true),
-      Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false)
+      Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false),
+      Arguments.of("20 Frösche fliegen über den Ozean", new String[] {}, false),
+      Arguments.of("20 Frösche fliegen über den Ozean", null, false)
     );
   }
 
@@ -179,7 +186,9 @@ public class StringFunctionsTest {
   public static Stream<Arguments> data_startsWithMany() {
     return Stream.of(
       Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20", "fliegen"}, true),
-      Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false)
+      Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false),
+      Arguments.of("20 Frösche fliegen über den Ozean", new String[] {}, false),
+      Arguments.of("20 Frösche fliegen über den Ozean", null, false)
     );
   }
 
@@ -294,6 +303,54 @@ public class StringFunctionsTest {
   @MethodSource("data_objectToString")
   public static void objectToString(Object obj, String expected) {
     assertThat(StringFunctions.objectToString(obj), is(expected));
+  }
+
+  @Test
+  public void trimLeading() {
+    var str = StringFunctions.trimLeading("\r\n   My test is this: Hello World ! Not 0x11 !");
+    assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test
+  public void trimLeading__WithSpecifiedChars() {
+    var str = StringFunctions.trimLeading("\r\n   My test is this: Hello World ! Not 0x11 !", "\r\n ");
+    assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test
+  public void trimTrailing() {
+    var str = StringFunctions.trimTrailing("My test is this: Hello World ! Not 0x11 !\r\n   ");
+    assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test
+  public void trimTrailing__WithSpecifiedChars() {
+    var str = StringFunctions.trimTrailing("My test is this: Hello World ! Not 0x11 !\r\n   ", "\r\n ");
+    assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test
+  public void trim() {
+    var str = StringFunctions.trim("\r\n   My test is this: Hello World ! Not 0x11 !\r\n   ");
+    assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test
+  public void trim__WithSpecifiedChars() {
+    var str = StringFunctions.trim("\r\n   My test is this: Hello World ! Not 0x11 !\r\n   ", "\r\n ", null);
+    assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+  }
+
+  @Test
+  public void trim__WithSpecifiedChars_Left() {
+    var str = StringFunctions.trim("\r\n   My test is this: Hello World ! Not 0x11 !\r\n   ", "\r\n ", true);
+    assertThat(str, is("My test is this: Hello World ! Not 0x11 !\r\n   "));
+  }
+
+  @Test
+  public void trim__WithSpecifiedChars_Right() {
+    var str = StringFunctions.trim("\r\n   My test is this: Hello World ! Not 0x11 !\r\n   ", "\r\n ", false);
+    assertThat(str, is("\r\n   My test is this: Hello World ! Not 0x11 !"));
   }
 
 } /* ENDCLASS */
