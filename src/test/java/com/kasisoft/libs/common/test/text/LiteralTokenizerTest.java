@@ -58,11 +58,11 @@ public class LiteralTokenizerTest {
 
   @SuppressWarnings("exports")
   public static Stream<Arguments> data_tokenizeStringLike() {
-    var input1 = new StringFBuilder("@PART@ ist @FLUPPE@ heute hier");
-    var input2 = new StringFBuilder("Fred ist @FLUPPE@ heute @PART@");
-    var input3 = new StringFBuilder("Fred @PART@ @FLUPPE@ heute hier");
-    var input4 = new StringFBuilder("#PART# ist #FLUPPE# heute hier");
-    var input5 = new StringFBuilder("");
+    var input1 = new StringBuilder("@PART@ ist @FLUPPE@ heute hier");
+    var input2 = new StringBuilder("Fred ist @FLUPPE@ heute @PART@");
+    var input3 = new StringBuilder("Fred @PART@ @FLUPPE@ heute hier");
+    var input4 = new StringBuilder("#PART# ist #FLUPPE# heute hier");
+    var input5 = new StringBuilder("");
     return Stream.of(
       Arguments.of(input1, Boolean.FALSE, new String[] {" ist ", " heute hier"}),
       Arguments.of(input1, Boolean.TRUE , new String[] {"@PART@", " ist ", "@FLUPPE@", " heute hier"}),
@@ -80,8 +80,8 @@ public class LiteralTokenizerTest {
   @SuppressWarnings("rawtypes")
   @ParameterizedTest
   @MethodSource("data_tokenizeStringLike")
-  public void tokenizeStringLike(StringLike input, boolean returndelimiters, Object[] expected) {
-    var tokenizer = new LiteralTokenizer(input, returndelimiters, "@PART@", "@FLUPPE@");
+  public void tokenizeStringLike(StringBuilder input, boolean returndelimiters, Object[] expected) {
+    var tokenizer = new LiteralTokenizer(input.toString(), returndelimiters, "@PART@", "@FLUPPE@");
     var tokens    = new ArrayList<>();
     while (tokenizer.hasMoreElements()) {
       tokens.add(tokenizer.nextElement());

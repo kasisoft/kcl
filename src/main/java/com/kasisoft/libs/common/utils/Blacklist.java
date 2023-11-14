@@ -396,7 +396,7 @@ public class Blacklist implements Predicate<String> {
    *
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions.
    */
-  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup() {
+  public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup() {
     return cleanup(false);
   }
 
@@ -407,7 +407,7 @@ public class Blacklist implements Predicate<String> {
    *
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions.
    */
-  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(boolean ignorecase) {
+  public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup(boolean ignorecase) {
     return cleanup(ignorecase, null);
   }
 
@@ -419,7 +419,7 @@ public class Blacklist implements Predicate<String> {
    *
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions.
    */
-  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(Consumer<String> statistic) {
+  public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup(Consumer<String> statistic) {
     return cleanup(false, statistic);
   }
 
@@ -431,7 +431,7 @@ public class Blacklist implements Predicate<String> {
    *
    * @return   A function that converts a CharSequence into a StringBuilder while dropping the blacklisted portions.
    */
-  public <T extends CharSequence> @NotNull Function<T, StringFBuilder> cleanup(boolean ignorecase, Consumer<String> statistic) {
+  public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup(boolean ignorecase, Consumer<String> statistic) {
     int regexFlags = ignorecase ? Pattern.CASE_INSENSITIVE : 0;
     return $ -> apply($, regexFlags, statistic);
   }
@@ -444,22 +444,22 @@ public class Blacklist implements Predicate<String> {
    *
    * @return   A StringBuilder instance providing the cleansed text.
    */
-  private synchronized @NotNull StringFBuilder apply(CharSequence t, int regexFlags, Consumer<String> statistic) {
-    var result = new StringFBuilder();
+  private synchronized @NotNull StringBuilder apply(CharSequence t, int regexFlags, Consumer<String> statistic) {
+    var result = "";
     if (t != null) {
       if (statistic == null) {
         statistic = this::noStatistic;
       }
       Consumer<String> op = statistic;
-      result.append(t);
+      result = t.toString();
       for (var entry : list) {
-        result.replaceAll(Pattern.compile(Pattern.quote(entry), regexFlags), $ -> {
+        result = StringFunctions.replaceAll(result, Pattern.compile(Pattern.quote(entry), regexFlags), $ -> {
           op.accept($);
           return Empty.NO_STRING;
         });
       }
     }
-    return result;
+    return new StringBuilder(result);
   }
 
   @SuppressWarnings("unused")

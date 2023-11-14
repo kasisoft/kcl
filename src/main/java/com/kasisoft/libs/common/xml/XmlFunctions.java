@@ -600,11 +600,7 @@ public final class XmlFunctions {
    * @return   An encoded String.
    */
   public static @NotNull String unescapeXml(@NotNull String source, boolean lineEndings) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
-      $.append(source);
-      $.replaceAll(lineEndings ? XML2NORMAL_LE : XML2NORMAL);
-      return $.toString();
-    });
+    return StringFunctions.replaceAll(source, lineEndings ? XML2NORMAL_LE : XML2NORMAL);
   }
 
   /**
@@ -627,11 +623,7 @@ public final class XmlFunctions {
    * @return   An encoded String.
    */
   public static @NotNull String escapeXml(@NotNull String source, boolean lineEndings) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
-      $.append(source);
-      $.replaceAll(lineEndings ? NORMAL2XML_LE : NORMAL2XML);
-      return $.toString();
-    });
+    return StringFunctions.replaceAll(source, lineEndings ? NORMAL2XML_LE : NORMAL2XML);
   }
 
   private static class SatisfyingEntityResolver implements EntityResolver {

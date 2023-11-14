@@ -14,7 +14,7 @@ public class LiteralTokenizer implements Enumeration<String> {
 
   private int            pos;
   private String[]       literals;
-  private StringLike     input;
+  private StringBuilder  input;
   private boolean        doreturn;
   private String         next;
 
@@ -34,8 +34,8 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param data             The String content that has to be tokenized.
    * @param delimiters       A list of delimiting literals.
    */
-  public LiteralTokenizer(@NotNull StringLike data, @NotNull String ... delimiters) {
-    this(new StringFBuilder(data), false, delimiters);
+  public LiteralTokenizer(@NotNull StringBuilder data, @NotNull String ... delimiters) {
+    this(new StringBuilder(data), false, delimiters);
   }
 
   /**
@@ -46,7 +46,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param delimiters       A list of delimiting literals.
    */
   public LiteralTokenizer(@NotNull String data, boolean returnLiterals, @NotNull String ... delimiters) {
-    this(new StringFBuilder(data), returnLiterals, delimiters);
+    this(new StringBuilder(data), returnLiterals, delimiters);
   }
 
   /**
@@ -56,7 +56,7 @@ public class LiteralTokenizer implements Enumeration<String> {
    * @param returnLiterals   <code>true</code> <=> Return delimiting literals as well.
    * @param delimiters       A list of delimiting literals.
    */
-  public LiteralTokenizer(@NotNull StringLike data, boolean returnLiterals, @NotNull String ... delimiters) {
+  public LiteralTokenizer(@NotNull StringBuilder data, boolean returnLiterals, @NotNull String ... delimiters) {
     input         = data;
     literals      = delimiters;
     doreturn      = returnLiterals;

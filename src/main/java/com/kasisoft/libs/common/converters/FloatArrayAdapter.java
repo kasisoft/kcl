@@ -32,7 +32,7 @@ public class FloatArrayAdapter extends AbstractConverter<String, float[]> {
 
   @Override
   public String encodeImpl(@NotNull float[] decoded) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.bucketStringBuilder().forInstance($ -> {
       if (decoded.length > 0) {
         $.append(decoded[0]);
         for (int i = 1; i < decoded.length; i++) {

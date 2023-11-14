@@ -109,7 +109,7 @@ public class Version implements Comparable<Version> {
     int idx = 0;
     try {
 
-      var input = Buckets.bucketStringFBuilder().allocate().append(version);
+      var input = Buckets.bucketStringBuilder().allocate().append(version);
       var part   = nextPart(input, '.');
       major      = Integer.parseInt( part );
       idx++;
@@ -192,7 +192,7 @@ public class Version implements Comparable<Version> {
    * @return   A textual presentation of this version.
    */
   public @NotBlank String toText(char qualifierdelim) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.bucketStringBuilder().forInstance($ -> {
       $.append( major );
       $.append( '.' );
       $.append( minor );
@@ -208,9 +208,9 @@ public class Version implements Comparable<Version> {
     });
   }
 
-  private String nextPart(StringFBuilder input, char ... characters) {
+  private String nextPart(StringBuilder input, char ... characters) {
     String result = null;
-    var    pos    = input.indexOf(characters );
+    var    pos    = StringFunctions.indexOf(input.toString(), characters );
     if (pos == -1) {
       result = input.toString();
       input.setLength(0);

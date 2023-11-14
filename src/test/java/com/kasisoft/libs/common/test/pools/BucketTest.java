@@ -43,9 +43,9 @@ public class BucketTest {
   }
 
   @Test
-  public void stringFBuilder() {
+  public void stringBuilder() {
 
-    var bucket = Buckets.bucketStringFBuilder();
+    var bucket = Buckets.bucketStringBuilder();
     bucket.reset();
 
     assertThat(0, is(bucket.getSize()));

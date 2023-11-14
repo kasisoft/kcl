@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class XmlGenerator<T extends XmlGenerator<T>> {
 
-  private StringFBuilder                      builder;
+  private StringBuilder                       builder;
   private Encoding                            encoding;
   private Stack<String>                       tags;
   private StringBuilder                       indentation;
@@ -58,7 +58,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
    * @param indentsize   The indentation size.
    */
   public XmlGenerator(Encoding csEncoding, Integer indentsize) {
-    builder                 = new StringFBuilder();
+    builder                 = new StringBuilder();
     encoding                = Encoding.getEncoding(csEncoding);
     tags                    = new Stack<>();
     indentation             = new StringBuilder();
@@ -395,7 +395,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   @SuppressWarnings("unchecked")
   public synchronized @NotNull T cdata(String text) {
     if (text != null) {
-      builder.appendF("<![CDATA[%s]]>\n", text);
+      builder.append("<![CDATA[%s]]>\n".formatted(text));
     }
     return (T) this;
   }
@@ -407,7 +407,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
    */
   @SuppressWarnings("unchecked")
   public synchronized @NotNull T processingInstruction() {
-    builder.appendF("<?xml version=\"1.0\" encoding=\"%s\"?>\n", encoding.getEncoding());
+    builder.append("<?xml version=\"1.0\" encoding=\"%s\"?>\n".formatted(encoding.getEncoding()));
     return (T) this;
   }
 
@@ -421,7 +421,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   @SuppressWarnings("unchecked")
   public synchronized @NotNull T comment(String comment) {
     if (comment != null) {
-      builder.appendF("%s<!-- %s -->\n", indentation, escapeXml(comment));
+      builder.append("%s<!-- %s -->\n".formatted(indentation, escapeXml(comment)));
     }
     return (T) this;
   }
@@ -436,17 +436,17 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
   @SuppressWarnings("unchecked")
   public synchronized @NotNull T multilineComment(String comment) {
     if (comment != null) {
-      builder.appendF("%s<!-- ~~~~~~~~~~~~~~~~~ \n", indentation);
+      builder.append("%s<!-- ~~~~~~~~~~~~~~~~~ \n".formatted(indentation));
       var tokenizer = new StringTokenizer(comment, "\n", false);
       while (tokenizer.hasMoreTokens()) {
         var line = StringFunctions.cleanup(tokenizer.nextToken());
         if (line == null) {
           builder.append('\n');
         } else {
-          builder.appendF("%s%s\n", indentation, line);
+          builder.append("%s%s\n".formatted(indentation, line));
         }
       }
-      builder.appendF("%s~~~~~~~~~~~~~~~~~~ -->\n", indentation);
+      builder.append("%s~~~~~~~~~~~~~~~~~~ -->\n".formatted(indentation));
     }
     return (T) this;
   }
@@ -462,7 +462,7 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     for (var key : keys) {
       var val = attributeValueConverter.apply(key, attributes.get(key));
       if (val != null) {
-        builder.appendF(" %s=\"%s\"", key, escapeXml(val));
+        builder.append(" %s=\"%s\"".formatted(key, escapeXml(val)));
       }
     }
   }

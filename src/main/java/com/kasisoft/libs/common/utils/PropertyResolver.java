@@ -126,11 +126,7 @@ public class PropertyResolver implements SimpleFunction<String> {
 
   @Override
   public String apply(String input) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
-      $.append(input);
-      $.replaceAll(replacementMap);
-      return $.toString();
-    });
+    return StringFunctions.replaceAll(input, replacementMap);
   }
 
 } /* ENDCLASS */

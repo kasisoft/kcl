@@ -91,7 +91,7 @@ public final class Digest {
    * @return   The hash value.
    */
   public @NotNull String digestToString(int count, @NotNull byte[] ... data) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.bucketStringBuilder().forInstance($ -> {
       var checksum = digest(count, data);
       for (var b : checksum) {
         var asbyte = Integer.toString((b & 0xff), 16);

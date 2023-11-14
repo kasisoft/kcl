@@ -404,10 +404,10 @@ public class CsvTableModel implements TableModel {
    *
    * @return   The {@link StringBuilder} providing the text.
    */
-  private @NotNull StringFBuilder readContent(@NotNull InputStream source) {
+  private @NotNull StringBuilder readContent(@NotNull InputStream source) {
     var writer = new CharArrayWriter();
     IoFunctions.forReaderDo(source, options.getEncoding(), $ -> IoFunctions.copy($, writer));
-    return new StringFBuilder(writer.toString());
+    return new StringBuilder(writer.toString());
   }
 
   /**
@@ -417,7 +417,7 @@ public class CsvTableModel implements TableModel {
    *
    * @return   A list of tokens.
    */
-  private @NotNull List<String> tokenize(@NotNull StringFBuilder text) {
+  private @NotNull List<String> tokenize(@NotNull StringBuilder text) {
     var result = new ArrayList<String>(Math.min(5, text.length() / 5));
     while (text.length() > 0) {
       consume (result, text);
@@ -493,7 +493,7 @@ public class CsvTableModel implements TableModel {
    * @param receiver   The receiver for the generated tokens.
    * @param content    The current text to be processed.
    */
-  private void consume(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
+  private void consume(@NotNull List<String> receiver, @NotNull StringBuilder content) {
     var first = content.charAt(0);
     if ((first == CR) || (first == LF)) {
       consumeCRLF(receiver, content);
@@ -516,7 +516,7 @@ public class CsvTableModel implements TableModel {
    * @param quote        The currently used quote.
    * @param quoteAsStr   Same as quote but as a String.
    */
-  private void consumeQuoted(@NotNull List<String> receiver, @NotNull StringFBuilder content, char quote, @NotNull String quoteAsStr) {
+  private void consumeQuoted(@NotNull List<String> receiver, @NotNull StringBuilder content, char quote, @NotNull String quoteAsStr) {
     var pos  = 1;
     while (true) {
       var idx1 = content.indexOf(quoteAsStr, pos);
@@ -549,8 +549,8 @@ public class CsvTableModel implements TableModel {
    * @param receiver   The receiver for the generated tokens.
    * @param content    The current text to be processed.
    */
-  private void consumeNormal(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
-    var idx = content.indexOf(options.getDelimiter(), LF, CR, DQ, SQ);
+  private void consumeNormal(@NotNull List<String> receiver, @NotNull StringBuilder content) {
+    var idx = StringFunctions.indexOf(content.toString(), options.getDelimiter(), LF, CR, DQ, SQ);
     if (idx == -1) {
       // there's no other cell following, so the remaining text covers tghe complete cell
       receiver.add(content.toString());
@@ -577,7 +577,7 @@ public class CsvTableModel implements TableModel {
    * @param receiver   The receiver for the generated tokens.
    * @param content    The current text to be processed.
    */
-  private void consumeCellSeparator(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
+  private void consumeCellSeparator(@NotNull List<String> receiver, @NotNull StringBuilder content) {
     receiver.add(content.substring(0, 1));
     content.deleteCharAt(0);
   }
@@ -588,7 +588,7 @@ public class CsvTableModel implements TableModel {
    * @param receiver   The receiver for the generated tokens.
    * @param content    The current text to be processed.
    */
-  private void consumeCRLF(@NotNull List<String> receiver, @NotNull StringFBuilder content) {
+  private void consumeCRLF(@NotNull List<String> receiver, @NotNull StringBuilder content) {
     var idx = 1;
     for (var i = 1; i < content.length(); i++) {
       var current = content.charAt(i);

@@ -8,6 +8,9 @@ import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
+import java.util.regex.*;
+import java.util.regex.Pattern;
+
 import java.util.*;
 
 import java.io.*;
@@ -101,31 +104,6 @@ public class StringFunctions {
    */
   public static @NotNull String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
     return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceLiterallyAll(search, replacement).toString());
-  }
-
-  /**
-   * Performs a search & replace operation on the supplied input.
-   *
-   * @param input          The input which has to be modified.
-   * @param replacements   A Map of String's used to run the search replace operation.
-   *
-   * @return   The modified String.
-   */
-  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements).toString());
-  }
-
-  /**
-   * Performs a search & replace operation on the supplied input.
-   *
-   * @param input          The input which has to be modified.
-   * @param replacements   A Map of String's used to run the search replace operation.
-   * @param fmt            A key formatter. Default: '%s' (alternativ: '${%s}' which means that keys will be ${fredo}, ${dodo}, ...)
-   *
-   * @return   The modified String.
-   */
-  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String,String> replacements, String fmt) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> $.append(input).replaceAll(replacements, fmt).toString());
   }
 
   /**
@@ -335,7 +313,7 @@ public class StringFunctions {
    * @return   The textual representation of the supplied object.
    */
   public static @NotNull String objectToString(Object obj) {
-    return Buckets.bucketStringFBuilder().forInstance($ -> {
+    return Buckets.bucketStringBuilder().forInstance($ -> {
       appendToString($, obj);
       return $.toString();
     });
@@ -348,7 +326,7 @@ public class StringFunctions {
    *
    * @return   The textual representation of the supplied object.
    */
-  private static <S extends StringLike> void appendToString(@NotNull S receiver, Object obj) {
+  private static void appendToString(@NotNull StringBuilder receiver, Object obj) {
     if (obj == null) {
       receiver.append("null");
     } else if (obj instanceof boolean[] value) {
@@ -376,7 +354,7 @@ public class StringFunctions {
     }
   }
 
-  private static <S extends StringLike> void appendToStringThrowable(@NotNull S receiver, @NotNull Throwable throwable) {
+  private static void appendToStringThrowable(@NotNull StringBuilder receiver, @NotNull Throwable throwable) {
     Buckets.bucketStringWriter().forInstanceDo($ -> {
       try (var writer = new PrintWriter($)) {
         throwable.printStackTrace(writer);
@@ -385,7 +363,7 @@ public class StringFunctions {
     });
   }
 
-  private static <S extends StringLike> void appendToStringObjectArray(@NotNull S receiver, @NotNull Object[] array) {
+  private static void appendToStringObjectArray(@NotNull StringBuilder receiver, @NotNull Object[] array) {
     receiver.append('[');
     if (array.length > 0) {
       appendToString(receiver, array[0]);
@@ -397,7 +375,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringBooleanArray(@NotNull S receiver, @NotNull boolean[] array) {
+  private static void appendToStringBooleanArray(@NotNull StringBuilder receiver, @NotNull boolean[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append(array[0]);
@@ -408,7 +386,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringCharArray(@NotNull S receiver, @NotNull char[] array) {
+  private static void appendToStringCharArray(@NotNull StringBuilder receiver, @NotNull char[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append('\'').append(array[0]).append('\'');
@@ -419,7 +397,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringByteArray(@NotNull S receiver, @NotNull byte[] array) {
+  private static void appendToStringByteArray(@NotNull StringBuilder receiver, @NotNull byte[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append("(byte)").append(array[0]);
@@ -430,7 +408,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringShortArray(@NotNull S receiver, @NotNull short[] array) {
+  private static void appendToStringShortArray(@NotNull StringBuilder receiver, @NotNull short[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append("(short)").append(array[0]);
@@ -441,7 +419,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringIntArray(@NotNull S receiver, @NotNull int[] array) {
+  private static void appendToStringIntArray(@NotNull StringBuilder receiver, @NotNull int[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append(array[0]);
@@ -452,7 +430,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringLongArray(@NotNull S receiver, @NotNull long[] array) {
+  private static void appendToStringLongArray(@NotNull StringBuilder receiver, @NotNull long[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append(array[0]).append('l');
@@ -463,7 +441,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringFloatArray(@NotNull S receiver, @NotNull float[] array) {
+  private static void appendToStringFloatArray(@NotNull StringBuilder receiver, @NotNull float[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append(array[0]).append('f');
@@ -474,7 +452,7 @@ public class StringFunctions {
     receiver.append(']');
   }
 
-  private static <S extends StringLike> void appendToStringDoubleArray(@NotNull S receiver, @NotNull double[] array) {
+  private static void appendToStringDoubleArray(@NotNull StringBuilder receiver, @NotNull double[] array) {
     receiver.append('[');
     if (array.length > 0) {
       receiver.append(array[0]);
@@ -483,6 +461,166 @@ public class StringFunctions {
       }
     }
     receiver.append(']');
+  }
+
+  /**
+   * Like {@link #split(String)} with the difference that this function accepts a regular expression for the splitting.
+   *
+   * @param pattern   A pattern providing the regular expression used for the splitting.
+   *
+   * @return   A splitted list without fragments matching the supplied regular expression.
+   */
+  public static @NotNull String[] splitRegex(@NotNull String input, @NotNull Pattern pattern) {
+     return Buckets.<String>bucketArrayList().forInstance($ -> {
+      var matcher = pattern.matcher(input);
+      var last    = 0;
+      var match   = false;
+      while (matcher.find()) {
+        match = true;
+        if (matcher.start() > last) {
+          $.add(input.substring(last, matcher.start()));
+        }
+        last = matcher.end();
+      }
+      if (match && (last < input.length())) {
+        $.add(input.substring(last));
+      }
+      if (!match) {
+        // there was not at least one match
+        $.add(input.toString());
+      }
+      return $.toArray(new String[$.size()]);
+    });
+  }
+
+  public static int indexOf(@NotNull String input, char ... characters) {
+    return indexOf(input, 0, characters);
+  }
+
+  public static int indexOf(@NotNull String input, int index, char ... characters) {
+    var result = -1;
+    if ((characters != null) && (characters.length > 0)) {
+      var str = input.toString();
+      for (char ch : characters) {
+        var idx = str.indexOf(ch, index);
+        if (idx != -1) {
+          if (result == -1) {
+            result = idx;
+          } else {
+            result = Math.min(idx, result);
+          }
+        }
+        if (result == 0) {
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Performs a search & replace operation on the supplied input.
+   *
+   * @param input          The input which has to be modified.
+   * @param replacements   A Map of String's used to run the search replace operation.
+   *
+   * @return   The modified String.
+   */
+  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements) {
+    return replaceAll(input, replacements, null);
+  }
+
+  /**
+   * Performs a search & replace operation on the supplied input.
+   *
+   * @param input          The input which has to be modified.
+   * @param replacements   A Map of String's used to run the search replace operation.
+   * @param fmt            A key formatter. Default: '%s' (alternativ: '${%s}' which means that keys will be ${fredo}, ${dodo}, ...)
+   *
+   * @return   The modified String.
+   */
+  public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements, String fmt) {
+
+    var substitutions = Buckets.<String, String>bucketHashMap().allocate();
+    var builder       = Buckets.bucketStringFBuilder().allocate();
+    var regions       = Buckets.<Integer>bucketArrayList().allocate();
+
+    // setup the substitution map
+    if ((fmt != null) && (!"%s".equals(fmt))) {
+      replacements.forEach(($k, $v) -> substitutions.put(fmt.formatted($k), $v));
+    } else {
+      substitutions.putAll(replacements);
+    }
+
+    // build a big OR of all keys
+    substitutions.keySet().forEach($ -> builder.append('|').append(Pattern.quote($)));
+    builder.setCharAt(0, '(');
+    builder.append(')');
+
+    // collect regions of matches
+    Pattern pattern = Pattern.compile(builder.toString());
+    Matcher matcher = pattern.matcher(input);
+    while (matcher.find()) {
+      regions.add(matcher.start());
+      regions.add(matcher.end());
+    }
+
+    // substitute matches
+    var instr = Buckets.bucketStringFBuilder().allocate();
+    instr.append(input);
+    for (var i = regions.size() - 2; i >= 0; i -= 2) {
+      var start = regions.get(i);
+      var end   = regions.get(i + 1);
+      var key   = instr.substring(start, end);
+      instr.delete(start, end);
+      instr.insert(start, substitutions.get(key));
+    }
+
+    Buckets.<String, String>bucketHashMap().free(substitutions);
+    Buckets.bucketStringFBuilder().free(builder);
+    Buckets.<Integer>bucketArrayList().free(regions);
+
+    return instr.toString();
+  }
+
+  /**
+   * Replaces all occurrences of a regular expression with a specified replacement.
+   *
+   * @param pattern               The Pattern providing the regular expression for the substitution.
+   * @param replacementSupplier   The replacement which has to be used instead.
+   *
+   * @return   This buffer.
+   */
+  public static @NotNull String replaceAll(@NotNull String input, @NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
+
+    var ranges        = Buckets.<Integer>bucketArrayList().allocate();
+    var substitutions = Buckets.<String>bucketArrayList().allocate();
+    var matcher       = pattern.matcher(input);
+
+    // we're collecting the substitutions from left to right, so the supplying function can assume this and use an
+    // internal state if desired
+    while (matcher.find()) {
+      ranges.add(matcher.start());
+      ranges.add(matcher.end());
+      var text         = input.substring(matcher.start(), matcher.end());
+      substitutions.add(replacementSupplier.apply(text));
+    }
+
+    // perform the substitutions
+    var builder = new StringBuilder();
+    builder.append(input);
+    for (int i = ranges.size() - 2, j = substitutions.size() - 1; i >= 0; i -= 2, j--) {
+      var start = ranges.get(i);
+      var end   = ranges.get(i + 1);
+      builder.delete(start, end);
+      builder.insert(start, substitutions.get(j));
+    }
+
+    Buckets.<String>bucketArrayList().free(substitutions);
+    Buckets.<Integer>bucketArrayList().free(ranges);
+
+    return builder.toString();
+
   }
 
 } /* ENDCLASS */

@@ -26,7 +26,7 @@ import java.io.*;
 public class FlatXmlHandler extends DefaultHandler {
 
   private Stack<String>   elements;
-  private StringFBuilder  path;
+  private StringBuilder   path;
   private StringBuilder   buffer;
   private Encoding        encoding;
   private OutputStream    target;
@@ -41,7 +41,7 @@ public class FlatXmlHandler extends DefaultHandler {
   public FlatXmlHandler() {
     super();
     elements   = new Stack<>();
-    path       = new StringFBuilder();
+    path       = new StringBuilder();
     buffer     = new StringBuilder();
     target     = null;
     trimValues = true;
@@ -150,7 +150,7 @@ public class FlatXmlHandler extends DefaultHandler {
   public void startElement(String uri, String localname, String qname, Attributes attributes) throws SAXException {
     var name = qname != null ? qname : localname;
     elements.push(name);
-    path.appendF("%s/", name);
+    path.append("%s/".formatted(name));
     if (this.attributes) {
       var names = new String[attributes.getLength()];
       for (var i = 0; i < attributes.getLength(); i++) {
@@ -158,7 +158,7 @@ public class FlatXmlHandler extends DefaultHandler {
       }
       Arrays.sort(names);
       for (var i = 0; i < names.length; i++) {
-        path.appendF("@%s", names[i]);
+        path.append("@%s".formatted(names[i]));
         write(attributes.getValue(names[i]));
         path.setLength(path.length() - names[i].length() - 1);
       }
