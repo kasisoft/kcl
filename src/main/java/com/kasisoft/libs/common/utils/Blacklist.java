@@ -101,7 +101,7 @@ public class Blacklist implements Predicate<String> {
     public void add(String blacklisted) {
         var value = StringFunctions.cleanup(blacklisted);
         if (value != null) {
-            var idx = Collections.binarySearch(list, value, Comparators.LENGTH_LONGEST_FIRST);
+            var idx = Collections.binarySearch(list, value, Comparators.byStringLength(true));
             if (idx < 0) {
                 idx = -idx - 1;
                 list.add(idx, value);
@@ -182,7 +182,7 @@ public class Blacklist implements Predicate<String> {
                 }
                 line = buffered.readLine();
             }
-            Collections.sort(list, Comparators.LENGTH_LONGEST_FIRST);
+            Collections.sort(list, Comparators.byStringLength(true));
         } catch (Exception ex) {
             throw KclException.wrap(ex, error_blacklist_loading_failure);
         }
