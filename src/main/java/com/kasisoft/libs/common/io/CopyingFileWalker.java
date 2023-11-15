@@ -9,21 +9,17 @@ import java.util.function.*;
 import java.nio.file.*;
 
 /**
+ * Walks the filesystem while copying the filesystem structure.
+ *
  * @author daniel.kasmeroglu@kasisoft.com
  */
 public class CopyingFileWalker implements Runnable {
 
-    private Path                                 source;
-
-    private CustomFileVisitor                    fsWalker;
-
-    private Function<Exception, FileVisitResult> errorHandler;
-
-    private long                                 fileCount;
-
-    private long                                 dirCount;
-
-    private long                                 totalSize;
+    private Path                source;
+    private CustomFileVisitor   fsWalker;
+    private long                fileCount;
+    private long                dirCount;
+    private long                totalSize;
 
     public CopyingFileWalker(@NotNull Path source, @NotNull Path destination) {
         this(source, destination, null);
@@ -33,7 +29,6 @@ public class CopyingFileWalker implements Runnable {
 
         this.source       = source;
         this.fsWalker     = new CustomFileVisitor();
-        this.errorHandler = errorHandler != null ? errorHandler : this::defaultErrorHandler;
 
         fsWalker.setOnPreDirectory($ -> {
             var destDir = destination.resolve(source.relativize($));
@@ -48,23 +43,28 @@ public class CopyingFileWalker implements Runnable {
             totalSize += $.toFile().length();
         });
 
-        fsWalker.setErrorHandler(errorHandler);
+        fsWalker.setErrorHandler(errorHandler != null ? errorHandler : ($ex -> FileVisitResult.TERMINATE));
 
     }
 
-    private FileVisitResult defaultErrorHandler(Exception ex) {
-        throw KclException.wrap(ex);
+    public synchronized void reset() {
+        fileCount = 0L;
+        dirCount  = 0L;
+        totalSize = 0L;
+        fsWalker.reset();
+    }
+
+    public synchronized void stop() {
+        fsWalker.stop();
     }
 
     @Override
     public synchronized void run() {
         try {
-            fileCount = 0L;
-            dirCount  = 0L;
-            totalSize = 0L;
+            reset();
             Files.walkFileTree(source, fsWalker);
         } catch (Exception ex) {
-            errorHandler.apply(ex);
+            throw KclException.wrap(ex);
         }
     }
 

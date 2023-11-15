@@ -13,17 +13,11 @@ import java.nio.file.*;
  */
 public class DeletingFileWalker implements Runnable {
 
-    private Path                                 source;
-
-    private CustomFileVisitor                    fsWalker;
-
-    private Function<Exception, FileVisitResult> errorHandler;
-
-    private long                                 fileCount;
-
-    private long                                 dirCount;
-
-    private long                                 totalSize;
+    private Path                source;
+    private CustomFileVisitor   fsWalker;
+    private long                fileCount;
+    private long                dirCount;
+    private long                totalSize;
 
     public DeletingFileWalker(@NotNull Path source) {
         this(source, null);
@@ -33,7 +27,6 @@ public class DeletingFileWalker implements Runnable {
 
         this.source       = source;
         this.fsWalker     = new CustomFileVisitor();
-        this.errorHandler = errorHandler != null ? errorHandler : this::defaultErrorHandler;
 
         fsWalker.setOnFile($ -> {
             totalSize += $.toFile().length();
@@ -46,23 +39,28 @@ public class DeletingFileWalker implements Runnable {
             dirCount++;
         });
 
-        fsWalker.setErrorHandler(errorHandler);
+        fsWalker.setErrorHandler(errorHandler != null ? errorHandler : ($ex -> FileVisitResult.TERMINATE));
 
     }
 
-    private FileVisitResult defaultErrorHandler(Exception ex) {
-        throw KclException.wrap(ex);
+    public synchronized void reset() {
+        fileCount = 0L;
+        dirCount  = 0L;
+        totalSize = 0L;
+        fsWalker.reset();
+    }
+
+    public synchronized void stop() {
+        fsWalker.stop();
     }
 
     @Override
     public synchronized void run() {
         try {
-            fileCount = 0L;
-            dirCount  = 0L;
-            totalSize = 0L;
+            reset();
             Files.walkFileTree(source, fsWalker);
         } catch (Exception ex) {
-            errorHandler.apply(ex);
+            throw KclException.wrap(ex);
         }
     }
 

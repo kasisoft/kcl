@@ -17,13 +17,9 @@ import java.nio.file.*;
  */
 public class ListingFileWalker implements Supplier<List<String>> {
 
-    private Path                                 source;
-
-    private CustomFileVisitor                    fsWalker;
-
-    private Function<Exception, FileVisitResult> errorHandler;
-
-    private List<String>                         pathes;
+    private Path                source;
+    private CustomFileVisitor   fsWalker;
+    private List<String>        pathes;
 
     public ListingFileWalker(@NotNull Path source, boolean includeDirs) {
         this(source, includeDirs, null);
@@ -33,29 +29,20 @@ public class ListingFileWalker implements Supplier<List<String>> {
 
         this.source       = source;
         this.fsWalker     = new CustomFileVisitor();
-        this.errorHandler = errorHandler != null ? errorHandler : this::defaultErrorHandler;
         pathes            = new ArrayList<String>(50);
 
-        fsWalker.setOnPreDirectory($ -> {
-            if (includeDirs) {
-                addRelativePath($, true);
-            }
-        });
+        if (includeDirs) {
+            fsWalker.setOnPreDirectory($ -> addRelativePath($, true));
+        }
 
-        fsWalker.setOnFile($ -> {
-            addRelativePath($, false);
-        });
+        fsWalker.setOnFile($ -> addRelativePath($, false));
 
-        fsWalker.setErrorHandler(errorHandler);
+        fsWalker.setErrorHandler(errorHandler != null ? errorHandler : ($ex -> FileVisitResult.TERMINATE));
 
-    }
-
-    private FileVisitResult defaultErrorHandler(Exception ex) {
-        throw KclException.wrap(ex);
     }
 
     private void addRelativePath(Path current, boolean dir) {
-        String str = source.relativize(current).toString().replace('\\', '/');
+        var str = source.relativize(current).toString().replace('\\', '/');
         if (str.isBlank()) {
             return;
         }
@@ -65,15 +52,23 @@ public class ListingFileWalker implements Supplier<List<String>> {
         pathes.add(str);
     }
 
+    public synchronized void reset() {
+        pathes.clear();
+        fsWalker.reset();
+    }
+
+    public synchronized void stop() {
+        fsWalker.stop();
+    }
+
     @Override
     public synchronized List<String> get() {
         try {
-            pathes.clear();
+            reset();
             Files.walkFileTree(source, fsWalker);
             Collections.sort(pathes);
             return Collections.unmodifiableList(pathes);
         } catch (Exception ex) {
-            errorHandler.apply(ex);
             throw KclException.wrap(ex);
         }
     }

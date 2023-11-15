@@ -32,11 +32,11 @@ public class CustomFileVisitor extends SimpleFileVisitor<Path> {
     }
 
     public void reset() {
-      stop = false;
+        stop = false;
     }
 
     public void stop() {
-      stop = true;
+        stop = true;
     }
 
     public void setOnPostDirectory(Consumer<Path> onPostDirectory) {
