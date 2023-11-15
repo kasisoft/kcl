@@ -7,7 +7,7 @@ import com.kasisoft.libs.common.utils.*;
 import java.io.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class KOutputStream extends OutputStream {
 
