@@ -18,30 +18,21 @@ import java.util.*;
 import java.sql.*;
 
 /**
- * Simple wrapper around a jdbc {@link Connection} instance which provides some helpful utility
- * features.
+ * Simple wrapper around a jdbc {@link Connection} instance which provides some helpful utility features.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
-@SuppressWarnings({"resource", "rawtypes"})
+@SuppressWarnings("rawtypes")
 public class DbConnection implements AutoCloseable {
 
     private Connection                               connection;
-
     private Database                                 database;
-
     private Consumer<Exception>                      errorHandler;
-
     private Map<String, PreparedStatement>           queries;
-
     private List<String>                             tableNames;
-
     private Map<String, List<String>>                columnNames;
-
     private Map<String, List<Pair<String, Integer>>> columnTypes;
-
     private Map<String, List<CsvColumn>>             columnSpecs;
-
     private Closer                                   closer;
 
     /**
@@ -63,12 +54,12 @@ public class DbConnection implements AutoCloseable {
      *            <code>true</code> <=> Use a primitive internal cache (no eviction policies here).
      */
     public DbConnection(@NotNull DbConfig config, boolean cache) {
-        init(config.getDb(), cache);
+        init(config.db(), cache);
         try {
-            if (config.getUsername() != null) {
-                connection = config.getDb().getConnection(config.getUrl(), config.getUsername(), config.getPassword());
+            if (config.username() != null) {
+                connection = config.db().getConnection(config.url(), config.username(), config.password());
             } else {
-                connection = config.getDb().getConnection(config.getUrl());
+                connection = config.db().getConnection(config.url());
             }
         } catch (Exception ex) {
             throw KclException.wrap(ex);
@@ -92,6 +83,7 @@ public class DbConnection implements AutoCloseable {
         }
     }
 
+    @NotNull
     public DbConnection withErrorHandler(@NotNull Consumer<Exception> errorHandler) {
         this.errorHandler = errorHandler;
         this.closer       = closer.withErrorHandler(errorHandler);
@@ -142,15 +134,13 @@ public class DbConnection implements AutoCloseable {
      * @return The canonical name unless there's no correspondingly named table.
      */
     public String canonicalTableName(@NotNull String tablename) {
-        var    tables = listTables();
-        String result = null;
+        var tables = listTables();
         for (var table : tables) {
             if (table.equalsIgnoreCase(tablename)) {
-                result = table;
-                break;
+                return table;
             }
         }
-        return result;
+        return null;
     }
 
     /**
@@ -158,7 +148,8 @@ public class DbConnection implements AutoCloseable {
      *
      * @return A list of table names (unmodifiable).
      */
-    public @NotNull List<String> listTables() {
+    @NotNull
+    public List<String> listTables() {
         var result = Collections.unmodifiableList(tableNames);
         if (tableNames.isEmpty()) {
             ResultSet resultset = null;
@@ -188,7 +179,8 @@ public class DbConnection implements AutoCloseable {
      * @throws SQLException
      *             Setting up the query failed for some reason.
      */
-    private @NotNull PreparedStatement getQuery(@NotBlank String query, @NotNull String table) throws SQLException {
+    @NotNull
+    private PreparedStatement getQuery(@NotBlank String query, @NotNull String table) throws SQLException {
         var key    = table != null ? query.formatted(table) : query;
         var result = queries.get(key);
         if (result == null) {
@@ -205,7 +197,8 @@ public class DbConnection implements AutoCloseable {
      *            The table which column names shall be returned.
      * @return A list of all column names.
      */
-    public @NotNull List<String> listColumnNames(@NotBlank String table) {
+    @NotNull
+    public List<String> listColumnNames(@NotBlank String table) {
         return listColumnInfos(columnNames, table, this::getColumnName);
     }
 
@@ -234,7 +227,8 @@ public class DbConnection implements AutoCloseable {
      *            The table which column names shall be returned.
      * @return A list of pairs providing the column name associated with the corresponding jdbc type.
      */
-    public @NotNull List<Pair<String, Integer>> listColumnTypes(@NotBlank String table) {
+    @NotNull
+    public List<Pair<String, Integer>> listColumnTypes(@NotBlank String table) {
         return listColumnInfos(columnTypes, table, this::getColumnType);
     }
 
@@ -297,132 +291,6 @@ public class DbConnection implements AutoCloseable {
         }
         return result;
     }
-
-    //  private <T> CsvColumn<T> newCsvColumn(String name, Function<String, T> adapter) {
-    //    CsvColumn<T> result = new CsvColumn<>();
-    //    result.setTitle(name);
-    //    result.setAdapter(adapter);
-    //    return result;
-    //  }
-    //
-    //  /**
-    //   * Creates a CsvTableModel instance providing the metadata description of the supplied table.
-    //   *
-    //   * @param table   The table which column names shall be returned.
-    //   *
-    //   * @return  The CsvTableModel instance.
-    //   */
-    //  public @NotNull CsvTableModel createCsvMetaData(@@NotBlank String table) {
-    //
-    //    List<CsvColumn> specs = Arrays.asList(
-    //      newCsvColumn("name"        , new StringAdapter()),
-    //      newCsvColumn("label"       , new StringAdapter()),
-    //      newCsvColumn("schema"      , new StringAdapter()),
-    //      newCsvColumn("catalog"     , new StringAdapter()),
-    //      newCsvColumn("class"       , new StringAdapter()),
-    //      newCsvColumn("type"        , new StringAdapter()),
-    //      newCsvColumn("typename"    , new StringAdapter()),
-    //      newCsvColumn("displaysize" , new StringAdapter()),
-    //      newCsvColumn("precision"   , new StringAdapter()),
-    //      newCsvColumn("scale"       , new StringAdapter())
-    //    );
-    //
-    //    CsvTableModel result = new CsvTableModel(CsvOptions.builder().columns(specs).titleRow().build());
-    //    String        name   = canonicalTableName(table);
-    //    if (name != null) {
-    //      PreparedStatement query     = null;
-    //      ResultSet         resultset = null;
-    //      try {
-    //        query        = getQuery(config.getDb().getListColumnsQuery(), name);
-    //        resultset    = query.executeQuery();
-    //        var metadata = resultset.getMetaData();
-    //        for (var i = 1; i <= metadata.getColumnCount(); i++) {
-    //          result.addRow( new Object[] {
-    //            metadata.getColumnName(i),
-    //            metadata.getColumnLabel(i),
-    //            metadata.getSchemaName(i),
-    //            metadata.getCatalogName(i),
-    //            metadata.getColumnClassName(i),
-    //            metadata.getColumnType(i),
-    //            metadata.getColumnTypeName(i),
-    //            metadata.getColumnDisplaySize(i),
-    //            metadata.getPrecision(i),
-    //            metadata.getScale(i)
-    //          });
-    //        }
-    //      } catch (Exception ex) {
-    //        // if the handler doesn't abort we're returning an empty list
-    //        errorHandler.accept(ex);
-    //      } finally {
-    //        MiscFunctions.close(resultset);
-    //      }
-    //    }
-    //    return result;
-    //  }
-    //
-    //  /**
-    //   * Creates a CsvTableModel instance providing the data of the supplied table.
-    //   *
-    //   * @param table      The table which column names shall be returned.
-    //   *
-    //   * @return  The CsvTableModel instance.
-    //   */
-    //  public @NotNull CsvTableModel createCsvModel(@NotBlank String table) {
-    //    var specs  = listColumnInfos(columnSpecs, table, this::getCsvColumn);
-    //    var result = new CsvTableModel(CsvOptions.builder().columns(specs).titleRow().build());
-    //    importAllRows(table, $ -> rowLoader($, result));
-    //    return result;
-    //  }
-    //
-    //  /**
-    //   * Creates a {@link CsvColumn} specification from the jdbc metadata.
-    //   *
-    //   * @param metadata   The jdbc record providing some meta information.
-    //   * @param index      The 1-based index of the column.
-    //   *
-    //   * @return   The {@link CsvColumn} specification.
-    //   */
-    //  private CsvColumn getCsvColumn(ResultSetMetaData metadata, int index) {
-    //    try {
-    //      var type   = Class.forName(metadata.getColumnClassName(index));
-    //      var result = new CsvColumn();
-    //      result.setTitle(metadata.getColumnName(index));
-    //      result.setType(type);
-    //      result.setNullable(metadata.isNullable(index) == ResultSetMetaData.columnNullable);
-    //      if (result.getAdapter() == null) {
-    //        result.setAdapter(Function.identity());
-    //      }
-    //      return result;
-    //    } catch (Exception ex) {
-    //      errorHandler.accept(ex);
-    //      return null;
-    //    }
-    //  }
-    //
-    //  /**
-    //   * List all records within a table.
-    //   *
-    //   * @param table      The name of the table.
-    //   * @param consumer   The {@link Consumer} which will be invoked for each record.
-    //   */
-    //  private void importAllRows(String table, Consumer<ResultSet> consumer) {
-    //    var name = canonicalTableName(table);
-    //    if (name != null) {
-    //      PreparedStatement query     = null;
-    //      ResultSet         resultset = null;
-    //      try {
-    //        query     = getQuery(database.getSelectAllQuery(), name);
-    //        resultset = query.executeQuery();
-    //        while (resultset.next()) {
-    //          consumer.accept(resultset);
-    //        }
-    //      } catch (Exception ex) {
-    //        errorHandler.accept(ex);
-    //      } finally {
-    //        closer.close(resultset);
-    //      }
-    //    }
-    //  }
 
     /**
      * Processes some records.
@@ -526,7 +394,8 @@ public class DbConnection implements AutoCloseable {
      *            The {@link Function} which creates a usable record from the jdbc outcome.
      * @return A list with all records.
      */
-    public <T> @NotNull List<T> select(@NotBlank String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
+    @NotNull
+    public <T> List<T> select(@NotBlank String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
         return select(jdbcQuery, null, ($1, $2) -> producer.apply($1));
     }
 
@@ -541,7 +410,8 @@ public class DbConnection implements AutoCloseable {
      *            The {@link Function} which creates a usable record from the jdbc outcome.
      * @return A list with all records.
      */
-    public <T, C> @NotNull List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+    @NotNull
+    public <T, C> List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
         var name = canonicalTableName(table);
         return select(database.getSelectAllQuery().formatted(name), context, producer);
     }
@@ -555,7 +425,8 @@ public class DbConnection implements AutoCloseable {
      *            The {@link Function} which creates a usable record from the jdbc outcome.
      * @return A list with all records.
      */
-    public <T> @NotNull List<T> selectAll(@NotBlank String table, @NotNull Function<ResultSet, T> producer) {
+    @NotNull
+    public <T> List<T> selectAll(@NotBlank String table, @NotNull Function<ResultSet, T> producer) {
         var name = canonicalTableName(table);
         return select(database.getSelectAllQuery().formatted(name), producer);
     }
@@ -587,24 +458,6 @@ public class DbConnection implements AutoCloseable {
         }
         return result;
     }
-
-    //  /**
-    //   * Derives the current row data from the jdbc source and applies it to the {@link CsvTableModel} instance.
-    //   *
-    //   * @param source   The jdbc source.
-    //   * @param dest     The {@link CsvTableModel} instance to be filled.
-    //   */
-    //  private void rowLoader(@NotNull ResultSet source, CsvTableModel dest) {
-    //    try {
-    //      var rowdata = new Object[dest.getColumnCount()];
-    //      for(int i = 0, j = 1; i < rowdata.length; i++, j++) {
-    //        rowdata[i] = source.getObject(j);
-    //      }
-    //      dest.addRow(rowdata);
-    //    } catch (Exception ex) {
-    //      errorHandler.accept(ex);
-    //    }
-    //  }
 
     @Override
     public void close() throws Exception {

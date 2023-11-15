@@ -1,21 +1,22 @@
 package com.kasisoft.libs.common.test.data;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.test.*;
-import com.kasisoft.libs.common.data.*;
-import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.*;
-
-import org.h2.tools.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
+import org.h2.tools.*;
+
+import com.kasisoft.libs.common.test.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import com.kasisoft.libs.common.*;
+import com.kasisoft.libs.common.data.*;
+
 import java.util.concurrent.atomic.*;
+
 import java.util.*;
 
 import java.nio.file.*;
@@ -30,24 +31,17 @@ public class DbConnectionTest {
     private static final TestResources TEST_RESOURCES = TestResources.createTestResources(DbConnectionTest.class);
 
     private static AtomicInteger       firstSetup     = new AtomicInteger(0);
-
     private Path                       dbLocation;
-
     private Server                     server;
 
     @BeforeEach
     public void prepare() throws Exception {
-
         if (firstSetup.getAndIncrement() == 0) {
-
             dbLocation = TEST_RESOURCES.getTempPath("tempdir").resolve("h2db");
             IoFunctions.mkDirs(dbLocation);
             assertTrue(Files.isDirectory(dbLocation));
-
             server = Server.createTcpServer(new String[] {"-tcp", "-baseDir", dbLocation.toString()}).start();
-
         }
-
     }
 
     @AfterEach
@@ -60,14 +54,40 @@ public class DbConnectionTest {
         }
     }
 
+    private List<String> expectedCountries() {
+        return Arrays.asList(
+            "Argentina",
+            "Australia",
+            "Belgium",
+            "Brazil",
+            "Canada",
+            "Switzerland",
+            "China",
+            "Germany",
+            "Denmark",
+            "Egypt",
+            "France",
+            "HongKong",
+            "Israel",
+            "India",
+            "Italy",
+            "Japan",
+            "Kuwait",
+            "Mexico",
+            "Nigeria",
+            "Netherlands",
+            "Singapore",
+            "United Kingdom",
+            "United States of America",
+            "Zambia",
+            "Zimbabwe"
+        );
+    }
+
     private DbConfig newDbConfig(String dbname, String initscript) throws Exception {
         var location = TEST_RESOURCES.getResource(initscript);
         var url      = "jdbc:h2:tcp://localhost/%s/%s;MODE=MySQL;DATABASE_TO_UPPER=false;INIT=runscript from '%s'".formatted(dbLocation.toString(), dbname, location.toString());
-        var result   = new DbConfig();
-        // we're using mysql mode on h2: because we can ;-)
-        result.setDb(Database.mysql);
-        result.setUrl(url);
-        return result;
+        return new DbConfig(url, Database.h2, null, null);
     }
 
     @Test
@@ -76,7 +96,7 @@ public class DbConnectionTest {
         var expectedTables = Arrays.asList("countries", "departments", "employees", "job_history", "jobs", "locations", "regions");
         var expectedCounts = new int[] {25, 27, 50, 10, 19, 23, 4};
 
-        try (DbConnection connection = new DbConnection(newDbConfig("test", "script.sql"))) {
+        try (var connection = new DbConnection(newDbConfig("test", "script.sql"))) {
 
             var tables = connection.listTables();
             assertNotNull(tables);
@@ -97,23 +117,18 @@ public class DbConnectionTest {
 
     @Test
     public void selectAll() throws Exception {
-
-        var expectedCountries = Arrays.asList("Argentina", "Australia", "Belgium", "Brazil", "Canada", "Switzerland", "China", "Germany", "Denmark", "Egypt", "France", "HongKong", "Israel", "India", "Italy", "Japan", "Kuwait", "Mexico", "Nigeria", "Netherlands", "Singapore", "United Kingdom", "United States of America", "Zambia", "Zimbabwe");
-
-        try (DbConnection connection = new DbConnection(newDbConfig("test", "script.sql"))) {
+        var expectedCountries = expectedCountries();
+        try (var connection = new DbConnection(newDbConfig("test", "script.sql"))) {
             var countries = connection.selectAll("countries", $ -> getString($, "CountryName"));
             assertNotNull(countries);
             assertThat(countries.size(), is(expectedCountries.size()));
             assertThat(countries, is(expectedCountries));
         }
-
     }
 
     @Test
     public void selectAllDo() throws Exception {
-
-        var expectedCountries = Arrays.asList("Argentina", "Australia", "Belgium", "Brazil", "Canada", "Switzerland", "China", "Germany", "Denmark", "Egypt", "France", "HongKong", "Israel", "India", "Italy", "Japan", "Kuwait", "Mexico", "Nigeria", "Netherlands", "Singapore", "United Kingdom", "United States of America", "Zambia", "Zimbabwe");
-
+        var expectedCountries = expectedCountries();
         var countries         = new ArrayList<>(expectedCountries.size());
         try (DbConnection connection = new DbConnection(newDbConfig("test", "script.sql"))) {
             connection.selectAllDo("countries", $ -> countries.add(getString($, "CountryName")));
