@@ -96,6 +96,20 @@ public final class Encoding {
     }
 
     /**
+     * Encodes the supplied text.
+     *
+     * @param text
+     *            The text that has to be encoded.
+     * @return The data which has to be encoded.
+     */
+    public byte[] optEncode(String text) {
+        if (text != null) {
+            return encode(text);
+        }
+        return null;
+    }
+
+    /**
      * Decodes the supplied data using this encoding.
      *
      * @param data
@@ -105,6 +119,13 @@ public final class Encoding {
     @NotNull
     public String decode(@NotNull byte[] data) {
         return charset.decode(ByteBuffer.wrap(data)).toString();
+    }
+
+    public String optDecode(byte[] data) {
+        if (data != null) {
+            return decode(data);
+        }
+        return null;
     }
 
     @Override

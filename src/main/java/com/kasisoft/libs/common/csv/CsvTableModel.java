@@ -102,8 +102,8 @@ public class CsvTableModel implements TableModel {
     public CsvTableModel(@NotNull CsvOptions csvOptions) {
         this();
         options = validateOptions(csvOptions);
-        consolidateColumns(csvOptions.getColumns().size(), Collections.emptyList(), getTitles(csvOptions.getColumns().size(), Collections.emptyList()));
-        options.getColumns().forEach($ -> tableModel.addColumn($.getTitle()));
+        consolidateColumns(csvOptions.columns().size(), Collections.emptyList(), getTitles(csvOptions.columns().size(), Collections.emptyList()));
+        options.columns().forEach($ -> tableModel.addColumn($.title()));
     }
 
     public @NotNull CsvOptions getOptions() {
@@ -115,7 +115,7 @@ public class CsvTableModel implements TableModel {
     }
 
     public synchronized void removeRow(Predicate<Object[]> isValid) {
-        var start = options.isTitleRow() ? 1 : 0;
+        var start = options.titleRow() ? 1 : 0;
         for (var i = tableModel.getRowCount() - 1; i >= start; i--) {
             var row = tableModel.getDataVector().get(i);
             if (!isValid.test(row.toArray())) {
@@ -129,7 +129,7 @@ public class CsvTableModel implements TableModel {
     }
 
     public synchronized <C, I> void forEach(BiConsumer<I, C> rowConsumer, C context, String column) {
-        var start  = options.isTitleRow() ? 1 : 0;
+        var start  = options.titleRow() ? 1 : 0;
         var mapRow = getObjects(column);
         for (var i = start; i < tableModel.getRowCount(); i++) {
             var row = tableModel.getDataVector().get(i);
@@ -142,7 +142,7 @@ public class CsvTableModel implements TableModel {
     }
 
     public synchronized <C> void forEach(BiConsumer<Object[], C> rowConsumer, C context, String ... columns) {
-        var start  = options.isTitleRow() ? 1 : 0;
+        var start  = options.titleRow() ? 1 : 0;
         var mapRow = getObjects(columns);
         for (var i = start; i < tableModel.getRowCount(); i++) {
             var row = tableModel.getDataVector().get(i);
@@ -152,7 +152,7 @@ public class CsvTableModel implements TableModel {
 
     public synchronized <R, I> R reduce(R initial, BiFunction<R, I, R> operator, String column) {
         var result = initial;
-        var start  = options.isTitleRow() ? 1 : 0;
+        var start  = options.titleRow() ? 1 : 0;
         var mapRow = getObjects(column);
         for (var i = start; i < tableModel.getRowCount(); i++) {
             var row = tableModel.getDataVector().get(i);
@@ -163,7 +163,7 @@ public class CsvTableModel implements TableModel {
 
     public synchronized <R> @NotNull R reduce(R initial, BiFunction<R, Object[], R> operator, String ... columns) {
         var result = initial;
-        var start  = options.isTitleRow() ? 1 : 0;
+        var start  = options.titleRow() ? 1 : 0;
         var mapRow = getObjects(columns);
         for (var i = start; i < tableModel.getRowCount(); i++) {
             var row = tableModel.getDataVector().get(i);
@@ -227,7 +227,7 @@ public class CsvTableModel implements TableModel {
                 var rowData = tableModel.getDataVector().get(row);
                 rowData.remove(column);
             }
-            options.getColumns().remove(column);
+            options.columns().remove(column);
         }
     }
 
@@ -245,11 +245,12 @@ public class CsvTableModel implements TableModel {
 
     public synchronized <L, R, O> void joinColumns(@Min(0) int column1, @Min(0) int column2, @NotNull BiFunction<L, R, O> joiner, @NotBlank String columnName, boolean nullable, O defaultVal) {
         if (isValidColumn(column1) && isValidColumn(column2)) {
-            var newColumn = new CsvColumn<>();
-            newColumn.setNullable(nullable);
-            newColumn.setTitle(columnName);
-            newColumn.setDefval(defaultVal);
-            options.getColumns().add(newColumn);
+            var newColumn = CsvColumn.builder()
+                .nullable(nullable)
+                .title(columnName)
+                .defaultValue(defaultVal)
+                .build();
+            options.columns().add(newColumn);
             var idxMax = Math.max(column1, column2);
             var idxMin = Math.min(column1, column2);
             for (var row = 0; row < tableModel.getRowCount(); row++) {
@@ -261,8 +262,8 @@ public class CsvTableModel implements TableModel {
                 rowData.remove(idxMax);
                 rowData.remove(idxMin);
             }
-            options.getColumns().remove(idxMax);
-            options.getColumns().remove(idxMin);
+            options.columns().remove(idxMax);
+            options.columns().remove(idxMin);
         }
     }
 
@@ -311,13 +312,13 @@ public class CsvTableModel implements TableModel {
      */
     private CsvOptions validateOptions(@NotNull CsvOptions options) {
         var result = options.deepCopy();
-        for (var i = 0; i < result.getColumns().size(); i++) {
-            var csvColumn = result.getColumns().get(i);
-            if ((csvColumn != null) && (csvColumn.getAdapter() == null)) {
+        for (var i = 0; i < result.columns().size(); i++) {
+            var csvColumn = result.columns().get(i);
+            if ((csvColumn != null) && (csvColumn.adapter() == null)) {
                 ehColumnSpecWithoutAdapter.accept(error_missing_csv_adapter.format(i));
                 // unless the error handler caused an exception we're clearing this spec, so it can be
                 // calculcated afterwards
-                result.getColumns().set(i, null);
+                result.columns().set(i, null);
             }
         }
         return result;
@@ -331,7 +332,7 @@ public class CsvTableModel implements TableModel {
      * @return A normalized table of csv data.
      */
     private @NotNull List<List<String>> loadCellData(@NotNull InputStream source) {
-        if (options.isSimpleFormat()) {
+        if (options.simpleFormat()) {
             return loadCellDataSimple(source);
         } else {
             return loadCellDataDefault(source);
@@ -371,11 +372,11 @@ public class CsvTableModel implements TableModel {
         var    lines    = new ArrayList<>(Arrays.asList(text.split("\n")));
 
         String titleRow = null;
-        if (options.isTitleRow()) {
+        if (options.titleRow()) {
             titleRow = lines.remove(0);
         }
 
-        List<List<String>> result = (options.isOrderedSimpleFormat() ? lines.stream()
+        List<List<String>> result = (options.orderedSimpleFormat() ? lines.stream()
             : lines.parallelStream()).map(this::tokenizeSimple).collect(Collectors.toList());
 
         if (titleRow != null) {
@@ -405,7 +406,7 @@ public class CsvTableModel implements TableModel {
      */
     private @NotNull StringBuilder readContent(@NotNull InputStream source) {
         var writer = new CharArrayWriter();
-        IoFunctions.forReaderDo(source, options.getEncoding(), $ -> IoFunctions.copy($, writer));
+        IoFunctions.forReaderDo(source, options.encoding(), $ -> IoFunctions.copy($, writer));
         return new StringBuilder(writer.toString());
     }
 
@@ -431,25 +432,25 @@ public class CsvTableModel implements TableModel {
         for (int i = 0; i < text.length(); i++) {
 
             var first = text.charAt(i);
-            if ((first == DQ) && options.isConsumeDoubleQuotes()) {
+            if ((first == DQ) && options.consumeDoubleQuotes()) {
                 var close = text.indexOf(DQ, i + 1);
                 if (close == -1) {
                     throw new KclException(error_csv_missing_closing_quote, text);
                 }
                 result.add(text.substring(i + 1, close));
                 i = close + 1;
-            } else if ((first == SQ) && options.isConsumeSingleQuotes()) {
+            } else if ((first == SQ) && options.consumeSingleQuotes()) {
                 var close = text.indexOf(SQ, i + 1);
                 if (close == -1) {
                     throw new KclException(error_csv_missing_closing_quote, text);
                 }
                 result.add(text.substring(i + 1, close));
                 i = close + 1;
-            } else if (first == options.getDelimiter()) {
+            } else if (first == options.delimiter()) {
                 // empty cell
                 result.add("");
             } else {
-                var end = text.indexOf(options.getDelimiter(), i + 1);
+                var end = text.indexOf(options.delimiter(), i + 1);
                 if (end == -1) {
                     result.add(text.substring(i));
                     i = text.length();
@@ -500,11 +501,11 @@ public class CsvTableModel implements TableModel {
         var first = content.charAt(0);
         if ((first == CR) || (first == LF)) {
             consumeCRLF(receiver, content);
-        } else if ((first == DQ) && options.isConsumeDoubleQuotes()) {
+        } else if ((first == DQ) && options.consumeDoubleQuotes()) {
             consumeQuoted(receiver, content, first, DQ_STR);
-        } else if ((first == SQ) && options.isConsumeSingleQuotes()) {
+        } else if ((first == SQ) && options.consumeSingleQuotes()) {
             consumeQuoted(receiver, content, first, SQ_STR);
-        } else if (first == options.getDelimiter()) {
+        } else if (first == options.delimiter()) {
             consumeCellSeparator(receiver, content);
         } else {
             consumeNormal(receiver, content);
@@ -559,7 +560,7 @@ public class CsvTableModel implements TableModel {
      *            The current text to be processed.
      */
     private void consumeNormal(@NotNull List<String> receiver, @NotNull StringBuilder content) {
-        var idx = StringFunctions.indexOf(content.toString(), options.getDelimiter(), LF, CR, DQ, SQ);
+        var idx = StringFunctions.indexOf(content.toString(), options.delimiter(), LF, CR, DQ, SQ);
         if (idx == -1) {
             // there's no other cell following, so the remaining text covers tghe complete cell
             receiver.add(content.toString());
@@ -625,7 +626,7 @@ public class CsvTableModel implements TableModel {
     private @NotNull Content toContent(String data) {
         var type = ContentType.CONTENT;
         if ((data != null) && (data.length() < 2)) {
-            if (data.charAt(0) == options.getDelimiter()) {
+            if (data.charAt(0) == options.delimiter()) {
                 type = ContentType.SEPARATOR;
             } else if (data.charAt(0) == LF) {
                 type = ContentType.LINE_DELIMITER;
@@ -658,15 +659,15 @@ public class CsvTableModel implements TableModel {
             }
             if (result.data != null) {
                 var ch = result.data.charAt(0);
-                if ((ch == DQ) && options.isConsumeDoubleQuotes()) {
+                if ((ch == DQ) && options.consumeDoubleQuotes()) {
                     result.data = result.data.substring(1, result.data.length() - 1);
                     result.data = StringFunctions.replaceLiterallyAll(result.data, DQ_STR + DQ_STR, DQ_STR);
-                } else if ((ch == SQ) && options.isConsumeSingleQuotes()) {
+                } else if ((ch == SQ) && options.consumeSingleQuotes()) {
                     result.data = result.data.substring(1, result.data.length() - 1);
                     result.data = StringFunctions.replaceLiterallyAll(result.data, SQ_STR + SQ_STR, SQ_STR);
                 }
             }
-            if (options.isDisableCr() && (result.data != null)) {
+            if (options.disableCr() && (result.data != null)) {
                 result.data = StringFunctions.replaceLiterallyAll(result.data, CRLF_STR, LF_STR);
                 result.data = StringFunctions.replaceLiterallyAll(result.data, CR_STR, LF_STR);
             }
@@ -685,7 +686,7 @@ public class CsvTableModel implements TableModel {
     private @NotNull List<List<Content>> partition(@NotNull List<Content> content) {
         var             result   = new ArrayList<List<Content>>();
         var             line     = new ArrayList<Content>();
-        Predicate<List> isfilled = options.getMaxLines() != -1 ? $ -> $.size() >= options.getMaxLines() : $ -> false;
+        Predicate<List> isfilled = options.maxLines() != -1 ? $ -> $.size() >= options.maxLines() : $ -> false;
         result.add(line);
         while ((!content.isEmpty()) && (!isfilled.test(result))) {
             var current = content.remove(0);
@@ -734,7 +735,7 @@ public class CsvTableModel implements TableModel {
         // insert a column if there are subsequence separators
         lines.parallelStream().forEach(this::extendDuplicateDelimiters);
 
-        if (options.isFillMissingColumns()) {
+        if (options.fillMissingColumns()) {
             var maxcolumns = lines.parallelStream().mapToInt($ -> $.size()).reduce(0, Math::max);
             lines.parallelStream().forEach($ -> fillMissingColumns($, maxcolumns));
         }
@@ -847,7 +848,7 @@ public class CsvTableModel implements TableModel {
         consolidateColumns(columns, lines, getTitles(columns, lines));
 
         // register each column
-        options.getColumns().forEach($ -> tableModel.addColumn($.getTitle()));
+        options.columns().forEach($ -> tableModel.addColumn($.title()));
 
         // load the table content
         lines.forEach(this::loadLine);
@@ -915,7 +916,7 @@ public class CsvTableModel implements TableModel {
         for (var i = 0; i < names.length; i++) {
             writer.append("\"%s\"".formatted(names[i]));
             if (i < last) {
-                writer.append(options.getDelimiter());
+                writer.append(options.delimiter());
             }
         }
         writer.append("\n");
@@ -926,7 +927,7 @@ public class CsvTableModel implements TableModel {
         for (var i = 0; i < getColumnCount(); i++) {
             writer.append("\"%s\"".formatted(getValueAt(row, i)));
             if (i < last) {
-                writer.append(options.getDelimiter());
+                writer.append(options.delimiter());
             }
         }
         writer.append("\n");
@@ -947,7 +948,7 @@ public class CsvTableModel implements TableModel {
      * @return The number of columns.
      */
     private int determineColumnCount(@NotNull List<List<String>> lines) {
-        var result = options.getColumns().size();
+        var result = options.columns().size();
         if (!lines.isEmpty()) {
             result = lines.parallelStream().map($ -> $.size()).reduce(0, Math::max);
         }
@@ -980,17 +981,17 @@ public class CsvTableModel implements TableModel {
 
         var result = new ArrayList<String>(columns);
 
-        if ((!content.isEmpty()) && options.isTitleRow()) {
+        if ((!content.isEmpty()) && options.titleRow()) {
             // we're removing the first line by intent as it provides the titles
             result.addAll(content.remove(0));
         }
 
-        var csvColumns = options.getColumns();
+        var csvColumns = options.columns();
         for (var i = 0; i < columns; i++) {
             var current = i < result.size() ? result.get(i) : null;
             if ((current == null) && (i < csvColumns.size()) && (csvColumns.get(i) != null)) {
                 // there was no title so use the title from the column spec if there's one
-                current = csvColumns.get(i).getTitle();
+                current = csvColumns.get(i).title();
             }
             current = StringFunctions.cleanup(current);
             if (current == null) {
@@ -1023,7 +1024,7 @@ public class CsvTableModel implements TableModel {
         var columnsByName = new HashMap<String, CsvColumn>();
         var allTitles     = new ArrayList<String>(titles);
 
-        options.getColumns().parallelStream().filter($ -> $ != null).forEach($ -> columnsByName.put($.getTitle(), $));
+        options.columns().parallelStream().filter($ -> $ != null).forEach($ -> columnsByName.put($.title(), $));
 
         allTitles.removeAll(columnsByName.keySet());
 
@@ -1032,13 +1033,12 @@ public class CsvTableModel implements TableModel {
             var title  = titles.get(i);
             var column = columnsByName.get(title);
             if (column == null) {
-                column = guessColumn(lines, i);
-                column.setTitle(allTitles.remove(0));
+                column = guessColumn(lines, i, allTitles.remove(0));
             }
             reordered.add(column);
         }
-        options.getColumns().clear();
-        options.getColumns().addAll(reordered);
+        options.columns().clear();
+        options.columns().addAll(reordered);
 
     }
 
@@ -1051,7 +1051,8 @@ public class CsvTableModel implements TableModel {
      *            The column which currently has no column specification.
      * @return A valid column specification.
      */
-    private @NotNull CsvColumn<?> guessColumn(@NotNull List<List<String>> lines, int column) {
+    @NotNull
+    private CsvColumn<?> guessColumn(@NotNull List<List<String>> lines, int column, String title) {
 
         CsvColumn<?> result   = null;
         var          nullable = true;
@@ -1086,12 +1087,14 @@ public class CsvTableModel implements TableModel {
         }
 
         if (result == null) {
-            var str = new CsvColumn<String>();
-            str.setAdapter(String::valueOf);
-            str.setDefval(nullable ? null : DEFVAL_STRING);
-            str.setNullable(nullable);
-            str.setType(String.class);
-            result = str;
+            result = CsvColumn.<String>builder()
+                .adapter(String::valueOf)
+                .defaultValue(nullable ? null : DEFVAL_STRING)
+                .nullable(nullable)
+                .type(String.class)
+                .title(title)
+                .build()
+                ;
         }
 
         return result;
@@ -1119,12 +1122,13 @@ public class CsvTableModel implements TableModel {
         var testP = test.protect();
         var is    = values.parallelStream().map($ -> testP.test($)).reduce(true, Boolean::logicalAnd);
         if (is) {
-            var result = new CsvColumn<T>();
-            result.setAdapter(adapter);
-            result.setDefval(nullable ? null : defValue);
-            result.setNullable(nullable);
-            result.setType(type);
-            return result;
+            return CsvColumn.<T>builder()
+                .adapter(adapter)
+                .defaultValue(nullable ? null : defValue)
+                .nullable(nullable)
+                .type(type)
+                .build()
+                ;
         }
         return null;
     }
@@ -1139,10 +1143,10 @@ public class CsvTableModel implements TableModel {
         var data = new Object[line.size()];
         for (var i = 0; i < line.size(); i++) {
             var cellValue = line.get(i);
-            var csvColumn = options.getColumns().get(i);
-            var value     = deserialize(csvColumn.getAdapter(), i, cellValue);
+            var csvColumn = options.columns().get(i);
+            var value     = deserialize(csvColumn.adapter(), i, cellValue);
             if (value == null) {
-                value = csvColumn.getDefval();
+                value = csvColumn.defval();
             }
             data[i] = value;
         }
@@ -1159,9 +1163,9 @@ public class CsvTableModel implements TableModel {
         if (rowData != null) {
             try {
                 for (var i = 0; i < rowData.length; i++) {
-                    var csvColumn = options.getColumns().get(i);
+                    var csvColumn = options.columns().get(i);
                     if (rowData[i] == null) {
-                        rowData[i] = csvColumn.getDefval();
+                        rowData[i] = csvColumn.defval();
                     }
                 }
                 tableModel.addRow(rowData);
@@ -1249,7 +1253,7 @@ public class CsvTableModel implements TableModel {
 
     @Override
     public synchronized Class<?> getColumnClass(@Min(0) int columnIndex) {
-        return options.getColumns().get(columnIndex).getType();
+        return options.columns().get(columnIndex).type();
     }
 
     @Override

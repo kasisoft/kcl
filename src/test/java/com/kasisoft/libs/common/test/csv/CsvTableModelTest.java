@@ -47,9 +47,13 @@ public class CsvTableModelTest {
 
         var source  = TEST_RESOURCES.getResource("text1.csv");
 
-        var options = CsvOptions.builder().column(null).column(null)
+        var options = CsvOptions.builder()
+            .column(null)
+            .column(null)
             // we're enforcing the type Long for this column
-            .column(CsvColumn.<Long> builder().type(Long.class).adapter(MiscFunctions::parseLong).defaultValue(0L).nullable().title("longVal").build()).fillMissingColumns().build();
+            .column(CsvColumn.<Long> builder().type(Long.class).adapter(MiscFunctions::parseLong).defaultValue(0L).nullable().title("longVal").build())
+            .fillMissingColumns()
+            .build();
 
         var model   = new CsvTableModel(options);
 
