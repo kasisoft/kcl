@@ -5,9 +5,9 @@ import com.kasisoft.libs.common.constants.*;
 import java.util.*;
 
 /**
- * FileType for 'bmp' files.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ * FileType for 'class' files.
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class JavaClassFileType extends AbstractFileType {
 

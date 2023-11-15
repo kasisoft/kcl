@@ -7,7 +7,7 @@ import com.kasisoft.libs.common.utils.*;
 import java.util.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public abstract class AbstractFileType implements FileType {
 

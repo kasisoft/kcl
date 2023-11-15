@@ -9,7 +9,7 @@ import java.util.function.*;
 /**
  * A simple definition of characteristics used to identify file types.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public interface FileType extends Predicate<byte[]> {
 
@@ -36,7 +36,8 @@ public interface FileType extends Predicate<byte[]> {
      *
      * @return The primary suffix for this file type.
      */
-    default @NotBlank String getSuffix() {
+    @NotBlank
+    default String getSuffix() {
         return getContentType().getPrimarySuffixWithDot();
     }
 

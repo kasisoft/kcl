@@ -6,8 +6,8 @@ import java.util.*;
 
 /**
  * FileType for 'bmp' files.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class BmpFileType extends AbstractFileType {
 

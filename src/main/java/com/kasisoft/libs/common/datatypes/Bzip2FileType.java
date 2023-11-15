@@ -6,8 +6,8 @@ import java.util.*;
 
 /**
  * FileType for 'bzip2' files.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Bzip2FileType extends AbstractFileType {
 

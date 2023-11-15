@@ -6,8 +6,8 @@ import java.util.*;
 
 /**
  * FileType for 'gif' files.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class GifFileType extends AbstractFileType {
 

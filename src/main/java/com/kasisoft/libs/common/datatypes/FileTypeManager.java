@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Management for file type recognizers.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class FileTypeManager {
 
@@ -23,8 +23,8 @@ public class FileTypeManager {
     public FileTypeManager() {
         filetypes = new ArrayList<FileType>();
         ServiceLoader.load(FileType.class).forEach(filetypes::add);
-        Collections.sort(filetypes, new FileTypeBySizeComparator());
         if (!filetypes.isEmpty()) {
+            Collections.sort(filetypes, ($a, $b) -> $a.getMinSize() - $b.getMinSize());
             maxspace = filetypes.get(0).getMinSize();
         } else {
             maxspace = 0;
@@ -36,7 +36,8 @@ public class FileTypeManager {
      *
      * @return A list with all known FileType instances.
      */
-    public @NotNull FileType[] getFileTypes() {
+    @NotNull
+    public FileType[] getFileTypes() {
         return filetypes.toArray(new FileType[filetypes.size()]);
     }
 
@@ -55,7 +56,7 @@ public class FileTypeManager {
      * @return The FileType if it could be identified.
      */
     public <T> FileType identify(@NotNull T input) {
-        Optional<byte[]> data = IoFunctions.genericLoadBytes(input, maxspace);
+        var data = IoFunctions.genericLoadBytes(input, maxspace);
         return data.map(this::identify).orElse(null);
     }
 
@@ -74,16 +75,5 @@ public class FileTypeManager {
         }
         return null;
     }
-
-    private static class FileTypeBySizeComparator implements Comparator<FileType> {
-
-        @Override
-        public int compare(FileType f1, FileType f2) {
-            var i1 = Integer.valueOf(f1.getMinSize());
-            var i2 = Integer.valueOf(f2.getMinSize());
-            return i2.compareTo(i1);
-        }
-
-    } /* ENDCLASS */
 
 } /* ENDCLASS */

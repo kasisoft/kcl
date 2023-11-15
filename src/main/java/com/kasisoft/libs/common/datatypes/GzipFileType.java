@@ -6,8 +6,8 @@ import java.util.zip.*;
 
 /**
  * FileType for 'gzip' files.
- * 
- * @author daniel.kasmeroglu@kasisoft.net
+ *
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class GzipFileType implements FileType {
 
