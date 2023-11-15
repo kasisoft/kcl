@@ -39,20 +39,6 @@ public class FunctionsTest {
     }
 
     @Test
-    public void adaptFunctionToTriFunction() {
-        var triFunction = Functions.adaptFunctionToTriFunction($ -> $);
-        assertThat(triFunction.apply("Hello", "Bibo", "Suppe"), is("Hello"));
-        assertNull(triFunction.apply(null, "Bibo", "Suppe"));
-    }
-
-    @Test
-    public void adaptBiFunctionToTriFunction() {
-        var triFunction = Functions.<String, String, String, String> adaptBiFunctionToTriFunction(($a, $b) -> $a + $b);
-        assertThat(triFunction.apply("Hello", "Bibo", "Suppe"), is("HelloBibo"));
-        assertThat(triFunction.apply(null, "Bibo", "Suppe"), is("nullBibo"));
-    }
-
-    @Test
     public void adaptConsumerToTriConsumer() {
 
         var builder     = new StringBuilder();
@@ -106,12 +92,6 @@ public class FunctionsTest {
     }
 
     @Test
-    public void adaptTriFunctionToBiFunction() {
-        var triFunction = Functions.<String, String, String> adaptTriFunctionToBiFunction(($a, $b, $_2) -> $a + $b);
-        assertThat(triFunction.apply("Hello", "Bibo"), is("HelloBibo"));
-    }
-
-    @Test
     public void adaptTriConsumerToBiConsumer() {
         var builder     = new StringBuilder();
         var triConsumer = Functions.adaptTriConsumerToBiConsumer(($a, $b, $_2) -> builder.append($a).append($b));
@@ -131,12 +111,6 @@ public class FunctionsTest {
         var consumer = Functions.adaptBiConsumerToConsumer(($a, $_) -> builder.append($a));
         consumer.accept("Hello");
         assertThat(builder.toString(), is("Hello"));
-    }
-
-    @Test
-    public void adaptTriFunctionToFunction() {
-        var function = Functions.adaptTriFunctionToFunction(($a, $_1, $_2) -> $a);
-        assertThat(function.apply("Hello"), is("Hello"));
     }
 
     @Test
