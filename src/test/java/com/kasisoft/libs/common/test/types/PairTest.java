@@ -13,12 +13,16 @@ import com.kasisoft.libs.common.types.*;
 import java.util.stream.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class PairTest {
 
     public static Stream<Arguments> data_processPairs() {
-        return Stream.of(Arguments.of(new Pair<String, Boolean>("A", true), "A", true), Arguments.of(new Pair<String, Boolean>("A", false), "A", false), Arguments.of(new Pair<String, Boolean>("B", true), "B", true));
+        return Stream.of(
+            Arguments.of(new Pair<String, Boolean>("A", true), "A", true),
+            Arguments.of(new Pair<String, Boolean>("A", false), "A", false),
+            Arguments.of(new Pair<String, Boolean>("B", true), "B", true)
+        );
     }
 
     @ParameterizedTest
@@ -26,8 +30,6 @@ public class PairTest {
     public void processPairs(Pair<String, Boolean> pair, String key, boolean value) {
         assertThat(pair.getFirst(), is(key));
         assertThat(pair.getLast(), is(value));
-        assertThat(pair.getKey(), is(key));
-        assertThat(pair.getValue(), is(value));
     }
 
 } /* ENDCLASS */

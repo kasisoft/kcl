@@ -231,8 +231,8 @@ public class I18NSupport {
         locale = I18NFunctions.getLocale(locale);
 
         var baseAndPrefix = extractBaseAndPrefix(clazz);
-        var base          = baseAndPrefix.getValue1();
-        var prefix        = baseAndPrefix.getValue2();
+        var base          = baseAndPrefix.value1();
+        var prefix        = baseAndPrefix.value2();
         var candidates    = getTranslationCandidates(locale, base);
 
         applyTranslations(prefix, loadTranslations(clazz, candidates), collectFields(clazz));
@@ -300,7 +300,7 @@ public class I18NSupport {
         locale = I18NFunctions.getLocale(locale);
 
         var baseAndPrefix = extractBaseAndPrefix(clazz);
-        var prefix        = baseAndPrefix.getValue2();
+        var prefix        = baseAndPrefix.value2();
 
         var translations  = collectTranslations(prefix, collectFields(clazz));
         var keys          = new ArrayList<>(translations.keySet());
