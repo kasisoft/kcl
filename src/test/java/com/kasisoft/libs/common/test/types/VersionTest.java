@@ -1,73 +1,98 @@
 package com.kasisoft.libs.common.test.types;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.types.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.params.provider.*;
 
 import org.junit.jupiter.params.*;
+
+import com.kasisoft.libs.common.types.*;
 
 import java.util.stream.*;
 
 import java.util.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class VersionTest {
 
     public static Stream<Arguments> data_failingVersions() {
-        return Stream.of(Arguments.of(null, Boolean.TRUE), Arguments.of("1", Boolean.TRUE), Arguments.of("1.1", Boolean.TRUE), Arguments.of("1.1.1", Boolean.TRUE), Arguments.of("1.1.qualifier", Boolean.TRUE), Arguments.of("1q.1.1.qualifier", Boolean.TRUE), Arguments.of("1.1q.1.qualifier", Boolean.TRUE), Arguments.of("1.1.1q.qualifier", Boolean.TRUE), Arguments.of("1.1.qualifier", Boolean.FALSE));
+        return Stream.of(
+            Arguments.of((String) null),
+            Arguments.of("1"),
+            Arguments.of("1.1a"),
+            Arguments.of("1.1b.1"),
+            Arguments.of("1.1qualifier"),
+            Arguments.of("1q.1.1.qualifier"),
+            Arguments.of("1.1q.1.qualifier"),
+            Arguments.of("1.1.1q.qualifier"),
+            Arguments.of("1.1@qualifier")
+        );
     }
 
     @ParameterizedTest
     @MethodSource("data_failingVersions")
-    public void failingVersions(String version, boolean hasqualifier) throws Exception {
-        assertThrows(KclException.class, () -> {
-            new Version(version, true, hasqualifier);
-        });
+    public void failingVersions(String version) throws Exception {
+        assertTrue(Version.of(version).isEmpty());
     }
 
     public static Stream<Arguments> data_versions() {
-        return Stream.of(Arguments.of("1.1", Boolean.FALSE, Boolean.FALSE, new Version(1, 1)), Arguments.of("1.1.1", Boolean.TRUE, Boolean.FALSE, new Version(1, 1, 1)), Arguments.of("1.1.qualifier", Boolean.FALSE, Boolean.TRUE, new Version(1, 1, "qualifier")), Arguments.of("1.1.1.qualifier", Boolean.TRUE, Boolean.TRUE, new Version(1, 1, 1, "qualifier")), Arguments.of("1.1.1_qualifier", Boolean.TRUE, Boolean.TRUE, new Version(1, 1, 1, "qualifier")));
+        return Stream.of(
+            Arguments.of("1.1", Version.of(1, 1)),
+            Arguments.of("1.1.1", Version.of(1, 1, 1)),
+            Arguments.of("1.1.qualifier", Version.of(1, 1, "qualifier")),
+            Arguments.of("1.1.1.qualifier", Version.of(1, 1, 1, "qualifier")),
+            Arguments.of("1.1.1_qualifier", Version.of(1, 1, 1, "qualifier"))
+        );
     }
 
     @ParameterizedTest
     @MethodSource("data_versions")
-    public void versions(String version, boolean hasmicro, boolean hasqualifier, Version expected) throws Exception {
-        assertThat(new Version(version, hasmicro, hasqualifier), is(expected));
+    public void versions(String version, Version expected) throws Exception {
+        var ver = Version.of(version);
+        assertTrue(ver.isPresent());
+        assertThat(ver.get(), is(expected));
     }
 
     public static Stream<Arguments> data_versionsAll() {
-        return Stream.of(Arguments.of("1.1", new Version(1, 1)), Arguments.of("1.1.1", new Version(1, 1, 1)), Arguments.of("1.1.qualifier", new Version(1, 1, "qualifier")), Arguments.of("1.1.1.qualifier", new Version(1, 1, 1, "qualifier")), Arguments.of("1.1.1_qualifier", new Version(1, 1, 1, "qualifier")));
+        return Stream.of(
+            Arguments.of("1.1", Version.of(1, 1)),
+            Arguments.of("1.1.1", Version.of(1, 1, 1)),
+            Arguments.of("1.1.qualifier", Version.of(1, 1, "qualifier")),
+            Arguments.of("1.1.1.qualifier", Version.of(1, 1, 1, "qualifier")),
+            Arguments.of("1.1.1_qualifier", Version.of(1, 1, 1, "qualifier"))
+        );
     }
 
     @ParameterizedTest
     @MethodSource("data_versionsAll")
     public void versionsAll(String version, Version expected) throws Exception {
-        assertThat(new Version(version), is(expected));
+        var ver = Version.of(version);
+        assertTrue(ver.isPresent());
+        assertThat(ver.get(), is(expected));
     }
 
     public static Stream<Arguments> data_sort() throws Exception {
-
-        Version[] versions  = {new Version("2.1", false, false), new Version("1.1", false, false)};
-        Version[] versions1 = {new Version("1.1", false, false), new Version("2.1", false, false)};
-        Version[] versions2 = {new Version("1.2", false, false), new Version("1.1", false, false)};
-        Version[] versions3 = {new Version("1.1", false, false), new Version("1.2", false, false)};
-        Version[] versions4 = {new Version("1.1.2", true, false), new Version("1.1.1", true, false)};
-        Version[] versions5 = {new Version("1.1.1", true, false), new Version("1.1.2", true, false)};
-        Version[] versions6 = {new Version("1.1.1.zz", true, true), new Version("1.1.1.aa", true, true)};
-        Version[] versions7 = {new Version("1.1.1.aa", true, true), new Version("1.1.1.zz", true, true)};
-        Version[] versions8 = {new Version("1.1.1_zz", true, true), new Version("1.1.1.aa", true, true)};
-        Version[] versions9 = {new Version("1.1.1_aa", true, true), new Version("1.1.1.zz", true, true)};
-        return Stream.of(Arguments.of(Arrays.asList(versions), Arrays.asList(versions1)), Arguments.of(Arrays.asList(versions2), Arrays.asList(versions3)), Arguments.of(Arrays.asList(versions4), Arrays.asList(versions5)), Arguments.of(Arrays.asList(versions6), Arrays.asList(versions7)), Arguments.of(Arrays.asList(versions8), Arrays.asList(versions9)));
-
+        Version[] versions  = {Version.of("2.1").get(), Version.of("1.1").get()};
+        Version[] versions1 = {Version.of("1.1").get(), Version.of("2.1").get()};
+        Version[] versions2 = {Version.of("1.2").get(), Version.of("1.1").get()};
+        Version[] versions3 = {Version.of("1.1").get(), Version.of("1.2").get()};
+        Version[] versions4 = {Version.of("1.1.2").get(), Version.of("1.1.1").get()};
+        Version[] versions5 = {Version.of("1.1.1").get(), Version.of("1.1.2").get()};
+        Version[] versions6 = {Version.of("1.1.1.zz").get(), Version.of("1.1.1.aa").get()};
+        Version[] versions7 = {Version.of("1.1.1.aa").get(), Version.of("1.1.1.zz").get()};
+        Version[] versions8 = {Version.of("1.1.1_zz").get(), Version.of("1.1.1.aa").get()};
+        Version[] versions9 = {Version.of("1.1.1_aa").get(), Version.of("1.1.1.zz").get()};
+        return Stream.of(
+            Arguments.of(Arrays.asList(versions), Arrays.asList(versions1)),
+            Arguments.of(Arrays.asList(versions2), Arrays.asList(versions3)),
+            Arguments.of(Arrays.asList(versions4), Arrays.asList(versions5)),
+            Arguments.of(Arrays.asList(versions6), Arrays.asList(versions7)),
+            Arguments.of(Arrays.asList(versions8), Arrays.asList(versions9))
+        );
     }
 
     @ParameterizedTest

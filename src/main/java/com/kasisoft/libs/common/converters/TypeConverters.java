@@ -156,17 +156,8 @@ public class TypeConverters {
     // string <-> version
 
     public static Version convertStringToVersion(String value) {
-        return convertStringToVersion(value, null, null);
-    }
-
-    public static Version convertStringToVersion(String value, Boolean micro, Boolean qualifier) {
         return encode(value, $val -> {
-            if ((micro == null) && (qualifier == null)) {
-                return new Version($val.trim());
-            }
-            var microVal = micro     != null ? micro.booleanValue()     : false;
-            var qualVal  = qualifier != null ? qualifier.booleanValue() : false;
-            return new Version($val.trim(), microVal, qualVal);
+            return Version.of($val).orElseThrow(() -> new KclException(Messages.error_version_cannot_parse_version.formatted($val)));
         });
     }
 

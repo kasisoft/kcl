@@ -188,8 +188,8 @@ public class TypeConvertersTest {
     public static Stream<Arguments> data_decode_versions() {
         return Stream.of(
             Arguments.of(null, null),
-            Arguments.of("1.1.1.qualifier", new Version("1.1.1.qualifier", true, true)
-        ));
+            Arguments.of("1.1.1.qualifier", Version.of("1.1.1.qualifier").get())
+        );
   }
 
     @ParameterizedTest
@@ -201,7 +201,7 @@ public class TypeConvertersTest {
     public static Stream<Arguments> data_encode_versions() {
         return Stream.of(
             Arguments.of(null, null),
-            Arguments.of(new Version(1, 1, Integer.valueOf(1), "qualifier"), "1.1.1.qualifier")
+            Arguments.of(new Version(1, 1, 1, "qualifier"), "1.1.1.qualifier")
         );
     }
 
