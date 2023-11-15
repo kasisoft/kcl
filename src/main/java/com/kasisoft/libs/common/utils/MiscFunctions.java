@@ -346,12 +346,4 @@ public class MiscFunctions {
         return result;
     }
 
-    public static <R> @NotNull ExtendedList<R> wrapToExtendedList(List<R> source) {
-        if (source == null) {
-            return new ExtendedList<>(new ArrayList<>());
-        } else {
-            return new ExtendedList<>(source);
-        }
-    }
-
 } /* ENDCLASS */
