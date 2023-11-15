@@ -7,33 +7,37 @@ import jakarta.validation.constraints.*;
 import java.util.function.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @FunctionalInterface
 public interface KFunction<T, R> {
 
     R apply(T input) throws Exception;
 
-    default <V> @NotNull KFunction<V, R> compose(@NotNull KFunction<? super V, ? extends T> before) {
-        return (V v) -> apply(before.apply(v));
+    @NotNull
+    default <V> KFunction<V, R> compose(@NotNull KFunction<? super V, ? extends T> before) {
+        return $v -> apply(before.apply($v));
     }
 
-    default <V> @NotNull KFunction<T, V> andThen(@NotNull KFunction<? super R, ? extends V> after) {
-        return (T t) -> after.apply(apply(t));
+    @NotNull
+    default <V> KFunction<T, V> andThen(@NotNull KFunction<? super R, ? extends V> after) {
+        return $v -> after.apply(apply($v));
     }
 
-    default @NotNull Function<T, R> protect() {
-        return (T t) -> {
+    @NotNull
+    default Function<T, R> protect() {
+        return $t -> {
             try {
-                return apply(t);
+                return apply($t);
             } catch (Exception ex) {
                 throw KclException.wrap(ex);
             }
         };
     }
 
-    static <T> @NotNull KFunction<T, T> identity() {
-        return t -> t;
+    @NotNull
+    static <T> KFunction<T, T> identity() {
+        return $t -> $t;
     }
 
 } /* ENDINTERFACE */

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 import java.util.function.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @FunctionalInterface
 public interface KBiConsumer<T, U> {
@@ -15,16 +15,17 @@ public interface KBiConsumer<T, U> {
     void accept(T input1, U input2) throws Exception;
 
     default KBiConsumer<T, U> andThen(@NotNull KBiConsumer<? super T, ? super U> after) {
-        return (l, r) -> {
-            accept(l, r);
-            after.accept(l, r);
+        return ($l, $r) -> {
+            accept($l, $r);
+            after.accept($l, $r);
         };
     }
 
-    default @NotNull BiConsumer<T, U> protect() {
-        return (T t, U u) -> {
+    @NotNull
+    default BiConsumer<T, U> protect() {
+        return ($t, $u) -> {
             try {
-                accept(t, u);
+                accept($t, $u);
             } catch (Exception ex) {
                 throw KclException.wrap(ex);
             }

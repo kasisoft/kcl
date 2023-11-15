@@ -17,25 +17,25 @@ import java.nio.file.*;
 /**
  * Collection of predicates.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Predicates {
 
     public static final KPredicate<String> IS_JAVA_CLASS_FILE           = new SuffixPredicate(".class");
 
-    public static final KPredicate<Path>   IS_JAVA_CLASS_PATH           = adaptPathToString(IS_JAVA_CLASS_FILE);
+    public static final KPredicate<Path>   IS_JAVA_CLASS_PATH           = path(IS_JAVA_CLASS_FILE);
 
     public static final KPredicate<String> IS_YAML_FILE                 = new SuffixPredicate(".yaml", ".yml");
 
-    public static final KPredicate<Path>   IS_YAML_PATH                 = adaptPathToString(IS_YAML_FILE);
+    public static final KPredicate<Path>   IS_YAML_PATH                 = path(IS_YAML_FILE);
 
     public static final KPredicate<String> IS_JSON_FILE                 = new SuffixPredicate(".json");
 
-    public static final KPredicate<Path>   IS_JSON_PATH                 = adaptPathToString(IS_JSON_FILE);
+    public static final KPredicate<Path>   IS_JSON_PATH                 = path(IS_JSON_FILE);
 
     public static final KPredicate<String> IS_XML_FILE                  = new SuffixPredicate(".xml");
 
-    public static final KPredicate<Path>   IS_XML_PATH                  = adaptPathToString(IS_XML_FILE);
+    public static final KPredicate<Path>   IS_XML_PATH                  = path(IS_XML_FILE);
 
     public static final KPredicate<String> IS_RESOURCE                  = IS_JAVA_CLASS_FILE.negate();
 
@@ -81,22 +81,27 @@ public class Predicates {
         return false;
     }
 
-    public static @NotNull KPredicate<Node> isXmlElement(@NotNull String tag) {
+    @NotNull
+    public static KPredicate<Node> isXmlElement(@NotNull String tag) {
         return new IsXmlElement(tag);
     }
 
-    public static @NotNull KPredicate<Path> adaptPathToString(@NotNull KPredicate<String> impl) {
-        return $ -> impl.test($.toString());
+    @NotNull
+    public static KPredicate<Path> path(@NotNull KPredicate<String> predicate) {
+        return $path -> predicate.test($path.toString());
     }
 
+    @NotNull
     public static <T> Predicate<T> notNull() {
         return $ -> $ != null;
     }
 
+    @NotNull
     public static <T> Predicate<T> acceptAll() {
         return $ -> true;
     }
 
+    @NotNull
     public static <T> KPredicate<T> acceptAllIfUnset(KPredicate<T> test) {
         if (test != null) {
             return test;
@@ -104,10 +109,12 @@ public class Predicates {
         return $ -> true;
     }
 
+    @NotNull
     public static <T> Predicate<T> acceptNone() {
         return $ -> false;
     }
 
+    @NotNull
     public static <T> KPredicate<T> acceptNoneIfUnset(KPredicate<T> test) {
         if (test != null) {
             return test;
@@ -115,25 +122,14 @@ public class Predicates {
         return $ -> false;
     }
 
-    public static KPredicate<Path> path(@NotNull KPredicate<String> predicate) {
-        return $ -> predicate.test($.toString());
-    }
-
-    private static class IsXmlElement implements KPredicate<Node> {
-
-        String tag;
-
-        public IsXmlElement(String tag) {
-            this.tag = tag;
-        }
+    private static record IsXmlElement(String tag) implements KPredicate<Node> {
 
         @Override
         public boolean test(@NotNull Node node) {
-            boolean result = false;
-            if ((node != null) && (node.getNodeType() == Node.ELEMENT_NODE)) {
-                result = tag.equals(((Element) node).getTagName());
+            if (node instanceof Element element) {
+                return tag.equals(element.getTagName());
             }
-            return result;
+            return false;
         }
 
     } /* ENDCLASS */
@@ -142,8 +138,10 @@ public class Predicates {
 
         @Override
         public boolean test(@NotNull String resource) {
-            return resource.endsWith("/pom.xml") || resource.endsWith("/pom.properties") || resource.equals("pom.xml")
-                || resource.equals("pom.properties");
+            return resource.endsWith("/pom.xml") ||
+                   resource.endsWith("/pom.properties") ||
+                   resource.equals("pom.xml") ||
+                   resource.equals("pom.properties");
         }
 
     } /* ENDCLASS */
@@ -167,7 +165,7 @@ public class Predicates {
         @Override
         public boolean test(@NotNull String resource) throws Exception {
             boolean equals = PREFIX.equals(resource);
-            if (resource.startsWith(PREFIX) && (!equals) && (resource.indexOf('$') == -1)) {
+            if ((!equals) && resource.startsWith(PREFIX) && (resource.indexOf('$') == -1)) {
                 return IS_JAVA_FQDN.test(resource.substring(PREFIX.length()));
             }
             return false;
@@ -180,15 +178,15 @@ public class Predicates {
         Pattern pattern;
 
         public SuffixPredicate(@NotNull String ... suffices) {
-            pattern = Buckets.bucketStringBuilder().forInstance($ -> {
-                $.append("^(.+)(");
-                $.append(suffices[0]);
+            pattern = Buckets.bucketStringBuilder().forInstance($sb -> {
+                $sb.append("^(.+)(");
+                $sb.append(suffices[0]);
                 for (var i = 1; i < suffices.length; i++) {
-                    $.append("|");
-                    $.append(suffices[i]);
+                    $sb.append("|");
+                    $sb.append(suffices[i]);
                 }
-                $.append(")$");
-                return Pattern.compile($.toString());
+                $sb.append(")$");
+                return Pattern.compile($sb.toString());
             });
         }
 
@@ -216,11 +214,8 @@ public class Predicates {
 
         @Override
         public boolean test(@NotNull String classname) {
-            if (!classname.endsWith(".class")) {
-                // to be more accurate: split segments and make sure that the segments aren't keywords
-                return PATTERN.matcher(classname).matches();
-            }
-            return false;
+            // to be more accurate: split segments and make sure that the segments aren't keywords
+            return PATTERN.matcher(classname).matches();
         }
 
     } /* ENDCLASS */

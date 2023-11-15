@@ -7,24 +7,26 @@ import jakarta.validation.constraints.*;
 import java.util.function.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @FunctionalInterface
 public interface KConsumer<T> {
 
     void accept(T input) throws Exception;
 
-    default @NotNull KConsumer<T> andThen(@NotNull KConsumer<? super T> after) {
-        return (T t) -> {
-            accept(t);
-            after.accept(t);
+    @NotNull
+    default KConsumer<T> andThen(@NotNull KConsumer<? super T> after) {
+        return $t -> {
+            accept($t);
+            after.accept($t);
         };
     }
 
-    default @NotNull Consumer<T> protect() {
-        return (T t) -> {
+    @NotNull
+    default Consumer<T> protect() {
+        return $t -> {
             try {
-                accept(t);
+                accept($t);
             } catch (Exception ex) {
                 throw KclException.wrap(ex);
             }

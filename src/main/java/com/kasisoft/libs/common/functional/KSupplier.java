@@ -7,14 +7,15 @@ import jakarta.validation.constraints.*;
 import java.util.function.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @FunctionalInterface
 public interface KSupplier<T> {
 
     T get() throws Exception;
 
-    default @NotNull Supplier<T> protect() {
+    @NotNull
+    default Supplier<T> protect() {
         return () -> {
             try {
                 return get();

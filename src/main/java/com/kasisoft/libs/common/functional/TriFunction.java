@@ -1,7 +1,7 @@
 package com.kasisoft.libs.common.functional;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @FunctionalInterface
 public interface TriFunction<T1, T2, T3, R> {

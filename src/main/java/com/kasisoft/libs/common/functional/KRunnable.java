@@ -5,14 +5,15 @@ import com.kasisoft.libs.common.*;
 import jakarta.validation.constraints.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @FunctionalInterface
 public interface KRunnable {
 
     void run() throws Exception;
 
-    default @NotNull Runnable protect() {
+    @NotNull
+    default Runnable protect() {
         return () -> {
             try {
                 run();
