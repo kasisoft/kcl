@@ -112,8 +112,8 @@ public class BlacklistTest {
     @ParameterizedTest
     @MethodSource("data_csblacklist")
     public void cleanTextCaseSensitive(Blacklist csblacklist) {
-        var expected = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
-        var text     = IoFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
+        var expected = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+        var text     = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
         assertNotNull(text);
         assertFalse(text.equals(expected));
         assertFalse(csblacklist.test(text));
@@ -123,8 +123,8 @@ public class BlacklistTest {
     @ParameterizedTest
     @MethodSource("data_ciblacklist")
     public void cleanTextCaseInsensitive(Blacklist ciblacklist) {
-        var expected = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
-        var text     = IoFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
+        var expected = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+        var text     = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
         assertNotNull(text);
         assertFalse(text.equals(expected));
         assertTrue(ciblacklist.contains(true).test(text));
@@ -134,8 +134,8 @@ public class BlacklistTest {
     @ParameterizedTest
     @MethodSource("data_csblacklist")
     public void cleanAndListTextCaseSensitive(Blacklist csblacklist) {
-        var expected = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
-        var text     = IoFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
+        var expected = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+        var text     = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
         assertNotNull(text);
         assertFalse(text.equals(expected));
         assertFalse(csblacklist.test(text));
@@ -149,8 +149,8 @@ public class BlacklistTest {
     @ParameterizedTest
     @MethodSource("data_ciblacklist")
     public void cleanAndListTextCaseInsensitive(Blacklist ciblacklist) {
-        var expected = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
-        var text     = IoFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
+        var expected = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+        var text     = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
         assertNotNull(text);
         assertFalse(text.equals(expected));
         assertTrue(ciblacklist.contains(true).test(text));
@@ -165,8 +165,8 @@ public class BlacklistTest {
     @ParameterizedTest
     @MethodSource("data_csblacklist")
     public void cleanAndCountTextCaseSensitive(Blacklist csblacklist) {
-        var expected = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
-        var text     = IoFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
+        var expected = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+        var text     = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_01.txt"));
         assertNotNull(text);
         assertFalse(text.equals(expected));
         assertFalse(csblacklist.test(text));
@@ -182,8 +182,8 @@ public class BlacklistTest {
     @ParameterizedTest
     @MethodSource("data_ciblacklist")
     public void cleanAndCountTextCaseInsensitive(Blacklist ciblacklist) {
-        var expected = IoFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
-        var text     = IoFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
+        var expected = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_base.txt"));
+        var text     = IoSupportFunctions.readText(TEST_RESOURCES.getResource("text_02.txt"));
         assertNotNull(text);
         assertFalse(text.equals(expected));
         assertTrue(ciblacklist.contains(true).test(text));

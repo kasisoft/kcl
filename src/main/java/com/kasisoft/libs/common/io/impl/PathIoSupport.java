@@ -34,7 +34,8 @@ public class PathIoSupport implements IoSupport<Path> {
     }
 
     @Override
-    public @NotNull byte[] loadAllBytes(@NotNull Path source) {
+    @NotNull
+    public byte[] loadAllBytes(@NotNull Path source) {
         try {
             var fileSize = Files.size(source);
             if (fileSize <= MB_16) {
@@ -48,7 +49,8 @@ public class PathIoSupport implements IoSupport<Path> {
     }
 
     @Override
-    public @NotNull String readText(@NotNull Path source, Encoding encoding) {
+    @NotNull
+    public String readText(@NotNull Path source, Encoding encoding) {
         try {
             var fileSize = Files.size(source);
             if (fileSize <= MB_16) {

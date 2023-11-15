@@ -34,7 +34,8 @@ public class FileIoSupport implements IoSupport<File> {
     }
 
     @Override
-    public @NotNull byte[] loadAllBytes(@NotNull File source) {
+    @NotNull
+    public byte[] loadAllBytes(@NotNull File source) {
         try {
             var fileSize = source.length();
             if (fileSize <= MB_16) {
@@ -48,7 +49,8 @@ public class FileIoSupport implements IoSupport<File> {
     }
 
     @Override
-    public @NotNull String readText(@NotNull File source, Encoding encoding) {
+    @NotNull
+    public String readText(@NotNull File source, Encoding encoding) {
         try {
             var fileSize = source.length();
             if (fileSize <= MB_16) {

@@ -95,7 +95,7 @@ public class XmlFunctionsTest {
     @Order(6)
     public void readDocument__Reader() throws Exception {
         var simplexml = TEST_RESOURCES.getResource("simple.xml");
-        IoFunctions.forReaderDo(simplexml, $ -> {
+        IoSupportFunctions.forReaderDo(simplexml, $ -> {
             var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
             readDocument(XmlFunctions.readDocument($, config));
         });
@@ -105,7 +105,7 @@ public class XmlFunctionsTest {
     @Order(7)
     public void readDocument__InputStream() throws Exception {
         var simplexml = TEST_RESOURCES.getResource("simple.xml");
-        IoFunctions.forInputStreamDo(simplexml, $ -> {
+        IoSupportFunctions.forInputStreamDo(simplexml, $ -> {
             var config = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).build();
             readDocument(XmlFunctions.readDocument($, config));
         });

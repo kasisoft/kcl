@@ -21,7 +21,7 @@ public class ByteOrderMarkTest {
 
     private void testIdentify(ByteOrderMark expected, String filename) {
         var utf8  = TEST_RESOURCES.getResource(filename);
-        var data1 = IoFunctions.loadBytes(utf8, 100);
+        var data1 = IoSupportFunctions.loadBytes(utf8, 100);
         var bom   = ByteOrderMark.identify(data1).orElseThrow(() -> new AssertionError());
         assertThat(bom, is(expected));
     }
@@ -42,7 +42,7 @@ public class ByteOrderMarkTest {
 
     private void testStartsWith(ByteOrderMark expected, String filename) {
         var utf8  = TEST_RESOURCES.getResource(filename);
-        var data1 = IoFunctions.loadBytes(utf8, 100);
+        var data1 = IoSupportFunctions.loadBytes(utf8, 100);
         assertTrue(expected.startsWith(data1));
     }
 

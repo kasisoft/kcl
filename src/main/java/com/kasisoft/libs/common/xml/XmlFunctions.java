@@ -44,13 +44,10 @@ import java.io.*;
 @SuppressWarnings("unchecked")
 public final class XmlFunctions {
 
-    static final Map<String, String> XML2NORMAL    = new HashMap<>();
-
-    static final Map<String, String> XML2NORMAL_LE = new HashMap<>();
-
-    static final Map<String, String> NORMAL2XML    = new HashMap<>();
-
-    static final Map<String, String> NORMAL2XML_LE = new HashMap<>();
+    private static final Map<String, String> XML2NORMAL    = new HashMap<>();
+    private static final Map<String, String> XML2NORMAL_LE = new HashMap<>();
+    private static final Map<String, String> NORMAL2XML    = new HashMap<>();
+    private static final Map<String, String> NORMAL2XML_LE = new HashMap<>();
 
     static {
 
@@ -84,7 +81,8 @@ public final class XmlFunctions {
         return TransformerFactory.newInstance();
     }
 
-    public static @NotNull Function<@NotNull Element, String> getAttribute(@NotBlank String attribute) {
+    @NotNull
+    public static Function<@NotNull Element, String> getAttribute(@NotBlank String attribute) {
         return $ -> StringFunctions.cleanup($.getAttribute(attribute));
     }
 
@@ -97,8 +95,9 @@ public final class XmlFunctions {
      *            A configuration for the xml parser.
      * @return The Document node itself.
      */
-    public static @NotNull Document readDocument(@NotNull URL input, @NotNull XmlParserConfiguration config) {
-        return IoFunctions.forInputStream(input, $ -> readDocument($, config));
+    @NotNull
+    public static Document readDocument(@NotNull URL input, @NotNull XmlParserConfiguration config) {
+        return IoSupportFunctions.forInputStream(input, $ -> readDocument($, config));
     }
 
     /**
@@ -110,8 +109,9 @@ public final class XmlFunctions {
      *            A configuration for the xml parser.
      * @return The Document node itself.
      */
-    public static @NotNull Document readDocument(@NotNull URI input, @NotNull XmlParserConfiguration config) {
-        return IoFunctions.forInputStream(input, $ -> readDocument($, config));
+    @NotNull
+    public static Document readDocument(@NotNull URI input, @NotNull XmlParserConfiguration config) {
+        return IoSupportFunctions.forInputStream(input, $ -> readDocument($, config));
     }
 
     /**
@@ -123,8 +123,9 @@ public final class XmlFunctions {
      *            A configuration for the xml parser.
      * @return The Document node itself.
      */
-    public static @NotNull Document readDocument(@NotNull File input, @NotNull XmlParserConfiguration config) {
-        return IoFunctions.forInputStream(input, $ -> readDocument($, config));
+    @NotNull
+    public static Document readDocument(@NotNull File input, @NotNull XmlParserConfiguration config) {
+        return IoSupportFunctions.forInputStream(input, $ -> readDocument($, config));
     }
 
     /**
@@ -136,8 +137,9 @@ public final class XmlFunctions {
      *            A configuration for the xml parser.
      * @return The Document node itself.
      */
-    public static @NotNull Document readDocument(@NotNull Path input, @NotNull XmlParserConfiguration config) {
-        return IoFunctions.forInputStream(input, $ -> readDocument($, config));
+    @NotNull
+    public static Document readDocument(@NotNull Path input, @NotNull XmlParserConfiguration config) {
+        return IoSupportFunctions.forInputStream(input, $ -> readDocument($, config));
     }
 
     /**
@@ -149,7 +151,8 @@ public final class XmlFunctions {
      *            A configuration for the xml parser.
      * @return The Document node itself.
      */
-    public static @NotNull Document readDocument(@NotNull Reader input, @NotNull XmlParserConfiguration config) {
+    @NotNull
+    public static Document readDocument(@NotNull Reader input, @NotNull XmlParserConfiguration config) {
         return readDocument(config, $ -> {
             var insource = new InputSource(input);
             if (config.getBaseurl() != null) {
@@ -168,7 +171,8 @@ public final class XmlFunctions {
      *            A configuration for the xml parser.
      * @return The Document node itself.
      */
-    public static @NotNull Document readDocument(@NotNull InputStream input, @NotNull XmlParserConfiguration config) {
+    @NotNull
+    public static Document readDocument(@NotNull InputStream input, @NotNull XmlParserConfiguration config) {
         return readDocument(config, $ -> {
             if (config.getBaseurl() != null) {
                 return $.parse(input, config.getBaseurl().toExternalForm());
@@ -178,7 +182,8 @@ public final class XmlFunctions {
         });
     }
 
-    private static @NotNull Document readDocument(@NotNull XmlParserConfiguration config, @NotNull KFunction<DocumentBuilder, Document> parse) {
+    @NotNull
+    private static Document readDocument(@NotNull XmlParserConfiguration config, @NotNull KFunction<DocumentBuilder, Document> parse) {
         var builder = newDocumentBuilder(config);
         try {
             var result    = parse.apply(builder);
@@ -202,7 +207,8 @@ public final class XmlFunctions {
      * @throws KclException
      *             Configuring the builder failed for some reason.
      */
-    public static @NotNull DocumentBuilder newDocumentBuilder(@NotNull XmlParserConfiguration config) {
+    @NotNull
+    public static DocumentBuilder newDocumentBuilder(@NotNull XmlParserConfiguration config) {
 
         var factory = DocumentBuilderFactory.newInstance();
 
@@ -287,7 +293,7 @@ public final class XmlFunctions {
      *             Saving the XML datastructure failed.
      */
     public static void writeDocument(@NotNull Path output, @NotNull Node node, Encoding encoding) {
-        IoFunctions.forWriterDo(output, encoding, $ -> writeDocument($, node, encoding));
+        IoSupportFunctions.forWriterDo(output, encoding, $ -> writeDocument($, node, encoding));
     }
 
     /**
@@ -303,7 +309,7 @@ public final class XmlFunctions {
      *             Saving the XML datastructure failed.
      */
     public static void writeDocument(@NotNull File output, @NotNull Node node, Encoding encoding) {
-        IoFunctions.forWriterDo(output, encoding, $ -> writeDocument($, node, encoding));
+        IoSupportFunctions.forWriterDo(output, encoding, $ -> writeDocument($, node, encoding));
     }
 
     /**
@@ -374,7 +380,7 @@ public final class XmlFunctions {
      *             if loading the stylesheet failed for some reason.
      */
     public static @NotNull Transformer newTransformer(@NotNull Path xsl) {
-        return IoFunctions.forInputStream(xsl, $ -> newTransformer($));
+        return IoSupportFunctions.forInputStream(xsl, $ -> newTransformer($));
     }
 
     /**
@@ -388,7 +394,7 @@ public final class XmlFunctions {
      *             if loading the stylesheet failed for some reason.
      */
     public static @NotNull Transformer newTransformer(@NotNull URI xsl) {
-        return IoFunctions.forInputStream(xsl, $ -> newTransformer($));
+        return IoSupportFunctions.forInputStream(xsl, $ -> newTransformer($));
     }
 
     /**
@@ -402,7 +408,7 @@ public final class XmlFunctions {
      *             if loading the stylesheet failed for some reason.
      */
     public static @NotNull Transformer newTransformer(@NotNull File xsl) {
-        return IoFunctions.forInputStream(xsl, $ -> newTransformer($));
+        return IoSupportFunctions.forInputStream(xsl, $ -> newTransformer($));
     }
 
     /**

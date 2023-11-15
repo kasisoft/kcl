@@ -33,9 +33,7 @@ import java.io.*;
 public class Blacklist implements Predicate<String> {
 
     private List<String> list;
-
     private List<String> lowercaseList;
-
     private String       commentPrefix;
 
     /**
@@ -133,35 +131,35 @@ public class Blacklist implements Predicate<String> {
     }
 
     public synchronized Blacklist load(@NotNull Path source) {
-        return IoFunctions.forReader(source, null, this::load);
+        return IoSupportFunctions.forReader(source, null, this::load);
     }
 
     public synchronized Blacklist load(@NotNull Path source, Encoding encoding) {
-        return IoFunctions.forReader(source, encoding, this::load);
+        return IoSupportFunctions.forReader(source, encoding, this::load);
     }
 
     public synchronized Blacklist load(@NotNull URL source) {
-        return IoFunctions.forReader(source, null, this::load);
+        return IoSupportFunctions.forReader(source, null, this::load);
     }
 
     public synchronized Blacklist load(@NotNull URL source, Encoding encoding) {
-        return IoFunctions.forReader(source, encoding, this::load);
+        return IoSupportFunctions.forReader(source, encoding, this::load);
     }
 
     public synchronized Blacklist load(@NotNull File source) {
-        return IoFunctions.forReader(source, null, this::load);
+        return IoSupportFunctions.forReader(source, null, this::load);
     }
 
     public synchronized Blacklist load(@NotNull File source, Encoding encoding) {
-        return IoFunctions.forReader(source, encoding, this::load);
+        return IoSupportFunctions.forReader(source, encoding, this::load);
     }
 
     public synchronized Blacklist load(@NotNull URI source) {
-        return IoFunctions.forReader(source, null, this::load);
+        return IoSupportFunctions.forReader(source, null, this::load);
     }
 
     public synchronized Blacklist load(@NotNull URI source, Encoding encoding) {
-        return IoFunctions.forReader(source, encoding, this::load);
+        return IoSupportFunctions.forReader(source, encoding, this::load);
     }
 
     /**
@@ -242,7 +240,8 @@ public class Blacklist implements Predicate<String> {
      *            <code>true</code> <=> Ignore case.
      * @return A startsWith test for this blacklist.
      */
-    public @NotNull Predicate<String> startsWith(boolean ignorecase) {
+    @NotNull
+    public Predicate<String> startsWith(boolean ignorecase) {
         return ignorecase ? this::testStartsWithCI : this::testStartsWith;
     }
 
@@ -252,7 +251,8 @@ public class Blacklist implements Predicate<String> {
      *
      * @return A startsWith test for this blacklist.
      */
-    public @NotNull Predicate<String> startsWith() {
+    @NotNull
+    public Predicate<String> startsWith() {
         return startsWith(false);
     }
 

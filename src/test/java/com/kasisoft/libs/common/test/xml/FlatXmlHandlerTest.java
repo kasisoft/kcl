@@ -39,7 +39,7 @@ public class FlatXmlHandlerTest {
 
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(false);
-        IoFunctions.forInputStreamDo(simplexml, $ -> {
+        IoSupportFunctions.forInputStreamDo(simplexml, $ -> {
             try {
                 factory.newSAXParser().parse($, handler);
             } catch (Exception ex) {
@@ -57,7 +57,7 @@ public class FlatXmlHandlerTest {
         // without attributes
         byteout.reset();
         handler.setAttributes(false);
-        IoFunctions.forInputStreamDo(simplexml, $ -> {
+        IoSupportFunctions.forInputStreamDo(simplexml, $ -> {
             try {
                 factory.newSAXParser().parse($, handler);
             } catch (Exception ex) {

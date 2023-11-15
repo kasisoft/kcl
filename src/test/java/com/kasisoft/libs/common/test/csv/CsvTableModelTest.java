@@ -32,7 +32,7 @@ public class CsvTableModelTest {
 
         var model   = new CsvTableModel(options);
 
-        IoFunctions.forInputStreamDo(source, model::load);
+        IoSupportFunctions.forInputStreamDo(source, model::load);
 
         assertThat(model.getColumnCount(), is(3));
         assertThat(model.getRowCount(), is(8));
@@ -57,7 +57,7 @@ public class CsvTableModelTest {
 
         var model   = new CsvTableModel(options);
 
-        IoFunctions.forInputStreamDo(source, model::load);
+        IoSupportFunctions.forInputStreamDo(source, model::load);
 
         assertThat(model.getColumnCount(), is(3));
         assertThat(model.getRowCount(), is(8));
@@ -73,8 +73,7 @@ public class CsvTableModelTest {
             var source  = TEST_RESOURCES.getResource("text2.csv");
             var options = CsvOptions.builder().build();
             var model   = new CsvTableModel(options);
-
-            IoFunctions.forInputStreamDo(source, model::load);
+            IoSupportFunctions.forInputStreamDo(source, model::load);
         });
     }
 
@@ -85,10 +84,9 @@ public class CsvTableModelTest {
         var options = CsvOptions.builder().build();
         var model   = new CsvTableModel(options);
 
-        model.setErrorHandlerForInconsistentColumnCount($ -> {
-            /* do nothing */});
+        model.setErrorHandlerForInconsistentColumnCount($ -> {/* do nothing */});
 
-        IoFunctions.forInputStreamDo(source, model::load);
+        IoSupportFunctions.forInputStreamDo(source, model::load);
 
         assertThat(model.getColumnCount(), is(3));
 

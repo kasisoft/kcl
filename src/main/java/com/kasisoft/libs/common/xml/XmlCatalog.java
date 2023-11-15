@@ -30,11 +30,8 @@ import java.io.*;
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver, Predicate<String> {
 
     private Map<PublicId, byte[]> catalogdata;
-
     private Map<PublicId, String> systemIds;
-
     private Set<URL>              failures;
-
     private DOMImplementationLS   domimpl;
 
     public XmlCatalog() {
@@ -86,7 +83,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         if (!failures.contains(url)) {
             var publicid = new PublicId(id);
             try {
-                var data = IoFunctions.loadAllBytes(url);
+                var data = IoSupportFunctions.loadAllBytes(url);
                 catalogdata.put(publicid, data);
                 systemIds.put(publicid, url.toExternalForm());
             } catch (Exception ex) {
@@ -108,7 +105,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         if (!failures.contains(systemid)) {
             var publicid = new PublicId(systemid.toExternalForm());
             try {
-                var data = IoFunctions.loadAllBytes(systemid);
+                var data = IoSupportFunctions.loadAllBytes(systemid);
                 catalogdata.put(publicid, data);
                 // we're also registering the resource name which might also be used to match
                 var path = systemid.getPath();

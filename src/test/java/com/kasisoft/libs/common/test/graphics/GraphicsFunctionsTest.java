@@ -156,7 +156,7 @@ public class GraphicsFunctionsTest {
     public void writeImage__JComponent__OutputStream() {
         for (var fmt : PictureFormat.rasterFormatValues()) {
             var tempPath = getTempPath(fmt);
-            IoFunctions.forOutputStreamDo(tempPath, $ -> GraphicsFunctions.writeImage($, createJComponent(), fmt));
+            IoSupportFunctions.forOutputStreamDo(tempPath, $ -> GraphicsFunctions.writeImage($, createJComponent(), fmt));
             assertTrue(Files.isRegularFile(tempPath));
         }
     }
@@ -165,7 +165,7 @@ public class GraphicsFunctionsTest {
     public void writeImage__JComponent__OutputStream__UnsupportedFormat() {
         assertThrows(KclException.class, () -> {
             var tempPath = TEST_RESOURCES.getTempPath("image_%d.%s".formatted(idx++, PictureFormat.Svg.getSuffix()));
-            IoFunctions.forOutputStreamDo(tempPath, $ -> GraphicsFunctions.writeImage($, createJComponent(), PictureFormat.Svg));
+            IoSupportFunctions.forOutputStreamDo(tempPath, $ -> GraphicsFunctions.writeImage($, createJComponent(), PictureFormat.Svg));
             assertTrue(Files.isRegularFile(tempPath));
         });
     }
@@ -274,7 +274,7 @@ public class GraphicsFunctionsTest {
     public void readImage__InputStream() {
         var inputfiles = getInputFiles();
         for (var file : inputfiles) {
-            var image = IoFunctions.forInputStream(file, GraphicsFunctions::readImage);
+            var image = IoSupportFunctions.forInputStream(file, GraphicsFunctions::readImage);
             assertNotNull(image);
         }
     }

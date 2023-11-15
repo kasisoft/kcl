@@ -42,7 +42,7 @@ public class GraphicsFunctions {
      */
     @NotNull
     public static BufferedImage readImage(@NotNull Path input) {
-        return IoFunctions.forInputStream(input, $ -> readImage(input, $));
+        return IoSupportFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
     /**
@@ -54,7 +54,7 @@ public class GraphicsFunctions {
      */
     @NotNull
     public static BufferedImage readImage(@NotNull File input) {
-        return IoFunctions.forInputStream(input, $ -> readImage(input, $));
+        return IoSupportFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
     /**
@@ -66,7 +66,7 @@ public class GraphicsFunctions {
      */
     @NotNull
     public static BufferedImage readImage(@NotNull URL input) {
-        return IoFunctions.forInputStream(input, $ -> readImage(input, $));
+        return IoSupportFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
     /**
@@ -78,7 +78,7 @@ public class GraphicsFunctions {
      */
     @NotNull
     public static BufferedImage readImage(@NotNull URI input) {
-        return IoFunctions.forInputStream(input, $ -> readImage(input, $));
+        return IoSupportFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
     /**
@@ -126,7 +126,7 @@ public class GraphicsFunctions {
      *            The desired output format. Must be a raster format.
      */
     public static void writeImage(@NotNull Path destination, @NotNull BufferedImage image, @NotNull PictureFormat format) {
-        IoFunctions.forOutputStreamDo(destination, $output -> writeImage(destination, $output, image, format));
+        IoSupportFunctions.forOutputStreamDo(destination, $output -> writeImage(destination, $output, image, format));
     }
 
     /**
@@ -140,7 +140,7 @@ public class GraphicsFunctions {
      *            The desired output format. Must be a raster format.
      */
     public static void writeImage(@NotNull File destination, @NotNull BufferedImage image, @NotNull PictureFormat format) {
-        IoFunctions.forOutputStreamDo(destination, $output -> writeImage(destination, $output, image, format));
+        IoSupportFunctions.forOutputStreamDo(destination, $output -> writeImage(destination, $output, image, format));
     }
 
     /**
@@ -154,7 +154,7 @@ public class GraphicsFunctions {
      *            The desired output format. Must be a raster format.
      */
     public static void writeImage(@NotNull URI destination, @NotNull BufferedImage image, @NotNull PictureFormat format) {
-        IoFunctions.forOutputStreamDo(destination, $output -> writeImage(destination, $output, image, format));
+        IoSupportFunctions.forOutputStreamDo(destination, $output -> writeImage(destination, $output, image, format));
     }
 
     /**

@@ -8,8 +8,6 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.pools.*;
 
-import com.kasisoft.libs.common.io.impl.*;
-
 import com.kasisoft.libs.common.*;
 
 import jakarta.validation.constraints.*;
@@ -31,7 +29,7 @@ import java.io.*;
 /**
  * Collection of functions used for IO operations.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class IoFunctions {
@@ -40,19 +38,13 @@ public class IoFunctions {
 
     private static final String   WC2     = "(.+)";             // **
 
-    public static IoSupport<Path> IO_PATH = new PathIoSupport();
-
-    public static IoSupport<File> IO_FILE = new FileIoSupport();
-
-    public static IoSupport<URI>  IO_URI  = new URIIoSupport();
-
-    public static IoSupport<URL>  IO_URL  = new URLIoSupport();
-
-    public static @NotNull Reader newReader(@NotNull InputStream source) {
+    @NotNull
+    public static Reader newReader(@NotNull InputStream source) {
         return newReader(source, null);
     }
 
-    public static @NotNull Reader newReader(@NotNull InputStream source, Encoding encoding) {
+    @NotNull
+    public static Reader newReader(@NotNull InputStream source, Encoding encoding) {
         return new BufferedReader(new InputStreamReader(source, Encoding.getEncoding(encoding).getCharset()));
     }
 
@@ -68,10 +60,12 @@ public class IoFunctions {
         }
     }
 
+    @NotNull
     public static <R> R forReader(@NotNull InputStream source, @NotNull KFunction<@NotNull Reader, R> function) {
         return forReader(source, null, function);
     }
 
+    @NotNull
     public static <R> R forReader(@NotNull InputStream source, Encoding encoding, @NotNull KFunction<@NotNull Reader, R> function) {
         try (var reader = newReader(source, encoding)) {
             return function.apply(reader);
@@ -80,26 +74,31 @@ public class IoFunctions {
         }
     }
 
-    public static @NotNull String readText(@NotNull InputStream instream) {
+    @NotNull
+    public static String readText(@NotNull InputStream instream) {
         return forReader(instream, null, IoFunctions::readText);
     }
 
-    public static @NotNull String readText(@NotNull InputStream instream, Encoding encoding) {
+    @NotNull
+    public static String readText(@NotNull InputStream instream, Encoding encoding) {
         return forReader(instream, encoding, IoFunctions::readText);
     }
 
-    public static @NotNull String readText(@NotNull Reader reader) {
+    @NotNull
+    public static String readText(@NotNull Reader reader) {
         return Buckets.bucketStringWriter().forInstance($sw -> {
             IoFunctions.copy(reader, $sw);
             return $sw.toString();
         });
     }
 
-    public static @NotNull Writer newWriter(@NotNull OutputStream destination) {
+    @NotNull
+    public static Writer newWriter(@NotNull OutputStream destination) {
         return newWriter(destination, null);
     }
 
-    public static @NotNull Writer newWriter(@NotNull OutputStream destination, Encoding encoding) {
+    @NotNull
+    public static Writer newWriter(@NotNull OutputStream destination, Encoding encoding) {
         return new BufferedWriter(new OutputStreamWriter(destination, Encoding.getEncoding(encoding).getCharset()));
     }
 
@@ -178,7 +177,8 @@ public class IoFunctions {
      *            The filesystem pattern which is supposed to be compiled.
      * @return A {@link Pattern} instance used to test filesystem pathes.
      */
-    public static @NotNull Pattern compileFilesystemPattern(@NotNull String pattern) {
+    @NotNull
+    public static Pattern compileFilesystemPattern(@NotNull String pattern) {
         return compileFilesystemPattern(pattern, 0);
     }
 
@@ -191,7 +191,8 @@ public class IoFunctions {
      *            The Pattern flags.
      * @return A {@link Pattern} instance used to test filesystem pathes.
      */
-    public static @NotNull Pattern compileFilesystemPattern(@NotNull String pattern, int flags) {
+    @NotNull
+    public static Pattern compileFilesystemPattern(@NotNull String pattern, int flags) {
         var buffer    = new StringBuilder();
         var tokenizer = new StringTokenizer(pattern, "*", true);
         var last      = false;
@@ -218,7 +219,8 @@ public class IoFunctions {
         return Pattern.compile(buffer.toString(), flags);
     }
 
-    public static @NotNull Path newTempFile(String prefix, String suffix) {
+    @NotNull
+    public static Path newTempFile(String prefix, String suffix) {
         try {
             return Files.createTempFile(prefix, suffix);
         } catch (Exception ex) {
@@ -226,7 +228,8 @@ public class IoFunctions {
         }
     }
 
-    public static @NotNull Optional<Path> findNewTempFile(String prefix, String suffix) {
+    @NotNull
+    public static Optional<Path> findNewTempFile(String prefix, String suffix) {
         try {
             return Optional.of(Files.createTempFile(prefix, suffix));
         } catch (Exception ex) {
@@ -242,7 +245,8 @@ public class IoFunctions {
      * @param size
      *            The amount of bytes to be skipped.
      */
-    public static void skip(@NotNull InputStream input, @Min(0) long size) {
+    @NotNull
+    public static void skip(InputStream input, @Min(0) long size) {
         if (size > 0) {
             try {
                 input.skip(size);
@@ -279,7 +283,8 @@ public class IoFunctions {
      *            The file which has to be gzipped.
      * @return The gzipped file.
      */
-    public static @NotNull Path gzip(@NotNull Path source) {
+    @NotNull
+    public static Path gzip(@NotNull Path source) {
         return gzip(source, null);
     }
 
@@ -292,7 +297,8 @@ public class IoFunctions {
      *            The gziped file. If null it's the input file plus a suffix '.gz'
      * @return The gzipped file.
      */
-    public static @NotNull Path gzip(@NotNull Path source, Path destination) {
+    @NotNull
+    public static Path gzip(@NotNull Path source, Path destination) {
         source = source.normalize();
         var result = destination;
         if (result == null) {
@@ -301,10 +307,10 @@ public class IoFunctions {
         result = result.normalize();
         if (source.compareTo(result) == 0) {
             // we need to do an inline compression
-            IO_PATH.saveBytes(result, loadGzipped(source));
+            IoSupportFunctions.saveBytes(result, loadGzipped(source));
         } else {
-            try (var instream = IO_PATH.newInputStream(source);
-                var outstream = new GZIPOutputStream(IO_PATH.newOutputStream(result));) {
+            try (var instream = IoSupportFunctions.newInputStream(source);
+                var outstream = new GZIPOutputStream(IoSupportFunctions.newOutputStream(result));) {
                 copy(instream, outstream);
             } catch (Exception ex) {
                 throw KclException.wrap(ex, error_failed_to_gzip, source, result);
@@ -314,15 +320,17 @@ public class IoFunctions {
         return result;
     }
 
-    private static @NotNull Path buildDefaultGzippedPath(@NotNull Path source) {
+    @NotNull
+    private static Path buildDefaultGzippedPath(@NotNull Path source) {
         var parentDir = source.toAbsolutePath().getParent();
         var fileName  = source.getFileName().toString() + ".gz";
         return parentDir.resolve(fileName).normalize();
     }
 
-    public static @NotNull byte[] loadGzipped(@NotNull Path source) {
+    @NotNull
+    public static byte[] loadGzipped(@NotNull Path source) {
         return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
-            try (var instream = IO_PATH.newInputStream(source); var gzipOut = new GZIPOutputStream($byteout);) {
+            try (var instream = IoSupportFunctions.newInputStream(source); var gzipOut = new GZIPOutputStream($byteout);) {
                 copy(instream, gzipOut);
             } catch (Exception ex) {
                 throw KclException.wrap(ex, error_failed_to_load_gzipped, source);
@@ -338,7 +346,8 @@ public class IoFunctions {
      *            The file which has to be ungzipped.
      * @return The ungzipped file.
      */
-    public static @NotNull Path ungzip(@NotNull Path source) {
+    @NotNull
+    public static Path ungzip(@NotNull Path source) {
         return ungzip(source, null);
     }
 
@@ -351,7 +360,8 @@ public class IoFunctions {
      *            The ungziped file. If null it's the input file plus a suffix '.gz'
      * @return The ungzipped file.
      */
-    public static @NotNull Path ungzip(@NotNull Path source, Path destination) {
+    @NotNull
+    public static Path ungzip(@NotNull Path source, Path destination) {
 
         source = source.normalize();
         var result = destination;
@@ -364,10 +374,10 @@ public class IoFunctions {
 
         if (source.compareTo(result) == 0) {
             // we need to do an inline compression
-            IO_PATH.saveBytes(result, loadUngzipped(source));
+            IoSupportFunctions.saveBytes(result, loadUngzipped(source));
         } else {
-            try (var instream = new GZIPInputStream(IO_PATH.newInputStream(source));
-                var outstream = IO_PATH.newOutputStream(result);) {
+            try (var instream = new GZIPInputStream(IoSupportFunctions.newInputStream(source));
+                var outstream = IoSupportFunctions.newOutputStream(result);) {
                 copy(instream, outstream);
             } catch (Exception ex) {
                 throw KclException.wrap(ex, error_failed_to_gzip, source, result);
@@ -377,7 +387,8 @@ public class IoFunctions {
         return result;
     }
 
-    private static @NotNull Path buildDefaultUngzippedPath(@NotNull Path source) {
+    @NotNull
+    private static Path buildDefaultUngzippedPath(@NotNull Path source) {
         var parentDir = source.toAbsolutePath().getParent();
         var fileName  = source.getFileName().toString();
         if (fileName.endsWith(".gz")) {
@@ -388,9 +399,10 @@ public class IoFunctions {
         return parentDir.resolve(fileName).normalize();
     }
 
-    public static @NotNull byte[] loadUngzipped(@NotNull Path source) {
+    @NotNull
+    public static byte[] loadUngzipped(@NotNull Path source) {
         return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
-            try (var instream = new GZIPInputStream(IO_PATH.newInputStream(source));) {
+            try (var instream = new GZIPInputStream(IoSupportFunctions.newInputStream(source));) {
                 copy(instream, $byteout);
             } catch (Exception ex) {
                 throw KclException.wrap(ex, error_failed_to_ungzip, source);
@@ -406,7 +418,8 @@ public class IoFunctions {
      *            The current path.
      * @return An existing parent path or null if there's none.
      */
-    public static @NotNull Optional<Path> findExistingPath(Path path) {
+    @NotNull
+    public static Optional<Path> findExistingPath(Path path) {
         var result = path != null ? path.normalize() : null;
         while ((result != null) && (!Files.exists(result))) {
             result = result.getParent();
@@ -428,7 +441,7 @@ public class IoFunctions {
     public static void moveFile(@NotNull Path source, @NotNull Path destination) {
         try {
             if (!Files.isRegularFile(source)) {
-                throw new KclException("The file '%s' does not exist!", source);
+                throw new KclException(error_file_does_not_exist, source);
             }
             Files.move(source, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception ex) {
@@ -547,7 +560,8 @@ public class IoFunctions {
      *            The base path.
      * @return A list of relative pathes (directories will end with a slash).
      */
-    public static @NotNull List<@NotNull String> listPathes(@NotNull Path start) {
+    @NotNull
+    public static List<@NotNull String> listPathes(@NotNull Path start) {
         return listPathes(start, null, true);
     }
 
@@ -560,7 +574,8 @@ public class IoFunctions {
      *            A filter used to accept the relative path.
      * @return A list of relative pathes (directories will end with a slash).
      */
-    public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, KPredicate<String> filter) {
+    @NotNull
+    public static List<@NotNull String> listPathes(@NotNull Path start, KPredicate<String> filter) {
         return listPathes(start, filter, true);
     }
 
@@ -575,7 +590,8 @@ public class IoFunctions {
      *            <code>true</code> <=> Include directories in the result list.
      * @return A list of relative pathes (directories will end with a slash).
      */
-    public static @NotNull List<@NotNull String> listPathes(@NotNull Path start, KPredicate<String> filter, boolean includeDirs) {
+    @NotNull
+    public static List<@NotNull String> listPathes(@NotNull Path start, KPredicate<String> filter, boolean includeDirs) {
 
         try {
 
@@ -626,7 +642,8 @@ public class IoFunctions {
      *            The zip file.
      * @return A list of relative pathes.
      */
-    public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile) {
+    @NotNull
+    public static List<@NotNull String> listZipFile(@NotNull Path zipFile) {
         return listZipFile(zipFile, null, null);
     }
 
@@ -639,7 +656,8 @@ public class IoFunctions {
      *            The encoding to use.
      * @return A list of relative pathes.
      */
-    public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, Encoding encoding) {
+    @NotNull
+    public static List<@NotNull String> listZipFile(@NotNull Path zipFile, Encoding encoding) {
         return listZipFile(zipFile, encoding, null);
     }
 
@@ -654,7 +672,8 @@ public class IoFunctions {
      *            A filter used to accept the relative path.
      * @return A list of relative pathes.
      */
-    public static @NotNull List<@NotNull String> listZipFile(@NotNull Path zipFile, Encoding encoding, KPredicate<@NotNull ZipEntry> filter) {
+    @NotNull
+    public static List<@NotNull String> listZipFile(@NotNull Path zipFile, Encoding encoding, KPredicate<@NotNull ZipEntry> filter) {
         var result = new ArrayList<String>();
         forZipFileDo(zipFile, encoding, filter, ($z, $e) -> result.add($e.getName().replace('\\', '/')));
         return result;
@@ -681,7 +700,7 @@ public class IoFunctions {
 
                 mkDirs(dest.getParent());
 
-                try (var instream = $z.getInputStream($e); var outstream = IO_PATH.newOutputStream(dest);) {
+                try (var instream = $z.getInputStream($e); var outstream = IoSupportFunctions.newOutputStream(dest);) {
                     copy(instream, outstream);
                 } catch (Exception ex) {
                     throw KclException.wrap(ex, error_failed_to_unzip, dest, zipFile, $e.getName());
@@ -695,13 +714,13 @@ public class IoFunctions {
     public static void zip(@NotNull Path zipFile, @NotNull Path source, Encoding encoding) {
         var charset = encoding != null ? encoding.getCharset() : Encoding.IBM437.getCharset();
         var pathes  = listPathes(source);
-        IO_PATH.forOutputStreamDo(zipFile, $output -> {
+        IoSupportFunctions.forOutputStreamDo(zipFile, $output -> {
             try (var zipout = new ZipOutputStream($output, charset)) {
                 for (var path : pathes) {
                     var zentry = new ZipEntry(path);
                     zipout.putNextEntry(zentry);
                     if (!path.endsWith("/")) {
-                        IO_PATH.forInputStreamDo(source.resolve(path), $input -> copy($input, zipout));
+                        IoSupportFunctions.forInputStreamDo(source.resolve(path), $input -> copy($input, zipout));
                     }
                     zipout.closeEntry();
                 }
@@ -723,7 +742,8 @@ public class IoFunctions {
      *            an easy way to skip directories in a build environment (f.e. target/classes).
      * @return The location of the class directory/jarfile.
      */
-    public static @NotNull Path locateDirectory(@NotNull Class<?> classobj, String ... skippable) {
+    @NotNull
+    public static Path locateDirectory(@NotNull Class<?> classobj, String ... skippable) {
 
         var classname    = "%s.class".formatted(classobj.getName().replace('.', '/'));
         var location     = classobj.getClassLoader().getResource(classname);
@@ -762,7 +782,8 @@ public class IoFunctions {
 
     }
 
-    public static @NotNull Properties loadProperties(@NotNull Reader reader) {
+    @NotNull
+    public static Properties loadProperties(@NotNull Reader reader) {
         Properties result = new Properties();
         try {
             result.load(reader);
@@ -772,8 +793,9 @@ public class IoFunctions {
         return result;
     }
 
-    public static @NotNull Optional<byte[]> genericLoadBytes(@NotNull Object source, int size) {
-        IoSupport ioSupport = ioSupport(source.getClass());
+    @NotNull
+    public static Optional<byte[]> genericLoadBytes(@NotNull Object source, int size) {
+        IoSupport ioSupport = IoSupportFunctions.ioSupport(source.getClass());
         if (ioSupport != null) {
             return Optional.of(ioSupport.loadBytes(source, size));
         } else if (source instanceof CharSequence cs) {
@@ -790,1009 +812,20 @@ public class IoFunctions {
         return Optional.empty();
     }
 
-    private static IoSupport ioSupport(@NotNull Class<?> clazz) {
-        if (File.class.isAssignableFrom(clazz)) {
-            return IO_FILE;
-        } else if (Path.class.isAssignableFrom(clazz)) {
-            return IO_PATH;
-        } else if (URL.class.isAssignableFrom(clazz)) {
-            return IO_URL;
-        } else if (URI.class.isAssignableFrom(clazz)) {
-            return IO_URI;
-        }
-        return null;
-    }
-
-    public static @NotNull BufferedReader newBufferedReader(@NotNull Reader reader) {
+    @NotNull
+    public static BufferedReader newBufferedReader(@NotNull Reader reader) {
         if (reader instanceof BufferedReader bufferedReader) {
             return bufferedReader;
-        } else {
-            return new BufferedReader(reader);
         }
+        return new BufferedReader(reader);
     }
 
-    /* BEGIN */
-
-    /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
-     */
-    public static <R> R forInputStream(@NotNull Path source, @NotNull KFunction<InputStream, R> function) {
-        return IO_PATH.forInputStream(source, function);
-    }
-
-    /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
-     */
-    public static <R> R forInputStream(@NotNull File source, @NotNull KFunction<InputStream, R> function) {
-        return IO_FILE.forInputStream(source, function);
-    }
-
-    /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
-     */
-    public static <R> R forInputStream(@NotNull URI source, @NotNull KFunction<InputStream, R> function) {
-        return IO_URI.forInputStream(source, function);
-    }
-
-    /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
-     */
-    public static <R> R forInputStream(@NotNull URL source, @NotNull KFunction<InputStream, R> function) {
-        return IO_URL.forInputStream(source, function);
-    }
-
-    /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
-     */
-    public static void forInputStreamDo(@NotNull Path source, @NotNull KConsumer<InputStream> action) {
-        IO_PATH.forInputStreamDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
-     */
-    public static void forInputStreamDo(@NotNull File source, @NotNull KConsumer<InputStream> action) {
-        IO_FILE.forInputStreamDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
-     */
-    public static void forInputStreamDo(@NotNull URI source, @NotNull KConsumer<InputStream> action) {
-        IO_URI.forInputStreamDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
-     */
-    public static void forInputStreamDo(@NotNull URL source, @NotNull KConsumer<InputStream> action) {
-        IO_URL.forInputStreamDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forOutputStream(Object, Function<OutputStream, R>)
-     */
-    public static <R> R forOutputStream(@NotNull Path destination, @NotNull KFunction<OutputStream, R> function) {
-        return IO_PATH.forOutputStream(destination, function);
-    }
-
-    /**
-     * @see IoSupport#forOutputStream(Object, Function<OutputStream, R>)
-     */
-    public static <R> R forOutputStream(@NotNull File destination, @NotNull KFunction<OutputStream, R> function) {
-        return IO_FILE.forOutputStream(destination, function);
-    }
-
-    /**
-     * @see IoSupport#forOutputStream(Object, Function<OutputStream, R>)
-     */
-    public static <R> R forOutputStream(@NotNull URI destination, @NotNull KFunction<OutputStream, R> function) {
-        return IO_URI.forOutputStream(destination, function);
-    }
-
-    /**
-     * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
-     */
-    public static void forOutputStreamDo(@NotNull Path destination, @NotNull KConsumer<OutputStream> action) {
-        IO_PATH.forOutputStreamDo(destination, action);
-    }
-
-    /**
-     * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
-     */
-    public static void forOutputStreamDo(@NotNull File destination, @NotNull KConsumer<OutputStream> action) {
-        IO_FILE.forOutputStreamDo(destination, action);
-    }
-
-    /**
-     * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
-     */
-    public static void forOutputStreamDo(@NotNull URI destination, @NotNull KConsumer<OutputStream> action) {
-        IO_URI.forOutputStreamDo(destination, action);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull Path source, @NotNull KFunction<Reader, R> function) {
-        return IO_PATH.forReader(source, function);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull File source, @NotNull KFunction<Reader, R> function) {
-        return IO_FILE.forReader(source, function);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull URI source, @NotNull KFunction<Reader, R> function) {
-        return IO_URI.forReader(source, function);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull URL source, @NotNull KFunction<Reader, R> function) {
-        return IO_URL.forReader(source, function);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull Path source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
-        return IO_PATH.forReader(source, encoding, function);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull File source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
-        return IO_FILE.forReader(source, encoding, function);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull URI source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
-        return IO_URI.forReader(source, encoding, function);
-    }
-
-    /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
-     */
-    public static <R> R forReader(@NotNull URL source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
-        return IO_URL.forReader(source, encoding, function);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull Path source, @NotNull KConsumer<Reader> action) {
-        IO_PATH.forReaderDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull File source, @NotNull KConsumer<Reader> action) {
-        IO_FILE.forReaderDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull URI source, @NotNull KConsumer<Reader> action) {
-        IO_URI.forReaderDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull URL source, @NotNull KConsumer<Reader> action) {
-        IO_URL.forReaderDo(source, action);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull Path source, Encoding encoding, @NotNull KConsumer<Reader> action) {
-        IO_PATH.forReaderDo(source, encoding, action);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull File source, Encoding encoding, @NotNull KConsumer<Reader> action) {
-        IO_FILE.forReaderDo(source, encoding, action);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull URI source, Encoding encoding, @NotNull KConsumer<Reader> action) {
-        IO_URI.forReaderDo(source, encoding, action);
-    }
-
-    /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
-     */
-    public static void forReaderDo(@NotNull URL source, Encoding encoding, @NotNull KConsumer<Reader> action) {
-        IO_URL.forReaderDo(source, encoding, action);
-    }
-
-    /**
-     * @see IoSupport#forWriter(Object, Function<Writer, R>)
-     */
-    public static <R> R forWriter(@NotNull Path destination, @NotNull KFunction<Writer, R> function) {
-        return IO_PATH.forWriter(destination, function);
-    }
-
-    /**
-     * @see IoSupport#forWriter(Object, Function<Writer, R>)
-     */
-    public static <R> R forWriter(@NotNull File destination, @NotNull KFunction<Writer, R> function) {
-        return IO_FILE.forWriter(destination, function);
-    }
-
-    /**
-     * @see IoSupport#forWriter(Object, Function<Writer, R>)
-     */
-    public static <R> R forWriter(@NotNull URI destination, @NotNull KFunction<Writer, R> function) {
-        return IO_URI.forWriter(destination, function);
-    }
-
-    /**
-     * @see IoSupport#forWriter(Object, Encoding, Function<Writer, R>)
-     */
-    public static <R> R forWriter(@NotNull Path destination, Encoding encoding, @NotNull KFunction<Writer, R> function) {
-        return IO_PATH.forWriter(destination, encoding, function);
-    }
-
-    /**
-     * @see IoSupport#forWriter(Object, Encoding, Function<Writer, R>)
-     */
-    public static <R> R forWriter(@NotNull File destination, Encoding encoding, @NotNull KFunction<Writer, R> function) {
-        return IO_FILE.forWriter(destination, encoding, function);
-    }
-
-    /**
-     * @see IoSupport#forWriter(Object, Encoding, Function<Writer, R>)
-     */
-    public static <R> R forWriter(@NotNull URI destination, Encoding encoding, @NotNull KFunction<Writer, R> function) {
-        return IO_URI.forWriter(destination, encoding, function);
-    }
-
-    /**
-     * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
-     */
-    public static void forWriterDo(@NotNull Path destination, @NotNull KConsumer<Writer> action) {
-        IO_PATH.forWriterDo(destination, action);
-    }
-
-    /**
-     * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
-     */
-    public static void forWriterDo(@NotNull File destination, @NotNull KConsumer<Writer> action) {
-        IO_FILE.forWriterDo(destination, action);
-    }
-
-    /**
-     * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
-     */
-    public static void forWriterDo(@NotNull URI destination, @NotNull KConsumer<Writer> action) {
-        IO_URI.forWriterDo(destination, action);
-    }
-
-    /**
-     * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
-     */
-    public static void forWriterDo(@NotNull Path destination, Encoding encoding, @NotNull KConsumer<Writer> action) {
-        IO_PATH.forWriterDo(destination, encoding, action);
-    }
-
-    /**
-     * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
-     */
-    public static void forWriterDo(@NotNull File destination, Encoding encoding, @NotNull KConsumer<Writer> action) {
-        IO_FILE.forWriterDo(destination, encoding, action);
-    }
-
-    /**
-     * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
-     */
-    public static void forWriterDo(@NotNull URI destination, Encoding encoding, @NotNull KConsumer<Writer> action) {
-        IO_URI.forWriterDo(destination, encoding, action);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object)
-     */
-    public static byte[] loadAllBytes(@NotNull Path source) {
-        return IO_PATH.loadAllBytes(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object)
-     */
-    public static byte[] loadAllBytes(@NotNull File source) {
-        return IO_FILE.loadAllBytes(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object)
-     */
-    public static byte[] loadAllBytes(@NotNull URI source) {
-        return IO_URI.loadAllBytes(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object)
-     */
-    public static byte[] loadAllBytes(@NotNull URL source) {
-        return IO_URL.loadAllBytes(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object, int)
-     */
-    public static byte[] loadAllBytes(@NotNull Path source, @Min(0L) int offset) {
-        return IO_PATH.loadAllBytes(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object, int)
-     */
-    public static byte[] loadAllBytes(@NotNull File source, @Min(0L) int offset) {
-        return IO_FILE.loadAllBytes(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object, int)
-     */
-    public static byte[] loadAllBytes(@NotNull URI source, @Min(0L) int offset) {
-        return IO_URI.loadAllBytes(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllBytes(Object, int)
-     */
-    public static byte[] loadAllBytes(@NotNull URL source, @Min(0L) int offset) {
-        return IO_URL.loadAllBytes(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object)
-     */
-    public static char[] loadAllChars(@NotNull Path source) {
-        return IO_PATH.loadAllChars(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object)
-     */
-    public static char[] loadAllChars(@NotNull File source) {
-        return IO_FILE.loadAllChars(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object)
-     */
-    public static char[] loadAllChars(@NotNull URI source) {
-        return IO_URI.loadAllChars(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object)
-     */
-    public static char[] loadAllChars(@NotNull URL source) {
-        return IO_URL.loadAllChars(source);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, int)
-     */
-    public static char[] loadAllChars(@NotNull Path source, @Min(0L) int offset) {
-        return IO_PATH.loadAllChars(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, int)
-     */
-    public static char[] loadAllChars(@NotNull File source, @Min(0L) int offset) {
-        return IO_FILE.loadAllChars(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, int)
-     */
-    public static char[] loadAllChars(@NotNull URI source, @Min(0L) int offset) {
-        return IO_URI.loadAllChars(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, int)
-     */
-    public static char[] loadAllChars(@NotNull URL source, @Min(0L) int offset) {
-        return IO_URL.loadAllChars(source, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding)
-     */
-    public static char[] loadAllChars(@NotNull Path source, Encoding encoding) {
-        return IO_PATH.loadAllChars(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding)
-     */
-    public static char[] loadAllChars(@NotNull File source, Encoding encoding) {
-        return IO_FILE.loadAllChars(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding)
-     */
-    public static char[] loadAllChars(@NotNull URI source, Encoding encoding) {
-        return IO_URI.loadAllChars(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding)
-     */
-    public static char[] loadAllChars(@NotNull URL source, Encoding encoding) {
-        return IO_URL.loadAllChars(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding, int)
-     */
-    public static char[] loadAllChars(@NotNull Path source, Encoding encoding, @Min(0L) int offset) {
-        return IO_PATH.loadAllChars(source, encoding, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding, int)
-     */
-    public static char[] loadAllChars(@NotNull File source, Encoding encoding, @Min(0L) int offset) {
-        return IO_FILE.loadAllChars(source, encoding, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding, int)
-     */
-    public static char[] loadAllChars(@NotNull URI source, Encoding encoding, @Min(0L) int offset) {
-        return IO_URI.loadAllChars(source, encoding, offset);
-    }
-
-    /**
-     * @see IoSupport#loadAllChars(Object, Encoding, int)
-     */
-    public static char[] loadAllChars(@NotNull URL source, Encoding encoding, @Min(0L) int offset) {
-        return IO_URL.loadAllChars(source, encoding, offset);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int)
-     */
-    public static byte[] loadBytes(@NotNull Path source, @Min(1L) int size) {
-        return IO_PATH.loadBytes(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int)
-     */
-    public static byte[] loadBytes(@NotNull File source, @Min(1L) int size) {
-        return IO_FILE.loadBytes(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int)
-     */
-    public static byte[] loadBytes(@NotNull URI source, @Min(1L) int size) {
-        return IO_URI.loadBytes(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int)
-     */
-    public static byte[] loadBytes(@NotNull URL source, @Min(1L) int size) {
-        return IO_URL.loadBytes(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int, int)
-     */
-    public static byte[] loadBytes(@NotNull Path source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_PATH.loadBytes(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int, int)
-     */
-    public static byte[] loadBytes(@NotNull File source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_FILE.loadBytes(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int, int)
-     */
-    public static byte[] loadBytes(@NotNull URI source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_URI.loadBytes(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadBytes(Object, int, int)
-     */
-    public static byte[] loadBytes(@NotNull URL source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_URL.loadBytes(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int)
-     */
-    public static char[] loadChars(@NotNull Path source, @Min(1L) int size) {
-        return IO_PATH.loadChars(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int)
-     */
-    public static char[] loadChars(@NotNull File source, @Min(1L) int size) {
-        return IO_FILE.loadChars(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int)
-     */
-    public static char[] loadChars(@NotNull URI source, @Min(1L) int size) {
-        return IO_URI.loadChars(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int)
-     */
-    public static char[] loadChars(@NotNull URL source, @Min(1L) int size) {
-        return IO_URL.loadChars(source, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int, int)
-     */
-    public static char[] loadChars(@NotNull Path source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_PATH.loadChars(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int, int)
-     */
-    public static char[] loadChars(@NotNull File source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_FILE.loadChars(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int, int)
-     */
-    public static char[] loadChars(@NotNull URI source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_URI.loadChars(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, int, int)
-     */
-    public static char[] loadChars(@NotNull URL source, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_URL.loadChars(source, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int)
-     */
-    public static char[] loadChars(@NotNull Path source, Encoding encoding, @Min(1L) int size) {
-        return IO_PATH.loadChars(source, encoding, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int)
-     */
-    public static char[] loadChars(@NotNull File source, Encoding encoding, @Min(1L) int size) {
-        return IO_FILE.loadChars(source, encoding, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int)
-     */
-    public static char[] loadChars(@NotNull URI source, Encoding encoding, @Min(1L) int size) {
-        return IO_URI.loadChars(source, encoding, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int)
-     */
-    public static char[] loadChars(@NotNull URL source, Encoding encoding, @Min(1L) int size) {
-        return IO_URL.loadChars(source, encoding, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int, int)
-     */
-    public static char[] loadChars(@NotNull Path source, Encoding encoding, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_PATH.loadChars(source, encoding, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int, int)
-     */
-    public static char[] loadChars(@NotNull File source, Encoding encoding, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_FILE.loadChars(source, encoding, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int, int)
-     */
-    public static char[] loadChars(@NotNull URI source, Encoding encoding, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_URI.loadChars(source, encoding, offset, size);
-    }
-
-    /**
-     * @see IoSupport#loadChars(Object, Encoding, int, int)
-     */
-    public static char[] loadChars(@NotNull URL source, Encoding encoding, @Min(0L) int offset, @Min(1L) int size) {
-        return IO_URL.loadChars(source, encoding, offset, size);
-    }
-
-    /**
-     * @see IoSupport#newInputStream(Object)
-     */
-    public static @NotNull InputStream newInputStream(@NotNull Path source) {
-        return IO_PATH.newInputStream(source);
-    }
-
-    /**
-     * @see IoSupport#newInputStream(Object)
-     */
-    public static @NotNull InputStream newInputStream(@NotNull File source) {
-        return IO_FILE.newInputStream(source);
-    }
-
-    /**
-     * @see IoSupport#newInputStream(Object)
-     */
-    public static @NotNull InputStream newInputStream(@NotNull URI source) {
-        return IO_URI.newInputStream(source);
-    }
-
-    /**
-     * @see IoSupport#newInputStream(Object)
-     */
-    public static @NotNull InputStream newInputStream(@NotNull URL source) {
-        return IO_URL.newInputStream(source);
-    }
-
-    /**
-     * @see IoSupport#newOutputStream(Object)
-     */
-    public static @NotNull OutputStream newOutputStream(@NotNull Path destination) {
-        return IO_PATH.newOutputStream(destination);
-    }
-
-    /**
-     * @see IoSupport#newOutputStream(Object)
-     */
-    public static @NotNull OutputStream newOutputStream(@NotNull File destination) {
-        return IO_FILE.newOutputStream(destination);
-    }
-
-    /**
-     * @see IoSupport#newOutputStream(Object)
-     */
-    public static @NotNull OutputStream newOutputStream(@NotNull URI destination) {
-        return IO_URI.newOutputStream(destination);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object)
-     */
-    public static @NotNull Reader newReader(@NotNull Path source) {
-        return IO_PATH.newReader(source);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object)
-     */
-    public static @NotNull Reader newReader(@NotNull File source) {
-        return IO_FILE.newReader(source);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object)
-     */
-    public static @NotNull Reader newReader(@NotNull URI source) {
-        return IO_URI.newReader(source);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object)
-     */
-    public static @NotNull Reader newReader(@NotNull URL source) {
-        return IO_URL.newReader(source);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object, Encoding)
-     */
-    public static @NotNull Reader newReader(@NotNull Path source, Encoding encoding) {
-        return IO_PATH.newReader(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object, Encoding)
-     */
-    public static @NotNull Reader newReader(@NotNull File source, Encoding encoding) {
-        return IO_FILE.newReader(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object, Encoding)
-     */
-    public static @NotNull Reader newReader(@NotNull URI source, Encoding encoding) {
-        return IO_URI.newReader(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#newReader(Object, Encoding)
-     */
-    public static @NotNull Reader newReader(@NotNull URL source, Encoding encoding) {
-        return IO_URL.newReader(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#newWriter(Object)
-     */
-    public static @NotNull Writer newWriter(@NotNull Path destination) {
-        return IO_PATH.newWriter(destination);
-    }
-
-    /**
-     * @see IoSupport#newWriter(Object)
-     */
-    public static @NotNull Writer newWriter(@NotNull File destination) {
-        return IO_FILE.newWriter(destination);
-    }
-
-    /**
-     * @see IoSupport#newWriter(Object)
-     */
-    public static @NotNull Writer newWriter(@NotNull URI destination) {
-        return IO_URI.newWriter(destination);
-    }
-
-    /**
-     * @see IoSupport#newWriter(Object, Encoding)
-     */
-    public static @NotNull Writer newWriter(@NotNull Path destination, Encoding encoding) {
-        return IO_PATH.newWriter(destination, encoding);
-    }
-
-    /**
-     * @see IoSupport#newWriter(Object, Encoding)
-     */
-    public static @NotNull Writer newWriter(@NotNull File destination, Encoding encoding) {
-        return IO_FILE.newWriter(destination, encoding);
-    }
-
-    /**
-     * @see IoSupport#newWriter(Object, Encoding)
-     */
-    public static @NotNull Writer newWriter(@NotNull URI destination, Encoding encoding) {
-        return IO_URI.newWriter(destination, encoding);
-    }
-
-    /**
-     * @see IoSupport#readText(Object)
-     */
-    public static @NotNull String readText(@NotNull Path source) {
-        return IO_PATH.readText(source);
-    }
-
-    /**
-     * @see IoSupport#readText(Object)
-     */
-    public static @NotNull String readText(@NotNull File source) {
-        return IO_FILE.readText(source);
-    }
-
-    /**
-     * @see IoSupport#readText(Object)
-     */
-    public static @NotNull String readText(@NotNull URI source) {
-        return IO_URI.readText(source);
-    }
-
-    /**
-     * @see IoSupport#readText(Object)
-     */
-    public static @NotNull String readText(@NotNull URL source) {
-        return IO_URL.readText(source);
-    }
-
-    /**
-     * @see IoSupport#readText(Object, Encoding)
-     */
-    public static @NotNull String readText(@NotNull Path source, Encoding encoding) {
-        return IO_PATH.readText(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#readText(Object, Encoding)
-     */
-    public static @NotNull String readText(@NotNull File source, Encoding encoding) {
-        return IO_FILE.readText(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#readText(Object, Encoding)
-     */
-    public static @NotNull String readText(@NotNull URI source, Encoding encoding) {
-        return IO_URI.readText(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#readText(Object, Encoding)
-     */
-    public static @NotNull String readText(@NotNull URL source, Encoding encoding) {
-        return IO_URL.readText(source, encoding);
-    }
-
-    /**
-     * @see IoSupport#saveBytes(Object, byte[])
-     */
-    public static void saveBytes(@NotNull Path destination, @NotNull byte[] data) {
-        IO_PATH.saveBytes(destination, data);
-    }
-
-    /**
-     * @see IoSupport#saveBytes(Object, byte[])
-     */
-    public static void saveBytes(@NotNull File destination, @NotNull byte[] data) {
-        IO_FILE.saveBytes(destination, data);
-    }
-
-    /**
-     * @see IoSupport#saveBytes(Object, byte[])
-     */
-    public static void saveBytes(@NotNull URI destination, @NotNull byte[] data) {
-        IO_URI.saveBytes(destination, data);
-    }
-
-    /**
-     * @see IoSupport#saveBytes(Object, byte[], int, int)
-     */
-    public static void saveBytes(@NotNull Path destination, @NotNull byte[] data, @Min(0L) int offset, @Min(0L) int length) {
-        IO_PATH.saveBytes(destination, data, offset, length);
+    @NotNull
+    public static BufferedWriter newBufferedReader(@NotNull Writer writer) {
+        if (writer instanceof BufferedWriter bufferedWriter) {
+            return bufferedWriter;
+        }
+        return new BufferedWriter(writer);
     }
-
-    /**
-     * @see IoSupport#saveBytes(Object, byte[], int, int)
-     */
-    public static void saveBytes(@NotNull File destination, @NotNull byte[] data, @Min(0L) int offset, @Min(0L) int length) {
-        IO_FILE.saveBytes(destination, data, offset, length);
-    }
-
-    /**
-     * @see IoSupport#saveBytes(Object, byte[], int, int)
-     */
-    public static void saveBytes(@NotNull URI destination, @NotNull byte[] data, @Min(0L) int offset, @Min(0L) int length) {
-        IO_URI.saveBytes(destination, data, offset, length);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, char[])
-     */
-    public static void saveChars(@NotNull Path destination, @NotNull char[] data) {
-        IO_PATH.saveChars(destination, data);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, char[])
-     */
-    public static void saveChars(@NotNull File destination, @NotNull char[] data) {
-        IO_FILE.saveChars(destination, data);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, char[])
-     */
-    public static void saveChars(@NotNull URI destination, @NotNull char[] data) {
-        IO_URI.saveChars(destination, data);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, Encoding, char[])
-     */
-    public static void saveChars(@NotNull Path destination, Encoding encoding, @NotNull char[] data) {
-        IO_PATH.saveChars(destination, encoding, data);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, Encoding, char[])
-     */
-    public static void saveChars(@NotNull File destination, Encoding encoding, @NotNull char[] data) {
-        IO_FILE.saveChars(destination, encoding, data);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, Encoding, char[])
-     */
-    public static void saveChars(@NotNull URI destination, Encoding encoding, @NotNull char[] data) {
-        IO_URI.saveChars(destination, encoding, data);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, Encoding, char[], int, int)
-     */
-    public static void saveChars(@NotNull Path destination, Encoding encoding, char[] data, @Min(0L) int offset, @Min(0L) int size) {
-        IO_PATH.saveChars(destination, encoding, data, offset, size);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, Encoding, char[], int, int)
-     */
-    public static void saveChars(@NotNull File destination, Encoding encoding, char[] data, @Min(0L) int offset, @Min(0L) int size) {
-        IO_FILE.saveChars(destination, encoding, data, offset, size);
-    }
-
-    /**
-     * @see IoSupport#saveChars(Object, Encoding, char[], int, int)
-     */
-    public static void saveChars(@NotNull URI destination, Encoding encoding, char[] data, @Min(0L) int offset, @Min(0L) int size) {
-        IO_URI.saveChars(destination, encoding, data, offset, size);
-    }
-
-    /**
-     * @see IoSupport#writeText(Object, String)
-     */
-    public static void writeText(@NotNull Path destination, @NotNull String text) {
-        IO_PATH.writeText(destination, text);
-    }
-
-    /**
-     * @see IoSupport#writeText(Object, String)
-     */
-    public static void writeText(@NotNull File destination, @NotNull String text) {
-        IO_FILE.writeText(destination, text);
-    }
-
-    /**
-     * @see IoSupport#writeText(Object, String)
-     */
-    public static void writeText(@NotNull URI destination, @NotNull String text) {
-        IO_URI.writeText(destination, text);
-    }
-
-    /**
-     * @see IoSupport#writeText(Object, Encoding, String)
-     */
-    public static void writeText(@NotNull Path destination, Encoding encoding, @NotNull String text) {
-        IO_PATH.writeText(destination, encoding, text);
-    }
-
-    /**
-     * @see IoSupport#writeText(Object, Encoding, String)
-     */
-    public static void writeText(@NotNull File destination, Encoding encoding, @NotNull String text) {
-        IO_FILE.writeText(destination, encoding, text);
-    }
-
-    /**
-     * @see IoSupport#writeText(Object, Encoding, String)
-     */
-    public static void writeText(@NotNull URI destination, Encoding encoding, @NotNull String text) {
-        IO_URI.writeText(destination, encoding, text);
-    }
-
-    /* END */
 
 } /* ENDCLASS */

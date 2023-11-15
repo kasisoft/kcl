@@ -24,7 +24,7 @@ public class PropertyResolverTest {
     public void apply__env() {
 
         var text        = TEST_RESOURCES.getResource("text_01.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withEnvironment();
 
@@ -37,7 +37,7 @@ public class PropertyResolverTest {
     public void apply__sys() {
 
         var text        = TEST_RESOURCES.getResource("text_02.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withSysProperties();
 
@@ -50,7 +50,7 @@ public class PropertyResolverTest {
     public void apply__envAndPrefix() {
 
         var text        = TEST_RESOURCES.getResource("text_03.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withEnvironment("bibo");
 
@@ -63,7 +63,7 @@ public class PropertyResolverTest {
     public void apply__sysAndPrefix() {
 
         var text        = TEST_RESOURCES.getResource("text_04.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withSysProperties("frog");
 
@@ -76,7 +76,7 @@ public class PropertyResolverTest {
     public void apply__custom() {
 
         var text   = TEST_RESOURCES.getResource("text_05.txt");
-        var loaded = IoFunctions.readText(text);
+        var loaded = IoSupportFunctions.readText(text);
 
         var map    = new HashMap<String, String>();
         map.put("val", "dodo");
@@ -92,7 +92,7 @@ public class PropertyResolverTest {
     public void apply__envAndCustomVarFormat() {
 
         var text        = TEST_RESOURCES.getResource("text_06.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withVarFormat("#{%s}").withEnvironment();
 
@@ -105,7 +105,7 @@ public class PropertyResolverTest {
     public void apply__sysAndCustomVarFormat() {
 
         var text        = TEST_RESOURCES.getResource("text_07.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withVarFormat("#{%s}").withSysProperties();
 
@@ -118,7 +118,7 @@ public class PropertyResolverTest {
     public void apply__envAndPrefixAndCustomVarFormat() {
 
         var text        = TEST_RESOURCES.getResource("text_08.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withVarFormat("#{%s}").withEnvironment("bibo");
 
@@ -131,7 +131,7 @@ public class PropertyResolverTest {
     public void apply__sysAndPrefixAndCustomVarFormat() {
 
         var text        = TEST_RESOURCES.getResource("text_09.txt");
-        var loaded      = IoFunctions.readText(text);
+        var loaded      = IoSupportFunctions.readText(text);
 
         var resolver    = new PropertyResolver().withVarFormat("#{%s}").withSysProperties("frog");
 
@@ -144,7 +144,7 @@ public class PropertyResolverTest {
     public void apply__customAndCustomVarFormat() {
 
         var text   = TEST_RESOURCES.getResource("text_10.txt");
-        var loaded = IoFunctions.readText(text);
+        var loaded = IoSupportFunctions.readText(text);
 
         var map    = new HashMap<String, String>();
         map.put("val", "dodo");
@@ -160,7 +160,7 @@ public class PropertyResolverTest {
     public void apply__all() {
 
         var text   = TEST_RESOURCES.getResource("text_11.txt");
-        var loaded = IoFunctions.readText(text);
+        var loaded = IoSupportFunctions.readText(text);
 
         var map    = new HashMap<String, String>();
         map.put("val", "dodo");
@@ -176,7 +176,7 @@ public class PropertyResolverTest {
     public void apply__allAndCustomVarFormat() {
 
         var text   = TEST_RESOURCES.getResource("text_12.txt");
-        var loaded = IoFunctions.readText(text);
+        var loaded = IoSupportFunctions.readText(text);
 
         var map    = new HashMap<String, String>();
         map.put("val", "dodo");

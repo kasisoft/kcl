@@ -843,7 +843,7 @@ public class CsvTableModel implements TableModel {
      *            The source for the csv data.
      */
     public void load(@NotNull Path source) {
-        IoFunctions.forInputStreamDo(source, this::load);
+        IoSupportFunctions.forInputStreamDo(source, this::load);
     }
 
     /**
@@ -884,7 +884,7 @@ public class CsvTableModel implements TableModel {
      *            The destination for the csv data.
      */
     public synchronized void save(@NotNull Path dest, Encoding encoding) {
-        IoFunctions.forOutputStreamDo(dest, $ -> save($, encoding));
+        IoSupportFunctions.forOutputStreamDo(dest, $ -> save($, encoding));
     }
 
     /**
@@ -894,7 +894,7 @@ public class CsvTableModel implements TableModel {
      *            The destination for the csv data.
      */
     public synchronized void save(@NotNull Path dest, @NotNull Function<String, String> overrideName, Encoding encoding) {
-        IoFunctions.forOutputStreamDo(dest, $ -> save($, overrideName, encoding));
+        IoSupportFunctions.forOutputStreamDo(dest, $ -> save($, overrideName, encoding));
     }
 
     /**
