@@ -18,8 +18,8 @@ public class GeoLocationTest {
     @Test
     public void simple() {
         var location = new GeoLocation(52.1, 10.2);
-        assertThat(location.getLatitude(), is(52.1));
-        assertThat(location.getLongitude(), is(10.2));
+        assertThat(location.latitude(), is(52.1));
+        assertThat(location.longitude(), is(10.2));
         assertTrue(location.isValid());
     }
 
