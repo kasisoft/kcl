@@ -29,7 +29,7 @@ import java.io.*;
 /**
  * Several utility functions related to graphical operations.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class GraphicsFunctions {
 
@@ -40,7 +40,8 @@ public class GraphicsFunctions {
      *            The resource which has to be loaded.
      * @return The image.
      */
-    public static @NotNull BufferedImage readImage(@NotNull Path input) {
+    @NotNull
+    public static BufferedImage readImage(@NotNull Path input) {
         return IoFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
@@ -51,7 +52,8 @@ public class GraphicsFunctions {
      *            The resource which has to be loaded.
      * @return The image.
      */
-    public static @NotNull BufferedImage readImage(@NotNull File input) {
+    @NotNull
+    public static BufferedImage readImage(@NotNull File input) {
         return IoFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
@@ -62,7 +64,8 @@ public class GraphicsFunctions {
      *            The resource which has to be loaded.
      * @return The image.
      */
-    public static @NotNull BufferedImage readImage(@NotNull URL input) {
+    @NotNull
+    public static BufferedImage readImage(@NotNull URL input) {
         return IoFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
@@ -73,7 +76,8 @@ public class GraphicsFunctions {
      *            The resource which has to be loaded.
      * @return The image.
      */
-    public static @NotNull BufferedImage readImage(@NotNull URI input) {
+    @NotNull
+    public static BufferedImage readImage(@NotNull URI input) {
         return IoFunctions.forInputStream(input, $ -> readImage(input, $));
     }
 
@@ -86,7 +90,8 @@ public class GraphicsFunctions {
      *            The InputStream which provides the content.
      * @return The image.
      */
-    private static @NotNull BufferedImage readImage(@NotNull Object source, @NotNull InputStream instream) {
+    @NotNull
+    private static BufferedImage readImage(@NotNull Object source, @NotNull InputStream instream) {
         try {
             return ImageIO.read(instream);
         } catch (Exception ex) {
@@ -101,7 +106,8 @@ public class GraphicsFunctions {
      *            The InputStream which provides the content.
      * @return The image.
      */
-    public static @NotNull BufferedImage readImage(@NotNull InputStream instream) {
+    @NotNull
+    public static BufferedImage readImage(@NotNull InputStream instream) {
         try {
             return ImageIO.read(instream);
         } catch (Exception ex) {
@@ -263,7 +269,8 @@ public class GraphicsFunctions {
      *            The Component which has to be returned as an Image.
      * @return A visual representation of the supplied component.
      */
-    public static @NotNull BufferedImage createImage(@NotNull Component component) {
+    @NotNull
+    public static BufferedImage createImage(@NotNull Component component) {
         var result = new BufferedImage(component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_RGB);
         component.paint(result.getGraphics());
         return result;
@@ -280,7 +287,8 @@ public class GraphicsFunctions {
      *            The new height. Must be bigger than 0.
      * @return The scaled image.
      */
-    public static @NotNull BufferedImage scaleImage(@NotNull Image image, @Min(1) int newWidth, @Min(1) int newHeight) {
+    @NotNull
+    public static BufferedImage scaleImage(@NotNull Image image, @Min(1) int newWidth, @Min(1) int newHeight) {
         BufferedImage bufferedImage = null;
         if (image instanceof BufferedImage bimage) {
             bufferedImage = bimage;
@@ -302,7 +310,8 @@ public class GraphicsFunctions {
      *            The new height. Must be bigger than 0.
      * @return The scaled image.
      */
-    public static @NotNull BufferedImage scaleImage(@NotNull BufferedImage image, @Min(1) int newWidth, @Min(1) int newHeight) {
+    @NotNull
+    public static BufferedImage scaleImage(@NotNull BufferedImage image, @Min(1) int newWidth, @Min(1) int newHeight) {
 
         var width     = image.getWidth();
         var height    = image.getHeight();

@@ -42,6 +42,21 @@ public class StringFunctions {
     }
 
     /**
+     * Returns the suffix of the supplied string
+     *
+     * @param name
+     *            The name which might contain a suffix.
+     * @return The suffix without dot or null.
+     */
+    public static @NotNull String getSuffix(@NotNull String name) {
+        var lidx = name.lastIndexOf('.');
+        if (lidx == -1) {
+            return null;
+        }
+        return name.substring(lidx + 1);
+    }
+
+    /**
      * Changes the suffix for the supplied name. If the name doesn't provide a suffix it will be
      * appended.
      *
