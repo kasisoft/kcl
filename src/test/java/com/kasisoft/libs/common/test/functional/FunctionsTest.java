@@ -39,36 +39,6 @@ public class FunctionsTest {
     }
 
     @Test
-    public void adaptConsumerToTriConsumer() {
-
-        var builder     = new StringBuilder();
-        var triConsumer = Functions.adaptConsumerToTriConsumer($ -> builder.append($));
-
-        triConsumer.accept("Hello", "Bibo", "Suppe");
-        assertThat(builder.toString(), is("Hello"));
-
-        builder.setLength(0);
-        triConsumer.accept(null, "Bibo", "Suppe");
-        assertThat(builder.toString(), is("null"));
-
-    }
-
-    @Test
-    public void adaptBiConsumerToTriConsumer() {
-
-        var builder     = new StringBuilder();
-        var triConsumer = Functions.<String, String, String> adaptBiConsumerToTriConsumer(($a, $b) -> builder.append($a).append($b));
-
-        triConsumer.accept("Hello", "Bibo", "Suppe");
-        assertThat(builder.toString(), is("HelloBibo"));
-
-        builder.setLength(0);
-        triConsumer.accept(null, "Bibo", "Suppe");
-        assertThat(builder.toString(), is("nullBibo"));
-
-    }
-
-    @Test
     public void adaptFunctionToBiFunction() {
         var biFunction = Functions.adaptFunctionToBiFunction($ -> $);
         assertThat(biFunction.apply("Hello", "Bibo"), is("Hello"));
@@ -92,14 +62,6 @@ public class FunctionsTest {
     }
 
     @Test
-    public void adaptTriConsumerToBiConsumer() {
-        var builder     = new StringBuilder();
-        var triConsumer = Functions.adaptTriConsumerToBiConsumer(($a, $b, $_2) -> builder.append($a).append($b));
-        triConsumer.accept("Hello", "Bibo");
-        assertThat(builder.toString(), is("HelloBibo"));
-    }
-
-    @Test
     public void adaptBiFunctionToFunction() {
         var function = Functions.adaptBiFunctionToFunction(($a, $_) -> $a);
         assertThat(function.apply("Hello"), is("Hello"));
@@ -109,14 +71,6 @@ public class FunctionsTest {
     public void adaptBiConsumerToConsumer() {
         var builder  = new StringBuilder();
         var consumer = Functions.adaptBiConsumerToConsumer(($a, $_) -> builder.append($a));
-        consumer.accept("Hello");
-        assertThat(builder.toString(), is("Hello"));
-    }
-
-    @Test
-    public void adaptTriConsumerToConsumer() {
-        var builder  = new StringBuilder();
-        var consumer = Functions.adaptTriConsumerToConsumer(($a, $_1, $_2) -> builder.append($a));
         consumer.accept("Hello");
         assertThat(builder.toString(), is("Hello"));
     }

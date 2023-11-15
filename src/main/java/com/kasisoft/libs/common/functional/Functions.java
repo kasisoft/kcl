@@ -41,16 +41,6 @@ public class Functions {
     }
 
     @NotNull
-    public static <A, B, C> TriConsumer<A, B, C> adaptConsumerToTriConsumer(@NotNull Consumer<A> consumer) {
-        return ($a, $b, $c) -> consumer.accept($a);
-    }
-
-    @NotNull
-    public static <A, B, C> TriConsumer<A, B, C> adaptBiConsumerToTriConsumer(@NotNull BiConsumer<A, B> consumer) {
-        return ($a, $b, $c) -> consumer.accept($a, $b);
-    }
-
-    @NotNull
     public static <A, B, R> BiFunction<A, B, R> adaptFunctionToBiFunction(@NotNull Function<A, R> function) {
         return ($a, $b) -> function.apply($a);
     }
@@ -61,11 +51,6 @@ public class Functions {
     }
 
     @NotNull
-    public static <A, B> BiConsumer<A, B> adaptTriConsumerToBiConsumer(@NotNull TriConsumer<A, B, ?> consumer) {
-        return ($a, $b) -> consumer.accept($a, $b, null);
-    }
-
-    @NotNull
     public static <A, R> Function<A, R> adaptBiFunctionToFunction(@NotNull BiFunction<A, ?, R> function) {
         return $ -> function.apply($, null);
     }
@@ -73,11 +58,6 @@ public class Functions {
     @NotNull
     public static <A, B> Consumer<A> adaptBiConsumerToConsumer(@NotNull BiConsumer<A, ?> consumer) {
         return $ -> consumer.accept($, null);
-    }
-
-    @NotNull
-    public static <A> Consumer<A> adaptTriConsumerToConsumer(@NotNull TriConsumer<A, ?, ?> consumer) {
-        return $ -> consumer.accept($, null, null);
     }
 
     @NotNull

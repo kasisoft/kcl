@@ -4,7 +4,6 @@ import static com.kasisoft.libs.common.test.testsupport.ExtendedAsserts.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.kasisoft.libs.common.functional.*;
 import com.kasisoft.libs.common.constants.*;
 import com.kasisoft.libs.common.graphics.*;
 import com.kasisoft.libs.common.test.*;
@@ -69,7 +68,7 @@ public class GraphicsFunctionsTest {
         return result.stream();
     }
 
-    private <R> void readImage_writeImage(R source, PictureFormat outformat, Function<R, BufferedImage> loader, Function<Path, R> toDest, TriConsumer<R, BufferedImage, PictureFormat> saver) {
+    private <R> void readImage_writeImage(R source, PictureFormat outformat, Function<R, BufferedImage> loader, Function<Path, R> toDest, SaveImage<R> saver) {
         var image = loader.apply(source);
         assertNotNull(image);
         var tempPath = getTempPath(outformat);
@@ -119,7 +118,7 @@ public class GraphicsFunctionsTest {
         return panel;
     }
 
-    private <R> void writeImage__JComponent(PictureFormat outformat, Function<Path, R> toDest, TriConsumer<R, JComponent, PictureFormat> saver) {
+    private <R> void writeImage__JComponent(PictureFormat outformat, Function<Path, R> toDest, SaveImageByComponent<R> saver) {
         var tempPath = getTempPath(outformat);
         saver.accept(toDest.apply(tempPath), createJComponent(), outformat);
         assertTrue(Files.isRegularFile(tempPath));
@@ -289,5 +288,19 @@ public class GraphicsFunctionsTest {
             assertNotNull(image);
         }
     }
+
+    @FunctionalInterface
+    private static interface SaveImage<T> {
+
+        void accept(T source, BufferedImage image, PictureFormat format);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    private static interface SaveImageByComponent<T> {
+
+        void accept(T source, JComponent component, PictureFormat format);
+
+    } /* ENDINTERFACE */
 
 } /* ENDCLASS */

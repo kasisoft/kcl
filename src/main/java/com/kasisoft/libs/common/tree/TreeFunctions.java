@@ -45,7 +45,7 @@ public class TreeFunctions {
         return parenthesize(values, toPath, null);
     }
 
-    public static <T> NamedTreeNode<T> parenthesize(@NotNull List<T> values, @NotNull Function<T, String> toPath, TriConsumer<String, T, T> addChild) {
+    public static <T> NamedTreeNode<T> parenthesize(@NotNull List<T> values, @NotNull Function<T, String> toPath, HandleNodeIteration<T> addChild) {
 
         // create a list of named nodes first: the name is the leaf, the parents will be the parental segments of this nodes
         // tree path
@@ -63,7 +63,7 @@ public class TreeFunctions {
 
     }
 
-    private static <T> void iterate(@NotNull NamedTreeNode<T> node, int depth, @NotNull String prefix, @NotNull TriConsumer<String, T, T> addChild) {
+    private static <T> void iterate(@NotNull NamedTreeNode<T> node, int depth, @NotNull String prefix, @NotNull HandleNodeIteration<T> addChild) {
         for (var i = 0; i < node.getChildCount(); i++) {
             var child = (NamedTreeNode<T>) node.getChildAt(i);
             addChild.accept(depth == 0 ? "/" : prefix, depth == 0 ? null : node.getValue(), child.getValue());
@@ -99,5 +99,12 @@ public class TreeFunctions {
             - offset);
         forTreeNodeDo(values, toPath, skipArtificialRoot, handleTreeNode);
     }
+
+    @FunctionalInterface
+    public static interface HandleNodeIteration<T> {
+
+        void accept(String path, T parent, T child);
+
+    } /* ENDINTERFACE */
 
 } /* ENDCLASS */
