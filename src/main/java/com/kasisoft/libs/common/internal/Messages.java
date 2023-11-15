@@ -114,9 +114,6 @@ public class Messages {
     @I18N("Invalid decoded value: '%s'")
     public static String     error_invalid_decoded_value;
 
-    @I18N("Invalid encoded value: '%s'")
-    public static String     error_invalid_encoded_value;
-
     @I18N("%s is not supported. Allowed values: %s")
     public static String     error_invalid_enumeration_value;
 
