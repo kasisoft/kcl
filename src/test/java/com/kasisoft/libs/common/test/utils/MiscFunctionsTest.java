@@ -1,13 +1,8 @@
 package com.kasisoft.libs.common.test.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.types.*;
-import com.kasisoft.libs.common.utils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.params.provider.*;
 
@@ -15,13 +10,15 @@ import org.junit.jupiter.params.*;
 
 import org.junit.jupiter.api.*;
 
+import com.kasisoft.libs.common.utils.*;
+
+import java.time.*;
+
 import java.util.function.*;
 
 import java.util.stream.*;
 
 import java.util.*;
-
-import java.time.*;
 
 /**
  * Test for various functions of the class 'MiscFunctions'.
@@ -80,20 +77,19 @@ public class MiscFunctionsTest {
 
     @Test
     public void joinThread() {
-        final var outparam = new OutParam<>(Boolean.FALSE);
+        final StringBuilder out = new StringBuilder("false");
         Runnable  runnable = new Runnable() {
-
-                               @Override
-                               public void run() {
-                                   MiscFunctions.sleep(10000);
-                                   outparam.setValue(Boolean.TRUE);
-                               }
-
-                           };
-        var       thread   = new Thread(runnable);
+             @Override
+             public void run() {
+                 MiscFunctions.sleep(10000);
+                 out.setLength(0);
+                 out.append("true");
+             }
+        };
+        var thread = new Thread(runnable);
         thread.start();
         MiscFunctions.joinThread(thread);
-        assertThat(outparam.getValue(), is(Boolean.TRUE));
+        assertThat(out.toString(), is("true"));
     }
 
     private static <T> Stream<Arguments> createLeapYearTests(Function<Integer, T> year2Info) {
