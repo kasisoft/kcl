@@ -9,7 +9,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class Buckets {

@@ -11,18 +11,14 @@ import java.lang.ref.*;
 /**
  * Collector for often used objects like collections, maps etc. .
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Buffer<T> {
 
     private List<SoftReference<T>> references;
-
     private List<Integer>          lengths;
-
     private Function<Integer, T>   creator;
-
     private Function<T, Integer>   getLength;
-
     private Consumer<T>            reset;
 
     /**
@@ -61,7 +57,8 @@ public class Buffer<T> {
      *
      * @return A new object. The returned object might be larget than requested.
      */
-    public @NotNull T allocate(int size) {
+    @NotNull
+    public T allocate(int size) {
         T result = null;
         synchronized (references) {
             while ((result == null) && (!references.isEmpty())) {
@@ -134,6 +131,7 @@ public class Buffer<T> {
      *            The function that is supposed to be executed.
      * @return The return value of the supplied function.
      */
+    @NotNull
     public <R> R forInstance(int size, @NotNull Function<T, R> function) {
         T instance = allocate(size);
         try {
@@ -152,6 +150,7 @@ public class Buffer<T> {
      *            An additional parameter for the function.
      * @return The return value of the supplied function.
      */
+    @NotNull
     public <R, P> R forInstance(int size, @NotNull BiFunction<T, P, R> function, P param) {
         T instance = allocate(size);
         try {

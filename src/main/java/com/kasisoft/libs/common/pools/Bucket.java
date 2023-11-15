@@ -11,14 +11,12 @@ import java.lang.ref.*;
 /**
  * Collector for often used objects like collections, maps etc. .
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Bucket<T> {
 
     private List<SoftReference<T>> references;
-
     private Supplier<T>            creator;
-
     private Consumer<T>            reset;
 
     /**
@@ -56,7 +54,8 @@ public class Bucket<T> {
      *
      * @return A new object.
      */
-    public @NotNull T allocate() {
+    @NotNull
+    public T allocate() {
         T result = null;
         synchronized (references) {
             while ((result == null) && (!references.isEmpty())) {
@@ -93,6 +92,7 @@ public class Bucket<T> {
      *            The function that is supposed to be executed.
      * @return The return value of the supplied function.
      */
+    @NotNull
     public <R> R forInstance(@NotNull Function<T, R> function) {
         T instance = allocate();
         try {
@@ -111,6 +111,7 @@ public class Bucket<T> {
      *            An additional parameter for the function.
      * @return The return value of the supplied function.
      */
+    @NotNull
     public <R, P> R forInstance(@NotNull BiFunction<T, P, R> function, P param) {
         T instance = allocate();
         try {

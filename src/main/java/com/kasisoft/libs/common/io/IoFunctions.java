@@ -135,7 +135,7 @@ public class IoFunctions {
     }
 
     public static void copy(@NotNull InputStream instream, @NotNull OutputStream outstream, @Min(1) int blockSize) {
-        Buffers.BYTES.forInstanceDo(blockSize, $ -> {
+        Buffers.byteArray().forInstanceDo(blockSize, $ -> {
             try {
                 int read = instream.read($);
                 while (read != -1) {
@@ -155,7 +155,7 @@ public class IoFunctions {
     }
 
     public static void copy(@NotNull Reader reader, @NotNull Writer writer, @Min(1) int blockSize) {
-        Buffers.CHARS.forInstanceDo(blockSize, $ -> {
+        Buffers.charArray().forInstanceDo(blockSize, $ -> {
             try {
                 int read = reader.read($);
                 while (read != -1) {
