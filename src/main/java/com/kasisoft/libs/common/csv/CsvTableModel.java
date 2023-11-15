@@ -4,19 +4,22 @@ import static com.kasisoft.libs.common.internal.Messages.*;
 
 import com.kasisoft.libs.common.functional.*;
 
-import com.kasisoft.libs.common.utils.*;
+import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
+import com.kasisoft.libs.common.converters.*;
 
 import jakarta.validation.constraints.*;
+
+import javax.swing.table.*;
+
+import javax.swing.event.*;
+
+import javax.swing.*;
 
 import java.util.function.*;
 
@@ -31,63 +34,39 @@ import java.io.*;
 /**
  * A TableModel implementation that can be fed by CSV data.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class CsvTableModel implements TableModel {
 
     private static final char    CR             = '\r';
-
     private static final char    DQ             = '\"';
-
     private static final char    LF             = '\n';
-
     private static final char    SQ             = '\'';
-
     private static final String  CR_STR         = "\r";
-
     private static final String  DQ_STR         = "\"";
-
     private static final String  LF_STR         = "\n";
-
     private static final String  SQ_STR         = "\'";
-
     private static final String  CRLF_STR       = "\r\n";
-
     private static final String  DEFVAL_STRING  = "";
-
-    private static final Double  DEFVAL_DOUBLE  = Double.valueOf(0);
-
-    private static final Float   DEFVAL_FLOAT   = Float.valueOf(0);
-
-    private static final Long    DEFVAL_LONG    = Long.valueOf(0);
-
-    private static final Integer DEFVAL_INTEGER = Integer.valueOf(0);
-
-    private static final Short   DEFVAL_SHORT   = Short.valueOf((short) 0);
-
-    private static final Byte    DEFVAL_BYTE    = Byte.valueOf((byte) 0);
-
-    private static final Boolean DEFVAL_BOOLEAN = Boolean.FALSE;
+    private static final Double  DEFVAL_DOUBLE  = 0.;
+    private static final Float   DEFVAL_FLOAT   = 0.f;
+    private static final Long    DEFVAL_LONG    = 0L;
+    private static final Integer DEFVAL_INTEGER = 0;
+    private static final Short   DEFVAL_SHORT   = 0;
+    private static final Byte    DEFVAL_BYTE    = 0;
+    private static final Boolean DEFVAL_BOOLEAN = false;
 
     private enum ContentType {
-
         LINE_DELIMITER, SEPARATOR, CONTENT;
-
     } /* ENDENUM */
 
     private CsvOptions        options;
-
     private DefaultTableModel tableModel;
-
     private EventListenerList listeners;
-
     private Consumer<String>  ehInvalidCellValue;
-
     private Consumer<String>  ehColumnSpecWithoutAdapter;
-
     private Consumer<String>  ehInconsistentColumnCount;
-
     private Consumer<String>  ehInvalidAddRow;
 
     private CsvTableModel() {
@@ -106,7 +85,8 @@ public class CsvTableModel implements TableModel {
         options.columns().forEach($ -> tableModel.addColumn($.title()));
     }
 
-    public @NotNull CsvOptions getOptions() {
+    @NotNull
+    public CsvOptions getOptions() {
         return options;
     }
 
@@ -114,14 +94,40 @@ public class CsvTableModel implements TableModel {
         tableModel.removeRow(row);
     }
 
-    public synchronized void removeRow(Predicate<Object[]> isValid) {
-        var start = options.titleRow() ? 1 : 0;
+    private int firstRow(boolean allRows) {
+        return allRows || !options.titleRow() ? 0 : 1;
+    }
+
+    private void iterateRowsReverseDo(boolean allRows, Consumer<Integer> handleIdx) {
+        var start = firstRow(allRows);
         for (var i = tableModel.getRowCount() - 1; i >= start; i--) {
-            var row = tableModel.getDataVector().get(i);
-            if (!isValid.test(row.toArray())) {
-                tableModel.removeRow(i);
-            }
+            handleIdx.accept(i);
         }
+    }
+
+    private void iterateRowsDo(boolean allRows, Consumer<Integer> handleIdx) {
+        var start = firstRow(allRows);
+        for (var i = start; i < tableModel.getRowCount(); i++) {
+            handleIdx.accept(i);
+        }
+    }
+
+    private <R> R iterateRows(boolean allRows, R initial, BiFunction<Integer, R, R> handleIdx) {
+        var result  = initial;
+        var start   = firstRow(allRows);
+        for (var i = start; i < tableModel.getRowCount(); i++) {
+            result = handleIdx.apply(i, result);
+        }
+        return result;
+    }
+
+    public synchronized void removeRow(Predicate<Object[]> isValid) {
+        iterateRowsReverseDo(false, $idx -> {
+            var row = tableModel.getDataVector().get($idx);
+            if (!isValid.test(row.toArray())) {
+                tableModel.removeRow($idx);
+            }
+        });
     }
 
     public synchronized <I> void forEach(Consumer<I> rowConsumer, String column) {
@@ -129,12 +135,11 @@ public class CsvTableModel implements TableModel {
     }
 
     public synchronized <C, I> void forEach(BiConsumer<I, C> rowConsumer, C context, String column) {
-        var start  = options.titleRow() ? 1 : 0;
         var mapRow = getObjects(column);
-        for (var i = start; i < tableModel.getRowCount(); i++) {
-            var row = tableModel.getDataVector().get(i);
+        iterateRowsDo(false, $idx -> {
+            var row = tableModel.getDataVector().get($idx);
             rowConsumer.accept((I) mapRow.apply(row)[0], context);
-        }
+        });
     }
 
     public synchronized void forEach(Consumer<Object[]> rowConsumer, String ... columns) {
@@ -142,37 +147,33 @@ public class CsvTableModel implements TableModel {
     }
 
     public synchronized <C> void forEach(BiConsumer<Object[], C> rowConsumer, C context, String ... columns) {
-        var start  = options.titleRow() ? 1 : 0;
         var mapRow = getObjects(columns);
-        for (var i = start; i < tableModel.getRowCount(); i++) {
-            var row = tableModel.getDataVector().get(i);
+        iterateRowsDo(false, $idx -> {
+            var row = tableModel.getDataVector().get($idx);
             rowConsumer.accept(mapRow.apply(row), context);
-        }
+        });
     }
 
     public synchronized <R, I> R reduce(R initial, BiFunction<R, I, R> operator, String column) {
-        var result = initial;
-        var start  = options.titleRow() ? 1 : 0;
         var mapRow = getObjects(column);
-        for (var i = start; i < tableModel.getRowCount(); i++) {
-            var row = tableModel.getDataVector().get(i);
-            result = operator.apply(result, (I) mapRow.apply(row)[0]);
-        }
-        return result;
+        return this.iterateRows(false, initial, ($idx, $result) -> {
+            var row = tableModel.getDataVector().get($idx);
+            $result = operator.apply($result, (I) mapRow.apply(row)[0]);
+            return $result;
+        });
     }
 
-    public synchronized <R> @NotNull R reduce(R initial, BiFunction<R, Object[], R> operator, String ... columns) {
-        var result = initial;
-        var start  = options.titleRow() ? 1 : 0;
+    public synchronized <R> R reduce(R initial, BiFunction<R, Object[], R> operator, String ... columns) {
         var mapRow = getObjects(columns);
-        for (var i = start; i < tableModel.getRowCount(); i++) {
-            var row = tableModel.getDataVector().get(i);
-            result = operator.apply(result, mapRow.apply(row));
-        }
-        return result;
+        return this.iterateRows(false, initial, ($idx, $result) -> {
+            var row = tableModel.getDataVector().get($idx);
+            $result = operator.apply($result, mapRow.apply(row));
+            return $result;
+        });
     }
 
-    private @NotNull Function<Vector, Object[]> getObjects(String ... columns) {
+    @NotNull
+    private Function<Vector, Object[]> getObjects(String ... columns) {
         if ((columns == null) || (columns.length == 0)) {
             return $ -> $.toArray();
         } else {
@@ -191,16 +192,15 @@ public class CsvTableModel implements TableModel {
         }
     }
 
-    public synchronized @Min(0) int getColumnIndex(@NotBlank String columnName) {
-        var result = -1;
+    @Min(0)
+    public synchronized int getColumnIndex(@NotBlank String columnName) {
         for (int i = 0; i < getColumnCount(); i++) {
-            String colName = tableModel.getColumnName(i);
+            var colName = tableModel.getColumnName(i);
             if (columnName.equals(colName)) {
-                result = i;
-                break;
+                return i;
             }
         }
-        return result;
+        return -1;
     }
 
     public synchronized boolean isValidColumn(@Min(0) int column) {
@@ -223,10 +223,11 @@ public class CsvTableModel implements TableModel {
 
     public synchronized void removeColumn(@Min(0) int column) {
         if (isValidColumn(column)) {
-            for (var row = 0; row < tableModel.getRowCount(); row++) {
-                var rowData = tableModel.getDataVector().get(row);
+            iterateRowsDo(true, $idx -> {
+                var rowData = tableModel.getDataVector().get($idx);
                 rowData.remove(column);
-            }
+
+            });
             options.columns().remove(column);
         }
     }
@@ -253,15 +254,15 @@ public class CsvTableModel implements TableModel {
             options.columns().add(newColumn);
             var idxMax = Math.max(column1, column2);
             var idxMin = Math.min(column1, column2);
-            for (var row = 0; row < tableModel.getRowCount(); row++) {
-                var rowData = tableModel.getDataVector().get(row);
+            iterateRowsDo(true, $idx -> {
+                var rowData = tableModel.getDataVector().get($idx);
                 var left    = (L) rowData.get(column1);
                 var right   = (R) rowData.get(column2);
                 var joined  = joiner.apply(left, right);
                 rowData.add(joined);
                 rowData.remove(idxMax);
                 rowData.remove(idxMin);
-            }
+            });
             options.columns().remove(idxMax);
             options.columns().remove(idxMin);
         }
@@ -310,6 +311,7 @@ public class CsvTableModel implements TableModel {
      *            The options that do provide the default setup.
      * @return A validated copy of csv options.
      */
+    @NotNull
     private CsvOptions validateOptions(@NotNull CsvOptions options) {
         var result = options.deepCopy();
         for (var i = 0; i < result.columns().size(); i++) {
@@ -331,7 +333,8 @@ public class CsvTableModel implements TableModel {
      *            The source providing the csv data
      * @return A normalized table of csv data.
      */
-    private @NotNull List<List<String>> loadCellData(@NotNull InputStream source) {
+    @NotNull
+    private List<List<String>> loadCellData(@NotNull InputStream source) {
         if (options.simpleFormat()) {
             return loadCellDataSimple(source);
         } else {
@@ -342,14 +345,18 @@ public class CsvTableModel implements TableModel {
     private @NotNull List<List<String>> loadCellDataDefault(InputStream source) {
 
         /*
-         * The import follows these steps: 1. Read the complete csv as a single text. 2. Convert this text
-         * into a sequence of tokens. 3. Normalize these tokens. 4. Split these tokens across the lines.
-         * Drops the line separator tokens. 5. Add missing column values (f.e. two succeeding separators).
-         * 6. Drop all separators. 7. Turn the remaining content cells into Strings again.
+         * The import follows these steps:
+         *      1. Read the complete csv as a single text.
+         *      2. Convert this text into a sequence of tokens.
+         *      3. Normalize these tokens.
+         *      4. Split these tokens across the lines.
+         *         Drops the line separator tokens.
+         *      5. Add missing column values (f.e. two succeeding separators).
+         *      6. Drop all separators.
+         *      7. Turn the remaining content cells into Strings again.
          */
 
         var text        = readContent(source);
-
         var tokenized   = tokenize(text).parallelStream().map(this::toContent).map(this::normalize).collect(Collectors.toList());
 
         // fetch all lines and add potentially missing column data
@@ -361,11 +368,15 @@ public class CsvTableModel implements TableModel {
 
     }
 
-    private @NotNull List<List<String>> loadCellDataSimple(@NotNull InputStream source) {
+    @NotNull
+    private List<List<String>> loadCellDataSimple(@NotNull InputStream source) {
 
         /*
-         * The import follows these steps: 1. Read the complete csv as a single text. 2. Remember the title
-         * row if any. 3. Split all lines assuming they are well formed. 4. Insert the title row.
+         * The import follows these steps:
+         *      1. Read the complete csv as a single text.
+         *      2. Remember the title row if any.
+         *      3. Split all lines assuming they are well formed.
+         *      4. Insert the title row.
          */
 
         var    text     = readContent(source).toString();
@@ -376,16 +387,15 @@ public class CsvTableModel implements TableModel {
             titleRow = lines.remove(0);
         }
 
-        List<List<String>> result = (options.orderedSimpleFormat() ? lines.stream()
-            : lines.parallelStream()).map(this::tokenizeSimple).collect(Collectors.toList());
+        var result = (options.orderedSimpleFormat() ? lines.stream() : lines.parallelStream()).map(this::tokenizeSimple).collect(Collectors.toList());
 
         if (titleRow != null) {
             result.add(0, tokenizeSimple(titleRow));
         }
 
-        int max = result.parallelStream().map($ -> $.size()).reduce(result.get(0).size(), Math::max).intValue();
+        int maxCols = result.parallelStream().map($ -> $.size()).reduce(result.get(0).size(), Math::max).intValue();
 
-        result.parallelStream().filter($ -> $.size() < max).forEach($ -> fillUp($, max));
+        result.parallelStream().filter($ -> $.size() < maxCols).forEach($ -> fillUp($, maxCols));
 
         return result;
 
@@ -404,9 +414,10 @@ public class CsvTableModel implements TableModel {
      *            The {@link InputStream} instance.
      * @return The {@link StringBuilder} providing the text.
      */
-    private @NotNull StringBuilder readContent(@NotNull InputStream source) {
+    @NotNull
+    private StringBuilder readContent(@NotNull InputStream source) {
         var writer = new CharArrayWriter();
-        IoFunctions.forReaderDo(source, options.encoding(), $ -> IoFunctions.copy($, writer));
+        IoFunctions.forReaderDo(source, options.encoding(), $reader -> IoFunctions.copy($reader, writer));
         return new StringBuilder(writer.toString());
     }
 
@@ -417,7 +428,8 @@ public class CsvTableModel implements TableModel {
      *            The full text.
      * @return A list of tokens.
      */
-    private @NotNull List<String> tokenize(@NotNull StringBuilder text) {
+    @NotNull
+    private List<String> tokenize(@NotNull StringBuilder text) {
         var result = new ArrayList<String>(Math.min(5, text.length() / 5));
         while (text.length() > 0) {
             consume(result, text);
@@ -432,14 +444,14 @@ public class CsvTableModel implements TableModel {
         for (int i = 0; i < text.length(); i++) {
 
             var first = text.charAt(i);
-            if ((first == DQ) && options.consumeDoubleQuotes()) {
+            if (options.consumeDoubleQuotes() && (first == DQ)) {
                 var close = text.indexOf(DQ, i + 1);
                 if (close == -1) {
                     throw new KclException(error_csv_missing_closing_quote, text);
                 }
                 result.add(text.substring(i + 1, close));
                 i = close + 1;
-            } else if ((first == SQ) && options.consumeSingleQuotes()) {
+            } else if (options.consumeSingleQuotes() && (first == SQ)) {
                 var close = text.indexOf(SQ, i + 1);
                 if (close == -1) {
                     throw new KclException(error_csv_missing_closing_quote, text);
@@ -464,7 +476,7 @@ public class CsvTableModel implements TableModel {
     }
 
     /**
-     * This method replaces sequences of LF, WHITESPACE*, LF to LF. Such sequences can occure if the csv
+     * This method replaces sequences of LF, WHITESPACE*, LF to LF. Such sequences can occur if the csv
      * contains empty lines where some lines contain whitespace characters. Those lines are of no
      * interest for the csv content.
      *
@@ -476,9 +488,8 @@ public class CsvTableModel implements TableModel {
             var current = result.get(i);
             var between = result.get(j);
             var before  = result.get(k);
-            if ((current.length() == 1) && (before.length() == 1) && (current.charAt(0) == LF)
-                && (before.charAt(0) == LF)) {
-                if (between.trim().length() == 0) {
+            if ((current.length() == 1) && (before.length() == 1) && (current.charAt(0) == LF) && (before.charAt(0) == LF)) {
+                if (between.isBlank()) {
                     result.remove(i);
                     result.remove(j);
                     i = k;
@@ -501,9 +512,9 @@ public class CsvTableModel implements TableModel {
         var first = content.charAt(0);
         if ((first == CR) || (first == LF)) {
             consumeCRLF(receiver, content);
-        } else if ((first == DQ) && options.consumeDoubleQuotes()) {
+        } else if (options.consumeDoubleQuotes() && (first == DQ)) {
             consumeQuoted(receiver, content, first, DQ_STR);
-        } else if ((first == SQ) && options.consumeSingleQuotes()) {
+        } else if (options.consumeSingleQuotes() && (first == SQ)) {
             consumeQuoted(receiver, content, first, SQ_STR);
         } else if (first == options.delimiter()) {
             consumeCellSeparator(receiver, content);
@@ -623,7 +634,8 @@ public class CsvTableModel implements TableModel {
      *            The current token data.
      * @return The tokenized content.
      */
-    private @NotNull Content toContent(String data) {
+    @NotNull
+    private Content toContent(String data) {
         var type = ContentType.CONTENT;
         if ((data != null) && (data.length() < 2)) {
             if (data.charAt(0) == options.delimiter()) {
@@ -659,10 +671,10 @@ public class CsvTableModel implements TableModel {
             }
             if (result.data != null) {
                 var ch = result.data.charAt(0);
-                if ((ch == DQ) && options.consumeDoubleQuotes()) {
+                if (options.consumeDoubleQuotes() && (ch == DQ)) {
                     result.data = result.data.substring(1, result.data.length() - 1);
                     result.data = StringFunctions.replaceLiterallyAll(result.data, DQ_STR + DQ_STR, DQ_STR);
-                } else if ((ch == SQ) && options.consumeSingleQuotes()) {
+                } else if (options.consumeSingleQuotes() && (ch == SQ)) {
                     result.data = result.data.substring(1, result.data.length() - 1);
                     result.data = StringFunctions.replaceLiterallyAll(result.data, SQ_STR + SQ_STR, SQ_STR);
                 }
@@ -683,7 +695,8 @@ public class CsvTableModel implements TableModel {
      *            The full sequence of tokens.
      * @return A table structured sequence of tokens.
      */
-    private @NotNull List<List<Content>> partition(@NotNull List<Content> content) {
+    @NotNull
+    private List<List<Content>> partition(@NotNull List<Content> content) {
         var             result   = new ArrayList<List<Content>>();
         var             line     = new ArrayList<Content>();
         Predicate<List> isfilled = options.maxLines() != -1 ? $ -> $.size() >= options.maxLines() : $ -> false;
@@ -725,15 +738,20 @@ public class CsvTableModel implements TableModel {
     private void artificialContent(@NotNull List<List<Content>> lines) {
 
         // there's always a first column, so if a line starts with a separator insert one at the first position
-        lines.parallelStream().filter($ -> $.get(0).type == ContentType.SEPARATOR).forEach($ -> $.add(0, new Content(null, ContentType.CONTENT)));
+        lines.parallelStream()
+            .filter($ -> $.get(0).type == ContentType.SEPARATOR)
+            .forEach($ -> $.add(0, new Content(null, ContentType.CONTENT)))
+            ;
 
         // there's always a last column, so if a line ends with a separator insert one at the last position
-        lines.parallelStream().filter($ -> $.get($.size() - 1).type == ContentType.SEPARATOR)
+        lines.parallelStream()
+            .filter($ -> $.get($.size() - 1).type == ContentType.SEPARATOR)
             // there's always a last column
-            .forEach($ -> $.add(new Content(null, ContentType.CONTENT)));
+            .forEach($ -> $.add(new Content(null, ContentType.CONTENT)))
+            ;
 
         // insert a column if there are subsequence separators
-        lines.parallelStream().forEach(this::extendDuplicateDelimiters);
+        lines.forEach(this::extendDuplicateDelimiters);
 
         if (options.fillMissingColumns()) {
             var maxcolumns = lines.parallelStream().mapToInt($ -> $.size()).reduce(0, Math::max);
@@ -786,8 +804,9 @@ public class CsvTableModel implements TableModel {
      *            The tabular structured tokens.
      * @return The textual tabular structure.
      */
-    private @NotNull List<List<String>> cleanup(@NotNull List<List<Content>> lines) {
-        lines.parallelStream().forEach(this::removeSeparators);
+    @NotNull
+    private List<List<String>> cleanup(@NotNull List<List<Content>> lines) {
+        lines.forEach(this::removeSeparators);
         return lines.stream().map(this::unwrap).collect(Collectors.toList());
     }
 
@@ -798,7 +817,8 @@ public class CsvTableModel implements TableModel {
      *            The line providing the tokens.
      * @return The line providing the corresponding textual cell values.
      */
-    private @NotNull List<String> unwrap(@NotNull List<Content> line) {
+    @NotNull
+    private List<String> unwrap(@NotNull List<Content> line) {
         return line.stream().map($ -> $.data).map(StringFunctions::cleanup).collect(Collectors.toList());
     }
 
@@ -860,23 +880,21 @@ public class CsvTableModel implements TableModel {
     /**
      * Saves the csv data to the supplied location.
      *
-     * @note [28-Sep-2016:KASI] Doesn't support encoding yet.
      * @param dest
      *            The destination for the csv data.
      */
-    public synchronized void save(@NotNull Path dest) {
-        IoFunctions.forOutputStreamDo(dest, this::save);
+    public synchronized void save(@NotNull Path dest, Encoding encoding) {
+        IoFunctions.forOutputStreamDo(dest, $ -> save($, encoding));
     }
 
     /**
      * Saves the csv data to the supplied location.
      *
-     * @note [28-Sep-2016:KASI] Doesn't support encoding yet.
      * @param dest
      *            The destination for the csv data.
      */
-    public synchronized void save(@NotNull Path dest, @NotNull Function<String, String> overrideName) {
-        IoFunctions.forOutputStreamDo(dest, $ -> save($, overrideName));
+    public synchronized void save(@NotNull Path dest, @NotNull Function<String, String> overrideName, Encoding encoding) {
+        IoFunctions.forOutputStreamDo(dest, $ -> save($, overrideName, encoding));
     }
 
     /**
@@ -885,8 +903,8 @@ public class CsvTableModel implements TableModel {
      * @param dest
      *            The {@link OutputStream} receceiving the csv data.
      */
-    public synchronized void save(@NotNull OutputStream dest) {
-        save(dest, null);
+    public synchronized void save(@NotNull OutputStream dest, Encoding encoding) {
+        save(dest, null, encoding);
     }
 
     /**
@@ -895,15 +913,18 @@ public class CsvTableModel implements TableModel {
      * @param dest
      *            The {@link OutputStream} receceiving the csv data.
      */
-    public synchronized void save(@NotNull OutputStream dest, @NotNull Function<String, String> overrideName) {
-        try (var writer = new PrintWriter(new OutputStreamWriter(dest, "UTF-8"))) {
-            writeColumnTitles(writer, overrideName);
-            for (var i = 0; i < getRowCount(); i++) {
-                writeRow(writer, i);
-            }
-        } catch (Exception ex) {
-            throw KclException.wrap(ex);
+    public synchronized void save(@NotNull OutputStream dest, @NotNull Function<String, String> overrideName, Encoding encoding) {
+        if (encoding == null) {
+            encoding = Encoding.UTF8;
         }
+        IoFunctions.forWriterDo(dest, encoding, $writer -> {
+            try (var printer = new PrintWriter($writer)) {
+                writeColumnTitles(printer, overrideName);
+                for (var i = 0; i < getRowCount(); i++) {
+                    writeRow(printer, i);
+                }
+            }
+        });
     }
 
     private void writeColumnTitles(@NotNull PrintWriter writer, @NotNull Function<String, String> overrideName) {
@@ -923,12 +944,12 @@ public class CsvTableModel implements TableModel {
     }
 
     private void writeRow(@NotNull PrintWriter writer, int row) {
-        var last = getColumnCount() - 1;
-        for (var i = 0; i < getColumnCount(); i++) {
-            writer.append("\"%s\"".formatted(getValueAt(row, i)));
-            if (i < last) {
-                writer.append(options.delimiter());
+        if (getColumnCount() > 0) {
+            writer.append("\"%s\"".formatted(getValueAt(row, 0)));
+            for (var i = 1; i < getColumnCount(); i++) {
+                writer.append("%s\"%s\"".formatted(options.delimiter(), getValueAt(row, i)));
             }
+
         }
         writer.append("\n");
     }
@@ -977,7 +998,8 @@ public class CsvTableModel implements TableModel {
      *            The current csv data.
      * @return A list of titles per column.
      */
-    private @NotNull List<String> getTitles(int columns, @NotNull List<List<String>> content) {
+    @NotNull
+    private List<String> getTitles(int columns, @NotNull List<List<String>> content) {
 
         var result = new ArrayList<String>(columns);
 
@@ -1064,24 +1086,24 @@ public class CsvTableModel implements TableModel {
             nullable = values.contains(null);
             values.remove(null);
 
-            result = process(values, nullable, Predicates.IS_BOOLEAN, MiscFunctions::parseBoolean, Boolean.class, DEFVAL_BOOLEAN);
+            result = process(values, nullable, Predicates.IS_BOOLEAN, TypeConverters::convertStringToBoolean, Boolean.class, DEFVAL_BOOLEAN);
             if (result == null) {
-                result = process(values, nullable, Predicates.IS_BYTE, MiscFunctions::parseByte, Byte.class, DEFVAL_BYTE);
+                result = process(values, nullable, Predicates.IS_BYTE, TypeConverters::convertStringToByte, Byte.class, DEFVAL_BYTE);
             }
             if (result == null) {
-                result = process(values, nullable, Predicates.IS_SHORT, MiscFunctions::parseShort, Short.class, DEFVAL_SHORT);
+                result = process(values, nullable, Predicates.IS_SHORT, TypeConverters::convertStringToShort, Short.class, DEFVAL_SHORT);
             }
             if (result == null) {
-                result = process(values, nullable, Predicates.IS_INTEGER, MiscFunctions::parseInt, Integer.class, DEFVAL_INTEGER);
+                result = process(values, nullable, Predicates.IS_INTEGER, TypeConverters::convertStringToInteger, Integer.class, DEFVAL_INTEGER);
             }
             if (result == null) {
-                result = process(values, nullable, Predicates.IS_LONG, MiscFunctions::parseLong, Long.class, DEFVAL_LONG);
+                result = process(values, nullable, Predicates.IS_LONG, TypeConverters::convertStringToLong, Long.class, DEFVAL_LONG);
             }
             if (result == null) {
-                result = process(values, nullable, Predicates.IS_FLOAT, MiscFunctions::parseFloat, Float.class, DEFVAL_FLOAT);
+                result = process(values, nullable, Predicates.IS_FLOAT, TypeConverters::convertStringToFloat, Float.class, DEFVAL_FLOAT);
             }
             if (result == null) {
-                result = process(values, nullable, Predicates.IS_DOUBLE, MiscFunctions::parseDouble, Double.class, DEFVAL_DOUBLE);
+                result = process(values, nullable, Predicates.IS_DOUBLE, TypeConverters::convertStringToDouble, Double.class, DEFVAL_DOUBLE);
             }
 
         }

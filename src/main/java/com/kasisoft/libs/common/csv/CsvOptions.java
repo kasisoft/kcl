@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * A collection of options used for the csv processing.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings("rawtypes")
 public record CsvOptions(
