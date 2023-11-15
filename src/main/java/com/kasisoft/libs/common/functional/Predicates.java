@@ -214,8 +214,11 @@ public class Predicates {
 
         @Override
         public boolean test(@NotNull String classname) {
-            // to be more accurate: split segments and make sure that the segments aren't keywords
-            return PATTERN.matcher(classname).matches();
+            if (!classname.endsWith(".class")) {
+                // to be more accurate: split segments and make sure that the segments aren't keywords
+                return PATTERN.matcher(classname).matches();
+            }
+            return false;
         }
 
     } /* ENDCLASS */
