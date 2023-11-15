@@ -1,15 +1,11 @@
 package com.kasisoft.libs.common.data;
 
-import com.kasisoft.libs.common.types.*;
-
+import com.kasisoft.libs.common.*;
 import com.kasisoft.libs.common.csv.*;
 
-import com.kasisoft.libs.common.io.*;
-
-import com.kasisoft.libs.common.*;
+import jakarta.validation.constraints.*;
 
 import javax.sql.*;
-import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
@@ -25,42 +21,30 @@ import java.sql.*;
 @SuppressWarnings("rawtypes")
 public class DbConnection implements AutoCloseable {
 
-    private Connection                               connection;
-    private Database                                 database;
-    private Consumer<Exception>                      errorHandler;
-    private Map<String, PreparedStatement>           queries;
-    private List<String>                             tableNames;
-    private Map<String, List<String>>                columnNames;
-    private Map<String, List<Pair<String, Integer>>> columnTypes;
-    private Map<String, List<CsvColumn>>             columnSpecs;
-    private Closer                                   closer;
-
-    /**
-     * Sets up the connection which will be opened right away.
-     *
-     * @param configuration
-     *            The configuration for the connection.
-     */
-    public DbConnection(@NotNull DbConfig configuration) {
-        this(configuration, true);
-    }
+    private Connection                          connection;
+    private DatabaseMetaData                    metadata;
+    private Database                            database;
+    private Map<String, PreparedStatement>      queries;
+    private List<String>                        tableNames;
+    private Map<String, List<String>>           columnNames;
+    private Map<String, List<ColumnType>>       columnTypes;
+    private Map<String, List<CsvColumn>>        columnSpecs;
 
     /**
      * Sets up the connection which will be opened right away.
      *
      * @param config
      *            The configuration for the connection.
-     * @param cache
-     *            <code>true</code> <=> Use a primitive internal cache (no eviction policies here).
      */
-    public DbConnection(@NotNull DbConfig config, boolean cache) {
-        init(config.db(), cache);
+    public DbConnection(@NotNull DbConfig config) {
+        init(config.db());
         try {
             if (config.username() != null) {
                 connection = config.db().getConnection(config.url(), config.username(), config.password());
             } else {
                 connection = config.db().getConnection(config.url());
             }
+            metadata = connection.getMetaData();
         } catch (Exception ex) {
             throw KclException.wrap(ex);
         }
@@ -71,34 +55,24 @@ public class DbConnection implements AutoCloseable {
      *
      * @param dataSource
      *            The DataSource used to provide access to the database.
-     * @param cache
-     *            <code>true</code> <=> Use a primitive internal cache (no eviction policies here).
      */
-    public DbConnection(Database db, @NotNull DataSource dataSource, boolean cache) {
-        init(db, cache);
+    public DbConnection(Database db, @NotNull DataSource dataSource) {
+        init(db);
         try {
             connection = dataSource.getConnection();
+            metadata   = connection.getMetaData();
         } catch (Exception ex) {
             throw KclException.wrap(ex);
         }
     }
 
-    @NotNull
-    public DbConnection withErrorHandler(@NotNull Consumer<Exception> errorHandler) {
-        this.errorHandler = errorHandler;
-        this.closer       = closer.withErrorHandler(errorHandler);
-        return this;
-    }
-
-    private void init(@NotNull Database db, boolean cache) {
+    private void init(@NotNull Database db) {
         database     = db;
         tableNames   = new ArrayList<>();
-        columnNames  = cache ? new HashMap<>() : new Uncacheable<>();
-        columnTypes  = cache ? new HashMap<>() : new Uncacheable<>();
-        columnSpecs  = cache ? new HashMap<>() : new Uncacheable<>();
+        columnNames  = new HashMap<>();
+        columnTypes  = new HashMap<>();
+        columnSpecs  = new HashMap<>();
         queries      = new HashMap<>();
-        errorHandler = this::errorHandler;
-        closer       = new Closer().withErrorHandler(errorHandler);
     }
 
     public Connection getConnection() {
@@ -106,19 +80,9 @@ public class DbConnection implements AutoCloseable {
     }
 
     /**
-     * Default error handler.
-     *
-     * @param ex
-     *            An Exception that occured while accessing the data.
-     */
-    private void errorHandler(@NotNull Exception ex) {
-        throw KclException.wrap(ex);
-    }
-
-    /**
      * Clears all object caches.
      */
-    public void clear() {
+    public synchronized void clear() {
         tableNames.clear();
         columnNames.clear();
         columnTypes.clear();
@@ -133,7 +97,7 @@ public class DbConnection implements AutoCloseable {
      *            The name that shall be canonical.
      * @return The canonical name unless there's no correspondingly named table.
      */
-    public String canonicalTableName(@NotNull String tablename) {
+    public synchronized String canonicalTableName(@NotNull String tablename) {
         var tables = listTables();
         for (var table : tables) {
             if (table.equalsIgnoreCase(tablename)) {
@@ -149,20 +113,15 @@ public class DbConnection implements AutoCloseable {
      * @return A list of table names (unmodifiable).
      */
     @NotNull
-    public List<String> listTables() {
+    public synchronized List<String> listTables() {
         var result = Collections.unmodifiableList(tableNames);
         if (tableNames.isEmpty()) {
-            ResultSet resultset = null;
-            try {
-                var metadata = connection.getMetaData();
-                resultset = metadata.getTables(null, null, "%", new String[] {"TABLE"});
+            try (var resultset = metadata.getTables(null, null, "%", new String[] {"TABLE"})) {
                 while (resultset.next()) {
                     tableNames.add(resultset.getString(3));
                 }
             } catch (Exception ex) {
-                errorHandler.accept(ex);
-            } finally {
-                closer.close(resultset);
+                throw KclException.wrap(ex);
             }
         }
         return result;
@@ -176,18 +135,20 @@ public class DbConnection implements AutoCloseable {
      * @param table
      *            The name of the table.
      * @return The {@link PreparedStatement} instance.
-     * @throws SQLException
-     *             Setting up the query failed for some reason.
      */
     @NotNull
-    private PreparedStatement getQuery(@NotBlank String query, @NotNull String table) throws SQLException {
-        var key    = table != null ? query.formatted(table) : query;
-        var result = queries.get(key);
-        if (result == null) {
-            result = connection.prepareStatement(key);
-            queries.put(key, result);
+    private PreparedStatement getQuery(@NotBlank String query, @NotNull String table) {
+        try {
+            var key    = table != null ? query.formatted(table) : query;
+            var result = queries.get(key);
+            if (result == null) {
+                result = connection.prepareStatement(key);
+                queries.put(key, result);
+            }
+            return result;
+        } catch (Exception ex) {
+            throw KclException.wrap(ex);
         }
-        return result;
     }
 
     /**
@@ -198,7 +159,7 @@ public class DbConnection implements AutoCloseable {
      * @return A list of all column names.
      */
     @NotNull
-    public List<String> listColumnNames(@NotBlank String table) {
+    public synchronized List<String> listColumnNames(@NotBlank String table) {
         return listColumnInfos(columnNames, table, this::getColumnName);
     }
 
@@ -209,14 +170,14 @@ public class DbConnection implements AutoCloseable {
      *            The jdbc record providing some meta information.
      * @param index
      *            The 1-based index of the column.
-     * @return The name of the column or null in case of an error.
+     * @return The name of the column.
      */
+    @NotBlank
     private String getColumnName(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
         try {
             return metadata.getColumnName(index);
         } catch (Exception ex) {
-            errorHandler.accept(ex);
-            return null;
+            throw KclException.wrap(ex);
         }
     }
 
@@ -228,7 +189,7 @@ public class DbConnection implements AutoCloseable {
      * @return A list of pairs providing the column name associated with the corresponding jdbc type.
      */
     @NotNull
-    public List<Pair<String, Integer>> listColumnTypes(@NotBlank String table) {
+    public synchronized List<ColumnType> listColumnTypes(@NotBlank String table) {
         return listColumnInfos(columnTypes, table, this::getColumnType);
     }
 
@@ -241,12 +202,11 @@ public class DbConnection implements AutoCloseable {
      *            The 1-based index of the column.
      * @return The pair with the column name and jdbc type or null in case of an error.
      */
-    private Pair<String, Integer> getColumnType(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
+    private ColumnType getColumnType(@NotNull ResultSetMetaData metadata, @Min(1) int index) {
         try {
-            return new Pair<>(metadata.getColumnName(index), metadata.getColumnType(index));
+            return new ColumnType(metadata.getColumnName(index), metadata.getColumnType(index));
         } catch (Exception ex) {
-            errorHandler.accept(ex);
-            return null;
+            throw KclException.wrap(ex);
         }
     }
 
@@ -262,34 +222,26 @@ public class DbConnection implements AutoCloseable {
      * @return A list of metadata results.
      */
     private <T> List<T> listColumnInfos(@NotNull Map<String, List<T>> cache, @NotBlank String table, @NotNull BiFunction<ResultSetMetaData, Integer, T> producer) {
-        var result = Collections.<T> emptyList();
-        var name   = canonicalTableName(table);
+        var name = canonicalTableName(table);
         if (name != null) {
-            if (!cache.containsKey(name)) {
-                PreparedStatement query     = null;
-                ResultSet         resultset = null;
-                try {
-                    result    = new ArrayList<>();
-                    query     = getQuery(database.getListColumnsQuery(), name);
-                    resultset = query.executeQuery();
+            var query = getQuery(database.getListColumnsQuery(), name);
+            return cache.computeIfAbsent(name, $name -> {
+                var list  = new ArrayList<T>();
+                try (var resultset = query.executeQuery()) {
                     var metadata = resultset.getMetaData();
                     for (var i = 0; i < metadata.getColumnCount(); i++) {
                         T value = producer.apply(metadata, i + 1);
                         if (value != null) {
-                            result.add(value);
+                            list.add(value);
                         }
                     }
-                    cache.put(name, Collections.unmodifiableList(result));
                 } catch (Exception ex) {
-                    // if the handler doesn't abort we're returning an empty list
-                    errorHandler.accept(ex);
-                } finally {
-                    closer.close(resultset);
+                    throw KclException.wrap(ex);
                 }
-            }
-            result = cache.get(name);
+                return Collections.unmodifiableList(list);
+            });
         }
-        return result;
+        return Collections.<T> emptyList();
     }
 
     /**
@@ -302,7 +254,7 @@ public class DbConnection implements AutoCloseable {
      * @param consumer
      *            The {@link BiConsumer} which processes the jdbc outcome.
      */
-    public <C> void selectDo(@NotBlank String jdbcQuery, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
+    public synchronized <C> void selectDo(@NotBlank String jdbcQuery, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
         select(jdbcQuery, context, ($1, $2) -> {
             consumer.accept($1, $2);
             return null;
@@ -317,7 +269,7 @@ public class DbConnection implements AutoCloseable {
      * @param consumer
      *            The {@link Consumer} which processes the jdbc outcome.
      */
-    public void selectDo(@NotBlank String jdbcQuery, @NotNull Consumer<ResultSet> consumer) {
+    public synchronized void selectDo(@NotBlank String jdbcQuery, @NotNull Consumer<ResultSet> consumer) {
         selectDo(jdbcQuery, null, ($1, $2) -> consumer.accept($1));
     }
 
@@ -331,7 +283,7 @@ public class DbConnection implements AutoCloseable {
      * @param consumer
      *            The {@link BiConsumer} which processes the jdbc outcome.
      */
-    public <C> void selectAllDo(@NotBlank String table, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
+    public synchronized <C> void selectAllDo(@NotBlank String table, C context, @NotNull BiConsumer<ResultSet, C> consumer) {
         var name = canonicalTableName(table);
         selectDo(database.getSelectAllQuery().formatted(name), context, consumer);
     }
@@ -344,7 +296,7 @@ public class DbConnection implements AutoCloseable {
      * @param consumer
      *            The {@link Consumer} which processes the jdbc outcome.
      */
-    public void selectAllDo(@NotBlank String table, @NotNull Consumer<ResultSet> consumer) {
+    public synchronized void selectAllDo(@NotBlank String table, @NotNull Consumer<ResultSet> consumer) {
         var name = canonicalTableName(table);
         selectDo(database.getSelectAllQuery().formatted(name), consumer);
     }
@@ -360,27 +312,16 @@ public class DbConnection implements AutoCloseable {
      *            The {@link BiFunction} which creates a usable record from the jdbc outcome.
      * @return A list with all records.
      */
-    public <T, C> @NotNull List<T> select(@NotBlank String jdbcQuery, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
-        List<T>           result    = new ArrayList<>(100);
-        PreparedStatement query     = null;
-        ResultSet         resultset = null;
-        try {
-            query     = getQuery(jdbcQuery, null);
-            resultset = query.executeQuery();
+    @NotNull
+    public synchronized <T, C> List<T> select(@NotBlank String jdbcQuery, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+        var result  = new ArrayList<T>(100);
+        var query   = getQuery(jdbcQuery, null);
+        try (var resultset = query.executeQuery()) {
             while (resultset.next()) {
-                try {
-                    result.add(producer.apply(resultset, context));
-                } catch (Exception ex) {
-                    errorHandler.accept(ex);
-                }
+                result.add(producer.apply(resultset, context));
             }
         } catch (Exception ex) {
-            errorHandler.accept(ex);
-        } finally {
-            closer.close(resultset);
-        }
-        if (result.isEmpty()) {
-            result = Collections.emptyList();
+            throw KclException.wrap(ex);
         }
         return result;
     }
@@ -395,7 +336,7 @@ public class DbConnection implements AutoCloseable {
      * @return A list with all records.
      */
     @NotNull
-    public <T> List<T> select(@NotBlank String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
+    public synchronized <T> List<T> select(@NotBlank String jdbcQuery, @NotNull Function<ResultSet, T> producer) {
         return select(jdbcQuery, null, ($1, $2) -> producer.apply($1));
     }
 
@@ -411,7 +352,7 @@ public class DbConnection implements AutoCloseable {
      * @return A list with all records.
      */
     @NotNull
-    public <T, C> List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
+    public synchronized <T, C> List<T> selectAll(@NotBlank String table, C context, @NotNull BiFunction<ResultSet, C, T> producer) {
         var name = canonicalTableName(table);
         return select(database.getSelectAllQuery().formatted(name), context, producer);
     }
@@ -426,7 +367,7 @@ public class DbConnection implements AutoCloseable {
      * @return A list with all records.
      */
     @NotNull
-    public <T> List<T> selectAll(@NotBlank String table, @NotNull Function<ResultSet, T> producer) {
+    public synchronized <T> List<T> selectAll(@NotBlank String table, @NotNull Function<ResultSet, T> producer) {
         var name = canonicalTableName(table);
         return select(database.getSelectAllQuery().formatted(name), producer);
     }
@@ -438,30 +379,31 @@ public class DbConnection implements AutoCloseable {
      *            The name of the table.
      * @return The number of available records. A negative number indicates an error.
      */
-    public int count(@NotBlank String table) {
+    public synchronized int count(@NotBlank String table) {
         var result = -1;
         var name   = canonicalTableName(table);
         if (name != null) {
-            PreparedStatement query     = null;
-            ResultSet         resultset = null;
-            try {
-                query     = getQuery(database.getCountQuery(), name);
-                resultset = query.executeQuery();
+            var query = getQuery(database.getCountQuery(), name);
+            try (var resultset = query.executeQuery()) {
                 if (resultset.next()) {
                     result = resultset.getInt(1);
                 }
             } catch (Exception ex) {
-                errorHandler.accept(ex);
-            } finally {
-                closer.close(resultset);
+                throw KclException.wrap(ex);
             }
         }
         return result;
     }
 
     @Override
-    public void close() throws Exception {
-        queries.values().forEach(closer::close);
+    public synchronized void close() throws Exception {
+        queries.values().forEach($ -> {
+            try {
+                $.close();
+            } catch (Exception ex) {
+                throw KclException.wrap(ex);
+            }
+        });
         queries.clear();
         if (connection != null) {
             connection.close();
@@ -469,20 +411,6 @@ public class DbConnection implements AutoCloseable {
         }
     }
 
-    private static class Uncacheable<K, V> extends HashMap<K, V> {
-
-        private static final long serialVersionUID = 5072129897120869853L;
-
-        @Override
-        public boolean containsKey(Object key) {
-            return false;
-        }
-
-        @Override
-        public V put(K key, V value) {
-            return super.get(key);
-        }
-
-    } /* ENDCLASS */
+    public static record ColumnType(String columnName, int columnType) {}
 
 } /* ENDCLASS */
