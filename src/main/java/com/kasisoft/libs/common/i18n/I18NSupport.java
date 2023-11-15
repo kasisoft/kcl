@@ -37,7 +37,7 @@ import java.io.*;
  * }
  * </pre>
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class I18NSupport {
 
@@ -85,7 +85,8 @@ public class I18NSupport {
      *            A list of resource pathes pointing to possible translations.
      * @return The {@link Properties} instance providing all current translations.
      */
-    private static @NotNull Properties loadTranslations(@NotNull Class<?> clazz, @NotNull String[] candidates) {
+    @NotNull
+    private static Properties loadTranslations(@NotNull Class<?> clazz, @NotNull String[] candidates) {
         var result = new Properties();
         for (var variant : candidates) {
 
@@ -247,7 +248,8 @@ public class I18NSupport {
 
     }
 
-    private static @NotNull String[] getTranslationCandidates(@NotNull Locale locale, @NotNull String base) {
+    @NotNull
+    private static String[] getTranslationCandidates(@NotNull Locale locale, @NotNull String base) {
         var result  = new String[3];
         var country = StringFunctions.cleanup(locale.getCountry());
         if (country != null) {
@@ -272,8 +274,8 @@ public class I18NSupport {
         return new Pair<>(base, prefix);
     }
 
-    @SuppressWarnings("null")
-    private static @NotNull Map<String, String> collectTranslations(@NotNull String prefix, @NotNull Map<String, Field> fields) {
+    @NotNull
+    private static Map<String, String> collectTranslations(@NotNull String prefix, @NotNull Map<String, Field> fields) {
         var result = new HashMap<String, String>(fields.size());
         for (var entry : fields.entrySet()) {
 

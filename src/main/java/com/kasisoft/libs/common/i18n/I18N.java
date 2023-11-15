@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * A simple annotation providing a default value for a translatable constant.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

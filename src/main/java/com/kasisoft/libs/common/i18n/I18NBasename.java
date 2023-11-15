@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * A simple annotation providing the resource for the translations.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

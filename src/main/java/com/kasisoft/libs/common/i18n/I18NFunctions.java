@@ -18,7 +18,8 @@ public class I18NFunctions {
      *            The locale to be used.
      * @return The current locale.
      */
-    public static @NotNull Locale getLocale(Locale locale) {
+    @NotNull
+    public static Locale getLocale(Locale locale) {
         if (locale == null) {
             return Locale.getDefault();
         } else {

@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.i18n;
 /**
  * Helper which provides formatting capabilities to a translation.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class I18NString {
 
@@ -21,15 +21,7 @@ public class I18NString {
      * @see String#format(String, Object...)
      */
     public String format(Object ... args) {
-        if ((args == null) || (args.length == 0)) {
-            return value;
-        } else {
-            try {
-                return value.formatted(args);
-            } catch (Exception ex) {
-                return value;
-            }
-        }
+        return value.formatted(args);
     }
 
     @Override
