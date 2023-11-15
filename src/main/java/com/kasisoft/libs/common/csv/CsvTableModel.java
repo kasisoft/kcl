@@ -317,7 +317,7 @@ public class CsvTableModel implements TableModel {
         for (var i = 0; i < result.columns().size(); i++) {
             var csvColumn = result.columns().get(i);
             if ((csvColumn != null) && (csvColumn.adapter() == null)) {
-                ehColumnSpecWithoutAdapter.accept(error_missing_csv_adapter.format(i));
+                ehColumnSpecWithoutAdapter.accept(error_missing_csv_adapter.formatted(i));
                 // unless the error handler caused an exception we're clearing this spec, so it can be
                 // calculcated afterwards
                 result.columns().set(i, null);
@@ -1192,7 +1192,7 @@ public class CsvTableModel implements TableModel {
                 }
                 tableModel.addRow(rowData);
             } catch (Exception ex) {
-                String message = error_csv_cannot_add_row.format(getRowCount(), StringFunctions.objectToString(rowData), ex.getLocalizedMessage());
+                String message = error_csv_cannot_add_row.formatted(getRowCount(), StringFunctions.objectToString(rowData), ex.getLocalizedMessage());
                 ehInvalidAddRow.accept(message);
             }
         }
@@ -1213,7 +1213,7 @@ public class CsvTableModel implements TableModel {
         try {
             return adapter.apply(value);
         } catch (Exception ex) {
-            ehInvalidCellValue.accept(error_csv_cannot_parse_cell_value.format(value, idx));
+            ehInvalidCellValue.accept(error_csv_cannot_parse_cell_value.formatted(value, idx));
             return null;
         }
     }

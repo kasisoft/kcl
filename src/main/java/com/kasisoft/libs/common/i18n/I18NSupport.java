@@ -57,7 +57,7 @@ public class I18NSupport {
         if (modifier != MODIFIERS) {
             return false;
         }
-        return (field.getType() == String.class) || (field.getType() == I18NString.class);
+        return field.getType() == String.class;
     }
 
     /**
@@ -201,13 +201,6 @@ public class I18NSupport {
             try {
                 if (field.getType() == String.class) {
                     field.set(null, value);
-                } else {
-                    var i18nstring = (I18NString) field.get(null);
-                    if (i18nstring == null) {
-                        i18nstring = new I18NString(value);
-                        field.set(null, i18nstring);
-                    }
-                    i18nstring.setValue(value);
                 }
             } catch (IllegalAccessException ex) {
                 // won't happen as the supplied fields are definitely accessible

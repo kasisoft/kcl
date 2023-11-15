@@ -51,7 +51,7 @@ public class I18NSupportTest {
         assertThat(Messages4.m3, is("Translation.3"));
         assertThat(Messages4.m4, is("wrong"));
         assertThat(Messages4.m2.toString(), is("Translation.%s.2"));
-        assertThat(Messages4.m2.format("test"), is("Translation.test.2"));
+        assertThat(Messages4.m2.formatted("test"), is("Translation.test.2"));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class I18NSupportTest {
         assertThat(Messages5.m2, is("Übersetzung.%s.2"));
         assertThat(Messages5.m3, is("Translation.3"));
         assertThat(Messages5.m4, is("falsch"));
-        assertThat(Messages5.m5.format("Huppi"), is("Der Text war 'Huppi'"));
+        assertThat(Messages5.m5.formatted("Huppi"), is("Der Text war 'Huppi'"));
         assertThat(Messages5.m6, is("Gollum"));
 
         // change the language
@@ -73,7 +73,7 @@ public class I18NSupportTest {
         assertThat(Messages5.m2, is("Translation.%s.2"));
         assertThat(Messages5.m3, is("Translation.3"));
         assertThat(Messages5.m4, is("wrong"));
-        assertThat(Messages5.m5.format("Huppi"), is("The us text was 'Huppi'"));
+        assertThat(Messages5.m5.formatted("Huppi"), is("The us text was 'Huppi'"));
         assertThat(Messages5.m6, is("Gollum"));
 
     }

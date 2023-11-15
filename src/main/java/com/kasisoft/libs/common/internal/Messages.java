@@ -25,10 +25,10 @@ public class Messages {
     public static String     error_cannot_connect_to_database;
 
     @I18N("Cannot add row %d (data = %s). Error: %s !")
-    public static I18NString error_csv_cannot_add_row;
+    public static String     error_csv_cannot_add_row;
 
     @I18N("The cell value '%s' at column %d cannot be parsed !")
-    public static I18NString error_csv_cannot_parse_cell_value;
+    public static String     error_csv_cannot_parse_cell_value;
 
     @I18N("The number of columns for each line isn't consistent !")
     public static String     error_csv_inconsistent_column_counts;
@@ -124,7 +124,7 @@ public class Messages {
     public static String     error_invalid_url;
 
     @I18N("Missing CSV Adapter for column %d")
-    public static I18NString error_missing_csv_adapter;
+    public static String     error_missing_csv_adapter;
 
     @I18N("The resource '%s' is missing !")
     public static String     error_missing_resource;

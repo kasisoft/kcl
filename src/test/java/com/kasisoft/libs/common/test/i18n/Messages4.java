@@ -14,7 +14,7 @@ public class Messages4 {
     public static String     m1;
 
     @I18N("Default.%s.2")
-    public static I18NString m2;
+    public static String     m2;
 
     @I18N("Default.3")
     public static String     m3;
