@@ -62,6 +62,14 @@ public class XmlFunctionsTest {
     }
 
     @Test
+    @Order(22)
+    public void readDocument__withCatalog() {
+        var simplexml = TEST_RESOURCES.getResource("simple.xml");
+        var config    = XmlParserConfiguration.builder().validate(false).xmlnamespaces(true).resolver(new PreconfiguredXmlCatalog()).build();
+        readDocument(XmlFunctions.readDocument(simplexml, config));
+    }
+
+    @Test
     @Order(3)
     public void readDocument__NormalizeDocument() {
         var simplexml = TEST_RESOURCES.getResource("simple.xml");

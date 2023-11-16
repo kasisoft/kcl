@@ -21,6 +21,11 @@ module com.kasisoft.libs.common {
     exports com.kasisoft.libs.common.utils;
     exports com.kasisoft.libs.common.xml;
 
+    opens com.kasisoft.libs.common;
+
+    opens dtds;
+    opens xsd;
+
     provides FileType with
         BmpFileType,
         Bzip2FileType,
