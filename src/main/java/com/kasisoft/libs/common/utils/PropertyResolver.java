@@ -32,7 +32,8 @@ public class PropertyResolver implements SimpleFunction<String> {
         keys           = new LinkedList<>();
     }
 
-    public @NotNull PropertyResolver withVarFormat(String varFormat) {
+    @NotNull
+    public PropertyResolver withVarFormat(String varFormat) {
         this.varFormat = varFormat != null ? varFormat : DEFAULT_VARFORMAT;
         return this;
     }

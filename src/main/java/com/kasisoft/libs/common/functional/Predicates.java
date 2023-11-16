@@ -1,10 +1,10 @@
 package com.kasisoft.libs.common.functional;
 
+import org.w3c.dom.*;
+
 import com.kasisoft.libs.common.pools.*;
 
-import com.kasisoft.libs.common.utils.*;
-
-import org.w3c.dom.*;
+import com.kasisoft.libs.common.converters.*;
 
 import jakarta.validation.constraints.*;
 
@@ -55,7 +55,7 @@ public class Predicates {
 
     public static final KPredicate<String> IS_JAVA_FQDN                 = new IsJavaFqdn();
 
-    public static final KPredicate<String> IS_BOOLEAN                   = $ -> isValid($, PrimitiveFunctions::parseBoolean);
+    public static final KPredicate<String> IS_BOOLEAN                   = $ -> isValid($, TypeConverters::convertStringToBoolean);
 
     public static final KPredicate<String> IS_LONG                      = $ -> isValid($, Long::parseLong);
 

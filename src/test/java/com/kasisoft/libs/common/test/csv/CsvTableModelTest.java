@@ -34,9 +34,9 @@ public class CsvTableModelTest {
 
         assertThat(model.getColumnCount(), is(3));
         assertThat(model.getRowCount(), is(8));
-        assertEquals(model.getColumnClass(0), String.class);
-        assertEquals(model.getColumnClass(1), String.class);
-        assertEquals(model.getColumnClass(2), Short.class);
+        assertThat(model.getColumnClass(0).getName(), is(String.class.getName()));
+        assertThat(model.getColumnClass(1).getName(), is(String.class.getName()));
+        assertThat(model.getColumnClass(2).getName(), is(Short.class.getName()));
 
     }
 

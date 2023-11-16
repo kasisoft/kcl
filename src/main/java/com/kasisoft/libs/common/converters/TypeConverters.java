@@ -54,7 +54,9 @@ public class TypeConverters {
 
     private static final String DATE_PATTERN    = "yyyy-MM-dd";
 
-    private static List<String> TRUE_VALUES     = Arrays.asList("yes", "ja", "j", "y", "on", "ein", "1", "-1", "an", "true");
+    private static List<String> TRUE_VALUES     = Arrays.asList("yes", "ja", "j", "y", "on", "ein", "1", "-1", "an", "true", "enabled");
+
+    private static List<String> FALSE_VALUES    = Arrays.asList("no", "nein", "n", "off", "aus", "0", "false", "disabled");
 
     private static String       DELIMITER       = ",";
 
@@ -265,11 +267,20 @@ public class TypeConverters {
     // string <-> boolean
 
     public static Boolean convertStringToBoolean(String value) {
-        return convertStringToBoolean(value, TRUE_VALUES);
+        return convertStringToBoolean(value, TRUE_VALUES, FALSE_VALUES);
     }
 
-    public static Boolean convertStringToBoolean(String value, Collection<String> truevalues) {
-        return encode(value, $val -> truevalues.contains($val.trim()));
+    public static Boolean convertStringToBoolean(String value, Collection<String> truevalues, Collection<String> falsevalues) {
+        return encode(value, $val -> {
+            var lower = $val.toLowerCase();
+            if (truevalues.contains(lower)) {
+                return true;
+            }
+            if (falsevalues.contains(lower)) {
+                return false;
+            }
+            throw new KclException(Messages.error_invalid_boolean_value.formatted($val));
+        });
     }
 
     public  static String convertBooleanToString(Boolean value) {

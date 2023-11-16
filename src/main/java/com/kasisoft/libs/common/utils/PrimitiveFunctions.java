@@ -19,17 +19,13 @@ import java.util.*;
  */
 public class PrimitiveFunctions {
 
-    private static final Set<String> BOOLEAN_TRUES  = new HashSet<>(Arrays.asList("true", "yes", "ja", "Y", "j", "ein", "on", "enabled"));
-
-    private static final Set<String> BOOLEAN_FALSES = new HashSet<>(Arrays.asList("false", "no", "nein", "n", "aus", "off", "disabled"));
-
     /* BYTE */
 
-    public static byte min(@NotNull byte[] buffer) {
+    private static byte reduce(@NotNull byte[] buffer, ReduceByte reducer) {
         if (buffer.length > 0) {
             var result = buffer[0];
             for (var i = 1; i < buffer.length; i++) {
-                result = (byte) Math.min(result, buffer[i]);
+                result = reducer.reduce(result, buffer[i]);
             }
             return result;
         } else {
@@ -37,16 +33,12 @@ public class PrimitiveFunctions {
         }
     }
 
+    public static byte min(@NotNull byte[] buffer) {
+        return reduce(buffer, ($a, $b) -> (byte) Math.min($a, $b));
+    }
+
     public static byte max(@NotNull byte[] buffer) {
-        if (buffer.length > 0) {
-            var result = buffer[0];
-            for (var i = 1; i < buffer.length; i++) {
-                result = (byte) Math.max(result, buffer[i]);
-            }
-            return result;
-        } else {
-            throw new KclException(error_api_misuse_empty_buffer);
-        }
+      return reduce(buffer, ($a, $b) -> (byte) Math.max($a, $b));
     }
 
     public static boolean compare(@NotNull byte[] buffer, @NotNull byte[] sequence) {
@@ -204,11 +196,11 @@ public class PrimitiveFunctions {
 
     /* SHORT */
 
-    public static short min(@NotNull short[] buffer) {
+    private static short reduce(@NotNull short[] buffer, ReduceShort reducer) {
         if (buffer.length > 0) {
             var result = buffer[0];
             for (var i = 1; i < buffer.length; i++) {
-                result = (short) Math.min(result, buffer[i]);
+                result = reducer.reduce(result, buffer[i]);
             }
             return result;
         } else {
@@ -216,16 +208,12 @@ public class PrimitiveFunctions {
         }
     }
 
+    public static short min(@NotNull short[] buffer) {
+        return reduce(buffer, ($a, $b) ->  (short) Math.min($a, $b));
+    }
+
     public static short max(@NotNull short[] buffer) {
-        if (buffer.length > 0) {
-            var result = buffer[0];
-            for (var i = 1; i < buffer.length; i++) {
-                result = (short) Math.max(result, buffer[i]);
-            }
-            return result;
-        } else {
-            throw new KclException(error_api_misuse_empty_buffer);
-        }
+        return reduce(buffer, ($a, $b) ->  (short) Math.max($a, $b));
     }
 
     public static boolean compare(@NotNull short[] buffer, @NotNull short[] sequence) {
@@ -383,11 +371,11 @@ public class PrimitiveFunctions {
 
     /* INTEGER */
 
-    public static int min(@NotNull int[] buffer) {
+    private static int reduce(@NotNull int[] buffer, ReduceInt reducer) {
         if (buffer.length > 0) {
             var result = buffer[0];
             for (var i = 1; i < buffer.length; i++) {
-                result = Math.min(result, buffer[i]);
+                result = reducer.reduce(result, buffer[i]);
             }
             return result;
         } else {
@@ -395,16 +383,12 @@ public class PrimitiveFunctions {
         }
     }
 
+    public static int min(@NotNull int[] buffer) {
+        return reduce(buffer, ($a, $b) ->  Math.min($a, $b));
+    }
+
     public static int max(@NotNull int[] buffer) {
-        if (buffer.length > 0) {
-            var result = buffer[0];
-            for (var i = 1; i < buffer.length; i++) {
-                result = Math.max(result, buffer[i]);
-            }
-            return result;
-        } else {
-            throw new KclException(error_api_misuse_empty_buffer);
-        }
+        return reduce(buffer, ($a, $b) ->  Math.max($a, $b));
     }
 
     public static boolean compare(@NotNull int[] buffer, @NotNull int[] sequence) {
@@ -562,11 +546,11 @@ public class PrimitiveFunctions {
 
     /* LONG */
 
-    public static long min(@NotNull long[] buffer) {
+    private static long reduce(@NotNull long[] buffer, ReduceLong reducer) {
         if (buffer.length > 0) {
             var result = buffer[0];
             for (var i = 1; i < buffer.length; i++) {
-                result = Math.min(result, buffer[i]);
+                result = reducer.reduce(result, buffer[i]);
             }
             return result;
         } else {
@@ -574,16 +558,12 @@ public class PrimitiveFunctions {
         }
     }
 
+    public static long min(@NotNull long[] buffer) {
+        return reduce(buffer, ($a, $b) -> Math.min($a, $b));
+    }
+
     public static long max(@NotNull long[] buffer) {
-        if (buffer.length > 0) {
-            var result = buffer[0];
-            for (var i = 1; i < buffer.length; i++) {
-                result = Math.max(result, buffer[i]);
-            }
-            return result;
-        } else {
-            throw new KclException(error_api_misuse_empty_buffer);
-        }
+        return reduce(buffer, ($a, $b) -> Math.max($a, $b));
     }
 
     public static boolean compare(@NotNull long[] buffer, @NotNull long[] sequence) {
@@ -741,11 +721,11 @@ public class PrimitiveFunctions {
 
     /* FLOAT */
 
-    public static float min(@NotNull float[] buffer) {
+    private static float reduce(@NotNull float[] buffer, ReduceFloat reducer) {
         if (buffer.length > 0) {
             var result = buffer[0];
             for (var i = 1; i < buffer.length; i++) {
-                result = Math.min(result, buffer[i]);
+                result = reducer.reduce(result, buffer[i]);
             }
             return result;
         } else {
@@ -753,16 +733,12 @@ public class PrimitiveFunctions {
         }
     }
 
+    public static float min(@NotNull float[] buffer) {
+        return reduce(buffer, ($a, $b) -> Math.min($a, $b));
+    }
+
     public static float max(@NotNull float[] buffer) {
-        if (buffer.length > 0) {
-            var result = buffer[0];
-            for (var i = 1; i < buffer.length; i++) {
-                result = Math.max(result, buffer[i]);
-            }
-            return result;
-        } else {
-            throw new KclException(error_api_misuse_empty_buffer);
-        }
+        return reduce(buffer, ($a, $b) -> Math.max($a, $b));
     }
 
     public static boolean compare(@NotNull float[] buffer, @NotNull float[] sequence) {
@@ -920,11 +896,11 @@ public class PrimitiveFunctions {
 
     /* DOUBLE */
 
-    public static double min(@NotNull double[] buffer) {
+    private static double reduce(@NotNull double[] buffer, ReduceDouble reducer) {
         if (buffer.length > 0) {
             var result = buffer[0];
             for (var i = 1; i < buffer.length; i++) {
-                result = Math.min(result, buffer[i]);
+                result = reducer.reduce(result, buffer[i]);
             }
             return result;
         } else {
@@ -932,16 +908,12 @@ public class PrimitiveFunctions {
         }
     }
 
+    public static double min(@NotNull double[] buffer) {
+        return reduce(buffer, ($a, $b) -> Math.min($a, $b));
+    }
+
     public static double max(@NotNull double[] buffer) {
-        if (buffer.length > 0) {
-            var result = buffer[0];
-            for (var i = 1; i < buffer.length; i++) {
-                result = Math.max(result, buffer[i]);
-            }
-            return result;
-        } else {
-            throw new KclException(error_api_misuse_empty_buffer);
-        }
+        return reduce(buffer, ($a, $b) -> Math.max($a, $b));
     }
 
     public static boolean compare(@NotNull double[] buffer, @NotNull double[] sequence) {
@@ -1431,29 +1403,6 @@ public class PrimitiveFunctions {
         System.arraycopy(sequence, 0, result, offset, sequence.length);
         System.arraycopy(buffer, offset, result, offset + sequence.length, buffer.length - offset);
         return result;
-    }
-
-    /* PARSING PRIMITIVE TYPES */
-
-    /**
-     * Interpretes a value as a boolean.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return <code>true</code> <=> If the supplied literal has one of the values {@link #TRUEVALUES}
-     *         (case insensitive). <code>false</code> <=> All other cases.
-     */
-    public static boolean parseBoolean(String value) {
-        if (value != null) {
-            var lower = value.toLowerCase();
-            if (BOOLEAN_TRUES.contains(lower)) {
-                return true;
-            }
-            if (BOOLEAN_FALSES.contains(lower)) {
-                return false;
-            }
-        }
-        throw new KclException(error_invalid_boolean_value.formatted(value));
     }
 
     /* SUPPLIERS */

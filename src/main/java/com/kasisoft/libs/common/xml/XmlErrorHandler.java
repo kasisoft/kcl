@@ -61,32 +61,18 @@ public class XmlErrorHandler implements ErrorHandler {
     @Override
     public void error(@NotNull SAXParseException ex) throws SAXException {
         errorcount++;
-        faults.add(newFault(XmlFault.FaultType.error, ex));
+        faults.add(XmlFault.of(XmlFault.FaultType.error, ex));
     }
 
     @Override
     public void fatalError(@NotNull SAXParseException ex) throws SAXException {
         errorcount++;
-        faults.add(newFault(XmlFault.FaultType.fatal, ex));
+        faults.add(XmlFault.of(XmlFault.FaultType.fatal, ex));
     }
 
     @Override
     public void warning(@NotNull SAXParseException ex) throws SAXException {
-        faults.add(newFault(XmlFault.FaultType.warning, ex));
-    }
-
-    /**
-     * This function can be overridden in order to refined the generated error message.
-     *
-     * @param type
-     *            The error type.
-     * @param ex
-     *            The cause of the failure.
-     * @return A freshly created error instance.
-     */
-    @NotNull
-    protected XmlFault newFault(@NotNull XmlFault.FaultType type, @NotNull SAXParseException ex) {
-        return new XmlFault(type, ex);
+        faults.add(XmlFault.of(XmlFault.FaultType.warning, ex));
     }
 
 } /* ENDCLASS */

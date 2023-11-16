@@ -386,8 +386,7 @@ public class TypeConvertersTest {
             Arguments.of("off", Boolean.FALSE),
             Arguments.of("0", Boolean.FALSE),
             Arguments.of("1", Boolean.TRUE),
-            Arguments.of("-1", Boolean.TRUE),
-            Arguments.of("", Boolean.FALSE)
+            Arguments.of("-1", Boolean.TRUE)
         );
     }
 
@@ -716,7 +715,6 @@ public class TypeConvertersTest {
             Arguments.of("0", new Boolean[] {false}),
             Arguments.of("1", new Boolean[] {true}),
             Arguments.of("-1", new Boolean[] {true}),
-            Arguments.of("", new Boolean[] {false}),
             Arguments.of("true,0", new Boolean[] {true, false}),
             Arguments.of("false,ein", new Boolean[] {false, true})
         );

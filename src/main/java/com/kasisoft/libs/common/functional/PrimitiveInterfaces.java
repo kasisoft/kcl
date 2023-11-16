@@ -1001,4 +1001,61 @@ public interface PrimitiveInterfaces {
 
     } /* ENDINTERFACE */
 
+
+    @FunctionalInterface
+    public interface ReduceBoolean {
+
+        boolean reduce(boolean a, boolean b);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    public interface ReduceChar{
+
+        char reduce(char a, char b);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    public interface ReduceByte {
+
+        byte reduce(byte a, byte b);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    public interface ReduceShort {
+
+        short reduce(short a, short b);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    public interface ReduceInt{
+
+        int reduce(int a, int b);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    public interface ReduceLong {
+
+        long reduce(long a, long b);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    public interface ReduceFloat {
+
+        float reduce(float a, float b);
+
+    } /* ENDINTERFACE */
+
+    @FunctionalInterface
+    public interface ReduceDouble{
+
+        double reduce(double a, double b);
+
+    } /* ENDINTERFACE */
+
 } /* ENDINTERFACE */

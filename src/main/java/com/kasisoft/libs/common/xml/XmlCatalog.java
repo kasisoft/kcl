@@ -197,7 +197,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
             var pid         = new PublicId(publicid);
             var inputsource = new InputSource(new ByteArrayInputStream(result));
             inputsource.setSystemId(systemIds.get(pid));
-            inputsource.setPublicId(pid.getId());
+            inputsource.setPublicId(pid.publicid());
             return inputsource;
         }
         return null;
@@ -214,7 +214,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
                     lsinput.setBaseURI(baseuri);
                     lsinput.setByteStream(new ByteArrayInputStream(result));
                     lsinput.setSystemId(systemIds.get(pid));
-                    lsinput.setPublicId(pid.getId());
+                    lsinput.setPublicId(pid.publicid());
                     return lsinput;
                 }
             }
@@ -263,42 +263,11 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
         return result;
     }
 
-    private static class PublicId implements Comparable<PublicId> {
-
-        private String id;
-
-        private String lowerid;
-
-        public PublicId(String publicid) {
-            id      = publicid;
-            lowerid = publicid.toLowerCase();
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (other instanceof PublicId publicId) {
-                return lowerid.equals(publicId.lowerid);
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return lowerid.hashCode();
-        }
-
-        @Override
-        public String toString() {
-            return id;
-        }
+    private static record PublicId(String publicid) implements Comparable<PublicId> {
 
         @Override
         public int compareTo(PublicId o) {
-            return lowerid.compareTo(o.lowerid);
+            return publicid().toLowerCase().compareTo(o.publicid().toLowerCase());
         }
 
     } /* ENDCLASS */
