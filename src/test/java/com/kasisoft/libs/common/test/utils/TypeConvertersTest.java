@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.test.converters;
+package com.kasisoft.libs.common.test.utils;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -11,6 +11,8 @@ import org.junit.jupiter.params.*;
 import org.junit.jupiter.api.*;
 
 import com.kasisoft.libs.common.types.*;
+
+import com.kasisoft.libs.common.utils.*;
 
 import com.kasisoft.libs.common.test.*;
 

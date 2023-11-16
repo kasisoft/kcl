@@ -1,4 +1,4 @@
-package com.kasisoft.libs.common.converters;
+package com.kasisoft.libs.common.utils;
 
 import static com.kasisoft.libs.common.internal.Messages.*;
 

@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
+import com.kasisoft.libs.common.utils.*;
+
 import com.kasisoft.libs.common.test.*;
 
 import com.kasisoft.libs.common.io.*;
