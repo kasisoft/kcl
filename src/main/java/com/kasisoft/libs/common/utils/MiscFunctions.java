@@ -43,24 +43,6 @@ public class MiscFunctions {
         return input;
     }
 
-    /**
-     * Returns an adjusted index since this extension supports negative indices as well.
-     *
-     * @param length
-     *            The length to be used for the calculation.
-     * @param index
-     *            The index supplied by the user.
-     * @return The index to use for the original implementation.
-     */
-    public static int adjustIndex(int length, int index, boolean isEnd) {
-        if (index < 0) {
-            return length + index;
-        } else if ((index == 0) && isEnd) {
-            return length;
-        }
-        return index;
-    }
-
     public static String getGravatarLink(String email, Integer size) {
         /** @spec [22-JUN-2020:KASI] https://en.gravatar.com/site/implement/hash/ */
         String result = null;
