@@ -20,7 +20,7 @@ import java.nio.file.*;
 /**
  * Tests for the class 'FileTypeManager'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class FileTypeManagerTest {
 

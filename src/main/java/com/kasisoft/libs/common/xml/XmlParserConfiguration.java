@@ -11,7 +11,7 @@ import java.net.*;
 /**
  * Simple POJO used to configure an xml parser.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class XmlParserConfiguration {
 
@@ -45,7 +45,8 @@ public class XmlParserConfiguration {
         parameters = new HashMap<>();
     }
 
-    public static @NotNull XmlParserConfigurationBuilder builder() {
+    @NotNull
+    public static XmlParserConfigurationBuilder builder() {
         return new XmlParserConfigurationBuilder();
     }
 
@@ -60,72 +61,87 @@ public class XmlParserConfiguration {
             result = new XmlParserConfiguration();
         }
 
-        public @NotNull XmlParserConfigurationBuilder satisfyUnknownSchemas() {
+        @NotNull
+        public XmlParserConfigurationBuilder satisfyUnknownSchemas() {
             return satisfyUnknownSchemas(true);
         }
 
-        public @NotNull XmlParserConfigurationBuilder satisfyUnknownSchemas(boolean satisfy) {
+        @NotNull
+        public XmlParserConfigurationBuilder satisfyUnknownSchemas(boolean satisfy) {
             result.setSatisfyUnknownSchemas(satisfy);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder baseurl(URL baseurl) {
+        @NotNull
+        public XmlParserConfigurationBuilder baseurl(URL baseurl) {
             result.setBaseurl(baseurl);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder handler(ErrorHandler errorhandler) {
+        @NotNull
+        public XmlParserConfigurationBuilder handler(ErrorHandler errorhandler) {
             result.setHandler(errorhandler);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder resolver(EntityResolver entityresolver) {
+        @NotNull
+        public XmlParserConfigurationBuilder resolver(EntityResolver entityresolver) {
             result.setResolver(entityresolver);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder validate() {
+        @NotNull
+        public XmlParserConfigurationBuilder validate() {
             return validate(true);
         }
 
-        public @NotNull XmlParserConfigurationBuilder validate(boolean validate) {
+        @NotNull
+        public XmlParserConfigurationBuilder validate(boolean validate) {
             result.setValidate(validate);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder xincludes() {
+        @NotNull
+        public XmlParserConfigurationBuilder xincludes() {
             return xincludes(true);
         }
 
-        public @NotNull XmlParserConfigurationBuilder xincludes(boolean xincludes) {
+        @NotNull
+        public XmlParserConfigurationBuilder xincludes(boolean xincludes) {
             result.setXincludes(xincludes);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder xmlnamespaces() {
+        @NotNull
+        public XmlParserConfigurationBuilder xmlnamespaces() {
             return xmlnamespaces(true);
         }
 
-        public @NotNull XmlParserConfigurationBuilder xmlnamespaces(boolean xmlnamespaces) {
+        @NotNull
+        public XmlParserConfigurationBuilder xmlnamespaces(boolean xmlnamespaces) {
             result.setXmlnamespaces(xmlnamespaces);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder parameter(@NotNull DomConfigParameter parameter, Object value) {
+        @NotNull
+        public XmlParserConfigurationBuilder parameter(@NotNull DomConfigParameter parameter, Object value) {
             result.getParameters().put(parameter, value);
             return this;
         }
 
-        public @NotNull XmlParserConfigurationBuilder normalize() {
+        @NotNull
+        public XmlParserConfigurationBuilder normalize() {
             return normalize(true);
         }
 
-        public @NotNull XmlParserConfigurationBuilder normalize(boolean normalize) {
+        @NotNull
+        public XmlParserConfigurationBuilder normalize(boolean normalize) {
             result.setNormalize(normalize);
             return this;
         }
 
-        public @NotNull XmlParserConfiguration build() {
+        @NotNull
+        public XmlParserConfiguration build() {
             return result;
         }
 

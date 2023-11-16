@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 /**
  * Simple datastructure representing a fault within a xml document.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class XmlFault {
 
@@ -16,11 +16,8 @@ public class XmlFault {
     } /* ENDENUM */
 
     private FaultType type;
-
     private int       line;
-
     private int       column;
-
     private String    message;
 
     /**
@@ -58,7 +55,8 @@ public class XmlFault {
      *
      * @return A full text representation of this fault used for presentations.
      */
-    public @NotBlank String getFaultMessage() {
+    @NotBlank
+    public String getFaultMessage() {
         return "[%s] ( %d, %d ) : %s".formatted(type, line, column, message);
     }
 

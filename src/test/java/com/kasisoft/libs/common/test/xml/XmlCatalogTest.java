@@ -13,7 +13,7 @@ import java.net.*;
 /**
  * Collection of testcases for the type 'XmlCatalog'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class XmlCatalogTest {
 

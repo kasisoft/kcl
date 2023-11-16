@@ -127,7 +127,8 @@ public class Blacklist implements Predicate<String> {
      *
      * @return The currently used comment prefix. Not blank.
      */
-    public synchronized @NotNull String getCommentPrefix() {
+    @NotNull
+    public synchronized String getCommentPrefix() {
         return commentPrefix;
     }
 

@@ -13,7 +13,7 @@ import com.kasisoft.libs.common.pools.*;
 /**
  * Test for the class 'Bucket'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class BucketTest {
 

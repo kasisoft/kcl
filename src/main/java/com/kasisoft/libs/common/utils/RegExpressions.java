@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 import java.util.regex.Pattern;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class RegExpressions {
 

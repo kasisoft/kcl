@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 import java.util.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings("unchecked")
 public class NamedTreeNode<T> extends DefaultMutableTreeNode {
@@ -15,7 +15,6 @@ public class NamedTreeNode<T> extends DefaultMutableTreeNode {
     private static final long serialVersionUID = 674825043503770345L;
 
     private T                 value;
-
     private List<String>      parents;
 
     public NamedTreeNode(@NotNull T val, @NotBlank String name) {
@@ -50,7 +49,8 @@ public class NamedTreeNode<T> extends DefaultMutableTreeNode {
         return findChildByName(name).orElse(null);
     }
 
-    public @NotNull Optional<NamedTreeNode<T>> findChildByName(@NotBlank String name) {
+    @NotNull
+    public Optional<NamedTreeNode<T>> findChildByName(@NotBlank String name) {
         NamedTreeNode<T> result = null;
         for (var i = 0; i < getChildCount(); i++) {
             var child = (NamedTreeNode<T>) getChildAt(i);

@@ -17,7 +17,7 @@ import java.util.function.*;
 import java.awt.event.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class FunctionsTest {
 

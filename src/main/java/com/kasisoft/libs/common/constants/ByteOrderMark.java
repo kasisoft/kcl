@@ -60,7 +60,8 @@ public enum ByteOrderMark {
      *            The data to be tested.
      * @return The ByteOrderMark if it could be identified.
      */
-    public static @NotNull Optional<ByteOrderMark> identify(@NotNull byte[] data) {
+    @NotNull
+    public static  Optional<ByteOrderMark> identify(@NotNull byte[] data) {
         return identify(data, 0);
     }
 
@@ -73,7 +74,8 @@ public enum ByteOrderMark {
      *            The location where to start the test. Must be positive.
      * @return The ByteOrderMark if it could be identified.
      */
-    public static @NotNull Optional<ByteOrderMark> identify(@NotNull byte[] data, int offset) {
+    @NotNull
+    public static Optional<ByteOrderMark> identify(@NotNull byte[] data, int offset) {
         var marks = ByteOrderMark.values();
         for (var mark : marks) {
             if (mark.startsWith(data, offset)) {

@@ -8,18 +8,14 @@ import java.util.*;
  * This tokenizer operates similar to the well known StringTokenizer class with the distinction that
  * a complete literal can be used for the tokenization process.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class LiteralTokenizer implements Enumeration<String> {
 
     private int           pos;
-
     private String[]      literals;
-
     private StringBuilder input;
-
     private boolean       doreturn;
-
     private String        next;
 
     /**

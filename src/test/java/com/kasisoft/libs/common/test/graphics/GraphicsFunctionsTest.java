@@ -37,7 +37,7 @@ import java.awt.*;
 import java.io.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class GraphicsFunctionsTest {
 

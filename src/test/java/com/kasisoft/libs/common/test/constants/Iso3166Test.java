@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * Test for the constants 'Iso3166'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Iso3166Test {
 

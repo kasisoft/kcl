@@ -22,7 +22,7 @@ import java.io.*;
 /**
  * Collection of testcases for the type 'FlatXmlHandler'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class FlatXmlHandlerTest {
 

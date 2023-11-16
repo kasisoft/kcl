@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Collection of I18n related functions.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class I18NFunctions {
 

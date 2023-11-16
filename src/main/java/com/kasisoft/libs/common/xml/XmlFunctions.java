@@ -39,7 +39,7 @@ import java.io.*;
 /**
  * Collection of xml related functions.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings("unchecked")
 public final class XmlFunctions {
@@ -379,7 +379,8 @@ public final class XmlFunctions {
      * @throws KclException
      *             if loading the stylesheet failed for some reason.
      */
-    public static @NotNull Transformer newTransformer(@NotNull Path xsl) {
+    @NotNull
+    public static Transformer newTransformer(@NotNull Path xsl) {
         return IoSupportFunctions.forInputStream(xsl, $ -> newTransformer($));
     }
 
@@ -393,7 +394,8 @@ public final class XmlFunctions {
      * @throws KclException
      *             if loading the stylesheet failed for some reason.
      */
-    public static @NotNull Transformer newTransformer(@NotNull URI xsl) {
+    @NotNull
+    public static Transformer newTransformer(@NotNull URI xsl) {
         return IoSupportFunctions.forInputStream(xsl, $ -> newTransformer($));
     }
 
@@ -407,7 +409,8 @@ public final class XmlFunctions {
      * @throws KclException
      *             if loading the stylesheet failed for some reason.
      */
-    public static @NotNull Transformer newTransformer(@NotNull File xsl) {
+    @NotNull
+    public static Transformer newTransformer(@NotNull File xsl) {
         return IoSupportFunctions.forInputStream(xsl, $ -> newTransformer($));
     }
 
@@ -421,7 +424,8 @@ public final class XmlFunctions {
      * @throws KclException
      *             if loading the stylesheet failed for some reason.
      */
-    public static @NotNull Transformer newTransformer(@NotNull URL resource) {
+    @NotNull
+    public static Transformer newTransformer(@NotNull URL resource) {
         try (var instream = resource.openStream()) {
             return newTransformer(instream);
         } catch (Exception ex) {
@@ -439,7 +443,8 @@ public final class XmlFunctions {
      * @throws KclException
      *             If loading the stylesheet failed for some reason.
      */
-    public static @NotNull Transformer newTransformer(@NotNull InputStream xslinstream) {
+    @NotNull
+    public static Transformer newTransformer(@NotNull InputStream xslinstream) {
         try {
             return newTransformerFactory().newTransformer(new StreamSource(xslinstream));
         } catch (Exception ex) {
@@ -476,7 +481,8 @@ public final class XmlFunctions {
      *            A list of pairs representing the attributes.
      * @return An Element which contains all supplied informations.
      */
-    public static @NotNull Element createElement(@NotNull Document doc, @NotBlank String tag, @NotNull String content, String ... attrs) {
+    @NotNull
+    public static Element createElement(@NotNull Document doc, @NotBlank String tag, @NotNull String content, String ... attrs) {
         var result = doc.createElement(tag);
         if (content != null) {
             result.appendChild(doc.createTextNode(content));
@@ -514,7 +520,8 @@ public final class XmlFunctions {
      *            A list of interesting element names. If null all elements will be returned.
      * @return A list with all matching elements.
      */
-    public static @NotNull List<Element> getChildElements(@NotNull Node parent, String ... relevant) {
+    @NotNull
+    public static List<Element> getChildElements(@NotNull Node parent, String ... relevant) {
         var childnodes = parent.getChildNodes();
         if ((childnodes != null) && (childnodes.getLength() > 0)) {
             var               tagnames = MiscFunctions.toSet(relevant);
@@ -534,7 +541,8 @@ public final class XmlFunctions {
         return Collections.emptyList();
     }
 
-    public static <T extends Node> @NotNull List<T> getChildNodes(NodeList nodeList) {
+    @NotNull
+    public static <T extends Node> List<T> getChildNodes(NodeList nodeList) {
         var result = Collections.<T> emptyList();
         if ((nodeList != null) && (nodeList.getLength() > 0)) {
             result = new ArrayList<>(nodeList.getLength());
@@ -565,7 +573,8 @@ public final class XmlFunctions {
         return (!children.isEmpty()) ? children.get(0) : null;
     }
 
-    public static @NotNull Function<@NotNull Element, String> getElementText(@NotBlank String tag) {
+    @NotNull
+    public static Function<@NotNull Element, String> getElementText(@NotBlank String tag) {
         return $ -> getElementText($, tag);
     }
 
@@ -583,7 +592,8 @@ public final class XmlFunctions {
      *            <code>true</code> <=> Include the namespace in the attribute name.
      * @return A list with all matching elements.
      */
-    public static @NotNull Map<String, Attr> getAttributes(@NotNull Node node, boolean namespace) {
+    @NotNull
+    public static Map<String, Attr> getAttributes(@NotNull Node node, boolean namespace) {
         var attributes = node.getAttributes();
         if (attributes != null) {
             Function<Attr, String> toName = namespace ? XmlFunctions::attrFqName : XmlFunctions::attrName;
@@ -618,7 +628,8 @@ public final class XmlFunctions {
      *            A String that may be modified.
      * @return An encoded String.
      */
-    public static @NotNull String unescapeXml(@NotNull String source) {
+    @NotNull
+    public static String unescapeXml(@NotNull String source) {
         return unescapeXml(source, false);
     }
 
@@ -631,7 +642,8 @@ public final class XmlFunctions {
      *            <code>true</code> <=> Escape line endings as well.
      * @return An encoded String.
      */
-    public static @NotNull String unescapeXml(@NotNull String source, boolean lineEndings) {
+    @NotNull
+    public static String unescapeXml(@NotNull String source, boolean lineEndings) {
         return StringFunctions.replaceAll(source, lineEndings ? XML2NORMAL_LE : XML2NORMAL);
     }
 
@@ -642,7 +654,8 @@ public final class XmlFunctions {
      *            A String that may be modified.
      * @return An encoded String.
      */
-    public static @NotNull String escapeXml(@NotNull String source) {
+    @NotNull
+    public static String escapeXml(@NotNull String source) {
         return escapeXml(source, false);
     }
 
@@ -655,7 +668,8 @@ public final class XmlFunctions {
      *            <code>true</code> <=> Escape line endings as well.
      * @return An encoded String.
      */
-    public static @NotNull String escapeXml(@NotNull String source, boolean lineEndings) {
+    @NotNull
+    public static String escapeXml(@NotNull String source, boolean lineEndings) {
         return StringFunctions.replaceAll(source, lineEndings ? NORMAL2XML_LE : NORMAL2XML);
     }
 

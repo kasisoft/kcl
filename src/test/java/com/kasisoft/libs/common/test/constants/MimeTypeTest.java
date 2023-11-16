@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * Tests for the enumeration 'MimeType'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class MimeTypeTest {
 

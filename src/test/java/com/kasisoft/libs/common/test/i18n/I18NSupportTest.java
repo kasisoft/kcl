@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Tests for the i18n class 'I18NSupport'. Requires the default locale to be Locale#GERMANY.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class I18NSupportTest {
 

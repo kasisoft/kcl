@@ -18,7 +18,7 @@ import java.io.*;
 /**
  * Collection of functions used for String processing.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class StringFunctions {
 
@@ -32,13 +32,13 @@ public class StringFunctions {
      *            The name which might contain a suffix.
      * @return The string without the suffix (the dot will removed as well).
      */
-    public static @NotNull String removeSuffix(@NotNull String name) {
+    @NotNull
+    public static String removeSuffix(@NotNull String name) {
         var lidx = name.lastIndexOf('.');
         if (lidx == -1) {
             return name;
-        } else {
-            return name.substring(0, lidx);
         }
+        return name.substring(0, lidx);
     }
 
     /**
@@ -48,7 +48,8 @@ public class StringFunctions {
      *            The name which might contain a suffix.
      * @return The suffix without dot or null.
      */
-    public static @NotNull String getSuffix(@NotNull String name) {
+    @NotNull
+    public static String getSuffix(@NotNull String name) {
         var lidx = name.lastIndexOf('.');
         if (lidx == -1) {
             return null;
@@ -66,7 +67,8 @@ public class StringFunctions {
      *            The suffix which has to be added (without '.').
      * @return The name with the updated suffix.
      */
-    public static @NotNull String changeSuffix(@NotNull String name, @NotNull String suffix) {
+    @NotNull
+    public static String changeSuffix(@NotNull String name, @NotNull String suffix) {
         return "%s.%s".formatted(removeSuffix(name), suffix);
     }
 
@@ -95,7 +97,8 @@ public class StringFunctions {
      *            The String where the first character has to be altered.
      * @return A possibly in-place altered input.
      */
-    public static @NotNull String firstUp(@NotNull String input) {
+    @NotNull
+    public static String firstUp(@NotNull String input) {
         if (input.length() == 1) {
             return input.toUpperCase();
         }
@@ -109,7 +112,8 @@ public class StringFunctions {
      *            The CharSequence where the first character has to be altered.
      * @return A possibly in-place altered input.
      */
-    public static @NotNull String firstDown(@NotNull String input) {
+    @NotNull
+    public static String firstDown(@NotNull String input) {
         if (input.length() == 1) {
             return input.toLowerCase();
         }
@@ -127,7 +131,8 @@ public class StringFunctions {
      *            The replacement which has to be used instead.
      * @return This buffer.
      */
-    public static @NotNull String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
+    @NotNull
+    public static String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
         return Buckets.<Integer> bucketArrayList().forInstance($ -> {
             var pos = input.indexOf(search);
             while (pos != -1) {
@@ -153,7 +158,8 @@ public class StringFunctions {
      *            The object which has to be changed.
      * @return The supplied sequence if possible. The content is altered to a camelcase variety.
      */
-    public static @NotNull String camelCase(@NotNull String input) {
+    @NotNull
+    public static String camelCase(@NotNull String input) {
         return Buckets.bucketStringBuilder().forInstance($ -> {
             $.append(input);
             int len = $.length();
@@ -183,7 +189,8 @@ public class StringFunctions {
      *            The replacement value.
      * @return The altered text.
      */
-    public static @NotNull String replaceRegions(@NotNull String input, @NotNull String sep, @NotNull CharSequence replacement) {
+    @NotNull
+    public static String replaceRegions(@NotNull String input, @NotNull String sep, @NotNull CharSequence replacement) {
         return replaceRegions(input, sep, sep, replacement);
     }
 
@@ -200,7 +207,8 @@ public class StringFunctions {
      *            The replacement value.
      * @return The altered text.
      */
-    public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull CharSequence replacement) {
+    @NotNull
+    public static String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull CharSequence replacement) {
         return replaceRegions(input, open, close, $ -> replacement);
     }
 
@@ -217,7 +225,8 @@ public class StringFunctions {
      *            The replacement value.
      * @return The altered text.
      */
-    public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, @NotNull Function<String, CharSequence> replacement) {
+    @NotNull
+    public static String replaceRegions(@NotNull String input, @NotNull String open, @NotNull Function<String, CharSequence> replacement) {
         return replaceRegions(input, open, open, replacement);
     }
 
@@ -234,7 +243,8 @@ public class StringFunctions {
      *            The replacement value.
      * @return The altered text.
      */
-    public static @NotNull String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
+    @NotNull
+    public static String replaceRegions(@NotNull String input, @NotNull String open, String close, @NotNull Function<String, CharSequence> replacement) {
         if (close == null) {
             close = open;
         }
@@ -266,8 +276,7 @@ public class StringFunctions {
         if ((candidates == null) || (candidates.length == 0)) {
             return null;
         }
-        BiPredicate<String, String> predicate = casesensitive ? String::startsWith
-            : ($a, $b) -> $a.toLowerCase().startsWith($b.toLowerCase());
+        BiPredicate<String, String> predicate = casesensitive ? String::startsWith : ($a, $b) -> $a.toLowerCase().startsWith($b.toLowerCase());
         for (String seq : candidates) {
             if (predicate.test(input, seq)) {
                 return seq;
@@ -284,8 +293,7 @@ public class StringFunctions {
         if ((candidates == null) || (candidates.length == 0)) {
             return null;
         }
-        BiPredicate<String, String> predicate = casesensitive ? String::endsWith
-            : ($a, $b) -> $a.toLowerCase().endsWith($b.toLowerCase());
+        BiPredicate<String, String> predicate = casesensitive ? String::endsWith : ($a, $b) -> $a.toLowerCase().endsWith($b.toLowerCase());
         for (String seq : candidates) {
             if (predicate.test(input, seq)) {
                 return seq;
@@ -297,7 +305,8 @@ public class StringFunctions {
     /**
      * This function removes leading whitespace from this buffer.
      */
-    public static @NotNull String trimLeading(@NotNull String input) {
+    @NotNull
+    public static String trimLeading(@NotNull String input) {
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var codePoint = sb.codePointAt(0);
@@ -313,7 +322,8 @@ public class StringFunctions {
     /**
      * This function removes trailing whitespace from this buffer.
      */
-    public static @NotNull String trimTrailing(@NotNull String input) {
+    @NotNull
+    public static String trimTrailing(@NotNull String input) {
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var length    = sb.length();
@@ -330,7 +340,8 @@ public class StringFunctions {
     /**
      * This function removes leading and trailing whitespace from this buffer.
      */
-    public static @NotNull String trim(@NotNull String input) {
+    @NotNull
+    public static String trim(@NotNull String input) {
         return trimTrailing(trimLeading(input));
     }
 
@@ -340,7 +351,8 @@ public class StringFunctions {
      * @param chars
      *            The whitespace characters.
      */
-    public static @NotNull String trimLeading(@NotNull String input, @NotBlank String chars) {
+    @NotNull
+    public static String trimLeading(@NotNull String input, @NotBlank String chars) {
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var ch = sb.charAt(0);
@@ -358,7 +370,8 @@ public class StringFunctions {
      * @param chars
      *            The whitespace characters.
      */
-    public static @NotNull String trimTrailing(@NotNull String input, @NotBlank String chars) {
+    @NotNull
+    public static String trimTrailing(@NotNull String input, @NotBlank String chars) {
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var length = sb.length();
@@ -380,7 +393,8 @@ public class StringFunctions {
      *            <code>null</code> <=> Trim left and right, <code>true</code> <=> Trim left,
      *            <code>false</code> <=> Trim right.
      */
-    public static @NotNull String trim(@NotNull String input, @NotNull String chars, Boolean left) {
+    @NotNull
+    public static String trim(@NotNull String input, @NotNull String chars, Boolean left) {
         if ((left == null) || left.booleanValue()) {
             input = trimLeading(input, chars);
         }
@@ -400,7 +414,8 @@ public class StringFunctions {
      *            The list of Strings that has to be concatenated.
      * @return The concatenated String
      */
-    public static @NotNull String concatenate(String delimiter, CharSequence ... args) {
+    @NotNull
+    public static String concatenate(String delimiter, CharSequence ... args) {
         return concatenate(delimiter, Arrays.asList(args));
     }
 
@@ -414,7 +429,8 @@ public class StringFunctions {
      *            The collection of Strings that has to be concatenated.
      * @return The concatenated String.
      */
-    public static <C extends CharSequence, L extends Collection<C>> @NotNull String concatenate(String delimiter, L args) {
+    @NotNull
+    public static <C extends CharSequence, L extends Collection<C>> String concatenate(String delimiter, L args) {
         if ((args == null) || args.isEmpty()) {
             return Empty.NO_STRING;
         }
@@ -444,7 +460,8 @@ public class StringFunctions {
      *            The text that has to be repeated.
      * @return The concatenated reproduction string.
      */
-    public static @NotNull String repeat(@Min(0) int n, CharSequence text) {
+    @NotNull
+    public static String repeat(@Min(0) int n, CharSequence text) {
         if ((n > 0) && (text != null) && (text.length() > 0)) {
             return Buckets.bucketStringBuilder().forInstance($ -> {
                 var c = n;
@@ -465,7 +482,8 @@ public class StringFunctions {
      *            The object which textual representation is desired.
      * @return The textual representation of the supplied object.
      */
-    public static @NotNull String objectToString(Object obj) {
+    @NotNull
+    public static String objectToString(Object obj) {
         return Buckets.bucketStringBuilder().forInstance($ -> {
             appendToString($, obj);
             return $.toString();
@@ -624,7 +642,8 @@ public class StringFunctions {
      *            A regular expression used for the splitting.
      * @return A splitted list without fragments matching the supplied regular expression.
      */
-    public static @NotNull String[] splitRegex(@NotNull String input, @NotNull String regex) {
+    @NotNull
+    public static String[] splitRegex(@NotNull String input, @NotNull String regex) {
         return splitRegex(input, Pattern.compile(regex));
     }
 
@@ -636,7 +655,8 @@ public class StringFunctions {
      *            A pattern providing the regular expression used for the splitting.
      * @return A splitted list without fragments matching the supplied regular expression.
      */
-    public static @NotNull String[] splitRegex(@NotNull String input, @NotNull Pattern pattern) {
+    @NotNull
+    public static String[] splitRegex(@NotNull String input, @NotNull Pattern pattern) {
         return Buckets.<String> bucketArrayList().forInstance($ -> {
             var matcher = pattern.matcher(input);
             var last    = 0;
@@ -693,7 +713,8 @@ public class StringFunctions {
      *            A Map of String's used to run the search replace operation.
      * @return The modified String.
      */
-    public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements) {
+    @NotNull
+    public static String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements) {
         return replaceAll(input, replacements, null);
     }
 
@@ -709,7 +730,8 @@ public class StringFunctions {
      *            ${fredo}, ${dodo}, ...)
      * @return The modified String.
      */
-    public static @NotNull String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements, String fmt) {
+    @NotNull
+    public static String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements, String fmt) {
 
         var substitutions = Buckets.<String, String> bucketHashMap().allocate();
         var builder       = Buckets.bucketStringBuilder().allocate();
@@ -762,7 +784,8 @@ public class StringFunctions {
      *            The replacement which has to be used instead.
      * @return This buffer.
      */
-    public static @NotNull String replaceAll(@NotNull String input, @NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
+    @NotNull
+    public static String replaceAll(@NotNull String input, @NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
 
         var ranges        = Buckets.<Integer> bucketArrayList().allocate();
         var substitutions = Buckets.<String> bucketArrayList().allocate();

@@ -546,7 +546,8 @@ public enum Iso639 implements Predicate<String> {
      *            The bibliography alpha-3 code which value shall be searched for (bibliography).
      * @return The iso value.
      */
-    public static @NotNull Optional<Iso639> findByBibliography(String bibliography) {
+    @NotNull
+    public static Optional<Iso639> findByBibliography(String bibliography) {
         return findBy(LocalData.bibliography, bibliography);
     }
 
@@ -557,7 +558,8 @@ public enum Iso639 implements Predicate<String> {
      *            The terminology alpha-3 code which value shall be searched for (terminology).
      * @return The iso value.
      */
-    public static @NotNull Optional<Iso639> findByTerminology(String terminology) {
+    @NotNull
+    public static Optional<Iso639> findByTerminology(String terminology) {
         return findBy(LocalData.terminology, terminology);
     }
 
@@ -569,7 +571,8 @@ public enum Iso639 implements Predicate<String> {
      *            terminology).
      * @return The iso value.
      */
-    public static @NotNull Optional<Iso639> findByAlpha3(String alpha3) {
+    @NotNull
+    public static Optional<Iso639> findByAlpha3(String alpha3) {
         return findBy(LocalData.alpha3, alpha3);
     }
 
@@ -580,11 +583,13 @@ public enum Iso639 implements Predicate<String> {
      *            The alpha-2 code which value shall be searched for.
      * @return The iso value.
      */
-    public static @NotNull Optional<Iso639> findByAlpha2(String alpha2) {
+    @NotNull
+    public static Optional<Iso639> findByAlpha2(String alpha2) {
         return findBy(LocalData.alpha2, alpha2);
     }
 
-    private static @NotNull Optional<Iso639> findBy(@NotNull Map<String, Iso639> map, String key) {
+    @NotNull
+    private static Optional<Iso639> findBy(@NotNull Map<String, Iso639> map, String key) {
         if (key != null) {
             return Optional.ofNullable(map.get(key));
         }

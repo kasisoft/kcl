@@ -11,7 +11,7 @@ import org.junit.jupiter.api.*;
 import com.kasisoft.libs.common.types.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class GeoLocationTest {
 

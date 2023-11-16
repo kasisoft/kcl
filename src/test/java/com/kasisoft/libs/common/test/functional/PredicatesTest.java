@@ -15,7 +15,7 @@ import com.kasisoft.libs.common.functional.*;
 import java.util.stream.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class PredicatesTest {
 

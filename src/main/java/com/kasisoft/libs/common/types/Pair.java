@@ -12,12 +12,14 @@ import java.util.*;
 public record Pair<T1, T2>(T1 value1, T2 value2) implements HasFirstAndLast<T1, T2> {
 
     @Override
-    public @NotNull Optional<T1> findFirst() {
+    @NotNull
+    public Optional<T1> findFirst() {
         return Optional.ofNullable(value1());
     }
 
     @Override
-    public @NotNull Optional<T2> findLast() {
+    @NotNull
+    public Optional<T2> findLast() {
         return Optional.ofNullable(value2());
     }
 

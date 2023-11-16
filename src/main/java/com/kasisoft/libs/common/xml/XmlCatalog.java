@@ -25,7 +25,7 @@ import java.io.*;
 /**
  * Basic data structure used to store entity ids together with the urls.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolver, Predicate<String> {
 

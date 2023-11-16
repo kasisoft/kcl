@@ -11,13 +11,16 @@ import java.util.*;
 import java.awt.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class ScreenInfo implements Comparable<ScreenInfo> {
 
     public enum ComparisonMode implements Comparator<ScreenInfo> {
 
-        Ratio(ScreenInfo::compareByRatio, ScreenInfo::getRatioPixels), PixelCount(ScreenInfo::compareByPixelCount, ScreenInfo::getPixels), Width(ScreenInfo::compareByWidth, ScreenInfo::getWidth), Height(ScreenInfo::compareByHeight, ScreenInfo::getHeight);
+        Ratio(ScreenInfo::compareByRatio, ScreenInfo::getRatioPixels),
+        PixelCount(ScreenInfo::compareByPixelCount, ScreenInfo::getPixels),
+        Width(ScreenInfo::compareByWidth, ScreenInfo::getWidth),
+        Height(ScreenInfo::compareByHeight, ScreenInfo::getHeight);
 
         private Comparator<ScreenInfo>        comparator;
 
@@ -40,23 +43,14 @@ public class ScreenInfo implements Comparable<ScreenInfo> {
     } /* ENDENUM */
 
     private String                id;
-
     private GraphicsConfiguration graphicsConfiguration;
-
     private GraphicsDevice        screen;
-
     private KSize                 size;
-
     private int                   width;
-
     private int                   height;
-
     private int                   ratioX;
-
     private int                   ratioY;
-
     private int                   pixels;
-
     private int                   ratioPixels;
 
     public ScreenInfo(String idString, GraphicsConfiguration gc, GraphicsDevice scr, int sWidth, int sHeight) {

@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Declarations used to identify primitive types.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class PrimitiveFunctions {
 
@@ -82,11 +82,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull byte[] buffer, @NotNull byte[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -102,7 +104,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull byte[] buffer, @NotNull byte[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull byte[] buffer, @NotNull byte[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -121,7 +124,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Byte> toList(@NotNull byte[] buffer) {
+    @NotNull
+    public static List<Byte> toList(@NotNull byte[] buffer) {
         var result = new ArrayList<Byte>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -129,7 +133,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Byte[] toObjectArray(@NotNull byte[] buffer) {
+    @NotNull
+    public static Byte[] toObjectArray(@NotNull byte[] buffer) {
         var result = new Byte[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -137,7 +142,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull byte[] toPrimitiveArray(@NotNull Byte[] buffer) {
+    @NotNull
+    public static byte[] toPrimitiveArray(@NotNull Byte[] buffer) {
         var result = new byte[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -145,7 +151,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull byte[] toPrimitiveArrayByte(@NotNull List<Byte> buffer) {
+    @NotNull
+    public static byte[] toPrimitiveArrayByte(@NotNull List<Byte> buffer) {
         var result = new byte[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -153,7 +160,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull byte[] concat(@NotNull byte[] ... buffers) {
+    @NotNull
+    public static byte[] concat(@NotNull byte[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_BYTES;
         }
@@ -173,11 +181,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull byte[] insert(@NotNull byte[] buffer, @NotNull byte[] sequence) {
+    @NotNull
+    public static byte[] insert(@NotNull byte[] buffer, @NotNull byte[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull byte[] insert(@NotNull byte[] buffer, @NotNull byte[] sequence, int offset) {
+    @NotNull
+    public static byte[] insert(@NotNull byte[] buffer, @NotNull byte[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }
@@ -251,11 +261,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull short[] buffer, @NotNull short[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull short[] buffer, @NotNull short[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull short[] buffer, @NotNull short[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull short[] buffer, @NotNull short[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -271,7 +283,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull short[] buffer, @NotNull short[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull short[] buffer, @NotNull short[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -290,7 +303,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Short> toList(@NotNull short[] buffer) {
+    @NotNull
+    public static List<Short> toList(@NotNull short[] buffer) {
         var result = new ArrayList<Short>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -298,7 +312,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Short[] toObjectArray(@NotNull short[] buffer) {
+    @NotNull
+    public static Short[] toObjectArray(@NotNull short[] buffer) {
         var result = new Short[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -306,7 +321,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull short[] toPrimitiveArray(@NotNull Short[] buffer) {
+    @NotNull
+    public static short[] toPrimitiveArray(@NotNull Short[] buffer) {
         var result = new short[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -314,7 +330,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull short[] toPrimitiveArrayShort(@NotNull List<Short> buffer) {
+    @NotNull
+    public static short[] toPrimitiveArrayShort(@NotNull List<Short> buffer) {
         var result = new short[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -322,7 +339,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull short[] concat(@NotNull short[] ... buffers) {
+    @NotNull
+    public static short[] concat(@NotNull short[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_SHORTS;
         }
@@ -342,11 +360,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull short[] insert(@NotNull short[] buffer, @NotNull short[] sequence) {
+    @NotNull
+    public static short[] insert(@NotNull short[] buffer, @NotNull short[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull short[] insert(@NotNull short[] buffer, @NotNull short[] sequence, int offset) {
+    @NotNull
+    public static short[] insert(@NotNull short[] buffer, @NotNull short[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }
@@ -420,11 +440,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull int[] buffer, @NotNull int[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull int[] buffer, @NotNull int[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull int[] buffer, @NotNull int[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull int[] buffer, @NotNull int[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -440,7 +462,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull int[] buffer, @NotNull int[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull int[] buffer, @NotNull int[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -459,7 +482,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Integer> toList(@NotNull int[] buffer) {
+    @NotNull
+    public static List<Integer> toList(@NotNull int[] buffer) {
         var result = new ArrayList<Integer>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -467,7 +491,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Integer[] toObjectArray(@NotNull int[] buffer) {
+    @NotNull
+    public static Integer[] toObjectArray(@NotNull int[] buffer) {
         var result = new Integer[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -475,7 +500,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull int[] toPrimitiveArray(@NotNull Integer[] buffer) {
+    @NotNull
+    public static int[] toPrimitiveArray(@NotNull Integer[] buffer) {
         var result = new int[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -483,7 +509,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull int[] toPrimitiveArrayInteger(@NotNull List<Integer> buffer) {
+    @NotNull
+    public static int[] toPrimitiveArrayInteger(@NotNull List<Integer> buffer) {
         var result = new int[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -491,7 +518,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull int[] concat(@NotNull int[] ... buffers) {
+    @NotNull
+    public static int[] concat(@NotNull int[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_INTS;
         }
@@ -511,11 +539,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull int[] insert(@NotNull int[] buffer, @NotNull int[] sequence) {
+    @NotNull
+    public static int[] insert(@NotNull int[] buffer, @NotNull int[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull int[] insert(@NotNull int[] buffer, @NotNull int[] sequence, int offset) {
+    @NotNull
+    public static int[] insert(@NotNull int[] buffer, @NotNull int[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }
@@ -589,11 +619,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull long[] buffer, @NotNull long[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull long[] buffer, @NotNull long[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull long[] buffer, @NotNull long[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull long[] buffer, @NotNull long[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -609,7 +641,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull long[] buffer, @NotNull long[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull long[] buffer, @NotNull long[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -628,7 +661,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Long> toList(@NotNull long[] buffer) {
+    @NotNull
+    public static List<Long> toList(@NotNull long[] buffer) {
         var result = new ArrayList<Long>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -636,7 +670,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Long[] toObjectArray(@NotNull long[] buffer) {
+    @NotNull
+    public static Long[] toObjectArray(@NotNull long[] buffer) {
         var result = new Long[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -644,7 +679,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull long[] toPrimitiveArray(@NotNull Long[] buffer) {
+    @NotNull
+    public static long[] toPrimitiveArray(@NotNull Long[] buffer) {
         var result = new long[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -652,7 +688,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull long[] toPrimitiveArrayLong(@NotNull List<Long> buffer) {
+    @NotNull
+    public static long[] toPrimitiveArrayLong(@NotNull List<Long> buffer) {
         var result = new long[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -660,7 +697,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull long[] concat(@NotNull long[] ... buffers) {
+    @NotNull
+    public static long[] concat(@NotNull long[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_LONGS;
         }
@@ -680,11 +718,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull long[] insert(@NotNull long[] buffer, @NotNull long[] sequence) {
+    @NotNull
+    public static long[] insert(@NotNull long[] buffer, @NotNull long[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull long[] insert(@NotNull long[] buffer, @NotNull long[] sequence, int offset) {
+    @NotNull
+    public static long[] insert(@NotNull long[] buffer, @NotNull long[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }
@@ -758,11 +798,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull float[] buffer, @NotNull float[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull float[] buffer, @NotNull float[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull float[] buffer, @NotNull float[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull float[] buffer, @NotNull float[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -778,7 +820,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull float[] buffer, @NotNull float[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull float[] buffer, @NotNull float[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -797,7 +840,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Float> toList(@NotNull float[] buffer) {
+    @NotNull
+    public static List<Float> toList(@NotNull float[] buffer) {
         var result = new ArrayList<Float>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -805,7 +849,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Float[] toObjectArray(@NotNull float[] buffer) {
+    @NotNull
+    public static Float[] toObjectArray(@NotNull float[] buffer) {
         var result = new Float[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -813,7 +858,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull float[] toPrimitiveArray(@NotNull Float[] buffer) {
+    @NotNull
+    public static float[] toPrimitiveArray(@NotNull Float[] buffer) {
         var result = new float[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -821,7 +867,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull float[] toPrimitiveArrayFloat(@NotNull List<Float> buffer) {
+    @NotNull
+    public static float[] toPrimitiveArrayFloat(@NotNull List<Float> buffer) {
         var result = new float[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -829,7 +876,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull float[] concat(@NotNull float[] ... buffers) {
+    @NotNull
+    public static float[] concat(@NotNull float[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_FLOATS;
         }
@@ -849,11 +897,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull float[] insert(@NotNull float[] buffer, @NotNull float[] sequence) {
+    @NotNull
+    public static float[] insert(@NotNull float[] buffer, @NotNull float[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull float[] insert(@NotNull float[] buffer, @NotNull float[] sequence, int offset) {
+    @NotNull
+    public static float[] insert(@NotNull float[] buffer, @NotNull float[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }
@@ -927,11 +977,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull double[] buffer, @NotNull double[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull double[] buffer, @NotNull double[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull double[] buffer, @NotNull double[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull double[] buffer, @NotNull double[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -947,7 +999,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull double[] buffer, @NotNull double[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull double[] buffer, @NotNull double[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -966,7 +1019,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Double> toList(@NotNull double[] buffer) {
+    @NotNull
+    public static List<Double> toList(@NotNull double[] buffer) {
         var result = new ArrayList<Double>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -974,7 +1028,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Double[] toObjectArray(@NotNull double[] buffer) {
+    @NotNull
+    public static Double[] toObjectArray(@NotNull double[] buffer) {
         var result = new Double[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -982,7 +1037,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull double[] toPrimitiveArray(@NotNull Double[] buffer) {
+    @NotNull
+    public static double[] toPrimitiveArray(@NotNull Double[] buffer) {
         var result = new double[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -990,7 +1046,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull double[] toPrimitiveArrayDouble(@NotNull List<Double> buffer) {
+    @NotNull
+    public static double[] toPrimitiveArrayDouble(@NotNull List<Double> buffer) {
         var result = new double[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -998,7 +1055,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull double[] concat(@NotNull double[] ... buffers) {
+    @NotNull
+    public static double[] concat(@NotNull double[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_DOUBLES;
         }
@@ -1018,11 +1076,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull double[] insert(@NotNull double[] buffer, @NotNull double[] sequence) {
+    @NotNull
+    public static double[] insert(@NotNull double[] buffer, @NotNull double[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull double[] insert(@NotNull double[] buffer, @NotNull double[] sequence, int offset) {
+    @NotNull
+    public static double[] insert(@NotNull double[] buffer, @NotNull double[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }
@@ -1072,11 +1132,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull char[] buffer, @NotNull char[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull char[] buffer, @NotNull char[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull char[] buffer, @NotNull char[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull char[] buffer, @NotNull char[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -1092,7 +1154,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull char[] buffer, @NotNull char[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull char[] buffer, @NotNull char[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -1111,7 +1174,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Character> toList(@NotNull char[] buffer) {
+    @NotNull
+    public static List<Character> toList(@NotNull char[] buffer) {
         var result = new ArrayList<Character>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -1119,7 +1183,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Character[] toObjectArray(@NotNull char[] buffer) {
+    @NotNull
+    public static Character[] toObjectArray(@NotNull char[] buffer) {
         var result = new Character[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -1127,7 +1192,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull char[] toPrimitiveArray(@NotNull Character[] buffer) {
+    @NotNull
+    public static char[] toPrimitiveArray(@NotNull Character[] buffer) {
         var result = new char[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -1135,7 +1201,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull char[] toPrimitiveArrayCharacter(@NotNull List<Character> buffer) {
+    @NotNull
+    public static char[] toPrimitiveArrayCharacter(@NotNull List<Character> buffer) {
         var result = new char[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -1143,7 +1210,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull char[] concat(@NotNull char[] ... buffers) {
+    @NotNull
+    public static char[] concat(@NotNull char[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_CHARS;
         }
@@ -1163,11 +1231,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull char[] insert(@NotNull char[] buffer, @NotNull char[] sequence) {
+    @NotNull
+    public static char[] insert(@NotNull char[] buffer, @NotNull char[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull char[] insert(@NotNull char[] buffer, @NotNull char[] sequence, int offset) {
+    @NotNull
+    public static char[] insert(@NotNull char[] buffer, @NotNull char[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }
@@ -1243,11 +1313,13 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
+    @Min(-1)
+    public static int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
         return indexOf(buffer, sequence, 0);
     }
 
-    public static @Min(-1) int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence, @Min(0) int pos) {
+    @Min(-1)
+    public static int indexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence, @Min(0) int pos) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= pos) {
@@ -1263,7 +1335,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @Min(-1) int lastIndexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
+    @Min(-1)
+    public static int lastIndexOf(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
         if (buffer.length >= sequence.length) {
             var maxPos = buffer.length - sequence.length;
             if (maxPos >= 0) {
@@ -1282,7 +1355,8 @@ public class PrimitiveFunctions {
         return -1;
     }
 
-    public static @NotNull List<Boolean> toList(@NotNull boolean[] buffer) {
+    @NotNull
+    public static List<Boolean> toList(@NotNull boolean[] buffer) {
         var result = new ArrayList<Boolean>(buffer.length);
         for (var element : buffer) {
             result.add(element);
@@ -1290,7 +1364,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull Boolean[] toObjectArray(@NotNull boolean[] buffer) {
+    @NotNull
+    public static Boolean[] toObjectArray(@NotNull boolean[] buffer) {
         var result = new Boolean[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -1298,7 +1373,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull boolean[] toPrimitiveArray(@NotNull Boolean[] buffer) {
+    @NotNull
+    public static boolean[] toPrimitiveArray(@NotNull Boolean[] buffer) {
         var result = new boolean[buffer.length];
         for (var i = 0; i < buffer.length; i++) {
             result[i] = buffer[i];
@@ -1306,7 +1382,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull boolean[] toPrimitiveArrayBoolean(@NotNull List<Boolean> buffer) {
+    @NotNull
+    public static boolean[] toPrimitiveArrayBoolean(@NotNull List<Boolean> buffer) {
         var result = new boolean[buffer.size()];
         for (var i = 0; i < buffer.size(); i++) {
             result[i] = buffer.get(i);
@@ -1314,7 +1391,8 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull boolean[] concat(@NotNull boolean[] ... buffers) {
+    @NotNull
+    public static boolean[] concat(@NotNull boolean[] ... buffers) {
         if (buffers.length == 0) {
             return Empty.NO_BOOLEANS;
         }
@@ -1334,11 +1412,13 @@ public class PrimitiveFunctions {
         return result;
     }
 
-    public static @NotNull boolean[] insert(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
+    @NotNull
+    public static boolean[] insert(@NotNull boolean[] buffer, @NotNull boolean[] sequence) {
         return concat(sequence, buffer);
     }
 
-    public static @NotNull boolean[] insert(@NotNull boolean[] buffer, @NotNull boolean[] sequence, int offset) {
+    @NotNull
+    public static boolean[] insert(@NotNull boolean[] buffer, @NotNull boolean[] sequence, int offset) {
         if (offset == 0) {
             return concat(sequence, buffer);
         }

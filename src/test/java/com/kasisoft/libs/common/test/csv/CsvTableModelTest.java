@@ -17,7 +17,7 @@ import com.kasisoft.libs.common.*;
 import org.junit.jupiter.api.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class CsvTableModelTest {
 

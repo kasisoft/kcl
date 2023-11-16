@@ -3,7 +3,7 @@ package com.kasisoft.libs.common.test.i18n;
 import com.kasisoft.libs.common.i18n.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Messages1 {
 

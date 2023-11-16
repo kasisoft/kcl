@@ -67,7 +67,8 @@ public class I18NSupport {
      *            The class which is supposed to be translated.
      * @return A mapping between field names and the corresponding {@link Field} instances.
      */
-    private static @NotNull Map<String, Field> collectFields(@NotNull Class<?> clazz) {
+    @NotNull
+    private static Map<String, Field> collectFields(@NotNull Class<?> clazz) {
         var result = new HashMap<String, Field>();
         var fields = clazz.getDeclaredFields();
         for (var field : fields) {

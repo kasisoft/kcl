@@ -24,7 +24,7 @@ import java.nio.file.*;
 import java.sql.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class DbConnectionTest {
 

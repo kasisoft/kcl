@@ -342,7 +342,8 @@ public class CsvTableModel implements TableModel {
         }
     }
 
-    private @NotNull List<List<String>> loadCellDataDefault(InputStream source) {
+    @NotNull
+    private List<List<String>> loadCellDataDefault(InputStream source) {
 
         /*
          * The import follows these steps:
@@ -662,7 +663,8 @@ public class CsvTableModel implements TableModel {
      *            The content that will be normalized.
      * @return The supplied {@link Content} instance.
      */
-    private @NotNull Content normalize(@NotNull Content content) {
+    @NotNull
+    private Content normalize(@NotNull Content content) {
         var result = content;
         if ((result.type == ContentType.CONTENT) && (result.data != null)) {
             result.data = StringFunctions.trim(result.data, "\t ", null);

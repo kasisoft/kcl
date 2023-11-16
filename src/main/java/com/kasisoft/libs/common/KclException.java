@@ -37,14 +37,16 @@ public class KclException extends RuntimeException {
         }
     }
 
-    public static @NotNull KclException wrap(@NotNull Exception ex) {
+    @NotNull
+    public static KclException wrap(@NotNull Exception ex) {
         if (ex instanceof KclException kex) {
             return kex;
         }
         return new KclException(ex);
     }
 
-    public static @NotNull KclException wrap(@NotNull Exception ex, @NotBlank String msg) {
+    @NotNull
+    public static KclException wrap(@NotNull Exception ex, @NotBlank String msg) {
         if (ex instanceof KclException kex) {
             return kex;
         }

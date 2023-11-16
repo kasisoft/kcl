@@ -17,26 +17,18 @@ import java.io.*;
  * be supplied in order to generate the output. The OutputStream must be set each time this handler
  * is used since it will be discarded from the handler after a conversion has taken place.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class FlatXmlHandler extends DefaultHandler {
 
     private Stack<String> elements;
-
     private StringBuilder path;
-
     private StringBuilder buffer;
-
     private Encoding      encoding;
-
     private OutputStream  target;
-
     private String        newline;
-
     private boolean       trimValues;
-
     private boolean       escaping;
-
     private boolean       attributes;
 
     /**

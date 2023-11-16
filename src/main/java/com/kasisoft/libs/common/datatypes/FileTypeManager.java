@@ -14,7 +14,6 @@ import java.util.*;
 public class FileTypeManager {
 
     private List<FileType> filetypes;
-
     private int            maxspace;
 
     /**

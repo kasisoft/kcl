@@ -7,7 +7,7 @@ import org.junit.jupiter.api.*;
 import com.kasisoft.libs.common.functional.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class KPredicateTest {
 

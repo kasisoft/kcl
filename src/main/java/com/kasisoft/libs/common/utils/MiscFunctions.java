@@ -15,26 +15,29 @@ import java.util.*;
 import java.time.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings("unchecked")
 public class MiscFunctions {
 
-    public static <R> @NotNull List<R> trimLeading(@NotNull List<R> input) {
+    @NotNull
+    public static <R> List<R> trimLeading(@NotNull List<R> input) {
         while ((!input.isEmpty()) && (input.get(0) == null)) {
             input.remove(0);
         }
         return input;
     }
 
-    public static <R> @NotNull List<R> trimTrailing(@NotNull List<R> input) {
+    @NotNull
+    public static <R> List<R> trimTrailing(@NotNull List<R> input) {
         while ((!input.isEmpty()) && (input.get(input.size() - 1) == null)) {
             input.remove(input.size() - 1);
         }
         return input;
     }
 
-    public static <R> @NotNull List<R> trim(@NotNull List<R> input) {
+    @NotNull
+    public static <R> List<R> trim(@NotNull List<R> input) {
         trimLeading(input);
         trimTrailing(input);
         return input;
@@ -79,7 +82,8 @@ public class MiscFunctions {
      *            The elements that shall be collected within a set.
      * @return The set created from the supplied elements.
      */
-    public static <T> @NotNull Set<@NotNull T> toSet(T ... elements) {
+    @NotNull
+    public static <T> Set<@NotNull T> toSet(T ... elements) {
         var result = new HashSet<T>();
         if (elements != null) {
             for (var i = 0; i < elements.length; i++) {
@@ -143,7 +147,8 @@ public class MiscFunctions {
         }
     }
 
-    public static <R> @NotNull List<R> toUniqueList(List<R> list) {
+    @NotNull
+    public static <R> List<R> toUniqueList(List<R> list) {
         var result = Collections.<R> emptyList();
         if (list != null) {
             result = new ArrayList<>(new TreeSet<R>(list));
@@ -158,7 +163,8 @@ public class MiscFunctions {
      *            The entries that will be returned as list of pairs.
      * @return A list of pairs.
      */
-    public static <R> @NotNull List<Pair<R, R>> toPairs(R ... entries) {
+    @NotNull
+    public static <R> List<Pair<R, R>> toPairs(R ... entries) {
         var result = Collections.<Pair<R, R>> emptyList();
         if (entries != null) {
             var count = entries.length / 2;
@@ -178,7 +184,8 @@ public class MiscFunctions {
      *            The entries that will be returned as a map.
      * @return A map providing all entries (unless the list length is odd).
      */
-    public static <R1, R2> @NotNull Map<R1, R2> toMap(@NotNull Object ... entries) {
+    @NotNull
+    public static <R1, R2> Map<R1, R2> toMap(@NotNull Object ... entries) {
         var result = Collections.<R1, R2> emptyMap();
         if (entries != null) {
             var count = entries.length / 2;
@@ -326,7 +333,8 @@ public class MiscFunctions {
      *            The element that shall be repeated.
      * @return A list with the supplied amount of elements.
      */
-    public static <T> @NotNull List<T> repeat(int count, T element) {
+    @NotNull
+    public static <T> List<T> repeat(int count, T element) {
         var result = new ArrayList<T>(count);
         for (var i = 0; i < count; i++) {
             result.add(element);
@@ -334,7 +342,8 @@ public class MiscFunctions {
         return result;
     }
 
-    public static @NotNull Map<@NotNull String, String> propertiesToMap(Properties properties) {
+    @NotNull
+    public static Map<@NotNull String, String> propertiesToMap(Properties properties) {
         var result = new HashMap<String, String>(100);
         if (properties != null) {
             var names = (Enumeration<String>) properties.propertyNames();

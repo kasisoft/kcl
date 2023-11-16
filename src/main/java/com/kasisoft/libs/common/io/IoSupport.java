@@ -25,7 +25,8 @@ public interface IoSupport<T> {
     @NotNull
     OutputStream newOutputStreamImpl(@NotNull T destination) throws Exception;
 
-    default @NotNull InputStream newInputStream(@NotNull T source) {
+    @NotNull
+    default InputStream newInputStream(@NotNull T source) {
         try {
             return new BufferedInputStream(newInputStreamImpl(source));
         } catch (Exception ex) {
@@ -33,7 +34,8 @@ public interface IoSupport<T> {
         }
     }
 
-    default @NotNull OutputStream newOutputStream(@NotNull T destination) {
+    @NotNull
+    default OutputStream newOutputStream(@NotNull T destination) {
         try {
             return new BufferedOutputStream(newOutputStreamImpl(destination));
         } catch (Exception ex) {
@@ -41,19 +43,23 @@ public interface IoSupport<T> {
         }
     }
 
-    default @NotNull Reader newReader(@NotNull T source) {
+    @NotNull
+    default Reader newReader(@NotNull T source) {
         return newReader(source, null);
     }
 
-    default @NotNull Reader newReader(@NotNull T source, Encoding encoding) {
+    @NotNull
+    default Reader newReader(@NotNull T source, Encoding encoding) {
         return new BufferedReader(new InputStreamReader(newInputStream(source), Encoding.getEncoding(encoding).getCharset()));
     }
 
-    default @NotNull Writer newWriter(@NotNull T destination) {
+    @NotNull
+    default Writer newWriter(@NotNull T destination) {
         return newWriter(destination, null);
     }
 
-    default @NotNull Writer newWriter(@NotNull T destination, Encoding encoding) {
+    @NotNull
+    default Writer newWriter(@NotNull T destination, Encoding encoding) {
         return new BufferedWriter(new OutputStreamWriter(newOutputStream(destination), Encoding.getEncoding(encoding).getCharset()));
     }
 
@@ -137,11 +143,13 @@ public interface IoSupport<T> {
         }
     }
 
-    default @NotNull byte[] loadBytes(@NotNull T source, @Min(1) int size) {
+    @NotNull
+    default byte[] loadBytes(@NotNull T source, @Min(1) int size) {
         return loadBytes(source, 0, size);
     }
 
-    default @NotNull byte[] loadBytes(@NotNull T source, @Min(0) int offset, @Min(1) int size) {
+    @NotNull
+    default byte[] loadBytes(@NotNull T source, @Min(0) int offset, @Min(1) int size) {
         return forInputStream(source, $ -> {
             try {
                 var result = new byte[size];
@@ -154,19 +162,23 @@ public interface IoSupport<T> {
         });
     }
 
-    default @NotNull char[] loadChars(@NotNull T source, @Min(1) int size) {
+    @NotNull
+    default char[] loadChars(@NotNull T source, @Min(1) int size) {
         return loadChars(source, null, 0, size);
     }
 
-    default @NotNull char[] loadChars(@NotNull T source, @Min(0) int offset, @Min(1) int size) {
+    @NotNull
+    default char[] loadChars(@NotNull T source, @Min(0) int offset, @Min(1) int size) {
         return loadChars(source, null, offset, size);
     }
 
-    default @NotNull char[] loadChars(@NotNull T source, Encoding encoding, @Min(1) int size) {
+    @NotNull
+    default char[] loadChars(@NotNull T source, Encoding encoding, @Min(1) int size) {
         return loadChars(source, encoding, 0, size);
     }
 
-    default @NotNull char[] loadChars(@NotNull T source, Encoding encoding, @Min(0) int offset, @Min(1) int size) {
+    @NotNull
+    default char[] loadChars(@NotNull T source, Encoding encoding, @Min(0) int offset, @Min(1) int size) {
         return forReader(source, encoding, $reader -> {
             try {
                 IoFunctions.skip($reader, offset);
@@ -187,11 +199,13 @@ public interface IoSupport<T> {
         });
     }
 
-    default @NotNull byte[] loadAllBytes(@NotNull T source) {
+    @NotNull
+    default byte[] loadAllBytes(@NotNull T source) {
         return loadAllBytes(source, 0);
     }
 
-    default @NotNull byte[] loadAllBytes(@NotNull T source, @Min(0) int offset) {
+    @NotNull
+    default byte[] loadAllBytes(@NotNull T source, @Min(0) int offset) {
         return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
             forInputStreamDo(source, $instream -> {
                 try {
@@ -205,19 +219,23 @@ public interface IoSupport<T> {
         });
     }
 
-    default @NotNull char[] loadAllChars(@NotNull T source) {
+    @NotNull
+    default char[] loadAllChars(@NotNull T source) {
         return loadAllChars(source, null, 0);
     }
 
-    default @NotNull char[] loadAllChars(@NotNull T source, @Min(0) int offset) {
+    @NotNull
+    default char[] loadAllChars(@NotNull T source, @Min(0) int offset) {
         return loadAllChars(source, null, offset);
     }
 
-    default @NotNull char[] loadAllChars(@NotNull T source, Encoding encoding) {
+    @NotNull
+    default char[] loadAllChars(@NotNull T source, Encoding encoding) {
         return loadAllChars(source, encoding, 0);
     }
 
-    default @NotNull char[] loadAllChars(@NotNull T source, Encoding encoding, @Min(0) int offset) {
+    @NotNull
+    default char[] loadAllChars(@NotNull T source, Encoding encoding, @Min(0) int offset) {
         return Buckets.bucketCharArrayWriter().forInstance($charout -> {
             forReaderDo(source, encoding, $reader -> {
                 try {
@@ -263,11 +281,13 @@ public interface IoSupport<T> {
         });
     }
 
-    default @NotNull String readText(@NotNull T source) {
+    @NotNull
+    default String readText(@NotNull T source) {
         return readText(source, null);
     }
 
-    default @NotNull String readText(@NotNull T source, Encoding encoding) {
+    @NotNull
+    default String readText(@NotNull T source, Encoding encoding) {
         return forReader(source, encoding, IoFunctions::readText);
     }
 

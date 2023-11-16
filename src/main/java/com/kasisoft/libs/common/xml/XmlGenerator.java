@@ -13,22 +13,16 @@ import java.util.*;
 /**
  * Helper class which allows to generate xml files.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class XmlGenerator<T extends XmlGenerator<T>> {
 
     private StringBuilder                      builder;
-
     private Encoding                           encoding;
-
     private Stack<String>                      tags;
-
     private StringBuilder                      indentation;
-
     private String                             indent;
-
     private BiConsumer<Object, Object>         handleInvalidAttribute;
-
     private BiFunction<String, Object, String> attributeValueConverter;
 
     /**
@@ -84,7 +78,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T withInvalidAttributeHandler(BiConsumer<Object, Object> handler) {
+    @NotNull
+    public synchronized T withInvalidAttributeHandler(BiConsumer<Object, Object> handler) {
         if (handler != null) {
             handleInvalidAttribute = handler;
         } else {
@@ -101,7 +96,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T withAttributeValueConverter(BiFunction<String, Object, String> converter) {
+    @NotNull
+    public synchronized T withAttributeValueConverter(BiFunction<String, Object, String> converter) {
         if (converter != null) {
             attributeValueConverter = converter;
         } else {
@@ -130,7 +126,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      *            The attribute value.
      * @return The converted attribute value.
      */
-    private @NotNull String attributeValueConverter(@NotBlank String key, Object val) {
+    @NotNull
+    private String attributeValueConverter(@NotBlank String key, Object val) {
         return String.valueOf(val);
     }
 
@@ -165,7 +162,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      *            A list of pairs establishing the attribute map.
      * @return A map of attributes.
      */
-    private @NotNull Map<String, Object> asMap(Object ... attributes) {
+    @NotNull
+    private Map<String, Object> asMap(Object ... attributes) {
         Map<String, Object> result = null;
         if ((attributes != null) && (attributes.length >= 2)) {
             result = new HashMap<>();
@@ -190,7 +188,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      *            The map that's supposed to be returned if possible.
      * @return The supplied map or a substitute.
      */
-    private @NotNull Map<String, Object> asMap(@NotNull Map<String, Object> map) {
+    @NotNull
+    private Map<String, Object> asMap(@NotNull Map<String, Object> map) {
         if ((map == null) || map.isEmpty()) {
             return Collections.emptyMap();
         } else {
@@ -208,7 +207,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T tagV(@NotBlank String tag, Object ... attributes) {
+    @NotNull
+    public synchronized T tagV(@NotBlank String tag, Object ... attributes) {
         tag(tag, null, asMap(attributes));
         return (T) this;
     }
@@ -225,7 +225,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T tagV(@NotBlank String tag, String text, Object ... attributes) {
+    @NotNull
+    public synchronized T tagV(@NotBlank String tag, String text, Object ... attributes) {
         tag(tag, text, asMap(attributes));
         return (T) this;
     }
@@ -240,7 +241,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T tag(@NotBlank String tag, Object[] attributes) {
+    @NotNull
+    public synchronized T tag(@NotBlank String tag, Object[] attributes) {
         tag(tag, null, asMap(attributes));
         return (T) this;
     }
@@ -255,7 +257,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T tag(@NotBlank String tag, String text) {
+    @NotNull
+    public synchronized T tag(@NotBlank String tag, String text) {
         tag(tag, text, (Map<String, Object>) null);
         return (T) this;
     }
@@ -272,7 +275,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T tag(@NotBlank String tag, String text, Object[] attributes) {
+    @NotNull
+    public synchronized T tag(@NotBlank String tag, String text, Object[] attributes) {
         tag(tag, text, asMap(attributes));
         return (T) this;
     }
@@ -287,7 +291,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T tag(@NotBlank String tag, Map<String, Object> attributes) {
+    @NotNull
+    public synchronized T tag(@NotBlank String tag, Map<String, Object> attributes) {
         tag(tag, null, attributes);
         return (T) this;
     }
@@ -304,7 +309,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T tag(String tag, String text, Map<String, Object> attributes) {
+    @NotNull
+    public synchronized T tag(String tag, String text, Map<String, Object> attributes) {
         tag        = StringFunctions.cleanup(tag);
         attributes = asMap(attributes);
         text       = StringFunctions.cleanup(text);
@@ -340,7 +346,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T openTagV(@NotBlank String tag, Object ... attributes) {
+    @NotNull
+    public synchronized T openTagV(@NotBlank String tag, Object ... attributes) {
         openTag(tag, asMap(attributes));
         return (T) this;
     }
@@ -352,7 +359,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      *            The tag name.
      * @return this
      */
-    public synchronized @NotNull T openTag(@NotBlank String tag) {
+    @NotNull
+    public synchronized T openTag(@NotBlank String tag) {
         return openTag(tag, (Map<String, Object>) null);
     }
 
@@ -366,7 +374,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T openTag(@NotBlank String tag, Object[] attributes) {
+    @NotNull
+    public synchronized T openTag(@NotBlank String tag, Object[] attributes) {
         openTag(tag, asMap(attributes));
         return (T) this;
     }
@@ -381,7 +390,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T openTag(@NotBlank String tag, Map<String, Object> attributes) {
+    @NotNull
+    public synchronized T openTag(@NotBlank String tag, Map<String, Object> attributes) {
         tag        = StringFunctions.cleanup(tag);
         attributes = asMap(attributes);
         builder.append(indentation);
@@ -401,7 +411,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T closeTag() {
+    @NotNull
+    public synchronized T closeTag() {
         if (!tags.isEmpty()) {
             dedent();
             var tag = tags.pop();
@@ -418,7 +429,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T cdata(String text) {
+    @NotNull
+    public synchronized T cdata(String text) {
         if (text != null) {
             builder.append("<![CDATA[%s]]>\n".formatted(text));
         }
@@ -431,7 +443,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T processingInstruction() {
+    @NotNull
+    public synchronized T processingInstruction() {
         builder.append("<?xml version=\"1.0\" encoding=\"%s\"?>\n".formatted(encoding.getEncoding()));
         return (T) this;
     }
@@ -444,7 +457,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T comment(String comment) {
+    @NotNull
+    public synchronized T comment(String comment) {
         if (comment != null) {
             builder.append("%s<!-- %s -->\n".formatted(indentation, escapeXml(comment)));
         }
@@ -459,7 +473,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public synchronized @NotNull T multilineComment(String comment) {
+    @NotNull
+    public synchronized T multilineComment(String comment) {
         if (comment != null) {
             builder.append("%s<!-- ~~~~~~~~~~~~~~~~~ \n".formatted(indentation));
             var tokenizer = new StringTokenizer(comment, "\n", false);
@@ -504,7 +519,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      *
      * @return The current xml content.
      */
-    public synchronized @NotNull String toXml() {
+    @NotNull
+    public synchronized String toXml() {
         stop();
         return builder.toString();
     }
@@ -516,7 +532,8 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
      *            The text that will require escaping.
      * @return The escaped character.
      */
-    private @NotNull String escapeXml(@NotNull String text) {
+    @NotNull
+    private String escapeXml(@NotNull String text) {
         if (text.length() > 0) {
             return XmlFunctions.escapeXml(text);
         }

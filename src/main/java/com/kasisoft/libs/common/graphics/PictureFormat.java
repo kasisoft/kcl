@@ -61,7 +61,8 @@ public enum PictureFormat implements Predicate<String> {
         return false;
     }
 
-    public @NotNull String getSuffix() {
+    @NotNull
+    public String getSuffix() {
         return suffices.get(0);
     }
 

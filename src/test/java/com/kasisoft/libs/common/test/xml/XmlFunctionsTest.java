@@ -34,7 +34,7 @@ import java.io.*;
 /**
  * Tests for the class 'XmlFunctions'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @TestMethodOrder(OrderAnnotation.class)
 public class XmlFunctionsTest {

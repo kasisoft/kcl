@@ -41,7 +41,8 @@ public record CsvOptions(
      *
      * @return A deep copy of this instance.
      */
-    public @NotNull CsvOptions deepCopy() {
+    @NotNull
+    public CsvOptions deepCopy() {
         return new CsvOptions(
             titleRow,
             delimiter,

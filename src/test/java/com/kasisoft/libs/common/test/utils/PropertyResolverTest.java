@@ -14,7 +14,7 @@ import org.junit.jupiter.api.*;
 import java.util.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class PropertyResolverTest {
 

@@ -5,7 +5,7 @@ import com.kasisoft.libs.common.i18n.*;
 import java.util.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @I18NBasename(resource = "messages5", prefix = "pre.")
 public class Messages5 {

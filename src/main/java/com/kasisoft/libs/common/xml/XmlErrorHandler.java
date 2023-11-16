@@ -9,12 +9,11 @@ import java.util.*;
 /**
  * Default implementation of an ErrorHandler.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class XmlErrorHandler implements ErrorHandler {
 
     private int            errorcount;
-
     private List<XmlFault> faults;
 
     /**
@@ -39,7 +38,8 @@ public class XmlErrorHandler implements ErrorHandler {
      *
      * @return The faults which have been collected.
      */
-    public @NotNull XmlFault[] getFaults() {
+    @NotNull
+    public XmlFault[] getFaults() {
         return faults.toArray(new XmlFault[faults.size()]);
     }
 
@@ -48,7 +48,8 @@ public class XmlErrorHandler implements ErrorHandler {
      *
      * @return A full text representation of this fault used for presentations. if {@link #hasErrors()}.
      */
-    public @NotNull String getFaultMessage() {
+    @NotNull
+    public String getFaultMessage() {
         var buffer = new StringBuilder();
         for (var i = 0; i < faults.size(); i++) {
             buffer.append(faults.get(i).getFaultMessage());
@@ -83,7 +84,8 @@ public class XmlErrorHandler implements ErrorHandler {
      *            The cause of the failure.
      * @return A freshly created error instance.
      */
-    protected @NotNull XmlFault newFault(@NotNull XmlFault.FaultType type, @NotNull SAXParseException ex) {
+    @NotNull
+    protected XmlFault newFault(@NotNull XmlFault.FaultType type, @NotNull SAXParseException ex) {
         return new XmlFault(type, ex);
     }
 

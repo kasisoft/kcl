@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * Test for various functions of the class 'MiscFunctions'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class MiscFunctionsTest {
 

@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * Testcases for the class 'LiteralTokenizer'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class LiteralTokenizerTest {
 

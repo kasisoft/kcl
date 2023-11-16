@@ -14,7 +14,7 @@ import java.util.stream.*;
 /**
  * Tests for the constants 'Digest'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class DigestTest {
 

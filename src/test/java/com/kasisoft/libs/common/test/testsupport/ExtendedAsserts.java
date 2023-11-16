@@ -10,7 +10,7 @@ import java.util.*;
 import java.awt.image.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class ExtendedAsserts {
 

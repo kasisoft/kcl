@@ -16,7 +16,7 @@ import java.util.*;
  * Functions to process a list of values in a tree like fashion assuming there's a mapping for each
  * value to generate a treepath.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class TreeFunctions {
@@ -95,8 +95,7 @@ public class TreeFunctions {
 
     public static <T> void forTreeValueDo(@NotNull List<T> values, @NotNull Function<T, String> toPath, boolean skipArtificialRoot, @NotNull BiConsumer<T, Integer> handleValue) {
         var                        offset         = skipArtificialRoot ? 1 : 0;
-        Consumer<NamedTreeNode<T>> handleTreeNode = $ -> handleValue.accept((T) $.getUserObject(), $.getLevel()
-            - offset);
+        Consumer<NamedTreeNode<T>> handleTreeNode = $ -> handleValue.accept((T) $.getUserObject(), $.getLevel() - offset);
         forTreeNodeDo(values, toPath, skipArtificialRoot, handleTreeNode);
     }
 

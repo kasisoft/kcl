@@ -12,11 +12,8 @@ import java.util.*;
 public abstract class AbstractFileType implements FileType {
 
     private int          minSize;
-
     private MimeType     contentType;
-
     private int          offset;
-
     private List<byte[]> magics;
 
     public AbstractFileType(int minSize, MimeType contentType, int offset, List<byte[]> magics) {

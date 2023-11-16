@@ -9,7 +9,7 @@ import java.net.*;
 import java.io.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class URIIoSupport implements IoSupport<URI> {
 

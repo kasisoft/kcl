@@ -199,18 +199,18 @@ public class Predicates {
 
     private static class IsInnerJavaClassFile implements KPredicate<String> {
 
-        Pattern pattern = Pattern.compile("^([^$]+)\\$(.*)(.class)$");
+        private static Pattern PATTERN = Pattern.compile("^([^$]+)\\$(.*)(.class)$");
 
         @Override
         public boolean test(@NotNull String resource) {
-            return pattern.matcher(resource).matches();
+            return PATTERN.matcher(resource).matches();
         }
 
     } /* ENDCLASS */
 
     private static class IsJavaFqdn implements KPredicate<String> {
 
-        private static final Pattern PATTERN = Pattern.compile("^(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)*(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)$");
+        private static Pattern PATTERN = Pattern.compile("^(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)*(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)$");
 
         @Override
         public boolean test(@NotNull String classname) {

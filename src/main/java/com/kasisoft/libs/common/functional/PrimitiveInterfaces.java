@@ -5,7 +5,7 @@ import com.kasisoft.libs.common.*;
 import jakarta.validation.constraints.*;
 
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public interface PrimitiveInterfaces {
 

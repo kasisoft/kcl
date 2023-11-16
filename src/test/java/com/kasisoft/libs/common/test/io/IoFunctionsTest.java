@@ -31,7 +31,7 @@ import java.io.*;
 /**
  * Tests for the class 'IoFunctions'.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 @TestMethodOrder(OrderAnnotation.class)
 public class IoFunctionsTest {
