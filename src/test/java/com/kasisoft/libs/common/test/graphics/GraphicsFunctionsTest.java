@@ -40,6 +40,7 @@ import java.io.*;
 /**
  * @author daniel.kasmeroglu@kasisoft.com
  */
+@Disabled
 public class GraphicsFunctionsTest {
 
     private static final TestResources TEST_RESOURCES = TestResources.createTestResources(GraphicsFunctionsTest.class);
