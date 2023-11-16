@@ -250,6 +250,18 @@
 
     <profiles>
         <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/kasisoft/kcl</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>  
+        <profile>
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
@@ -301,12 +313,5 @@
             </build>
         </profile>
     </profiles>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/kasisoft/kcl</url>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>
