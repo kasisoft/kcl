@@ -9,41 +9,39 @@ import java.util.*;
 import java.net.*;
 
 /**
- * Simple POJO used to configure an xml parser.
+ * Simple recprd used to configure an xml parser.
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */
-public class XmlParserConfiguration {
+public record XmlParserConfiguration(
 
     // The ErrorHandler to be used. Maybe null.
-    private ErrorHandler                    handler;
+    ErrorHandler                    handler,
 
     // A base URL used for the resolving process. Maybe null.
-    private URL                             baseurl;
+    URL                             baseurl,
 
     // Resolver for entities. Maybe null.
-    private EntityResolver                  resolver;
+    EntityResolver                  resolver,
 
     // <code>true</code> <=> Validates the document if possible.
-    private boolean                         validate;
+    boolean                         validate,
 
     // <code>true</code> <=> Recognize XML namespaces.
-    private boolean                         xmlnamespaces;
+    boolean                         xmlnamespaces,
 
     // <code>true</code> <=> Recognize XML includes (only supported with JRE 1.7+ and may depend on the parser).
-    private boolean                         xincludes;
+    boolean                         xincludes,
 
     // run a normalization after a document has been loaded
-    private boolean                         normalize;
+    boolean                         normalize,
 
     // <code>true</code> <=> Requested schemas that cannot be found will be delivered as empty files (effectively no rules).
-    private boolean                         satisfyUnknownSchemas;
+    boolean                         satisfyUnknownSchemas,
 
-    private Map<DomConfigParameter, Object> parameters;
+    Map<DomConfigParameter, Object> parameters
 
-    XmlParserConfiguration() {
-        parameters = new HashMap<>();
-    }
+) {
 
     @NotNull
     public static XmlParserConfigurationBuilder builder() {
@@ -55,10 +53,18 @@ public class XmlParserConfiguration {
      */
     public static class XmlParserConfigurationBuilder {
 
-        XmlParserConfiguration result;
+        private ErrorHandler                    handler;
+        private URL                             baseurl;
+        private EntityResolver                  resolver;
+        private boolean                         validate;
+        private boolean                         xmlnamespaces;
+        private boolean                         xincludes;
+        private boolean                         normalize;
+        private boolean                         satisfyUnknownSchemas;
+        private Map<DomConfigParameter, Object> parameters;
 
         XmlParserConfigurationBuilder() {
-            result = new XmlParserConfiguration();
+            parameters = new HashMap<>();
         }
 
         @NotNull
@@ -67,26 +73,26 @@ public class XmlParserConfiguration {
         }
 
         @NotNull
-        public XmlParserConfigurationBuilder satisfyUnknownSchemas(boolean satisfy) {
-            result.setSatisfyUnknownSchemas(satisfy);
+        public XmlParserConfigurationBuilder satisfyUnknownSchemas(boolean satisfyUnknownSchemas) {
+            this.satisfyUnknownSchemas = satisfyUnknownSchemas;
             return this;
         }
 
         @NotNull
         public XmlParserConfigurationBuilder baseurl(URL baseurl) {
-            result.setBaseurl(baseurl);
+            this.baseurl = baseurl;
             return this;
         }
 
         @NotNull
-        public XmlParserConfigurationBuilder handler(ErrorHandler errorhandler) {
-            result.setHandler(errorhandler);
+        public XmlParserConfigurationBuilder handler(ErrorHandler handler) {
+            this.handler = handler;
             return this;
         }
 
         @NotNull
-        public XmlParserConfigurationBuilder resolver(EntityResolver entityresolver) {
-            result.setResolver(entityresolver);
+        public XmlParserConfigurationBuilder resolver(EntityResolver resolver) {
+            this.resolver = resolver;
             return this;
         }
 
@@ -97,7 +103,7 @@ public class XmlParserConfiguration {
 
         @NotNull
         public XmlParserConfigurationBuilder validate(boolean validate) {
-            result.setValidate(validate);
+            this.validate = validate;
             return this;
         }
 
@@ -108,7 +114,7 @@ public class XmlParserConfiguration {
 
         @NotNull
         public XmlParserConfigurationBuilder xincludes(boolean xincludes) {
-            result.setXincludes(xincludes);
+            this.xincludes = xincludes;
             return this;
         }
 
@@ -119,13 +125,13 @@ public class XmlParserConfiguration {
 
         @NotNull
         public XmlParserConfigurationBuilder xmlnamespaces(boolean xmlnamespaces) {
-            result.setXmlnamespaces(xmlnamespaces);
+            this.xmlnamespaces = xmlnamespaces;
             return this;
         }
 
         @NotNull
         public XmlParserConfigurationBuilder parameter(@NotNull DomConfigParameter parameter, Object value) {
-            result.getParameters().put(parameter, value);
+            parameters.put(parameter, value);
             return this;
         }
 
@@ -136,149 +142,15 @@ public class XmlParserConfiguration {
 
         @NotNull
         public XmlParserConfigurationBuilder normalize(boolean normalize) {
-            result.setNormalize(normalize);
+            this.normalize = normalize;
             return this;
         }
 
         @NotNull
         public XmlParserConfiguration build() {
-            return result;
+            return new XmlParserConfiguration(handler, baseurl, resolver, validate, xmlnamespaces, xincludes, normalize, satisfyUnknownSchemas, parameters);
         }
 
     } /* ENDCLASS */
 
-    public ErrorHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(ErrorHandler handler) {
-        this.handler = handler;
-    }
-
-    public URL getBaseurl() {
-        return baseurl;
-    }
-
-    public void setBaseurl(URL baseurl) {
-        this.baseurl = baseurl;
-    }
-
-    public EntityResolver getResolver() {
-        return resolver;
-    }
-
-    public void setResolver(EntityResolver resolver) {
-        this.resolver = resolver;
-    }
-
-    public boolean isValidate() {
-        return validate;
-    }
-
-    public void setValidate(boolean validate) {
-        this.validate = validate;
-    }
-
-    public boolean isXmlnamespaces() {
-        return xmlnamespaces;
-    }
-
-    public void setXmlnamespaces(boolean xmlnamespaces) {
-        this.xmlnamespaces = xmlnamespaces;
-    }
-
-    public boolean isXincludes() {
-        return xincludes;
-    }
-
-    public void setXincludes(boolean xincludes) {
-        this.xincludes = xincludes;
-    }
-
-    public boolean isNormalize() {
-        return normalize;
-    }
-
-    public void setNormalize(boolean normalize) {
-        this.normalize = normalize;
-    }
-
-    public boolean isSatisfyUnknownSchemas() {
-        return satisfyUnknownSchemas;
-    }
-
-    public void setSatisfyUnknownSchemas(boolean satisfyUnknownSchemas) {
-        this.satisfyUnknownSchemas = satisfyUnknownSchemas;
-    }
-
-    public Map<DomConfigParameter, Object> getParameters() {
-        return parameters;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime  = 31;
-        int       result = 1;
-        result = prime * result + ((baseurl == null) ? 0 : baseurl.hashCode());
-        result = prime * result + ((handler == null) ? 0 : handler.hashCode());
-        result = prime * result + (normalize ? 1231 : 1237);
-        result = prime * result + ((parameters == null) ? 0 : parameters.hashCode());
-        result = prime * result + ((resolver == null) ? 0 : resolver.hashCode());
-        result = prime * result + (satisfyUnknownSchemas ? 1231 : 1237);
-        result = prime * result + (validate ? 1231 : 1237);
-        result = prime * result + (xincludes ? 1231 : 1237);
-        result = prime * result + (xmlnamespaces ? 1231 : 1237);
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        XmlParserConfiguration other = (XmlParserConfiguration) obj;
-        if (baseurl == null) {
-            if (other.baseurl != null)
-                return false;
-        } else if (!baseurl.equals(other.baseurl))
-            return false;
-        if (handler == null) {
-            if (other.handler != null)
-                return false;
-        } else if (!handler.equals(other.handler))
-            return false;
-        if (normalize != other.normalize)
-            return false;
-        if (parameters == null) {
-            if (other.parameters != null)
-                return false;
-        } else if (!parameters.equals(other.parameters))
-            return false;
-        if (resolver == null) {
-            if (other.resolver != null)
-                return false;
-        } else if (!resolver.equals(other.resolver))
-            return false;
-        if (satisfyUnknownSchemas != other.satisfyUnknownSchemas)
-            return false;
-        if (validate != other.validate)
-            return false;
-        if (xincludes != other.xincludes)
-            return false;
-        if (xmlnamespaces != other.xmlnamespaces)
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "XmlParserConfiguration [handler=" + handler + ", baseurl=" + baseurl + ", resolver=" + resolver
-            + ", validate=" + validate + ", xmlnamespaces=" + xmlnamespaces + ", xincludes=" + xincludes
-            + ", normalize=" + normalize + ", satisfyUnknownSchemas=" + satisfyUnknownSchemas + ", parameters="
-            + parameters + "]";
-    }
-
-} /* ENDCLASS */
+} /* ENDRECORD */

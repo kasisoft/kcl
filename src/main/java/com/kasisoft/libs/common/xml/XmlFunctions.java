@@ -152,8 +152,8 @@ public final class XmlFunctions {
     public static Document readDocument(@NotNull Reader input, @NotNull XmlParserConfiguration config) {
         return readDocument(config, $ -> {
             var insource = new InputSource(input);
-            if (config.getBaseurl() != null) {
-                insource.setSystemId(config.getBaseurl().toExternalForm());
+            if (config.baseurl() != null) {
+                insource.setSystemId(config.baseurl().toExternalForm());
             }
             return $.parse(insource);
         });
@@ -171,8 +171,8 @@ public final class XmlFunctions {
     @NotNull
     public static Document readDocument(@NotNull InputStream input, @NotNull XmlParserConfiguration config) {
         return readDocument(config, $ -> {
-            if (config.getBaseurl() != null) {
-                return $.parse(input, config.getBaseurl().toExternalForm());
+            if (config.baseurl() != null) {
+                return $.parse(input, config.baseurl().toExternalForm());
             } else {
                 return $.parse(input);
             }
@@ -185,8 +185,8 @@ public final class XmlFunctions {
         try {
             var result    = parse.apply(builder);
             var domconfig = result.getDomConfig();
-            config.getParameters().forEach((k, v) -> k.set(domconfig, v));
-            if (config.isNormalize()) {
+            config.parameters().forEach((k, v) -> k.set(domconfig, v));
+            if (config.normalize()) {
                 result.normalizeDocument();
             }
             return result;
@@ -209,12 +209,12 @@ public final class XmlFunctions {
 
         var factory = DocumentBuilderFactory.newInstance();
 
-        factory.setNamespaceAware(config.isXmlnamespaces());
-        factory.setValidating(config.isValidate());
+        factory.setNamespaceAware(config.xmlnamespaces());
+        factory.setValidating(config.validate());
 
         try {
             Method method = factory.getClass().getMethod("XIncludeAware", Boolean.TYPE);
-            method.invoke(factory, Boolean.valueOf(config.isXincludes()));
+            method.invoke(factory, Boolean.valueOf(config.xincludes()));
         } catch (Exception ex) {
             // no effect here
         }
@@ -223,20 +223,20 @@ public final class XmlFunctions {
 
             var result = factory.newDocumentBuilder();
 
-            if (config.isSatisfyUnknownSchemas()) {
-                if (config.getResolver() != null) {
-                    result.setEntityResolver(new SatisfyingEntityResolver(config.getResolver()));
+            if (config.satisfyUnknownSchemas()) {
+                if (config.resolver() != null) {
+                    result.setEntityResolver(new SatisfyingEntityResolver(config.resolver()));
                 } else {
                     result.setEntityResolver(new SatisfyingEntityResolver());
                 }
             } else {
-                if (config.getResolver() != null) {
-                    result.setEntityResolver(config.getResolver());
+                if (config.resolver() != null) {
+                    result.setEntityResolver(config.resolver());
                 }
             }
 
-            if (config.getHandler() != null) {
-                result.setErrorHandler(config.getHandler());
+            if (config.handler() != null) {
+                result.setErrorHandler(config.handler());
             } else {
                 result.setErrorHandler(new XmlErrorHandler());
             }
