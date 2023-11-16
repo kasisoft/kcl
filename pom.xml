@@ -229,7 +229,7 @@
                     <configuration>
                         <argLine>-Duser.country=DE -Duser.language=de</argLine>
                         <excludes>
-                            <exclude>com/kasisoft/libs/common/graphics/**</exclude>
+                            <exclude>com/kasisoft/libs/common/test/graphics/**</exclude>
                         </excludes>
                     </configuration>
                 </plugin>
