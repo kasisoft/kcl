@@ -114,10 +114,29 @@ public class DbConnection implements AutoCloseable {
      */
     @NotNull
     public synchronized List<String> listTables() {
+        return listTables(null);
+    }
+
+    /**
+     * Returns a list of table names.
+     *
+     * @param schema
+     *              An optional schema to use for the filtering.
+     *
+     * @return A list of table names (unmodifiable).
+     */
+    @NotNull
+    public synchronized List<String> listTables(String schema) {
         var result = Collections.unmodifiableList(tableNames);
         if (tableNames.isEmpty()) {
             try (var resultset = metadata.getTables(null, null, "%", new String[] {"TABLE"})) {
                 while (resultset.next()) {
+                    if (schema != null) {
+                        var recordSchema = resultset.getString(2);
+                        if (!schema.equalsIgnoreCase(recordSchema)) {
+                            continue;
+                        }
+                    }
                     tableNames.add(resultset.getString(3));
                 }
             } catch (Exception ex) {

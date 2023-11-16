@@ -86,7 +86,7 @@ public class DbConnectionTest {
 
     private DbConfig newDbConfig(String dbname, String initscript) throws Exception {
         var location = TEST_RESOURCES.getResource(initscript);
-        var url      = "jdbc:h2:tcp://localhost/%s/%s;MODE=MySQL;DATABASE_TO_UPPER=false;INIT=runscript from '%s'".formatted(dbLocation.toString(), dbname, location.toString());
+        var url      = "jdbc:h2:%s/%s;MODE=MySQL;DATABASE_TO_UPPER=false;INIT=runscript from '%s'".formatted(dbLocation.toString(), dbname, location.toString());
         return new DbConfig(url, Database.h2, null, null);
     }
 
@@ -98,9 +98,8 @@ public class DbConnectionTest {
 
         try (var connection = new DbConnection(newDbConfig("test", "script.sql"))) {
 
-            var tables = connection.listTables();
+            var tables = connection.listTables("hr");
             assertNotNull(tables);
-            assertThat(tables.size(), is(7));
             assertThat(tables, is(expectedTables));
 
             for (int i = 0; i < expectedTables.size(); i++) {
