@@ -4,11 +4,12 @@ import com.kasisoft.libs.common.constants.*;
 
 import com.kasisoft.libs.common.pools.*;
 
+import com.kasisoft.libs.common.utils.*;
+
 import jakarta.validation.constraints.*;
 
 import java.util.function.*;
 
-import java.util.regex.*;
 import java.util.regex.Pattern;
 
 import java.util.*;
@@ -121,37 +122,6 @@ public class StringFunctions {
     }
 
     /**
-     * Replaces all occurrences of a regular expression with a specified replacement.
-     *
-     * @param input
-     *            The text that needs to be replaced.
-     * @param search
-     *            The term that should be replaced.
-     * @param replacement
-     *            The replacement which has to be used instead.
-     * @return This buffer.
-     */
-    @NotNull
-    public static String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
-        return Buckets.<Integer> bucketArrayList().forInstance($ -> {
-            var pos = input.indexOf(search);
-            while (pos != -1) {
-                $.add(pos);
-                $.add(pos + search.length());
-                pos = input.indexOf(search, pos + search.length());
-            }
-            var builder = new StringBuilder(input);
-            for (var i = $.size() - 2; i >= 0; i -= 2) {
-                var start = $.get(i);
-                var end   = $.get(i + 1);
-                builder.delete(start, end);
-                builder.insert(start, replacement);
-            }
-            return builder.toString();
-        });
-    }
-
-    /**
      * Transforms the supplied value into a camelcase representation.
      *
      * @param input
@@ -176,6 +146,22 @@ public class StringFunctions {
             }
             return $.toString();
         });
+    }
+
+    /**
+     * Replaces all occurrences of a regular expression with a specified replacement.
+     *
+     * @param input
+     *            The text that needs to be replaced.
+     * @param search
+     *            The term that should be replaced.
+     * @param replacement
+     *            The replacement which has to be used instead.
+     * @return This buffer.
+     */
+    @NotNull
+    public static String replaceLiterallyAll(@NotNull String input, @NotNull String search, @NotNull String replacement) {
+        return replaceAll(input, Pattern.compile(Pattern.quote(search)), $ -> replacement);
     }
 
     /**
@@ -684,47 +670,20 @@ public class StringFunctions {
      */
     @NotNull
     public static String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements, String fmt) {
+        return Buckets.<String, String> bucketHashMap().forInstance($substitutions -> {
 
-        var substitutions = Buckets.<String, String> bucketHashMap().allocate();
-        var builder       = Buckets.bucketStringBuilder().allocate();
-        var regions       = Buckets.<Integer> bucketArrayList().allocate();
+          // setup the substitution map
+          if ((fmt != null) && (!"%s".equals(fmt))) {
+              replacements.forEach(($k, $v) -> $substitutions.put(fmt.formatted($k), $v));
+          } else {
+            $substitutions.putAll(replacements);
+          }
 
-        // setup the substitution map
-        if ((fmt != null) && (!"%s".equals(fmt))) {
-            replacements.forEach(($k, $v) -> substitutions.put(fmt.formatted($k), $v));
-        } else {
-            substitutions.putAll(replacements);
-        }
+          // build a big OR of all keys
+          var pattern = Pattern.compile(RegExpressions.oredKeywords($substitutions.keySet()));
+          return replaceAll(input, pattern, $substitutions::get);
 
-        // build a big OR of all keys
-        substitutions.keySet().forEach($ -> builder.append('|').append(Pattern.quote($)));
-        builder.setCharAt(0, '(');
-        builder.append(')');
-
-        // collect regions of matches
-        Pattern pattern = Pattern.compile(builder.toString());
-        Matcher matcher = pattern.matcher(input);
-        while (matcher.find()) {
-            regions.add(matcher.start());
-            regions.add(matcher.end());
-        }
-
-        // substitute matches
-        var instr = Buckets.bucketStringBuilder().allocate();
-        instr.append(input);
-        for (var i = regions.size() - 2; i >= 0; i -= 2) {
-            var start = regions.get(i);
-            var end   = regions.get(i + 1);
-            var key   = instr.substring(start, end);
-            instr.delete(start, end);
-            instr.insert(start, substitutions.get(key));
-        }
-
-        Buckets.<String, String> bucketHashMap().free(substitutions);
-        Buckets.bucketStringBuilder().free(builder);
-        Buckets.<Integer> bucketArrayList().free(regions);
-
-        return instr.toString();
+        });
     }
 
     /**
@@ -738,35 +697,34 @@ public class StringFunctions {
      */
     @NotNull
     public static String replaceAll(@NotNull String input, @NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
+        return Buckets.<Integer> bucketArrayList().forInstance($ranges -> {
 
-        var ranges        = Buckets.<Integer> bucketArrayList().allocate();
-        var substitutions = Buckets.<String> bucketArrayList().allocate();
-        var matcher       = pattern.matcher(input);
+            var matcher = pattern.matcher(input);
 
-        // we're collecting the substitutions from left to right, so the supplying function can assume this and use an
-        // internal state if desired
-        while (matcher.find()) {
-            ranges.add(matcher.start());
-            ranges.add(matcher.end());
-            var text = input.substring(matcher.start(), matcher.end());
-            substitutions.add(replacementSupplier.apply(text));
-        }
+            // we're collecting the substitutions from left to right, so the supplying function can assume this and use an
+            // internal state if desired
+            while (matcher.find()) {
+                $ranges.add(matcher.start());
+                $ranges.add(matcher.end());
+            }
 
-        // perform the substitutions
-        var builder = new StringBuilder();
-        builder.append(input);
-        for (int i = ranges.size() - 2, j = substitutions.size() - 1; i >= 0; i -= 2, j--) {
-            var start = ranges.get(i);
-            var end   = ranges.get(i + 1);
-            builder.delete(start, end);
-            builder.insert(start, substitutions.get(j));
-        }
+            return substitute(input, $ranges, replacementSupplier);
 
-        Buckets.<String> bucketArrayList().free(substitutions);
-        Buckets.<Integer> bucketArrayList().free(ranges);
+        });
+    }
 
-        return builder.toString();
-
+    private static String substitute(@NotNull String input, List<Integer> ranges, @NotNull Function<String, String> mapper) {
+        return Buckets.bucketStringBuilder().forInstance($sb -> {
+            $sb.append(input);
+            for (int i = ranges.size() - 2; i >= 0; i -= 2) {
+                int start = ranges.get(i);
+                int end   = ranges.get(i + 1);
+                var key   = input.substring(start, end);
+                $sb.delete(start, end);
+                $sb.insert(start, mapper.apply(key));
+            }
+            return $sb.toString();
+        });
     }
 
 } /* ENDCLASS */

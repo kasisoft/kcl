@@ -1,10 +1,14 @@
 package com.kasisoft.libs.common.utils;
 
+import com.kasisoft.libs.common.pools.*;
+
 import com.kasisoft.libs.common.text.*;
 
 import jakarta.validation.constraints.*;
 
 import java.util.regex.Pattern;
+
+import java.util.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.com
@@ -38,6 +42,16 @@ public class RegExpressions {
             }
         }
         return null;
+    }
+
+    public static String oredKeywords(Collection<String> keywords) {
+        // build a big OR of all keys
+        return Buckets.bucketStringBuilder().forInstance($sb -> {
+            keywords.forEach($key -> $sb.append('|').append(Pattern.quote($key)));
+            $sb.setCharAt(0, '(');
+            $sb.append(')');
+            return $sb.toString();
+        });
     }
 
 } /* ENDCLASS */
