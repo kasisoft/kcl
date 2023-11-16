@@ -165,7 +165,25 @@ public class StringFunctionsTest {
         } else {
             assertNull(StringFunctions.endsWithMany(text, candidates));
         }
+    }
 
+    public static Stream<Arguments> data_endsWithMany_CI() {
+      return Stream.of(
+          Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20", "ozeAN"}, true),
+          Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false),
+          Arguments.of("20 Frösche fliegen über den Ozean", new String[] {}, false),
+          Arguments.of("20 Frösche fliegen über den Ozean", null, false)
+      );
+  }
+
+    @ParameterizedTest
+    @MethodSource("data_endsWithMany_CI")
+    public void endsWithMany_CI(String text, String[] candidates, boolean contained) {
+        if (contained) {
+            assertNotNull(StringFunctions.endsWithMany(text, false, candidates));
+        } else {
+            assertNull(StringFunctions.endsWithMany(text, false, candidates));
+        }
     }
 
     public static Stream<Arguments> data_startsWithMany() {
@@ -186,6 +204,25 @@ public class StringFunctionsTest {
             assertNull(StringFunctions.startsWithMany(text, candidates));
         }
     }
+
+    public static Stream<Arguments> data_startsWithMany_CI() {
+      return Stream.of(
+          Arguments.of("Frösche fliegen über den Ozean", new String[] {"frösche", "fliegen"}, true),
+          Arguments.of("Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false),
+          Arguments.of("Frösche fliegen über den Ozean", new String[] {}, false),
+          Arguments.of("Frösche fliegen über den Ozean", null, false)
+      );
+  }
+
+  @ParameterizedTest
+  @MethodSource("data_startsWithMany_CI")
+  public void startsWithMany_CI(String text, String[] candidates, boolean contained) {
+      if (contained) {
+          assertNotNull(StringFunctions.startsWithMany(text, false, candidates));
+      } else {
+          assertNull(StringFunctions.startsWithMany(text, false, candidates));
+      }
+  }
 
     @Test
     public void concatenate() {
@@ -273,32 +310,50 @@ public class StringFunctionsTest {
             Arguments.of(new int[] {33, 38, 39}, "[33,38,39]"),
             Arguments.of(new long[] {43, 48, 49}, "[43l,48l,49l]"),
             Arguments.of(new float[] {53.1f, 58.2f, 59.3f}, "[53.1f,58.2f,59.3f]"),
-            Arguments.of(new double[] {63.1, 68.2, 69.3}, "[63.1,68.2,69.3]")
+            Arguments.of(new double[] {63.1, 68.2, 69.3}, "[63.1,68.2,69.3]"),
+            Arguments.of(new String[] {}, "[]"),
+            Arguments.of(new boolean[] {}, "[]"),
+            Arguments.of(new char[] {}, "[]"),
+            Arguments.of(new byte[] {}, "[]"),
+            Arguments.of(new short[] {}, "[]"),
+            Arguments.of(new int[] {}, "[]"),
+            Arguments.of(new long[] {}, "[]"),
+            Arguments.of(new float[] {}, "[]"),
+            Arguments.of(new double[] {}, "[]")
         );
     }
 
     @ParameterizedTest
     @MethodSource("data_objectToString")
-    public static void objectToString(Object obj, String expected) {
+    public void objectToString(Object obj, String expected) {
         assertThat(StringFunctions.objectToString(obj), is(expected));
+    }
+
+    @Test
+    public void objectToString_Throwable() {
+        var ex = new Exception("my message");
+        assertTrue(StringFunctions.objectToString(ex).contains("my message"));
     }
 
     @Test
     public void trimLeading() {
         var str = StringFunctions.trimLeading("\r\n   My test is this: Hello World ! Not 0x11 !");
         assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+        assertThat(StringFunctions.trimLeading(""), is(""));
     }
 
     @Test
     public void trimLeading__WithSpecifiedChars() {
         var str = StringFunctions.trimLeading("\r\n   My test is this: Hello World ! Not 0x11 !", "\r\n ");
         assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+        assertThat(StringFunctions.trimLeading("", "\r\n "), is(""));
     }
 
     @Test
     public void trimTrailing() {
         var str = StringFunctions.trimTrailing("My test is this: Hello World ! Not 0x11 !\r\n   ");
         assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+        assertThat(StringFunctions.trimTrailing(""), is(""));
     }
 
     @Test
@@ -311,12 +366,14 @@ public class StringFunctionsTest {
     public void trim() {
         var str = StringFunctions.trim("\r\n   My test is this: Hello World ! Not 0x11 !\r\n   ");
         assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+        assertThat(StringFunctions.trim(""), is(""));
     }
 
     @Test
     public void trim__WithSpecifiedChars() {
         var str = StringFunctions.trim("\r\n   My test is this: Hello World ! Not 0x11 !\r\n   ", "\r\n ", null);
         assertThat(str, is("My test is this: Hello World ! Not 0x11 !"));
+        assertThat(StringFunctions.trim("", "\r\n ", null), is(""));
     }
 
     @Test

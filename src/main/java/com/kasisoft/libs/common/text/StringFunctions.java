@@ -291,6 +291,9 @@ public class StringFunctions {
      */
     @NotNull
     public static String trimLeading(@NotNull String input) {
+        if (input.length() == 0) {
+            return Empty.NO_STRING;
+        }
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var codePoint = sb.codePointAt(0);
@@ -308,6 +311,9 @@ public class StringFunctions {
      */
     @NotNull
     public static String trimTrailing(@NotNull String input) {
+        if (input.length() == 0) {
+            return Empty.NO_STRING;
+        }
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var length    = sb.length();
@@ -337,6 +343,9 @@ public class StringFunctions {
      */
     @NotNull
     public static String trimLeading(@NotNull String input, @NotBlank String chars) {
+        if (input.length() == 0) {
+            return Empty.NO_STRING;
+        }
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var ch = sb.charAt(0);
@@ -356,6 +365,9 @@ public class StringFunctions {
      */
     @NotNull
     public static String trimTrailing(@NotNull String input, @NotBlank String chars) {
+        if (input.length() == 0) {
+            return Empty.NO_STRING;
+        }
         var sb = new StringBuilder(input);
         while (sb.length() > 0) {
             var length = sb.length();
@@ -379,6 +391,9 @@ public class StringFunctions {
      */
     @NotNull
     public static String trim(@NotNull String input, @NotNull String chars, Boolean left) {
+        if (input.length() == 0) {
+            return Empty.NO_STRING;
+        }
         if ((left == null) || left.booleanValue()) {
             input = trimLeading(input, chars);
         }
@@ -624,9 +639,8 @@ public class StringFunctions {
     public static int indexOf(@NotNull String input, int index, char ... characters) {
         var result = -1;
         if ((characters != null) && (characters.length > 0)) {
-            var str = input.toString();
             for (char ch : characters) {
-                var idx = str.indexOf(ch, index);
+                var idx = input.indexOf(ch, index);
                 if (idx != -1) {
                     if (result == -1) {
                         result = idx;
@@ -635,6 +649,7 @@ public class StringFunctions {
                     }
                 }
                 if (result == 0) {
+                    // no index can be found ahead of the first position
                     break;
                 }
             }
@@ -676,7 +691,7 @@ public class StringFunctions {
           if ((fmt != null) && (!"%s".equals(fmt))) {
               replacements.forEach(($k, $v) -> $substitutions.put(fmt.formatted($k), $v));
           } else {
-            $substitutions.putAll(replacements);
+              $substitutions.putAll(replacements);
           }
 
           // build a big OR of all keys

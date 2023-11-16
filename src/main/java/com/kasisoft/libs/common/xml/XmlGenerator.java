@@ -476,12 +476,11 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     @NotNull
     public synchronized T multilineComment(String comment) {
         if (comment != null) {
-            builder.append("%s<!-- ~~~~~~~~~~~~~~~~~ \n".formatted(indentation));
-            var tokenizer = new StringTokenizer(comment, "\n", false);
-            while (tokenizer.hasMoreTokens()) {
-                var line = StringFunctions.cleanup(tokenizer.nextToken());
-                if (line == null) {
-                    builder.append('\n');
+            builder.append("%s<!-- ~~~~~~~~~~~~~~~~~\n".formatted(indentation));
+            var parts = comment.trim().split("\n");
+            for (var line : parts) {
+                if (line.isBlank()) {
+                    builder.append("\n");
                 } else {
                     builder.append("%s%s\n".formatted(indentation, line));
                 }
@@ -570,5 +569,26 @@ public class XmlGenerator<T extends XmlGenerator<T>> {
     public String toString() {
         return "XmlGenerator [builder=" + builder + "]";
     }
+
+    // makes usage somewhat prettier as inheriting XmlGenerator is often unnecessary
+    public static class DefaultXmlGenerator extends XmlGenerator<DefaultXmlGenerator> {
+
+        public DefaultXmlGenerator() {
+            super();
+        }
+
+        public DefaultXmlGenerator(Encoding encoding) {
+            super(encoding);
+        }
+
+        public DefaultXmlGenerator(@Min(0) int indent) {
+            super(indent);
+        }
+
+        public DefaultXmlGenerator(Encoding csEncoding, Integer indentsize) {
+            super(csEncoding, indentsize);
+        }
+
+    } /* ENDCLASS */
 
 } /* ENDCLASS */
