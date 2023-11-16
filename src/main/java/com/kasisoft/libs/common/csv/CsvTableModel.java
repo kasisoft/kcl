@@ -917,9 +917,6 @@ public class CsvTableModel implements TableModel {
      *            The {@link OutputStream} receceiving the csv data.
      */
     public synchronized void save(@NotNull OutputStream dest, @NotNull Function<String, String> overrideName, Encoding encoding) {
-        if (encoding == null) {
-            encoding = Encoding.UTF8;
-        }
         IoFunctions.forWriterDo(dest, encoding, $writer -> {
             try (var printer = new PrintWriter($writer)) {
                 writeColumnTitles(printer, overrideName);

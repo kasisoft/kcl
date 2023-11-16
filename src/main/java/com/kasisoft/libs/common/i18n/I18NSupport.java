@@ -98,7 +98,7 @@ public class I18NSupport {
                 continue;
             }
 
-            try (var instream = url.openStream(); var reader = IoFunctions.newReader(instream, Encoding.UTF8)) {
+            try (var instream = url.openStream(); var reader = IoFunctions.newReader(instream, null)) {
                 var props = new Properties();
                 props.load(reader);
                 apply(result, props);
