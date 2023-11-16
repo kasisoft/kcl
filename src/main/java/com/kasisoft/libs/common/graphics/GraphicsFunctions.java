@@ -95,7 +95,7 @@ public class GraphicsFunctions {
         try {
             return ImageIO.read(instream);
         } catch (Exception ex) {
-            throw KclException.wrap(ex, Messages.error_failed_to_read_image, source);
+            throw KclException.wrap(ex, Messages.error_failed_to_read_image.formatted(source));
         }
     }
 
@@ -173,10 +173,10 @@ public class GraphicsFunctions {
                 image = to3ByteBGR(image);
             }
             if (!ImageIO.write(image, format.getImageIOFormat(), outstream)) {
-                throw new KclException(Messages.error_failed_to_write_image, source, format);
+                throw new KclException(Messages.error_failed_to_write_image.formatted(source, format));
             }
         } catch (Exception ex) {
-            throw KclException.wrap(ex, Messages.error_failed_to_write_image, source, format);
+            throw KclException.wrap(ex, Messages.error_failed_to_write_image.formatted(source, format));
         }
     }
 

@@ -447,14 +447,14 @@ public class CsvTableModel implements TableModel {
             if (options.consumeDoubleQuotes() && (first == DQ)) {
                 var close = text.indexOf(DQ, i + 1);
                 if (close == -1) {
-                    throw new KclException(error_csv_missing_closing_quote, text);
+                    throw new KclException(error_csv_missing_closing_quote.formatted(text));
                 }
                 result.add(text.substring(i + 1, close));
                 i = close + 1;
             } else if (options.consumeSingleQuotes() && (first == SQ)) {
                 var close = text.indexOf(SQ, i + 1);
                 if (close == -1) {
-                    throw new KclException(error_csv_missing_closing_quote, text);
+                    throw new KclException(error_csv_missing_closing_quote.formatted(text));
                 }
                 result.add(text.substring(i + 1, close));
                 i = close + 1;
@@ -541,7 +541,7 @@ public class CsvTableModel implements TableModel {
             var idx1 = content.indexOf(quoteAsStr, pos);
             if (idx1 == -1) {
                 // the format is invalid
-                throw new KclException(error_csv_missing_closing_quote, content);
+                throw new KclException(error_csv_missing_closing_quote.formatted(content));
             }
             if (idx1 == content.length() - 1) {
                 // this cell covers the full remaining content, so we're done here

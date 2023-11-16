@@ -94,7 +94,7 @@ public enum Database implements Predicate<String> {
      */
     private synchronized void activate() {
         if (driver() == null) {
-            throw new KclException(error_failed_to_activate_jdbc_driver, drivers[0]);
+            throw new KclException(error_failed_to_activate_jdbc_driver.formatted(drivers[0]));
         }
     }
 
@@ -120,7 +120,7 @@ public enum Database implements Predicate<String> {
             activate();
             return DriverManager.getConnection(url);
         } catch (Exception ex) {
-            throw new KclException(ex, error_cannot_connect_to_database, url);
+            throw new KclException(ex, error_cannot_connect_to_database.formatted(url));
         }
     }
 
@@ -141,7 +141,7 @@ public enum Database implements Predicate<String> {
             activate();
             return DriverManager.getConnection(url, username, password);
         } catch (Exception ex) {
-            throw new KclException(ex, error_cannot_connect_to_database, url);
+            throw new KclException(ex, error_cannot_connect_to_database.formatted(url));
         }
     }
 

@@ -6,29 +6,25 @@ import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.*;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
 import jakarta.validation.constraints.*;
 
-import java.util.*;
+import javax.crypto.*;
+import javax.crypto.spec.*;
 
 import java.security.*;
 
+import java.util.*;
+
 /**
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Encryptor {
 
     private String          cipher;
-
     private String          algorithm;
-
     private String          secret;
-
     private Random          random;
-
     private SecretKey       key;
-
     private IvParameterSpec ivParameter;
 
     public Encryptor(@NotNull String cipher, @NotNull String algorithm) {
@@ -61,7 +57,8 @@ public class Encryptor {
         return secret;
     }
 
-    public @NotNull Optional<@NotNull byte[]> encrypt(byte[] data) {
+    @NotNull
+    public Optional<@NotNull byte[]> encrypt(byte[] data) {
         var result = Optional.<byte[]> empty();
         if (data != null) {
             try {
@@ -75,7 +72,8 @@ public class Encryptor {
         return result;
     }
 
-    public @NotNull Optional<@NotNull String> encrypt(String data) {
+    @NotNull
+    public Optional<@NotNull String> encrypt(String data) {
         var result = Optional.<String> empty();
         if (data != null) {
             result = encrypt(Encoding.UTF8.encode(data)).map(Base64.getEncoder()::encodeToString);
@@ -83,7 +81,8 @@ public class Encryptor {
         return result;
     }
 
-    public @NotNull Optional<byte[]> decrypt(byte[] data) {
+    @NotNull
+    public Optional<byte[]> decrypt(byte[] data) {
         var result = Optional.<byte[]> empty();
         if (data != null) {
             try {
@@ -97,7 +96,8 @@ public class Encryptor {
         return result;
     }
 
-    public @NotNull Optional<String> decrypt(String data) {
+    @NotNull
+    public Optional<String> decrypt(String data) {
         var result = Optional.<String> empty();
         if (data != null) {
             result = decrypt(Base64.getDecoder().decode(data)).map(Encoding.UTF8::decode);
@@ -114,7 +114,8 @@ public class Encryptor {
         return result;
     }
 
-    private @NotNull String setupSecret(String secret) {
+    @NotNull
+    private String setupSecret(String secret) {
         String result = StringFunctions.cleanup(secret);
         if (result == null) {
             byte[] encoded = keyGenerator().generateKey().getEncoded();

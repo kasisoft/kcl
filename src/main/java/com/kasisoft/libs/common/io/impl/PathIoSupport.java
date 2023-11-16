@@ -44,7 +44,7 @@ public class PathIoSupport implements IoSupport<Path> {
                 return IoSupport.super.loadAllBytes(source);
             }
         } catch (Exception ex) {
-            throw new KclException(ex, Messages.error_failed_to_read_from, source);
+            throw new KclException(ex, Messages.error_failed_to_read_from.formatted(source));
         }
     }
 
@@ -59,7 +59,7 @@ public class PathIoSupport implements IoSupport<Path> {
                 return IoSupport.super.readText(source, encoding);
             }
         } catch (Exception ex) {
-            throw new KclException(ex, Messages.error_failed_to_read_from, source);
+            throw new KclException(ex, Messages.error_failed_to_read_from.formatted(source));
         }
     }
 

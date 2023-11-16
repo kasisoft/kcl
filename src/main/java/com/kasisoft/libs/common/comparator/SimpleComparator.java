@@ -7,8 +7,7 @@ import java.util.function.*;
 import java.util.*;
 
 /**
- * Provides a Comparator that compares several fields of the compared instance
- * in a certain order.
+ * Provides a Comparator that compares several fields of the compared instance in a certain order.
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

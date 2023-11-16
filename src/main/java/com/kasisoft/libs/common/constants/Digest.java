@@ -67,7 +67,7 @@ public enum Digest {
             return MessageDigest.getInstance(algorithm);
         } catch (NoSuchAlgorithmException ex) {
             // shouldn't happen but better be safe
-            throw new KclException(ex, error_unknown_digest_algorithm, algorithm);
+            throw new KclException(ex, error_unknown_digest_algorithm.formatted(algorithm));
         }
     }
 

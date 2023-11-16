@@ -66,7 +66,7 @@ public class PreconfiguredXmlCatalog extends XmlCatalog {
                 registerSystemID(url);
             }
         } else {
-            throw new KclException(error_missing_resource, resource);
+            throw new KclException(error_missing_resource.formatted(resource));
         }
     }
 

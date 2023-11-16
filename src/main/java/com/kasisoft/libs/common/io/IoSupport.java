@@ -29,7 +29,7 @@ public interface IoSupport<T> {
         try {
             return new BufferedInputStream(newInputStreamImpl(source));
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_read_from, source);
+            throw new KclException(ex, error_failed_to_read_from.formatted(source));
         }
     }
 
@@ -37,7 +37,7 @@ public interface IoSupport<T> {
         try {
             return new BufferedOutputStream(newOutputStreamImpl(destination));
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_write_to, destination);
+            throw new KclException(ex, error_failed_to_write_to.formatted(destination));
         }
     }
 
@@ -61,7 +61,7 @@ public interface IoSupport<T> {
         try (var instream = newInputStream(source)) {
             action.accept(instream);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_read_from, source);
+            throw new KclException(ex, error_failed_to_read_from.formatted(source));
         }
     }
 
@@ -69,7 +69,7 @@ public interface IoSupport<T> {
         try (var instream = newInputStream(source)) {
             return function.apply(instream);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_read_from, source);
+            throw new KclException(ex, error_failed_to_read_from.formatted(source));
         }
     }
 
@@ -77,7 +77,7 @@ public interface IoSupport<T> {
         try (var outstream = newOutputStream(destination)) {
             action.accept(outstream);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_write_to, destination);
+            throw new KclException(ex, error_failed_to_write_to.formatted(destination));
         }
     }
 
@@ -85,7 +85,7 @@ public interface IoSupport<T> {
         try (var outstream = newOutputStream(destination)) {
             return function.apply(outstream);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_write_to, destination);
+            throw new KclException(ex, error_failed_to_write_to.formatted(destination));
         }
     }
 
@@ -97,7 +97,7 @@ public interface IoSupport<T> {
         try (var reader = newReader(source, encoding)) {
             action.accept(reader);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_read_from, source);
+            throw new KclException(ex, error_failed_to_read_from.formatted(source));
         }
     }
 
@@ -109,7 +109,7 @@ public interface IoSupport<T> {
         try (var reader = newReader(source, encoding)) {
             return function.apply(reader);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_read_from, source);
+            throw new KclException(ex, error_failed_to_read_from.formatted(source));
         }
     }
 
@@ -121,7 +121,7 @@ public interface IoSupport<T> {
         try (var writer = newWriter(destination, encoding)) {
             action.accept(writer);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_write_to, destination);
+            throw new KclException(ex, error_failed_to_write_to.formatted(destination));
         }
     }
 
@@ -133,7 +133,7 @@ public interface IoSupport<T> {
         try (var writer = newWriter(destination, encoding)) {
             return function.apply(writer);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_write_to, destination);
+            throw new KclException(ex, error_failed_to_write_to.formatted(destination));
         }
     }
 
@@ -149,7 +149,7 @@ public interface IoSupport<T> {
                 $.readNBytes(result, 0, size);
                 return result;
             } catch (Exception ex) {
-                throw new KclException(ex, error_failed_to_read_from, source);
+                throw new KclException(ex, error_failed_to_read_from.formatted(source));
             }
         });
     }
@@ -182,7 +182,7 @@ public interface IoSupport<T> {
                 }
                 return result;
             } catch (Exception ex) {
-                throw new KclException(ex, error_failed_to_read_from, source);
+                throw new KclException(ex, error_failed_to_read_from.formatted(source));
             }
         });
     }
@@ -198,7 +198,7 @@ public interface IoSupport<T> {
                     IoFunctions.skip($instream, offset);
                     IoFunctions.copy($instream, $byteout);
                 } catch (Exception ex) {
-                    throw new KclException(ex, error_failed_to_read_from, source);
+                    throw new KclException(ex, error_failed_to_read_from.formatted(source));
                 }
             });
             return $byteout.toByteArray();
@@ -224,7 +224,7 @@ public interface IoSupport<T> {
                     IoFunctions.skip($reader, offset);
                     IoFunctions.copy($reader, $charout);
                 } catch (Exception ex) {
-                    throw new KclException(ex, error_failed_to_read_from, source);
+                    throw new KclException(ex, error_failed_to_read_from.formatted(source));
                 }
             });
             return $charout.toCharArray();
@@ -240,7 +240,7 @@ public interface IoSupport<T> {
             try {
                 $.write(data, offset, length);
             } catch (Exception ex) {
-                throw new KclException(ex, error_failed_to_write_to, destination);
+                throw new KclException(ex, error_failed_to_write_to.formatted(destination));
             }
         });
     }
@@ -258,7 +258,7 @@ public interface IoSupport<T> {
             try {
                 $writer.write(data, offset, size);
             } catch (Exception ex) {
-                throw new KclException(ex, error_failed_to_write_to, destination);
+                throw new KclException(ex, error_failed_to_write_to.formatted(destination));
             }
         });
     }
@@ -280,7 +280,7 @@ public interface IoSupport<T> {
             try {
                 IoFunctions.writeText($writer, text);
             } catch (Exception ex) {
-                throw new KclException(ex, error_failed_to_write_text_to, destination);
+                throw new KclException(ex, error_failed_to_write_text_to.formatted(destination));
             }
         });
     }

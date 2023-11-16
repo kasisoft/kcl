@@ -28,7 +28,7 @@ import java.io.*;
 /**
  * A simple helper allowing to manage blacklists. It obviously can be used as a whitelist.
  *
- * @author daniel.kasmeroglu@kasisoft.net
+ * @author daniel.kasmeroglu@kasisoft.com
  */
 public class Blacklist implements Predicate<String> {
 
@@ -86,7 +86,8 @@ public class Blacklist implements Predicate<String> {
      *
      * @return An unmodifiable list of blacklist entries.
      */
-    public @NotNull List<@NotNull String> getBlacklisted() {
+    @NotNull
+    public synchronized List<@NotNull String> getBlacklisted() {
         return Collections.unmodifiableList(list);
     }
 
@@ -96,7 +97,7 @@ public class Blacklist implements Predicate<String> {
      * @param blacklisted
      *            The new value to be used for black listing.
      */
-    public void add(String blacklisted) {
+    public synchronized void add(String blacklisted) {
         var value = StringFunctions.cleanup(blacklisted);
         if (value != null) {
             var idx = Collections.binarySearch(list, value, Comparators.byStringLength(true));
@@ -168,7 +169,8 @@ public class Blacklist implements Predicate<String> {
      * @param reader
      *            The reader providing the blacklisted content.
      */
-    public synchronized @NotNull Blacklist load(@NotNull Reader reader) {
+    @NotNull
+    public synchronized Blacklist load(@NotNull Reader reader) {
         try (var buffered = IoFunctions.newBufferedReader(reader)) {
             var line = buffered.readLine();
             while (line != null) {
@@ -215,7 +217,8 @@ public class Blacklist implements Predicate<String> {
      *
      * @return A test ignoring case sensitivity.
      */
-    public @NotNull Predicate<String> testIgnoreCase() {
+    @NotNull
+    public Predicate<String> testIgnoreCase() {
         return this::testCI;
     }
 
@@ -291,7 +294,8 @@ public class Blacklist implements Predicate<String> {
      *            <code>true</code> <=> Ignore case.
      * @return A endsWith test for this blacklist.
      */
-    public @NotNull Predicate<String> endsWith(boolean ignorecase) {
+    @NotNull
+    public Predicate<String> endsWith(boolean ignorecase) {
         return ignorecase ? this::testEndsWithCI : this::testEndsWith;
     }
 
@@ -301,7 +305,8 @@ public class Blacklist implements Predicate<String> {
      *
      * @return A endsWith test for this blacklist.
      */
-    public @NotNull Predicate<String> endsWith() {
+    @NotNull
+    public Predicate<String> endsWith() {
         return endsWith(false);
     }
 
@@ -340,7 +345,8 @@ public class Blacklist implements Predicate<String> {
      *            <code>true</code> <=> Ignore case.
      * @return A contains test for this blacklist.
      */
-    public @NotNull Predicate<String> contains(boolean ignorecase) {
+    @NotNull
+    public Predicate<String> contains(boolean ignorecase) {
         return ignorecase ? this::testContainsCI : this::testContains;
     }
 
@@ -349,7 +355,8 @@ public class Blacklist implements Predicate<String> {
      *
      * @return A contains test for this blacklist.
      */
-    public @NotNull Predicate<String> contains() {
+    @NotNull
+    public Predicate<String> contains() {
         return contains(false);
     }
 
@@ -406,7 +413,8 @@ public class Blacklist implements Predicate<String> {
      * @return A function that converts a CharSequence into a StringBuilder while dropping the
      *         blacklisted portions.
      */
-    public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup() {
+    @NotNull
+    public <T extends CharSequence> Function<T, StringBuilder> cleanup() {
         return cleanup(false);
     }
 
@@ -419,7 +427,8 @@ public class Blacklist implements Predicate<String> {
      * @return A function that converts a CharSequence into a StringBuilder while dropping the
      *         blacklisted portions.
      */
-    public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup(boolean ignorecase) {
+    @NotNull
+    public <T extends CharSequence> Function<T, StringBuilder> cleanup(boolean ignorecase) {
         return cleanup(ignorecase, null);
     }
 
@@ -432,7 +441,8 @@ public class Blacklist implements Predicate<String> {
      * @return A function that converts a CharSequence into a StringBuilder while dropping the
      *         blacklisted portions.
      */
-    public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup(Consumer<String> statistic) {
+    @NotNull
+    public <T extends CharSequence> Function<T, StringBuilder> cleanup(Consumer<String> statistic) {
         return cleanup(false, statistic);
     }
 
@@ -447,7 +457,8 @@ public class Blacklist implements Predicate<String> {
      * @return A function that converts a CharSequence into a StringBuilder while dropping the
      *         blacklisted portions.
      */
-    public <T extends CharSequence> @NotNull Function<T, StringBuilder> cleanup(boolean ignorecase, Consumer<String> statistic) {
+    @NotNull
+    public <T extends CharSequence> Function<T, StringBuilder> cleanup(boolean ignorecase, Consumer<String> statistic) {
         int regexFlags = ignorecase ? Pattern.CASE_INSENSITIVE : 0;
         return $ -> apply($, regexFlags, statistic);
     }
@@ -461,7 +472,8 @@ public class Blacklist implements Predicate<String> {
      *            An optional Consumer to be notified when a blacklisted element had been detected.
      * @return A StringBuilder instance providing the cleansed text.
      */
-    private synchronized @NotNull StringBuilder apply(CharSequence t, int regexFlags, Consumer<String> statistic) {
+    @NotNull
+    private synchronized StringBuilder apply(CharSequence t, int regexFlags, Consumer<String> statistic) {
         var result = "";
         if (t != null) {
             if (statistic == null) {

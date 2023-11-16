@@ -86,7 +86,7 @@ public class TypeConverters {
             var blue  = value.substring(7, 9);
             return new Color(Integer.parseInt(red, 16), Integer.parseInt(green, 16), Integer.parseInt(blue, 16), Integer.parseInt(alpha, 16));
         }
-        throw new KclException(error_invalid_color, value);
+        throw new KclException(error_invalid_color.formatted(value));
     }
 
     private static Color convertStringToColorRGB(@NotBlank String value) {
@@ -102,7 +102,7 @@ public class TypeConverters {
                 return new Color(parts[0], parts[1], parts[2], parts[3]);
             }
         }
-        throw new KclException(error_invalid_color, value);
+        throw new KclException(error_invalid_color.formatted(value));
     }
 
     private static Color convertStringToColorSymbolicName(@NotBlank String value) {
@@ -114,10 +114,10 @@ public class TypeConverters {
                     return color;
                 }
             } catch (Exception ex) {
-                throw new KclException(ex, error_invalid_color, value);
+                throw new KclException(ex, error_invalid_color.formatted(value));
             }
         }
-        throw new KclException(error_invalid_color, value);
+        throw new KclException(error_invalid_color.formatted(value));
     }
 
     public static String convertColorToString(Color value) {
@@ -145,7 +145,7 @@ public class TypeConverters {
                     }
                 }
             }
-            throw new KclException(error_invalid_enumeration_value, value);
+            throw new KclException(error_invalid_enumeration_value.formatted(value));
         });
     }
 
@@ -172,7 +172,7 @@ public class TypeConverters {
             try {
                 return URI.create($val.trim()).toURL();
             } catch (MalformedURLException ex) {
-                throw new KclException(error_invalid_uri, $val);
+                throw new KclException(error_invalid_uri.formatted($val));
             }
         });
     }
@@ -192,7 +192,7 @@ public class TypeConverters {
             try {
                 return $val.toURL().toExternalForm();
             } catch (MalformedURLException ex) {
-                throw new KclException(error_invalid_uri, $val);
+                throw new KclException(error_invalid_uri.formatted($val));
             }
         });
     }
@@ -220,7 +220,7 @@ public class TypeConverters {
                 try {
                     result = result.getCanonicalFile();
                 } catch (Exception ex) {
-                    throw new KclException(ex, Messages.error_cannot_determine_canonical_file, $val);
+                    throw new KclException(ex, Messages.error_cannot_determine_canonical_file.formatted($val));
                 }
             }
             return result;
@@ -237,7 +237,7 @@ public class TypeConverters {
                 try {
                     $val = $val.getCanonicalFile();
                 } catch (Exception ex) {
-                    throw new KclException(ex, Messages.error_cannot_determine_canonical_file, $val);
+                    throw new KclException(ex, Messages.error_cannot_determine_canonical_file.formatted($val));
                 }
             }
             return $val.getPath().replace('\\', '/');
@@ -532,7 +532,7 @@ public class TypeConverters {
 
     private static <F, T> F encode(T decoded, Function<T, F> impl) {
         if (decoded != null) {
-            return KclException.execute(() -> impl.apply(decoded), Messages.error_invalid_decoded_value, decoded);
+            return KclException.execute(() -> impl.apply(decoded), Messages.error_invalid_decoded_value.formatted(decoded));
         }
         return null;
     }

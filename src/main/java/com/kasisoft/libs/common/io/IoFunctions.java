@@ -224,7 +224,7 @@ public class IoFunctions {
         try {
             return Files.createTempFile(prefix, suffix);
         } catch (Exception ex) {
-            throw new KclException(ex, error_failed_to_create_temporary_file, prefix, suffix);
+            throw new KclException(ex, error_failed_to_create_temporary_file.formatted(prefix, suffix));
         }
     }
 
@@ -313,7 +313,7 @@ public class IoFunctions {
                 var outstream = new GZIPOutputStream(IoSupportFunctions.newOutputStream(result));) {
                 copy(instream, outstream);
             } catch (Exception ex) {
-                throw KclException.wrap(ex, error_failed_to_gzip, source, result);
+                throw KclException.wrap(ex, error_failed_to_gzip.formatted(source, result));
             }
 
         }
@@ -333,7 +333,7 @@ public class IoFunctions {
             try (var instream = IoSupportFunctions.newInputStream(source); var gzipOut = new GZIPOutputStream($byteout);) {
                 copy(instream, gzipOut);
             } catch (Exception ex) {
-                throw KclException.wrap(ex, error_failed_to_load_gzipped, source);
+                throw KclException.wrap(ex, error_failed_to_load_gzipped.formatted(source));
             }
             return $byteout.toByteArray();
         });
@@ -380,7 +380,7 @@ public class IoFunctions {
                 var outstream = IoSupportFunctions.newOutputStream(result);) {
                 copy(instream, outstream);
             } catch (Exception ex) {
-                throw KclException.wrap(ex, error_failed_to_gzip, source, result);
+                throw KclException.wrap(ex, error_failed_to_gzip.formatted(source, result));
             }
 
         }
@@ -405,7 +405,7 @@ public class IoFunctions {
             try (var instream = new GZIPInputStream(IoSupportFunctions.newInputStream(source));) {
                 copy(instream, $byteout);
             } catch (Exception ex) {
-                throw KclException.wrap(ex, error_failed_to_ungzip, source);
+                throw KclException.wrap(ex, error_failed_to_ungzip.formatted(source));
             }
             return $byteout.toByteArray();
         });
@@ -430,22 +430,22 @@ public class IoFunctions {
     public static void copyFile(@NotNull Path source, @NotNull Path destination) {
         try {
             if (!Files.isRegularFile(source)) {
-                throw new KclException(error_file_does_not_exist, source);
+                throw new KclException(error_file_does_not_exist.formatted(source));
             }
             Files.copy(source, destination, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception ex) {
-            throw KclException.wrap(ex, error_failed_to_copy, source, destination);
+            throw KclException.wrap(ex, error_failed_to_copy.formatted(source, destination));
         }
     }
 
     public static void moveFile(@NotNull Path source, @NotNull Path destination) {
         try {
             if (!Files.isRegularFile(source)) {
-                throw new KclException(error_file_does_not_exist, source);
+                throw new KclException(error_file_does_not_exist.formatted(source));
             }
             Files.move(source, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception ex) {
-            throw KclException.wrap(ex, error_failed_to_copy, source, destination);
+            throw KclException.wrap(ex, error_failed_to_copy.formatted(source, destination));
         }
     }
 
@@ -459,14 +459,14 @@ public class IoFunctions {
         try {
             Files.createDirectories(dir);
         } catch (Exception ex) {
-            throw KclException.wrap(ex, error_failed_to_create_directory, dir);
+            throw KclException.wrap(ex, error_failed_to_create_directory.formatted(dir));
         }
     }
 
     public static void copyDir(@NotNull Path source, @NotNull Path destination) {
 
         if (!Files.isDirectory(source)) {
-            throw new KclException(error_directory_does_not_exist, source);
+            throw new KclException(error_directory_does_not_exist.formatted(source));
         }
 
         new CopyingFileWalker(source, destination).run();
@@ -493,7 +493,7 @@ public class IoFunctions {
         try {
 
             if (!Files.isDirectory(source)) {
-                throw new KclException(error_directory_does_not_exist, source);
+                throw new KclException(error_directory_does_not_exist.formatted(source));
             }
 
             var sourceRoot = findRoot(source);
@@ -534,7 +534,7 @@ public class IoFunctions {
             try {
                 Files.delete(file);
             } catch (Exception ex) {
-                throw KclException.wrap(ex, error_failed_to_delete_file, file);
+                throw KclException.wrap(ex, error_failed_to_delete_file.formatted(file));
             }
         }
     }
@@ -599,7 +599,7 @@ public class IoFunctions {
             return new ListingFileWalker(start, includeDirs).get().stream().filter(predicate.protect()).sorted().collect(Collectors.toList());
 
         } catch (Exception ex) {
-            throw KclException.wrap(ex, error_failed_to_scan_dir, start);
+            throw KclException.wrap(ex, error_failed_to_scan_dir.formatted(start));
         }
 
     }
@@ -631,7 +631,7 @@ public class IoFunctions {
                 }
             }
         } catch (Exception ex) {
-            throw KclException.wrap(ex, error_failed_to_process_zip, zipFile);
+            throw KclException.wrap(ex, error_failed_to_process_zip.formatted(zipFile));
         }
     }
 
@@ -703,7 +703,7 @@ public class IoFunctions {
                 try (var instream = $z.getInputStream($e); var outstream = IoSupportFunctions.newOutputStream(dest);) {
                     copy(instream, outstream);
                 } catch (Exception ex) {
-                    throw KclException.wrap(ex, error_failed_to_unzip, dest, zipFile, $e.getName());
+                    throw KclException.wrap(ex, error_failed_to_unzip.formatted(dest, zipFile, $e.getName()));
                 }
 
             }
@@ -725,7 +725,7 @@ public class IoFunctions {
                     zipout.closeEntry();
                 }
             } catch (Exception ex) {
-                throw KclException.wrap(ex, error_failed_to_zip, zipFile);
+                throw KclException.wrap(ex, error_failed_to_zip.formatted(zipFile));
             }
         });
     }

@@ -21,19 +21,19 @@ public class KclException extends RuntimeException {
         super(ex);
     }
 
-    public KclException(@NotBlank String fmt, Object ... args) {
-        super(fmt.formatted(args));
+    public KclException(@NotBlank String msg) {
+        super(msg);
     }
 
-    public KclException(@NotNull Exception ex, @NotBlank String fmt, Object ... args) {
-        super(fmt.formatted(args), ex);
+    public KclException(@NotNull Exception ex, @NotBlank String msg) {
+        super(msg, ex);
     }
 
-    public static <R> R execute(@NotNull Supplier<R> supplier, @NotBlank String fmt, Object ... args) {
+    public static <R> R execute(@NotNull Supplier<R> supplier, @NotBlank String msg) {
         try {
             return supplier.get();
         } catch (Exception ex) {
-            throw KclException.wrap(ex, fmt, args);
+            throw KclException.wrap(ex, msg);
         }
     }
 
@@ -44,11 +44,11 @@ public class KclException extends RuntimeException {
         return new KclException(ex);
     }
 
-    public static @NotNull KclException wrap(@NotNull Exception ex, @NotBlank String fmt, Object ... args) {
+    public static @NotNull KclException wrap(@NotNull Exception ex, @NotBlank String msg) {
         if (ex instanceof KclException kex) {
             return kex;
         }
-        return new KclException(ex, fmt, args);
+        return new KclException(ex, msg);
     }
 
     public static KclException unwrap(Exception ex) {

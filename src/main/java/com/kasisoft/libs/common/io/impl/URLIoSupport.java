@@ -24,7 +24,7 @@ public class URLIoSupport implements IoSupport<URL> {
 
     @Override
     public OutputStream newOutputStreamImpl(@NotNull URL destination) throws Exception {
-        throw new KclException(error_no_write_support_for_urls, destination);
+        throw new KclException(error_no_write_support_for_urls.formatted(destination));
     }
 
 } /* ENDCLASS */

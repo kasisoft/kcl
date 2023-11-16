@@ -43,7 +43,7 @@ public class KclExceptionTest {
             try {
                 throw new KclException("simple text");
             } catch (Exception ex) {
-                throw KclException.wrap(ex, "Error Message: %s", ex.getLocalizedMessage());
+                throw KclException.wrap(ex, "Error Message: %s".formatted(ex.getLocalizedMessage()));
             }
         });
     }
@@ -84,7 +84,7 @@ public class KclExceptionTest {
     @Test
     public void constructor__Formatting() {
         assertThrows(KclException.class, () -> {
-            throw new KclException("Message: %s", "Value");
+            throw new KclException("Message: Value");
         });
     }
 
