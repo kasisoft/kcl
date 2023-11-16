@@ -1,4 +1,4 @@
-![KCL](https://github.com/kasisoft/kcl/workflows/KCL/badge.svg?branch=master&event=push)
+![KCL](https://github.com/kasisoft/kcl/actions/workflows/gradlen.yml/badge.svg)
 
 # Purpose
 
