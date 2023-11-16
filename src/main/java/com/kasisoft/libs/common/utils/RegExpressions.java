@@ -46,7 +46,7 @@ public class RegExpressions {
 
     public static String oredKeywords(Collection<String> keywords) {
         // build a big OR of all keys
-        return Buckets.bucketStringBuilder().forInstance($sb -> {
+        return Buckets.stringBuilder().forInstance($sb -> {
             keywords.forEach($key -> $sb.append('|').append(Pattern.quote($key)));
             $sb.setCharAt(0, '(');
             $sb.append(')');

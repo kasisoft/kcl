@@ -94,7 +94,7 @@ public enum Digest {
      */
     @NotNull
     public String digestToString(int count, @NotNull byte[] ... data) {
-        return Buckets.bucketStringBuilder().forInstance($ -> {
+        return Buckets.stringBuilder().forInstance($ -> {
             var checksum = digest(count, data);
             for (var b : checksum) {
                 var asbyte = Integer.toString((b & 0xff), 16);

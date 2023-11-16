@@ -18,7 +18,7 @@ public class BucketTest {
     @Test
     public void arrayList() {
 
-        var bucket = Buckets.bucketArrayList();
+        var bucket = Buckets.arrayList();
         bucket.reset();
 
         assertThat(0, is(bucket.getSize()));
@@ -43,7 +43,7 @@ public class BucketTest {
     @Test
     public void stringBuilder() {
 
-        var bucket = Buckets.bucketStringBuilder();
+        var bucket = Buckets.stringBuilder();
         bucket.reset();
 
         assertThat(0, is(bucket.getSize()));

@@ -560,7 +560,7 @@ public class TypeConverters {
 
     private static <T> String convertArrayToString(T[] value, String delimiter, Function<T, String> convert) {
         return encode(value, $val -> {
-            return Buckets.bucketStringBuilder().forInstance($sb -> {
+            return Buckets.stringBuilder().forInstance($sb -> {
                 if (value.length > 0) {
                     $sb.append(convert.apply(value[0]));
                     for (int i = 1; i < value.length; i++) {

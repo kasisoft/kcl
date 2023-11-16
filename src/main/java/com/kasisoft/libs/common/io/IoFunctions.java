@@ -86,7 +86,7 @@ public class IoFunctions {
 
     @NotNull
     public static String readText(@NotNull Reader reader) {
-        return Buckets.bucketStringWriter().forInstance($sw -> {
+        return Buckets.stringWriter().forInstance($sw -> {
             IoFunctions.copy(reader, $sw);
             return $sw.toString();
         });
@@ -329,7 +329,7 @@ public class IoFunctions {
 
     @NotNull
     public static byte[] loadGzipped(@NotNull Path source) {
-        return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
+        return Buckets.byteArrayOutputStream().forInstance($byteout -> {
             try (var instream = IoSupportFunctions.newInputStream(source); var gzipOut = new GZIPOutputStream($byteout);) {
                 copy(instream, gzipOut);
             } catch (Exception ex) {
@@ -401,7 +401,7 @@ public class IoFunctions {
 
     @NotNull
     public static byte[] loadUngzipped(@NotNull Path source) {
-        return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
+        return Buckets.byteArrayOutputStream().forInstance($byteout -> {
             try (var instream = new GZIPInputStream(IoSupportFunctions.newInputStream(source));) {
                 copy(instream, $byteout);
             } catch (Exception ex) {

@@ -206,7 +206,7 @@ public interface IoSupport<T> {
 
     @NotNull
     default byte[] loadAllBytes(@NotNull T source, @Min(0) int offset) {
-        return Buckets.bucketByteArrayOutputStream().forInstance($byteout -> {
+        return Buckets.byteArrayOutputStream().forInstance($byteout -> {
             forInputStreamDo(source, $instream -> {
                 try {
                     IoFunctions.skip($instream, offset);
@@ -236,7 +236,7 @@ public interface IoSupport<T> {
 
     @NotNull
     default char[] loadAllChars(@NotNull T source, Encoding encoding, @Min(0) int offset) {
-        return Buckets.bucketCharArrayWriter().forInstance($charout -> {
+        return Buckets.charArrayWriter().forInstance($charout -> {
             forReaderDo(source, encoding, $reader -> {
                 try {
                     IoFunctions.skip($reader, offset);

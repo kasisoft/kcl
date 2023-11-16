@@ -130,7 +130,7 @@ public class StringFunctions {
      */
     @NotNull
     public static String camelCase(@NotNull String input) {
-        return Buckets.bucketStringBuilder().forInstance($ -> {
+        return Buckets.stringBuilder().forInstance($ -> {
             $.append(input);
             int len = $.length();
             for (int i = len - 2, j = len - 1; i >= 0; i--, j--) {
@@ -419,7 +419,7 @@ public class StringFunctions {
             return Empty.NO_STRING;
         }
         var del = delimiter == null ? Empty.NO_STRING : delimiter;
-        return Buckets.bucketStringBuilder().forInstance($ -> {
+        return Buckets.stringBuilder().forInstance($ -> {
             var iterator = args.iterator();
             while (iterator.hasNext()) {
                 var object = iterator.next();
@@ -447,7 +447,7 @@ public class StringFunctions {
     @NotNull
     public static String repeat(@Min(0) int n, CharSequence text) {
         if ((n > 0) && (text != null) && (text.length() > 0)) {
-            return Buckets.bucketStringBuilder().forInstance($ -> {
+            return Buckets.stringBuilder().forInstance($ -> {
                 var c = n;
                 while (c > 0) {
                     $.append(text);
@@ -468,7 +468,7 @@ public class StringFunctions {
      */
     @NotNull
     public static String objectToString(Object obj) {
-        return Buckets.bucketStringBuilder().forInstance($ -> {
+        return Buckets.stringBuilder().forInstance($ -> {
             appendToString($, obj);
             return $.toString();
         });
@@ -509,7 +509,7 @@ public class StringFunctions {
     }
 
     private static void appendToStringThrowable(@NotNull StringBuilder receiver, @NotNull Throwable throwable) {
-        Buckets.bucketStringWriter().forInstanceDo($ -> {
+        Buckets.stringWriter().forInstanceDo($ -> {
             try (var writer = new PrintWriter($)) {
                 throwable.printStackTrace(writer);
             }
@@ -670,7 +670,7 @@ public class StringFunctions {
      */
     @NotNull
     public static String replaceAll(@NotNull String input, @NotNull Map<String, String> replacements, String fmt) {
-        return Buckets.<String, String> bucketHashMap().forInstance($substitutions -> {
+        return Buckets.<String, String> hashMap().forInstance($substitutions -> {
 
           // setup the substitution map
           if ((fmt != null) && (!"%s".equals(fmt))) {
@@ -697,7 +697,7 @@ public class StringFunctions {
      */
     @NotNull
     public static String replaceAll(@NotNull String input, @NotNull Pattern pattern, @NotNull Function<String, String> replacementSupplier) {
-        return Buckets.<Integer> bucketArrayList().forInstance($ranges -> {
+        return Buckets.<Integer> arrayList().forInstance($ranges -> {
 
             var matcher = pattern.matcher(input);
 
@@ -714,7 +714,7 @@ public class StringFunctions {
     }
 
     private static String substitute(@NotNull String input, List<Integer> ranges, @NotNull Function<String, String> mapper) {
-        return Buckets.bucketStringBuilder().forInstance($sb -> {
+        return Buckets.stringBuilder().forInstance($sb -> {
             $sb.append(input);
             for (int i = ranges.size() - 2; i >= 0; i -= 2) {
                 int start = ranges.get(i);
