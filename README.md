@@ -32,7 +32,7 @@ The build uses Maven
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>4.4</version>
+         <version>5.0</version>
      </dependency>
 
 
@@ -43,7 +43,7 @@ Snapshots can be used while accessing a dedicated maven repository. Your POM nee
      <dependency>
          <groupId>com.kasisoft</groupId>
          <artifactId>com.kasisoft.libs.common</artifactId>
-         <version>5.0-SNAPSHOT</version>
+         <version>5.1-SNAPSHOT</version>
      </dependency>
      
      <repositories>
@@ -80,7 +80,7 @@ You can create a token with your github account:
 
 MIT License
 
-Copyright (c) 2022 Daniel Kasmeroglu (Kasisoft)
+Copyright (c) 2023 Daniel Kasmeroglu (Kasisoft)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
