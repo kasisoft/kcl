@@ -202,7 +202,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that shall be tested.
-     * @return <code>true</code> <=> The supplied text is blacklisted.
+     * @return <code>true</code> The supplied text is blacklisted.
      */
     @Override
     public synchronized boolean test(String t) {
@@ -228,7 +228,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied text is blacklisted.
+     * @return <code>true</code> The supplied text is blacklisted.
      */
     private synchronized boolean testCI(String t) {
         if (t != null) {
@@ -241,7 +241,7 @@ public class Blacklist implements Predicate<String> {
      * Returns a startsWith test which checks whether a text starts with a blacklisted literal.
      *
      * @param ignorecase
-     *            <code>true</code> <=> Ignore case.
+     *            <code>true</code> Ignore case.
      * @return A startsWith test for this blacklist.
      */
     @NotNull
@@ -265,7 +265,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied text starts with a blacklisted literal.
+     * @return <code>true</code> The supplied text starts with a blacklisted literal.
      */
     private synchronized boolean testStartsWith(String t) {
         if (t != null) {
@@ -279,7 +279,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied text starts with a blacklisted literal.
+     * @return <code>true</code> The supplied text starts with a blacklisted literal.
      */
     private synchronized boolean testStartsWithCI(String t) {
         if (t != null) {
@@ -292,7 +292,7 @@ public class Blacklist implements Predicate<String> {
      * Returns an endsWith test which checks whether a text ends with a blacklisted literal.
      *
      * @param ignorecase
-     *            <code>true</code> <=> Ignore case.
+     *            <code>true</code> Ignore case.
      * @return A endsWith test for this blacklist.
      */
     @NotNull
@@ -316,7 +316,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied text ends with a blacklisted literal.
+     * @return <code>true</code> The supplied text ends with a blacklisted literal.
      */
     private synchronized boolean testEndsWith(String t) {
         if (t != null) {
@@ -330,7 +330,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied text ends with a blacklisted literal.
+     * @return <code>true</code> The supplied text ends with a blacklisted literal.
      */
     private synchronized boolean testEndsWithCI(String t) {
         if (t != null) {
@@ -343,7 +343,7 @@ public class Blacklist implements Predicate<String> {
      * Returns a contains test which checks whether a text contains a blacklisted literal.
      *
      * @param ignorecase
-     *            <code>true</code> <=> Ignore case.
+     *            <code>true</code> Ignore case.
      * @return A contains test for this blacklist.
      */
     @NotNull
@@ -366,7 +366,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied text contains a blacklisted literal.
+     * @return <code>true</code> The supplied text contains a blacklisted literal.
      */
     private synchronized boolean testContains(String t) {
         if (t != null) {
@@ -380,7 +380,7 @@ public class Blacklist implements Predicate<String> {
      *
      * @param t
      *            The text that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied text contains a blacklisted literal.
+     * @return <code>true</code> The supplied text contains a blacklisted literal.
      */
     private synchronized boolean testContainsCI(String t) {
         if (t != null) {
@@ -396,7 +396,7 @@ public class Blacklist implements Predicate<String> {
      *            The list entries that might be matched.
      * @param test
      *            The predicate used for the test.
-     * @return <code>true</code> <=> The predicate matched one entry.
+     * @return <code>true</code> The predicate matched one entry.
      */
     private boolean test(@NotNull List<String> list, @NotNull Predicate<String> test) {
         for (var element : list) {
@@ -424,7 +424,7 @@ public class Blacklist implements Predicate<String> {
      * blacklisted portions.
      *
      * @param ignorecase
-     *            <code>true</code> <=> Ignore case sensitivity.
+     *            <code>true</code> Ignore case sensitivity.
      * @return A function that converts a CharSequence into a StringBuilder while dropping the
      *         blacklisted portions.
      */
@@ -452,7 +452,7 @@ public class Blacklist implements Predicate<String> {
      * blacklisted portions.
      *
      * @param ignorecase
-     *            <code>true</code> <=> Ignore case sensitivity.
+     *            <code>true</code> Ignore case sensitivity.
      * @param statistic
      *            This Consumer instance allows to react on each detected blacklisted literal.
      * @return A function that converts a CharSequence into a StringBuilder while dropping the

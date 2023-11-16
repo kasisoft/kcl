@@ -48,7 +48,7 @@ public class LiteralTokenizer implements Enumeration<String> {
      * @param data
      *            The String content that has to be tokenized.
      * @param returnLiterals
-     *            <code>true</code> <=> Return delimiting literals as well.
+     *            <code>true</code> Return delimiting literals as well.
      * @param delimiters
      *            A list of delimiting literals.
      */
@@ -62,7 +62,7 @@ public class LiteralTokenizer implements Enumeration<String> {
      * @param data
      *            The String content that has to be tokenized.
      * @param returnLiterals
-     *            <code>true</code> <=> Return delimiting literals as well.
+     *            <code>true</code> Return delimiting literals as well.
      * @param delimiters
      *            A list of delimiting literals.
      */

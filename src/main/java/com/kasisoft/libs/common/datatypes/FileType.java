@@ -18,7 +18,7 @@ public interface FileType extends Predicate<byte[]> {
      *
      * @param data
      *            The data which has to be examined.
-     * @return <code>true</code> <=> The data indicates this type.
+     * @return <code>true</code> The data indicates this type.
      */
     @Override
     boolean test(byte[] data);

@@ -24,19 +24,19 @@ public record XmlParserConfiguration(
     // Resolver for entities. Maybe null.
     EntityResolver                  resolver,
 
-    // <code>true</code> <=> Validates the document if possible.
+    // <code>true</code> Validates the document if possible.
     boolean                         validate,
 
-    // <code>true</code> <=> Recognize XML namespaces.
+    // <code>true</code> Recognize XML namespaces.
     boolean                         xmlnamespaces,
 
-    // <code>true</code> <=> Recognize XML includes (only supported with JRE 1.7+ and may depend on the parser).
+    // <code>true</code> Recognize XML includes (only supported with JRE 1.7+ and may depend on the parser).
     boolean                         xincludes,
 
     // run a normalization after a document has been loaded
     boolean                         normalize,
 
-    // <code>true</code> <=> Requested schemas that cannot be found will be delivered as empty files (effectively no rules).
+    // <code>true</code> Requested schemas that cannot be found will be delivered as empty files (effectively no rules).
     boolean                         satisfyUnknownSchemas,
 
     Map<DomConfigParameter, Object> parameters

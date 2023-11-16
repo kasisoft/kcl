@@ -34,7 +34,7 @@ public enum ByteOrderMark {
      *
      * @param data
      *            The data to be tested.
-     * @return <code>true</code> <=> The supplied data starts with this BOM.
+     * @return <code>true</code> The supplied data starts with this BOM.
      */
     public boolean startsWith(@NotNull byte[] data) {
         return startsWith(data, 0);
@@ -47,7 +47,7 @@ public enum ByteOrderMark {
      *            The data to be tested.
      * @param offset
      *            An offset where the start has to begin. Must be a positive number.
-     * @return <code>true</code> <=> The supplied data starts with this BOM.
+     * @return <code>true</code> The supplied data starts with this BOM.
      */
     public boolean startsWith(@NotNull byte[] data, int offset) {
         return PrimitiveFunctions.compare(data, bom);

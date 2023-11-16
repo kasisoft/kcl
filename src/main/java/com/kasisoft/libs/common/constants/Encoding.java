@@ -50,7 +50,7 @@ public final class Encoding {
      * @param key
      *            The name of the character set.
      * @param requiresbom
-     *            <code>true</code> <=> Identifying this encoding requires a {@link ByteOrderMark}.
+     *            <code>true</code> Identifying this encoding requires a {@link ByteOrderMark}.
      * @param mark
      *            A {@link ByteOrderMark} which allows to identify the encoding.
      */

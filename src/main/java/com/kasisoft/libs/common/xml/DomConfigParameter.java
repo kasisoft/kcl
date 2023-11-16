@@ -2,16 +2,19 @@ package com.kasisoft.libs.common.xml;
 
 import org.w3c.dom.*;
 
+import com.kasisoft.libs.common.annotation.*;
+
 import jakarta.validation.constraints.*;
 
 /**
  * Collection of parameters for the {@link DOMConfiguration} .
  *
- * {@link "http://xerces.apache.org/xerces2-j/javadocs/api/org/w3c/dom/ls/LSSerializer.html"} [07-Jul-2016:KASI]
- * {@link "http://download.oracle.com/javase/1.5.0/docs/api/org/w3c/dom/DOMConfiguration.html"} [07-Jul-2016:KASI]
- *
  * @author daniel.kasmeroglu@kasisoft.com
  */
+@Specifications({
+  @Specification(value = "http://xerces.apache.org/xerces2-j/javadocs/api/org/w3c/dom/ls/LSSerializer.html", date = "16-NOV-2023"),
+  @Specification(value = "https://docs.oracle.com/en/java/javase/21/docs/api/java.xml/org/w3c/dom/DOMConfiguration.html", date = "16-NOV-2023")
+})
 public enum DomConfigParameter {
 
     CanonicalForm("canonical-form", false),

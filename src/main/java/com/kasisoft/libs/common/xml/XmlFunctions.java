@@ -586,7 +586,7 @@ public final class XmlFunctions {
      * @param node
      *            The node used to retrieve all attributes.
      * @param namespace
-     *            <code>true</code> <=> Include the namespace in the attribute name.
+     *            <code>true</code> Include the namespace in the attribute name.
      * @return A list with all matching elements.
      */
     @NotNull
@@ -636,7 +636,7 @@ public final class XmlFunctions {
      * @param source
      *            A String that may be modified.
      * @param lineEndings
-     *            <code>true</code> <=> Escape line endings as well.
+     *            <code>true</code> Escape line endings as well.
      * @return An encoded String.
      */
     @NotNull
@@ -662,7 +662,7 @@ public final class XmlFunctions {
      * @param source
      *            A String that may be modified.
      * @param lineEndings
-     *            <code>true</code> <=> Escape line endings as well.
+     *            <code>true</code> Escape line endings as well.
      * @return An encoded String.
      */
     @NotNull

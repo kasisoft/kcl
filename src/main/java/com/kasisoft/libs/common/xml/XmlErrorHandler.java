@@ -27,7 +27,7 @@ public class XmlErrorHandler implements ErrorHandler {
     /**
      * Returns <code>true</code> if at least one error occured.
      *
-     * @return <code>true</code> <=> At least one error occured.
+     * @return <code>true</code> At least one error occured.
      */
     public boolean hasErrors() {
         return errorcount > 0;

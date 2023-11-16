@@ -386,8 +386,8 @@ public class StringFunctions {
      * @param chars
      *            The whitespace characters.
      * @param left
-     *            <code>null</code> <=> Trim left and right, <code>true</code> <=> Trim left,
-     *            <code>false</code> <=> Trim right.
+     *            <code>null</code> Trim left and right, <code>true</code> Trim left,
+     *            <code>false</code> Trim right.
      */
     @NotNull
     public static String trim(@NotNull String input, @NotNull String chars, Boolean left) {
@@ -451,7 +451,7 @@ public class StringFunctions {
     }
 
     /**
-     * Repeats the supplied text <param>n</param> times.
+     * Repeats the supplied text <code>n</code> times.
      *
      * @param n
      *            The number of concatenations that have to be performed.
@@ -658,7 +658,7 @@ public class StringFunctions {
     }
 
     /**
-     * Performs a search & replace operation on the supplied input.
+     * Performs a search and replace operation on the supplied input.
      *
      * @param input
      *            The input which has to be modified.
@@ -672,7 +672,7 @@ public class StringFunctions {
     }
 
     /**
-     * Performs a search & replace operation on the supplied input.
+     * Performs a search and replace operation on the supplied input.
      *
      * @param input
      *            The input which has to be modified.

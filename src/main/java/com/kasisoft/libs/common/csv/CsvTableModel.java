@@ -983,7 +983,7 @@ public class CsvTableModel implements TableModel {
      *            The current lines representing the csv data.
      * @param columns
      *            The expected number of columns.
-     * @return <code>true</code> <=> Each line provides the same amount of columns.
+     * @return <code>true</code> Each line provides the same amount of columns.
      */
     private boolean equalLengthForEachLine(@NotNull List<List<String>> lines, int columns) {
         return lines.parallelStream().map($ -> $.size() == columns).reduce(true, Boolean::logicalAnd);
@@ -1129,7 +1129,7 @@ public class CsvTableModel implements TableModel {
      * @param values
      *            All current values for this column.
      * @param nullable
-     *            <code>true</code> <=> This column supports null values.
+     *            <code>true</code> This column supports null values.
      * @param test
      *            A test which allows to check whether a value matches a certain type or not.
      * @param adapter

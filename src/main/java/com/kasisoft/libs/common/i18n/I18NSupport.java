@@ -48,7 +48,7 @@ public class I18NSupport {
      *
      * @param field
      *            The field that is supposed to be tested.
-     * @return <code>true</code> <=> The supplied field is a translation field.
+     * @return <code>true</code> The supplied field is a translation field.
      */
     private static boolean isTranslationField(@NotNull Field field) {
         var modifier = field.getModifiers();

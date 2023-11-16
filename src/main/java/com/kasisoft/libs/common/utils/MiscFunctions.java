@@ -60,7 +60,7 @@ public class MiscFunctions {
      *
      * @param year
      *            The year which has to be tested.
-     * @return <code>true</code> <=> The supplied year is a leap year.
+     * @return <code>true</code> The supplied year is a leap year.
      */
     public static boolean isLeapYear(int year) {
         if ((year % 400) == 0) {
@@ -77,7 +77,7 @@ public class MiscFunctions {
      *
      * @param date
      *            The date which has to be tested.
-     * @return <code>true</code> <=> The supplied date is a leap year.
+     * @return <code>true</code> The supplied date is a leap year.
      */
     @SuppressWarnings("deprecation")
     public static boolean isLeapYear(@NotNull Date date) {

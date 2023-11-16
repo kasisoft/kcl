@@ -151,7 +151,7 @@ public enum Database implements Predicate<String> {
      *            The username to access the database.
      * @param password
      *            The password to be used.
-     * @return <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
+     * @return <code>true</code> Connecting suceeded, so the DB seems to be available.
      */
     public boolean test(@NotBlank String url, @NotNull String username, String password) {
         try (var connection = getConnection(url, username, password);
@@ -167,7 +167,7 @@ public enum Database implements Predicate<String> {
      *
      * @param url
      *            The URL used to access the database.
-     * @return <code>true</code> <=> Connecting suceeded, so the DB seems to be available.
+     * @return <code>true</code> Connecting suceeded, so the DB seems to be available.
      */
     @Override
     public boolean test(@NotBlank String url) {

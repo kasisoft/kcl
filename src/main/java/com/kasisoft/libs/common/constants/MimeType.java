@@ -112,7 +112,7 @@ public enum MimeType implements Predicate<String> {
      *
      * @param suffix
      *            The suffix that has to be tested.
-     * @return <code>true</code> <=> The supplied suffix is supported by this mime type.
+     * @return <code>true</code> The supplied suffix is supported by this mime type.
      */
     public boolean supportsSuffix(@NotNull String suffix) {
         return suffices.contains(suffix.toLowerCase());

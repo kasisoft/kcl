@@ -587,7 +587,7 @@ public class IoFunctions {
      * @param filter
      *            A filter used to accept the relative path.
      * @param includeDirs
-     *            <code>true</code> <=> Include directories in the result list.
+     *            <code>true</code> Include directories in the result list.
      * @return A list of relative pathes (directories will end with a slash).
      */
     @NotNull

@@ -43,7 +43,7 @@ public class XmlCatalog implements EntityResolver, LSResourceResolver, URIResolv
      * Initialises this catalog.
      *
      * @param lsaware
-     *            <code>true</code> <=> Support the LSResourceResolver interface, too.
+     *            <code>true</code> Support the LSResourceResolver interface, too.
      */
     public XmlCatalog(boolean lsaware) {
 
