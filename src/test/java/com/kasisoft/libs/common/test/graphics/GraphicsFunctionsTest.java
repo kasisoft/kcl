@@ -1,14 +1,7 @@
 package com.kasisoft.libs.common.test.graphics;
 
 import static com.kasisoft.libs.common.test.testsupport.ExtendedAsserts.*;
-
 import static org.junit.jupiter.api.Assertions.*;
-
-import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.graphics.*;
-import com.kasisoft.libs.common.test.*;
-import com.kasisoft.libs.common.io.*;
-import com.kasisoft.libs.common.*;
 
 import org.junit.jupiter.params.provider.*;
 
@@ -16,23 +9,31 @@ import org.junit.jupiter.params.*;
 
 import org.junit.jupiter.api.*;
 
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.graphics.*;
+
+import com.kasisoft.libs.common.test.*;
+
+import com.kasisoft.libs.common.io.*;
+
+import com.kasisoft.libs.common.*;
+
 import javax.swing.*;
 
 import java.util.function.*;
 
 import java.util.stream.*;
 
-import java.util.List;
-
 import java.util.*;
+import java.util.List;
 
 import java.nio.file.*;
 
-import java.net.*;
-
+import java.awt.*;
 import java.awt.image.*;
 
-import java.awt.*;
+import java.net.*;
 
 import java.io.*;
 

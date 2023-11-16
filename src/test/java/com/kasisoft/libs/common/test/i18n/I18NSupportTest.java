@@ -1,7 +1,6 @@
 package com.kasisoft.libs.common.test.i18n;
 
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.*;

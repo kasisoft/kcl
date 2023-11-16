@@ -1,19 +1,19 @@
 package com.kasisoft.libs.common.test.xml;
 
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
 
+import org.junit.jupiter.api.*;
+
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.test.*;
 
 import com.kasisoft.libs.common.xml.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.test.*;
-
-import org.junit.jupiter.api.*;
 
 import javax.xml.parsers.*;
 

@@ -1,5 +1,9 @@
 package com.kasisoft.libs.common.xml;
 
+import org.xml.sax.*;
+
+import org.w3c.dom.*;
+
 import com.kasisoft.libs.common.functional.*;
 
 import com.kasisoft.libs.common.constants.*;
@@ -10,23 +14,18 @@ import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
 
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import jakarta.validation.constraints.*;
 
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
 
-import javax.xml.transform.dom.*;
-
-import javax.xml.transform.*;
-
-import jakarta.validation.constraints.*;
-import javax.xml.parsers.*;
+import java.lang.reflect.*;
 
 import java.util.function.*;
 
 import java.util.*;
-
-import java.lang.reflect.*;
 
 import java.nio.file.*;
 

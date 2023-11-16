@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.pools;
 
 import jakarta.validation.constraints.*;
 
+import java.lang.ref.*;
+
 import java.util.function.*;
 
 import java.util.*;
-
-import java.lang.ref.*;
 
 /**
  * Collector for often used objects like collections, maps etc. .

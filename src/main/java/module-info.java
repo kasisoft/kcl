@@ -6,7 +6,6 @@ module com.kasisoft.libs.common {
     exports com.kasisoft.libs.common.annotation;
     exports com.kasisoft.libs.common.comparator;
     exports com.kasisoft.libs.common.constants;
-    exports com.kasisoft.libs.common.converters;
     exports com.kasisoft.libs.common.csv;
     exports com.kasisoft.libs.common.data;
     exports com.kasisoft.libs.common.datatypes;

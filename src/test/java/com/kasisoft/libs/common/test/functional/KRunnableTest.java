@@ -2,10 +2,11 @@ package com.kasisoft.libs.common.test.functional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.kasisoft.libs.common.functional.*;
-import com.kasisoft.libs.common.*;
-
 import org.junit.jupiter.api.*;
+
+import com.kasisoft.libs.common.functional.*;
+
+import com.kasisoft.libs.common.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.com

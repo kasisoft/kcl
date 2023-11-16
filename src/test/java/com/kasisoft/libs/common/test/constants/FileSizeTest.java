@@ -4,13 +4,13 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.kasisoft.libs.common.constants.*;
-
 import org.junit.jupiter.params.provider.*;
 
 import org.junit.jupiter.params.*;
 
 import org.junit.jupiter.api.*;
+
+import com.kasisoft.libs.common.constants.*;
 
 import java.util.stream.*;
 

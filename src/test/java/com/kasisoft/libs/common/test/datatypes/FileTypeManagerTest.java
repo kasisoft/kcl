@@ -1,17 +1,16 @@
 package com.kasisoft.libs.common.test.datatypes;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.datatypes.*;
-import com.kasisoft.libs.common.test.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.params.provider.*;
 
 import org.junit.jupiter.params.*;
+
+import com.kasisoft.libs.common.test.*;
+
+import com.kasisoft.libs.common.datatypes.*;
 
 import java.util.stream.*;
 

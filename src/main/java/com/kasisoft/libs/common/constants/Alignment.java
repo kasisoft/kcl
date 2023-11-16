@@ -1,10 +1,9 @@
 package com.kasisoft.libs.common.constants;
 
-import javax.swing.border.*;
+import jakarta.validation.constraints.*;
 
 import javax.swing.*;
-
-import jakarta.validation.constraints.*;
+import javax.swing.border.*;
 
 /**
  * Values to specify an alignment.

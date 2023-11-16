@@ -1,10 +1,7 @@
 package com.kasisoft.libs.common.test.constants;
 
 import static org.hamcrest.MatcherAssert.*;
-
 import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.constants.*;
 
 import org.junit.jupiter.params.provider.*;
 
@@ -12,9 +9,10 @@ import org.junit.jupiter.params.*;
 
 import org.junit.jupiter.api.*;
 
-import javax.swing.border.*;
+import com.kasisoft.libs.common.constants.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 import java.util.stream.*;
 

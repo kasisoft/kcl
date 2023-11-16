@@ -1,9 +1,9 @@
 package com.kasisoft.libs.common.xml;
 
-import com.kasisoft.libs.common.constants.*;
-
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
+
+import com.kasisoft.libs.common.constants.*;
 
 import jakarta.validation.constraints.*;
 

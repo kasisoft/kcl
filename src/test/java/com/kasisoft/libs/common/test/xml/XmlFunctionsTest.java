@@ -1,31 +1,27 @@
 package com.kasisoft.libs.common.test.xml;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.hamcrest.MatcherAssert.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer.*;
 
-import static org.hamcrest.Matchers.*;
+import org.w3c.dom.*;
 
 import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.test.*;
 
 import com.kasisoft.libs.common.xml.*;
 
 import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.libs.common.*;
-import com.kasisoft.libs.common.test.*;
-
-import org.w3c.dom.*;
-
-import org.junit.jupiter.api.MethodOrderer.*;
-
-import org.junit.jupiter.api.*;
-
-import javax.xml.transform.stream.*;
-
-import javax.xml.transform.dom.*;
 
 import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
 
 import java.nio.file.*;
 

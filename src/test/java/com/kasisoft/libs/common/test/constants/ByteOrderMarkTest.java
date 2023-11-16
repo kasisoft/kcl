@@ -1,16 +1,16 @@
 package com.kasisoft.libs.common.test.constants;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.hamcrest.MatcherAssert.*;
-
-import static org.hamcrest.Matchers.*;
+import org.junit.jupiter.api.*;
 
 import com.kasisoft.libs.common.constants.*;
-import com.kasisoft.libs.common.test.*;
-import com.kasisoft.libs.common.io.*;
 
-import org.junit.jupiter.api.*;
+import com.kasisoft.libs.common.test.*;
+
+import com.kasisoft.libs.common.io.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.com

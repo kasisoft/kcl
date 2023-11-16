@@ -1,15 +1,14 @@
 package com.kasisoft.libs.common.test.comparator;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.hamcrest.MatcherAssert.*;
+import org.junit.jupiter.api.*;
 
-import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.comparator.*;
 import com.kasisoft.libs.common.utils.*;
 
-import org.junit.jupiter.api.*;
+import com.kasisoft.libs.common.comparator.Comparators;
 
 import java.util.*;
 

@@ -2,11 +2,11 @@ package com.kasisoft.libs.common.test.xml;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.kasisoft.libs.common.xml.*;
+import org.junit.jupiter.api.*;
 
 import com.kasisoft.libs.common.test.*;
 
-import org.junit.jupiter.api.*;
+import com.kasisoft.libs.common.xml.*;
 
 import java.net.*;
 
