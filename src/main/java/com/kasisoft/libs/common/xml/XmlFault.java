@@ -2,8 +2,6 @@ package com.kasisoft.libs.common.xml;
 
 import org.xml.sax.*;
 
-import com.kasisoft.libs.common.xml.XmlFault.*;
-
 import jakarta.validation.constraints.*;
 
 /**

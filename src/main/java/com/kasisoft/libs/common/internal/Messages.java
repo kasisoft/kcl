@@ -108,9 +108,6 @@ public class Messages {
     @I18N("%s is not a valid Color")
     public static String     error_invalid_color;
 
-    @I18N("Invalid date value '%s'")
-    public static String     error_invalid_date_value;
-
     @I18N("Invalid decoded value: '%s'")
     public static String     error_invalid_decoded_value;
 
@@ -119,9 +116,6 @@ public class Messages {
 
     @I18N("Invalid URI '%s'")
     public static String     error_invalid_uri;
-
-    @I18N("Invalid URL '%s'")
-    public static String     error_invalid_url;
 
     @I18N("Missing CSV Adapter for column %d")
     public static String     error_missing_csv_adapter;
@@ -137,9 +131,6 @@ public class Messages {
 
     @I18N("Cannot parse version '%s'")
     public static String     error_version_cannot_parse_version;
-
-    @I18N("Missing qualifier")
-    public static String     error_version_missing_qualifier;
 
     static {
         I18NSupport.initialize(Locale.getDefault(), Messages.class);
