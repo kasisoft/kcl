@@ -1,20 +1,18 @@
 package com.kasisoft.libs.common.test.csv;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.hamcrest.MatcherAssert.*;
+import org.junit.jupiter.api.*;
 
-import static org.hamcrest.Matchers.*;
-
-import com.kasisoft.libs.common.utils.*;
+import com.kasisoft.libs.common.test.*;
 
 import com.kasisoft.libs.common.io.*;
 
-import com.kasisoft.libs.common.test.*;
-import com.kasisoft.libs.common.csv.*;
 import com.kasisoft.libs.common.*;
-
-import org.junit.jupiter.api.*;
+import com.kasisoft.libs.common.converters.*;
+import com.kasisoft.libs.common.csv.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.com
@@ -51,7 +49,7 @@ public class CsvTableModelTest {
             .column(null)
             .column(null)
             // we're enforcing the type Long for this column
-            .column(CsvColumn.<Long> builder().type(Long.class).adapter(MiscFunctions::parseLong).defaultValue(0L).nullable().title("longVal").build())
+            .column(CsvColumn.<Long> builder().type(Long.class).adapter(TypeConverters::convertStringToLong).defaultValue(0L).nullable().title("longVal").build())
             .fillMissingColumns()
             .build();
 

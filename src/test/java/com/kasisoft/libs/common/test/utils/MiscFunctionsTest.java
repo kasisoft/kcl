@@ -58,23 +58,6 @@ public class MiscFunctionsTest {
 
     }
 
-    @Test
-    public void joinThread() {
-        final StringBuilder out = new StringBuilder("false");
-        Runnable  runnable = new Runnable() {
-             @Override
-             public void run() {
-                 MiscFunctions.sleep(10000);
-                 out.setLength(0);
-                 out.append("true");
-             }
-        };
-        var thread = new Thread(runnable);
-        thread.start();
-        MiscFunctions.joinThread(thread);
-        assertThat(out.toString(), is("true"));
-    }
-
     private static <T> Stream<Arguments> createLeapYearTests(Function<Integer, T> year2Info) {
         return Arrays.asList(Arguments.of(year2Info.apply(1900), false), Arguments.of(year2Info.apply(1901), false), Arguments.of(year2Info.apply(1904), true), Arguments.of(year2Info.apply(2000), true), Arguments.of(year2Info.apply(2001), false)).stream();
     }
@@ -133,20 +116,6 @@ public class MiscFunctionsTest {
         assertThat(MiscFunctions.isLeapYear(year), is(expected));
     }
 
-    public static Stream<Arguments> data_repeat() {
-        return Stream.of(Arguments.of(0, null, Arrays.asList()), Arguments.of(1, null, Arrays.asList(new Object[] {
-            null})), Arguments.of(5, null, Arrays.asList(null, null, null, null, null)), Arguments.of(0, "Dodo", Arrays.asList()), Arguments.of(1, "Dodo", Arrays.asList("Dodo")), Arguments.of(5, "Dodo", Arrays.asList("Dodo", "Dodo", "Dodo", "Dodo", "Dodo")));
-    }
-
-    @ParameterizedTest
-    @MethodSource("data_repeat")
-    public <T> void repeat(int count, T element, List<T> expected) {
-        var actual = MiscFunctions.repeat(count, element);
-        assertThat(actual, notNullValue());
-        assertThat(actual.size(), is(count));
-        assertThat(actual, is(expected));
-    }
-
     @Test
     public void toPairs() {
 
@@ -166,9 +135,9 @@ public class MiscFunctionsTest {
         assertNotNull(onePair);
         assertThat(onePair.size(), is(1));
 
-        var stillOnePair = MiscFunctions.toPairs("key", "val", "nextKey");
-        assertNotNull(stillOnePair);
-        assertThat(stillOnePair.size(), is(1));
+        var noPairs = MiscFunctions.toPairs("key", "val", "nextKey");
+        assertNotNull(noPairs);
+        assertThat(noPairs.size(), is(0));
 
     }
 
@@ -237,55 +206,6 @@ public class MiscFunctionsTest {
         assertNotNull(trimmed2);
         assertTrue(trimmed2.isEmpty());
 
-    }
-
-    @Test
-    public void parseBoolean() {
-        assertThat(MiscFunctions.parseBoolean("false"), is(false));
-        assertNull(MiscFunctions.parseBoolean("Afalse"));
-        assertNull(MiscFunctions.parseBoolean(null));
-    }
-
-    @Test
-    public void parseByte() {
-        assertThat(MiscFunctions.parseByte("54"), is((byte) 54));
-        assertNull(MiscFunctions.parseByte("A54"));
-        assertNull(MiscFunctions.parseByte(null));
-    }
-
-    @Test
-    public void parseShort() {
-        assertThat(MiscFunctions.parseShort("54"), is((short) 54));
-        assertNull(MiscFunctions.parseShort("A54"));
-        assertNull(MiscFunctions.parseShort(null));
-    }
-
-    @Test
-    public void parseInt() {
-        assertThat(MiscFunctions.parseInt("54"), is(54));
-        assertNull(MiscFunctions.parseInt("A54"));
-        assertNull(MiscFunctions.parseInt(null));
-    }
-
-    @Test
-    public void parseLong() {
-        assertThat(MiscFunctions.parseLong("54"), is(54L));
-        assertNull(MiscFunctions.parseLong("A54"));
-        assertNull(MiscFunctions.parseLong(null));
-    }
-
-    @Test
-    public void parseFloat() {
-        assertThat(MiscFunctions.parseFloat("54.3"), is(54.3f));
-        assertNull(MiscFunctions.parseFloat("A54.3"));
-        assertNull(MiscFunctions.parseFloat(null));
-    }
-
-    @Test
-    public void parseDouble() {
-        assertThat(MiscFunctions.parseDouble("55.3"), is(55.3));
-        assertNull(MiscFunctions.parseDouble("A55.3"));
-        assertNull(MiscFunctions.parseDouble(null));
     }
 
     @Test

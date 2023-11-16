@@ -8,11 +8,9 @@ import com.kasisoft.libs.common.text.*;
 
 import jakarta.validation.constraints.*;
 
-import java.util.function.*;
+import java.time.*;
 
 import java.util.*;
-
-import java.time.*;
 
 /**
  * @author daniel.kasmeroglu@kasisoft.com
@@ -113,11 +111,10 @@ public class MiscFunctions {
 
     @NotNull
     public static <R> List<R> toUniqueList(List<R> list) {
-        var result = Collections.<R> emptyList();
-        if (list != null) {
-            result = new ArrayList<>(new TreeSet<R>(list));
+        if ((list != null) && (!list.isEmpty())) {
+            return new ArrayList<>(new TreeSet<R>(list));
         }
-        return result;
+        return Collections.emptyList();
     }
 
     /**
@@ -129,16 +126,15 @@ public class MiscFunctions {
      */
     @NotNull
     public static <R> List<Pair<R, R>> toPairs(R ... entries) {
-        var result = Collections.<Pair<R, R>> emptyList();
-        if (entries != null) {
-            var count = entries.length / 2;
-            result = new ArrayList<>(count);
-            for (var i = 0; i < count; i++) {
-                var offset = i * 2;
-                result.add(new Pair<>(entries[offset], entries[offset + 1]));
+        if ((entries != null) && (entries.length > 0) && (entries.length % 2 == 0)) {
+            var count  = entries.length / 2;
+            var result = new ArrayList<Pair<R, R>>(count);
+            for (int i = 0, j = 1; i < entries.length; i+=2, j+=2) {
+                result.add(new Pair<>(entries[i], entries[j]));
             }
+            return result;
         }
-        return result;
+        return Collections.emptyList();
     }
 
     /**
@@ -149,161 +145,16 @@ public class MiscFunctions {
      * @return A map providing all entries (unless the list length is odd).
      */
     @NotNull
-    public static <R1, R2> Map<R1, R2> toMap(@NotNull Object ... entries) {
-        var result = Collections.<R1, R2> emptyMap();
-        if (entries != null) {
-            var count = entries.length / 2;
-            result = new HashMap<>(count);
-            for (var i = 0; i < count; i++) {
-                var offset = i * 2;
-                result.put((R1) entries[offset], (R2) entries[offset + 1]);
+    public static <K, V> Map<K, V> toMap(@NotNull Object ... entries) {
+        if ((entries != null) && (entries.length > 0) && (entries.length % 2 == 0)) {
+            var count  = entries.length / 2;
+            var result = new HashMap<K, V>(count);
+            for (int i = 0, j = 1; i < entries.length; i+=2, j+=2) {
+                result.put((K) entries[i], (V) entries[j]);
             }
+            return result;
         }
-        return result;
-    }
-
-    /**
-     * Convenience function which waits until the supplied Thread finishes his task or will be
-     * interrupted.
-     *
-     * @param thread
-     *            The Thread that will be executed.
-     */
-    public static void joinThread(Thread thread) {
-        if (thread != null) {
-            try {
-                thread.join(30_000);
-            } catch (InterruptedException ex) {
-            }
-        }
-    }
-
-    public static void sleep(long millis) {
-        while (millis > 0) {
-            var before = System.currentTimeMillis();
-            try {
-                Thread.sleep(millis);
-            } catch (InterruptedException ex) {
-            }
-            var after = System.currentTimeMillis();
-            var done  = after - before;
-            millis -= done;
-        }
-    }
-
-    /**
-     * Interpretes a value as a boolean. Causes an exception if the value isn't recognized.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return A boolean value if recognized or null if the argument is null as well.
-     */
-    public static Boolean parseBoolean(String value) {
-        return parse(value, PrimitiveFunctions::parseBoolean);
-    }
-
-    /**
-     * Interpretes a value as a byte. Causes an exception if the value isn't recognized.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return A byte value if recognized or null if the argument is null as well.
-     */
-    public static Byte parseByte(String value) {
-        return parse(value, Byte::parseByte);
-    }
-
-    /**
-     * Interpretes a value as a short. Causes an exception if the value isn't recognized.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return A short value if recognized or null if the argument is null as well.
-     */
-    public static Short parseShort(String value) {
-        return parse(value, Short::parseShort);
-    }
-
-    /**
-     * Interpretes a value as a integer. Causes an exception if the value isn't recognized.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return An int value if recognized or null if the argument is null as well.
-     */
-    public static Integer parseInt(String value) {
-        return parse(value, Integer::parseInt);
-    }
-
-    /**
-     * Interpretes a value as a long. Causes an exception if the value isn't recognized.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return A long value if recognized or null if the argument is null as well.
-     */
-    public static Long parseLong(String value) {
-        return parse(value, Long::parseLong);
-    }
-
-    /**
-     * Interpretes a value as a float. Causes an exception if the value isn't recognized.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return A float value if recognized or null if the argument is null as well.
-     */
-    public static Float parseFloat(String value) {
-        return parse(value, Float::parseFloat);
-    }
-
-    /**
-     * Interpretes a value as a double. Causes an exception if the value isn't recognized.
-     *
-     * @param value
-     *            The value which has to be parsed.
-     * @return A double value if recognized or null if the argument is null as well.
-     */
-    public static Double parseDouble(String value) {
-        return parse(value, Double::parseDouble);
-    }
-
-    /**
-     * Parses a number and returns null if the value is invalid.
-     *
-     * @param value
-     *            The value shall be parsed.
-     * @param parse
-     *            The function used to parse the value.
-     * @return The parsed value or null.
-     */
-    private static <T> T parse(String value, @NotNull Function<String, T> parse) {
-        if (value != null) {
-            try {
-                return parse.apply(value);
-            } catch (Exception ex) {
-                // cause to return null
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Creates a list of <param>count</param> elements while repeating the supplied one.
-     *
-     * @param count
-     *            The number of elements that shall be created.
-     * @param element
-     *            The element that shall be repeated.
-     * @return A list with the supplied amount of elements.
-     */
-    @NotNull
-    public static <T> List<T> repeat(int count, T element) {
-        var result = new ArrayList<T>(count);
-        for (var i = 0; i < count; i++) {
-            result.add(element);
-        }
-        return result;
+        return Collections.emptyMap();
     }
 
     @NotNull
