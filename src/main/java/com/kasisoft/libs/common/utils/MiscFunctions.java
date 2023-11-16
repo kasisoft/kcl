@@ -58,24 +58,6 @@ public class MiscFunctions {
     }
 
     /**
-     * Creates a set from the supplied elements.
-     *
-     * @param elements
-     *            The elements that shall be collected within a set.
-     * @return The set created from the supplied elements.
-     */
-    @NotNull
-    public static <T> Set<@NotNull T> toSet(T ... elements) {
-        var result = new HashSet<T>();
-        if (elements != null) {
-            for (var i = 0; i < elements.length; i++) {
-                result.add(elements[i]);
-            }
-        }
-        return result;
-    }
-
-    /**
      * Returns <code>true</code> if the supplied year is a leap year.
      *
      * @param year

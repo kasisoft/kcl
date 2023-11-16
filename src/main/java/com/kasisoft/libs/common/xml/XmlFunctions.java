@@ -4,8 +4,6 @@ import com.kasisoft.libs.common.functional.*;
 
 import com.kasisoft.libs.common.constants.*;
 
-import com.kasisoft.libs.common.utils.*;
-
 import com.kasisoft.libs.common.text.*;
 
 import com.kasisoft.libs.common.io.*;
@@ -524,7 +522,7 @@ public final class XmlFunctions {
     public static List<Element> getChildElements(@NotNull Node parent, String ... relevant) {
         var childnodes = parent.getChildNodes();
         if ((childnodes != null) && (childnodes.getLength() > 0)) {
-            var               tagnames = MiscFunctions.toSet(relevant);
+            var               tagnames = new HashSet<String>(Arrays.asList(relevant));
             Predicate<String> validTag = tagnames.isEmpty() ? Predicates.acceptAll() : tagnames::contains;
             var               result   = new ArrayList<Element>(childnodes.getLength());
             for (var i = 0; i < childnodes.getLength(); i++) {

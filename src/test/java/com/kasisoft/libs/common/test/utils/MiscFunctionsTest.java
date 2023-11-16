@@ -58,23 +58,6 @@ public class MiscFunctionsTest {
 
     }
 
-    @ParameterizedTest
-    @MethodSource("data_toUniqueList")
-    public void toSet(List<String> list, List<String> expected) {
-
-        var altered1 = MiscFunctions.toSet((String[]) null);
-        assertNotNull(altered1);
-        assertTrue(altered1.isEmpty());
-
-        var altered2 = MiscFunctions.toSet(list.toArray(new String[list.size()]));
-        assertNotNull(altered2);
-        assertThat(altered2.size(), is(expected.size()));
-        for (var i = 0; i < expected.size(); i++) {
-            assertTrue(altered2.contains(expected.get(i)));
-        }
-
-    }
-
     @Test
     public void joinThread() {
         final StringBuilder out = new StringBuilder("false");
