@@ -311,6 +311,12 @@
 
                 </plugins>
             </build>
+            <distributionManagement>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <url>https://oss.sonatype.org/content/groups/staging</url>
+                </repository>
+            </distributionManagement>
         </profile>
     </profiles>
 
