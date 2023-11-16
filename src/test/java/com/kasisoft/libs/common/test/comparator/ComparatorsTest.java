@@ -20,70 +20,65 @@ public class ComparatorsTest {
     @Test
     public void classByName() {
 
-        var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class));
+        var types = Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class);
         Collections.shuffle(types);
 
         Collections.sort(types, Comparators.byClassName(true));
 
         var asArray = types.toArray(new Class<?>[types.size()]);
-        assertThat(asArray, is(new Class<?>[] {Type1.class, Type2.class, Type3.class, Type4.class,
-            com.kasisoft.libs.common.test.comparator.subpackage.Type2.class}));
+        assertThat(asArray, is(new Class<?>[] {Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class}));
 
     }
 
     @Test
     public void classByName__CaseInsensitive() {
 
-        var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class));
+        var types = Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class);
         Collections.shuffle(types);
 
         Collections.sort(types, Comparators.byClassName(false));
 
         var asArray = types.toArray(new Class<?>[types.size()]);
-        assertThat(asArray, is(new Class<?>[] {com.kasisoft.libs.common.test.comparator.subpackage.Type2.class,
-            Type1.class, Type2.class, Type3.class, Type4.class}));
+        assertThat(asArray, is(new Class<?>[] {com.kasisoft.libs.common.test.comparator.subpackage.Type2.class, Type1.class, Type2.class, Type3.class, Type4.class}));
 
     }
 
     @Test
     public void classBySimpleName() {
 
-        var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class));
+        var types = Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class);
         Collections.shuffle(types);
 
         Collections.sort(types, Comparators.byClassSimpleName(true));
 
         var asArray = types.toArray(new Class<?>[types.size()]);
-        assertThat(asArray, is(new Class<?>[] {Type1.class, Type2.class,
-            com.kasisoft.libs.common.test.comparator.subpackage.Type2.class, Type3.class, Type4.class}));
+        assertThat(asArray, is(new Class<?>[] {Type1.class, Type2.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class, Type3.class, Type4.class}));
 
     }
 
     @Test
     public void classBySimpleName__CaseInsensitive() {
 
-        var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class));
+        var types = Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class);
         Collections.shuffle(types);
 
         Collections.sort(types, Comparators.byClassSimpleName(false));
 
         var asArray = types.toArray(new Class<?>[types.size()]);
-        assertThat(asArray, is(new Class<?>[] {Type1.class,
-            com.kasisoft.libs.common.test.comparator.subpackage.Type2.class, Type2.class, Type3.class, Type4.class}));
+        assertThat(asArray, is(new Class<?>[] {Type1.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class, Type2.class, Type3.class, Type4.class}));
 
     }
 
     @Test
     public void classByPrio() {
 
-        var types = new ArrayList<Class<?>>(Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class));
+        var types = Arrays.asList(Type1.class, Type2.class, Type3.class, Type4.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class);
         Collections.shuffle(types);
 
         Collections.sort(types, Comparators.byClassPrio());
 
         var asArray = types.toArray(new Class<?>[types.size()]);
-        assertThat(asArray, is(new Class<?>[] {Type3.class, Type2.class, Type1.class,
-            com.kasisoft.libs.common.test.comparator.subpackage.Type2.class, Type4.class}));
+        assertThat(asArray, is(new Class<?>[] {Type3.class, Type2.class, Type1.class, com.kasisoft.libs.common.test.comparator.subpackage.Type2.class, Type4.class}));
 
     }
 

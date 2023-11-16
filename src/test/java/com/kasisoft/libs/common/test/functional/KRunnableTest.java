@@ -19,16 +19,12 @@ public class KRunnableTest {
 
     @Test
     public void run() throws Exception {
-        assertThrows(RuntimeException.class, () -> {
-            runnable.run();
-        });
+        assertThrows(RuntimeException.class, runnable::run);
     }
 
     @Test
     public void protect() {
-        assertThrows(KclException.class, () -> {
-            runnable.protect().run();
-        });
+        assertThrows(KclException.class, runnable.protect()::run);
     }
 
 } /* ENDCLASS */

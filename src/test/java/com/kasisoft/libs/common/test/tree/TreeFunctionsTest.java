@@ -13,7 +13,7 @@ import java.util.function.*;
 import java.util.*;
 
 /**
- * Test for various functions of the class 'TreeFunctions'.
+ * Test for various functions of the class {@link TreeFunctions}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

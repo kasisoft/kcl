@@ -20,7 +20,7 @@ import javax.xml.parsers.*;
 import java.io.*;
 
 /**
- * Collection of testcases for the type 'FlatXmlHandler'.
+ * Collection of testcases for the type {@link FlatXmlHandler}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

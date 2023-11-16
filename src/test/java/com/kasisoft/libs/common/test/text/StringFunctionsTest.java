@@ -24,7 +24,11 @@ import java.util.*;
 public class StringFunctionsTest {
 
     public static Stream<Arguments> data_removeSuffix() {
-        return Stream.of(Arguments.of("a/b/c/test", "a/b/c/test"), Arguments.of("a/b/c/test.", "a/b/c/test"), Arguments.of("a/b/c/test.txt", "a/b/c/test"));
+        return Stream.of(
+            Arguments.of("a/b/c/test", "a/b/c/test"),
+            Arguments.of("a/b/c/test.", "a/b/c/test"),
+            Arguments.of("a/b/c/test.txt", "a/b/c/test")
+        );
     }
 
     @ParameterizedTest
@@ -34,7 +38,12 @@ public class StringFunctionsTest {
     }
 
     public static Stream<Arguments> data_changeSuffix() {
-        return Stream.of(Arguments.of("a/b/c/test", "jpg", "a/b/c/test.jpg"), Arguments.of("a/b/c/test.", "jpg", "a/b/c/test.jpg"), Arguments.of("a/b/c/test.txt", "jpg", "a/b/c/test.jpg"), Arguments.of("a/b/c/test.txt", ".jpg", "a/b/c/test..jpg"));
+        return Stream.of(
+            Arguments.of("a/b/c/test", "jpg", "a/b/c/test.jpg"),
+            Arguments.of("a/b/c/test.", "jpg", "a/b/c/test.jpg"),
+            Arguments.of("a/b/c/test.txt", "jpg", "a/b/c/test.jpg"),
+            Arguments.of("a/b/c/test.txt", ".jpg", "a/b/c/test..jpg")
+        );
     }
 
     @ParameterizedTest
@@ -44,7 +53,18 @@ public class StringFunctionsTest {
     }
 
     public static Stream<Arguments> data_cleanup() {
-        return Stream.of(Arguments.of(null, null), Arguments.of("", null), Arguments.of("\t", null), Arguments.of(" ", null), Arguments.of("\r\t\n", null), Arguments.of("a", "a"), Arguments.of("\ra\n", "a"), Arguments.of(" a ", "a"), Arguments.of(" ab ", "ab"), Arguments.of(" a c ", "a c"));
+        return Stream.of(
+            Arguments.of(null, null),
+            Arguments.of("", null),
+            Arguments.of("\t", null),
+            Arguments.of(" ", null),
+            Arguments.of("\r\t\n", null),
+            Arguments.of("a", "a"),
+            Arguments.of("\ra\n", "a"),
+            Arguments.of(" a ", "a"),
+            Arguments.of(" ab ", "ab"),
+            Arguments.of(" a c ", "a c")
+        );
     }
 
     @ParameterizedTest
@@ -97,7 +117,14 @@ public class StringFunctionsTest {
     }
 
     public static Stream<Arguments> data_regionReplaceSimple() {
-        return Stream.of(Arguments.of("this is // my text // without a section // dodo //", "", "this is  without a section "), Arguments.of("this is // // my text // without a section // dodo //", "", "this is  my text  dodo //"), Arguments.of("this is // // my text // without a section // dodo // //", "", "this is  my text  dodo "), Arguments.of("this is // my text // without a section // dodo //", "bibo", "this is bibo without a section bibo"), Arguments.of("this is // // my text // without a section // dodo //", "bibo", "this is bibo my text bibo dodo //"), Arguments.of("this is // // my text // without a section // dodo // //", "bibo", "this is bibo my text bibo dodo bibo"));
+        return Stream.of(
+            Arguments.of("this is // my text // without a section // dodo //", "", "this is  without a section "),
+            Arguments.of("this is // // my text // without a section // dodo //", "", "this is  my text  dodo //"),
+            Arguments.of("this is // // my text // without a section // dodo // //", "", "this is  my text  dodo "),
+            Arguments.of("this is // my text // without a section // dodo //", "bibo", "this is bibo without a section bibo"),
+            Arguments.of("this is // // my text // without a section // dodo //", "bibo", "this is bibo my text bibo dodo //"),
+            Arguments.of("this is // // my text // without a section // dodo // //", "bibo", "this is bibo my text bibo dodo bibo")
+        );
     }
 
     @ParameterizedTest
@@ -122,9 +149,12 @@ public class StringFunctionsTest {
     }
 
     public static Stream<Arguments> data_endsWithMany() {
-        return Stream.of(Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20",
-            "Ozean"}, true), Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau",
-                "den"}, false), Arguments.of("20 Frösche fliegen über den Ozean", new String[] {}, false), Arguments.of("20 Frösche fliegen über den Ozean", null, false));
+        return Stream.of(
+            Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20", "Ozean"}, true),
+            Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false),
+            Arguments.of("20 Frösche fliegen über den Ozean", new String[] {}, false),
+            Arguments.of("20 Frösche fliegen über den Ozean", null, false)
+        );
     }
 
     @ParameterizedTest
@@ -139,9 +169,12 @@ public class StringFunctionsTest {
     }
 
     public static Stream<Arguments> data_startsWithMany() {
-        return Stream.of(Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20",
-            "fliegen"}, true), Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau",
-                "den"}, false), Arguments.of("20 Frösche fliegen über den Ozean", new String[] {}, false), Arguments.of("20 Frösche fliegen über den Ozean", null, false));
+        return Stream.of(
+            Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"20", "fliegen"}, true),
+            Arguments.of("20 Frösche fliegen über den Ozean", new String[] {"blau", "den"}, false),
+            Arguments.of("20 Frösche fliegen über den Ozean", new String[] {}, false),
+            Arguments.of("20 Frösche fliegen über den Ozean", null, false)
+        );
     }
 
     @ParameterizedTest
@@ -200,7 +233,17 @@ public class StringFunctionsTest {
     }
 
     public static Stream<Arguments> data_repeat() {
-        return Stream.of(Arguments.of(0, null, ""), Arguments.of(1, null, ""), Arguments.of(2, null, ""), Arguments.of(0, "", ""), Arguments.of(1, "", ""), Arguments.of(2, "", ""), Arguments.of(0, "A", ""), Arguments.of(1, "A", "A"), Arguments.of(2, "A", "AA"));
+        return Stream.of(
+            Arguments.of(0, null, ""),
+            Arguments.of(1, null, ""),
+            Arguments.of(2, null, ""),
+            Arguments.of(0, "", ""),
+            Arguments.of(1, "", ""),
+            Arguments.of(2, "", ""),
+            Arguments.of(0, "A", ""),
+            Arguments.of(1, "A", "A"),
+            Arguments.of(2, "A", "AA")
+        );
     }
 
     @ParameterizedTest
@@ -211,22 +254,27 @@ public class StringFunctionsTest {
 
     public static Stream<Arguments> data_objectToString() {
         return Stream.of(
-
             Arguments.of(null, "null"),
-
             Arguments.of("", ""), Arguments.of("Hello", "Hello"),
-
-            Arguments.of(false, "false"), Arguments.of(true, "true"), Arguments.of('a', "a"), Arguments.of((byte) 12, "12"), Arguments.of((short) 13, "13"), Arguments.of((int) 14, "14"), Arguments.of((long) 15, "15"), Arguments.of((float) 16.1, "16.1"), Arguments.of((double) 17.2, "17.2"),
-
-            Arguments.of(new String[] {"Hello", "Buffalo"}, "[Hello,Buffalo]"), Arguments.of(new boolean[] {true,
-                false}, "[true,false]"), Arguments.of(new char[] {'c', 'k',
-                    'l'}, "['c','k','l']"), Arguments.of(new byte[] {13, 18,
-                        19}, "[(byte)13,(byte)18,(byte)19]"), Arguments.of(new short[] {23, 28,
-                            29}, "[(short)23,(short)28,(short)29]"), Arguments.of(new int[] {33, 38,
-                                39}, "[33,38,39]"), Arguments.of(new long[] {43, 48,
-                                    49}, "[43l,48l,49l]"), Arguments.of(new float[] {53.1f, 58.2f,
-                                        59.3f}, "[53.1f,58.2f,59.3f]"), Arguments.of(new double[] {63.1, 68.2,
-                                            69.3}, "[63.1,68.2,69.3]"));
+            Arguments.of(false, "false"),
+            Arguments.of(true, "true"),
+            Arguments.of('a', "a"),
+            Arguments.of((byte) 12, "12"),
+            Arguments.of((short) 13, "13"),
+            Arguments.of((int) 14, "14"),
+            Arguments.of((long) 15, "15"),
+            Arguments.of((float) 16.1, "16.1"),
+            Arguments.of((double) 17.2, "17.2"),
+            Arguments.of(new String[] {"Hello", "Buffalo"}, "[Hello,Buffalo]"),
+            Arguments.of(new boolean[] {true, false}, "[true,false]"),
+            Arguments.of(new char[] {'c', 'k', 'l'}, "['c','k','l']"),
+            Arguments.of(new byte[] {13, 18, 19}, "[(byte)13,(byte)18,(byte)19]"),
+            Arguments.of(new short[] {23, 28, 29}, "[(short)23,(short)28,(short)29]"),
+            Arguments.of(new int[] {33, 38, 39}, "[33,38,39]"),
+            Arguments.of(new long[] {43, 48, 49}, "[43l,48l,49l]"),
+            Arguments.of(new float[] {53.1f, 58.2f, 59.3f}, "[53.1f,58.2f,59.3f]"),
+            Arguments.of(new double[] {63.1, 68.2, 69.3}, "[63.1,68.2,69.3]")
+        );
     }
 
     @ParameterizedTest

@@ -17,7 +17,7 @@ import java.util.stream.*;
 import java.util.*;
 
 /**
- * Tests for the constants 'HttpStatusCode'.
+ * Tests for the constants {@link HttpStatusCode}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

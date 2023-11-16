@@ -17,7 +17,7 @@ import java.util.stream.*;
 import java.util.*;
 
 /**
- * Tests for the enumeration 'MimeType'.
+ * Tests for the enumeration {@link MimeType}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

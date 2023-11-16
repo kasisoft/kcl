@@ -17,7 +17,13 @@ import java.util.stream.*;
 public class RegExpressionsTest {
 
     public static Stream<Arguments> extractYoutubeIdData() {
-        return Stream.of(Arguments.of("https://www.youtube.com/watch?v=LoT1DHwA7ds", "LoT1DHwA7ds"), Arguments.of("https://www.youtube.com/watch?v=ZedhlLvph0g", "ZedhlLvph0g"), Arguments.of("https://www.amiga-news.de", null), Arguments.of("", null), Arguments.of(null, null));
+        return Stream.of(
+            Arguments.of("https://www.youtube.com/watch?v=LoT1DHwA7ds", "LoT1DHwA7ds"),
+            Arguments.of("https://www.youtube.com/watch?v=ZedhlLvph0g", "ZedhlLvph0g"),
+            Arguments.of("https://www.amiga-news.de", null),
+            Arguments.of("", null),
+            Arguments.of(null, null)
+        );
     }
 
     @ParameterizedTest
@@ -27,7 +33,13 @@ public class RegExpressionsTest {
     }
 
     public static Stream<Arguments> isEmailData() {
-        return Stream.of(Arguments.of("daniel.kasmeroglu@kasisoft.net", "daniel.kasmeroglu@kasisoft.net"), Arguments.of("daniel.kasmeroglu@.net", null), Arguments.of("daniel.kasmeroglu", null), Arguments.of("", null), Arguments.of(null, null));
+        return Stream.of(
+            Arguments.of("daniel.kasmeroglu@kasisoft.net", "daniel.kasmeroglu@kasisoft.net"),
+            Arguments.of("daniel.kasmeroglu@.net", null),
+            Arguments.of("daniel.kasmeroglu", null),
+            Arguments.of("", null),
+            Arguments.of(null, null)
+        );
     }
 
     @ParameterizedTest

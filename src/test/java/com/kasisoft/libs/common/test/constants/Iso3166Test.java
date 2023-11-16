@@ -17,7 +17,7 @@ import java.util.stream.*;
 import java.util.*;
 
 /**
- * Test for the constants 'Iso3166'.
+ * Test for the constants {@link Iso3166}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

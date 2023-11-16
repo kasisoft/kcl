@@ -9,7 +9,7 @@ import org.junit.jupiter.api.*;
 import com.kasisoft.libs.common.pools.*;
 
 /**
- * Test for the class 'Bucket'.
+ * Test for the class {@link Bucket}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

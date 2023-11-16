@@ -17,7 +17,7 @@ import java.util.stream.*;
 import java.nio.file.*;
 
 /**
- * Tests for the class 'FileTypeManager'.
+ * Tests for the class {@link FileTypeManager}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */
@@ -28,7 +28,18 @@ public class FileTypeManagerTest {
     private static FileTypeManager     MANAGER        = new FileTypeManager();
 
     public static Stream<Arguments> identifyData() {
-        return Stream.of(Arguments.of("file0", "application/gzip"), Arguments.of("file1", "application/pdf"), Arguments.of("file2", "image/png"), Arguments.of("file3", "image/bmp"), Arguments.of("file4", "image/gif"), Arguments.of("file5", "image/jpeg"), Arguments.of("file6", "application/x-bzip"), Arguments.of("file7", "application/zip"), Arguments.of("file8", "application/x-7z-compressed"), Arguments.of("file9", "application/java-vm"));
+        return Stream.of(
+            Arguments.of("file0", "application/gzip"),
+            Arguments.of("file1", "application/pdf"),
+            Arguments.of("file2", "image/png"),
+            Arguments.of("file3", "image/bmp"),
+            Arguments.of("file4", "image/gif"),
+            Arguments.of("file5", "image/jpeg"),
+            Arguments.of("file6", "application/x-bzip"),
+            Arguments.of("file7", "application/zip"),
+            Arguments.of("file8", "application/x-7z-compressed"),
+            Arguments.of("file9", "application/java-vm")
+        );
     }
 
     @ParameterizedTest

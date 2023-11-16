@@ -45,7 +45,7 @@ public class GraphicsFunctionsTest {
 
     private static final TestResources TEST_RESOURCES = TestResources.createTestResources(GraphicsFunctionsTest.class);
 
-    private int                        idx            = 0;
+    private int idx = 0;
 
     private Path getTempPath(PictureFormat fmt) {
         return TEST_RESOURCES.getTempPath("image_%d.%s".formatted(idx++, fmt.getSuffix()));

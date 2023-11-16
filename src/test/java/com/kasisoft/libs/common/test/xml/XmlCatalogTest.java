@@ -11,7 +11,7 @@ import com.kasisoft.libs.common.xml.*;
 import java.net.*;
 
 /**
- * Collection of testcases for the type 'XmlCatalog'.
+ * Collection of testcases for the type {@link XmlCatalog}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

@@ -28,7 +28,7 @@ import java.nio.file.*;
 import java.io.*;
 
 /**
- * Tests for the class 'XmlFunctions'.
+ * Tests for the class {@link XmlFunctions}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

@@ -34,7 +34,6 @@ public class TestResources {
     }
 
     private String rootFolder;
-
     private Path   tempFolder;
 
     private TestResources(Class<?> cls) {
@@ -57,7 +56,8 @@ public class TestResources {
         return tempFolder.resolve(name);
     }
 
-    public @NotNull Optional<Path> findRootFolder() {
+    @NotNull
+    private Optional<Path> findRootFolder() {
         var url = getClass().getClassLoader().getResource(rootFolder);
         if (url == null) {
             return Optional.empty();
@@ -70,35 +70,42 @@ public class TestResources {
         }
     }
 
-    public @NotNull Path getRootFolder() {
+    @NotNull
+    public Path getRootFolder() {
         return findRootFolder().orElseThrow(() -> new AssertionError("Missing resource: %s".formatted(rootFolder)));
     }
 
-    public @NotNull Optional<Path> findResource(@NotNull String resource) {
+    @NotNull
+    private Optional<Path> findResource(@NotNull String resource) {
         return findRootFolder().map($ -> $.resolve(resource));
     }
 
-    public @NotNull Path getResource(@NotNull String resource) {
+    @NotNull
+    public Path getResource(@NotNull String resource) {
         return findResource(resource).orElseThrow(() -> new AssertionError("Missing resource: %s".formatted(resource)));
     }
 
-    public @NotNull Path getDir(@NotNull String resource) {
+    @NotNull
+    public Path getDir(@NotNull String resource) {
         var result = getResource(resource);
         assertTrue(Files.isDirectory(result));
         return result;
     }
 
-    public @NotNull Path getFile(@NotNull String resource) {
+    @NotNull
+    public Path getFile(@NotNull String resource) {
         var result = getResource(resource);
         assertTrue(Files.isRegularFile(result));
         return result;
     }
 
-    public @NotNull Optional<File> findResourceAsFile(@NotNull String resource) {
+    @NotNull
+    private Optional<File> findResourceAsFile(@NotNull String resource) {
         return findResource(resource).map(Path::toFile);
     }
 
-    public @NotNull File getResourceAsFile(@NotNull String resource) {
+    @NotNull
+    private File getResourceAsFile(@NotNull String resource) {
         return findResourceAsFile(resource).orElseThrow(() -> new AssertionError("Missing resource: %s".formatted(resource)));
     }
 

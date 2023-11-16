@@ -13,11 +13,7 @@ public class KBiPredicateTest {
 
     private KBiPredicate<String, String> isEqualIgnoreCase = ($a, $b) -> $a.equalsIgnoreCase($b);
 
-    private KBiPredicate<String, String> areBothUppercase  = ($a, $b) -> {
-                                                               var strA = $a.toUpperCase();
-                                                               var strB = $b.toUpperCase();
-                                                               return strA.equals($a) && strB.equals($b);
-                                                           };
+    private KBiPredicate<String, String> areBothUppercase  = ($a, $b) -> $a.toUpperCase().equals($a) && $b.toUpperCase().equals($b);
 
     @Test
     public void predicate() throws Exception {

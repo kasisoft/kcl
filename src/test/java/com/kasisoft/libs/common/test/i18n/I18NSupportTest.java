@@ -10,7 +10,7 @@ import com.kasisoft.libs.common.i18n.*;
 import java.util.*;
 
 /**
- * Tests for the i18n class 'I18NSupport'. Requires the default locale to be Locale#GERMANY.
+ * Tests for the i18n class {@link I18NSupport}.
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */

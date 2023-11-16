@@ -14,7 +14,7 @@ import java.util.stream.*;
 import java.util.*;
 
 /**
- * Testcases for the class 'LiteralTokenizer'.
+ * Testcases for the class {@link LiteralTokenizer}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */
@@ -28,16 +28,18 @@ public class LiteralTokenizerTest {
         String input4 = "#PART# ist #FLUPPE# heute hier";
         String input5 = "";
 
-        return Stream.of(Arguments.of(input1, Boolean.FALSE, new String[] {" ist ",
-            " heute hier"}), Arguments.of(input1, Boolean.TRUE, new String[] {"@PART@", " ist ", "@FLUPPE@",
-                " heute hier"}), Arguments.of(input2, Boolean.FALSE, new String[] {"Fred ist ",
-                    " heute "}), Arguments.of(input2, Boolean.TRUE, new String[] {"Fred ist ", "@FLUPPE@", " heute ",
-                        "@PART@"}), Arguments.of(input3, Boolean.FALSE, new String[] {"Fred ", " ",
-                            " heute hier"}), Arguments.of(input3, Boolean.TRUE, new String[] {"Fred ", "@PART@", " ",
-                                "@FLUPPE@", " heute hier"}), Arguments.of(input4, Boolean.FALSE, new String[] {
-                                    "#PART# ist #FLUPPE# heute hier"}), Arguments.of(input4, Boolean.TRUE, new String[] {
-                                        "#PART# ist #FLUPPE# heute hier"}), Arguments.of(input5, Boolean.FALSE, new String[] {
-                                            ""}), Arguments.of(input5, Boolean.TRUE, new String[] {""}));
+        return Stream.of(
+            Arguments.of(input1, Boolean.FALSE, new String[] {" ist ", " heute hier"}),
+            Arguments.of(input1, Boolean.TRUE, new String[] {"@PART@", " ist ", "@FLUPPE@", " heute hier"}),
+            Arguments.of(input2, Boolean.FALSE, new String[] {"Fred ist ", " heute "}),
+            Arguments.of(input2, Boolean.TRUE, new String[] {"Fred ist ", "@FLUPPE@", " heute ", "@PART@"}),
+            Arguments.of(input3, Boolean.FALSE, new String[] {"Fred ", " ", " heute hier"}),
+            Arguments.of(input3, Boolean.TRUE, new String[] {"Fred ", "@PART@", " ", "@FLUPPE@", " heute hier"}),
+            Arguments.of(input4, Boolean.FALSE, new String[] {"#PART# ist #FLUPPE# heute hier"}),
+            Arguments.of(input4, Boolean.TRUE, new String[] {"#PART# ist #FLUPPE# heute hier"}),
+            Arguments.of(input5, Boolean.FALSE, new String[] {""}),
+            Arguments.of(input5, Boolean.TRUE, new String[] {""})
+        );
 
     }
 
@@ -58,16 +60,17 @@ public class LiteralTokenizerTest {
         var input3 = new StringBuilder("Fred @PART@ @FLUPPE@ heute hier");
         var input4 = new StringBuilder("#PART# ist #FLUPPE# heute hier");
         var input5 = new StringBuilder("");
-        return Stream.of(Arguments.of(input1, Boolean.FALSE, new String[] {" ist ",
-            " heute hier"}), Arguments.of(input1, Boolean.TRUE, new String[] {"@PART@", " ist ", "@FLUPPE@",
-                " heute hier"}), Arguments.of(input2, Boolean.FALSE, new String[] {"Fred ist ",
-                    " heute "}), Arguments.of(input2, Boolean.TRUE, new String[] {"Fred ist ", "@FLUPPE@", " heute ",
-                        "@PART@"}), Arguments.of(input3, Boolean.FALSE, new String[] {"Fred ", " ",
-                            " heute hier"}), Arguments.of(input3, Boolean.TRUE, new String[] {"Fred ", "@PART@", " ",
-                                "@FLUPPE@", " heute hier"}), Arguments.of(input4, Boolean.FALSE, new String[] {
-                                    "#PART# ist #FLUPPE# heute hier"}), Arguments.of(input4, Boolean.TRUE, new String[] {
-                                        "#PART# ist #FLUPPE# heute hier"}), Arguments.of(input5, Boolean.FALSE, new String[] {
-                                            ""}), Arguments.of(input5, Boolean.TRUE, new String[] {""}));
+        return Stream.of(
+            Arguments.of(input1, Boolean.FALSE, new String[] {" ist ", " heute hier"}),
+            Arguments.of(input1, Boolean.TRUE, new String[] {"@PART@", " ist ", "@FLUPPE@", " heute hier"}),
+            Arguments.of(input2, Boolean.FALSE, new String[] {"Fred ist ", " heute "}),
+            Arguments.of(input2, Boolean.TRUE, new String[] {"Fred ist ", "@FLUPPE@", " heute ", "@PART@"}),
+            Arguments.of(input3, Boolean.FALSE, new String[] {"Fred ", " ", " heute hier"}),
+            Arguments.of(input3, Boolean.TRUE, new String[] {"Fred ", "@PART@", " ", "@FLUPPE@", " heute hier"}),
+            Arguments.of(input4, Boolean.FALSE, new String[] {"#PART# ist #FLUPPE# heute hier"}),
+            Arguments.of(input4, Boolean.TRUE, new String[] {"#PART# ist #FLUPPE# heute hier"}),
+            Arguments.of(input5, Boolean.FALSE, new String[] {""}), Arguments.of(input5, Boolean.TRUE, new String[] {""})
+        );
     }
 
     @ParameterizedTest

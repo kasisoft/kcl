@@ -10,8 +10,6 @@ import com.kasisoft.libs.common.functional.*;
 
 import jakarta.validation.constraints.*;
 
-import java.util.function.*;
-
 import java.awt.event.*;
 
 /**
@@ -30,8 +28,7 @@ public class FunctionsTest {
 
     @Test
     public static void nullSafeToFunction() {
-        Function<String, Integer> toLength         = $ -> $.length();
-        Function<String, Integer> nullSafeToLength = Functions.nullSafeToFunction(toLength);
+        var nullSafeToLength = Functions.nullSafeToFunction(String::length);
         assertThat(nullSafeToLength.apply("Hallo"), is(5));
         assertNull(nullSafeToLength.apply(null));
     }
@@ -47,7 +44,7 @@ public class FunctionsTest {
     public void adaptConsumerToBiConsumer() {
 
         var builder    = new StringBuilder();
-        var biConsumer = Functions.adaptConsumerToBiConsumer($ -> builder.append($));
+        var biConsumer = Functions.adaptConsumerToBiConsumer(builder::append);
 
         biConsumer.accept("Hello", "Bibo");
 

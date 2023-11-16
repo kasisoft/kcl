@@ -20,7 +20,13 @@ import java.util.stream.*;
 public class FileSizeTest {
 
     public static Stream<Arguments> data_checkFileSizes() {
-        return Stream.of(Arguments.of(FileSize.Byte, 4, 4L, 4L, "4 B", "4 B"), Arguments.of(FileSize.KiloByte, 4, 4_000L, 4_096L, "4000 KB", "4096 KiB"), Arguments.of(FileSize.MegaByte, 4, 4_000_000L, 4_194_304L, "4000000 MB", "4194304 MiB"), Arguments.of(FileSize.GigaByte, 4, 4_000_000_000L, 4_294_967_296L, "4000000000 GB", "4294967296 GiB"), Arguments.of(FileSize.TerraByte, 4, 0L, 0L, "0 TB", "0 TiB"));
+        return Stream.of(
+            Arguments.of(FileSize.Byte, 4, 4L, 4L, "4 B", "4 B"),
+            Arguments.of(FileSize.KiloByte, 4, 4_000L, 4_096L, "4000 KB", "4096 KiB"),
+            Arguments.of(FileSize.MegaByte, 4, 4_000_000L, 4_194_304L, "4000000 MB", "4194304 MiB"),
+            Arguments.of(FileSize.GigaByte, 4, 4_000_000_000L, 4_294_967_296L, "4000000000 GB", "4294967296 GiB"),
+            Arguments.of(FileSize.TerraByte, 4, 0L, 0L, "0 TB", "0 TiB")
+        );
     }
 
     @ParameterizedTest

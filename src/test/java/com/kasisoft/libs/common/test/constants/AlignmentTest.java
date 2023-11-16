@@ -45,7 +45,11 @@ public class AlignmentTest {
     }
 
     public static Stream<Arguments> data_set__JLabelHorizontal() {
-        return Stream.of(Arguments.of(new JLabel("label"), Alignment.Left, SwingConstants.LEFT), Arguments.of(new JLabel("label"), Alignment.Center, SwingConstants.CENTER), Arguments.of(new JLabel("label"), Alignment.Right, SwingConstants.RIGHT));
+        return Stream.of(
+            Arguments.of(new JLabel("label"), Alignment.Left, SwingConstants.LEFT),
+            Arguments.of(new JLabel("label"), Alignment.Center, SwingConstants.CENTER),
+            Arguments.of(new JLabel("label"), Alignment.Right, SwingConstants.RIGHT)
+        );
     }
 
     @ParameterizedTest
@@ -56,7 +60,11 @@ public class AlignmentTest {
     }
 
     public static Stream<Arguments> data_set__JTextFieldHorizontal() {
-        return Stream.of(Arguments.of(new JTextField(), Alignment.Left, SwingConstants.LEFT), Arguments.of(new JTextField(), Alignment.Center, SwingConstants.CENTER), Arguments.of(new JTextField(), Alignment.Right, SwingConstants.RIGHT));
+        return Stream.of(
+            Arguments.of(new JTextField(), Alignment.Left, SwingConstants.LEFT),
+            Arguments.of(new JTextField(), Alignment.Center, SwingConstants.CENTER),
+            Arguments.of(new JTextField(), Alignment.Right, SwingConstants.RIGHT)
+        );
     }
 
     @ParameterizedTest
@@ -67,7 +75,11 @@ public class AlignmentTest {
     }
 
     public static Stream<Arguments> data_set__JLabelVertical() {
-        return Stream.of(Arguments.of(new JLabel("label"), Alignment.Top, SwingConstants.TOP), Arguments.of(new JLabel("label"), Alignment.Middle, SwingConstants.CENTER), Arguments.of(new JLabel("label"), Alignment.Bottom, SwingConstants.BOTTOM));
+        return Stream.of(
+            Arguments.of(new JLabel("label"), Alignment.Top, SwingConstants.TOP),
+            Arguments.of(new JLabel("label"), Alignment.Middle, SwingConstants.CENTER),
+            Arguments.of(new JLabel("label"), Alignment.Bottom, SwingConstants.BOTTOM)
+        );
     }
 
     @ParameterizedTest
@@ -78,7 +90,11 @@ public class AlignmentTest {
     }
 
     public static Stream<Arguments> data_set__JTextFieldVertical() {
-        return Stream.of(Arguments.of(new JTextField(), Alignment.Top, 0.0f), Arguments.of(new JTextField(), Alignment.Middle, 0.5f), Arguments.of(new JTextField(), Alignment.Bottom, 1.0f));
+        return Stream.of(
+            Arguments.of(new JTextField(), Alignment.Top, 0.0f),
+            Arguments.of(new JTextField(), Alignment.Middle, 0.5f),
+            Arguments.of(new JTextField(), Alignment.Bottom, 1.0f)
+        );
     }
 
     @ParameterizedTest
@@ -89,7 +105,14 @@ public class AlignmentTest {
     }
 
     public static Stream<Arguments> data_set__JPanel() {
-        return Stream.of(Arguments.of(new JPanel(), Alignment.Left), Arguments.of(new JPanel(), Alignment.Center), Arguments.of(new JPanel(), Alignment.Right), Arguments.of(new JPanel(), Alignment.Top), Arguments.of(new JPanel(), Alignment.Middle), Arguments.of(new JPanel(), Alignment.Bottom));
+        return Stream.of(
+            Arguments.of(new JPanel(), Alignment.Left),
+            Arguments.of(new JPanel(), Alignment.Center),
+            Arguments.of(new JPanel(), Alignment.Right),
+            Arguments.of(new JPanel(), Alignment.Top),
+            Arguments.of(new JPanel(), Alignment.Middle),
+            Arguments.of(new JPanel(), Alignment.Bottom)
+        );
     }
 
     @ParameterizedTest

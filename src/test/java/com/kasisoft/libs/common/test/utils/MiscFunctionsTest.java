@@ -21,14 +21,20 @@ import java.util.stream.*;
 import java.util.*;
 
 /**
- * Test for various functions of the class 'MiscFunctions'.
+ * Test for various functions of the class {@link MiscFunctions}
  *
  * @author daniel.kasmeroglu@kasisoft.com
  */
 public class MiscFunctionsTest {
 
     public static Stream<Arguments> data_getGravatarLink() {
-        return Stream.of(Arguments.of(null, null, null), Arguments.of(null, null, 12), Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d", " Daniel.KASMEROGLU@kasisoft.net \n", null), Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d", "daniel.kasmeroglu@kasisoft.net", null), Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d?s=100", "daniel.kasmeroglu@kasisoft.net", 100));
+        return Stream.of(
+            Arguments.of(null, null, null),
+            Arguments.of(null, null, 12),
+            Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d", " Daniel.KASMEROGLU@kasisoft.net \n", null),
+            Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d", "daniel.kasmeroglu@kasisoft.net", null),
+            Arguments.of("https://www.gravatar.com/avatar/8fea46f5bc403f6949300c3007d2f18d?s=100", "daniel.kasmeroglu@kasisoft.net", 100)
+        );
     }
 
     @ParameterizedTest
@@ -38,7 +44,10 @@ public class MiscFunctionsTest {
     }
 
     public static Stream<Arguments> data_toUniqueList() {
-        return Stream.of(Arguments.of(Arrays.asList("Otto", "Fred", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")), Arguments.of(Arrays.asList("Otto", "Fred", "Otto", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")));
+        return Stream.of(
+            Arguments.of(Arrays.asList("Otto", "Fred", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto")),
+            Arguments.of(Arrays.asList("Otto", "Fred", "Otto", "Ginger"), Arrays.asList("Fred", "Ginger", "Otto"))
+        );
     }
 
     @ParameterizedTest
@@ -59,7 +68,13 @@ public class MiscFunctionsTest {
     }
 
     private static <T> Stream<Arguments> createLeapYearTests(Function<Integer, T> year2Info) {
-        return Arrays.asList(Arguments.of(year2Info.apply(1900), false), Arguments.of(year2Info.apply(1901), false), Arguments.of(year2Info.apply(1904), true), Arguments.of(year2Info.apply(2000), true), Arguments.of(year2Info.apply(2001), false)).stream();
+        return Arrays.asList(
+            Arguments.of(year2Info.apply(1900), false),
+            Arguments.of(year2Info.apply(1901), false),
+            Arguments.of(year2Info.apply(1904), true),
+            Arguments.of(year2Info.apply(2000), true),
+            Arguments.of(year2Info.apply(2001), false)
+        ).stream();
     }
 
     public static Stream<Arguments> data_isLeapYear() {

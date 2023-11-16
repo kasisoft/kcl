@@ -22,13 +22,12 @@ import java.util.*;
 public class EncodingTest {
 
     public static Stream<Arguments> data_performEncoding() {
-        return Stream.of(Arguments.of("Flöz", Encoding.UTF8, new byte[] {(byte) 0x46, (byte) 0x6C, (byte) 0xC3,
-            (byte) 0xB6, (byte) 0x7A}), Arguments.of("Flöz", Encoding.UTF16, new byte[] {(byte) 0xFE, (byte) 0xFF,
-                (byte) 0x00, (byte) 0x46, (byte) 0x00, (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00,
-                (byte) 0x7A}), Arguments.of("Flöz", Encoding.UTF16BE, new byte[] {(byte) 0x00, (byte) 0x46, (byte) 0x00,
-                    (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00,
-                    (byte) 0x7A}), Arguments.of("Flöz", Encoding.UTF16LE, new byte[] {(byte) 0x46, (byte) 0x00,
-                        (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00, (byte) 0x7A, (byte) 0x00}));
+        return Stream.of(
+            Arguments.of("Flöz", Encoding.UTF8, new byte[] {(byte) 0x46, (byte) 0x6C, (byte) 0xC3, (byte) 0xB6, (byte) 0x7A}),
+            Arguments.of("Flöz", Encoding.UTF16, new byte[] {(byte) 0xFE, (byte) 0xFF, (byte) 0x00, (byte) 0x46, (byte) 0x00, (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00, (byte) 0x7A}),
+            Arguments.of("Flöz", Encoding.UTF16BE, new byte[] {(byte) 0x00, (byte) 0x46, (byte) 0x00, (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00, (byte) 0x7A}),
+            Arguments.of("Flöz", Encoding.UTF16LE, new byte[] {(byte) 0x46, (byte) 0x00, (byte) 0x6C, (byte) 0x00, (byte) 0xF6, (byte) 0x00, (byte) 0x7A, (byte) 0x00})
+        );
     }
 
     @ParameterizedTest
