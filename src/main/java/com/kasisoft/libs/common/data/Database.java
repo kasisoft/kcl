@@ -88,9 +88,6 @@ public enum Database implements Predicate<String> {
 
     /**
      * Verifies that a required driver is available.
-     *
-     * @throws SQLException
-     *             The driver could not be loaded.
      */
     private synchronized void activate() {
         if (driver() == null) {

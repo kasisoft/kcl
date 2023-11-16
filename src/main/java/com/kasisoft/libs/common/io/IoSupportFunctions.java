@@ -69,294 +69,294 @@ public class IoSupportFunctions {
     }
 
     /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
+     * @see IoSupport#forInputStream(Object, KFunction)
      */
     public static <R> R forInputStream(@NotNull Path source, @NotNull KFunction<InputStream, R> function) {
         return ioPath().forInputStream(source, function);
     }
 
     /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
+     * @see IoSupport#forInputStream(Object, KFunction)
      */
     public static <R> R forInputStream(@NotNull File source, @NotNull KFunction<InputStream, R> function) {
         return ioFile().forInputStream(source, function);
     }
 
     /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
+     * @see IoSupport#forInputStream(Object, KFunction)
      */
     public static <R> R forInputStream(@NotNull URI source, @NotNull KFunction<InputStream, R> function) {
         return ioURI().forInputStream(source, function);
     }
 
     /**
-     * @see IoSupport#forInputStream(Object, Function<InputStream, R>)
+     * @see IoSupport#forInputStream(Object, KFunction)
      */
     public static <R> R forInputStream(@NotNull URL source, @NotNull KFunction<InputStream, R> function) {
         return ioURL().forInputStream(source, function);
     }
 
     /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
+     * @see IoSupport#forInputStreamDo(Object, KConsumer)
      */
     public static void forInputStreamDo(@NotNull Path source, @NotNull KConsumer<InputStream> action) {
         ioPath().forInputStreamDo(source, action);
     }
 
     /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
+     * @see IoSupport#forInputStreamDo(Object, KConsumer)
      */
     public static void forInputStreamDo(@NotNull File source, @NotNull KConsumer<InputStream> action) {
         ioFile().forInputStreamDo(source, action);
     }
 
     /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
+     * @see IoSupport#forInputStreamDo(Object, KConsumer)
      */
     public static void forInputStreamDo(@NotNull URI source, @NotNull KConsumer<InputStream> action) {
         ioURI().forInputStreamDo(source, action);
     }
 
     /**
-     * @see IoSupport#forInputStreamDo(Object, Consumer<InputStream>)
+     * @see IoSupport#forInputStreamDo(Object, KConsumer)
      */
     public static void forInputStreamDo(@NotNull URL source, @NotNull KConsumer<InputStream> action) {
         ioURL().forInputStreamDo(source, action);
     }
 
     /**
-     * @see IoSupport#forOutputStream(Object, Function<OutputStream, R>)
+     * @see IoSupport#forOutputStream(Object, KFunction)
      */
     public static <R> R forOutputStream(@NotNull Path destination, @NotNull KFunction<OutputStream, R> function) {
         return ioPath().forOutputStream(destination, function);
     }
 
     /**
-     * @see IoSupport#forOutputStream(Object, Function<OutputStream, R>)
+     * @see IoSupport#forOutputStream(Object, KFunction)
      */
     public static <R> R forOutputStream(@NotNull File destination, @NotNull KFunction<OutputStream, R> function) {
         return ioFile().forOutputStream(destination, function);
     }
 
     /**
-     * @see IoSupport#forOutputStream(Object, Function<OutputStream, R>)
+     * @see IoSupport#forOutputStream(Object, KFunction)
      */
     public static <R> R forOutputStream(@NotNull URI destination, @NotNull KFunction<OutputStream, R> function) {
         return ioURI().forOutputStream(destination, function);
     }
 
     /**
-     * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
+     * @see IoSupport#forOutputStreamDo(Object, KConsumer)
      */
     public static void forOutputStreamDo(@NotNull Path destination, @NotNull KConsumer<OutputStream> action) {
         ioPath().forOutputStreamDo(destination, action);
     }
 
     /**
-     * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
+     * @see IoSupport#forOutputStreamDo(Object, KConsumer)
      */
     public static void forOutputStreamDo(@NotNull File destination, @NotNull KConsumer<OutputStream> action) {
         ioFile().forOutputStreamDo(destination, action);
     }
 
     /**
-     * @see IoSupport#forOutputStreamDo(Object, Consumer<OutputStream>)
+     * @see IoSupport#forOutputStreamDo(Object, KConsumer)
      */
     public static void forOutputStreamDo(@NotNull URI destination, @NotNull KConsumer<OutputStream> action) {
         ioURI().forOutputStreamDo(destination, action);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, KFunction)
      */
     public static <R> R forReader(@NotNull Path source, @NotNull KFunction<Reader, R> function) {
         return ioPath().forReader(source, function);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, KFunction)
      */
     public static <R> R forReader(@NotNull File source, @NotNull KFunction<Reader, R> function) {
         return ioFile().forReader(source, function);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, KFunction)
      */
     public static <R> R forReader(@NotNull URI source, @NotNull KFunction<Reader, R> function) {
         return ioURI().forReader(source, function);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, KFunction)
      */
     public static <R> R forReader(@NotNull URL source, @NotNull KFunction<Reader, R> function) {
         return ioURL().forReader(source, function);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, Encoding, KFunction)
      */
     public static <R> R forReader(@NotNull Path source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
         return ioPath().forReader(source, encoding, function);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, Encoding, KFunction)
      */
     public static <R> R forReader(@NotNull File source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
         return ioFile().forReader(source, encoding, function);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, Encoding, KFunction)
      */
     public static <R> R forReader(@NotNull URI source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
         return ioURI().forReader(source, encoding, function);
     }
 
     /**
-     * @see IoSupport#forReader(Object, Encoding, Function<Reader, R>)
+     * @see IoSupport#forReader(Object, Encoding, KFunction)
      */
     public static <R> R forReader(@NotNull URL source, Encoding encoding, @NotNull KFunction<Reader, R> function) {
         return ioURL().forReader(source, encoding, function);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, KConsumer)
      */
     public static void forReaderDo(@NotNull Path source, @NotNull KConsumer<Reader> action) {
         ioPath().forReaderDo(source, action);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, KConsumer)
      */
     public static void forReaderDo(@NotNull File source, @NotNull KConsumer<Reader> action) {
         ioFile().forReaderDo(source, action);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, KConsumer)
      */
     public static void forReaderDo(@NotNull URI source, @NotNull KConsumer<Reader> action) {
         ioURI().forReaderDo(source, action);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, KConsumer)
      */
     public static void forReaderDo(@NotNull URL source, @NotNull KConsumer<Reader> action) {
         ioURL().forReaderDo(source, action);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, Encoding, KConsumer)
      */
     public static void forReaderDo(@NotNull Path source, Encoding encoding, @NotNull KConsumer<Reader> action) {
         ioPath().forReaderDo(source, encoding, action);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, Encoding, KConsumer)
      */
     public static void forReaderDo(@NotNull File source, Encoding encoding, @NotNull KConsumer<Reader> action) {
         ioFile().forReaderDo(source, encoding, action);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, Encoding, KConsumer)
      */
     public static void forReaderDo(@NotNull URI source, Encoding encoding, @NotNull KConsumer<Reader> action) {
         ioURI().forReaderDo(source, encoding, action);
     }
 
     /**
-     * @see IoSupport#forReaderDo(Object, Encoding, Consumer<Reader>)
+     * @see IoSupport#forReaderDo(Object, Encoding, KConsumer)
      */
     public static void forReaderDo(@NotNull URL source, Encoding encoding, @NotNull KConsumer<Reader> action) {
         ioURL().forReaderDo(source, encoding, action);
     }
 
     /**
-     * @see IoSupport#forWriter(Object, Function<Writer, R>)
+     * @see IoSupport#forWriter(Object, KFunction)
      */
     public static <R> R forWriter(@NotNull Path destination, @NotNull KFunction<Writer, R> function) {
         return ioPath().forWriter(destination, function);
     }
 
     /**
-     * @see IoSupport#forWriter(Object, Function<Writer, R>)
+     * @see IoSupport#forWriter(Object, KFunction)
      */
     public static <R> R forWriter(@NotNull File destination, @NotNull KFunction<Writer, R> function) {
         return ioFile().forWriter(destination, function);
     }
 
     /**
-     * @see IoSupport#forWriter(Object, Function<Writer, R>)
+     * @see IoSupport#forWriter(Object, KFunction)
      */
     public static <R> R forWriter(@NotNull URI destination, @NotNull KFunction<Writer, R> function) {
         return ioURI().forWriter(destination, function);
     }
 
     /**
-     * @see IoSupport#forWriter(Object, Encoding, Function<Writer, R>)
+     * @see IoSupport#forWriter(Object, Encoding, KFunction)
      */
     public static <R> R forWriter(@NotNull Path destination, Encoding encoding, @NotNull KFunction<Writer, R> function) {
         return ioPath().forWriter(destination, encoding, function);
     }
 
     /**
-     * @see IoSupport#forWriter(Object, Encoding, Function<Writer, R>)
+     * @see IoSupport#forWriter(Object, Encoding, KFunction)
      */
     public static <R> R forWriter(@NotNull File destination, Encoding encoding, @NotNull KFunction<Writer, R> function) {
         return ioFile().forWriter(destination, encoding, function);
     }
 
     /**
-     * @see IoSupport#forWriter(Object, Encoding, Function<Writer, R>)
+     * @see IoSupport#forWriter(Object, Encoding, KFunction)
      */
     public static <R> R forWriter(@NotNull URI destination, Encoding encoding, @NotNull KFunction<Writer, R> function) {
         return ioURI().forWriter(destination, encoding, function);
     }
 
     /**
-     * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
+     * @see IoSupport#forWriterDo(Object, KConsumer)
      */
     public static void forWriterDo(@NotNull Path destination, @NotNull KConsumer<Writer> action) {
         ioPath().forWriterDo(destination, action);
     }
 
     /**
-     * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
+     * @see IoSupport#forWriterDo(Object, KConsumer)
      */
     public static void forWriterDo(@NotNull File destination, @NotNull KConsumer<Writer> action) {
         ioFile().forWriterDo(destination, action);
     }
 
     /**
-     * @see IoSupport#forWriterDo(Object, Consumer<Writer>)
+     * @see IoSupport#forWriterDo(Object, KConsumer)
      */
     public static void forWriterDo(@NotNull URI destination, @NotNull KConsumer<Writer> action) {
         ioURI().forWriterDo(destination, action);
     }
 
     /**
-     * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
+     * @see IoSupport#forWriterDo(Object, Encoding, KConsumer)
      */
     public static void forWriterDo(@NotNull Path destination, Encoding encoding, @NotNull KConsumer<Writer> action) {
         ioPath().forWriterDo(destination, encoding, action);
     }
 
     /**
-     * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
+     * @see IoSupport#forWriterDo(Object, Encoding, KConsumer)
      */
     public static void forWriterDo(@NotNull File destination, Encoding encoding, @NotNull KConsumer<Writer> action) {
         ioFile().forWriterDo(destination, encoding, action);
     }
 
     /**
-     * @see IoSupport#forWriterDo(Object, Encoding, Consumer<Writer>)
+     * @see IoSupport#forWriterDo(Object, Encoding, KConsumer)
      */
     public static void forWriterDo(@NotNull URI destination, Encoding encoding, @NotNull KConsumer<Writer> action) {
         ioURI().forWriterDo(destination, encoding, action);

@@ -217,17 +217,15 @@ public class StringFunctions {
      *
      * @param input
      *            The text which might be altered.
-     * @param open
-     *            The opening of a region (f.e. "(*").
-     * @param close
-     *            The closing of a region (f.e. "*)").
+     * @param delimiter
+     *            The delimiter of a region (f.e. "(*").
      * @param replacement
      *            The replacement value.
      * @return The altered text.
      */
     @NotNull
-    public static String replaceRegions(@NotNull String input, @NotNull String open, @NotNull Function<String, CharSequence> replacement) {
-        return replaceRegions(input, open, open, replacement);
+    public static String replaceRegions(@NotNull String input, @NotNull String delimiter, @NotNull Function<String, CharSequence> replacement) {
+        return replaceRegions(input, delimiter, delimiter, replacement);
     }
 
     /**
@@ -495,7 +493,6 @@ public class StringFunctions {
      *
      * @param obj
      *            The object which textual representation is desired.
-     * @return The textual representation of the supplied object.
      */
     private static void appendToString(@NotNull StringBuilder receiver, Object obj) {
         if (obj == null) {
@@ -635,7 +632,7 @@ public class StringFunctions {
     }
 
     /**
-     * Like {@link #split(String)} with the difference that this function accepts a regular expression
+     * Like {@link String#split(String)} with the difference that this function accepts a regular expression
      * for the splitting.
      *
      * @param regex
@@ -648,7 +645,7 @@ public class StringFunctions {
     }
 
     /**
-     * Like {@link #split(String)} with the difference that this function accepts a regular expression
+     * Like {@link String#split(String)} with the difference that this function accepts a regular expression
      * for the splitting.
      *
      * @param pattern

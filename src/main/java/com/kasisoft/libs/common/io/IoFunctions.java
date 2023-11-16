@@ -279,7 +279,7 @@ public class IoFunctions {
     /**
      * GZIPs the supplied file.
      *
-     * @param file
+     * @param source
      *            The file which has to be gzipped.
      * @return The gzipped file.
      */
@@ -342,7 +342,7 @@ public class IoFunctions {
     /**
      * UNGZIPs the supplied file.
      *
-     * @param file
+     * @param source
      *            The file which has to be ungzipped.
      * @return The ungzipped file.
      */
