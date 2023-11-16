@@ -8,8 +8,6 @@ import com.kasisoft.libs.common.types.*;
 
 import com.kasisoft.libs.common.pools.*;
 
-import com.kasisoft.libs.common.text.*;
-
 import com.kasisoft.libs.common.*;
 
 import jakarta.validation.constraints.*;
@@ -551,7 +549,7 @@ public class TypeConverters {
     @SuppressWarnings("unchecked")
     private static <T> T[] convertStringToArray(String value, String delimiter, Class<T> type, Function<String, T> convert) {
         return encode(value, $val -> {
-            var values = StringFunctions.splitRegex($val, Pattern.quote(delimiter));
+            var values = $val.split(Pattern.quote(delimiter));
             var result = (T[]) Array.newInstance(type, values.length);
             for (var i = 0; i < values.length; i++) {
                 result[i] = convert.apply(values[i]);

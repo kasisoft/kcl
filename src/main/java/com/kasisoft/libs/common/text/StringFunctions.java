@@ -631,51 +631,6 @@ public class StringFunctions {
         receiver.append(']');
     }
 
-    /**
-     * Like {@link String#split(String)} with the difference that this function accepts a regular expression
-     * for the splitting.
-     *
-     * @param regex
-     *            A regular expression used for the splitting.
-     * @return A splitted list without fragments matching the supplied regular expression.
-     */
-    @NotNull
-    public static String[] splitRegex(@NotNull String input, @NotNull String regex) {
-        return splitRegex(input, Pattern.compile(regex));
-    }
-
-    /**
-     * Like {@link String#split(String)} with the difference that this function accepts a regular expression
-     * for the splitting.
-     *
-     * @param pattern
-     *            A pattern providing the regular expression used for the splitting.
-     * @return A splitted list without fragments matching the supplied regular expression.
-     */
-    @NotNull
-    public static String[] splitRegex(@NotNull String input, @NotNull Pattern pattern) {
-        return Buckets.<String> bucketArrayList().forInstance($ -> {
-            var matcher = pattern.matcher(input);
-            var last    = 0;
-            var match   = false;
-            while (matcher.find()) {
-                match = true;
-                if (matcher.start() > last) {
-                    $.add(input.substring(last, matcher.start()));
-                }
-                last = matcher.end();
-            }
-            if (match && (last < input.length())) {
-                $.add(input.substring(last));
-            }
-            if (!match) {
-                // there was not at least one match
-                $.add(input.toString());
-            }
-            return $.toArray(new String[$.size()]);
-        });
-    }
-
     public static int indexOf(@NotNull String input, char ... characters) {
         return indexOf(input, 0, characters);
     }
