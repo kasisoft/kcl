@@ -33,7 +33,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                # sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.host.url=${SONAR_URL} -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=kcl'
+                // sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.host.url=${SONAR_URL} -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=kcl'
                 sh 'mvn clean verify -Psonar -Dsonar.host.url=${SONAR_URL} -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=kcl'
             }
         }
