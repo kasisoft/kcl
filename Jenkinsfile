@@ -13,6 +13,7 @@ pipeline {
                 sh 'echo "PATH = ${PATH}"'
                 sh 'echo "M2_HOME = ${M2_HOME}"'
                 sh 'echo "USER = ${USER}"'
+                sh 'echo "MAVEN_OPTS = ${MAVEN_OPTS}"'
             }
         }
         stage('Build') {
