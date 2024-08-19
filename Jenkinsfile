@@ -33,7 +33,9 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.projectKey=kcl'
+                withMaven {
+                    sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.projectKey=kcl'
+                }
             }
         }
     }
