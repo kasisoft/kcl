@@ -8,8 +8,6 @@ import org.junit.jupiter.api.*;
 
 import com.kasisoft.libs.common.functional.*;
 
-import jakarta.validation.constraints.*;
-
 import java.awt.event.*;
 
 /**
@@ -18,7 +16,7 @@ import java.awt.event.*;
 public class FunctionsTest {
 
     @Test
-    public static @NotNull void adaptConsumerToActionListener() {
+    public static void adaptConsumerToActionListener() {
         var builder  = new StringBuilder();
         var listener = Functions.adaptConsumerToActionListener($ -> builder.append($.getActionCommand()));
         var event    = new ActionEvent(new Object(), 1, "ADAPT_TO_ACTION_LISTENER");
