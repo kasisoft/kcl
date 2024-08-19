@@ -33,7 +33,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv() {
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=kcl'
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=kcl -Dsonar.host.url=https://arturius.kasisoft.com/sonar'
                 }
             }
         }
