@@ -323,6 +323,32 @@
             </distributionManagement>
             
         </profile>
+
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <sonar.version>4.0.0.4121</sonar.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonar.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sonar-scan</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sonar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
     </profiles>
 
 </project>
