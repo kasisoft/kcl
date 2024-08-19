@@ -6,6 +6,8 @@ pipeline {
     }
     environment {
         USER = 'kasimir'
+        SONAR_URL = credentials('sonar.url')
+        SONAR_LOGIN = credentials('sonar.login')
     }
     stages {
         stage('Initialize') {
@@ -14,6 +16,8 @@ pipeline {
                 sh 'echo "M2_HOME = ${M2_HOME}"'
                 sh 'echo "USER = ${USER}"'
                 sh 'echo "MAVEN_OPTS = ${MAVEN_OPTS}"'
+                sh 'echo "SONAR_URL = ${SONAR_URL}"'
+                sh 'echo "SONAR_LOGIN = ${SONAR_LOGIN}"'
             }
         }
         stage('Build') {
@@ -33,9 +37,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withMaven {
-                    sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.projectKey=kcl'
-                }
+                sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=kcl'
             }
         }
     }
