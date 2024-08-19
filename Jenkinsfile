@@ -32,9 +32,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv() {
-                    sh 'mvn clean verify sonar:sonar:9.4.0 -Dsonar.projectKey=kcl'
-                }
+                sh 'mvn clean verify sonar:sonar:9.4.0 -Dsonar.projectKey=kcl'
             }
         }
     }
