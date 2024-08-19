@@ -13,7 +13,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn -B clean install'
+                sh 'mvn -B -DskipTests clean install'
+            }
+        }
+        stage('Testing') {
+            steps {
+                sh 'mvn -B test'
             }
         }
     }
