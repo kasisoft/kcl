@@ -3,6 +3,7 @@ pipeline {
     tools {
         maven 'maven-3.9.8'
         jdk 'java-21'
+        sonarqube 'sonarqube-6.1.0'
     }
     environment {
         USER = 'kasimir'
@@ -32,7 +33,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube-6.1.0') {
+                withSonarQubeEnv('sonarqube') {
                     sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=kcl -Dsonar.host.url=https://arturius.kasisoft.com/sonar'
                 }
             }
