@@ -4,6 +4,9 @@ pipeline {
         maven 'maven-3.9.8'
         jdk 'java-21'
     }
+    environment {
+        USER = 'kasimir'
+    }
     stages {
         stage('Initialize') {
             steps {
