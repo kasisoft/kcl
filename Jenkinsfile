@@ -31,6 +31,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
+                // properties such as sonar.host.url and sonar.login are configured in the settings.xml for this profile
                 sh 'mvn clean verify -Psonar -Dsonar.projectKey=kcl'
             }
         }
