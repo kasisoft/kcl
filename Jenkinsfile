@@ -6,8 +6,6 @@ pipeline {
     }
     environment {
         USER = 'kasimir'
-        SONAR_URL = credentials('sonar.url')
-        SONAR_LOGIN = credentials('sonar.login')
     }
     stages {
         stage('Initialize') {
@@ -33,7 +31,6 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                // sh 'mvn clean verify -Psonar -Dsonar.host.url=${SONAR_URL} -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=kcl'
                 sh 'mvn clean verify -Psonar -Dsonar.projectKey=kcl'
             }
         }
