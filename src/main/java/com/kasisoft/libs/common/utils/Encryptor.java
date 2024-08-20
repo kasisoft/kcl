@@ -130,7 +130,7 @@ public class Encryptor {
             return KeyGenerator.getInstance(algorithm);
         } catch (NoSuchAlgorithmException ex) {
             // won't happen as it had been tested before (see #verify)
-            return null;
+            throw KclException.wrap(ex);
         }
     }
 
@@ -140,7 +140,7 @@ public class Encryptor {
             return Cipher.getInstance(cipher);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
             // won't happen as it had been tested before (see #verify)
-            return null;
+            throw KclException.wrap(ex);
         }
     }
 
