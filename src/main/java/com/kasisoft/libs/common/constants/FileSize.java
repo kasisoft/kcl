@@ -7,10 +7,10 @@ package com.kasisoft.libs.common.constants;
  */
 public enum FileSize {
 
-    Byte(1, 1, "B", "B"),
-    KiloByte(1000, 1024, "KB", "KiB"),
-    MegaByte(1000 * 1000, 1024 * 1024, "MB", "MiB"),
-    GigaByte(1000 * 1000 * 1000, 1024 * 1024 * 1024, "GB", "GiB"),
+    Byte(1L, 1, "B", "B"),
+    KiloByte(1000L, 1024, "KB", "KiB"),
+    MegaByte(1000L * 1000, 1024 * 1024, "MB", "MiB"),
+    GigaByte(1000L * 1000 * 1000, 1024 * 1024 * 1024, "GB", "GiB"),
     TerraByte(0L, 0L, "TB", "TiB");
 
     private long   humanSize;
