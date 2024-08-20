@@ -19,7 +19,7 @@ public class GzipFileType implements FileType {
     @Override
     public boolean test(byte[] data) {
         if (getMinSize() <= data.length) {
-            return (((data[1] << 8) | data[0]) & 0x0000FFFF) == GZIPInputStream.GZIP_MAGIC;
+            return (((data[1] << 8) | (data[0] & 0xFF)) & 0x0000FFFF) == GZIPInputStream.GZIP_MAGIC;
         }
         return false;
     }

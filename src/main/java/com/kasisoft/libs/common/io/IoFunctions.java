@@ -249,7 +249,12 @@ public class IoFunctions {
     public static void skip(InputStream input, @Min(0) long size) {
         if (size > 0) {
             try {
-                input.skip(size);
+                long remaining = size;
+                long skipped   = input.skip(remaining);
+                while (remaining > 0) {
+                    remaining -= skipped;
+                    skipped    = input.skip(remaining);
+                }
             } catch (Exception ex) {
                 throw KclException.wrap(ex);
             }

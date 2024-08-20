@@ -124,20 +124,22 @@ public class Encryptor {
         return result;
     }
 
+    @NotNull
     private KeyGenerator keyGenerator() {
         try {
             return KeyGenerator.getInstance(algorithm);
         } catch (NoSuchAlgorithmException ex) {
-            // won't happen as it had been tested before
+            // won't happen as it had been tested before (see #verify)
             return null;
         }
     }
 
+    @NotNull
     private Cipher cipher() {
         try {
             return Cipher.getInstance(cipher);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
-            // won't happen as it had been tested before
+            // won't happen as it had been tested before (see #verify)
             return null;
         }
     }

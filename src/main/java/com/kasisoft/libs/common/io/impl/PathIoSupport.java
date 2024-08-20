@@ -21,7 +21,7 @@ import java.io.*;
  */
 public class PathIoSupport implements IoSupport<Path> {
 
-    private static final long MB_16 = 16 * 1024 * 1024;
+    private static final long MB_16 = 16L * 1024 * 1024;
 
     @Override
     public InputStream newInputStreamImpl(Path source) throws Exception {
