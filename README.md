@@ -1,5 +1,10 @@
 ![KCL](https://github.com/kasisoft/kcl/actions/workflows/gradlen.yml/badge.svg)
 
+> __ __
+> __AS OF 07-JAN-2026 this repository has been moved to ssh://git@git.kasisoft.com/daniel.kasmeroglu/com.kasisoft.libs.common.git__
+> __ __
+
+
 # Purpose
 
 This library is a simple collection of useful utility functions that grew over the past. It doesn't serve a specific 
